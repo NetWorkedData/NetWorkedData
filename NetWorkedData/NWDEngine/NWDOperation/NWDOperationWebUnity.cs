@@ -137,7 +137,7 @@ namespace NetWorkedData
 				}
 
                 BTBDebug.Log ("NWDOperationWebUnity Request isDone: " + Request.isDone);
-                if (Request.isError)
+                if (Request.isNetworkError)
                 { // Error
                     //BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
                     Statut = BTBOperationState.Error;
