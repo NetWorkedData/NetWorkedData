@@ -1,0 +1,3 @@
+[submodule "NetWorkedData/Dependencies/BasicToolBox_Package"]
+	path = NetWorkedData/Dependencies/BasicToolBox_Package
+	url = git@gitlab.hephaiscode.com:idemobi-games/BasicToolBox.git
