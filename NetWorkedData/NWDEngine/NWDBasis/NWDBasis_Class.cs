@@ -198,7 +198,7 @@ namespace NetWorkedData
 			if (PrefSalt () == "ok") {
 				rReturn = true;
 			} else {
-				Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
+				//Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
 			}
 			return rReturn;
 		}

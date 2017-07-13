@@ -6,6 +6,7 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.Build;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -14,7 +15,7 @@ namespace NetWorkedData
 	/// <summary>
 	/// Net worked data macro define.
 	/// </summary>
-	public class NetWorkedDataMacroDefine
+	public class NetWorkedDataMacroDefine :  IActiveBuildTargetChanged
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -23,20 +24,42 @@ namespace NetWorkedData
 		const string kMacro = "NET_WORKED_DATA";
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes the <see cref="NetWorkedData.NetWorkedDataMacroDefine"/> class.
+		/// The shared instance used for this class.
+		/// </summary>
+		static NetWorkedDataMacroDefine kSharedInstance;
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Initializes the <see cref="NetWorkedData.NetWorkedDataMacroDefine"/> class. 
+		/// Instance kSharedInstance to use it when method OnActiveBuildTargetChanged must be invoked
 		/// </summary>
 		static NetWorkedDataMacroDefine ()
 		{
-			//start as platform was changed
+			if (kSharedInstance == null) {
+				kSharedInstance = new NetWorkedDataMacroDefine ();
+				kSharedInstance.OnChangedPlatform ();
+			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Gets the callback order for IActiveBuildTargetChanged
+		/// </summary>
+		/// <value>The callback order.</value>
+		public int callbackOrder { get { return 0; } }
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Raises the active build target changed event.
+		/// </summary>
+		/// <param name="previousTarget">Previous target.</param>
+		/// <param name="newTarget">New target.</param>
+		public void OnActiveBuildTargetChanged (BuildTarget previousTarget, BuildTarget newTarget)
+		{
 			OnChangedPlatform ();
-			// add method on build target change
-			EditorUserBuildSettings.activeBuildTargetChanged += OnChangedPlatform;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Raises the changed platform event.
 		/// </summary>
-		static void OnChangedPlatform ()
+		public void OnChangedPlatform ()
 		{
 			InstallMacro (EditorUserBuildSettings.selectedBuildTargetGroup);
 		}
@@ -45,7 +68,7 @@ namespace NetWorkedData
 		/// Installs the macro.
 		/// </summary>
 		/// <param name="sBuildTarget">S build target.</param>
-		static void InstallMacro (BuildTargetGroup sBuildTarget)
+		public void InstallMacro (BuildTargetGroup sBuildTarget)
 		{
 			if (PlayerSettings.GetScriptingDefineSymbolsForGroup (sBuildTarget).Contains (kMacro) == false) {
 				Debug.Log ("Install macro " + kMacro + " in " + sBuildTarget + " player settings");
@@ -59,7 +82,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Installs the macro in all build target.
 		/// </summary>
-		static void InstallMacroAll ()
+		public void InstallMacroAll ()
 		{
 			Array BuildTargetGroupsArray = Enum.GetValues (typeof(BuildTargetGroup));
 			foreach (BuildTargetGroup tBuildTarget in BuildTargetGroupsArray) {
