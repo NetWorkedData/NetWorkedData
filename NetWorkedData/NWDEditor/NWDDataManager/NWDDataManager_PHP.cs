@@ -20,6 +20,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreatePHPAllClass ()
 		{
+			string tProgressBarTitle = "NetWorkedData Create all php files";
+			float tCountClass = mTypeList.Count + 1;
+			float tOperation = 1;
+			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation/tCountClass);
+			tOperation++;
 			NWDError.CreateGenericError ("account", "INN00", "JSon", "not a json object", "critical");
 			NWDError.CreateGenericError ("account", "UIG00", "ID", "error in unique generate", "alert");
 			NWDError.CreateGenericError ("account", "SQL00", "SQL", "error SQL CONNEXION IMPOSSIBLE", "alert");
@@ -117,18 +122,21 @@ namespace NetWorkedData
 			NWDError.CreateGenericError ("account", "RQT93", "Token error", "too much tokens in base ... reconnect you", "alert");
 			NWDError.CreateGenericError ("account", "RQT94", "Token error", "too much tokens in base ... reconnect you", "alert");
 
-
 			int tPHPBuild = BTBConfigManager.SharedInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0);
 			tPHPBuild++;
 			BTBConfigManager.SharedInstance ().Set (NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
 			BTBConfigManager.SharedInstance ().Save ();
 			CreateAllPHP ();
 			foreach (Type tType in mTypeList) {
+				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create "+tType.Name+" files", tOperation/tCountClass);
+				tOperation++;
 				var tMethodInfo = tType.GetMethod ("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					tMethodInfo.Invoke (null, null);
 				}
 			}
+			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+			EditorUtility.ClearProgressBar();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreateAllPHP ()
