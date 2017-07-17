@@ -7,6 +7,8 @@ using System.Reflection;
 
 using UnityEngine;
 
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -32,6 +34,7 @@ namespace NetWorkedData
 		[RuntimeInitializeOnLoadMethod]
 		public static void Launcher ()
 		{
+			BTBDebug.Log ("NWDTypeLauncher Launcher", BTBDebugResult.Success);
 			if (IsLaunched == false) {
 				IsLaunched = true;
 				// Get ShareInstance
