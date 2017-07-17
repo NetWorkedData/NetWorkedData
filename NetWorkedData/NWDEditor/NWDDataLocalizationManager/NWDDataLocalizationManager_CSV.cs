@@ -18,15 +18,24 @@ namespace NetWorkedData
 
 		public void ReOrderAllLocalizations ()
 		{
-			Debug.Log ("ReOrderAllLocalizations");
+			string tProgressBarTitle = "NetWorkedData Reorder localization";
+			float tCountClass = NWDDataManager.SharedInstance.mTypeList.Count + 1;
+			float tOperation = 1;
+			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare operation", tOperation/tCountClass);
+			tOperation++;
+
 			foreach( Type tType in NWDDataManager.SharedInstance.mTypeList)
 			{
+				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  "+tType.Name+" objects", tOperation/tCountClass);
+				tOperation++;
 				var tMethodInfo = tType.GetMethod("ReOrderAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) 
 				{
 					tMethodInfo.Invoke(null, null);
 				}
 			}
+			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+			EditorUtility.ClearProgressBar();
 		}
 
 		public void ExportToCSV ()
