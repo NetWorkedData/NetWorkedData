@@ -19,9 +19,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreatePHPAllClass ()
 		{
-			int tPHPBuild = BTBConfigManager.ShareInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0);
+			int tPHPBuild = BTBConfigManager.SharedInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0);
 			tPHPBuild++;
-			BTBConfigManager.ShareInstance ().Set (NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
+			BTBConfigManager.SharedInstance ().Set (NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
+			BTBConfigManager.SharedInstance ().Save();
 			CreateAllPHP ();
 			foreach (Type tType in mTypeList) {
 				var tMethodInfo = tType.GetMethod ("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);

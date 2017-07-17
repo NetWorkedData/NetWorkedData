@@ -131,6 +131,23 @@ namespace NetWorkedData
 			return rObject;
 		}
 
+		public static NWDBasis<K> GetObjectByReferenceOrCreate (string sReference, string sInternalKey="", string sInternalDescription = "")
+		{
+			NWDBasis<K> rObject = null;
+			if (ObjectsByReferenceList.Contains (sReference)) {
+				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
+				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
+			}
+			if (rObject == null) {
+				rObject = NWDBasis<K>.NewInstance ();
+				rObject.Reference = sReference;
+				rObject.InternalKey = sInternalKey;
+				rObject.InternalDescription = sInternalDescription;
+				rObject.UpdateMe ();
+			}
+			return rObject;
+		}
+
 
 		public static NWDBasis<K> GetObjectByReferenceLimited (string sReference)
 		{

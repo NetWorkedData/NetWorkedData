@@ -102,7 +102,7 @@ namespace NetWorkedData
 				"\t\t//-------------------- \n" +
 				"\t$ENV = '" + Environment + "';\n" +
 				"\t\t//-------------------- \n" +
-				"\t$WSBUILD = "+BTBConfigManager.ShareInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0)+ ";\n" +
+				"\t$WSBUILD = "+BTBConfigManager.SharedInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0)+ ";\n" +
 				"\t\t//-------------------- \n" +
 				"\t?>\n";
 			File.WriteAllText (tServerDatabaseFolder + "/constants.php", tConstantsFile);

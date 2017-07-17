@@ -125,6 +125,9 @@ namespace NetWorkedData
 
 			//TODO :  create error in NWDErrors ... 
 
+NWDBasis<NWDError>.GetObjectByReferenceOrCreate(tTrigramme + "01", tTrigramme + "01 Error","error in request creation in " + tClassName + "");
+NWDBasis<NWDError>.GetObjectByReferenceOrCreate(tTrigramme + "02", tTrigramme + "02 Error","error in request creation add primary key in " + tClassName + "");
+
 			tConstantsFile += "" +
 			"errorDeclaration('" + tTrigramme + "01', 'error in request creation in " + tClassName + "');\n" +
 			"errorDeclaration('" + tTrigramme + "02', 'error in request creation add primary key in " + tClassName + "');\n" +

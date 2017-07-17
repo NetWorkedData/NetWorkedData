@@ -12,7 +12,7 @@ using UnityEditor;
 #endif
 
 using BasicToolBox;
-using MiniJSON;
+using BTBMiniJSON;
 
 namespace NetWorkedData
 {

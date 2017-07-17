@@ -7,7 +7,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-using MiniJSON;
+using BTBMiniJSON;
 
 #if UNITY_EDITOR
 using UnityEditor;
