@@ -33,7 +33,7 @@ namespace NetWorkedData
 		{
 			
 			GUI.FocusControl (null);
-				NWDDataInspector.InspectNetWorkedData (sObject);
+			NWDDataInspector.InspectNetWorkedData (sObject);
 			if (sObject != null) {
 				tLastTypeEdited = sObject.GetType ();
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (tLastTypeEdited);

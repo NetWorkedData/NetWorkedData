@@ -202,6 +202,9 @@ namespace NetWorkedData
 		public const string K_APP_BASIS_CLASS_CSHARP_GENERATE = 	"Generate C# files for";
 		//-------------------------------------------------------------------------------------------------------------
 		public const string K_APP_TABLE_SEARCH_ZONE = 				"Filter zone";
+		public const string K_APP_TABLE_SHORTCUT_ZONE_A = "Tape 's' to select.";
+		public const string K_APP_TABLE_SHORTCUT_ZONE_B = "Use arrows to navigate throw lines or pages.";
+		public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";
 		public const string K_APP_TABLE_SEARCH_NAME = 				"Internal name";
 		public const string K_APP_TABLE_SEARCH_DESCRIPTION = 		"Intername description";
 		public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = 		"Remove filter";

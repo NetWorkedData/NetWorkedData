@@ -71,7 +71,7 @@ namespace NetWorkedData
 			float tTabWidth = 35.0f;
 			float tPopupWidth = 60.0f;
 			//Debug.Log ("tWidth = " + tWidth);
-			int tToogleToListPageLimit = (int) Math.Floor(tWidth / tTabWidth);
+			int tToogleToListPageLimit = (int)Math.Floor (tWidth / tTabWidth);
 			//Debug.Log ("tToogleToListPageLimit = " + tToogleToListPageLimit);
 //			kObjectsInTableList
 			GUILayout.BeginHorizontal ();
@@ -99,7 +99,7 @@ namespace NetWorkedData
 				t_PageSelected = 0;
 			} else if (tPagesExpected < tToogleToListPageLimit) {
 				//m_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.ExpandWidth (true));
-				t_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.Width (tPagesExpected*tTabWidth));
+				t_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.Width (tPagesExpected * tTabWidth));
 			} else {
 				t_PageSelected = EditorGUILayout.Popup (m_PageSelected, tListOfPagesName, EditorStyles.popup, GUILayout.Width (tPopupWidth));
 			}
@@ -110,6 +110,7 @@ namespace NetWorkedData
 			GUILayout.FlexibleSpace ();
 			GUILayout.EndHorizontal ();
 		}
+
 		/// <summary>
 		/// Draws the table editor.
 		/// </summary>
@@ -124,12 +125,10 @@ namespace NetWorkedData
 			GUIStyle tCenterLabel = new GUIStyle (EditorStyles.boldLabel);
 			tCenterLabel.alignment = TextAnchor.MiddleCenter;
 
-			if (TestSaltValid() == false)
-			{
+			if (TestSaltValid () == false) {
 				EditorGUILayout.HelpBox ("ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE", MessageType.Error);
 			}
-			if (NWDDataManager.SharedInstance.TestSaltMemorizationForAllClass () == false)
-			{
+			if (NWDDataManager.SharedInstance.TestSaltMemorizationForAllClass () == false) {
 				EditorGUILayout.HelpBox ("ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE", MessageType.Error);
 			
 			}
@@ -145,7 +144,6 @@ namespace NetWorkedData
 
 			// |||||||||||||||||||||||||||||||||||||||||||
 			GUILayout.EndVertical ();
-			GUILayout.FlexibleSpace ();
 			GUILayout.BeginVertical (GUILayout.Width (120));
 			// |||||||||||||||||||||||||||||||||||||||||||
 			if (GUILayout.Button (NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, EditorStyles.miniButton, GUILayout.Width (120))) {
@@ -181,6 +179,10 @@ namespace NetWorkedData
 			GUILayout.EndVertical ();
 			// -------------------------------------------
 			GUILayout.EndHorizontal ();
+			EditorGUILayout.HelpBox (NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_A + " " +
+				NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_B + " " +
+				NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_C, MessageType.Info);
+			
 			// ===========================================
 			DrawPagesTab ();
 
@@ -194,72 +196,99 @@ namespace NetWorkedData
 
 			// EVENT USE
 			Vector2 tMousePosition = new Vector2 (-200, -200);
-			if (Event.current.type == EventType.MouseDown && Event.current.button == 0) 
-			{
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0) {
 				tMousePosition = Event.current.mousePosition;
 			}
-			// KEY DOWN ARROW
-			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.DownArrow) {
-				BTBDebug.LogVerbose ("KeyDown DownArrow", BTBDebugResult.Success);
+
+			//
+			// TODO: add instruction in tab view
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.S) {
 				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
-				int tIndexSelected = ObjectsInEditorTableList.IndexOf (tSelected.Reference);
-				if (tIndexSelected < ObjectsInEditorTableList.Count-1) {
-					string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected+1);
-					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
-					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
-					float tNumberPage = (tIndexSelected+1) / m_ItemPerPage;
-					int tPageExpected = (int)Math.Floor (tNumberPage);
-					m_PageSelected = tPageExpected;
-					Event.current.Use();
-					sEditorWindow.Focus ();
+				if (tSelected != null) {
+					if (ObjectsByReferenceList.Contains (tSelected.Reference)) {
+						if (tSelected.XX == 0 && tSelected.TestIntegrity ()) {
+							int tIndex = ObjectsByReferenceList.IndexOf (tSelected.Reference);
+							ObjectsInEditorTableSelectionList [tIndex] = !ObjectsInEditorTableSelectionList [tIndex];
+							Event.current.Use ();
+						}
+					}
+				}
+			}
+			// TODO: add instruction in tab view
+			// KEY DOWN ARROW
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow) {
+				//BTBDebug.LogVerbose ("KeyDown DownArrow", BTBDebugResult.Success);
+				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
+				if (tSelected != null) {
+					if (ObjectsInEditorTableList.Contains (tSelected.Reference)) {
+						int tIndexSelected = ObjectsInEditorTableList.IndexOf (tSelected.Reference);
+						if (tIndexSelected < ObjectsInEditorTableList.Count - 1) {
+							string tNextReference = ObjectsInEditorTableList.ElementAt (tIndexSelected + 1);
+							int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+							SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+							float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
+							int tPageExpected = (int)Math.Floor (tNumberPage);
+							m_PageSelected = tPageExpected;
+							Event.current.Use ();
+							sEditorWindow.Focus ();
+						}
+					} else {
+					}
 				}
 			}
 
+			// TODO: add instruction in tab view
 			// KEY UP ARROW
-			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.UpArrow) {
-				BTBDebug.LogVerbose ("KeyDown UpArrow", BTBDebugResult.Success);
-
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow) {
+				//BTBDebug.LogVerbose ("KeyDown UpArrow", BTBDebugResult.Success);
 				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
-				int tIndexSelected = ObjectsInEditorTableList.IndexOf (tSelected.Reference);
-				if (tIndexSelected >0) {
-					string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected-1);
-					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
-					float tNumberPage = (tIndexSelected-1) / m_ItemPerPage;
-					int tPageExpected = (int)Math.Floor (tNumberPage);
-					m_PageSelected = tPageExpected;
-					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
-					Event.current.Use();
-					sEditorWindow.Focus ();
+				if (tSelected != null) {
+					if (ObjectsInEditorTableList.Contains (tSelected.Reference)) {
+						int tIndexSelected = ObjectsInEditorTableList.IndexOf (tSelected.Reference);
+						if (tIndexSelected > 0) {
+							string tNextReference = ObjectsInEditorTableList.ElementAt (tIndexSelected - 1);
+							int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+							float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
+							int tPageExpected = (int)Math.Floor (tNumberPage);
+							m_PageSelected = tPageExpected;
+							SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+							Event.current.Use ();
+							sEditorWindow.Focus ();
+						}
+					} else {
+					}
 				}
 			}
 
 			float tNumberOfPage = ObjectsInEditorTableList.Count / m_ItemPerPage;
 			int tPagesExpected = (int)Math.Floor (tNumberOfPage);
 
+			// TODO: add instruction in tab view
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow) {
-				BTBDebug.LogVerbose ("KeyDown RightArrow", BTBDebugResult.Success);
+				//BTBDebug.LogVerbose ("KeyDown RightArrow", BTBDebugResult.Success);
 				if (m_PageSelected < tPagesExpected) {
 					m_PageSelected++;
 					// TODO : reselect first object
-					string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
+					string tNextReference = ObjectsInEditorTableList.ElementAt (m_ItemPerPage * m_PageSelected);
 					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
 					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
-					Event.current.Use();
+					Event.current.Use ();
 					sEditorWindow.Focus ();
 				} else {
 				}
 			}
 
 
+			// TODO: add instruction in tab view
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow) {
-				BTBDebug.LogVerbose ("KeyDown LeftArrow", BTBDebugResult.Success);
+				//BTBDebug.LogVerbose ("KeyDown LeftArrow", BTBDebugResult.Success);
 				if (m_PageSelected > 0) {
 					m_PageSelected--;
 					// TODO : reselect first object
-					string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
+					string tNextReference = ObjectsInEditorTableList.ElementAt (m_ItemPerPage * m_PageSelected);
 					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
 					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
-					Event.current.Use();
+					Event.current.Use ();
 					sEditorWindow.Focus ();
 				} else {
 				}
@@ -273,17 +302,14 @@ namespace NetWorkedData
 				m_PageSelected = tPagesExpected;
 			}
 
-			for (int i = 0; i < m_ItemPerPage; i++) 
-			{
+			for (int i = 0; i < m_ItemPerPage; i++) {
 				int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
-				if (tItemIndexInPage < ObjectsInEditorTableList.Count) 
-				{
+				if (tItemIndexInPage < ObjectsInEditorTableList.Count) {
 					string tReference = ObjectsInEditorTableList.ElementAt (tItemIndexInPage);
 					int tObjectIndex = ObjectsByReferenceList.IndexOf (tReference);
 					if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0) {
 						NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
-						if (tObject != null) 
-						{
+						if (tObject != null) {
 							tObject.DrawRowInEditor (tMousePosition, sEditorWindow);
 						}
 					}
@@ -298,8 +324,8 @@ namespace NetWorkedData
 			GUILayout.Space (5.0f);
 
 			Rect tRect = GUILayoutUtility.GetLastRect ();
-			EditorGUI.DrawRect (new Rect (tRect.x-10.0f, tRect.y, 4096.0f, 1024.0f), new Color (0.0f, 0.0f, 0.0f, 0.10f));
-			EditorGUI.DrawRect (new Rect (tRect.x-10.0f, tRect.y, 4096.0f, 1.0f), new Color (0.0f, 0.0f, 0.0f, 0.30f));
+			EditorGUI.DrawRect (new Rect (tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color (0.0f, 0.0f, 0.0f, 0.10f));
+			EditorGUI.DrawRect (new Rect (tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color (0.0f, 0.0f, 0.0f, 0.30f));
 
 
 			DrawPagesTab ();
@@ -402,17 +428,15 @@ namespace NetWorkedData
 						tNextObjectSelected = tNextObject;
 					}
 				}
-				if (tNewObect !=1)
-				{
+				if (tNewObect != 1) {
 					tNextObjectSelected = null;
 				}
 				SetObjectInEdition (tNextObjectSelected);
 				//ReorderListOfManagementByName ();
-				m_PageSelected = m_MaxPage*3;
+				m_PageSelected = m_MaxPage * 3;
 			}
 
-			if (GUILayout.Button (NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton)) {
 				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
 					if (ObjectsInEditorTableSelectionList [tSelect] == true) {
 						NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt (tSelect);
@@ -433,31 +457,28 @@ namespace NetWorkedData
 			EditorGUI.BeginDisabledGroup (tSelectionCount == 0);
 
 			GUILayout.Label (NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
-			if (GUILayout.Button (NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton)) {
 				string tDialog = "";
 				if (tSelectionCount == 0) {
 					tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
 				} else if (tSelectionCount == 1) {
 					tDialog = NWDConstants.K_APP_TABLE_DELETE_ONE_OBJECT;
 				} else {
-					tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A  + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
+					tDialog = NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_A + tSelectionCount + NWDConstants.K_APP_TABLE_DELETE_X_OBJECTS_B;
 				}
 				if (EditorUtility.DisplayDialog (NWDConstants.K_APP_TABLE_DELETE_ALERT,
-					tDialog,
-					NWDConstants.K_APP_TABLE_DELETE_YES,
-					NWDConstants.K_APP_TABLE_DELETE_NO)) {
+					    tDialog,
+					    NWDConstants.K_APP_TABLE_DELETE_YES,
+					    NWDConstants.K_APP_TABLE_DELETE_NO)) {
 
-					List <object> tListToDelete = new List<object>();
+					List <object> tListToDelete = new List<object> ();
 					for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
-						if (ObjectsInEditorTableSelectionList [tSelect] == true) 
-						{
+						if (ObjectsInEditorTableSelectionList [tSelect] == true) {
 							NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt (tSelect);
 							tListToDelete.Add ((object)tObject);
 						}
 					}
-					foreach (object tObject in tListToDelete)
-					{
+					foreach (object tObject in tListToDelete) {
 						NWDBasis<K> tObjectToDelete = (NWDBasis<K>)tObject;
 						RemoveObjectInListOfEdition (tObjectToDelete);
 						tObjectToDelete.DeleteMe ();
@@ -468,8 +489,7 @@ namespace NetWorkedData
 			}
 
 
-			if (GUILayout.Button (NWDConstants.K_APP_TABLE_TRASH_ZONE, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_APP_TABLE_TRASH_ZONE, EditorStyles.miniButton)) {
 				string tDialog = "";
 				if (tSelectionCount == 0) {
 					tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;
@@ -479,20 +499,18 @@ namespace NetWorkedData
 					tDialog = NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_A + tSelectionCount + NWDConstants.K_APP_TABLE_TRASH_X_OBJECT_B;
 				}
 				if (EditorUtility.DisplayDialog (NWDConstants.K_APP_TABLE_TRASH_ALERT,
-					tDialog,
-					NWDConstants.K_APP_TABLE_TRASH_YES,
-					NWDConstants.K_APP_TABLE_TRASH_NO)) {
+					    tDialog,
+					    NWDConstants.K_APP_TABLE_TRASH_YES,
+					    NWDConstants.K_APP_TABLE_TRASH_NO)) {
 
-					List <object> tListToTrash = new List<object>();
+					List <object> tListToTrash = new List<object> ();
 					for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
-						if (ObjectsInEditorTableSelectionList [tSelect] == true) 
-						{
+						if (ObjectsInEditorTableSelectionList [tSelect] == true) {
 							NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt (tSelect);
 							tListToTrash.Add ((object)tObject);
 						}
 					}
-					foreach (object tObject in tListToTrash)
-					{
+					foreach (object tObject in tListToTrash) {
 						NWDBasis<K> tObjectToTrash = (NWDBasis<K>)tObject;
 						tObjectToTrash.TrashMe ();
 					}
@@ -542,11 +560,10 @@ namespace NetWorkedData
 			// |||||||||||||||||||||||||||||||||||||||||||
 
 			GUILayout.Label (NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
-			if (GUILayout.Button (NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton)) {
 //				NWDBasisClassInspector tBasisInspector = new NWDBasisClassInspector ();
-				NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-				tBasisInspector.mTypeInEdition = ClassType();
+				NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector> ();
+				tBasisInspector.mTypeInEdition = ClassType ();
 //				tBasisInspector.mObjectInEdition = null;
 //				tBasisInspector.mWindowInEdition = sEditorWindow;
 				Selection.activeObject = tBasisInspector;
@@ -577,18 +594,15 @@ namespace NetWorkedData
 			// SYNCHRO NORMAL
 
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME, EditorStyles.miniButton)) {
 				SynchronizationFromWebService (false, NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
 
-			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME, EditorStyles.miniButton)) {
 				SynchronizationFromWebService (false, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
-			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME, EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME, EditorStyles.miniButton)) {
 				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 					    NWDConstants.K_SYNC_ALERT_OK,
@@ -602,21 +616,18 @@ namespace NetWorkedData
 
 			// FORCE SYNCHRO
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " force", EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " force", EditorStyles.miniButton)) {
 				SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
-			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " force", EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " force", EditorStyles.miniButton)) {
 				SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
-			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " force", EditorStyles.miniButton)) 
-			{
+			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " force", EditorStyles.miniButton)) {
 				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-					NWDConstants.K_SYNC_ALERT_MESSAGE,
-					NWDConstants.K_SYNC_ALERT_OK,
-					NWDConstants.K_SYNC_ALERT_CANCEL)) {
+					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+					    NWDConstants.K_SYNC_ALERT_OK,
+					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
 					SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.ProdEnvironment);
 				}
 			}
@@ -664,7 +675,7 @@ namespace NetWorkedData
 				// add card editor change
 				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
 				AddObjectInListOfEdition (tNewObject);
-				m_PageSelected = m_MaxPage*3;
+				m_PageSelected = m_MaxPage * 3;
 				SetObjectInEdition (tNewObject);
 //				sEditorWindow.Repaint ();
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (ClassType ());

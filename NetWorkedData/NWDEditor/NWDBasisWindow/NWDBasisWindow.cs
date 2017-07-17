@@ -231,6 +231,15 @@ namespace NetWorkedData
 				EditorGUI.DrawRect (new Rect (tRect.x-10.0f, tRect.y+35.0f, 4096.0f, 1.0f), new Color (0.0f, 0.0f, 0.0f, 0.30f));
 				tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
 			}
+
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
+//				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
+				tTabSelected++;
+				if (tTabSelected >= mTabList.Length) {
+					tTabSelected = 0;
+				}
+				Event.current.Use ();
+			}
 			// select the good class to show
 			Type tType = mTabTypeList[tTabSelected];
 			if (mTabSelected != tTabSelected)
@@ -245,6 +254,8 @@ namespace NetWorkedData
 				tMethodInfo.Invoke(null,new object[]{this});
 //				tMethodInfo.Invoke(null,null);
 			}
+
+
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
