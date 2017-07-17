@@ -123,6 +123,8 @@ namespace NetWorkedData
 //			tConstantsFile += "//-------------------- \n";
 //			// }
 
+			//TODO :  create error in NWDErrors ... 
+
 			tConstantsFile += "" +
 			"errorDeclaration('" + tTrigramme + "01', 'error in request creation in " + tClassName + "');\n" +
 			"errorDeclaration('" + tTrigramme + "02', 'error in request creation add primary key in " + tClassName + "');\n" +

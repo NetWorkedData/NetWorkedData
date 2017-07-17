@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
+using BasicToolBox;
+
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -99,6 +101,8 @@ namespace NetWorkedData
 				"\t$NWD_GGO_AID = '" + GoogleAppKey.Replace ("'", "\'") + "';\n" +
 				"\t\t//-------------------- \n" +
 				"\t$ENV = '" + Environment + "';\n" +
+				"\t\t//-------------------- \n" +
+				"\t$WSBUILD = "+BTBConfigManager.ShareInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0)+ ";\n" +
 				"\t\t//-------------------- \n" +
 				"\t?>\n";
 			File.WriteAllText (tServerDatabaseFolder + "/constants.php", tConstantsFile);

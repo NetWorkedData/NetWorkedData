@@ -20,7 +20,7 @@ namespace NetWorkedData
 		#region class method
 
 		//-------------------------------------------------------------------------------------------------------------
-		public static string TextProtect(string sText)
+		public static string TextProtect (string sText)
 		{
 			string rText = sText;
 			rText = rText.Replace (NWDConstants.kFieldSeparatorA, NWDConstants.kFieldSeparatorASubstitute);
@@ -30,7 +30,7 @@ namespace NetWorkedData
 			return rText;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static string TextUnprotect(string sText)
+		public static string TextUnprotect (string sText)
 		{
 			string rText = sText;
 			rText = rText.Replace (NWDConstants.kFieldSeparatorASubstitute, NWDConstants.kFieldSeparatorA);
@@ -44,7 +44,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The CSV protect.</returns>
 		/// <param name="sText">S text.</param>
-		public static string TextCSVProtect(string sText)
+		public static string TextCSVProtect (string sText)
 		{
 			string rText = sText;
 			rText = rText.Replace (NWDConstants.kStandardSeparator, NWDConstants.kStandardSeparatorSubstitute);
@@ -57,7 +57,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The CSV unprotect.</returns>
 		/// <param name="sText">S text.</param>
-		public static string TextCSVUnprotect(string sText)
+		public static string TextCSVUnprotect (string sText)
 		{
 			string rText = sText;
 			rText = rText.Replace (NWDConstants.kStandardSeparatorSubstitute, NWDConstants.kStandardSeparator);
@@ -140,8 +140,8 @@ namespace NetWorkedData
 		/// </summary>
 		public static int Timestamp ()
 		{
-            //int rUnixCurrentTime = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            DateTime tUnixStartTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+			//int rUnixCurrentTime = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+			DateTime tUnixStartTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			int rUnixCurrentTime = (int)(DateTime.UtcNow - tUnixStartTime).TotalSeconds;
 			return rUnixCurrentTime;
 		}
@@ -153,11 +153,12 @@ namespace NetWorkedData
 		/// <param name="sTimeStamp">timestamp.</param>
 		public static DateTime TimeStampToDateTime (double sTimeStamp)
 		{
-            DateTime rDateTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+			DateTime rDateTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			rDateTime = rDateTime.AddSeconds (sTimeStamp).ToLocalTime ();
 			return rDateTime;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
 
 		#if UNITY_EDITOR
@@ -192,11 +193,11 @@ namespace NetWorkedData
 		/// <param name="sImport">If set to <c>true</c> import in unity.</param>
 		public static void CopyFolderFiles (string sFromFolder, string sToFolder, bool sImport = true)
 		{
-			//Debug.Log ("copy files from = " + sFromFolder + " to " + sToFolder);
+			BTBDebug.LogVerbose ("copy files from = " + sFromFolder + " to " + sToFolder);
 			DirectoryInfo tDirectory = new DirectoryInfo (sFromFolder);
 			FileInfo[] tInfo = tDirectory.GetFiles ("*.*");
 			foreach (FileInfo tFile in tInfo) {
-				//Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
+				BTBDebug.LogVerbose ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
 				string tNewPath = sToFolder + "/" + tFile.Name;
 				if (File.Exists (tNewPath)) {
 					File.Delete (tNewPath);
@@ -208,9 +209,10 @@ namespace NetWorkedData
 					}
 				}
 			}
-			string[] tSubFoldersArray = AssetDatabase.GetSubFolders (sFromFolder);
-			foreach (string tSubFolder in tSubFoldersArray) {
-				string tSubFolderLast = tSubFolder.Replace (sFromFolder + "/", "");
+			DirectoryInfo[] tSubFoldersArray = tDirectory.GetDirectories ();
+			foreach (DirectoryInfo tSubFolder in tSubFoldersArray) {
+				BTBDebug.LogVerbose ("find subfolder Name = " + tSubFolder.Name);
+				string tSubFolderLast = tSubFolder.Name;
 				if (AssetDatabase.IsValidFolder (sToFolder + "/" + tSubFolderLast) == false) {
 					AssetDatabase.CreateFolder (sToFolder, tSubFolderLast);
 				}
@@ -225,12 +227,12 @@ namespace NetWorkedData
 		/// <param name="sToFolder">to folder.</param>
 		public static void ExportCopyFolderFiles (string sFromFolder, string sToFolder)
 		{
-			//Debug.Log ("copy files from = " + sFromFolder + " to " + sToFolder);
+			BTBDebug.LogVerbose ("copy files from = " + sFromFolder + " to " + sToFolder);
 			DirectoryInfo tDirectory = new DirectoryInfo (sFromFolder);
 			FileInfo[] tInfo = tDirectory.GetFiles ("*.*");
 			foreach (FileInfo tFile in tInfo) {
-				//Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
-				string tNewPath = sToFolder + "/" + tFile.Name.Replace ("dot_htaccess.txt",".htaccess");
+				BTBDebug.LogVerbose ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
+				string tNewPath = sToFolder + "/" + tFile.Name.Replace ("dot_htaccess.txt", ".htaccess");
 				if (File.Exists (tNewPath)) {
 					File.Delete (tNewPath);
 				}
@@ -238,53 +240,53 @@ namespace NetWorkedData
 					tFile.CopyTo (tNewPath);
 				}
 			}
-			string[] tSubFoldersArray = AssetDatabase.GetSubFolders (sFromFolder);
-			foreach (string tSubFolder in tSubFoldersArray) {
-				string tSubFolderLast = tSubFolder.Replace (sFromFolder + "/", "");
+			DirectoryInfo[] tSubFoldersArray = tDirectory.GetDirectories ();
+			foreach (DirectoryInfo tSubFolder in tSubFoldersArray) {
+				BTBDebug.LogVerbose ("find subfolder Name = " + tSubFolder.Name);
+				string tSubFolderLast = tSubFolder.Name;
 				if (Directory.Exists (sToFolder + "/" + tSubFolderLast) == false) {
 					Directory.CreateDirectory (sToFolder + "/" + tSubFolderLast);
 				}
 				ExportCopyFolderFiles (sFromFolder + "/" + tSubFolderLast, sToFolder + "/" + tSubFolderLast);
 			}
 		}
-        #endif
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Generate unique Temporary USER ID
-        /// </summary>
-        public static string GenerateUniqueID()
-        {
-            string rReturn = "";
-            int tUnixCurrentTime = Timestamp();
-            int tTime = tUnixCurrentTime - 1492710000;
-            rReturn = "ACC-" + tTime.ToString() + "-" + UnityEngine.Random.Range(1000000, 9999999).ToString() + UnityEngine.Random.Range(1000000, 9999999).ToString() + "T";
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Generate unique SALT
-        /// </summary>
-        /// <param name="sFrequence">refresh frequency</param>
-        public static string GenerateSALT(int sFrequence)
-        {
-            int tUnixTimestamp = Timestamp();
-            if (sFrequence <= 0 || sFrequence >= tUnixTimestamp)
-            {
-                sFrequence = 600;
-            }
-            int rSalt = (tUnixTimestamp - (tUnixTimestamp % sFrequence));
-            return rSalt.ToString();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Generate Admin hash
-        /// </summary>
-        /// <param name="sAdminKey">ADMIN ID</param>
-        /// <param name="sFrequence">refresh frequency</param>
-        public static string GenerateAdminHash(string sAdminKey, int sFrequence)
-        {
-            return BTBSecurityTools.GenerateSha(sAdminKey + GenerateSALT(sFrequence), BTBSecurityShaTypeEnum.Sha1);
-        }
-    }
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Generate unique Temporary USER ID
+		/// </summary>
+		public static string GenerateUniqueID ()
+		{
+			string rReturn = "";
+			int tUnixCurrentTime = Timestamp ();
+			int tTime = tUnixCurrentTime - 1492710000;
+			rReturn = "ACC-" + tTime.ToString () + "-" + UnityEngine.Random.Range (1000000, 9999999).ToString () + UnityEngine.Random.Range (1000000, 9999999).ToString () + "T";
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Generate unique SALT
+		/// </summary>
+		/// <param name="sFrequence">refresh frequency</param>
+		public static string GenerateSALT (int sFrequence)
+		{
+			int tUnixTimestamp = Timestamp ();
+			if (sFrequence <= 0 || sFrequence >= tUnixTimestamp) {
+				sFrequence = 600;
+			}
+			int rSalt = (tUnixTimestamp - (tUnixTimestamp % sFrequence));
+			return rSalt.ToString ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Generate Admin hash
+		/// </summary>
+		/// <param name="sAdminKey">ADMIN ID</param>
+		/// <param name="sFrequence">refresh frequency</param>
+		public static string GenerateAdminHash (string sAdminKey, int sFrequence)
+		{
+			return BTBSecurityTools.GenerateSha (sAdminKey + GenerateSALT (sFrequence), BTBSecurityShaTypeEnum.Sha1);
+		}
+	}
 }
 //=====================================================================================================================

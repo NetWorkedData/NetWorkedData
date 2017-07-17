@@ -7,6 +7,8 @@ using System.Reflection;
 
 using UnityEngine;
 
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
@@ -17,6 +19,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreatePHPAllClass ()
 		{
+			int tPHPBuild = BTBConfigManager.ShareInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0);
+			tPHPBuild++;
+			BTBConfigManager.ShareInstance ().Set (NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
 			CreateAllPHP ();
 			foreach (Type tType in mTypeList) {
 				var tMethodInfo = tType.GetMethod ("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -24,13 +29,6 @@ namespace NetWorkedData
 					tMethodInfo.Invoke (null, null);
 				}
 			}
-
-//
-//			foreach (Type tType in mTypeList) {
-//				NWDBasis<> tTypeBasis = tType as NWDBasis<>;
-//				tTypeBasis.CreateAllPHP ();
-//			}
-
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreateAllPHP ()

@@ -5,7 +5,7 @@
 		// FINISH
 		//--------------------
 		// prevent include from function for exit (typical example: error('XXX', true);)
-	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP;
+	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD;
 		//--------------------
 		// add log
 	if ($NWD_LOG==true)
@@ -15,6 +15,9 @@
 		//--------------------
 		// server benchmark
 	respondAdd('perform',microtime()-$NWD_TMA);
+		//--------------------
+		// web-services build
+	respondAdd('wsbuild',$WSBUILD);
 		//--------------------
 		//disconnect mysql
 	mysqli_close($SQL_CON);
