@@ -140,10 +140,12 @@ namespace NetWorkedData
 			}
 			if (rObject == null) {
 				rObject = NWDBasis<K>.NewInstance ();
+				RemoveObjectInListOfEdition (rObject);
 				rObject.Reference = sReference;
 				rObject.InternalKey = sInternalKey;
 				rObject.InternalDescription = sInternalDescription;
 				rObject.UpdateMe ();
+				AddObjectInListOfEdition (rObject);
 			}
 			return rObject;
 		}

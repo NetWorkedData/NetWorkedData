@@ -123,33 +123,41 @@ namespace NetWorkedData
 //			tConstantsFile += "//-------------------- \n";
 //			// }
 
-			//TODO :  create error in NWDErrors ... 
-
-NWDBasis<NWDError>.GetObjectByReferenceOrCreate(tTrigramme + "01", tTrigramme + "01 Error","error in request creation in " + tClassName + "");
-NWDBasis<NWDError>.GetObjectByReferenceOrCreate(tTrigramme + "02", tTrigramme + "02 Error","error in request creation add primary key in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x01" , "Error in" + tClassName ,"error in request creation in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x02" ,"Error in" + tClassName ,"error in request creation add primary key in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x03", "Error in" + tClassName ,"error in request creation add autoincrement modify in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x05", "Error in" + tClassName ,"error in sql index creation in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x07", "Error in" + tClassName ,"error in sql defragment in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x08", "Error in" + tClassName ,"error in sql drop in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x09", "Error in" + tClassName ,"error in sql Flush in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x11", "Error in" + tClassName ,"error in sql add columns in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x12", "Error in" + tClassName ,"error in sql alter columns in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x31", "Error in" + tClassName ,"error in request insert new datas before update in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x32", "Error in" + tClassName ,"error in request select datas to update in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x33", "Error in" + tClassName ,"error in request select updatable datas in " + tClassName + "" );
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x38", "Error in" + tClassName ,"error in request update datas in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x39", "Error in" + tClassName ,"error too much datas for this reference in  " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x91", "Error in" + tClassName ,"error update integrity in " + tClassName + "");
+			NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in" + tClassName ,"integrity of one datas is false, break in " + tClassName + "");
 
 			tConstantsFile += "" +
-			"errorDeclaration('" + tTrigramme + "01', 'error in request creation in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "02', 'error in request creation add primary key in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "03', 'error in request creation add autoincrement modify in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "04', 'error in sql index remove in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "05', 'error in sql index creation in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "07', 'error in sql defragment in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "08', 'error in sql drop in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "09', 'error in sql Flush in " + tClassName + "');\n" +
-			
-			"errorDeclaration('" + tTrigramme + "11', 'error in sql add columns in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "12', 'error in sql alter columns in " + tClassName + "');\n" +
-			
-			"errorDeclaration('" + tTrigramme + "31', 'error in request insert new datas before update in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "32', 'error in request select datas to update in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "33', 'error in request select updatable datas in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "38', 'error in request update datas in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "39', 'error too much datas for this reference in  " + tClassName + "');\n" +
-
-			"errorDeclaration('" + tTrigramme + "91', 'error update integrity in " + tClassName + "');\n" +
-			
-			"errorDeclaration('" + tTrigramme + "88', 'integrity of one datas is false, break in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x01', 'error in request creation in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x02', 'error in request creation add primary key in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x03', 'error in request creation add autoincrement modify in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x04', 'error in sql index remove in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x05', 'error in sql index creation in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x07', 'error in sql defragment in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x08', 'error in sql drop in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x09', 'error in sql Flush in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x11', 'error in sql add columns in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x12', 'error in sql alter columns in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x31', 'error in request insert new datas before update in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x32', 'error in request select datas to update in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x33', 'error in request select updatable datas in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x38', 'error in request update datas in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x39', 'error too much datas for this reference in  " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x91', 'error update integrity in " + tClassName + "');\n" +
+			"errorDeclaration('" + tTrigramme + "x88', 'integrity of one datas is false, break in " + tClassName + "');\n" +
 			"\n" +
 			"//-------------------- \n" +
 			"?>\n";
