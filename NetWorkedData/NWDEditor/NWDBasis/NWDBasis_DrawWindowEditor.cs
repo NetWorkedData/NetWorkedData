@@ -22,9 +22,9 @@ namespace NetWorkedData
 
 		static Editor mGameObjectEditor;
 
-		public static void DrawInEditor ()
+		public static void DrawInEditor (EditorWindow sEditorWindow)
 		{
-			DrawTableEditor ();
+			DrawTableEditor (sEditorWindow);
 
 		}
 		#endif

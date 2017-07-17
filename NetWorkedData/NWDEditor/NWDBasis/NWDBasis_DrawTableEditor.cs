@@ -8,6 +8,8 @@ using System.Reflection;
 
 using UnityEngine;
 
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -111,9 +113,8 @@ namespace NetWorkedData
 		/// <summary>
 		/// Draws the table editor.
 		/// </summary>
-		public static void DrawTableEditor ()
+		public static void DrawTableEditor (EditorWindow sEditorWindow)
 		{
-
 			GUIStyle tRightLabel = new GUIStyle (EditorStyles.boldLabel);
 			tRightLabel.alignment = TextAnchor.MiddleRight;
 
@@ -190,11 +191,88 @@ namespace NetWorkedData
 			// ===========================================
 
 			//m_ItemList.Count
+
+			// EVENT USE
 			Vector2 tMousePosition = new Vector2 (-200, -200);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0) 
 			{
 				tMousePosition = Event.current.mousePosition;
 			}
+			// KEY DOWN ARROW
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.DownArrow) {
+				BTBDebug.LogVerbose ("KeyDown DownArrow", BTBDebugResult.Success);
+				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
+				int tIndexSelected = ObjectsInEditorTableList.IndexOf (tSelected.Reference);
+				if (tIndexSelected < ObjectsInEditorTableList.Count-1) {
+					string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected+1);
+					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+					float tNumberPage = (tIndexSelected+1) / m_ItemPerPage;
+					int tPageExpected = (int)Math.Floor (tNumberPage);
+					m_PageSelected = tPageExpected;
+					Event.current.Use();
+					sEditorWindow.Focus ();
+				}
+			}
+
+			// KEY UP ARROW
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.UpArrow) {
+				BTBDebug.LogVerbose ("KeyDown UpArrow", BTBDebugResult.Success);
+
+				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
+				int tIndexSelected = ObjectsInEditorTableList.IndexOf (tSelected.Reference);
+				if (tIndexSelected >0) {
+					string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected-1);
+					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+					float tNumberPage = (tIndexSelected-1) / m_ItemPerPage;
+					int tPageExpected = (int)Math.Floor (tNumberPage);
+					m_PageSelected = tPageExpected;
+					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+					Event.current.Use();
+					sEditorWindow.Focus ();
+				}
+			}
+
+			float tNumberOfPage = ObjectsInEditorTableList.Count / m_ItemPerPage;
+			int tPagesExpected = (int)Math.Floor (tNumberOfPage);
+
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow) {
+				BTBDebug.LogVerbose ("KeyDown RightArrow", BTBDebugResult.Success);
+				if (m_PageSelected < tPagesExpected) {
+					m_PageSelected++;
+					// TODO : reselect first object
+					string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
+					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+					Event.current.Use();
+					sEditorWindow.Focus ();
+				} else {
+				}
+			}
+
+
+			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow) {
+				BTBDebug.LogVerbose ("KeyDown LeftArrow", BTBDebugResult.Success);
+				if (m_PageSelected > 0) {
+					m_PageSelected--;
+					// TODO : reselect first object
+					string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
+					int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+					SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+					Event.current.Use();
+					sEditorWindow.Focus ();
+				} else {
+				}
+			}
+
+
+			if (m_PageSelected < 0) {
+				m_PageSelected = 0;
+			}
+			if (m_PageSelected > tPagesExpected) {
+				m_PageSelected = tPagesExpected;
+			}
+
 			for (int i = 0; i < m_ItemPerPage; i++) 
 			{
 				int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
@@ -206,7 +284,7 @@ namespace NetWorkedData
 						NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
 						if (tObject != null) 
 						{
-							tObject.DrawRowInEditor (tMousePosition);
+							tObject.DrawRowInEditor (tMousePosition, sEditorWindow);
 						}
 					}
 				}

@@ -242,8 +242,8 @@ namespace NetWorkedData
 			var tMethodInfo = tType.GetMethod("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tMethodInfo != null) {
 				//Debug.Log ("I AM FINDING THE DRAWING METHOD");
-//				tMethodInfo.Invoke(null,new object[]{this});
-				tMethodInfo.Invoke(null,null);
+				tMethodInfo.Invoke(null,new object[]{this});
+//				tMethodInfo.Invoke(null,null);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

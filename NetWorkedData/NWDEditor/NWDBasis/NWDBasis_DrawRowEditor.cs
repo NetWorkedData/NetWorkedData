@@ -193,7 +193,7 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Rect DrawRowInEditor (Vector2 sMouseClickPosition)
+		public Rect DrawRowInEditor (Vector2 sMouseClickPosition, EditorWindow sEditorWindow)
 		{
 			// start line
 			GUILayout.Space(kRowHeightSpace);
@@ -210,6 +210,8 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.UpdateQueueExecute();
 				GUI.FocusControl (null);
 				SetObjectInEdition (this);
+				//TODO: reselect this window
+				sEditorWindow.Focus ();
 			}
 			// check if object is in edition and draw color rect overlay
 			if (IsObjectInEdition (this) == true)
