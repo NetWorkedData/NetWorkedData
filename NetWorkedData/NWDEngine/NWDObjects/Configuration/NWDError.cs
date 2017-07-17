@@ -17,11 +17,10 @@ namespace NetWorkedData
 		public string Code { get; set; }
 		public string LocalizedTitle { get; set; }
 		public string LocalizedDescription { get; set; }
-		public bool IsFatal { get; set; }
-		public bool ShowAlert { get; set; }
-		public string Type { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDError ()
+        [NWDEnumString(new string[] { "alert", "critical", "verbose" })]
+        public string Type { get; set; }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDError ()
 		{
 			//Init your instance here
 			//DiscoverItYourSelf = true;
@@ -32,7 +31,7 @@ namespace NetWorkedData
 		public override bool AddonEdited (bool sNeedBeUpdate)
 		{
 			if (sNeedBeUpdate == true) {
-				this.InternalKey = this.Code.ToString ();
+				InternalKey = Code;
 			}
 			return sNeedBeUpdate;
 		}
