@@ -9,6 +9,7 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -94,7 +95,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ClassInfos (string sString)
 		{
-			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
+			BTBDebug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDTypeInfos TypeInfos ()

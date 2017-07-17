@@ -378,7 +378,7 @@ namespace NetWorkedData
 			string tDigestKey = UnSecureDigestKey;
 			string tParamValue = "";
 			string tDigestValue = "";
-            BTBDebug.Log ("Insert data in request : json = " + Json.Serialize (Data));
+			BTBDebug.Log ("Insert data in request : json = " + Json.Serialize (Data), BTBDebugResult.Success);
 			if (SecureData) {
 				tParamKey = SecureKey;
 				tDigestKey = SecureDigestKey;

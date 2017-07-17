@@ -82,10 +82,10 @@ namespace NetWorkedData
 							tMethodDeclare.Invoke (null, new object[]{ tServerSynchronize, tTrigramme, tDescription, tMenuName });
 						}
 						/* DEBUG */
-						var tMethodInfo = tType.GetMethod ("ClassInfos", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-						if (tMethodInfo != null) {
-							tMethodInfo.Invoke (null, new object[]{ "Launcher " });
-						}
+//						var tMethodInfo = tType.GetMethod ("ClassInfos", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+//						if (tMethodInfo != null) {
+//							tMethodInfo.Invoke (null, new object[]{ "Launcher " });
+//						}
 						/* DEBUG */
 					}
 				}
