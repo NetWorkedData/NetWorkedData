@@ -20,6 +20,7 @@ namespace NetWorkedData
         public bool isNewUser { get; private set; }
         public bool isUserTransfert { get; private set; }
         public bool isReloadingData { get; private set; }
+        public int wsBuild { get; private set; }
 
         // TODO: remove and replace by properties exhaustives (with enum)
         public Dictionary<string, object> param { get; private set; }
@@ -85,8 +86,12 @@ namespace NetWorkedData
             {
                 uuid = data["uuid"] as string;
             }
+            if (data.ContainsKey("wsbuild"))
+            {
+                wsBuild = int.Parse(data["wsbuild"].ToString());
+            }
 
-            if(isError)
+            if (isError)
             {
                 errorDesc = BTBErrorManager.ShareInstance().FindError(errorCode);
             }
