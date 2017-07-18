@@ -30,7 +30,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Draw the interface in editor.
 		/// </summary>
-		public void DrawInEditor ()
+		public void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// TODO use NWDConstants for these strings
 			// TODO use GUI without layout

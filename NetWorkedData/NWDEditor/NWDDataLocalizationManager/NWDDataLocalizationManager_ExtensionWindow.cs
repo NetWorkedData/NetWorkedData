@@ -28,7 +28,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Draws in editor.
 		/// </summary>
-		public static void DrawInEditor ()
+		public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw interface for language chooser
 			Dictionary<string,string> tLanguageDico = NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguageDico;

@@ -38,7 +38,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Draws in editor.
 		/// </summary>
-		public static void DrawInEditor ()
+		public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw warning if salt for class is false
 			if (NWDDataManager.SharedInstance.TestSaltMemorizationForAllClass () == false) {
@@ -67,17 +67,17 @@ namespace NetWorkedData
 			switch (tTabSelect) {
 			case 0:
 				{
-					NWDAppConfiguration.SharedInstance.DevEnvironment.DrawInEditor ();
+					NWDAppConfiguration.SharedInstance.DevEnvironment.DrawInEditor ( sEditorWindow,  sAutoSelect);
 				}
 				break;
 			case 1:
 				{
-					NWDAppConfiguration.SharedInstance.PreprodEnvironment.DrawInEditor ();
+					NWDAppConfiguration.SharedInstance.PreprodEnvironment.DrawInEditor (sEditorWindow,  sAutoSelect);
 				}
 				break;
 			case 2:
 				{
-					NWDAppConfiguration.SharedInstance.ProdEnvironment.DrawInEditor ();
+					NWDAppConfiguration.SharedInstance.ProdEnvironment.DrawInEditor (sEditorWindow,  sAutoSelect);
 				}
 				break;
 			}
