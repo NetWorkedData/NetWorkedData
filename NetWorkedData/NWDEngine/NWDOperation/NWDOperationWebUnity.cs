@@ -14,6 +14,7 @@ using UnityEditor;
 using BasicToolBox;
 using BTBMiniJSON;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	[ExecuteInEditMode]
@@ -27,14 +28,14 @@ namespace NetWorkedData
 
 		public NWDAppEnvironment Environment;
 
-		static public NWDOperationWebUnity AddOperation (string sName, NWDAppEnvironment sEnvironment=null, bool sPriority=false)
+		static public NWDOperationWebUnity AddOperation (string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
 		{
 			NWDOperationWebUnity rReturn = NWDOperationWebUnity.Create (sName, sEnvironment);
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 
-		static public NWDOperationWebUnity Create (string sName, NWDAppEnvironment sEnvironment=null)
+		static public NWDOperationWebUnity Create (string sName, NWDAppEnvironment sEnvironment = null)
 		{
 			NWDOperationWebUnity rReturn = null;
 			if (sName == null) {
@@ -44,7 +45,7 @@ namespace NetWorkedData
 				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
 			}
 			GameObject tGameObjectToSpawn = new GameObject (sName);
-			rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
+			rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity> ();
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
@@ -82,12 +83,12 @@ namespace NetWorkedData
 		{
 			Statut = BTBOperationState.Start;
 			//callback error
-			NWDOperationResult tInfos = new NWDOperationResult();
+			NWDOperationResult tInfos = new NWDOperationResult ();
 			ProgressInvoke (0.0f, tInfos);
 
 			Statut = BTBOperationState.InProgress;
 			float tStart = Time.time;
-            BTBDebug.Log ("ExecuteAsync tStart = " + tStart.ToString ());
+			BTBDebug.Log ("ExecuteAsync tStart = " + tStart.ToString ());
 			// Put Sync in progress
 			// ParentQueue.SynchronizeInProgress = true;
 			// Send this operation in actual operation for this environment
@@ -102,31 +103,30 @@ namespace NetWorkedData
 			DataUploadPrepare ();
 			// I insert the data
 			WWWForm tWWWForm = InsertDataInRequest ();
-			using (Request = UnityWebRequest.Post (ServerBase(), tWWWForm)) {
-                //BTBDebug.Log ("URL : " + Request.url);
-                // I prepare the header 
-                // I put the header in my request
-                InsertHeaderInRequest();
+			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm)) {
+				//BTBDebug.Log ("URL : " + Request.url);
+				// I prepare the header 
+				// I put the header in my request
+				InsertHeaderInRequest ();
 				//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("header inserted", this));
 				// I send the data
 				Request.Send ();
-                BTBDebug.Log ("Request URL " + Request.url);
-				while (!Request.isDone) 
-				{
-                    //BTBDebug.Log ("Inside waiting loop, updating progress");
-                    Statut = BTBOperationState.InProgress;
-                    NWDOperationResult tInfosProgress = new NWDOperationResult();
+				BTBDebug.Log ("Request URL " + Request.url);
+				while (!Request.isDone) {
+					//BTBDebug.Log ("Inside waiting loop, updating progress");
+					Statut = BTBOperationState.InProgress;
+					NWDOperationResult tInfosProgress = new NWDOperationResult ();
 					ProgressInvoke (Request.downloadProgress, tInfosProgress);
 					if (Request.uploadProgress < 1.0f) {
-                        //BTBDebug.Log ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
-                        //BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("uploadProgress", this));
-                    }
-                    if (Request.downloadProgress < 1.0f) {
-                        //BTBDebug.Log ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
-                        //BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("downloadProgress", this));
-                    }
-                    if (Request.isDone == true) {
-                        BTBDebug.Log ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+						//BTBDebug.Log ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
+						//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("uploadProgress", this));
+					}
+					if (Request.downloadProgress < 1.0f) {
+						//BTBDebug.Log ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
+						//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("downloadProgress", this));
+					}
+					if (Request.isDone == true) {
+						BTBDebug.Log ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
 					}
 					#if UNITY_EDITOR
 					yield return null;
@@ -136,136 +136,110 @@ namespace NetWorkedData
 					#endif
 				}
 
-                BTBDebug.Log ("NWDOperationWebUnity Request isDone: " + Request.isDone);
-                if (Request.isNetworkError)
-                { // Error
-                    //BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
-                    Statut = BTBOperationState.Error;
-                    NWDOperationResult tInfosError = new NWDOperationResult(Request.error);
-                    FailInvoke(Request.downloadProgress, tInfosError);
-                }
-                else
-                { // Success
-                    //BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
-                    BTBDebug.Log("NWDOperationWebUnity text : " + Request.downloadHandler.text);
-                    Dictionary<string, object> tData = new Dictionary<string, object>();
-                    if (Request.downloadHandler.text.Equals(""))
-                    {
-                        Statut = BTBOperationState.Error;
-                        //BTBError tError = BTBErrorManager.ShareInstance().FindError("INN00");
-                        NWDOperationResult tInfosFail = new NWDOperationResult("INN00");
-                        FailInvoke(Request.downloadProgress, tInfosFail);
-                    }
-                    else
-                    {
-                        tData = Json.Deserialize(Request.downloadHandler.text) as Dictionary<string, object>;
+				BTBDebug.Log ("NWDOperationWebUnity Request isDone: " + Request.isDone);
+				if (Request.isNetworkError) { // Error
+					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
+					Statut = BTBOperationState.Error;
+					NWDOperationResult tInfosError = new NWDOperationResult (Request.error);
+					FailInvoke (Request.downloadProgress, tInfosError);
+				} else { // Success
+					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
+					BTBDebug.Log ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
+					Dictionary<string, object> tData = new Dictionary<string, object> ();
+					if (Request.downloadHandler.text.Equals ("")) {
+						Statut = BTBOperationState.Error;
+						//BTBError tError = BTBErrorManager.ShareInstance().FindError("INN00");
+						NWDOperationResult tInfosFail = new NWDOperationResult ("INN00");
+						FailInvoke (Request.downloadProgress, tInfosFail);
+					} else {
+						tData = Json.Deserialize (Request.downloadHandler.text) as Dictionary<string, object>;
 
-                        // verif Dico answer
-                        if (tData == null)
-                        {
-                            Statut = BTBOperationState.Error;
-                            NWDOperationResult tInfosFail = new NWDOperationResult("INN00");
-                            FailInvoke(Request.downloadProgress, tInfosFail);
-                        }
-                        else
-                        {
-                            NWDOperationResult tInfosResult = new NWDOperationResult(tData);
+						// verif Dico answer
+						if (tData == null) {
+							Statut = BTBOperationState.Error;
+							NWDOperationResult tInfosFail = new NWDOperationResult ("INN00");
+							FailInvoke (Request.downloadProgress, tInfosFail);
+						} else {
+							NWDOperationResult tInfosResult = new NWDOperationResult (tData);
 
-                            // memorize the token for next connexion
-                            if (!tInfosResult.token.Equals(""))
-                            {
-                                Environment.RequesToken = tInfosResult.token;
-                            }
+							// memorize the token for next connexion
+							if (!tInfosResult.token.Equals ("")) {
+								Environment.RequesToken = tInfosResult.token;
+							}
 
-                            // Check if error
-                            if (tInfosResult.isError)
-                            {
-                                Statut = BTBOperationState.Failed;
+							// Check if error
+							if (tInfosResult.isError) {
+								Statut = BTBOperationState.Failed;
 
-                                //TODO if error do something
+								//TODO if error do something
                                 
-                                FailInvoke(Request.downloadProgress, tInfosResult);
-                            }
-                            else
-                            {
-                                Statut = BTBOperationState.Success;
+								FailInvoke (Request.downloadProgress, tInfosResult);
+							} else {
+								Statut = BTBOperationState.Success;
 
-                                string tUUID = tInfosResult.uuid;
-                                if(!tUUID.Equals(""))
-                                {
-                                    Environment.PlayerAccountReference = tUUID;
-                                }
+								string tUUID = tInfosResult.uuid;
+								if (!tUUID.Equals ("")) {
+									Environment.PlayerAccountReference = tUUID;
+								}
 
-                                if (tInfosResult.isNewUser && tInfosResult.isUserTransfert)
-                                {
-                                    if (!tUUID.Equals(""))
-                                    {
-                                        NWDDataManager.SharedInstance.ChangeAllDatasForUserToAnotherUser(Environment, tUUID);
-                                    }
-                                }
-
-                                if (tInfosResult.isSignUpdate)
-                                {
-                                    Environment.PlayerStatut = tInfosResult.sign;
-                                    if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Unknow)
-                                    {
-										//Nothing to do
+								if (tInfosResult.isNewUser && tInfosResult.isUserTransfert) {
+									if (!tUUID.Equals ("")) {
+										NWDDataManager.SharedInstance.ChangeAllDatasForUserToAnotherUser (Environment, tUUID);
 									}
-									else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Anonymous)
-									{
-                                        if (!tUUID.Equals(""))
-                                        {
-                                            Environment.AnonymousPlayerAccountReference = tUUID;
-                                        }
-                                        if (!tInfosResult.signkey.Equals(""))
-                                        {
-                                            Environment.AnonymousResetPassword = tInfosResult.signkey;
-                                        }
-                                    }
-									else if (tInfosResult.sign != NWDAppEnvironmentPlayerStatut.Temporary)
-									{
-										if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
-                                        {
+								}
+
+								if (tInfosResult.isSignUpdate) {
+									Environment.PlayerStatut = tInfosResult.sign;
+									if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Unknow) {
+										//Nothing to do
+									} else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Anonymous) {
+										if (!tUUID.Equals ("")) {
+											Environment.AnonymousPlayerAccountReference = tUUID;
+										}
+										if (!tInfosResult.signkey.Equals ("")) {
+											Environment.AnonymousResetPassword = tInfosResult.signkey;
+										}
+									} else if (tInfosResult.sign != NWDAppEnvironmentPlayerStatut.Temporary) {
+										if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference) {
 											//Using signed account as anonymous account = reset!
 											Environment.ResetAnonymousSession ();
 										}
 									}
-                                }
+								}
 
-                                if (tInfosResult.isReloadingData)
-                                {
-                                    //TODO : need reload data
-                                }
+								if (tInfosResult.isReloadingData) {
+									//TODO : need reload data
+								}
 
-                                DataDownloadedCompute(tData);
+								DataDownloadedCompute (tData);
 
-                                SuccessInvoke(Request.downloadProgress, tInfosResult);
-                            }
-                        }
-                    }
-                }
+								SuccessInvoke (Request.downloadProgress, tInfosResult);
+							}
+						}
+					}
+				}
 
-                //Save preference localy
-                Environment.SavePreferences();
+				//Save preference localy
+				Environment.SavePreferences ();
 
-                float tEnd = Time.time;
+				float tEnd = Time.time;
 				float tDelta = tEnd - tStart;
-                BTBDebug.Log ("ExecuteAsync tEnd = " + tEnd.ToString ());
-                BTBDebug.Log ("ExecuteAsync tDelta = " + tDelta.ToString ());
-				Finish();
+				BTBDebug.Log ("ExecuteAsync tEnd = " + tEnd.ToString ());
+				BTBDebug.Log ("ExecuteAsync tDelta = " + tDelta.ToString ());
+				Finish ();
 			}
 		}
 
 		public override void Cancel ()
 		{
-            BTBDebug.Log ("NWDOperationWebUnity Cancel");
+			BTBDebug.Log ("NWDOperationWebUnity Cancel");
 			this.Statut = BTBOperationState.Cancel;
 			if (Request != null) {
 				Request.Abort ();
 				// risk of token lost integrity : operation reconnect ?
 			}
 
-            NWDOperationResult tInfosCancel = new NWDOperationResult();
+			NWDOperationResult tInfosCancel = new NWDOperationResult ();
 			CancelInvoke (Request.downloadProgress, tInfosCancel);
 
 			IsFinish = true;
@@ -274,7 +248,7 @@ namespace NetWorkedData
 
 		public override void Finish ()
 		{
-            BTBDebug.Log ("NWDOperationWebUnity Finish");
+			BTBDebug.Log ("NWDOperationWebUnity Finish");
 
 			this.Statut = BTBOperationState.Finish;
 			IsFinish = true;
@@ -291,18 +265,18 @@ namespace NetWorkedData
 			Destroy (GameObjectToSpawn);
 			BTBDebug.Log("BTBOperation Destroy ");
 #endif
-        }
+		}
 
-        static string OSKey = "os";
+		static string OSKey = "os";
 		static string LangKey = "lang";
 		static string VersionKey = "version";
 		static string UUIDKey = "uuid";
 		static string RequestTokenKey = "token";
 		static string HashKey = "hash";
 
-#if UNITY_EDITOR
+		#if UNITY_EDITOR
 		static string AdminHashKey = "adminHash";
-#endif
+		#endif
 
 		public string OS;
 		public string Lang;
@@ -326,21 +300,21 @@ namespace NetWorkedData
 #if UNITY_EDITOR
 			OS = "editor";
 #else
-    #if UNITY_ANDROID
+			#if UNITY_ANDROID
 			    OS = "android";
-    #elif UNITY_IOS
+			#elif UNITY_IOS
 			    OS = "ios";
-    #elif UNITY_STANDALONE_OSX
+			#elif UNITY_STANDALONE_OSX
 			    OS = "osx";
-    #elif UNITY_WP8
+			#elif UNITY_WP8
 			    OS = "wp8";
-    #elif UNITY_WINRT
+			#elif UNITY_WINRT
 			    OS = "win";
-    #else
+			#else
 			    OS = "unity";
-    #endif
+			#endif
 #endif
-            Lang = NWDDataManager.SharedInstance.PlayerLanguage;
+			Lang = NWDDataManager.SharedInstance.PlayerLanguage;
 			// insert value in header dico
 			tHeaderParams.Add (UUIDKey, UUID);
 			tHeaderParams.Add (RequestTokenKey, RequestToken);
@@ -349,9 +323,9 @@ namespace NetWorkedData
 			tHeaderParams.Add (LangKey, Lang);
 			// create hash security
 			string tHashValue = string.Format ("{0}{1}{2}{3}{4}{5}", OS, Version, Lang,
-                                    NWDToolbox.GenerateSALT(Environment.SaltFrequency),
+				                    NWDToolbox.GenerateSALT (Environment.SaltFrequency),
 				                    UUID, RequestToken);
-			tHeaderParams.Add (HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
+			tHeaderParams.Add (HashKey, BTBSecurityTools.GenerateSha (tHashValue, BTBSecurityShaTypeEnum.Sha1));
 			// add hash for admin
 			#if UNITY_EDITOR
 			tHeaderParams.Add (AdminHashKey, NWDToolbox.GenerateAdminHash (Environment.AdminKey, Environment.SaltFrequency));
@@ -383,10 +357,10 @@ namespace NetWorkedData
 				tParamKey = SecureKey;
 				tDigestKey = SecureDigestKey;
 				tParamValue = BTBSecurityTools.AddAes (Data, Environment.DataSHAPassword, Environment.DataSHAVector, BTBSecurityAesTypeEnum.Aes128);
-				tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+				tDigestValue = BTBSecurityTools.GenerateSha (Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
 			} else {
 				tParamValue = BTBSecurityTools.Base64Encode (Json.Serialize (Data));
-				tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+				tDigestValue = BTBSecurityTools.GenerateSha (Environment.SaltStart + tParamValue + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
 			}
 			tBodyData.AddField (tParamKey, tParamValue);
 			tBodyData.AddField (tDigestKey, tDigestValue);
@@ -395,3 +369,4 @@ namespace NetWorkedData
 		}
 	}
 }
+//=====================================================================================================================

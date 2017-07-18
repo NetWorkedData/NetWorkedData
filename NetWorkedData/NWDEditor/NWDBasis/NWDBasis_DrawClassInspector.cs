@@ -14,6 +14,7 @@ using UnityEditor;
 using SQLite4Unity3d;
 using System.IO;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
@@ -164,3 +165,4 @@ namespace NetWorkedData
 		#endif
 	}
 }
+//=====================================================================================================================

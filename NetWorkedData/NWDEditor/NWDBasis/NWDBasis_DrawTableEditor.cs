@@ -17,6 +17,7 @@ using UnityEditor;
 using SQLite4Unity3d;
 using System.IO;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
@@ -195,9 +196,14 @@ namespace NetWorkedData
 			//m_ItemList.Count
 
 			// EVENT USE
+			bool tSelectAndClick = false;
 			Vector2 tMousePosition = new Vector2 (-200, -200);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0) {
 				tMousePosition = Event.current.mousePosition;
+				if (Event.current.alt == true) {
+					BTBDebug.LogVerbose ("alt and select", BTBDebugResult.Success);
+					tSelectAndClick = true;
+				}
 			}
 
 			//
@@ -310,7 +316,7 @@ namespace NetWorkedData
 					if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0) {
 						NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
 						if (tObject != null) {
-							tObject.DrawRowInEditor (tMousePosition, sEditorWindow);
+							tObject.DrawRowInEditor (tMousePosition, sEditorWindow, tSelectAndClick);
 						}
 					}
 				}
@@ -699,3 +705,4 @@ namespace NetWorkedData
 		#endif
 	}
 }
+//=====================================================================================================================

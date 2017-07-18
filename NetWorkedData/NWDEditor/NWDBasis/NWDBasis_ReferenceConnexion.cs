@@ -16,6 +16,7 @@ using System.IO;
 
 using BasicToolBox;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
@@ -322,3 +323,4 @@ namespace NetWorkedData
 		#endif
 	}
 }
+//=====================================================================================================================

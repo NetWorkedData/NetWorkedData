@@ -1,7 +1,4 @@
-﻿/// <summary>
-/// NWD app environment player statut.
-/// </summary>
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 

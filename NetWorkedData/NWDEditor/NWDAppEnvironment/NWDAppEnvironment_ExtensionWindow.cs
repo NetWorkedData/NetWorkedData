@@ -33,19 +33,9 @@ namespace NetWorkedData
 		public void DrawInEditor ()
 		{
 			// TODO use NWDConstants for these strings
-			// TODO GUI without layout
+			// TODO use GUI without layout
 			EditorGUILayout.BeginVertical (GUILayout.Width(300.0f));
-			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connexion with server", MessageType.None);	
-//			EditorGUILayout.TextField ("Environment folder name for "+ Environment, EditorStyles.boldLabel);
-//			Environment = EditorGUILayout.TextField ("Environment", Environment);
-//			EditorGUILayout.TextField ("Versions of general compilation for "+ Environment, EditorStyles.boldLabel);
-//			Version = EditorGUILayout.TextField ("Global Version X.X.X", Version);
-//			EditorGUILayout.TextField ("Versions of app compilation"+ Environment, EditorStyles.boldLabel);
-//			VersionRequiredIOS = EditorGUILayout.TextField ("Version specific for IOS X.X.X", VersionRequiredIOS);
-//			VersionRequiredMacOSX = EditorGUILayout.TextField ("Version specific for MacOSX X.X.X", VersionRequiredMacOSX);
-//			VersionRequiredAndroid = EditorGUILayout.TextField ("Version specific for Android X.X.X", VersionRequiredAndroid);
-//			VersionRequiredWindows = EditorGUILayout.TextField ("Version specific for Windows X.X.X", VersionRequiredWindows);
-			//			VersionRequiredWeb = EditorGUILayout.TextField ("Version specific for Web X.X.X", VersionRequiredWeb);
+			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connexion with server", MessageType.None);
 			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
 			AppName = EditorGUILayout.TextField ("AppName", AppName);
 			EditorGUILayout.TextField ("Security of Datas"+ Environment, EditorStyles.boldLabel);

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
     public class NWDOperationResult : BTBOperationResult
@@ -127,3 +128,4 @@ namespace NetWorkedData
         }
     }
 }
+//=====================================================================================================================

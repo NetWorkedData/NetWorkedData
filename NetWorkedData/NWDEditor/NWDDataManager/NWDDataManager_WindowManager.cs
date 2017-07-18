@@ -8,12 +8,14 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
+#if UNITY_EDITOR
+using UnityEditor;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial class NWDDataManager
 	{
-		#if UNITY_EDITOR
 		public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
 
 		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
@@ -60,6 +62,7 @@ namespace NetWorkedData
 				}
 			}
 		}
-		#endif
 	}
 }
+//=====================================================================================================================
+		#endif

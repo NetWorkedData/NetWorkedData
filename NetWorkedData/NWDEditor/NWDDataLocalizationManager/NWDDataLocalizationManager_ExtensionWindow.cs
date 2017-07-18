@@ -1,22 +1,15 @@
-﻿/// <summary>
-/// NWD app configuration.
-/// </summary>
-/// 
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial class NWDDataLocalizationManager
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// The scroll position.
@@ -82,8 +75,8 @@ namespace NetWorkedData
 			//GUILayout.Label (NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString, EditorStyles.label);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#endif
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================
+		#endif

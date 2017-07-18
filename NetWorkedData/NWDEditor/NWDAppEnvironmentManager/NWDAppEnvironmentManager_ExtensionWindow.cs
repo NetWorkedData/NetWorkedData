@@ -1,8 +1,4 @@
-﻿/// <summary>
-/// NWD app configuration.
-/// </summary>
-/// 
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +9,9 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	/// <summary>
+/// NWD app environment manager.
+/// </summary>
 	public partial class NWDAppEnvironmentManager
 	{
 		//-------------------------------------------------------------------------------------------------------------

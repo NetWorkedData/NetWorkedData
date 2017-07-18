@@ -232,12 +232,14 @@ namespace NetWorkedData
 				tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
 			}
 
+			bool tAutoselect = false;
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
 //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
 				tTabSelected++;
 				if (tTabSelected >= mTabList.Length) {
 					tTabSelected = 0;
 				}
+				tAutoselect = true;
 				Event.current.Use ();
 			}
 			// select the good class to show
@@ -251,7 +253,7 @@ namespace NetWorkedData
 			var tMethodInfo = tType.GetMethod("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tMethodInfo != null) {
 				//Debug.Log ("I AM FINDING THE DRAWING METHOD");
-				tMethodInfo.Invoke(null,new object[]{this});
+				tMethodInfo.Invoke(null,new object[]{this,tAutoselect});
 //				tMethodInfo.Invoke(null,null);
 			}
 

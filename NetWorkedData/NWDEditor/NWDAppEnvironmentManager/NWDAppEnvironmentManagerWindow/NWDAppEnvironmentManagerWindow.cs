@@ -1,7 +1,4 @@
-﻿/// <summary>
-/// NWD project window.
-/// </summary>
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +9,9 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	/// <summary>
+	/// NWD app environment manager window.
+	/// </summary>
 	public class NWDAppEnvironmentManagerWindow : NWDBasisWindow <NWDAppEnvironmentManagerWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------

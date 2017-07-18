@@ -20,15 +20,12 @@ namespace NetWorkedData
 	{
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Generates the C sharp file for all environments' restauration.
+		/// </summary>
+		/// <param name="sEnvironment">S environment.</param>
 		public void GenerateCSharpFile (NWDAppEnvironment sEnvironment)
 		{
-//			if (sPackage==true)
-//			{
-//				this.ProdEnvironment = new NWDAppEnvironment(NWDConstants.kPreProductionFolder, true);
-//				this.PreprodEnvironment = new NWDAppEnvironment(NWDConstants.kPreProductionFolder, false);
-//				this.DevEnvironment = new NWDAppEnvironment(NWDConstants.kDevelopmentFolder, false);
-//				this.IntegritySaltDictionary = new Dictionary<string, string>();
-//			}
 			string tEngineRootFolder = "Assets";
 			DateTime tTime = DateTime.UtcNow;
 			string tDateTimeString = tTime.ToString ("yyyy-MM-dd");

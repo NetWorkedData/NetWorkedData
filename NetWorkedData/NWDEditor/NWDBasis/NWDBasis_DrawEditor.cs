@@ -29,6 +29,16 @@ namespace NetWorkedData
 		static Color kIdentityColor = new Color (0.7f, 0.7f, 0.7f, 1.0f);
 		static Color kPropertyColor = new Color (0.8f, 0.8f, 0.8f, 1.0f);
 		//-------------------------------------------------------------------------------------------------------------
+
+		public static void SelectedFirstObjectInTable (EditorWindow sEditorWindow)
+		{
+			if (ObjectsInEditorTableList.Count > 0) {
+				string tNextReference = ObjectsInEditorTableList.ElementAt (0);
+				int tNextObjectIndex = ObjectsByReferenceList.IndexOf (tNextReference);
+				SetObjectInEdition (ObjectsList.ElementAt (tNextObjectIndex));
+				sEditorWindow.Focus ();
+			}
+		}
 		public static void SetObjectInEdition (object sObject)
 		{
 			

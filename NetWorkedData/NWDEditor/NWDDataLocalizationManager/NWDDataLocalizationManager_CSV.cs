@@ -8,14 +8,12 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial class NWDDataLocalizationManager
 	{
-		#if UNITY_EDITOR
-
 		public void ReOrderAllLocalizations ()
 		{
 			string tProgressBarTitle = "NetWorkedData Reorder localization";
@@ -93,6 +91,7 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.UpdateQueueExecute ();
 			}
 		}
-		#endif
 	}
 }
+//=====================================================================================================================
+#endif

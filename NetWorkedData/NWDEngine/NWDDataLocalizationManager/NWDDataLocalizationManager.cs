@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial class NWDDataLocalizationManager
@@ -59,3 +60,4 @@ namespace NetWorkedData
 		}
 	}
 }
+//=====================================================================================================================

@@ -8,6 +8,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public class NWDDataInspector : EditorWindow
@@ -102,4 +103,5 @@ namespace NetWorkedData
 		}
 	}
 }
+//=====================================================================================================================
 #endif

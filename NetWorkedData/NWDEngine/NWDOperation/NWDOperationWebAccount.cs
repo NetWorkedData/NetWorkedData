@@ -17,6 +17,7 @@ using SQLite4Unity3d;
 
 using BasicToolBox;
 
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public class NWDOperationWebAccount : NWDOperationWebUnity
@@ -228,3 +229,4 @@ namespace NetWorkedData
 		}
 	}
 }
+//=====================================================================================================================

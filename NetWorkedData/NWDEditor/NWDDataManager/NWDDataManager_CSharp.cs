@@ -2,23 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Reflection;
+
+using SQLite4Unity3d;
 
 using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
 
-using System.IO;
-
-using SQLite4Unity3d;
-
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	public partial class NWDDataManager
 	{
-		#if UNITY_EDITOR
 		public void CreateCShapAllClass () {
 			//Debug.Log ("CreateCShapAllClass");
 			string tProgressBarTitle = "NetWorkedData Create all C# files";
@@ -40,6 +38,7 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}
-		#endif
 	}
 }
+//=====================================================================================================================
+#endif

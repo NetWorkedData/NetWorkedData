@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 
 using UnityEngine;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -193,7 +194,7 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Rect DrawRowInEditor (Vector2 sMouseClickPosition, EditorWindow sEditorWindow)
+		public Rect DrawRowInEditor (Vector2 sMouseClickPosition, EditorWindow sEditorWindow, bool sSelectAndClick)
 		{
 			// start line
 			GUILayout.Space(kRowHeightSpace);
@@ -210,7 +211,13 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.UpdateQueueExecute();
 				GUI.FocusControl (null);
 				SetObjectInEdition (this);
-				//TODO: reselect this window
+				if (sSelectAndClick==true) {
+					if (XX == 0 && TestIntegrity ()) {
+						int tIndex = ObjectsByReferenceList.IndexOf (Reference);
+						ObjectsInEditorTableSelectionList [tIndex] = !ObjectsInEditorTableSelectionList [tIndex];
+						Event.current.Use ();
+					}
+				}
 				sEditorWindow.Focus ();
 			}
 			// check if object is in edition and draw color rect overlay

@@ -1,7 +1,4 @@
-﻿/// <summary>
-/// NWD internal key not editable attribute.
-/// </summary>
-using System;
+﻿using System;
 using System.Reflection;
 
 //=====================================================================================================================

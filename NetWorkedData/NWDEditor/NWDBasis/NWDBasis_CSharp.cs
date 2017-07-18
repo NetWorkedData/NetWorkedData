@@ -47,16 +47,16 @@ namespace NetWorkedData
 			List<string> tAccountAnalzeANDList = new List<string> ();
 			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tProp.PropertyType;
-//				Debug.Log ("tTypeOfThis = " + tTypeOfThis.Name);	
+//				BTBDebug.LogVerbose ("tTypeOfThis = " + tTypeOfThis.Name);	
 				if (tTypeOfThis != null) {
-					//Debug.Log ("tTypeOfThis not null = " + tTypeOfThis.Name + " for " + tProp.Name);
+					//BTBDebug.LogVerbose ("tTypeOfThis not null = " + tTypeOfThis.Name + " for " + tProp.Name);
 					if (tTypeOfThis.IsGenericType) {
-						//Debug.Log ("tTypeOfThis IsGenericTypeDefinition");
+						//BTBDebug.LogVerbose ("tTypeOfThis IsGenericTypeDefinition");
 						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
 							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-							//Debug.Log ("tTypeOfThis = " + tTypeOfThis.Name + " tSubType = " + tSubType.Name);
+							//BTBDebug.LogVerbose ("tTypeOfThis = " + tTypeOfThis.Name + " tSubType = " + tSubType.Name);
 							if (tSubType == typeof(NWDAccount)) {
-								//Debug.Log ("tAccountAnalzeList ADDDDDDD");
+								//BTBDebug.LogVerbose ("tAccountAnalzeList ADDDDDDD");
 								tAccountReferenceList.Add (tProp.Name);
 								tAccountAnalzeANDList.Add ("tObject." + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
 								tAccountAnalzeList.Add ("" + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
@@ -66,33 +66,9 @@ namespace NetWorkedData
 								tAccountPropertyName = tProp.Name;
 							}
 						} 
-//						else if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)) {
-//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-//							if (tSubType == typeof(NWDAccount)) {
-//								tAccountReferenceList.Add (tProp.Name);
-//								tAccountAnalzeANDList.Add ("tObject." + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
-//								tAccountAnalzeList.Add ("" + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
-//								tAccountConnected = "true";
-//								tAccountUsed = true;
-//								tLockedObject = "false";
-//							}
-//						}
 					}
 				}
-//
-//				if (tProp.GetCustomAttributes (typeof(NWDReferenceAttribute), true).Length > 0) {
-//					NWDReferenceAttribute tReference = (NWDReferenceAttribute)tProp.GetCustomAttributes (typeof(NWDReferenceAttribute), true) [0];
-//					if (tReference.mClass == typeof(NWDAccount)) {
-//						tAccountReferenceList.Add (tProp.Name);
-//						tAccountAnalzeList.Add ("tObject." + tProp.Name + " == NWDDataManager.SharedInstance.PlayerAccountUUID");
-//					}
-//				} else if (tProp.GetCustomAttributes (typeof(NWDReferenceHashAttribute), true).Length > 0) {
-//					NWDReferenceHashAttribute tReference = (NWDReferenceHashAttribute)tProp.GetCustomAttributes (typeof(NWDReferenceHashAttribute), true) [0];
-//					if (tReference.mClass == typeof(NWDAccount)) {
-//						tAccountReferenceList.Add (tProp.Name);
-//						tAccountAnalzeList.Add ("tObject." + tProp.Name + " == NWDDataManager.SharedInstance.PlayerAccountUUID");
-//					}
-//				}
+
 			}
 			string tAccountAnalzeListString = "";
 			string tAccountAnalzeListANDString = "";
