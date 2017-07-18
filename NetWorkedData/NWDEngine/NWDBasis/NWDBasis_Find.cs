@@ -122,6 +122,22 @@ namespace NetWorkedData
 		#endregion
 
 		#region Static Get Object
+
+		public static NWDBasis<K> GetObjectByInternalKey (string sInternalKey)
+		{
+			NWDBasis<K> rObject = null;
+			foreach (NWDBasis<K> tObject in ObjectsList)
+			{
+				if (tObject.InternalKey == sInternalKey) {
+					rObject = tObject;
+					break;
+				}
+			}
+			return rObject;
+		}
+
+
+
 		public static NWDBasis<K> GetObjectByReference (string sReference)
 		{
 			NWDBasis<K> rObject = null;
