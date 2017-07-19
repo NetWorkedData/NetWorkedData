@@ -50,8 +50,9 @@ namespace NetWorkedData
 //			Debug.Log ("sPosition.width = " + sPosition.width);
 //			Debug.Log ("EditorGUIUtility.labelWidth = " + EditorGUIUtility.labelWidth);
 			float tWidth = sPosition.width - EditorGUIUtility.labelWidth;
-//			Debug.Log ("tWidth = " + tWidth);
-			tWidth = Mathf.Ceil ((tWidth - NWDConstants.kFieldMarge * 2) / 3.0f);
+			//			Debug.Log ("tWidth = " + tWidth);
+			int tNumberOfSubDivision = 3;
+			float tWidthSub = Mathf.Ceil ((tWidth - NWDConstants.kFieldMarge * (tNumberOfSubDivision-1)) / tNumberOfSubDivision);
 //			Debug.Log ("tWidth = " + tWidth);
 			//tWidth = 40.0f;
 			int tMajorIndex = 0;
@@ -69,11 +70,11 @@ namespace NetWorkedData
 					tBuildIndex = Array.IndexOf (NWDConstants.K_VERSION_BUILD_ARRAY, tValues [2]);
 				}
 			}
-			tMajorIndex = EditorGUI.Popup (new Rect (sPosition.x, sPosition.y, sPosition.width - tWidth * 2 - NWDConstants.kFieldMarge * 2, sPosition.height),
+			tMajorIndex = EditorGUI.Popup (new Rect (sPosition.x, sPosition.y, sPosition.width - tWidthSub * 2 - NWDConstants.kFieldMarge * 2, sPosition.height),
 				sEntitled, tMajorIndex, NWDConstants.K_VERSION_MAJOR_ARRAY);
-			tMinorIndex = EditorGUI.Popup (new Rect (sPosition.width - tWidth * 2, sPosition.y, tWidth, sPosition.height),
+			tMinorIndex = EditorGUI.Popup (new Rect (sPosition.width - tWidthSub * 2, sPosition.y, tWidthSub, sPosition.height),
 				tMinorIndex, NWDConstants.K_VERSION_MINOR_ARRAY);
-			tBuildIndex = EditorGUI.Popup (new Rect (sPosition.width - tWidth + NWDConstants.kFieldMarge, sPosition.y, tWidth, sPosition.height),
+			tBuildIndex = EditorGUI.Popup (new Rect (sPosition.width - tWidthSub + NWDConstants.kFieldMarge, sPosition.y, tWidthSub, sPosition.height),
 				tBuildIndex, NWDConstants.K_VERSION_BUILD_ARRAY);
 			tTemporary.Value = NWDConstants.K_VERSION_MAJOR_ARRAY [tMajorIndex] + "." + NWDConstants.K_VERSION_MINOR_ARRAY [tMinorIndex] + "." + NWDConstants.K_VERSION_BUILD_ARRAY [tBuildIndex];
 			return tTemporary;

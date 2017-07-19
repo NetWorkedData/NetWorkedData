@@ -250,7 +250,9 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-			float tWidthSub = (tWidth-16) / 3.0F;
+
+			int tNumberOfSubDivision = 3;
+			float tWidthSub = Mathf.Ceil ((tWidth - NWDConstants.kFieldMarge * (tNumberOfSubDivision-1)) / tNumberOfSubDivision);
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);

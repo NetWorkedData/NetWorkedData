@@ -69,6 +69,65 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public Dictionary<string,string> GetDictionary ()
+		{
+			Dictionary<string,string> tResult = new Dictionary<string,string> ();
+			if (Value != null && Value != "") {
+				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (string tValue in tValueArray) {
+					string[] tLineValue = tValue.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+					if (tLineValue.Length == 2) {
+						tResult.Add (tLineValue [0], tLineValue [1]);
+					}
+				}
+			}
+			return tResult;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetDictionary (Dictionary<string,string> sDictionary)
+		{
+			sDictionary.Remove ("-"); // remove default value
+			sDictionary.Remove (""); // remove empty value
+			List<string> tValueNextList = new List<string> ();
+			foreach (KeyValuePair<string,string> tKeyValue in sDictionary) {
+				tValueNextList.Add (tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value);
+			}
+			string[] tNextValueArray = tValueNextList.Distinct ().ToArray ();
+			string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
+			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
+			if (tNextValue == NWDConstants.kFieldSeparatorB) {
+				tNextValue = "";
+			}
+			Value = tNextValue;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void AddValue (string sKey, string sValue)
+		{
+			Dictionary<string,string> tResult = GetDictionary ();
+			if (sValue != null) {
+				tResult.Add (sKey, sValue);
+			} else {
+				if (tResult.ContainsKey (sKey)) {
+					tResult.Remove (sKey);
+				}
+			}
+			SetDictionary (tResult);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void RemoveValue (string sKey)
+		{
+			Dictionary<string,string> tDictionary = GetDictionary ();
+			if (tDictionary.ContainsKey (sKey)) {
+				tDictionary.Remove (sKey);
+			}
+			SetDictionary (tDictionary);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void RemoveAllValues ()
+		{
+			Value = "";
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
 	}

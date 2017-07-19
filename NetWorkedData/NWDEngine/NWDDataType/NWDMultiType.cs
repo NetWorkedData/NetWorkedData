@@ -85,7 +85,6 @@ namespace NetWorkedData
 			Value = sValue.ToString();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		static Color kToColorDefault = Color.white;
 		public Color ToColor(Color sDefault)
 		{
 			Color rReturn = new Color (sDefault.r, sDefault.g, sDefault.b, sDefault.a);
