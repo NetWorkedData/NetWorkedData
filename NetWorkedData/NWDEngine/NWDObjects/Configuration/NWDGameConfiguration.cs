@@ -54,7 +54,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static string GetLocalString (string sKey, string sDefault="")
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey);
+			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
 			string rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueString.GetLocalString ();
@@ -70,7 +70,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static int GetInt (string sKey, int sDefault=0)
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey);
+			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
 			int rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueInt;
@@ -86,7 +86,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">If set to <c>true</c> default value.</param>
 		public static bool GetBool (string sKey, bool sDefault=false)
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey);
+			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
 			bool rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueBool;
@@ -102,7 +102,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static float GetFloat (string sKey, float sDefault=0.0F)
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey);
+			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
 			float rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueFloat;

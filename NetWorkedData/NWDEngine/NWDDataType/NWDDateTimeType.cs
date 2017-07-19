@@ -39,9 +39,16 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Time ToTime ()
+		public void SetDateTime (DateTime sDatetime)
 		{
-			return new Time ();
+			Value = sDatetime.ToString ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public DateTime ToDateTime ()
+		{
+			DateTime rReturn = new DateTime (); 
+			DateTime.TryParse (Value, out rReturn);
+			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR

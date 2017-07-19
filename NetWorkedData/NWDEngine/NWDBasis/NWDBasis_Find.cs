@@ -129,8 +129,11 @@ namespace NetWorkedData
 			foreach (NWDBasis<K> tObject in ObjectsList)
 			{
 				if (tObject.InternalKey == sInternalKey) {
+					if (tObject.IsAccountConnected (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
+					{
 					rObject = tObject;
 					break;
+					}
 				}
 			}
 			return rObject;
