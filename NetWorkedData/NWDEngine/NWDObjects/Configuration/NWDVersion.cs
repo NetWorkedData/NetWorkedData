@@ -20,14 +20,14 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("GVA")]
-	[NWDClassDescriptionAttribute ("Game's Version App descriptions Class")]
-	[NWDClassMenuNameAttribute ("Game's Version App")]
+	[NWDClassTrigrammeAttribute ("VRS")]
+	[NWDClassDescriptionAttribute ("Version of game descriptions Class")]
+	[NWDClassMenuNameAttribute ("Version")]
 	[NWDInternalKeyNotEditableAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDPackageClassAttribute]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDGameVersion : NWDBasis<NWDGameVersion>
+	public partial class NWDVersion : NWDBasis<NWDVersion>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }
@@ -47,7 +47,7 @@ namespace NetWorkedData
 		public string AppleStoreURL { get; set; }
 		public string GooglePlayURL { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDGameVersion()
+		public NWDVersion()
 		{
 			//Init your instance here
 			//DiscoverItYourSelf = true;
@@ -62,7 +62,7 @@ namespace NetWorkedData
 			string tVersionString = "0.00.00";
 			int tVersionInt = 0;
 			int.TryParse (tVersionString.Replace(".",""), out tVersionInt);
-			foreach (NWDGameVersion tGameVersionObject in NWDGameVersion.ObjectsList)
+			foreach (NWDVersion tGameVersionObject in NWDVersion.ObjectsList)
 			{
 				if (tGameVersionObject.TestIntegrity () == true  && tGameVersionObject.AC == true && tGameVersionObject.BuildActive == true) 
 				{
@@ -96,8 +96,8 @@ namespace NetWorkedData
 			string tVersionString = "0.00.00";
 			int tVersionInt = 0;
 			int.TryParse (tVersionString.Replace(".",""), out tVersionInt);
-			NWDGameVersion tLastGameVersionObject = null;
-			foreach (NWDGameVersion tGameVersionObject in NWDGameVersion.ObjectsList)
+			NWDVersion tLastGameVersionObject = null;
+			foreach (NWDVersion tGameVersionObject in NWDVersion.ObjectsList)
 			{
 				if (tGameVersionObject.TestIntegrity () == true  && tGameVersionObject.AC == true && tGameVersionObject.BuildActive == true) 
 				{
@@ -139,14 +139,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Updated ()
 		{
-			NWDGameVersion.UpdateVersionBundle ();
-			NWDDataManager.SharedInstance.RepaintWindowsInManager (typeof(NWDGameVersion));
+			NWDVersion.UpdateVersionBundle ();
+			NWDDataManager.SharedInstance.RepaintWindowsInManager (typeof(NWDVersion));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditor (Rect sInRect)
 		{
 			// force update 
-			NWDGameVersion.UpdateVersionBundle ();
+			NWDVersion.UpdateVersionBundle ();
 			// show editor add-on
 			float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
 			float tX = sInRect.position.x + NWDConstants.kFieldMarge;
@@ -162,7 +162,7 @@ namespace NetWorkedData
 			// darw information about actual bundle 
 			EditorGUI.BeginDisabledGroup (true);
 
-			EditorGUI.DrawRect (new Rect (tX, tY+tYadd, tWidth, 1), NWDGameVersion.kRowColorLine);
+			EditorGUI.DrawRect (new Rect (tX, tY+tYadd, tWidth, 1), NWDVersion.kRowColorLine);
 			tYadd += NWDConstants.kFieldMarge;
 
 			GUI.Label(new Rect (tX, tY+tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environement selected to build", EditorStyles.boldLabel);
@@ -174,7 +174,7 @@ namespace NetWorkedData
 			EditorGUI.LabelField (new Rect (tX, tY+tYadd, tWidth, tTextFieldStyle.fixedHeight), "Version", PlayerSettings.bundleVersion);
 			tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			EditorGUI.DrawRect (new Rect (tX, tY+tYadd, tWidth, 1), NWDGameVersion.kRowColorLine);
+			EditorGUI.DrawRect (new Rect (tX, tY+tYadd, tWidth, 1), NWDVersion.kRowColorLine);
 			tYadd += NWDConstants.kFieldMarge;
 
 			EditorGUI.EndDisabledGroup ();

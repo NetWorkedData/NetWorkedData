@@ -70,7 +70,7 @@ namespace NetWorkedData
 					}
 					break;
 				}
-				NWDGameVersion.UpdateVersionBundle ();
+				NWDVersion.UpdateVersionBundle ();
 			}
 			// Show version selected
 			EditorGUILayout.LabelField ("Version bundle", PlayerSettings.bundleVersion, EditorStyles.label);

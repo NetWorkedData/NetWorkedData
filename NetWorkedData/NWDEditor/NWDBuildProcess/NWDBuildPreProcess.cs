@@ -40,7 +40,7 @@ namespace NetWorkedData
 				NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = false;
 			}
 
-			NWDGameVersion.UpdateVersionBundle ();
+			NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

@@ -61,7 +61,7 @@ namespace NetWorkedData
 				TabSelected = tTabSelect;
 			}
 			//update the veriosn of Bundle
-			//NWDGameVersion.UpdateVersionBundle ();
+			//NWDVersion.UpdateVersionBundle ();
 			// Draw interface for environment selected inn scrollview
 			ScrollPosition = GUILayout.BeginScrollView (ScrollPosition, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (true), GUILayout.ExpandHeight (true));
 			switch (tTabSelect) {

@@ -201,7 +201,7 @@ namespace NetWorkedData
 			"if (!$tResult)\n" +
 			"{\n" +
 //						"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-			"error('" + tTrigramme + "01');\n" +
+			"error('" + tTrigramme + "x01');\n" +
 			"}\n" +
 //				"else\n" +
 //					"{\n" +
@@ -212,7 +212,7 @@ namespace NetWorkedData
 			//"if (!$tResult)\n" +
 			//"{\n" +
 //						"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-			//"error('" + tTrigramme + "02');\n" +
+			//"error('" + tTrigramme + "x02');\n" +
 			//"}\n" +
 //				"else\n" +
 //					"{\n" +
@@ -223,7 +223,7 @@ namespace NetWorkedData
 			//"if (!$tResult)\n" +
 			//"{\n" +
 //						"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-			//"error('" + tTrigramme + "03');\n" +
+			//"error('" + tTrigramme + "x03');\n" +
 			//"}\n" +
 //				"else\n" +
 //					"{\n" +
@@ -250,7 +250,7 @@ namespace NetWorkedData
 					//"if (!$tResult)\n" +
 					//"{\n" +
 						//"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-//						"error('" + tTrigramme + "11');\n" +
+//						"error('" + tTrigramme + "x11');\n" +
 					//"}\n" +
 					"";
 					tManagementFile +=
@@ -260,7 +260,7 @@ namespace NetWorkedData
 					//"if (!$tResult)\n" +
 					//"{\n" +
 //					"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-//					"error('" + tTrigramme + "12');\n" +
+//					"error('" + tTrigramme + "x12');\n" +
 					//"}\n" +
 					"";
 				}
@@ -331,7 +331,7 @@ namespace NetWorkedData
 					//"if (!$tRemoveIndexResult){};\n" +
 					//"{\n" +
 					//"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tRemoveIndexQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-					//	"error('" + tTrigramme + "04');\n" +
+					//	"error('" + tTrigramme + "x04');\n" +
 					//"}\n" +
 				"";
 				
@@ -344,7 +344,7 @@ namespace NetWorkedData
 				"if (!$tResult)\n" +
 				"{\n" +
 				"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-				"error('" + tTrigramme + "05');\n" +
+				"error('" + tTrigramme + "x05');\n" +
 				"}\n" +
 //				"else\n" +
 //					"{\n" +
@@ -364,7 +364,7 @@ namespace NetWorkedData
 			"if (!$tResult)\n" +
 			"{\n" +
 //							"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-			"error('" + tTrigramme + "07');\n" +
+			"error('" + tTrigramme + "x07');\n" +
 			"}\n" +
 //					"else\n" +
 //						"{\n" +
@@ -380,7 +380,7 @@ namespace NetWorkedData
 			"if (!$tResult)\n" +
 			"{\n" +
 //						"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-			"error('" + tTrigramme + "08');\n" +
+			"error('" + tTrigramme + "x08');\n" +
 			"}\n" +
 //				"else\n" +
 //					"{\n" +
@@ -396,7 +396,7 @@ namespace NetWorkedData
 			"if (!$tResult)\n" +
 			"{\n" +
 //						"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-			"error('" + tTrigramme + "09');\n" +
+			"error('" + tTrigramme + "x09');\n" +
 			"}\n" +
 //				"else\n" +
 //					"{\n" +
@@ -465,7 +465,7 @@ namespace NetWorkedData
 			                              "\t\tif ($tCalculate!=$tIntegrity)\n" +
 			                              "\t\t\t{\n" +
 			                              "\t\t\t\t$rReturn = false;\n" +
-			                              "\t\t\t\terror('" + tTrigramme + "88');\n" +
+			                              "\t\t\t\terror('" + tTrigramme + "x88');\n" +
 			                              "\t\t\t}\n" +
 			                              "\t\treturn $rReturn;\n" +
 			                              "\t}\n" +
@@ -498,7 +498,7 @@ namespace NetWorkedData
 			"\t\t$tResult = $SQL_CON->query($tQuery);\n" +
 			"\t\tif (!$tResult)\n" +
 			"\t\t\t{\n" +
-			"\t\t\t\terror('" + tTrigramme + "31');\n" +
+			"\t\t\t\terror('" + tTrigramme + "x31');\n" +
 			"\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 			"\t\t\t}\n" +
 			"\t\telse\n" +
@@ -518,7 +518,7 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
 			"\t\t\t\t\t\tif (!$tUpdateResult)\n" +
 			"\t\t\t\t\t\t\t{\n" +
-			"\t\t\t\t\t\t\t\terror('" + tTrigramme + "91');\n" +
+			"\t\t\t\t\t\t\t\terror('" + tTrigramme + "x91');\n" +
 			"\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 			"\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t}\n" +
@@ -558,7 +558,7 @@ namespace NetWorkedData
 			"\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
 			"\t\t\t\tif (!$tResult)\n" +
 			"\t\t\t\t\t{\n" +
-			"\t\t\t\t\t\terror('" + tTrigramme + "31');\n" +
+			"\t\t\t\t\t\terror('" + tTrigramme + "x31');\n" +
 			"\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 			"\t\t\t\t\t}\n" +
 			"\t\t\t\telse\n" +
@@ -571,7 +571,7 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t\t\t\t\t$tInsertResult = $SQL_CON->query($tInsert);\n" +
 			"\t\t\t\t\t\t\t\t\t\tif (!$tInsertResult)\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t{\n" +
-			"\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "32');\n" +
+			"\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x32');\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tInsertResult.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\t\t\t\t}\n" +
@@ -594,14 +594,14 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
 			"\t\t\t\t\t\t\t\t\t\tif (!$tUpdateResult)\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t{\n " +
-			"\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "38');\n" +
+			"\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x38');\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\telse\n" +
 			"\t\t\t\t\t\t\t{\n" +
-			"\t\t\t\t\t\t\t\terror('" + tTrigramme + "39');\n" +
+			"\t\t\t\t\t\t\t\terror('" + tTrigramme + "x39');\n" +
 			"\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\tmysqli_free_result($tResult);\n" +
 			"\t\t\t\t\t}\n" +
@@ -635,7 +635,7 @@ namespace NetWorkedData
 			tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
 			"\t\tif (!$tResult)\n" +
 			"\t\t\t{\n" +
-			"\t\t\t\terror('" + tTrigramme + "33');" +
+			"\t\t\t\terror('" + tTrigramme + "x33');" +
 			"\t\t\t}\n" +
 			"\t\telse\n" +
 			"\t\t\t{\n" +

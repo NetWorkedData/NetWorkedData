@@ -9,16 +9,16 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("GCF")]
-	[NWDClassDescriptionAttribute ("Game's Configurations descriptions Class")]
-	[NWDClassMenuNameAttribute ("Game's Configurations")]
+	[NWDClassTrigrammeAttribute ("CNF")]
+	[NWDClassDescriptionAttribute ("Configurations of game descriptions Class")]
+	[NWDClassMenuNameAttribute ("Configurations")]
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDPackageClassAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// NWD game configuration.
 	/// </summary>
-	public partial class NWDGameConfiguration : NWDBasis <NWDGameConfiguration>
+	public partial class NWDConfiguration : NWDBasis <NWDConfiguration>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -32,7 +32,7 @@ namespace NetWorkedData
 		/// <value>The value int.</value>
 		public int ValueInt { get; set; }
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NetWorkedData.NWDGameConfiguration"/> value bool.
+		/// Gets or sets a value indicating whether this <see cref="NetWorkedData.NWDConfiguration"/> value bool.
 		/// </summary>
 		/// <value><c>true</c> if value bool; otherwise, <c>false</c>.</value>
 		public bool ValueBool { get; set; }
@@ -42,7 +42,7 @@ namespace NetWorkedData
 		/// <value>The value float.</value>
 		public float ValueFloat { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDGameConfiguration ()
+		public NWDConfiguration ()
 		{
 			//Init your instance here
 			//DiscoverItYourSelf = true;
@@ -56,7 +56,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static string GetLocalString (string sKey, string sDefault="")
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
 			string rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueString.GetLocalString ();
@@ -72,7 +72,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static int GetInt (string sKey, int sDefault=0)
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
 			int rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueInt;
@@ -88,7 +88,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">If set to <c>true</c> default value.</param>
 		public static bool GetBool (string sKey, bool sDefault=false)
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
 			bool rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueBool;
@@ -104,7 +104,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static float GetFloat (string sKey, float sDefault=0.0F)
 		{
-			NWDGameConfiguration tObject = NWDBasis<NWDGameConfiguration>.GetObjectByInternalKey (sKey) as NWDGameConfiguration;
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
 			float rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueFloat;

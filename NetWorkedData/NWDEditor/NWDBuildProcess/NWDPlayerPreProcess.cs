@@ -18,7 +18,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void PlayModeCallback () {
 			BTBDebug.Log("Player State Changed!");
-			NWDGameVersion.UpdateVersionBundle ();
+			NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

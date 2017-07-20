@@ -15,7 +15,7 @@ namespace NetWorkedData
 		"User management … ",
 		new Type[] {
 			typeof(NWDAccount),
-			//typeof(NWDRequestToken),
+//			typeof(NWDRequestToken),
 			typeof(NWDPreferences),
 			typeof(NWDOwnership),
 			/* Add NWDBasis here*/

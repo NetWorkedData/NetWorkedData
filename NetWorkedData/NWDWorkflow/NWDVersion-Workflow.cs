@@ -21,21 +21,21 @@ namespace NetWorkedData
 	// CONNEXION STRUCTURE METHODS
 	//-------------------- 
 	[Serializable]
-	public struct NWDGameVersionConnexion
+	public struct NWDVersionConnexion
 	{
 		[SerializeField]
 		public string Reference;
-		public NWDGameVersion GetObject ()
+		public NWDVersion GetObject ()
 		{
-			return NWDGameVersion.GetObjectWithReference (Reference);
+			return NWDVersion.GetObjectWithReference (Reference);
 		}
-		public void SetObject (NWDGameVersion sObject)
+		public void SetObject (NWDVersion sObject)
 		{
 			Reference = sObject.Reference;
 		}
-		public NWDGameVersion NewObject ()
+		public NWDVersion NewObject ()
 		{
-			NWDGameVersion tObject = NWDGameVersion.NewObject ();
+			NWDVersion tObject = NWDVersion.NewObject ();
 			Reference = tObject.Reference;
 			return tObject;
 		}
@@ -43,16 +43,16 @@ namespace NetWorkedData
 	//-------------------- 
 	// CONNEXION METHODS
 	//-------------------- 
-	public class NWDGameVersionConnexionAttribut : PropertyAttribute
+	public class NWDVersionConnexionAttribut : PropertyAttribute
 	{
 		public bool ShowInspector = true;
 		public bool Editable = false;
 		public bool EditButton = true;
 		public bool NewButton = true;
-		public NWDGameVersionConnexionAttribut ()
+		public NWDVersionConnexionAttribut ()
 		{
 		}
-		public NWDGameVersionConnexionAttribut (bool sShowInspector, bool sEditable, bool sEditButton, bool sNewButton)
+		public NWDVersionConnexionAttribut (bool sShowInspector, bool sEditable, bool sEditButton, bool sNewButton)
 		{
 			ShowInspector = sShowInspector;
 			Editable = sEditable;
@@ -65,33 +65,33 @@ namespace NetWorkedData
 	// CUSTOM PROPERTY DRAWER METHODS
 	//-------------------- 
 	#if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof(NWDGameVersionConnexion))]
-	public partial class NWDGameVersionConnexionDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof(NWDVersionConnexion))]
+	public partial class NWDVersionConnexionDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			NWDGameVersionConnexionAttribut tReferenceConnexion = new NWDGameVersionConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDGameVersionConnexionAttribut), true).Length > 0)
+			NWDVersionConnexionAttribut tReferenceConnexion = new NWDVersionConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDVersionConnexionAttribut), true).Length > 0)
 			{
-				tReferenceConnexion = (NWDGameVersionConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDGameVersionConnexionAttribut), true)[0];
+				tReferenceConnexion = (NWDVersionConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDVersionConnexionAttribut), true)[0];
 			}
-			return NWDGameVersion.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDVersion.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
 		}
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			NWDGameVersionConnexionAttribut tReferenceConnexion = new NWDGameVersionConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDGameVersionConnexionAttribut), true).Length > 0)
+			NWDVersionConnexionAttribut tReferenceConnexion = new NWDVersionConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDVersionConnexionAttribut), true).Length > 0)
 				{
-					tReferenceConnexion = (NWDGameVersionConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDGameVersionConnexionAttribut), true)[0];
+					tReferenceConnexion = (NWDVersionConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDVersionConnexionAttribut), true)[0];
 				}
-			NWDGameVersion.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+			NWDVersion.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
 	}
 	#endif
 //-------------------- 
 // GENERAL METHODS
 //-------------------- 
-	public partial class NWDGameVersion : NWDBasis <NWDGameVersion>
+	public partial class NWDVersion : NWDBasis <NWDVersion>
 	{
 //-------------------- 
 		public override bool IsAccountDependent ()
@@ -117,9 +117,9 @@ namespace NetWorkedData
 			#endif
 		}
 //-------------------- 
-public static NWDGameVersion NewObject()
+public static NWDVersion NewObject()
 		{
-			NWDGameVersion rReturn = NWDGameVersion.NewInstance () as NWDGameVersion;
+			NWDVersion rReturn = NWDVersion.NewInstance () as NWDVersion;
 			return rReturn;
 		}
 //-------------------- 
@@ -131,10 +131,10 @@ public static NWDGameVersion NewObject()
 			AlertButtonOK = new NWDLocalizableStringType(); // normal type
 		}
 //-------------------- 
-    public static NWDGameVersion[] GetAllObjects()
+    public static NWDVersion[] GetAllObjects()
      {
-      List<NWDGameVersion> rReturn = new List<NWDGameVersion>();
-     foreach (NWDGameVersion tObject in NWDGameVersion.ObjectsList)
+      List<NWDVersion> rReturn = new List<NWDVersion>();
+     foreach (NWDVersion tObject in NWDVersion.ObjectsList)
       {
        if (tObject.Reference != null) {
            rReturn.Add(tObject);
@@ -143,10 +143,10 @@ public static NWDGameVersion NewObject()
       return rReturn.ToArray();
     }
 //-------------------- 
-    public static NWDGameVersion GetObjectWithReference(string sReference)
+    public static NWDVersion GetObjectWithReference(string sReference)
      {
-     NWDGameVersion rReturn = null;
-     foreach (NWDGameVersion tObject in NWDGameVersion.ObjectsList)
+     NWDVersion rReturn = null;
+     foreach (NWDVersion tObject in NWDVersion.ObjectsList)
       {
        if (tObject.Reference == sReference) {
        rReturn = tObject;
@@ -157,12 +157,12 @@ public static NWDGameVersion NewObject()
     }
 //-------------------- 
 
-    public static NWDGameVersion[] GetObjectsWithReferences(string[] sReferences)
+    public static NWDVersion[] GetObjectsWithReferences(string[] sReferences)
      {
-      List<NWDGameVersion> rReturn = new List<NWDGameVersion>();
+      List<NWDVersion> rReturn = new List<NWDVersion>();
       foreach(string tReference in sReferences)
        {
-         NWDGameVersion tObject = GetObjectWithReference(tReference);
+         NWDVersion tObject = GetObjectWithReference(tReference);
          if (tObject!=null)
           {
            rReturn.Add(tObject);
@@ -172,10 +172,10 @@ public static NWDGameVersion NewObject()
     }
 //-------------------- 
 
-    public static NWDGameVersion GetObjectWithInternalKey(string sInternalKey)
+    public static NWDVersion GetObjectWithInternalKey(string sInternalKey)
     {
-     NWDGameVersion rReturn = null;
-     foreach (NWDGameVersion tObject in NWDGameVersion.ObjectsList)
+     NWDVersion rReturn = null;
+     foreach (NWDVersion tObject in NWDVersion.ObjectsList)
       {
        if (tObject.InternalKey == sInternalKey)
        {
@@ -187,12 +187,12 @@ public static NWDGameVersion NewObject()
     }
 //-------------------- 
 
-    public static NWDGameVersion[] GetObjectsWithInternalKeys(string[] sInternalKeys)
+    public static NWDVersion[] GetObjectsWithInternalKeys(string[] sInternalKeys)
      {
-      List<NWDGameVersion> rReturn = new List<NWDGameVersion>();
+      List<NWDVersion> rReturn = new List<NWDVersion>();
       foreach(string tInternalKey in sInternalKeys)
        {
-         NWDGameVersion tObject = GetObjectWithInternalKey(tInternalKey);
+         NWDVersion tObject = GetObjectWithInternalKey(tInternalKey);
          if (tObject!=null)
           {
            rReturn.Add(tObject);
@@ -206,7 +206,7 @@ public static NWDGameVersion NewObject()
 //-------------------- 
     public static void TryToChangeUserForAllObjects (string sOldUser, string sNewUser)
     {
-     foreach (NWDGameVersion tObject in NWDGameVersion.ObjectsList)
+     foreach (NWDVersion tObject in NWDVersion.ObjectsList)
       {
        tObject.ChangeUser(sOldUser, sNewUser);      }
     }

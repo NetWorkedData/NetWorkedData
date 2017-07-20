@@ -62,7 +62,7 @@ namespace NetWorkedData
 			EditorGUILayout.TextField ("Admin Key for "+ Environment, EditorStyles.boldLabel);
 			AdminKey = EditorGUILayout.TextField ("AdminKey", AdminKey);
 			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
-			EditorGUILayout.LabelField ("version", NWDGameVersion.GetVersionForEnvironemt (this), EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("version", NWDVersion.GetVersionForEnvironemt (this), EditorStyles.boldLabel);
 			EditorGUILayout.EndVertical();
 			FormatVerification ();
 		}

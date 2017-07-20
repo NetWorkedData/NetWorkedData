@@ -21,21 +21,21 @@ namespace NetWorkedData
 	// CONNEXION STRUCTURE METHODS
 	//-------------------- 
 	[Serializable]
-	public struct NWDGameConfigurationConnexion
+	public struct NWDConfigurationConnexion
 	{
 		[SerializeField]
 		public string Reference;
-		public NWDGameConfiguration GetObject ()
+		public NWDConfiguration GetObject ()
 		{
-			return NWDGameConfiguration.GetObjectWithReference (Reference);
+			return NWDConfiguration.GetObjectWithReference (Reference);
 		}
-		public void SetObject (NWDGameConfiguration sObject)
+		public void SetObject (NWDConfiguration sObject)
 		{
 			Reference = sObject.Reference;
 		}
-		public NWDGameConfiguration NewObject ()
+		public NWDConfiguration NewObject ()
 		{
-			NWDGameConfiguration tObject = NWDGameConfiguration.NewObject ();
+			NWDConfiguration tObject = NWDConfiguration.NewObject ();
 			Reference = tObject.Reference;
 			return tObject;
 		}
@@ -43,16 +43,16 @@ namespace NetWorkedData
 	//-------------------- 
 	// CONNEXION METHODS
 	//-------------------- 
-	public class NWDGameConfigurationConnexionAttribut : PropertyAttribute
+	public class NWDConfigurationConnexionAttribut : PropertyAttribute
 	{
 		public bool ShowInspector = true;
 		public bool Editable = false;
 		public bool EditButton = true;
 		public bool NewButton = true;
-		public NWDGameConfigurationConnexionAttribut ()
+		public NWDConfigurationConnexionAttribut ()
 		{
 		}
-		public NWDGameConfigurationConnexionAttribut (bool sShowInspector, bool sEditable, bool sEditButton, bool sNewButton)
+		public NWDConfigurationConnexionAttribut (bool sShowInspector, bool sEditable, bool sEditButton, bool sNewButton)
 		{
 			ShowInspector = sShowInspector;
 			Editable = sEditable;
@@ -65,33 +65,33 @@ namespace NetWorkedData
 	// CUSTOM PROPERTY DRAWER METHODS
 	//-------------------- 
 	#if UNITY_EDITOR
-	[CustomPropertyDrawer (typeof(NWDGameConfigurationConnexion))]
-	public partial class NWDGameConfigurationConnexionDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof(NWDConfigurationConnexion))]
+	public partial class NWDConfigurationConnexionDrawer : PropertyDrawer
 	{
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			NWDGameConfigurationConnexionAttribut tReferenceConnexion = new NWDGameConfigurationConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDGameConfigurationConnexionAttribut), true).Length > 0)
+			NWDConfigurationConnexionAttribut tReferenceConnexion = new NWDConfigurationConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConfigurationConnexionAttribut), true).Length > 0)
 			{
-				tReferenceConnexion = (NWDGameConfigurationConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDGameConfigurationConnexionAttribut), true)[0];
+				tReferenceConnexion = (NWDConfigurationConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConfigurationConnexionAttribut), true)[0];
 			}
-			return NWDGameConfiguration.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDConfiguration.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
 		}
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			NWDGameConfigurationConnexionAttribut tReferenceConnexion = new NWDGameConfigurationConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDGameConfigurationConnexionAttribut), true).Length > 0)
+			NWDConfigurationConnexionAttribut tReferenceConnexion = new NWDConfigurationConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConfigurationConnexionAttribut), true).Length > 0)
 				{
-					tReferenceConnexion = (NWDGameConfigurationConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDGameConfigurationConnexionAttribut), true)[0];
+					tReferenceConnexion = (NWDConfigurationConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConfigurationConnexionAttribut), true)[0];
 				}
-			NWDGameConfiguration.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+			NWDConfiguration.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
 	}
 	#endif
 //-------------------- 
 // GENERAL METHODS
 //-------------------- 
-	public partial class NWDGameConfiguration : NWDBasis <NWDGameConfiguration>
+	public partial class NWDConfiguration : NWDBasis <NWDConfiguration>
 	{
 //-------------------- 
 		public override bool IsAccountDependent ()
@@ -117,9 +117,9 @@ namespace NetWorkedData
 			#endif
 		}
 //-------------------- 
-public static NWDGameConfiguration NewObject()
+public static NWDConfiguration NewObject()
 		{
-			NWDGameConfiguration rReturn = NWDGameConfiguration.NewInstance () as NWDGameConfiguration;
+			NWDConfiguration rReturn = NWDConfiguration.NewInstance () as NWDConfiguration;
 			return rReturn;
 		}
 //-------------------- 
@@ -128,10 +128,10 @@ public static NWDGameConfiguration NewObject()
 			ValueString = new NWDLocalizableStringType(); // normal type
 		}
 //-------------------- 
-    public static NWDGameConfiguration[] GetAllObjects()
+    public static NWDConfiguration[] GetAllObjects()
      {
-      List<NWDGameConfiguration> rReturn = new List<NWDGameConfiguration>();
-     foreach (NWDGameConfiguration tObject in NWDGameConfiguration.ObjectsList)
+      List<NWDConfiguration> rReturn = new List<NWDConfiguration>();
+     foreach (NWDConfiguration tObject in NWDConfiguration.ObjectsList)
       {
        if (tObject.Reference != null) {
            rReturn.Add(tObject);
@@ -140,10 +140,10 @@ public static NWDGameConfiguration NewObject()
       return rReturn.ToArray();
     }
 //-------------------- 
-    public static NWDGameConfiguration GetObjectWithReference(string sReference)
+    public static NWDConfiguration GetObjectWithReference(string sReference)
      {
-     NWDGameConfiguration rReturn = null;
-     foreach (NWDGameConfiguration tObject in NWDGameConfiguration.ObjectsList)
+     NWDConfiguration rReturn = null;
+     foreach (NWDConfiguration tObject in NWDConfiguration.ObjectsList)
       {
        if (tObject.Reference == sReference) {
        rReturn = tObject;
@@ -154,12 +154,12 @@ public static NWDGameConfiguration NewObject()
     }
 //-------------------- 
 
-    public static NWDGameConfiguration[] GetObjectsWithReferences(string[] sReferences)
+    public static NWDConfiguration[] GetObjectsWithReferences(string[] sReferences)
      {
-      List<NWDGameConfiguration> rReturn = new List<NWDGameConfiguration>();
+      List<NWDConfiguration> rReturn = new List<NWDConfiguration>();
       foreach(string tReference in sReferences)
        {
-         NWDGameConfiguration tObject = GetObjectWithReference(tReference);
+         NWDConfiguration tObject = GetObjectWithReference(tReference);
          if (tObject!=null)
           {
            rReturn.Add(tObject);
@@ -169,10 +169,10 @@ public static NWDGameConfiguration NewObject()
     }
 //-------------------- 
 
-    public static NWDGameConfiguration GetObjectWithInternalKey(string sInternalKey)
+    public static NWDConfiguration GetObjectWithInternalKey(string sInternalKey)
     {
-     NWDGameConfiguration rReturn = null;
-     foreach (NWDGameConfiguration tObject in NWDGameConfiguration.ObjectsList)
+     NWDConfiguration rReturn = null;
+     foreach (NWDConfiguration tObject in NWDConfiguration.ObjectsList)
       {
        if (tObject.InternalKey == sInternalKey)
        {
@@ -184,12 +184,12 @@ public static NWDGameConfiguration NewObject()
     }
 //-------------------- 
 
-    public static NWDGameConfiguration[] GetObjectsWithInternalKeys(string[] sInternalKeys)
+    public static NWDConfiguration[] GetObjectsWithInternalKeys(string[] sInternalKeys)
      {
-      List<NWDGameConfiguration> rReturn = new List<NWDGameConfiguration>();
+      List<NWDConfiguration> rReturn = new List<NWDConfiguration>();
       foreach(string tInternalKey in sInternalKeys)
        {
-         NWDGameConfiguration tObject = GetObjectWithInternalKey(tInternalKey);
+         NWDConfiguration tObject = GetObjectWithInternalKey(tInternalKey);
          if (tObject!=null)
           {
            rReturn.Add(tObject);
@@ -203,7 +203,7 @@ public static NWDGameConfiguration NewObject()
 //-------------------- 
     public static void TryToChangeUserForAllObjects (string sOldUser, string sNewUser)
     {
-     foreach (NWDGameConfiguration tObject in NWDGameConfiguration.ObjectsList)
+     foreach (NWDConfiguration tObject in NWDConfiguration.ObjectsList)
       {
        tObject.ChangeUser(sOldUser, sNewUser);      }
     }

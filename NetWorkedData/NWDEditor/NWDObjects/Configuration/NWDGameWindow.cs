@@ -15,10 +15,10 @@ namespace NetWorkedData
 		"Project Edition, You can add, change, remove the item of your game here. " +
 		"Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
 		new Type[] { 
-			typeof(NWDGameVersion),
-			typeof(NWDGameConfiguration),
-			typeof(NWDKeyword),
-			typeof(NWDError), 
+			typeof(NWDVersion),
+			typeof(NWDConfiguration),
+			typeof(NWDLocalization),
+			typeof(NWDError),
 			/* Add NWDBasis here*/
 		}
 	)]
