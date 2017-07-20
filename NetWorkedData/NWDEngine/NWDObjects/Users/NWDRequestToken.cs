@@ -22,7 +22,9 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("RequestToken descriptions Class")]
 	[NWDClassMenuNameAttribute ("RequestToken")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDRequestToken :NWDBasis <NWDRequestToken>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDRequestToken : NWDBasis <NWDRequestToken>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

@@ -11,7 +11,9 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Families descriptions Class")]
 	[NWDClassMenuNameAttribute ("Families")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDFamily :NWDBasis<NWDFamily>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDFamily : NWDBasis<NWDFamily>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

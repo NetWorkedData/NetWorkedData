@@ -11,7 +11,9 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Categories descriptions Class")]
 	[NWDClassMenuNameAttribute ("Categories")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDCategory :NWDBasis <NWDCategory>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDCategory : NWDBasis <NWDCategory>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

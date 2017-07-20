@@ -30,10 +30,18 @@ namespace NetWorkedData
 			string tDateTimeString = tTime.ToString ("yyyy-MM-dd");
 			string tYearString = tTime.ToString ("yyyy");
 
-			string tEngineRootFolder = "Assets/NetWorkedDataWorkflow";
+			string tEngineRoot = "Assets";
+			string tFolder = "NetWorkedDataWorkflow";
+			// Find if it's a package class or not 
+			if (tType.GetCustomAttributes (typeof(NWDPackageClassAttribute), true).Length > 0) {
+				tEngineRoot = NWDFindPackage.PathOfPackage ();
+				tFolder = "NWDWorkflow";
+			}
+
+			string tEngineRootFolder = tEngineRoot+"/"+tFolder;
 
 			if (AssetDatabase.IsValidFolder (tEngineRootFolder) == false) {
-				AssetDatabase.CreateFolder ("Assets", "NetWorkedDataWorkflow");
+				AssetDatabase.CreateFolder (tEngineRoot, tFolder);
 				AssetDatabase.ImportAsset (tEngineRootFolder);
 			}
 

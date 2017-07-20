@@ -13,7 +13,9 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Worlds descriptions Class")]
 	[NWDClassMenuNameAttribute ("Worlds")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDWorld :NWDBasis<NWDWorld>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDWorld : NWDBasis<NWDWorld>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

@@ -13,7 +13,9 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Keywords descriptions Class")]
 	[NWDClassMenuNameAttribute ("Keywords")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDKeyword :NWDBasis<NWDKeyword>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDKeyword : NWDBasis<NWDKeyword>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

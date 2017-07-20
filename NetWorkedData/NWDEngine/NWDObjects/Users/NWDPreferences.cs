@@ -11,7 +11,9 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("User Preferences descriptions Class")]
 	[NWDClassMenuNameAttribute ("User Preferences")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDPreferences :NWDBasis <NWDPreferences>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDPreferences : NWDBasis <NWDPreferences>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

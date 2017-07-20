@@ -25,7 +25,9 @@ namespace NetWorkedData
 	[NWDClassMenuNameAttribute ("Game's Version App")]
 	[NWDInternalKeyNotEditableAttribute]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDGameVersion :NWDBasis<NWDGameVersion>
+	[NWDPackageClassAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDGameVersion : NWDBasis<NWDGameVersion>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }

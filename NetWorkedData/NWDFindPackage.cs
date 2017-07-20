@@ -64,7 +64,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The path.</returns>
 		/// <param name="sAddPath">S add path.</param>
-		public static string PathOfPackage (string sAddPath)
+		public static string PathOfPackage (string sAddPath="")
 		{
 			return SharedInstance ().ScriptFolderFromAssets + sAddPath;
 		}
