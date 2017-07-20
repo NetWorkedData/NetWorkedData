@@ -12,7 +12,7 @@ namespace NetWorkedData
         public float perform { get; private set; }
         public bool isError { get; private set; }
         public string errorCode { get; private set; }
-        public BTBError errorDesc { get; private set; }
+        public NWDError errorDesc { get; private set; }
         public string token { get; private set; }
         public NWDAppEnvironmentPlayerStatut sign { get; private set; }
         public bool isSignUpdate { get; private set; }
@@ -94,7 +94,7 @@ namespace NetWorkedData
 
             if (isError)
             {
-                errorDesc = BTBErrorManager.ShareInstance().FindError(errorCode);
+                errorDesc = NWDError.GetObjectByInternalKey(errorCode) as NWDError;
             }
 
 			param = new Dictionary<string, object>(data);
@@ -104,7 +104,7 @@ namespace NetWorkedData
         {
             Init();
 
-            errorDesc = BTBErrorManager.ShareInstance().FindError(code);
+            errorDesc = NWDError.GetObjectByInternalKey(errorCode) as NWDError;
             isError = true;
             errorCode = code;
         }

@@ -165,8 +165,8 @@ namespace NetWorkedData
 				if (sDicoInformations == null) {
 					sDicoInformations = new Dictionary<string,object> ();
 				}
-				BTBError sError = new BTBError ();
-				//TODO : implement the error from data synchronize
+                //TODO : implement the error from data synchronize
+                NWDError sError = new NWDError();
 				DataSynchronizeError.Invoke (sDicoInformations, sError);
 			}
 		}
@@ -226,7 +226,7 @@ namespace NetWorkedData
 					sDicoInformations = new Dictionary<string,object> ();
 				}
 				//TODO : implement the error from data synchronize
-				BTBError sError = new BTBError ();
+				NWDError sError = new NWDError();
 				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerStatut;
 				AccountRequestError.Invoke (sDicoInformations, tPlayerStatut, sError);
 			}

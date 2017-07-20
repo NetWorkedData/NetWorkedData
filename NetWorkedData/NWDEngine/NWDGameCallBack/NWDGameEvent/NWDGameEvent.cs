@@ -27,7 +27,7 @@ namespace NetWorkedData
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDGameDatasError : UnityEvent <Dictionary<string,object>, BTBError>
+	public class NWDGameDatasError : UnityEvent <Dictionary<string,object>, NWDError>
 	{
 	}
 	//-------------------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace NetWorkedData
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDGameAccountError : UnityEvent <Dictionary<string,object>, NWDAppEnvironmentPlayerStatut, BTBError>
+	public class NWDGameAccountError : UnityEvent <Dictionary<string,object>, NWDAppEnvironmentPlayerStatut, NWDError>
 	{
 	}
 	//-------------------------------------------------------------------------------------------------------------

@@ -148,7 +148,6 @@ namespace NetWorkedData
 					Dictionary<string, object> tData = new Dictionary<string, object> ();
 					if (Request.downloadHandler.text.Equals ("")) {
 						Statut = BTBOperationState.Error;
-						//BTBError tError = BTBErrorManager.ShareInstance().FindError("INN00");
 						NWDOperationResult tInfosFail = new NWDOperationResult ("INN00");
 						FailInvoke (Request.downloadProgress, tInfosFail);
 					} else {
