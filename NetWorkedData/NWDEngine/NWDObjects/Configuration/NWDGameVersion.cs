@@ -9,6 +9,8 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -53,7 +55,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static string GetVersionForEnvironemt (NWDAppEnvironment sEnvironment)
 		{
-			Debug.Log ("GetVersionForEnvironemt");
+			BTBDebug.LogVerbose ("GetVersionForEnvironemt");
 			// I will change th last version of my App
 			string tVersionString = "0.00.00";
 			int tVersionInt = 0;
