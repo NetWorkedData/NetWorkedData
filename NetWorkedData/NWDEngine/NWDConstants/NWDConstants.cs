@@ -259,7 +259,7 @@ namespace NetWorkedData
 		public const string K_APP_TABLE_HEADER_DESCRIPTION = 		"Description";
 		public const string K_APP_TABLE_HEADER_SYNCHRO = 			"Sync";
 		public const string K_APP_TABLE_HEADER_DEVSYNCHRO = 		"Dev";
-		public const string K_APP_TABLE_HEADER_PREPRODSYNCHRO = 	"PreProd";
+		public const string K_APP_TABLE_HEADER_PREPRODSYNCHRO = 	"PrProd";
 		public const string K_APP_TABLE_HEADER_PRODSYNCHRO = 		"Prod";
 		public const string K_APP_TABLE_HEADER_STATUT = 			"Statut";
 		public const string K_APP_TABLE_HEADER_REFERENCE = 			"Reference";

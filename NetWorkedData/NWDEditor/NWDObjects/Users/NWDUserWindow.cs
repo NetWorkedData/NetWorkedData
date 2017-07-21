@@ -11,8 +11,8 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("User",
-		"group",
 		"User management … ",
+		"group",
 		new Type[] {
 			typeof(NWDAccount),
 //			typeof(NWDRequestToken),

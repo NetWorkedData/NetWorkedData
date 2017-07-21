@@ -76,7 +76,12 @@ namespace NetWorkedData
 		public bool ToBool(bool sDefault=false)
 		{
 			bool rReturn = sDefault;
-			bool.TryParse (Value, out rReturn);
+//			bool.TryParse (Value, out rReturn);
+			if (Value.ToUpper () == "FALSE" || Value.ToUpper () == "NO" || Value == "0") {
+				rReturn = false;
+			} else if (Value.ToUpper () == "TRUE" || Value.ToUpper () == "YES" || Value == "1") {
+				rReturn = true;
+			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -113,14 +118,16 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			float tHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+			GUIStyle tTextFieldStyle = new GUIStyle (EditorStyles.textField);
+			float tHeight = tTextFieldStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPosition, string sEntitled)
 		{
 			NWDDateType tTemporary = new NWDDateType ();
+			string tNextValue = EditorGUI.TextField (sPosition , sEntitled+"*", Value);
+			tTemporary.Value = tNextValue;
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

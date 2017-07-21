@@ -12,8 +12,8 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Tips & Tricks",
-		"settings",
 		"Tips & Tricks window description",
+		"settings",
 		new Type[] {
 			typeof(NWDTipsAndTricks),
 			typeof(NWDTipsAndTricksOwnership),

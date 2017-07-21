@@ -11,8 +11,8 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Shop",
-		"settings",
 		"Shop window description",
+		"settings",
 		new Type[] {
 			typeof(NWDShop),
 			typeof(NWDRack), 

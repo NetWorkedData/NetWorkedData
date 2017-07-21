@@ -32,6 +32,7 @@ namespace NetWorkedData
 		// Row design
 		public static float kRowOutMarge = 25.0f;
 		public static float kRowHeight = 25.0f;
+		public static float kRowHeightImage = 20.0f;
 		public static float kRowHeightSpace = 5.0f;
 		//static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
 		public static Color kRowColorSelected = new Color (0.55f, 0.55f, 1.00f, 0.25f);
@@ -47,10 +48,10 @@ namespace NetWorkedData
 		public static float kIDWidth = 30.0f;
 		public static float kPrefabWidth = 30.0f;
 		public static float kDescriptionMinWidth = 200.0f;
-		public static float kSyncWidth = 30.0f;
-		public static float kDevSyncWidth = 30.0f;
-		public static float kPreprodSyncWidth = 30.0f;
-		public static float kProdSyncWidth = 30.0f;
+		public static float kSyncWidth = 40.0f;
+		public static float kDevSyncWidth = 40.0f;
+		public static float kPreprodSyncWidth = 40.0f;
+		public static float kProdSyncWidth = 40.0f;
 		public static float kActiveWidth = 70.0f;
 		public static float kReferenceWidth = 230.0f;
 		//-------------------------------------------------------------------------------------------------------------
@@ -67,16 +68,28 @@ namespace NetWorkedData
 			Rect tRect = GUILayoutUtility.GetLastRect ();
 			Rect tRectArea = new Rect (tRect.x-kHeaderHeight, tRect.y-kHeaderHeightSpace/2.0f, 4096.0f, kHeaderHeight+kHeaderHeightSpace);
 			EditorGUI.DrawRect (tRectArea, kHeaderColorBackground);
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SELECT, EditorStyles.boldLabel, GUILayout.Width(kSelectWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_ID, EditorStyles.boldLabel, GUILayout.Width(kIDWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREFAB, EditorStyles.boldLabel, GUILayout.Width(kPrefabWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, EditorStyles.boldLabel, GUILayout.MinWidth(kDescriptionMinWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, EditorStyles.boldLabel, GUILayout.Width(kSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, EditorStyles.boldLabel, GUILayout.Width(kDevSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, EditorStyles.boldLabel, GUILayout.Width(kPreprodSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO, EditorStyles.boldLabel, GUILayout.Width(kProdSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_STATUT, EditorStyles.boldLabel, GUILayout.Width(kActiveWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_REFERENCE, EditorStyles.boldLabel, GUILayout.Width(kReferenceWidth));
+
+			GUIStyle tStyleLeft = new GUIStyle (EditorStyles.boldLabel);
+			tStyleLeft.alignment = TextAnchor.MiddleLeft;
+
+			GUIStyle tStyleCenter = new GUIStyle (EditorStyles.boldLabel);
+			tStyleCenter.alignment = TextAnchor.MiddleCenter;
+
+			GUIStyle tStyleRight = new GUIStyle (EditorStyles.boldLabel);
+			tStyleRight.alignment = TextAnchor.MiddleRight;
+
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SELECT, tStyleLeft, GUILayout.Width(kSelectWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_ID, tStyleLeft, GUILayout.Width(kIDWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREFAB, tStyleLeft, GUILayout.Width(kPrefabWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, tStyleLeft, GUILayout.MinWidth(kDescriptionMinWidth));
+
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, tStyleCenter, GUILayout.Width(kSyncWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, tStyleCenter, GUILayout.Width(kDevSyncWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, tStyleCenter, GUILayout.Width(kPreprodSyncWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO,tStyleCenter, GUILayout.Width(kProdSyncWidth));
+
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_STATUT, tStyleCenter, GUILayout.Width(kActiveWidth));
+			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_REFERENCE +" ", tStyleRight, GUILayout.Width(kReferenceWidth));
 			Rect tRectLine = new Rect (tRect.x-kHeaderHeight, tRect.y+kHeaderHeight+kHeaderLineStroke, 4096.0f, kHeaderLineStroke);
 			EditorGUI.DrawRect (tRectLine, kHeaderColorLine);
 			GUILayout.EndHorizontal ();
@@ -123,31 +136,32 @@ namespace NetWorkedData
 				ObjectsInEditorTableSelectionList [tIndex] = EditorGUILayout.ToggleLeft ("", ObjectsInEditorTableSelectionList [tIndex], GUILayout.Width(kSelectWidth));
 			}
 			// Draw internal informations
-			var tStyle = GUI.skin.GetStyle("Label");
-			tStyle.alignment = TextAnchor.MiddleLeft;
-			var tStyleCenter = GUI.skin.GetStyle("Label");
+			var tStyleLeft = new GUIStyle (EditorStyles.label);
+			tStyleLeft.alignment = TextAnchor.MiddleLeft;
+			var tStyleCenter = new GUIStyle (EditorStyles.label);
 			tStyleCenter.alignment = TextAnchor.MiddleCenter;
-			var tStyleRight = GUI.skin.GetStyle("Label");
+			var tStyleRight = new GUIStyle (EditorStyles.label);
 			tStyleRight.alignment = TextAnchor.MiddleRight;
+
 			GUILayout.Label (ID.ToString (), GUILayout.Width(kIDWidth));
 			GUILayout.Label (" ", GUILayout.Width(kPrefabWidth));
 			Rect tRectPreview = GUILayoutUtility.GetLastRect ();
 			GUIStyle tStyleForInfos = new GUIStyle (EditorStyles.label);
 			tStyleForInfos.richText = true;
 			GUILayout.Label (tString, tStyleForInfos, GUILayout.MinWidth(kDescriptionMinWidth));
-			tStyle.alignment = TextAnchor.MiddleRight;
+			tStyleLeft.alignment = TextAnchor.MiddleRight;
 			// Draw Sync State
 			Texture2D tImageSync = kImageRed; 
 			if (DS > 0) {
 				tImageSync = kImageGreen; 
 			}
-			GUILayout.Label(tImageSync,GUILayout.Width (kSyncWidth),GUILayout.Height (kSyncWidth/2.0f));
+			GUILayout.Label(tImageSync,tStyleCenter,GUILayout.Width (kSyncWidth),GUILayout.Height (kRowHeightImage));
 			// Draw Dev Sync State
 			Texture2D tImageDevSync = kImageRed; 
 			if (DevSync > 0) {
 				tImageDevSync = kImageGreen;
 			}
-			GUILayout.Label(tImageDevSync,GUILayout.Width (kSyncWidth),GUILayout.Height (kSyncWidth/2.0f));
+			GUILayout.Label(tImageDevSync, tStyleCenter,GUILayout.Width (kDevSyncWidth),GUILayout.Height (kRowHeightImage));
 			// Draw Preprod Sync State
 			Texture2D tImagePreprodSync = kImageRed; 
 			if (PreprodSync > 0) {
@@ -166,7 +180,7 @@ namespace NetWorkedData
 				tDisableProd = true;
 			}
 
-			GUILayout.Label(tImagePreprodSync,GUILayout.Width (kSyncWidth),GUILayout.Height (kSyncWidth/2.0f));
+			GUILayout.Label(tImagePreprodSync,tStyleCenter,GUILayout.Width (kPreprodSyncWidth),GUILayout.Height (kRowHeightImage));
 			// Draw Prod Sync State
 			Texture2D tImageProdSync = kImageRed; 
 			if (tDisableProd == true) {
@@ -182,7 +196,7 @@ namespace NetWorkedData
 					}
 				}
 			}
-			GUILayout.Label(tImageProdSync,GUILayout.Width (kSyncWidth),GUILayout.Height (kSyncWidth/2.0f));
+			GUILayout.Label(tImageProdSync,tStyleCenter,GUILayout.Width (kProdSyncWidth),GUILayout.Height (kRowHeightImage));
 			// Draw State
 			GUILayout.Label (sStateInfos,tStyleCenter, GUILayout.Width (kActiveWidth));
 			// Draw Reference
@@ -196,15 +210,17 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Rect DrawRowInEditor (Vector2 sMouseClickPosition, EditorWindow sEditorWindow, bool sSelectAndClick)
 		{
+			float tWidthUsed = sEditorWindow.position.width+20; //4096.0f
+//			float tWidthUsed =4096.0f;
 			// start line
 			GUILayout.Space(kRowHeightSpace);
 			GUILayout.BeginHorizontal (GUILayout.Height (kRowHeight));
 			GUILayout.Label ("", GUILayout.Width(kOriginWidth));
 			Rect tRect = GUILayoutUtility.GetLastRect ();
 			// determine rect to select and draw
-			Rect rRect = new Rect (tRect.x-10, tRect.y-5, 4096.0f, kRowHeight+5);
+			Rect rRect = new Rect (tRect.x, tRect.y-5, tWidthUsed, kRowHeight+5);
 			// determine rect to analyze
-			Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, 4096.0f, kRowHeight+10);
+			Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, tWidthUsed, kRowHeight+10);
 			// check click in rect
 			if (rRectAnalyze.Contains (sMouseClickPosition)) 
 			{
@@ -228,7 +244,7 @@ namespace NetWorkedData
 			// draw informations
 			RowInformation (rRect);
 			// draw line to delimit the rect
-			tRect = new Rect (tRect.x-kRowOutMarge, tRect.y+kRowHeight, 4096.0f, kRowLineStroke);
+			tRect = new Rect (tRect.x-kRowOutMarge, tRect.y+kRowHeight, tWidthUsed, kRowLineStroke);
 			EditorGUI.DrawRect (tRect, kRowColorLine);
 			// finish line
 			GUILayout.EndHorizontal ();

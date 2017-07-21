@@ -11,8 +11,8 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Story",
-		"settings",
 		"Story window description",
+		"settings",
 		new Type[] {
 			typeof(NWDQuest),
 			typeof(NWDDialog),

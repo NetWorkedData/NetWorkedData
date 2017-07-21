@@ -10,6 +10,25 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//-------------------------------------------------------------------------------------------------------------
+	[NWDTypeWindowParamAttribute("Items",
+		"Items Edition",
+		"settings",
+		new Type[] {
+			typeof(NWDItem), 
+			typeof(NWDItemExtension), 
+			typeof(NWDBattleProperty), 
+			typeof(NWDItemPack), 
+			typeof(NWDPack), 
+			typeof(NWDSpent), 
+			typeof(NWDInAppPack), 
+			typeof(NWDTransaction), 
+			typeof(NWDOwnership), 
+			typeof(NWDUsage),
+			/* Add NWDBasis here*/
+		}
+	)]
+	//-------------------------------------------------------------------------------------------------------------
 	public class NWDItemWindow : NWDBasisWindow <NWDItemWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -20,30 +39,6 @@ namespace NetWorkedData
 			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDItemWindow));
 			tWindow.Show ();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDItemWindow ()
-		{
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void OnEnable ()
-		{
-			mTitleKey = "Items";
-			mDescriptionKey = "•Items Edition, You can add, change, remove the item of your game here. Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.";
-			mTabTypeList = new Type[] {
-				typeof(NWDItem), 
-				typeof(NWDItemExtension), 
-				typeof(NWDBattleProperty), 
-				typeof(NWDItemPack), 
-				typeof(NWDPack), 
-				typeof(NWDSpent), 
-				typeof(NWDInAppPack), 
-				typeof(NWDTransaction), 
-				typeof(NWDOwnership), 
-				typeof(NWDUsage),
-			};
-			DefineTab ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

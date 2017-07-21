@@ -11,9 +11,9 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Game",
-		"settings",
 		"Project Edition, You can add, change, remove the item of your game here. " +
 		"Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
+		"settings",
 		new Type[] { 
 			typeof(NWDVersion),
 			typeof(NWDConfiguration),

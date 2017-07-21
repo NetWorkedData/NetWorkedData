@@ -11,8 +11,8 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Level",
-		"settings",
 		"Level Edition, You can add, change",
+		"settings",
 		new Type[] {
 			typeof(NWDLevel),
 			typeof(NWDLevelScore),

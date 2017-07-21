@@ -216,6 +216,14 @@ namespace NetWorkedData
 				titleContent.image = IconOfWindow;
 			}
 
+			float tWidthUsed = EditorGUIUtility.currentViewWidth;
+
+			GUIStyle tHelpBoxStyle = new GUIStyle (EditorStyles.helpBox);
+			float tHeight = tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
+			GUIStyle tToolbarStyle = new GUIStyle (EditorStyles.toolbar);
+			tHeight += tToolbarStyle.CalcHeight (new GUIContent ("A"), tWidthUsed);
+
+			EditorGUI.DrawRect (new Rect (0,0, tWidthUsed, tHeight), new Color (0.6f, 0.6f, 0.6f, 1.0f));
 			EditorGUILayout.HelpBox (mDescriptionKey, MessageType.None);
 
 			if (mTabSelected > mTabList.Count ()) {
@@ -225,10 +233,10 @@ namespace NetWorkedData
 			int tTabSelected = 0;
 			// check if tab ids necessary
 			if (mTabList.Length > 1) {
-				GUILayout.Space (10.0f);
+				GUILayout.Space (5.0f);
 				Rect tRect = GUILayoutUtility.GetLastRect ();
-				EditorGUI.DrawRect (new Rect (tRect.x-10.0f, tRect.y, 4096.0f, 35.0f), new Color (0.0f, 0.0f, 0.0f, 0.10f));
-				EditorGUI.DrawRect (new Rect (tRect.x-10.0f, tRect.y+35.0f, 4096.0f, 1.0f), new Color (0.0f, 0.0f, 0.0f, 0.30f));
+				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y, tWidthUsed, 35.0f), new Color (0.6f, 0.6f, 0.6f,1.0f));
+				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y+35.0f, tWidthUsed, 1.0f), new Color (0.5f, 0.5f, 0.5f, 1.0f));
 				tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
 			}
 
@@ -249,7 +257,7 @@ namespace NetWorkedData
 				SetClassInEdition(tType);
 			}
 			mTabSelected = tTabSelected;
-			GUILayout.Space (10.0f);
+			GUILayout.Space (5.0f);
 			var tMethodInfo = tType.GetMethod("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tMethodInfo != null) {
 				//Debug.Log ("I AM FINDING THE DRAWING METHOD");

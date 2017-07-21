@@ -11,9 +11,9 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Worlds",
-		"earth-globe",
 		"World Edition, You can add, change, remove the item of your game here." +
 		" Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
+		"earth-globe",
 		new Type[] {
 			typeof(NWDWorld), 
 			typeof(NWDCategory), 

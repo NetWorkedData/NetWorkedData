@@ -10,8 +10,8 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Cooking",
-		"settings",
 		"cooking Edition",
+		"settings",
 		new Type[] {
 			typeof(NWDItem),
 			typeof(NWDCookRecipe),
