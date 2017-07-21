@@ -13,7 +13,20 @@ namespace NetWorkedData
 	[InitializeOnLoad]
 	public class NWDAssetWatcher : UnityEditor.AssetModificationProcessor
 	{
-		static List<string> kExtensionsWatchedList = new List<string>(){".prefab", ""};
+		static List<string> kExtensionsWatchedList = new List<string>(){
+			".prefab", 
+			".tga", 
+			".mat", 
+			".jpg", 
+			".png", 
+			".jpeg", 
+			".mp3", 
+			".jpeg", 
+			".shader", 
+//			".txt",
+//			".json",
+			"", // for folder change
+		};
 		//-------------------------------------------------------------------------------------------------------------
 		static NWDAssetWatcher ()
 		{
@@ -24,7 +37,7 @@ namespace NetWorkedData
 			AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
 			string tExtension = Path.GetExtension (sOldPath);
 			BTBDebug.Log ("OnWillMoveAsset " + sOldPath + " to " + sNewPath);
-			if (kExtensionsWatchedList.Contains (tExtension)) {
+			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
 				NWDDataManager.SharedInstance.ChangeAssetPath (sOldPath, sNewPath);
 			}
 			return rReturn;
@@ -35,7 +48,7 @@ namespace NetWorkedData
 			AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
 			BTBDebug.Log ("OnWillDeleteAsset " + sOldPath + "");
 			string tExtension = Path.GetExtension (sOldPath);
-			if (kExtensionsWatchedList.Contains (tExtension)) {
+			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
 				NWDDataManager.SharedInstance.ChangeAssetPath (sOldPath, "");
 			}
 			return rReturn;
