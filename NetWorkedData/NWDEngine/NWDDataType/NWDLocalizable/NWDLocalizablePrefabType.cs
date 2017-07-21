@@ -110,7 +110,7 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-			float tLangWidth = (tWidth/3.0f)*2.0f;
+			float tLangWidth = NWDConstants.kLangWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
@@ -164,6 +164,7 @@ namespace NetWorkedData
 				List<string> tValueFuturList = new List<string> ();
 				tValueFuturList.AddRange (tLangageArray);
 				tValueFuturList.Add (tLangague);
+				tValueFuturList.Sort ();
 				string[] tLangageFuturArray = tValueFuturList.ToArray ();
 				//Debug.Log (" tLangageFuturArray =  " + string.Join(":",tLangageFuturArray));
 
@@ -173,7 +174,6 @@ namespace NetWorkedData
 					tIndex = 0;
 				}
 				tLangague = tValueFuturList [tIndex];
-
 				GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
 				tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
@@ -185,19 +185,16 @@ namespace NetWorkedData
 				if (tTexture2D != null) {
 					EditorGUI.DrawPreviewTexture (new Rect (tWidth - NWDConstants.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tTexture2D);
 				}
-				UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
-				if (pObj != null) 
-				{
-					if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) 
-					{
-						tText = AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabObject (pObj));
+				if (tLangague != "") {
+					UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
+					if (pObj != null) {
+						if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) {
+							tText = AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabObject (pObj));
+						}
+					} else {
+						tText = "";
 					}
-				} 
-				else 
-				{
-					tText = "";
 				}
-
 				//tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
 //				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 				tY += NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;

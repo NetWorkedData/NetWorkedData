@@ -6,11 +6,12 @@ using SQLite4Unity3d;
 
 #if UNITY_EDITOR
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Shop",
+	[NWDTypeWindowParamAttribute ("Shop",
 		"Shop window description",
 		"settings",
 		new Type[] {
@@ -20,6 +21,8 @@ namespace NetWorkedData
 			typeof(NWDItemPack), 
 			typeof(NWDItem),
 			typeof(NWDSpent),
+			typeof(NWDInAppPack), 
+			typeof(NWDTransaction), 
 			/* Add NWDBasis here*/
 		}
 	)]

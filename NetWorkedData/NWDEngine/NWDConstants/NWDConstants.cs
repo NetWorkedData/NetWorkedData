@@ -40,6 +40,9 @@ namespace NetWorkedData
 		public static string kAlertSaltShortError = 				"ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE";
 		public static float kFieldMarge = 							5.0f;
 		public static float kPrefabSize = 							40.0f;
+		public static float kIntWidth = 							36.0f;
+		public static float kEditWidth = 							14.0f;
+		public static float kLangWidth = 							200.0f;
 		//-------------------------------------------------------------------------------------------------------------
 		// NetWorked synchronize alert
 		public const string K_SYNC_ALERT_TITLE = 					"ALERT PRODUCTION";

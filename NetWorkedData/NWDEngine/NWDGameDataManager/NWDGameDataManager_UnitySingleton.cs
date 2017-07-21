@@ -32,7 +32,7 @@ namespace NetWorkedData
 		[RuntimeInitializeOnLoadMethod]
 		static void OnRuntimeMethodLoad ()
 		{
-			BTBDebug.LogVerbose ("NWDGameDataManager OnRuntimeMethodLoad");
+			//BTBDebug.LogVerbose ("NWDGameDataManager OnRuntimeMethodLoad");
 			UnitySingleton ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ namespace NetWorkedData
 		/// <returns>The singleton.</returns>
 		public static NWDGameDataManager UnitySingleton ()
 		{
-			BTBDebug.LogVerbose ("NWDGameDataManager Singleton");
+			//BTBDebug.LogVerbose ("NWDGameDataManager Singleton");
 			if (kUnitySingleton == null) {
 				// I need to create singleton
 				GameObject tObjToSpawn;
@@ -81,7 +81,7 @@ namespace NetWorkedData
 		/// </summary>
 		void Start ()
 		{
-			BTBDebug.LogVerbose ("NWDGameDataManager Start");
+			//BTBDebug.LogVerbose ("NWDGameDataManager Start");
 			DataManager = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataManager;
 			AppConfiguration = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.AppConfiguration;
 			NotificationCenter = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.NotificationCenter;
@@ -92,7 +92,7 @@ namespace NetWorkedData
 		/// </summary>
 		void OnDestroy()
 		{
-			BTBDebug.LogVerbose ("NWDGameDataManager Destroy");
+			//BTBDebug.LogVerbose ("NWDGameDataManager Destroy");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -100,7 +100,7 @@ namespace NetWorkedData
 		/// </summary>
 		void Awake ()
 		{
-			BTBDebug.LogVerbose ("NWDGameDataManager Awake");
+			//BTBDebug.LogVerbose ("NWDGameDataManager Awake");
 			//Check if there is already an instance
 			if (kUnitySingleton == null) {
 				//if not, set it to this.
@@ -132,9 +132,9 @@ namespace NetWorkedData
 		{
 			ApplicationStandBy = !sHasFocus;
 			if (ApplicationStandBy == false) {
-				BTBDebug.LogVerbose ("OnApplicationFocus Focus is ON");
+				//BTBDebug.LogVerbose ("OnApplicationFocus Focus is ON");
 			} else {
-				BTBDebug.LogVerbose ("OnApplicationFocus Focus is OFF");
+				//BTBDebug.LogVerbose ("OnApplicationFocus Focus is OFF");
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -146,9 +146,9 @@ namespace NetWorkedData
 		{
 			ApplicationStandBy = sPauseStatus;
 			if (ApplicationStandBy == false) {
-				BTBDebug.LogVerbose ("OnApplicationPause Pause is OFF");
+				//BTBDebug.LogVerbose ("OnApplicationPause Pause is OFF");
 			} else {
-				BTBDebug.LogVerbose ("OnApplicationPause Pause is ON");
+				//BTBDebug.LogVerbose ("OnApplicationPause Pause is ON");
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

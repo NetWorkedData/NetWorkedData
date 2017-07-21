@@ -113,7 +113,7 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-			float tLangWidth = (tWidth/3.0f)*2.0f;
+			float tLangWidth = NWDConstants.kLangWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
@@ -167,6 +167,7 @@ namespace NetWorkedData
 				List<string> tValueFuturList = new List<string> ();
 				tValueFuturList.AddRange (tLangageArray);
 				tValueFuturList.Add (tLangague);
+				tValueFuturList.Sort ();
 				string[] tLangageFuturArray = tValueFuturList.ToArray ();
 				//Debug.Log (" tLangageFuturArray =  " + string.Join(":",tLangageFuturArray));
 
@@ -176,9 +177,11 @@ namespace NetWorkedData
 					tIndex = 0;
 				}
 				tLangague = tValueFuturList [tIndex];
-				//tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
-				tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight*kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText));
-				tText = NWDToolbox.TextProtect (tText);
+				if (tLangague != "") {
+					//tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
+					tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect (tText));
+					tText = NWDToolbox.TextProtect (tText);
+				}
 				tY += tPopupdStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge;
 				if (tResult.ContainsKey (tLangague)) {
 					tResult [tLangague] = tText;

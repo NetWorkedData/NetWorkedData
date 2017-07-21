@@ -125,7 +125,8 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 
-			float tIntWidth = 40.0f;
+			float tIntWidth = NWDConstants.kIntWidth;
+			float tEditWidth = NWDConstants.kEditWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
@@ -158,7 +159,7 @@ namespace NetWorkedData
 				}
 
 				int tIndex = 0;
-				int tQ = 0;
+				int tQ = 1;
 				string tV = "";
 				string tLine = tValueList.ElementAt (i);
 				string[] tLineValue = tLine.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
@@ -168,8 +169,13 @@ namespace NetWorkedData
 					int.TryParse (tLineValue [1], out tQ);
 				}
 
-				tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - tIntWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
-				tQ = EditorGUI.IntField (new Rect (tX + tWidth - tIntWidth, tY, tIntWidth, tPopupdStyle.fixedHeight), tQ);
+				tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - tIntWidth - NWDConstants.kFieldMarge - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+				if (tIndex > 0) {
+					tQ = EditorGUI.IntField (new Rect (tX + tWidth - tIntWidth - NWDConstants.kFieldMarge - tEditWidth, tY, tIntWidth, tPopupdStyle.fixedHeight), tQ);
+					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
+						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.GetObjectByReference (tReferenceList.ElementAt (tIndex)));
+					}
+				}
 				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 				if (tIndex > 0 && tIndex < tReferenceList.Count) {

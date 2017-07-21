@@ -155,6 +155,7 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
+			float tEditWidth = NWDConstants.kEditWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
@@ -190,7 +191,12 @@ namespace NetWorkedData
 				}
 				string tV = tValueList.ElementAt (i);
 				int tIndex = tReferenceList.IndexOf (tV);
-				tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+				tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+				if (tIndex >= 0) {
+					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
+						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.GetObjectByReference (tReferenceList.ElementAt (tIndex)));
+					}
+				}
 				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (tIndex >= 0 && tIndex < tReferenceList.Count) 
 				{

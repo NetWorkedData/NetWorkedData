@@ -88,7 +88,7 @@ namespace NetWorkedData
 					DataManager.ConnectToDatabase ();
 					// finish init
 					Initialized = true;
-					BTBDebug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton InitInstance finished ("+InstanceCounter+")");
+					//BTBDebug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton InitInstance finished ("+InstanceCounter+")");
 				}
 				InstanceCounterLog ();
 			}
@@ -100,7 +100,7 @@ namespace NetWorkedData
 			~SharedInstanceAsSingleton()
 			{
 				Interlocked.Decrement(ref InstanceCounter);
-				BTBDebug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton destroy ... IT NEVER POSSIBLE IN RUNTIME");
+				//BTBDebug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton destroy ... IT NEVER POSSIBLE IN RUNTIME");
 				if (NotificationCenter != null) {
 					NotificationCenter.RemoveAll ();
 					NotificationCenter = null;
@@ -149,7 +149,7 @@ namespace NetWorkedData
 		/// </summary>
 		~NWDGameDataManager()
 		{
-			BTBDebug.LogVerbose ("NWDGameDataManager Destroyed");
+			//BTBDebug.LogVerbose ("NWDGameDataManager Destroyed");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

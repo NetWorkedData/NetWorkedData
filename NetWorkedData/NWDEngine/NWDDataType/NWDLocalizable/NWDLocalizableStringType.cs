@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -108,7 +109,10 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-			float tLangWidth = (tWidth/3.0f)*2.0f;
+
+			//Rect tPosition = EditorGUI.PrefixLabel(sPosition, GUIUtility.GetControlID(FocusType.Passive),new GUIContent (" "));
+
+			float tLangWidth = NWDConstants.kLangWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
@@ -162,6 +166,7 @@ namespace NetWorkedData
 				List<string> tValueFuturList = new List<string> ();
 				tValueFuturList.AddRange (tLangageArray);
 				tValueFuturList.Add (tLangague);
+				tValueFuturList.Sort ();
 				string[] tLangageFuturArray = tValueFuturList.ToArray ();
 				//Debug.Log (" tLangageFuturArray =  " + string.Join(":",tLangageFuturArray));
 
@@ -171,7 +176,11 @@ namespace NetWorkedData
 					tIndex = 0;
 				}
 				tLangague = tValueFuturList [tIndex];
-				tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), NWDToolbox.TextUnprotect(tText));
+//				BTBDebug.LogVerbose ("tIndex = " +tIndex.ToString ());
+				if (tLangague !="") 
+				{
+					tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));
+				}
 				tText = NWDToolbox.TextProtect (tText);
 				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (tResult.ContainsKey (tLangague)) {
