@@ -15,6 +15,7 @@ namespace NetWorkedData
 		"Items Edition",
 		"settings",
 		new Type[] {
+			typeof(NWDItemGroup), 
 			typeof(NWDItem), 
 			typeof(NWDItemExtension), 
 			typeof(NWDBattleProperty), 

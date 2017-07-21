@@ -819,7 +819,13 @@ namespace NetWorkedData
 //
 //
 			//GUI.SetNextControlName(NWDConstants.K_CLASS_FOCUS_ID);
-			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
+//			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
+			string tTitle = InternalKey;
+			if (tTitle == "") {
+				tTitle = "Unamed " + ClassNamePHP () + "";
+//				tTitle = ClassNamePHP () + "'s Object";
+			}
+			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), tTitle, tTitleLabelStyle);
 
 			// add button to navigate next / preview
 			if (NWDDataInspector.InspectNetWorkedPreview ()) {
@@ -892,7 +898,7 @@ namespace NetWorkedData
 				tY += NWDConstants.kFieldMarge;
 			}
 
-			float tImageWidth = 100.0f;
+			float tImageWidth = (tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge)*3;
 
 			tX = tImageWidth + NWDConstants.kFieldMarge * 2;
 			tWidth = sInRect.width - NWDConstants.kFieldMarge * 3 - tImageWidth;
@@ -904,7 +910,7 @@ namespace NetWorkedData
 
 			tY += NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (NWDConstants.kFieldMarge, tY, tImageWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PREVIEW, tMiniLabelStyle);
+			//GUI.Label (new Rect (NWDConstants.kFieldMarge, tY, tImageWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PREVIEW, tMiniLabelStyle);
 
 			GameObject tObject = null;
 			if (Preview != null && Preview != "") {
@@ -919,7 +925,8 @@ namespace NetWorkedData
 				EditorGUI.DrawPreviewTexture (new Rect (NWDConstants.kFieldMarge, tY + tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth), tTexture2D);
 			}
 
-			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
+//			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
+			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tBoldLabelStyle);
 			tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE + Reference, tMiniLabelStyle);
@@ -931,19 +938,20 @@ namespace NetWorkedData
 			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime (DM).ToString ("G"), tMiniLabelStyle);
 			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + NWDToolbox.TimeStampToDateTime (DevSync).ToString ("G")
-				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
-			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + NWDToolbox.TimeStampToDateTime (DevSync).ToString ("G")
+//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
+//			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//
+//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + NWDToolbox.TimeStampToDateTime (PreprodSync).ToString ("G")
+//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
+//			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//
+//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime (ProdSync).ToString ("G")
+//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
+//			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + NWDToolbox.TimeStampToDateTime (PreprodSync).ToString ("G")
-				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
-			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime (ProdSync).ToString ("G")
-				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
-			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-
+			/*
 			if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle)) {
 				DM = NWDToolbox.Timestamp ();
 				UpdateIntegrity ();
@@ -967,25 +975,25 @@ namespace NetWorkedData
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 //			tStyle.alignment = TextAnchor.MiddleLeft;
 			if (AC == false) {
-				GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVED, tBoldLabelStyle);
-				tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-				GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INACTIVED + NWDToolbox.TimeStampToDateTime (DD).ToString ("G"), tMiniLabelStyle);
-				tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//				GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVED, tBoldLabelStyle);
+//				tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//				GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INACTIVED + NWDToolbox.TimeStampToDateTime (DD).ToString ("G"), tMiniLabelStyle);
+//				tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle)) {
 					EnableMe ();
 					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}
 				tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			} else {
-				GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTIVE, tBoldLabelStyle);
-				tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//				GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTIVE, tBoldLabelStyle);
+//				tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle)) {
 					DisableMe ();
 					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}
 				tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			}
-				
+				*/
 			tX = NWDConstants.kFieldMarge;
 			tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
 
@@ -1066,10 +1074,12 @@ namespace NetWorkedData
 			EditorGUI.DrawRect (new Rect (tX, tY + 1, tWidth, tBottomHeight), kIdentityColor);
 
 
-			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_TRASH_ZONE, tBoldLabelStyle);
+			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, tBoldLabelStyle);
 			tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, tMiniButtonStyle)) {
+			float tButtonWidth = (tWidth - (NWDConstants.kFieldMarge * 3)) / 4.0f;
+
+			if (GUI.Button (new Rect (tX, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, tMiniButtonStyle)) {
 				if (EditorUtility.DisplayDialog (NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
 					    NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
 					    NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
@@ -1078,6 +1088,40 @@ namespace NetWorkedData
 					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}
 			}
+
+			if (GUI.Button (new Rect (tX+tButtonWidth+NWDConstants.kFieldMarge, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle)) {
+				DM = NWDToolbox.Timestamp ();
+				UpdateIntegrity ();
+				UpdateObjectInListOfEdition (this);
+				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
+				NWDDataManager.SharedInstance.UpdateQueueExecute ();
+				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+			}
+			if (GUI.Button (new Rect (tX+(tButtonWidth+NWDConstants.kFieldMarge)*2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle)) {
+				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
+				K tNexObject = (K)DuplicateMe ();
+				AddObjectInListOfEdition (tNexObject);
+				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (tNexObject);
+				SetObjectInEdition (tNexObject);
+				m_PageSelected = m_MaxPage * 3;
+				NWDDataManager.SharedInstance.UpdateQueueExecute ();
+				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+			}
+			if (AC == false) {
+				if (GUI.Button (new Rect (tX+(tButtonWidth+NWDConstants.kFieldMarge)*3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle)) {
+					EnableMe ();
+					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+				}
+			} else {
+				if (GUI.Button (new Rect (tX+(tButtonWidth+NWDConstants.kFieldMarge)*3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle)) {
+					DisableMe ();
+					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+				}
+			}
+
+
+
+
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 			EditorGUI.EndDisabledGroup ();

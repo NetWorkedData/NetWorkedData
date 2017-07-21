@@ -1,4 +1,4 @@
-//NWD Autogenerate File at 2017-07-20
+//NWD Autogenerate File at 2017-07-21
 //Copyright NetWorkedDatas ideMobi 2017
 //Created by Jean-François CONTART
 //-------------------- 

@@ -31,23 +31,23 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDDataManager
 	{
-//		#if UNITY_EDITOR
-//		public static bool UseUnityInpector = false;
-//		#endif
+		//		#if UNITY_EDITOR
+		//		public static bool UseUnityInpector = false;
+		//		#endif
 		/// <summary>
 		/// The singleton.
 		/// </summary>
 		private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
 
 		public string PlayerLanguage = "en";
-//		public string PlayerAccountUUID;
-//		public string PlayerAccountToken;
+		//		public string PlayerAccountUUID;
+		//		public string PlayerAccountToken;
 
 		// Members properties
 		public SQLiteConnection SQLiteConnection;
 		public string mDatabasePath = "Assets/StreamingAssets";
-        public string mDatabaseName = "NWDmage.prp";
-        public NWDTypeService ManagementType = NWDTypeService.LocalWithServer;
+		public string mDatabaseName = "NWDmage.prp";
+		public NWDTypeService ManagementType = NWDTypeService.LocalWithServer;
 		private bool kConnectedToDatabase = false;
 
 		public BTBNotificationManager NotificationCenter;
@@ -85,7 +85,7 @@ namespace NetWorkedData
 //			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		~NWDDataManager()
+		~NWDDataManager ()
 		{
 			//Debug.Log ("NWDDataManager Destructor");
 			if (NotificationCenter != null) {
@@ -123,15 +123,12 @@ namespace NetWorkedData
 			if (mTypeLoadedList.Contains (sType) == false) {
 				var tMethodInfo = sType.GetMethod ("redefineClassToUse", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, new object[]{sType, sClassTrigramme, sMenuName, sDescription});
+					tMethodInfo.Invoke (null, new object[]{ sType, sClassTrigramme, sMenuName, sDescription });
 				}
 
-			if (mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) 
-				{
+				if (mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) {
 					Debug.Log ("ERROR this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + mTrigramTypeDictionary [sClassTrigramme] + ")");
-				} 
-			else 
-				{
+				} else {
 					mTrigramTypeDictionary.Add (sClassTrigramme, sType);
 				}
 
@@ -157,17 +154,22 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("LoadAllClass");
 			bool rReturn = true;
-			foreach (Type tType in mTypeList) 
-			{
-					var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null) 
-				{
-						string tR = tMethodInfo.Invoke (null, null) as string;
-						if (tR != "ok") 
-						{
-							rReturn = false;
-						}
+			foreach (Type tType in mTypeList) {
+				var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null) {
+					string tR = tMethodInfo.Invoke (null, null) as string;
+					if (tR != "ok") {
+						rReturn = false;
+					}
 				}
+			}
+			if (rReturn == false) {
+				// do reccord and recompile
+				#if UNITY_EDITOR
+				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+				#else
+				//TODO: ALERT USER ERROR IN APP DISTRIBUTION
+				#endif
 			}
 			return rReturn;
 		}

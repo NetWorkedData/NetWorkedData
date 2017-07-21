@@ -13,6 +13,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		static NWDPlayerPreProcess()
 		{
+			EditorApplication.playmodeStateChanged -= PlayModeCallback; // remove old callback from compile for this class
 			EditorApplication.playmodeStateChanged += PlayModeCallback;
 		}
 		//-------------------------------------------------------------------------------------------------------------

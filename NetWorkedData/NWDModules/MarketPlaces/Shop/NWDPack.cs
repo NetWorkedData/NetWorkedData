@@ -21,12 +21,13 @@ namespace NetWorkedData
 		//public bool DiscoverItYourSelf { get; set; }
 		// for example : pack of forest hunter 
 		// referenceList : pack of 5 arrows; longbow
-
+		[NWDHeaderAttribute("Informations")]
 		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }
-
 		public NWDLocalizableStringType Description { get; set; }
-
+		[NWDHeaderAttribute("Images")]
+		public NWDTextureType NormalTexture { get; set; }
+		public NWDTextureType SelectedTexture { get; set; }
 
 		[NWDGroupStartAttribute("Classification",true, true, true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
@@ -43,15 +44,14 @@ namespace NetWorkedData
 		public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
 		[NWDHeaderAttribute("Or pay with in app purchase Key")]
 		// … the inAppPack to paid this pack with in app purchase
-	
 		public NWDReferenceType<NWDInAppPack> InAppPurchasePack { get; set; }
-
-		[NWDHeaderAttribute("Shop management")]
-		public int QuantityInShop { get; set; }
-		public int StartSellAtDate { get; set; }
-		public int DeliveryDelay { get; set; }
-		public int ReapprovisioningDelay { get; set; }
-		public int FinishSellAtDate { get; set; }
+//
+//		[NWDHeaderAttribute("Shop management")]
+//		public int QuantityInShop { get; set; }
+//		public int StartSellAtDate { get; set; }
+//		public int DeliveryDelay { get; set; }
+//		public int ReapprovisioningDelay { get; set; }
+//		public int FinishSellAtDate { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPack()
 		{

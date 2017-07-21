@@ -21,10 +21,14 @@ namespace NetWorkedData
 		// reference : arrow 
 		// quantity : 5
 
+		[NWDHeaderAttribute("Informations")]
 		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }
 		public NWDLocalizableStringType Description { get; set; }
 
+		[NWDHeaderAttribute("Images")]
+		public NWDTextureType NormalTexture { get; set; }
+		public NWDTextureType SelectedTexture { get; set; }
 
 		[NWDGroupStartAttribute("Classification",true, true, true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }

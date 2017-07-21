@@ -9,45 +9,44 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("SHP")]
-	[NWDClassDescriptionAttribute ("Shop descriptions Class")]
-	[NWDClassMenuNameAttribute ("Shop")]
+	[NWDClassTrigrammeAttribute ("ITG")]
+	[NWDClassDescriptionAttribute ("Item Group descriptions Class")]
+	[NWDClassMenuNameAttribute ("Item Group")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDShop :NWDBasis <NWDShop>
+	public partial class NWDItemGroup :NWDBasis <NWDItemGroup>
 	{
 		//-------------------------------------------------------------------------------------------------------------
+		//public bool DiscoverItYourSelf { get; set; }
 		[NWDHeaderAttribute("Informations")]
 		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }
 		public NWDLocalizableStringType Description { get; set; }
+		[NWDFloatSliderAttribute(0.0F,1.0F)]
+		public float Rarity { get; set; }
+
 		[NWDHeaderAttribute("Images")]
 		public NWDTextureType NormalTexture { get; set; }
 		public NWDTextureType SelectedTexture { get; set; }
+
+		[NWDHeaderAttribute("Color")]
+		public NWDColorType ColorNormal { get; set; }
+		public NWDColorType ColorSelected { get; set; }
+
+		[NWDHeaderAttribute("Prefab")]
+		public NWDPrefabType NormalPrefab { get; set; }
+		public NWDPrefabType SelectedPrefab { get; set; }
 
 		[NWDGroupStartAttribute("Classification",true, true, true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
 		public NWDReferencesListType<NWDCategory> Categories { get; set; }
 		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
-		[NWDGroupEndAttribute]
+		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
 
-		[NWDGroupStartAttribute("Opening",true, true, true)]
-		public int OpenDateTime { get; set; }
-		public int CloseDateTime { get; set; }
-		public int Calendar { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDGroupStartAttribute("Racks",true, true, true)]
-		public int RequestLifeTime { get; set; }
-		public NWDReferencesListType<NWDRack> DailyRack { get; set; }
-		public NWDReferencesListType<NWDRack> WeeklyRack { get; set; }
-		public NWDReferencesListType<NWDRack> MonthlyRack { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDShop()
+		public NWDItemGroup()
 		{
 			//Init your instance here
-			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

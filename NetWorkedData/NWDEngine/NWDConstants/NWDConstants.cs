@@ -34,14 +34,11 @@ namespace NetWorkedData
 		public static string kFieldSeparatorBSubstitute = 			"@2#";
 		public static string kFieldSeparatorCSubstitute = 			"@3#";
 		//-------------------------------------------------------------------------------------------------------------
-		public static string kAlertSaltError = 						"ALERT ! You must to configure NetWorkedData Configurations Files!" +
-		                                        					" Got to menu 'NetWorkedDatas' -> 'Project Management', select tab 'Project Constant' and enter your parameters." +
-		                                        					" When finished, click on button 'Save configurations'!";
-		public static string kAlertSaltShortError = 				"ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE";
+		public static string kAlertSaltShortError = 				"ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
 		public static float kFieldMarge = 							5.0f;
 		public static float kPrefabSize = 							40.0f;
 		public static float kIntWidth = 							36.0f;
-		public static float kEditWidth = 							14.0f;
+		public static float kEditWidth = 							12.0f;
 		public static float kLangWidth = 							200.0f;
 		//-------------------------------------------------------------------------------------------------------------
 		// NetWorked synchronize alert
@@ -155,16 +152,17 @@ namespace NetWorkedData
 
 		public const string K_APP_BASIS_DISACTIVED = 				"Disactived";
 		public const string K_APP_BASIS_INACTIVED = 				"Inactived :";
-		public const string K_APP_BASIS_REACTIVE = 					"Clik to re-active";
+		public const string K_APP_BASIS_REACTIVE = 					"ReActive";
 		public const string K_APP_BASIS_ACTIVE = 					"Active";
-		public const string K_APP_BASIS_DISACTIVE = 				"Click to disactive";
+		public const string K_APP_BASIS_DISACTIVE = 				"Disactive";
 
 		public const string K_APP_BASIS_PREVIEW_GAMEOBJECT = 		"Preview GameObject";
 		public const string K_APP_BASIS_INTERNAL_KEY = 				"Internal Key";
 		public const string K_APP_BASIS_INTERNAL_DESCRIPTION = 		"Internal Description";
 
 		public const string K_APP_BASIS_TRASH_ZONE = 				"TRASH ZONE";
-		public const string K_APP_BASIS_PUT_IN_TRASH = 				"Put in trash";
+		public const string K_APP_BASIS_ACTION_ZONE = 				"ACTION ZONE";
+		public const string K_APP_BASIS_PUT_IN_TRASH = 				"Trash-it";
 		public const string K_APP_BASIS_PUT_IN_TRASH_WARNING =		"Warning";
 		public const string K_APP_BASIS_PUT_IN_TRASH_MESSAGE =		"Do you want to trash this object?";
 		public const string K_APP_BASIS_PUT_IN_TRASH_OK = 			"Trash it";

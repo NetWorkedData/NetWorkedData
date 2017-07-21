@@ -53,7 +53,6 @@ namespace NetWorkedData
 				this.ProdEnvironment.Selected = false;
 				this.PreprodEnvironment.Selected = false;
 				this.DevEnvironment.Selected = true;
-				Debug.Log (NWDConstants.kAlertSaltError);
 			}
 			// But in unity we bypass the restaure configuration to use the environment selected in the editor's preferences 
 			#if UNITY_EDITOR

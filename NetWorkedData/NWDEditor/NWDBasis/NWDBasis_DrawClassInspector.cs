@@ -24,20 +24,19 @@ namespace NetWorkedData
 		public static bool mSettingsShowing = false;
 		public static bool mForceSynchronization = false;
 
-
 		public static void DrawTypeInInspector ()
 		{
 			if (TestSaltValid() == false)
 			{
-			EditorGUILayout.HelpBox ("ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE", MessageType.Error);
+				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 			}
 
-			if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_SEE_WORKFLOW, EditorStyles.miniButton)) {
-				TableMapping tTableMapping = new TableMapping (ClassType ());
-				string tClassName = tTableMapping.TableName;
-				string tEngineRootFolder = "Assets/NetWorkedDataWorkflow";
-				Selection.activeObject=AssetDatabase.LoadMainAssetAtPath(tEngineRootFolder + "/" + tClassName + "-Workflow.cs");
-			}
+//			if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_SEE_WORKFLOW, EditorStyles.miniButton)) {
+//				TableMapping tTableMapping = new TableMapping (ClassType ());
+//				string tClassName = tTableMapping.TableName;
+//				string tEngineRootFolder = "Assets/NetWorkedDataWorkflow";
+//				Selection.activeObject=AssetDatabase.LoadMainAssetAtPath(tEngineRootFolder + "/" + tClassName + "-Workflow.cs");
+//			}
 
 
 			EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_DESCRIPTION, EditorStyles.boldLabel);

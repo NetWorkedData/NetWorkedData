@@ -126,13 +126,13 @@ namespace NetWorkedData
 			GUIStyle tCenterLabel = new GUIStyle (EditorStyles.boldLabel);
 			tCenterLabel.alignment = TextAnchor.MiddleCenter;
 
-			if (TestSaltValid () == false) {
-				EditorGUILayout.HelpBox ("ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE", MessageType.Error);
-			}
+//			if (TestSaltValid () == false) {
+//				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
+//			}
 			if (NWDDataManager.SharedInstance.TestSaltMemorizationForAllClass () == false) {
-				EditorGUILayout.HelpBox ("ALERT SALT IN NOT MEMRORIZE... USE PROJECT TAB TO REGENERATE CONFIGURATION FILE", MessageType.Error);
-			
+				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 			}
+
 			GUILayout.Label (NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
 			//EditorGUILayout.BeginScrollView (Vector2.zero, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (false), GUILayout.ExpandHeight (false));
 			// ===========================================

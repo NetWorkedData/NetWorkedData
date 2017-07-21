@@ -21,7 +21,7 @@ namespace NetWorkedData
 {
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDPrefabType : BTBDataType
+	public class NWDPrefabType : NWDUnityType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPrefabType ()
