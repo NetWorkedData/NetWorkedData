@@ -14,6 +14,8 @@ namespace NetWorkedData
 	public class NWDDataInspector : EditorWindow
 	{
 		public object mObjectInEdition;
+		public List<object> mObjectsList = new List<object> ();
+		public int ActualIndex = 0;
 
 		static NWDDataInspector kShareInstance;
 
@@ -40,13 +42,54 @@ namespace NetWorkedData
 				kShareInstance.Repaint ();
 			}
 		}
-
-		public static void InspectNetWorkedData (object sTarget)
-		{
-			ShareInstance ().mObjectInEdition = sTarget;
+		// TODO: sortir en method d'instance et remmettre les raccpurcis en static
+		public static void InspectNetWorkedDataPreview () {
+			NWDDataInspector tShareInstance = ShareInstance ();
+			tShareInstance.ActualIndex--;
+			if (tShareInstance.ActualIndex < 0) {
+				tShareInstance.ActualIndex = 0;
+			}
+			object tTarget = tShareInstance.mObjectsList[tShareInstance.ActualIndex];
+			tShareInstance.mObjectInEdition = tTarget;
+			tShareInstance.Repaint ();
+			tShareInstance.RemoveActualFocus = true;
+			tShareInstance.Focus();
+		}
+		public static void InspectNetWorkedDataNext () {
+			NWDDataInspector tShareInstance = ShareInstance ();
+			tShareInstance.ActualIndex++;
+			if (tShareInstance.ActualIndex >= tShareInstance.mObjectsList.Count) {
+				tShareInstance.ActualIndex = 0;
+			}
+			object tTarget = tShareInstance.mObjectsList[tShareInstance.ActualIndex];
+			ShareInstance ().mObjectInEdition = tTarget;
 			ShareInstance ().Repaint ();
 			ShareInstance ().RemoveActualFocus = true;
 			ShareInstance ().Focus();
+		}
+		public static bool InspectNetWorkedPreview () {
+			NWDDataInspector tShareInstance = ShareInstance ();
+			return (tShareInstance.ActualIndex > 0);
+		}
+		public static bool InspectNetWorkedNext () {
+			NWDDataInspector tShareInstance = ShareInstance ();
+			return (tShareInstance.ActualIndex < tShareInstance.mObjectsList.Count-1);
+		}
+
+		public static void InspectNetWorkedData (object sTarget, bool sResetStack = true)
+		{
+			NWDDataInspector tShareInstance = ShareInstance ();
+			if (sResetStack == true) {
+				tShareInstance.mObjectsList = new List<object> ();
+			} else {
+				tShareInstance.mObjectsList.RemoveRange (tShareInstance.ActualIndex + 1, tShareInstance.mObjectsList.Count - tShareInstance.ActualIndex - 1);
+			}
+			tShareInstance.ActualIndex = tShareInstance.mObjectsList.Count;
+			tShareInstance.mObjectsList.Add (sTarget);
+			tShareInstance.mObjectInEdition = sTarget;
+			tShareInstance.Repaint ();
+			tShareInstance.RemoveActualFocus = true;
+			tShareInstance.Focus();
 //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
 		}
 

@@ -39,11 +39,11 @@ namespace NetWorkedData
 				sEditorWindow.Focus ();
 			}
 		}
-		public static void SetObjectInEdition (object sObject)
+		public static void SetObjectInEdition (object sObject, bool sResetStack = true)
 		{
 			
 			GUI.FocusControl (null);
-			NWDDataInspector.InspectNetWorkedData (sObject);
+			NWDDataInspector.InspectNetWorkedData (sObject, sResetStack);
 			if (sObject != null) {
 				tLastTypeEdited = sObject.GetType ();
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (tLastTypeEdited);
@@ -820,7 +820,20 @@ namespace NetWorkedData
 //
 			//GUI.SetNextControlName(NWDConstants.K_CLASS_FOCUS_ID);
 			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
+
+			// add button to navigate next / preview
+			if (NWDDataInspector.InspectNetWorkedPreview ()) {
+				if (GUI.Button (new Rect (tX , tY, 20, 20), "<")) {
+					NWDDataInspector.InspectNetWorkedDataPreview ();
+				}
+			}
+			if (NWDDataInspector.InspectNetWorkedNext ()) {
+				if (GUI.Button (new Rect (tX + tWidth - 20, tY, 20, 20), ">")) {
+					NWDDataInspector.InspectNetWorkedDataNext ();
+				}
+			}
 			tY += tTitleLabelStyle.fixedHeight + NWDConstants.kFieldMarge * 2;
+
 
 //			EditorGUI.BeginDisabledGroup (true);
 //			EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), ClassNamePHP () , this,  typeof(NWDBasis<K>), false);

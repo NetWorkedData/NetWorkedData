@@ -194,7 +194,7 @@ namespace NetWorkedData
 				tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
 				if (tIndex >= 0) {
 					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
-						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.GetObjectByReference (tReferenceList.ElementAt (tIndex)));
+						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.GetObjectByReference (tReferenceList.ElementAt (tIndex)),false);
 					}
 				}
 				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
