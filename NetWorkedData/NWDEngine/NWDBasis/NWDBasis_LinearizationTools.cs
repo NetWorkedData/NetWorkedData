@@ -68,9 +68,9 @@ namespace NetWorkedData
 				tAssembly += sDataArray [i];
 			}
 			string tCalculateIntegrity = HashSum (PrefSaltA () + tAssembly + PrefSaltB ());
-            BTBDebug.Log ("tAssembly = " +tAssembly);
-            BTBDebug.Log ("tCalculateIntegrity = " + tCalculateIntegrity);
-            BTBDebug.Log ("tActualIntegrity = " + tActualIntegrity);
+//			BTBDebug.LogVerbose ("tAssembly = " +tAssembly);
+//			BTBDebug.LogVerbose ("tCalculateIntegrity = " + tCalculateIntegrity);
+//			BTBDebug.LogVerbose ("tActualIntegrity = " + tActualIntegrity);
 			if (tActualIntegrity != tCalculateIntegrity) {
 				rReturn = false;
 			}

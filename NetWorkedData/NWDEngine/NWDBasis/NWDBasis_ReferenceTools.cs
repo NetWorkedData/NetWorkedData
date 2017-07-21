@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 
 using UnityEngine;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -94,7 +95,7 @@ namespace NetWorkedData
 
 		public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference, Type sType)
 		{
-			Debug.Log ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
+			//BTBDebug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
 			foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList)
 			{
 				tObject.ChangeReferenceForAnother( sOldReference, sNewReference, sType);
@@ -121,18 +122,18 @@ namespace NetWorkedData
 						)
 						{
 
-							Debug.Log ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
+//							BTBDebug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
 							var tMethodInfo = tTypeOfThis.GetMethod ("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
 							if (tMethodInfo != null) {
 								var tNext = tProp.GetValue (this, null);
 								if (tNext == null) {
 									tNext = Activator.CreateInstance (tTypeOfThis);
 								}
-								Debug.Log ("tNext preview = " + tNext);
+//								BTBDebug.LogVerbose ("tNext preview = " + tNext);
 								string tChanged = tMethodInfo.Invoke (tNext, new object[]{sOldReference,sNewReference, sType}) as string;
 								if (tChanged == "YES") 
 								{
-									Debug.Log ("tNext changed = " + tNext);
+//									BTBDebug.LogVerbose ("tNext changed = " + tNext);
 										tProp.SetValue (this, tNext, null);
 										rModify = true;
 								}
@@ -143,7 +144,7 @@ namespace NetWorkedData
 			}
 			if (rModify == true)
 			{
-				Debug.Log ("I WAS UPDATED");
+//				BTBDebug.LogVerbose ("I WAS UPDATED");
 				UpdateMe();
 			}
 		}

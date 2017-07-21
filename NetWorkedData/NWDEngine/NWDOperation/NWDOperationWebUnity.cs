@@ -88,7 +88,7 @@ namespace NetWorkedData
 
 			Statut = BTBOperationState.InProgress;
 			float tStart = Time.time;
-			BTBDebug.Log ("ExecuteAsync tStart = " + tStart.ToString ());
+//			BTBDebug.LogVerbose ("ExecuteAsync tStart = " + tStart.ToString ());
 			// Put Sync in progress
 			// ParentQueue.SynchronizeInProgress = true;
 			// Send this operation in actual operation for this environment
@@ -111,7 +111,7 @@ namespace NetWorkedData
 				//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("header inserted", this));
 				// I send the data
 				Request.Send ();
-				BTBDebug.Log ("Request URL " + Request.url);
+//				BTBDebug.LogVerbose ("Request URL " + Request.url);
 				while (!Request.isDone) {
 					//BTBDebug.Log ("Inside waiting loop, updating progress");
 					Statut = BTBOperationState.InProgress;
@@ -126,7 +126,7 @@ namespace NetWorkedData
 						//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("downloadProgress", this));
 					}
 					if (Request.isDone == true) {
-						BTBDebug.Log ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+//						BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
 					}
 					#if UNITY_EDITOR
 					yield return null;
@@ -136,7 +136,7 @@ namespace NetWorkedData
 					#endif
 				}
 
-				BTBDebug.Log ("NWDOperationWebUnity Request isDone: " + Request.isDone);
+//				BTBDebug.LogVerbose ("NWDOperationWebUnity Request isDone: " + Request.isDone);
 				if (Request.isNetworkError) { // Error
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
 					Statut = BTBOperationState.Error;
@@ -144,7 +144,7 @@ namespace NetWorkedData
 					FailInvoke (Request.downloadProgress, tInfosError);
 				} else { // Success
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
-					BTBDebug.Log ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
+//					BTBDebug.LogVerbose ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
 					Dictionary<string, object> tData = new Dictionary<string, object> ();
 					if (Request.downloadHandler.text.Equals ("")) {
 						Statut = BTBOperationState.Error;
@@ -223,15 +223,15 @@ namespace NetWorkedData
 
 				float tEnd = Time.time;
 				float tDelta = tEnd - tStart;
-				BTBDebug.Log ("ExecuteAsync tEnd = " + tEnd.ToString ());
-				BTBDebug.Log ("ExecuteAsync tDelta = " + tDelta.ToString ());
+//				BTBDebug.LogVerbose ("ExecuteAsync tEnd = " + tEnd.ToString ());
+//				BTBDebug.LogVerbose ("ExecuteAsync tDelta = " + tDelta.ToString ());
 				Finish ();
 			}
 		}
 
 		public override void Cancel ()
 		{
-			BTBDebug.Log ("NWDOperationWebUnity Cancel");
+//			BTBDebug.LogVerbose ("NWDOperationWebUnity Cancel");
 			this.Statut = BTBOperationState.Cancel;
 			if (Request != null) {
 				Request.Abort ();
@@ -247,8 +247,7 @@ namespace NetWorkedData
 
 		public override void Finish ()
 		{
-			BTBDebug.Log ("NWDOperationWebUnity Finish");
-
+//			BTBDebug.LogVerbose ("NWDOperationWebUnity Finish");
 			this.Statut = BTBOperationState.Finish;
 			IsFinish = true;
 			Parent.NextOperation (this.QueueName);
@@ -287,7 +286,7 @@ namespace NetWorkedData
 		{
 			//TODO: Insert Header In Request
 			Dictionary<string, object> tHeaderParams = new Dictionary<string, object> ();
-			BTBDebug.Log ("UUID USED IS : '" + Environment.PlayerAccountReference + "' and token is = " + Environment.RequesToken);
+//			BTBDebug.LogVerbose ("UUID USED IS : '" + Environment.PlayerAccountReference + "' and token is = " + Environment.RequesToken);
 			// define values
 			UUID = Environment.PlayerAccountReference;
 			RequestToken = Environment.RequesToken;
@@ -351,7 +350,7 @@ namespace NetWorkedData
 			string tDigestKey = UnSecureDigestKey;
 			string tParamValue = "";
 			string tDigestValue = "";
-			BTBDebug.Log ("Insert data in request : json = " + Json.Serialize (Data), BTBDebugResult.Success);
+//			BTBDebug.LogVerbose ("Insert data in request : json = " + Json.Serialize (Data), BTBDebugResult.Success);
 			if (SecureData) {
 				tParamKey = SecureKey;
 				tDigestKey = SecureDigestKey;

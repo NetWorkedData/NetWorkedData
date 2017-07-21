@@ -204,7 +204,7 @@ namespace NetWorkedData
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
 		public static Dictionary<string, object> SynchronizationPushData (NWDAppEnvironment sEnvironment, bool sForceAll)
 		{
-            BTBDebug.Log ("SynchronizationPushData for table " + TableName ());
+            //BTBDebug.Log ("SynchronizationPushData for table " + TableName ());
 			// ok if sync will be ok this date will be the last sync for this table
 			SynchronizationSetInWaitingTimestamp (sEnvironment, NWDToolbox.Timestamp ());
 			// create respond object
@@ -244,7 +244,7 @@ namespace NetWorkedData
 			}
 			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
             // return the data
-            BTBDebug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+            //BTBDebug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
 			return rSend;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -254,7 +254,7 @@ namespace NetWorkedData
 		/// <param name="sData">S data.</param>
 		public static void SynchronizationPullData (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData)
 		{
-            BTBDebug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
+            //BTBDebug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
 			// Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
 			if (sData.ContainsKey ("error")) {
 				// error to show on Device
@@ -263,7 +263,7 @@ namespace NetWorkedData
 				if (sData.ContainsKey ("timestamp")) {
 					tTimestampServer = int.Parse (sData ["timestamp"].ToString ());
 				} else {
-                    BTBDebug.Log ("BIG ERROR NO TIMESTAMP");
+					BTBDebug.Warning ("BIG ERROR NO TIMESTAMP");
 				}
 				SynchronizationTimestampValidate (sEnvironment, tTimestampServer);
 				// now i need get only datas for this class tablename
@@ -275,7 +275,7 @@ namespace NetWorkedData
                     //BTBDebug.Log ("tListOfRows found! with " + tListOfRows.Count + " row(s)");
                     foreach (object tCsvValue in tListOfRows) {
 						string tCsvValueString = tCsvValue as string;
-                        BTBDebug.Log ("Datas found : '" + tCsvValueString + "'");
+                        //BTBDebug.Log ("Datas found : '" + tCsvValueString + "'");
 						// I try to use this data to ... insert/update/delete/... ?
 						bool tForceToUse = false;
 						#if UNITY_EDITOR

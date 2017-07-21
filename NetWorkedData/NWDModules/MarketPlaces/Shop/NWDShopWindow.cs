@@ -18,6 +18,7 @@ namespace NetWorkedData
 			typeof(NWDRack), 
 			typeof(NWDPack), 
 			typeof(NWDItemPack), 
+			typeof(NWDItem),
 			typeof(NWDSpent),
 			/* Add NWDBasis here*/
 		}
