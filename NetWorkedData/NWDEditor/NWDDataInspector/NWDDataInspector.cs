@@ -13,13 +13,16 @@ namespace NetWorkedData
 {
 	public class NWDDataInspector : EditorWindow
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		public object mObjectInEdition;
 		public List<object> mObjectsList = new List<object> ();
 		public int ActualIndex = 0;
-
-		static NWDDataInspector kShareInstance;
-
 		public bool RemoveActualFocus = true;
+		//-------------------------------------------------------------------------------------------------------------
+		private Vector2 ScrollPosition = Vector2.zero;
+		//-------------------------------------------------------------------------------------------------------------
+		static NWDDataInspector kShareInstance;
+		//-------------------------------------------------------------------------------------------------------------
 		public static NWDDataInspector ShareInstance ()
 		{
 			if (kShareInstance == null)
@@ -32,93 +35,113 @@ namespace NetWorkedData
 			}
 			return kShareInstance;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 		public static void ActiveInspector ()
 		{
 			ShareInstance().Show ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
 		public static void ActiveRepaint()
 		{
 			if (kShareInstance != null) {
 				kShareInstance.Repaint ();
 			}
 		}
-		// TODO: sortir en method d'instance et remmettre les raccpurcis en static
+		//-------------------------------------------------------------------------------------------------------------
 		public static void InspectNetWorkedDataPreview () {
-			NWDDataInspector tShareInstance = ShareInstance ();
-			tShareInstance.ActualIndex--;
-			if (tShareInstance.ActualIndex < 0) {
-				tShareInstance.ActualIndex = 0;
-			}
-			object tTarget = tShareInstance.mObjectsList[tShareInstance.ActualIndex];
-			tShareInstance.mObjectInEdition = tTarget;
-			tShareInstance.Repaint ();
-			tShareInstance.RemoveActualFocus = true;
-			tShareInstance.Focus();
+			ShareInstance ().DataPreview ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void DataPreview () {
+			ActualIndex--;
+			if (ActualIndex < 0) {
+				ActualIndex = 0;
+			}
+			object tTarget = mObjectsList[ActualIndex];
+			mObjectInEdition = tTarget;
+			Repaint ();
+			RemoveActualFocus = true;
+			Focus();
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public static void InspectNetWorkedDataNext () {
-			NWDDataInspector tShareInstance = ShareInstance ();
-			tShareInstance.ActualIndex++;
-			if (tShareInstance.ActualIndex >= tShareInstance.mObjectsList.Count) {
-				tShareInstance.ActualIndex = 0;
+			ShareInstance ().DataNext ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void DataNext () {
+			ActualIndex++;
+			if (ActualIndex >= mObjectsList.Count) {
+				ActualIndex = 0;
 			}
-			object tTarget = tShareInstance.mObjectsList[tShareInstance.ActualIndex];
-			ShareInstance ().mObjectInEdition = tTarget;
-			ShareInstance ().Repaint ();
-			ShareInstance ().RemoveActualFocus = true;
-			ShareInstance ().Focus();
+			object tTarget = mObjectsList[ActualIndex];
+			mObjectInEdition = tTarget;
+			Repaint ();
+			RemoveActualFocus = true;
+			Focus();
 		}
+		//-------------------------------------------------------------------------------------------------------------
 		public static bool InspectNetWorkedPreview () {
-			NWDDataInspector tShareInstance = ShareInstance ();
-			return (tShareInstance.ActualIndex > 0);
+			return ShareInstance ().Preview ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool Preview () {
+			return (ActualIndex > 0);
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public static bool InspectNetWorkedNext () {
-			NWDDataInspector tShareInstance = ShareInstance ();
-			return (tShareInstance.ActualIndex < tShareInstance.mObjectsList.Count-1);
+			return ShareInstance ().Next ();
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
+		public bool Next () {
+			return (ActualIndex < mObjectsList.Count-1);
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public static void InspectNetWorkedData (object sTarget, bool sResetStack = true)
 		{
-			NWDDataInspector tShareInstance = ShareInstance ();
+			ShareInstance ().Data (sTarget, sResetStack);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void Data (object sTarget, bool sResetStack = true)
+		{
 			if (sResetStack == true) {
-				tShareInstance.mObjectsList = new List<object> ();
+				mObjectsList = new List<object> ();
 			} else {
-				tShareInstance.mObjectsList.RemoveRange (tShareInstance.ActualIndex + 1, tShareInstance.mObjectsList.Count - tShareInstance.ActualIndex - 1);
+				mObjectsList.RemoveRange (ActualIndex + 1, mObjectsList.Count - ActualIndex - 1);
 			}
-			tShareInstance.ActualIndex = tShareInstance.mObjectsList.Count;
-			tShareInstance.mObjectsList.Add (sTarget);
-			tShareInstance.mObjectInEdition = sTarget;
-			tShareInstance.Repaint ();
-			tShareInstance.RemoveActualFocus = true;
-			tShareInstance.Focus();
+			ActualIndex = mObjectsList.Count;
+			mObjectsList.Add (sTarget);
+			mObjectInEdition = sTarget;
+			Repaint ();
+			RemoveActualFocus = true;
+			Focus();
 //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static object ObjectInEdition ()
 		{
 			return ShareInstance ().mObjectInEdition;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 		// Use this for initialization
 		void Start ()
 		{
 			//Debug.Log ("Start");
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public void OnEnable ()
 		{
 			//Debug.Log ("OnEnable");
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 //		public void Update ()
 //		{
 //			Debug.Log ("Update");
-//		}
-
+		//		}
+		//-------------------------------------------------------------------------------------------------------------
 		void OnDestroy() {
 			
 		}
-
-		public Vector2 ScrollPosition = Vector2.zero;
-
+		//-------------------------------------------------------------------------------------------------------------
 		public void OnGUI ()
 		{
 			if (RemoveActualFocus == true) {
@@ -144,6 +167,7 @@ namespace NetWorkedData
 			}
 //			GUI.EndScrollView();
 		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================
