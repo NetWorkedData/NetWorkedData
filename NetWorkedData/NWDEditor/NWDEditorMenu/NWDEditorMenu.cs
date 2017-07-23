@@ -29,7 +29,13 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_IDEMOBI, false, 00)]
 		public static void IdemobiNetWorkedDataInfoShow()
 		{
-			EditorUtility.DisplayDialog(NWDConstants.K_ALERT_IDEMOBI_TITLE, NWDConstants.K_ALERT_IDEMOBI_MESSAGE, NWDConstants.K_ALERT_IDEMOBI_OK);
+			if (EditorUtility.DisplayDialog (NWDConstants.K_ALERT_IDEMOBI_TITLE,
+				NWDConstants.K_ALERT_IDEMOBI_MESSAGE,
+				NWDConstants.K_ALERT_IDEMOBI_OK,
+				NWDConstants.K_ALERT_IDEMOBI_SEE_DOC)) {
+			} else {
+				Application.OpenURL (NWDConstants.K_ALERT_IDEMOBI_DOC_HTTP);
+			};
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// menu 11 see NWD project window.
