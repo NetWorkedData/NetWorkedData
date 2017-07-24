@@ -36,7 +36,7 @@ namespace NetWorkedData
 		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDHeaderAttribute("Send these items pack")]
+		[NWDHeaderAttribute("Item Pack in this Pack")]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
 
 		[NWDHeaderAttribute("Pay with these items")]
