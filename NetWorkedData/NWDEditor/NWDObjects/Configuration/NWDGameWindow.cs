@@ -26,7 +26,7 @@ namespace NetWorkedData
 	public class NWDGameWindow : NWDBasisWindow <NWDGameWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_GAME, false, 40)]
+		[MenuItem (NWDConstants.K_MENU_GAME, false, 50)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

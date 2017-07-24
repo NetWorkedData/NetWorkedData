@@ -156,6 +156,7 @@ namespace NetWorkedData
 				mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
 				if (tNWDBasisWindowParamAttribute.TypeList == null) {
 					mTabTypeList = NWDDataManager.SharedInstance.mTypeList.ToArray ();
+					Array.Sort(mTabTypeList, (x,y) => String.Compare(x.Name, y.Name));
 				} else {
 					mTabTypeList = tNWDBasisWindowParamAttribute.TypeList;
 				}
@@ -239,8 +240,8 @@ namespace NetWorkedData
 			if (mTabList.Length > 1) {
 				GUILayout.Space (5.0f);
 				Rect tRect = GUILayoutUtility.GetLastRect ();
-				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y, tWidthUsed, 35.0f), new Color (0.6f, 0.6f, 0.6f,1.0f));
-				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y+35.0f, tWidthUsed, 1.0f), new Color (0.5f, 0.5f, 0.5f, 1.0f));
+				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y, tWidthUsed, 35.0f), new Color (0.6f, 0.6f, 0.6f, 1.0f));
+				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y + 35.0f, tWidthUsed, 1.0f), new Color (0.5f, 0.5f, 0.5f, 1.0f));
 				if (mTabList.Length < 6) {
 					tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
 				} else {

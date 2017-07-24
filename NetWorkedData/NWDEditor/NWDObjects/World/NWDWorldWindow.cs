@@ -26,7 +26,7 @@ namespace NetWorkedData
 	public class NWDWorldWindow : NWDBasisWindow <NWDWorldWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "World" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 60)]
+		[MenuItem (NWDConstants.K_MENU_BASE + "World" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 52)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
