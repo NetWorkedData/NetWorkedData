@@ -10,27 +10,21 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Game",
-		"Project Edition, You can add, change, remove the item of your game here. " +
-		"Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
+	[NWDTypeWindowParamAttribute("NWD Classes",
+		"All NWD Basis herited classes edition window.",
 		"settings",
-		new Type[] { 
-			typeof(NWDVersion),
-			typeof(NWDConfiguration),
-			typeof(NWDLocalization),
-			typeof(NWDError),
-			/* Add NWDBasis here*/
-		}
+		null
 	)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDGameWindow : NWDBasisWindow <NWDGameWindow>
+	public class NWDAllClassesWindow : NWDBasisWindow <NWDAllClassesWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_GAME, false, 40)]
+		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 30)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDGameWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDAllClassesWindow));
+			NWDAllClassesWindow tAllClassWindow = tWindow as NWDAllClassesWindow;
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
