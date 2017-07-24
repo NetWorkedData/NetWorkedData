@@ -12,7 +12,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Barter",
 		"Barter window description",
-		"settings",
+		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDBarterPlace), 
 			typeof(NWDBarterRequest), 

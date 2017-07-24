@@ -13,7 +13,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute ("Shop",
 		"Shop window description",
-		"settings",
+		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDShop),
 			typeof(NWDRack), 

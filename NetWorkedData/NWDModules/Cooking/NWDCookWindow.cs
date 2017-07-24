@@ -11,9 +11,9 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Cooking",
 		"cooking Edition",
-		"settings",
+		"NWDIcons_02",
 		new Type[] {
-			typeof(NWDItem),
+			typeof(NWDItemGroup),
 			typeof(NWDCookRecipe),
 			/* Add NWDBasis here*/
 		}

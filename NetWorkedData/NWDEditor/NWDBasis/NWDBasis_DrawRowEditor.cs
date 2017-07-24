@@ -98,6 +98,7 @@ namespace NetWorkedData
 		public void RowInformation (Rect sRect)
 		{ 
 			// prepare text
+			Rect rRectColored = new Rect (sRect.x-5, sRect.y, sRect.width+10, sRect.height);
 			string tString = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i>";
 			tString = tString.Replace ("()", "");
 			string tStringReference = "<" + Reference + ">";
@@ -116,20 +117,20 @@ namespace NetWorkedData
 			// test Integrity, trash, etc. to draw the good color of row
 			// and draw the toogle to select this row
 			if (TestIntegrity () == false) {
-				EditorGUI.DrawRect (sRect, kRowColorError);
+				EditorGUI.DrawRect (rRectColored, kRowColorError);
 				ObjectsInEditorTableSelectionList [tIndex] = false;
 				GUILayout.Label ("!!!", GUILayout.Width(kSelectWidth));
 				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
 				tString = "<color=#a52a2aff>" +tString +"</color>";
 			} else if (XX > 0) {
-				EditorGUI.DrawRect (sRect, kRowColorTrash);
+				EditorGUI.DrawRect (rRectColored, kRowColorTrash);
 				ObjectsInEditorTableSelectionList [tIndex] = false;
 				GUILayout.Label ("   ", GUILayout.Width(kSelectWidth));
 				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
 				tString = "<color=#444444ff>" +tString +"</color>";
 			} else {
 				if (AC == false) {
-					EditorGUI.DrawRect (sRect, kRowColorDisactive);
+					EditorGUI.DrawRect (rRectColored, kRowColorDisactive);
 					sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
 					tString = "<color=#555555ff>" +tString +"</color>";
 				}
@@ -219,6 +220,7 @@ namespace NetWorkedData
 			Rect tRect = GUILayoutUtility.GetLastRect ();
 			// determine rect to select and draw
 			Rect rRect = new Rect (tRect.x, tRect.y-5, tWidthUsed, kRowHeight+5);
+			Rect rRectColored = new Rect (tRect.x-5, tRect.y-5, tWidthUsed+10, kRowHeight+5);
 			// determine rect to analyze
 			Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, tWidthUsed, kRowHeight+10);
 			// check click in rect
@@ -239,7 +241,7 @@ namespace NetWorkedData
 			// check if object is in edition and draw color rect overlay
 			if (IsObjectInEdition (this) == true)
 			{
-				EditorGUI.DrawRect (rRect, kRowColorSelected);
+				EditorGUI.DrawRect (rRectColored, kRowColorSelected);
 			}
 			// draw informations
 			RowInformation (rRect);

@@ -64,7 +64,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Texture FromGizmos(string sName)
 		{
-			return AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/Gizmos/"+sName+".png"));
+			return AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/"+sName+".png"));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -215,7 +215,7 @@ namespace NetWorkedData
 			titleContent.text = mTitleKey;
 			if (IconOfWindow == null) 
 			{
-				IconOfWindow = AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/Gizmos/settings.png"));
+				IconOfWindow = AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/settings.png"));
 			}
 			if (IconOfWindow != null) {
 				titleContent.image = IconOfWindow;
@@ -242,7 +242,7 @@ namespace NetWorkedData
 				Rect tRect = GUILayoutUtility.GetLastRect ();
 				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y, tWidthUsed, 35.0f), new Color (0.6f, 0.6f, 0.6f, 1.0f));
 				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y + 35.0f, tWidthUsed, 1.0f), new Color (0.5f, 0.5f, 0.5f, 1.0f));
-				if (mTabList.Length < 6) {
+				if (mTabList.Length < 10) {
 					tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
 				} else {
 					tTabSelected = EditorGUILayout.Popup (mTabSelected, mTabList);

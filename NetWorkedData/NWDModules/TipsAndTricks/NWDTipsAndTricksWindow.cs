@@ -13,7 +13,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Tips & Tricks",
 		"Tips & Tricks window description",
-		"settings",
+		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDTipsAndTricks),
 			typeof(NWDTipsAndTricksOwnership),

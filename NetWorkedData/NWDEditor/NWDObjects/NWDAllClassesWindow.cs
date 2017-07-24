@@ -12,14 +12,14 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("NWD Classes",
 		"All NWD Basis herited classes edition window.",
-		"settings",
+		"NWDIcons_02",
 		null
 	)]
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDAllClassesWindow : NWDBasisWindow <NWDAllClassesWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 30)]
+		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 40)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

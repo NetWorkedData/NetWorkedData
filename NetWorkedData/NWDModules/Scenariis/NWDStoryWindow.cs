@@ -12,7 +12,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Story",
 		"Story window description",
-		"settings",
+		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDQuest),
 			typeof(NWDDialog),

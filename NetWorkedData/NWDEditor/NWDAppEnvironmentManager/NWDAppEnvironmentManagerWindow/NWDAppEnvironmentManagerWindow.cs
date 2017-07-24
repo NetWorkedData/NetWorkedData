@@ -14,17 +14,17 @@ namespace NetWorkedData
 	/// </summary>
 	public class NWDAppEnvironmentManagerWindow : NWDBasisWindow <NWDAppEnvironmentManagerWindow>
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 11)]
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Menus the method.
-		/// </summary>
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDAppEnvironmentManagerWindow));
-			tWindow.Show ();
-		}
+//		//-------------------------------------------------------------------------------------------------------------
+//		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 24)]
+//		//-------------------------------------------------------------------------------------------------------------
+//		/// <summary>
+//		/// Menus the method.
+//		/// </summary>
+//		public static void MenuMethod ()
+//		{
+//			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDAppEnvironmentManagerWindow));
+//			tWindow.Show ();
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDAppEnvironmentManagerWindow"/> class.
@@ -39,7 +39,7 @@ namespace NetWorkedData
 		public void OnEnable ()
 		{
 			mTitleKey = "Environments";
-			IconOfWindow = FromGizmos("settings");
+			IconOfWindow = FromGizmos("NWDIcons_03");
 			mDescriptionKey = "Environments Edition, You can add, change, remove the item of your game here. Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.";
 			mTabTypeList = new Type[] {
 				typeof(NWDAppEnvironmentManager),

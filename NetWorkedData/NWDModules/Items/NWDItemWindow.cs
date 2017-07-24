@@ -13,7 +13,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("Items",
 		"Items Edition",
-		"settings",
+		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDItemGroup), 
 			typeof(NWDItem), 

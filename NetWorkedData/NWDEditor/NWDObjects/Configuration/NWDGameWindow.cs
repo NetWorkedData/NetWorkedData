@@ -13,7 +13,7 @@ namespace NetWorkedData
 	[NWDTypeWindowParamAttribute("Game",
 		"Project Edition, You can add, change, remove the item of your game here. " +
 		"Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
-		"settings",
+		"NWDIcons_02",
 		new Type[] { 
 			typeof(NWDVersion),
 			typeof(NWDConfiguration),

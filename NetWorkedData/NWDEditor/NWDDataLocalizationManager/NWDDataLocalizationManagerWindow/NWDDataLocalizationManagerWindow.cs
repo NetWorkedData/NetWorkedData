@@ -27,7 +27,7 @@ namespace NetWorkedData
 		public void OnEnable ()
 		{
 			mTitleKey = "Localization";
-			IconOfWindow = FromGizmos("settings");
+			IconOfWindow = FromGizmos("NWDIcons_03");
 			mDescriptionKey = "";
 			mTabTypeList = new Type[] {
 				typeof(NWDDataLocalizationManager),

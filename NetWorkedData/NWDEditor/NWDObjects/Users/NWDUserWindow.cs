@@ -12,7 +12,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDTypeWindowParamAttribute("User",
 		"User management … ",
-		"group",
+		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDAccount),
 //			typeof(NWDRequestToken),
