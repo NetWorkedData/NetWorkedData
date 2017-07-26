@@ -23,7 +23,7 @@ namespace NetWorkedData
 	public class NWDLevelsWindow : NWDBasisWindow <NWDLevelsWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Level" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 100)]
+		[MenuItem (NWDConstants.K_MENU_BASE + "Level" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

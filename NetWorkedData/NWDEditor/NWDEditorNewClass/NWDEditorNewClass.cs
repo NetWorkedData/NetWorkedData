@@ -93,10 +93,20 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
+		/// Raises the enable event.
+		/// </summary>
+		public void OnEnable ()
+		{
+			titleContent = new GUIContent ("New NWDBasis Class generator");
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
 		/// Raises the OnGUI event. Create the interface to enter a new class.
 		/// </summary>
 		public void OnGUI ()
 		{
+
+			titleContent = new GUIContent ("New NWDBasis Class generator");
 			//Prepare the form varaible 
 			Regex tRegExpression = new Regex ("[^a-zA-Z]");
 			Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
@@ -115,6 +125,7 @@ namespace NetWorkedData
 				EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
 				tCanCreate = false;
 			} else {
+//				TODO: find if Type exists for generic
 				foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
 					if (tType.Name == ClassName) {
 						tCanCreate = false;

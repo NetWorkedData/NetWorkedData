@@ -60,8 +60,8 @@ namespace NetWorkedData
 		public const string K_MENU_IDEMOBI = 						K_MENU_BASE+"Developped by ideMobi";
 
 		public const string K_MENU_EDITOR_PREFERENCES = 			K_MENU_BASE+"Editor preferences";
-		public const string K_MENU_EDITOR_NEWCLASS = 				K_MENU_BASE+"Create New NWD Data Class";
-		public const string K_MENU_EDITOR_NEWWINDOW = 				K_MENU_BASE+"Create New Window of NWD Classes";
+		public const string K_MENU_EDITOR_NEWCLASS = 				K_MENU_BASE+"Create New NWDBasis Class";
+		public const string K_MENU_EDITOR_NEWWINDOW = 				K_MENU_BASE+"Create New Window NWD management";
 
 		public const string K_MENU_ENVIRONMENT_EDIT = 				K_MENU_BASE+"Environment configurations";
 		public const string K_MENU_ENVIRONMENT = 					K_MENU_BASE+"Environment player chooser";
@@ -69,42 +69,42 @@ namespace NetWorkedData
 		public const string K_MENU_GAME = 							K_MENU_BASE+"Game's configurations";
 		public const string K_MENU_ALL_CLASSES = 					K_MENU_BASE+"All Data's Classes (herited from NWDBasis<K>)";
 
-		public const string K_MENU_CREATE = 						"Creation of files/";
-		public const string K_MENU_CREATE_PHP_FILES = 				K_MENU_BASE+K_MENU_CREATE+"Create PHP Files";
-		public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = 	K_MENU_BASE+K_MENU_CREATE+"Export website(s)";
-		public const string K_MENU_CREATE_CSHARP_FILES = 			K_MENU_BASE+K_MENU_CREATE+"Create CSharp Files Workflow";
+		public const string K_MENU_CREATE = 						"Creation of files";
+		public const string K_MENU_CREATE_PHP_FILES = 				K_MENU_BASE+K_MENU_CREATE+"/Create PHP Files";
+		public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = 	K_MENU_BASE+K_MENU_CREATE+"/Export website(s)";
+		public const string K_MENU_CREATE_CSHARP_FILES = 			K_MENU_BASE+K_MENU_CREATE+"/Create CSharp Files Workflow";
 
-		public const string K_MENU_LOCALIZATION = 					"Localization/";
-		public const string K_MENU_LOCALIZATION_CONFIG =			K_MENU_BASE+K_MENU_LOCALIZATION+"Localization configuration";
-		public const string K_MENU_LOCALIZATION_REORDER =			K_MENU_BASE+K_MENU_LOCALIZATION+"Reorder language in all objects";
-		public const string K_MENU_LOCALIZATION_EXPORT = 			K_MENU_BASE+K_MENU_LOCALIZATION+"Export in csv";
-		public const string K_MENU_LOCALIZATION_IMPORT = 			K_MENU_BASE+K_MENU_LOCALIZATION+"Import from csv";
+		public const string K_MENU_LOCALIZATION = 					"Localization";
+		public const string K_MENU_LOCALIZATION_CONFIG =			K_MENU_BASE+K_MENU_LOCALIZATION+"/Localization configuration";
+		public const string K_MENU_LOCALIZATION_REORDER =			K_MENU_BASE+K_MENU_LOCALIZATION+"/Reorder language in all objects";
+		public const string K_MENU_LOCALIZATION_EXPORT = 			K_MENU_BASE+K_MENU_LOCALIZATION+"/Export in csv";
+		public const string K_MENU_LOCALIZATION_IMPORT = 			K_MENU_BASE+K_MENU_LOCALIZATION+"/Import from csv";
 
-		public const string K_MENU_DEV = 							"Dev/";
-		public const string K_MENU_PREPROD = 						"Preprod/";
-		public const string K_MENU_PROD = 							"Prod/";
-		public const string K_MENU_LOCAL = 							"Local/";
+		public const string K_MENU_DEV = 							"Dev";
+		public const string K_MENU_PREPROD = 						"Preprod";
+		public const string K_MENU_PROD = 							"Prod";
+		public const string K_MENU_LOCAL = 							"Local";
 
-		public const string K_MENU_DEV_CREATE_TABLES = 				K_MENU_BASE+K_MENU_DEV+"Update all server's tables";
-		public const string K_MENU_DEV_SYNCHRONIZE_DATAS = 			K_MENU_BASE+K_MENU_DEV+"Synchronize datas on server";
-		public const string K_MENU_DEV_FORCE_SYNCHRONIZE = 			K_MENU_BASE+K_MENU_DEV+"Force synchronization on server";
-		public const string K_MENU_DEV_RESET_CONNEXION = 			K_MENU_BASE+K_MENU_DEV+"Reset connexion with server";
-		public const string K_MENU_DEV_FLUSH_CONNEXION = 			K_MENU_BASE+K_MENU_DEV+"Flush Web queue";
+		public const string K_MENU_DEV_CREATE_TABLES = 				K_MENU_BASE+K_MENU_DEV+"/Update all server's tables";
+		public const string K_MENU_DEV_SYNCHRONIZE_DATAS = 			K_MENU_BASE+K_MENU_DEV+"/Synchronize datas on server";
+		public const string K_MENU_DEV_FORCE_SYNCHRONIZE = 			K_MENU_BASE+K_MENU_DEV+"/Force synchronization on server";
+		public const string K_MENU_DEV_RESET_CONNEXION = 			K_MENU_BASE+K_MENU_DEV+"/Reset connexion with server";
+		public const string K_MENU_DEV_FLUSH_CONNEXION = 			K_MENU_BASE+K_MENU_DEV+"/Flush Web queue";
 
-		public const string K_MENU_PREPROD_CREATE_TABLES = 			K_MENU_BASE+K_MENU_PREPROD+"Update all server's tables";
-		public const string K_MENU_PREPROD_SYNCHRONIZE_DATAS = 		K_MENU_BASE+K_MENU_PREPROD+"Synchronize datas on server";
-		public const string K_MENU_PREPROD_FORCE_SYNCHRONIZE = 		K_MENU_BASE+K_MENU_PREPROD+"Force synchronization on server";
-		public const string K_MENU_PREPROD_RESET_CONNEXION = 		K_MENU_BASE+K_MENU_PREPROD+"Reset connexion with server";
-		public const string K_MENU_PREPROD_FLUSH_CONNEXION = 		K_MENU_BASE+K_MENU_PREPROD+"Flush Web queue";
+		public const string K_MENU_PREPROD_CREATE_TABLES = 			K_MENU_BASE+K_MENU_PREPROD+"/Update all server's tables";
+		public const string K_MENU_PREPROD_SYNCHRONIZE_DATAS = 		K_MENU_BASE+K_MENU_PREPROD+"/Synchronize datas on server";
+		public const string K_MENU_PREPROD_FORCE_SYNCHRONIZE = 		K_MENU_BASE+K_MENU_PREPROD+"/Force synchronization on server";
+		public const string K_MENU_PREPROD_RESET_CONNEXION = 		K_MENU_BASE+K_MENU_PREPROD+"/Reset connexion with server";
+		public const string K_MENU_PREPROD_FLUSH_CONNEXION = 		K_MENU_BASE+K_MENU_PREPROD+"/Flush Web queue";
 
-		public const string K_MENU_PROD_CREATE_TABLES = 			K_MENU_BASE+K_MENU_PROD+"Update all server's tables";
-		public const string K_MENU_PROD_SYNCHRONIZE_DATAS = 		K_MENU_BASE+K_MENU_PROD+"Synchronize datas on server";
-		public const string K_MENU_PROD_FORCE_SYNCHRONIZE = 		K_MENU_BASE+K_MENU_PROD+"Force synchronization on server";
-		public const string K_MENU_PROD_RESET_CONNEXION = 			K_MENU_BASE+K_MENU_PROD+"Reset connexion with server";
-		public const string K_MENU_PROD_FLUSH_CONNEXION = 			K_MENU_BASE+K_MENU_PROD+"Flush Web queue";
+		public const string K_MENU_PROD_CREATE_TABLES = 			K_MENU_BASE+K_MENU_PROD+"/Update all server's tables";
+		public const string K_MENU_PROD_SYNCHRONIZE_DATAS = 		K_MENU_BASE+K_MENU_PROD+"/Synchronize datas on server";
+		public const string K_MENU_PROD_FORCE_SYNCHRONIZE = 		K_MENU_BASE+K_MENU_PROD+"/Force synchronization on server";
+		public const string K_MENU_PROD_RESET_CONNEXION = 			K_MENU_BASE+K_MENU_PROD+"/Reset connexion with server";
+		public const string K_MENU_PROD_FLUSH_CONNEXION = 			K_MENU_BASE+K_MENU_PROD+"/Flush Web queue";
 
-		public const string K_MENU_LOCAL_CREATE_TABLES =			K_MENU_BASE+K_MENU_LOCAL+"Create all tables on local";
-		public const string K_MENU_LOCAL_RELOAD_DATAS = 			K_MENU_BASE+K_MENU_LOCAL+"Reload local datas on local";
+		public const string K_MENU_LOCAL_CREATE_TABLES =			K_MENU_BASE+K_MENU_LOCAL+"/Create all tables on local";
+		public const string K_MENU_LOCAL_RELOAD_DATAS = 			K_MENU_BASE+K_MENU_LOCAL+"/Reload local datas on local";
 
 		public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = 		" management";
 

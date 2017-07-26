@@ -25,7 +25,7 @@ namespace NetWorkedData
 	public class NWDUserWindow : NWDBasisWindow <NWDUserWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+ "User(s)"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 71)]
+		[MenuItem (NWDConstants.K_MENU_BASE+ "User(s)"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 301)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

@@ -26,7 +26,7 @@ namespace NetWorkedData
 	public class NWDTradeWindow : NWDBasisWindow <NWDTradeWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 100)]
+		[MenuItem (NWDConstants.K_MENU_BASE + "Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

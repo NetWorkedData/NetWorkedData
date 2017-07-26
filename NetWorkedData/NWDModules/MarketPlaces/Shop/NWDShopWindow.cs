@@ -30,7 +30,7 @@ namespace NetWorkedData
 	public class NWDShopWindow : NWDBasisWindow <NWDShopWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Shop" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 100)]
+		[MenuItem (NWDConstants.K_MENU_BASE + "Shop" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

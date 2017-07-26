@@ -23,7 +23,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDBarterWindow : NWDBasisWindow <NWDBarterWindow>
 	{
-		[MenuItem (NWDConstants.K_MENU_BASE+ "Barter"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 100)]
+		[MenuItem (NWDConstants.K_MENU_BASE+ "Barter"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

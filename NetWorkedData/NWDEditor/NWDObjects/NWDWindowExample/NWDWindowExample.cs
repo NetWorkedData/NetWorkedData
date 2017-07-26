@@ -1,8 +1,7 @@
 ﻿using System;
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
-using SQLite4Unity3d;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,35 +10,24 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Items",
-		"Items Edition",
-		"NWDIcons_02",
-		new Type[] {
-			typeof(NWDItemGroup), 
-			typeof(NWDItem), 
-			typeof(NWDItemExtension), 
-			typeof(NWDBattleProperty), 
-//			typeof(NWDItemPack), 
-//			typeof(NWDPack), 
-//			typeof(NWDSpent), 
-//			typeof(NWDInAppPack), 
-//			typeof(NWDTransaction), 
-			typeof(NWDOwnership), 
-			typeof(NWDUsage),
-			/* Add NWDBasis here*/
+	[NWDTypeWindowParamAttribute("NWDWindowExample_Name",
+		"NWDWindowExample_Description",
+		"NWDIcons_02", // NWDWindowExample_ICON
+		new Type[] {typeof(NWDExample),/* Add NWDBasis here*/
 		}
 	)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDItemWindow : NWDBasisWindow <NWDItemWindow>
+	public class NWDWindowExample : NWDBasisWindow <NWDWindowExample>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Item" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+		//[MenuItem (NWDConstants.K_MENU_BASE + "NWDWindowExample_Name" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 12345)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDItemWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDWindowExample));
 			tWindow.Show ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

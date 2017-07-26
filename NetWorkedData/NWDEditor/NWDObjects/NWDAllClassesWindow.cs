@@ -19,7 +19,7 @@ namespace NetWorkedData
 	public class NWDAllClassesWindow : NWDBasisWindow <NWDAllClassesWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 60)]
+		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 100)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

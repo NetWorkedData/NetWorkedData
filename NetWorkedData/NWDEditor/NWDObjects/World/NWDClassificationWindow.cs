@@ -26,7 +26,7 @@ namespace NetWorkedData
 	public class NWDClassificationWindow : NWDBasisWindow <NWDClassificationWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Classification" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 72)]
+		[MenuItem (NWDConstants.K_MENU_BASE + "Classification" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 302)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{

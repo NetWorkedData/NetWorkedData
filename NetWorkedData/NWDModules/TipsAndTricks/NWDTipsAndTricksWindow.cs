@@ -24,7 +24,7 @@ namespace NetWorkedData
 	public class NWDTipsAndTricksWindow : NWDBasisWindow <NWDTipsAndTricksWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+ "Tips and Tricks"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 100)]
+		[MenuItem (NWDConstants.K_MENU_BASE+ "Tips and Tricks"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
