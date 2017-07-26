@@ -103,7 +103,7 @@ namespace NetWorkedData
 		public void DeleteObject (object sObject)
 		{
 			//  update disable with date to delete
-			UpdateObject (sObject);
+			//UpdateObject (sObject);
 			if (ManagementType != NWDTypeService.ServerOnly) {
 				SQLiteConnection.Delete (sObject);
 			}

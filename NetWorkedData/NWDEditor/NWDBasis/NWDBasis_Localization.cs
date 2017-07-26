@@ -21,10 +21,9 @@ namespace NetWorkedData
 {
 	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
-
-		// reorder languages
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static void ReOrderAllLocalizations ()
 		{
 			string tLanguage = NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString;
@@ -33,7 +32,7 @@ namespace NetWorkedData
 				tObject.ReOrderLocalizationsValues (tLanguageArray);
 			}
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public void ReOrderLocalizationsValues (string[] sLanguageArray)
 		{
 			if (TestIntegrity () == true) {
@@ -87,6 +86,7 @@ namespace NetWorkedData
 
 		// export CSV
 
+		//-------------------------------------------------------------------------------------------------------------
 		public static string ExportAllLocalization ()
 		{
 			string tRows = "";
@@ -98,6 +98,7 @@ namespace NetWorkedData
 			return tRows;
 		}
 
+		//-------------------------------------------------------------------------------------------------------------
 		public string ExportLocalization (string[] sLanguageArray)
 		{
 			string tRows = "";
@@ -186,6 +187,7 @@ namespace NetWorkedData
 			
 		// import CSV
 
+		//-------------------------------------------------------------------------------------------------------------
 		public static void ImportAllLocalizations (string[] sLanguageArray, string[] sCSVFileArray)
 		{
 			//Debug.Log ("ImportAllLocalizations");
@@ -202,6 +204,7 @@ namespace NetWorkedData
 			}
 		}
 
+		//-------------------------------------------------------------------------------------------------------------
 		public static void ImportLocalization (string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
 		{
 
@@ -279,7 +282,9 @@ namespace NetWorkedData
 				}
 			}
 		}
+		//-------------------------------------------------------------------------------------------------------------
 		#endif
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

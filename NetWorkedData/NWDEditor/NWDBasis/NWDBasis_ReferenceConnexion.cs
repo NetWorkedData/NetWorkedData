@@ -21,7 +21,9 @@ namespace NetWorkedData
 {
 	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
 		public static string ReferenceConnexionHeight (string sValue, bool sShowInspector)
 		{
 			float tWidth = EditorGUIUtility.currentViewWidth;
@@ -48,12 +50,15 @@ namespace NetWorkedData
 			}
 			return rReturn.ToString ();
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		const float tButtonWidth = 40.0f;
+		//-------------------------------------------------------------------------------------------------------------
 		const float tButtonMarge = 3.0f;
+		//-------------------------------------------------------------------------------------------------------------
 		const float tMargeInspector = 20.0f;
+		//-------------------------------------------------------------------------------------------------------------
 		const float tBorder = 1.0f;
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static string ReferenceConnexionField (Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
 		{
 			float tX = sPosition.x;
@@ -156,22 +161,7 @@ namespace NetWorkedData
 			}
 			return tValue;
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static float ReferenceConnexionHeightSerialized (SerializedProperty sProperty, bool sShowInspector)
 		{
 			float tWidth = EditorGUIUtility.currentViewWidth;
@@ -198,9 +188,7 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
-
-
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static void ReferenceConnexionFieldSerialized (Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
 		{
 
@@ -320,7 +308,9 @@ namespace NetWorkedData
 			}
 			EditorGUI.EndProperty ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
 		#endif
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

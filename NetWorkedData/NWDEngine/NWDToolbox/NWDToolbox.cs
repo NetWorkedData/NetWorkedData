@@ -287,6 +287,111 @@ namespace NetWorkedData
 		{
 			return BTBSecurityTools.GenerateSha (sAdminKey + GenerateSALT (sFrequence), BTBSecurityShaTypeEnum.Sha1);
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static string FindClassFolder (string sFindClassName, string sDefaultFolder)
+		{
+			string tEngineRoot = "Assets";
+			string tFolder = sDefaultFolder;
+			string tEngineRootFolder = tEngineRoot+"/"+tFolder;
+
+			bool tFindClassesFolder = false;
+			if (Type.GetType ("NetWorkedData."+sFindClassName) != null) {
+				tFindClassesFolder = true;
+				Type tFindClassesType = Type.GetType ("NetWorkedData."+sFindClassName);
+				var tMethodInfo = tFindClassesType.GetMethod ("PathOfPackage", BindingFlags.Public | BindingFlags.Static);
+				if (tMethodInfo != null) {
+					tEngineRoot = tMethodInfo.Invoke (null, new object[]{""}) as string;
+				}
+				tEngineRootFolder = tEngineRoot; // root is directly the good path of final folder
+			}
+			if (AssetDatabase.IsValidFolder (tEngineRootFolder) == false) {
+				AssetDatabase.CreateFolder (tEngineRoot, tFolder);
+				AssetDatabase.ImportAsset (tEngineRootFolder);
+			}
+
+			if (tFindClassesFolder == false) {
+				string tFindClassesClass = "" +			
+					"using System.Collections;\n" +
+					"using System.Collections.Generic;\n" +
+					"using System.IO;\n" +
+					"\n" +
+					"using UnityEngine;\n" +
+					"\n" +
+					"#if UNITY_EDITOR\n" +
+					"using UnityEditor;\n" +
+					"\n" +
+					"//=====================================================================================================================\n" +
+					"namespace NetWorkedData\n" +
+					"{\n" +
+					"	/// <summary>\n" +
+					"	/// Find package path class.\n" +
+					"	/// Use the ScriptableObject to find the path of this package\n" +
+					"	/// </summary>\n" +
+					"	public class "+sFindClassName+" : ScriptableObject\n" +
+					"	{\n" +
+					"		/// <summary>\n" +
+					"		/// The script file path.\n" +
+					"		/// </summary>\n" +
+					"		public string ScriptFilePath;\n" +
+					"		/// <summary>\n" +
+					"		/// The script folder.\n" +
+					"		/// </summary>\n" +
+					"		public string ScriptFolder;\n" +
+					"		/// <summary>\n" +
+					"		/// The script folder from assets.\n" +
+					"		/// </summary>\n" +
+					"		public string ScriptFolderFromAssets;\n" +
+					"		/// <summary>\n" +
+					"		/// The shared instance.\n" +
+					"		/// </summary>\n" +
+					"		private static "+sFindClassName+" kSharedInstance;\n" +
+					"		//-------------------------------------------------------------------------------------------------------------\n" +
+					"		/// <summary>\n" +
+					"		/// Ascencor to shared instance.\n" +
+					"		/// </summary>\n" +
+					"		/// <returns>The shared instance.</returns>\n" +
+					"		public static "+sFindClassName+" SharedInstance ()\n" +
+					"		{\n" +
+					"			if (kSharedInstance == null) {\n" +
+					"				kSharedInstance = ScriptableObject.CreateInstance (\""+sFindClassName+"\") as "+sFindClassName+";\n" +
+					"				kSharedInstance.ReadPaths ();\n" +
+					"			}\n" +
+					"			return kSharedInstance; \n" +
+					"		}\n" +
+					"		//-------------------------------------------------------------------------------------------------------------\n" +
+					"		/// <summary>\n" +
+					"		/// Reads the paths.\n" +
+					"		/// </summary>\n" +
+					"		public void ReadPaths ()\n" +
+					"		{\n" +
+					"			MonoScript tMonoScript = MonoScript.FromScriptableObject (this);\n" +
+					"			ScriptFilePath = AssetDatabase.GetAssetPath (tMonoScript);\n" +
+					"			FileInfo tFileInfo = new FileInfo (ScriptFilePath);\n" +
+					"			ScriptFolder = tFileInfo.Directory.ToString ();\n" +
+					"			ScriptFolder = ScriptFolder.Replace (\"\\\\\", \"/\");\n" +
+					"			ScriptFolderFromAssets = \"Assets\"+ScriptFolder.Replace (Application.dataPath, \"\");\n" +
+					"		}\n" +
+					"		//-------------------------------------------------------------------------------------------------------------\n" +
+					"		/// <summary>\n" +
+					"		/// Packages the path.\n" +
+					"		/// </summary>\n" +
+					"		/// <returns>The path.</returns>\n" +
+					"		/// <param name=\"sAddPath\">S add path.</param>\n" +
+					"		public static string PathOfPackage (string sAddPath=\"\")\n" +
+					"		{\n" +
+					"			return SharedInstance ().ScriptFolderFromAssets + sAddPath;\n" +
+					"		}\n" +
+					"		//-------------------------------------------------------------------------------------------------------------\n" +
+					"	}\n" +
+					"}\n" +
+					"//=====================================================================================================================\n" +
+					"#endif";
+				File.WriteAllText (tEngineRootFolder + "/"+sFindClassName+".cs", tFindClassesClass);
+				// force to import this file by Unity3D
+				AssetDatabase.ImportAsset (tEngineRootFolder + "/"+sFindClassName+".cs");
+			}
+			return tEngineRootFolder;
+		}
 	}
 }
 //=====================================================================================================================

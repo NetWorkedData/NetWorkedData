@@ -322,6 +322,23 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public static void DeleteUser (NWDAppEnvironment sEnvironment)
+		{
+			if (AccountDependent () == true) {
+				// reset last sync to zero
+				SynchronizationSetNewTimestamp (sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
+				// delete all datas for this user
+				foreach (NWDBasis<K> tObject in ObjectsList)
+				{
+					if (tObject.IsAccountConnected (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
+					{
+						tObject.DeleteMe ();
+					}
+				}
+				// need to reload this data now : to remove all tObjects from memory!
+				LoadTableEditor();
+			}
+		}
 	}
 }
 //=====================================================================================================================

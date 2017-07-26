@@ -154,6 +154,7 @@ namespace NetWorkedData
 						tData = Json.Deserialize (Request.downloadHandler.text) as Dictionary<string, object>;
 
 						// verif Dico answer
+						// TODO : TOKEN IS FAILED : DISCONNECT AND RESET DATA FOR THIS USER... NO SYNC AUTHORIZED... DELETE LOCAL DATA... RESTAURE FROM LOGIN
 						if (tData == null) {
 							Statut = BTBOperationState.Error;
 							NWDOperationResult tInfosFail = new NWDOperationResult ("INN00");

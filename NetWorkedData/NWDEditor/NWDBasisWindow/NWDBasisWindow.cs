@@ -260,20 +260,23 @@ namespace NetWorkedData
 				Event.current.Use ();
 			}
 			// select the good class to show
-			Type tType = mTabTypeList[tTabSelected];
-			if (mTabSelected != tTabSelected)
-			{
-				SetClassInEdition(tType);
+			if (tTabSelected >= mTabTypeList.Count ()) {
+				tTabSelected = 0;
 			}
-			mTabSelected = tTabSelected;
-			GUILayout.Space (5.0f);
-			var tMethodInfo = tType.GetMethod("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (tMethodInfo != null) {
-				//Debug.Log ("I AM FINDING THE DRAWING METHOD");
-				tMethodInfo.Invoke(null,new object[]{this,tAutoselect});
+			if (mTabTypeList.Count ()>0) {
+				Type tType = mTabTypeList [tTabSelected];
+				if (mTabSelected != tTabSelected) {
+					SetClassInEdition (tType);
+				}
+				mTabSelected = tTabSelected;
+				GUILayout.Space (5.0f);
+				var tMethodInfo = tType.GetMethod ("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null) {
+					//Debug.Log ("I AM FINDING THE DRAWING METHOD");
+					tMethodInfo.Invoke (null, new object[]{ this, tAutoselect });
 //				tMethodInfo.Invoke(null,null);
+				}
 			}
-
 
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -60,6 +60,8 @@ namespace NetWorkedData
 		public const string K_MENU_IDEMOBI = 						K_MENU_BASE+"Developped by ideMobi";
 
 		public const string K_MENU_EDITOR_PREFERENCES = 			K_MENU_BASE+"Editor preferences";
+		public const string K_MENU_EDITOR_NEWCLASS = 				K_MENU_BASE+"Create New NWD Data Class";
+		public const string K_MENU_EDITOR_NEWWINDOW = 				K_MENU_BASE+"Create New Window of NWD Classes";
 
 		public const string K_MENU_ENVIRONMENT_EDIT = 				K_MENU_BASE+"Environment configurations";
 		public const string K_MENU_ENVIRONMENT = 					K_MENU_BASE+"Environment player chooser";

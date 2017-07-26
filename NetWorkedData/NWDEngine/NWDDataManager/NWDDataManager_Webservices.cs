@@ -142,56 +142,64 @@ namespace NetWorkedData
 
 	public partial class NWDDataManager
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		public BTBOperationController WebOperationQueue = new BTBOperationController ();
-
+		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAllSynchronization");
 			return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAllSynchronizationForce");
 			return AddWebRequestAllSynchronizationForceWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForce (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSession (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSession");
 			return AddWebRequestSessionWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignUp (string sEmail, string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignUp");
 			return AddWebRequestSignUpWithBlock (sEmail, sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignIn (string sEmail, string sPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("NWDOperationWebAccount");
 			return AddWebRequestSignInWithBlock (sEmail, sPassword, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignOut (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignOut");
 			return AddWebRequestSignOutWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 
 		public NWDOperationWebAccount AddWebRequestAnonymousRestaure (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
@@ -199,36 +207,42 @@ namespace NetWorkedData
 			BTBDebug.Log ("AddWebRequestAnonymousRestaure");
 			return AddWebRequestAnonymousRestaureWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignModify (string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignModify");
 			return AddWebRequestSignModifyWithBlock (sEmail, sOldPassword, sNewPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestRescue (string sEmail, string sAppName, string sAppMail, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignModify");
 			return AddWebRequestRescueWithBlock (sEmail, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignDelete (string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignDelete");
 			return AddWebRequestSignDeleteWithBlock (sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestLogFacebook (string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestLogFacebook");
 			return AddWebRequestLogFacebookWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestLogGoogle (string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
             BTBDebug.Log ("AddWebRequestLogGoogle");
 			return AddWebRequestLogGoogleWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
@@ -241,6 +255,7 @@ namespace NetWorkedData
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForceWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
@@ -253,6 +268,7 @@ namespace NetWorkedData
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
@@ -266,6 +282,7 @@ namespace NetWorkedData
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForceWithBlock (List<Type> sTypeList,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -278,6 +295,7 @@ namespace NetWorkedData
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSessionWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
@@ -292,6 +310,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignUpWithBlock (string sEmail, string sPassword, string sConfirmPassword,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -309,6 +328,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignInWithBlock (string sEmail, string sPassword,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -325,6 +345,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignOutWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
@@ -339,6 +360,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 
 		public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock (
@@ -359,6 +381,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignModifyWithBlock (string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -377,6 +400,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestRescueWithBlock (string sEmail,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -392,6 +416,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestSignDeleteWithBlock (string sPassword, string sConfirmPassword,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -408,6 +433,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestLogFacebookWithBlock (string sSocialToken,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -423,6 +449,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public NWDOperationWebAccount AddWebRequestLogGoogleWithBlock (string sSocialToken,
 			BTBOperationBlock sSuccessBlock = null, 
@@ -438,6 +465,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public void WebRequestFlush (NWDAppEnvironment sEnvironment = null) 
 		{
@@ -447,6 +475,7 @@ namespace NetWorkedData
 			}
 			WebOperationQueue.Flush (sEnvironment.Environment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		public void WebRequestInfos (NWDAppEnvironment sEnvironment = null)
 		{
@@ -456,6 +485,7 @@ namespace NetWorkedData
 			}
 			WebOperationQueue.Infos (sEnvironment.Environment);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 
 		/// <summary>
 		/// The synchronize in progress.
@@ -474,6 +504,7 @@ namespace NetWorkedData
 		//		/// </summary>
 		//		public static bool SynchronizeRepeatInForce = false;
 
+		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference)
 		{
 			// change account refrence 
@@ -492,16 +523,8 @@ namespace NetWorkedData
 			SavePreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
 		}
 
-		//		public void SynchronizeAllDataInSeconds (int sSeconds)
-		//		{
-		//			//BTBDebug.Log ("SynchronizeAllDataInSeconds");
-		//		}
-		//
-		//		public void SynchronizeAllDataAsSoonAsPossible ()
-		//		{
-		//			//BTBDebug.Log ("SynchronizeAllDataAsSoonAsPossible");
-		//		}
 
+		//-------------------------------------------------------------------------------------------------------------
 		public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData, List<Type> sTypeList)
 		{
 			if (sTypeList != null) {
@@ -515,6 +538,7 @@ namespace NetWorkedData
 
 		}
 
+		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
 		{
 			Dictionary<string, object> rSend = new Dictionary<string, object> ();
@@ -532,6 +556,24 @@ namespace NetWorkedData
 			return rSend;
 		}
 
+		//-------------------------------------------------------------------------------------------------------------
+		public void TokenError (NWDAppEnvironment sEnvironment)
+		{
+			DeleteUser (sEnvironment);
+			//TODO : Restaure anonymous account
+
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void DeleteUser (NWDAppEnvironment sEnvironment)
+		{
+			foreach (Type tType in mTypeList) {
+				var tMethodInfo = tType.GetMethod ("DeleteUser", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null) {
+					tMethodInfo.Invoke (null, new object[]{ sEnvironment });
+				}
+			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
         //		public bool SynchronizationClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sBackground = true, bool sLoader = false)
         //		{
         //
@@ -638,7 +680,8 @@ namespace NetWorkedData
         //				BTBDebug.Log ("webservice all ready in progress");
         //			}
         //			return rReturn;
-        //		}
+		//		}
+		//-------------------------------------------------------------------------------------------------------------
     }
 }
 //=====================================================================================================================

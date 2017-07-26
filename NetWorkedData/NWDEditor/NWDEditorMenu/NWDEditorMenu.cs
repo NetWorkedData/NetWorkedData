@@ -49,10 +49,45 @@ namespace NetWorkedData
 				kNWDEditorPreferences = (NWDEditorPreferences)ScriptableObject.CreateInstance <NWDEditorPreferences> ();
 			}
 			kNWDEditorPreferences.ShowUtility ();
+			kNWDEditorPreferences.Focus ();
 		}
+
+
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// TheNWD editor NewClass window.
+		/// </summary>
+		static NWDEditorNewClass kNWDEditorNewClass;
+		[MenuItem (NWDConstants.K_MENU_EDITOR_NEWCLASS, false, 13)]
+		public static void EditorNewClassShow()
+		{
+			if (kNWDEditorNewClass == null) {
+				kNWDEditorNewClass = (NWDEditorNewClass)ScriptableObject.CreateInstance <NWDEditorNewClass> ();
+			}
+			kNWDEditorNewClass.ShowUtility ();
+			kNWDEditorNewClass.Focus ();
+		}
+
+
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// TheNWD editor NWDPackage preferences window.
+		/// </summary>
+		static NWDEditorNewWindow kNWDEditorNewWindow;
+		[MenuItem (NWDConstants.K_MENU_EDITOR_NEWWINDOW, false, 14)]
+		public static void EditorNewWindowShow()
+		{
+			if (kNWDEditorNewWindow == null) {
+				kNWDEditorNewWindow = (NWDEditorNewWindow)ScriptableObject.CreateInstance <NWDEditorNewWindow> ();
+			}
+			kNWDEditorNewWindow.ShowUtility ();
+			kNWDEditorNewWindow.Focus ();
+		}
+
+
 		//-------------------------------------------------------------------------------------------------------------
 		static NWDAppEnvironmentManagerWindow kNWDAppEnvironmentManagerWindow;
-		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 21)]
+		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 31)]
 		/// <summary>
 		/// Menus the method.
 		/// </summary>
@@ -62,32 +97,35 @@ namespace NetWorkedData
 				kNWDAppEnvironmentManagerWindow = (NWDAppEnvironmentManagerWindow)ScriptableObject.CreateInstance <NWDAppEnvironmentManagerWindow> ();
 			}
 			kNWDAppEnvironmentManagerWindow.ShowUtility ();
+			kNWDAppEnvironmentManagerWindow.Focus ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// TheNWD app configuration window.
 		/// </summary>
 		static NWDAppEnvironmentChooser kNWDAppEnvironmentChooser;
-		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT, false, 22)]
+		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT, false, 32)]
 		public static void EnvironementChooserShow()
 		{
 			if (kNWDAppEnvironmentChooser == null) {
 				kNWDAppEnvironmentChooser = (NWDAppEnvironmentChooser)ScriptableObject.CreateInstance <NWDAppEnvironmentChooser> ();
 			}
 			kNWDAppEnvironmentChooser.ShowUtility ();
+			kNWDAppEnvironmentChooser.Focus ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// TheNWD app configuration window.
 		/// </summary>
 		static NWDAppEnvironmentSync kNWDAppEnvironmentSync;
-		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 23)]
+		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 33)]
 		public static void EnvironementSyncShow()
 		{
 			if (kNWDAppEnvironmentSync == null) {
 				kNWDAppEnvironmentSync = (NWDAppEnvironmentSync)ScriptableObject.CreateInstance <NWDAppEnvironmentSync> ();
 			}
 			kNWDAppEnvironmentSync.ShowUtility ();
+			kNWDAppEnvironmentSync.Focus ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// Loop for classes menu
