@@ -25,6 +25,18 @@ namespace NetWorkedData
 	public class NWDScheduleType : BTBDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
+		public static string kDaysSchedulePrefix = "N";
+		public static string kDaysOfWeekSchedulePrefix = "D";
+		public static string kMonthsSchedulePrefix = "M";
+		public static string kHoursSchedulePrefix = "H";
+		public static string kMinutesSchedulePrefix = "i";
+		public static string kSecondsSchedulePrefix = "s";
+		//-------------------------------------------------------------------------------------------------------------
+		public static string kMinutesUnit = "M";
+		public static string kHoursUnit = "H";
+		public static string kNowSuccess = "Now √";
+		public static string kNowFailed = "Now x";
+		//-------------------------------------------------------------------------------------------------------------
 		public NWDScheduleType ()
 		{
 			Value = "";
@@ -39,9 +51,14 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Time ToTime ()
+		public virtual bool ResultNow () 
 		{
-			return new Time ();
+			return ResultForDate (DateTime.Now);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public virtual bool ResultForDate (DateTime sDateTime)
+		{
+			return false;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR

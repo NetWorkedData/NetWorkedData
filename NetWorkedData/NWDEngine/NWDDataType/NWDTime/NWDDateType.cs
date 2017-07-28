@@ -61,7 +61,7 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		static string[] kDays = new string[] {
+		public static string[] kDays = new string[] {
 			"01", 
 			"02",
 			"03",
@@ -185,21 +185,30 @@ namespace NetWorkedData
 			"28",
 			"29",
 		};
-		static string[] kMonths = new string[] {
-			"january",
-			"february",
-			"march",
-			"april",
-			"may",
-			"june",
-			"july",
-			"august",
-			"september",
-			"october",
-			"november",
-			"december"
+		public static string[] kDayNames = new string[] {
+			"Monday",
+			"Tuesday",
+			"Wenesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+			"Sunday"
 		};
-		static string[] kYears = new string[] {
+		public static string[] kMonths = new string[] {
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December"
+		};
+		public static string[] kYears = new string[] {
 			"1900", "1901", "1902", "1903", "1904", "1905", "1906", "1907", "1908", "1909",
 			"1910", "1911", "1912", "1913", "1914", "1915", "1916", "1917", "1918", "1919",
 			"1920", "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929",
@@ -217,12 +226,12 @@ namespace NetWorkedData
 
 		};
 
-		static string[] kHours = new string[] {
+		public static string[] kHours = new string[] {
 			"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
 			"12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",
 		};
 
-		static string[] kMinutes = new string[] {
+		public static string[] kMinutes = new string[] {
 			"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 			"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
@@ -231,7 +240,7 @@ namespace NetWorkedData
 			"50", "51", "52", "53", "54", "55", "56", "57", "58", "59",
 		};
 
-		static string[] kSeconds = new string[] {
+		public static string[] kSeconds = new string[] {
 			"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
 			"20", "21", "22", "23", "24", "25", "26", "27", "28", "29",

@@ -203,7 +203,11 @@ namespace NetWorkedData
 			tListOfType.Add ("NWDDateType");
 			tListOfType.Add ("NWDScheduleType");
 			tListOfType.Add ("NWDTimeType");
+			tListOfType.Add ("NWDDayScheduleType");
 			tListOfType.Add ("     "); // use as separator remove by ereg
+			tListOfType.Add ("NWDJsonType");
+			tListOfType.Add ("NWDJsonType");
+			tListOfType.Add ("NWDJsonType");
 			tListOfType.Add ("NWDJsonType");
 			tListOfType.Add ("      "); // use as separator remove by ereg
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
