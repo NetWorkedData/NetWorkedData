@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +31,7 @@ namespace NetWorkedData
 		public static void MenuMethod ()
 		{
 			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDAllClassesWindow));
-			NWDAllClassesWindow tAllClassWindow = tWindow as NWDAllClassesWindow;
+//			NWDAllClassesWindow tAllClassWindow = tWindow as NWDAllClassesWindow;
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,11 +97,11 @@ namespace NetWorkedData
 		public override object ControlField (Rect sPos, string sEntitled)
 		{
 			NWDTimeType tTemporary = new NWDTimeType ();
-			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
+//			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
 
 			GUIStyle tSeparatorStyle = new GUIStyle (EditorStyles.label);
 			tSeparatorStyle.alignment = TextAnchor.MiddleCenter;
-			float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+//			float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 			int tYear = 1970;
 			int tMonth = 1;
@@ -124,12 +131,12 @@ namespace NetWorkedData
 
 			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
 			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge*3;
+//			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge*3;
 			float tHeightAdd = 0;
 
-			float tWidthYear = tTiersWidthB + 10;
-			float tWidthMonth = tTiersWidthB -5;
-			float tWidthDay = tTiersWidthB -5;
+//			float tWidthYear = tTiersWidthB + 10;
+//			float tWidthMonth = tTiersWidthB -5;
+//			float tWidthDay = tTiersWidthB -5;
 			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
 
 			GUI.Label (new Rect (tX , sPos.y+tHeightAdd,tTiersWidthB*2+NWDConstants.kFieldMarge-2, sPos.height), ":",tSeparatorStyle);

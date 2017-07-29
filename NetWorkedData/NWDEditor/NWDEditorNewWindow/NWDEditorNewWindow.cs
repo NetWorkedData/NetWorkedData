@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -75,7 +82,7 @@ namespace NetWorkedData
 			titleContent = new GUIContent ("New NWDBasis Window management generator");
 			//Prepare the form varaible 
 		Regex tRegExpression = new Regex ("[^a-zA-Z]");
-		Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
+//		Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
 		Regex tRegExpressionEmptyType = new Regex ("[ ]+");
 		// validate the form ?
 		bool tCanCreate = true;

@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,8 +35,8 @@ namespace NetWorkedData
 			string tClassName = tTableMapping.TableName;
 			//string tTrigramme = ClassTrigramme ();
 			DateTime tTime = DateTime.UtcNow;
-			string tDateTimeString = tTime.ToString ("yyyy-MM-dd");
-			string tYearString = tTime.ToString ("yyyy");
+//			string tDateTimeString = tTime.ToString ("yyyy-MM-dd");
+//			string tYearString = tTime.ToString ("yyyy");
 
 			string tEngineRoot = "Assets";
 			string tFolder = "NetWorkedDataWorkflow";

@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -194,7 +201,7 @@ namespace NetWorkedData
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 
-			string[] tDateComponent = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+//			string[] tDateComponent = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 
 			DateTime[] tDateTimes = ToDateTime ();
 			DateTime tStartDateTimes = tDateTimes [0];
@@ -204,7 +211,7 @@ namespace NetWorkedData
 
 			float tTiersWidth = Mathf.Ceil ((sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
 			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge * 3;
+//			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge * 3;
 			float tHeightAdd = 0;
 
 			float tWidthYear = tTiersWidthB + 10;

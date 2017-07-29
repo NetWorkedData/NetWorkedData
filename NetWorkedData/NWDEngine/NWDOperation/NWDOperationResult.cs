@@ -1,4 +1,11 @@
-﻿using BasicToolBox;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using BasicToolBox;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

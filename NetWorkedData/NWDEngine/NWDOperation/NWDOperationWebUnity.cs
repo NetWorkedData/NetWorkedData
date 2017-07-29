@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Collections;
@@ -222,8 +229,8 @@ namespace NetWorkedData
 				//Save preference localy
 				Environment.SavePreferences ();
 
-				float tEnd = Time.time;
-				float tDelta = tEnd - tStart;
+				//float tEnd = Time.time;
+				//float tDelta = tEnd - tStart;
 //				BTBDebug.LogVerbose ("ExecuteAsync tEnd = " + tEnd.ToString ());
 //				BTBDebug.LogVerbose ("ExecuteAsync tDelta = " + tDelta.ToString ());
 				Finish ();

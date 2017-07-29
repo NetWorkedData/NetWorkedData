@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -346,7 +353,7 @@ namespace NetWorkedData
 
 			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
 			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
-			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge*3;
+//			float tTiersWidthC = tTiersWidth - NWDConstants.kFieldMarge*3;
 			float tHeightAdd = 0;
 
 			float tWidthYear = tTiersWidthB + 10;

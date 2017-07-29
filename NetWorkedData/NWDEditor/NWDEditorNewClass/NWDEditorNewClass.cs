@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -212,8 +219,9 @@ namespace NetWorkedData
 			tListOfType.Add ("NWDHoursScheduleType");
 			tListOfType.Add ("NWDMinutesScheduleType");
 			tListOfType.Add ("       "); // use as separator remove by ereg
+			tListOfType.Add ("NWDGeolocType");
+			tListOfType.Add ("        "); // use as separator remove by ereg
 			tListOfType.Add ("NWDJsonType");
-			tListOfType.Add ("      "); // use as separator remove by ereg
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
 				tListOfType.Add ("NWDReferencesListType<K>/"+tType.Name);
 				tListOfType.Add ("NWDReferencesQuantityType<K>/"+tType.Name);

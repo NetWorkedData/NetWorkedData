@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +105,7 @@ namespace NetWorkedData
 			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Days of week selection", tLabelStyle);
 			tHeightAdd += tHeightTitle;
 
-			bool [] tValue = new bool[NWDDateTimeType.kDayNames.Length];
+//			bool [] tValue = new bool[NWDDateTimeType.kDayNames.Length];
 			for (int i=0; i<NWDDateTimeType.kDayNames.Length;i++)
 			{
 				bool tValueI = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeightAdd +tHeight * i, sPos.width, sPos.height),

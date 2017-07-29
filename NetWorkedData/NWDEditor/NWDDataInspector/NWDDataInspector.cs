@@ -1,4 +1,11 @@
-﻿using System;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -19,7 +26,7 @@ namespace NetWorkedData
 		public int ActualIndex = 0;
 		public bool RemoveActualFocus = true;
 		//-------------------------------------------------------------------------------------------------------------
-		private Vector2 ScrollPosition = Vector2.zero;
+//		private Vector2 ScrollPosition = Vector2.zero;
 		//-------------------------------------------------------------------------------------------------------------
 		static NWDDataInspector kShareInstance;
 		//-------------------------------------------------------------------------------------------------------------
