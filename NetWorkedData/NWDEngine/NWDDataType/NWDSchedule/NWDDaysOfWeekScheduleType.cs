@@ -77,8 +77,10 @@ namespace NetWorkedData
 		{
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			int tCount = NWDDateType.kDayNames.Length;
-			return tHeight * tCount;
+			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
+			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+			int tCount = NWDDateTimeType.kDayNames.Length;
+			return tHeight * tCount + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPos, string sEntitled)
@@ -88,12 +90,20 @@ namespace NetWorkedData
 			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			bool [] tValue = new bool[NWDDateType.kDayNames.Length];
-			for (int i=0; i<NWDDateType.kDayNames.Length;i++)
+			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
+			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+
+			float tHeightAdd = 0;
+
+			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Days of week selection", tLabelStyle);
+			tHeightAdd += tHeightTitle;
+
+			bool [] tValue = new bool[NWDDateTimeType.kDayNames.Length];
+			for (int i=0; i<NWDDateTimeType.kDayNames.Length;i++)
 			{
-				bool tValueI = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeight * i, sPos.width, sPos.height),
+				bool tValueI = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeightAdd +tHeight * i, sPos.width, sPos.height),
 					!Value.Contains (kDaysOfWeekSchedulePrefix+i.ToString()),
-					NWDDateType.kDayNames[i]);
+					NWDDateTimeType.kDayNames[i]);
 				if (tValueI==false)
 				{
 					tTemporary.Value += kDaysOfWeekSchedulePrefix+i.ToString();
@@ -108,6 +118,12 @@ namespace NetWorkedData
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Return if the asset path is used in this DataType.
+		/// </summary>
+		/// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
+		/// <param name="sOldPath">old path.</param>
+		/// <param name="sNewPath">new path.</param>
 		public override bool ChangeAssetPath (string sOldPath, string sNewPath)
 		{
 			return false;

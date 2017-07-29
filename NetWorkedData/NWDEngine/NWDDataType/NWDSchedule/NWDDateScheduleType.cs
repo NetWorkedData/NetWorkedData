@@ -99,11 +99,11 @@ namespace NetWorkedData
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			int tCount = NWDDateType.kDayNames.Length;
-			int tCountB = NWDDateType.kMonths.Length;
-			int tCountC = NWDDateType.kHours.Length/3;
+			int tCount = NWDDateTimeType.kDayNames.Length;
+			int tCountB = NWDDateTimeType.kMonths.Length;
+			int tCountC = NWDDateTimeType.kHours.Length/3;
 			int tCountD = 11;
-			int tCountE = NWDDateType.kMinutes.Length/3;
+			int tCountE = NWDDateTimeType.kMinutes.Length/3;
 			return tHeight * (tCount + tCountB + tCountC + tCountD+ tCountE) + tHeightTitle*5;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -122,11 +122,11 @@ namespace NetWorkedData
 
 			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Month", tLabelStyle);
 			tHeightAdd += tHeightTitle;
-			for (int i=0; i<NWDDateType.kMonths.Length;i++)
+			for (int i=0; i<NWDDateTimeType.kMonths.Length;i++)
 			{
 				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeightAdd + tHeight * i,sPos.width, sPos.height),
 					!Value.Contains (kMonthsSchedulePrefix+i.ToString("00")),
-					NWDDateType.kMonths[i]);
+					NWDDateTimeType.kMonths[i]);
 				if (tValueTest==false)
 				{
 					tTemporary.Value += kMonthsSchedulePrefix+i.ToString("00");
@@ -137,13 +137,13 @@ namespace NetWorkedData
 
 			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Dates of day", tLabelStyle);
 			tHeightAdd += tHeightTitle;
-			for (int i=0; i<NWDDateType.kDays.Length;i++)
+			for (int i=0; i<NWDDateTimeType.kDays.Length;i++)
 			{
 				int c = i % 11;
 				int l = (i - c) / 11;
 				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y +tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
 					!Value.Contains (kDaysSchedulePrefix+i.ToString("00")),
-					NWDDateType.kDays[i]);
+					NWDDateTimeType.kDays[i]);
 				if (tValueTest==false)
 				{
 					tTemporary.Value += kDaysSchedulePrefix+i.ToString("00");
@@ -154,11 +154,11 @@ namespace NetWorkedData
 
 			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Days of week", tLabelStyle);
 			tHeightAdd += tHeightTitle;
-			for (int i=0; i<NWDDateType.kDayNames.Length;i++)
+			for (int i=0; i<NWDDateTimeType.kDayNames.Length;i++)
 			{
 				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeightAdd+ tHeight * i, sPos.width, sPos.height),
 					!Value.Contains (kDaysOfWeekSchedulePrefix+i.ToString()),
-					NWDDateType.kDayNames[i]);
+					NWDDateTimeType.kDayNames[i]);
 				if (tValueTest==false)
 				{
 					tTemporary.Value += kDaysOfWeekSchedulePrefix+i.ToString();
@@ -168,13 +168,13 @@ namespace NetWorkedData
 
 			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Hours", tLabelStyle);
 			tHeightAdd += tHeightTitle;
-			for (int i=0; i<NWDDateType.kHours.Length;i++)
+			for (int i=0; i<NWDDateTimeType.kHours.Length;i++)
 			{
 				int c = i % 8;
 				int l = (i - c) / 8;
 				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y +tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
 					!Value.Contains (kHoursSchedulePrefix+i.ToString("00")),
-					NWDDateType.kHours[i]+kHoursUnit);
+					NWDDateTimeType.kHours[i]+kHoursUnit);
 				if (tValueTest==false)
 				{
 					tTemporary.Value += kHoursSchedulePrefix+i.ToString("00");
@@ -184,13 +184,13 @@ namespace NetWorkedData
 
 			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Minutes", tLabelStyle);
 			tHeightAdd += tHeightTitle;
-			for (int i=0; i<NWDDateType.kMinutes.Length;i++)
+			for (int i=0; i<NWDDateTimeType.kMinutes.Length;i++)
 			{
 				int c = i % 20;
 				int l = (i - c) / 20;
 				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y +tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
 					!Value.Contains (kMinutesSchedulePrefix+i.ToString("00")),
-					NWDDateType.kMinutes[i]+kMinutesUnit);
+					NWDDateTimeType.kMinutes[i]+kMinutesUnit);
 				if (tValueTest==false)
 				{
 					tTemporary.Value += kMinutesSchedulePrefix+i.ToString("00");
@@ -207,6 +207,12 @@ namespace NetWorkedData
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Return if the asset path is used in this DataType.
+		/// </summary>
+		/// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
+		/// <param name="sOldPath">old path.</param>
+		/// <param name="sNewPath">new path.</param>
 		public override bool ChangeAssetPath (string sOldPath, string sNewPath)
 		{
 			return false;

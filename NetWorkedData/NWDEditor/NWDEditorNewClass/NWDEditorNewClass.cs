@@ -198,16 +198,20 @@ namespace NetWorkedData
 			tListOfType.Add ("NWDLocalizableTextType");
 			tListOfType.Add ("NWDLocalizablePrefabType");
 			tListOfType.Add ("    "); // use as separator remove by ereg
-			tListOfType.Add ("NWDCalendarType");
 			tListOfType.Add ("NWDDateTimeType");
 			tListOfType.Add ("NWDDateType");
-			tListOfType.Add ("NWDScheduleType");
 			tListOfType.Add ("NWDTimeType");
-			tListOfType.Add ("NWDDayScheduleType");
 			tListOfType.Add ("     "); // use as separator remove by ereg
-			tListOfType.Add ("NWDJsonType");
-			tListOfType.Add ("NWDJsonType");
-			tListOfType.Add ("NWDJsonType");
+			tListOfType.Add ("NWDDateTimeRangeType");
+			tListOfType.Add ("NWDTimeRangeType");
+			tListOfType.Add ("      "); // use as separator remove by ereg
+			tListOfType.Add ("NWDDateScheduleType");
+			tListOfType.Add ("NWDDaysOfWeekScheduleType");
+			tListOfType.Add ("NWDDaysScheduleType");
+			tListOfType.Add ("NWDMonthsScheduleType");
+			tListOfType.Add ("NWDHoursScheduleType");
+			tListOfType.Add ("NWDMinutesScheduleType");
+			tListOfType.Add ("       "); // use as separator remove by ereg
 			tListOfType.Add ("NWDJsonType");
 			tListOfType.Add ("      "); // use as separator remove by ereg
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {

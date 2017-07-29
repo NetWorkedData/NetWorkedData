@@ -55,8 +55,10 @@ namespace NetWorkedData
 		{
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			int tCountB = NWDDateType.kMonths.Length;
-			return tHeight * tCountB;
+			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
+			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+			int tCountB = NWDDateTimeType.kMonths.Length;
+			return tHeight * tCountB + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPos, string sEntitled)
@@ -65,13 +67,23 @@ namespace NetWorkedData
 
 			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
+
+			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
+			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+
+			float tHeightAdd = 0;
+
+			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Month selection", tLabelStyle);
+			tHeightAdd += tHeightTitle;
+
+
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 
-			for (int i=0; i<NWDDateType.kMonths.Length;i++)
+			for (int i=0; i<NWDDateTimeType.kMonths.Length;i++)
 			{
-				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeight * i, sPos.width, sPos.height),
+				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y + tHeightAdd+ tHeight * i, sPos.width, sPos.height),
 					!Value.Contains (kMonthsSchedulePrefix+i.ToString("00")),
-					NWDDateType.kMonths[i]);
+					NWDDateTimeType.kMonths[i]);
 				if (tValueTest==false)
 				{
 					tTemporary.Value += kMonthsSchedulePrefix+i.ToString("00");
@@ -86,6 +98,12 @@ namespace NetWorkedData
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Return if the asset path is used in this DataType.
+		/// </summary>
+		/// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
+		/// <param name="sOldPath">old path.</param>
+		/// <param name="sNewPath">new path.</param>
 		public override bool ChangeAssetPath (string sOldPath, string sNewPath)
 		{
 			return false;

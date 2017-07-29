@@ -24,15 +24,15 @@ namespace NetWorkedData
 	/// </summary>
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDHoursScheduleType : NWDScheduleType
+	public class NWDDaysScheduleType : NWDScheduleType
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDHoursScheduleType ()
+		public NWDDaysScheduleType ()
 		{
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDHoursScheduleType (string sValue = "")
+		public NWDDaysScheduleType (string sValue = "")
 		{
 			if (sValue == null) {
 				Value = "";
@@ -44,8 +44,8 @@ namespace NetWorkedData
 		public override bool ResultForDate (DateTime sDateTime)
 		{
 			bool rReturn = false;
-			int tHour = sDateTime.Hour;
-			rReturn = !Value.Contains (kHoursSchedulePrefix + tHour.ToString("00"));
+				int tDays = sDateTime.Day-1;
+				rReturn = !Value.Contains (kDaysSchedulePrefix + tDays.ToString("00"));
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -57,12 +57,13 @@ namespace NetWorkedData
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			return tHeight * 8 + tHeightTitle;
+			int tCountD = 11;
+			return tHeight * (tCountD) + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPos, string sEntitled)
 		{
-			NWDHoursScheduleType tTemporary = new NWDHoursScheduleType ();
+			NWDDaysScheduleType tTemporary = new NWDDaysScheduleType ();
 
 			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
@@ -71,25 +72,23 @@ namespace NetWorkedData
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 
 			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth) / 3.0F);
-
-
-
 			float tHeightAdd = 0;
 
-			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Hours selection", tLabelStyle);
+			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Days of month selection", tLabelStyle);
 			tHeightAdd += tHeightTitle;
 
-
-			for (int i=0; i<NWDDateTimeType.kHours.Length;i++)
+//			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Dates of day", tLabelStyle);
+//			tHeightAdd += tHeightTitle;
+			for (int i=0; i<NWDDateTimeType.kDays.Length;i++)
 			{
-				int c = i % 8;
-				int l = (i - c) / 8;
-				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y + tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
-					!Value.Contains (kHoursSchedulePrefix+i.ToString("00")),
-					NWDDateTimeType.kHours[i]+"H");
+				int c = i % 11;
+				int l = (i - c) / 11;
+				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y +tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
+					!Value.Contains (kDaysSchedulePrefix+i.ToString("00")),
+					NWDDateTimeType.kDays[i]);
 				if (tValueTest==false)
 				{
-					tTemporary.Value += kHoursSchedulePrefix+i.ToString("00");
+					tTemporary.Value += kDaysSchedulePrefix+i.ToString("00");
 				}
 			}
 
@@ -98,6 +97,7 @@ namespace NetWorkedData
 			} else {
 				GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, sPos.height), kNowSuccess);
 			}
+			//GUI.Label (new Rect (sPos.x, sPos.y + tHeight *2, sPos.width, sPos.height), Value);
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

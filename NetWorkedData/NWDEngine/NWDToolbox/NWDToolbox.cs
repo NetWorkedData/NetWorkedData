@@ -138,6 +138,16 @@ namespace NetWorkedData
 		/// <summary>
 		/// Return timestamp from unix 1970 january 01.
 		/// </summary>
+		public static int Timestamp (DateTime sDateTime)
+		{
+			DateTime tUnixStartTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+			int rUnixCurrentTime = (int)(sDateTime - tUnixStartTime).TotalSeconds;
+			return rUnixCurrentTime;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Return timestamp from unix 1970 january 01.
+		/// </summary>
 		public static int Timestamp ()
 		{
 			//int rUnixCurrentTime = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
