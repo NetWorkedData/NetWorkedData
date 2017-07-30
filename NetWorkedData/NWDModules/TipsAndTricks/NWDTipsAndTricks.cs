@@ -6,13 +6,23 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 using UnityEngine;
 
 using SQLite4Unity3d;
-//=====================================================================================================================
-using System.Collections.Generic;
 
+using BasicToolBox;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+//=====================================================================================================================
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
@@ -24,7 +34,15 @@ namespace NetWorkedData
 	public partial class NWDTipsAndTricks :NWDBasis <NWDTipsAndTricks>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//public bool DiscoverItYourSelf { get; set; }
+		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+		//-------------------------------------------------------------------------------------------------------------
+		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+		//-------------------------------------------------------------------------------------------------------------
+		#region Properties
+		//-------------------------------------------------------------------------------------------------------------
+		// Your properties
 		[NWDGroupStartAttribute("Classification", false , true ,true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
 		public NWDReferencesListType<NWDCategory> Categories { get; set; }
@@ -49,13 +67,22 @@ namespace NetWorkedData
 		[NWDIntSliderAttribute(1,9)]
 		public int Weighting { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Constructors
+		//-------------------------------------------------------------------------------------------------------------
 		public NWDTipsAndTricks()
 		{
+			//Init your instance here
 			Weighting = 1;
 			Title = new NWDLocalizableStringType ();
 			SubTitle = new NWDLocalizableStringType ();
 			Message = new NWDLocalizableTextType ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
 		static List<NWDTipsAndTricks> ListForRandom;
 		//-------------------------------------------------------------------------------------------------------------
@@ -95,6 +122,167 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Instance methods
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
+		{
+			// do something with this object
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#region override of NetWorkedData addons methods
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
+		{
+			// do something when object will be inserted
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdateMe ()
+		{
+			// do something when object will be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdatedMe ()
+		{
+			// do something when object finish to be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDuplicateMe ()
+		{
+			// do something when object will be dupplicate
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonEnableMe ()
+		{
+			// do something when object will be enabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDisableMe ()
+		{
+			// do something when object will be disabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonTrashMe ()
+		{
+			// do something when object will be put in trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUnTrashMe ()
+		{
+			// do something when object will be remove from trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		//Addons for Edition
+		//-------------------------------------------------------------------------------------------------------------
+		public override bool AddonEdited( bool sNeedBeUpdate)
+		{
+			if (sNeedBeUpdate == true) 
+			{
+				// do something
+			}
+			return sNeedBeUpdate;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override float AddonEditor (Rect sInRect)
+		{
+			// height editor add-on
+			float tYadd = 0.0f;
+			return tYadd;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override float AddonEditorHeight ()
+		{
+			// draw editor add-on
+			float tYadd = 0.0f;
+			return tYadd;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
 	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	#region Connexion NWDTipsAndTricks with Unity MonoBehavior
+	//-------------------------------------------------------------------------------------------------------------
+	/// <summary>
+	/// NWDTipsAndTricks connexion.
+	/// In your MonoBehaviour Script connect object with :
+	/// <code>
+	///	[NWDConnexionAttribut(true,true, true, true)]
+	/// public NWDTipsAndTricksConnexion MyNWDTipsAndTricksObject;
+	/// </code>
+	/// </summary>
+	//-------------------------------------------------------------------------------------------------------------
+	// CONNEXION STRUCTURE METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class NWDTipsAndTricksConnexion
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		[SerializeField]
+		public string Reference;
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDTipsAndTricks GetObject ()
+		{
+			return NWDTipsAndTricks.GetObjectWithReference (Reference);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetObject (NWDTipsAndTricks sObject)
+		{
+			Reference = sObject.Reference;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDTipsAndTricks NewObject ()
+		{
+			NWDTipsAndTricks tObject = NWDTipsAndTricks.NewObject ();
+			Reference = tObject.Reference;
+			return tObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	// CUSTOM PROPERTY DRAWER METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	#if UNITY_EDITOR
+	//-------------------------------------------------------------------------------------------------------------
+	[CustomPropertyDrawer (typeof(NWDTipsAndTricksConnexion))]
+	public class NWDTipsAndTricksConnexionDrawer : PropertyDrawer
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		{
+			Debug.Log ("GetPropertyHeight");
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			return NWDTipsAndTricks.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		{
+			Debug.Log ("OnGUI");
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			NWDTipsAndTricks.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	#endif
+	//-------------------------------------------------------------------------------------------------------------
+	#endregion
+	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

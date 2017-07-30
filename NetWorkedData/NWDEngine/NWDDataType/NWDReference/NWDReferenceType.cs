@@ -130,14 +130,14 @@ namespace NetWorkedData
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public string ChangeReferenceForAnother(string sOldReference, string sNewReference, Type sType)
+		public bool ChangeReferenceForAnother(string sOldReference, string sNewReference)
 		{
-			string rReturn = "NO";
+			bool rReturn = false;
 			if (Value != null) {
 				if (Value.Contains (sOldReference)) {
 					Debug.Log ("I CHANGE "+sOldReference+" FOR "+sNewReference+"");
 					Value = Value.Replace (sOldReference, sNewReference);
-					rReturn = "YES";
+					rReturn = true;
 				}
 			}
 			return rReturn;

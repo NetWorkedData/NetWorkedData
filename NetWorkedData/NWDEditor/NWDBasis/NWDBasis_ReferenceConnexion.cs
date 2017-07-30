@@ -250,13 +250,13 @@ namespace NetWorkedData
 					tObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
 				}
 				if (tAutoChange == true) {
-					SetObjectInEdition (tObject);
+					SetObjectInEdition (tObject,true,false);
 				}
 				if (tObject != null) {
 					if (sEditButton == true) {
 						if (GUI.Button (tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton)) {
 							if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0) {
-								SetObjectInEdition (tObject);
+								SetObjectInEdition (tObject,true,true);
 							}
 						}
 					}
@@ -304,7 +304,7 @@ namespace NetWorkedData
 							tObject.UpdateMe (true);
 							AddObjectInListOfEdition (tObject);
 							tFuturValue = tObject.Reference;
-							SetObjectInEdition (tObject);
+							SetObjectInEdition (tObject,true,true);
 							NWDDataManager.SharedInstance.RepaintWindowsInManager (tObject.GetType ());
 						}
 					}

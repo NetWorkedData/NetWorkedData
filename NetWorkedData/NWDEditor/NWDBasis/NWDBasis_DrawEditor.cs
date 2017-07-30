@@ -50,11 +50,11 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static void SetObjectInEdition (object sObject, bool sResetStack = true)
+		public static void SetObjectInEdition (object sObject, bool sResetStack = true, bool sFocus=true)
 		{
 			
 			GUI.FocusControl (null);
-			NWDDataInspector.InspectNetWorkedData (sObject, sResetStack);
+			NWDDataInspector.InspectNetWorkedData (sObject, sResetStack, sFocus);
 			if (sObject != null) {
 				tLastTypeEdited = sObject.GetType ();
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (tLastTypeEdited);

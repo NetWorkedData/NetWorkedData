@@ -6,10 +6,21 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 using UnityEngine;
 
 using SQLite4Unity3d;
+
+using BasicToolBox;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -23,7 +34,15 @@ namespace NetWorkedData
 	public partial class NWDItem :NWDBasis <NWDItem>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//public bool DiscoverItYourSelf { get; set; }
+		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+		//-------------------------------------------------------------------------------------------------------------
+		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+		//-------------------------------------------------------------------------------------------------------------
+		#region Properties
+		//-------------------------------------------------------------------------------------------------------------
+		// Your properties
 		[NWDHeaderAttribute("Informations")]
 		public NWDReferencesListType<NWDItemGroup> ItemGroupReferencesList { get; set; }
 		public NWDLocalizableStringType Name { get; set; }
@@ -65,7 +84,7 @@ namespace NetWorkedData
 		public NWDReferencesListType<NWDBattleProperty> BattleProperties { get; set; }
 
 		[NWDHeaderAttribute("Is cook recipe script in the game")]
-	
+
 		public NWDReferenceType<NWDCookRecipe> CookRecipeReference { get; set; }
 
 		[NWDHeaderAttribute("For developer a JSON data")]
@@ -78,185 +97,187 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute("Delay of usage",true, false, true)]
 		public int DelayToUse { get; set; }
 		public int DelayToReUse { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDHeaderAttribute("Automatique values")]
-//		[NWDGroupStartAttribute("Value A settings",true, true, true)]
-
-		//[NWDAccountEntitledAttribute("BLABLA BALA bALLAA")]
-//		public NWDLocalizableStringType A_NameKey { get; set; }
-//
-//		public float A_Min { get; set; }
-//
-//		public float A_Max { get; set; }
-//
-//		public float A_Value { get; set; }
-//
-//		public int A_Timer { get; set; }
-//
-//		public float A_Increment { get; set; }
-//
-//		public int A_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		public NWDLocalizableStringType B_NameKey { get; set; }
-//
-//		public float B_Min { get; set; }
-//
-//		public float B_Max { get; set; }
-//
-//		public float B_Value { get; set; }
-//
-//		public int B_Timer { get; set; }
-//
-//		public float B_Increment { get; set; }
-//
-//		public int B_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value C settings",true, true, true)]
-//
-//		public NWDLocalizableStringType C_NameKey { get; set; }
-//
-//		public float C_Min { get; set; }
-//
-//		public float C_Max { get; set; }
-//
-//		public float C_Value { get; set; }
-//
-//		public int C_Timer { get; set; }
-//
-//		public float C_Increment { get; set; }
-//
-//		public int C_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value D settings",true, true, true)]
-//
-//		public NWDLocalizableStringType D_NameKey { get; set; }
-//
-//		public float D_Min { get; set; }
-//
-//		public float D_Max { get; set; }
-//
-//		public float D_Value { get; set; }
-//
-//		public int D_Timer { get; set; }
-//
-//		public float D_Increment { get; set; }
-//
-//		public int D_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value E settings",true, true, true)]
-//
-//		public NWDLocalizableStringType E_NameKey { get; set; }
-//
-//		public float E_Min { get; set; }
-//
-//		public float E_Max { get; set; }
-//
-//		public float E_Value { get; set; }
-//
-//		public int E_Timer { get; set; }
-//
-//		public float E_Increment { get; set; }
-//
-//		public int E_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value F settings",true, true, true)]
-//
-//		public NWDLocalizableStringType F_NameKey { get; set; }
-//
-//		public float F_Min { get; set; }
-//
-//		public float F_Max { get; set; }
-//
-//		public float F_Value { get; set; }
-//
-//		public int F_Timer { get; set; }
-//
-//		public float F_Increment { get; set; }
-//
-//		public int F_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value G settings",true, true, true)]
-//
-//		public NWDLocalizableStringType G_NameKey { get; set; }
-//
-//		public float G_Min { get; set; }
-//
-//		public float G_Max { get; set; }
-//
-//		public float G_Value { get; set; }
-//
-//		public int G_Timer { get; set; }
-//
-//		public float G_Increment { get; set; }
-//
-//		public int G_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value H settings",true, true, true)]
-//
-//		public NWDLocalizableStringType H_NameKey { get; set; }
-//
-//		public float H_Min { get; set; }
-//
-//		public float H_Max { get; set; }
-//
-//		public float H_Value { get; set; }
-//
-//		public int H_Timer { get; set; }
-//
-//		public float H_Increment { get; set; }
-//
-//		public int H_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value I settings",true, true, true)]
-//
-//		public NWDLocalizableStringType I_NameKey { get; set; }
-//
-//		public float I_Min { get; set; }
-//
-//		public float I_Max { get; set; }
-//
-//		public float I_Value { get; set; }
-//
-//		public int I_Timer { get; set; }
-//
-//		public float I_Increment { get; set; }
-//
-//		public int I_LastSynchronization { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDGroupStartAttribute("Value J settings",true, true, true)]
-//
-//		public NWDLocalizableStringType J_NameKey { get; set; }
-//
-//		public float J_Min { get; set; }
-//
-//		public float J_Max { get; set; }
-//
-//		public float J_Value { get; set; }
-//
-//		public int J_Timer { get; set; }
-//
-//		public float J_Increment { get; set; }
-//
-//		public int J_LastSynchronization { get; set; }
-		//[NWDGroupEndAttribute]
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItem()
 		{
 			//Init your instance here
 			//DiscoverItYourSelf = true;
-			Usable = true;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Class methods
+		//-------------------------------------------------------------------------------------------------------------
+		public static void MyClassMethod ()
+		{
+			// do something with this class
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Instance methods
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
+		{
+			// do something with this object
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#region override of NetWorkedData addons methods
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
+		{
+			// do something when object will be inserted
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdateMe ()
+		{
+			// do something when object will be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdatedMe ()
+		{
+			// do something when object finish to be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDuplicateMe ()
+		{
+			// do something when object will be dupplicate
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonEnableMe ()
+		{
+			// do something when object will be enabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDisableMe ()
+		{
+			// do something when object will be disabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonTrashMe ()
+		{
+			// do something when object will be put in trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUnTrashMe ()
+		{
+			// do something when object will be remove from trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		//Addons for Edition
+		//-------------------------------------------------------------------------------------------------------------
+		public override bool AddonEdited( bool sNeedBeUpdate)
+		{
+			if (sNeedBeUpdate == true) 
+			{
+				// do something
+			}
+			return sNeedBeUpdate;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override float AddonEditor (Rect sInRect)
+		{
+			// height editor add-on
+			float tYadd = 0.0f;
+			return tYadd;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override float AddonEditorHeight ()
+		{
+			// draw editor add-on
+			float tYadd = 0.0f;
+			return tYadd;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	#region Connexion NWDItem with Unity MonoBehavior
+	//-------------------------------------------------------------------------------------------------------------
+	/// <summary>
+	/// NWDItem connexion.
+	/// In your MonoBehaviour Script connect object with :
+	/// <code>
+	///	[NWDConnexionAttribut(true,true, true, true)]
+	/// public NWDItemConnexion MyNWDItemObject;
+	/// </code>
+	/// </summary>
+	//-------------------------------------------------------------------------------------------------------------
+	// CONNEXION STRUCTURE METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class NWDItemConnexion
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		[SerializeField]
+		public string Reference;
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDItem GetObject ()
+		{
+			return NWDItem.GetObjectWithReference (Reference);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetObject (NWDItem sObject)
+		{
+			Reference = sObject.Reference;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDItem NewObject ()
+		{
+			NWDItem tObject = NWDItem.NewObject ();
+			Reference = tObject.Reference;
+			return tObject;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
+	//-------------------------------------------------------------------------------------------------------------
+	// CUSTOM PROPERTY DRAWER METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	#if UNITY_EDITOR
+	//-------------------------------------------------------------------------------------------------------------
+	[CustomPropertyDrawer (typeof(NWDItemConnexion))]
+	public class NWDItemConnexionDrawer : PropertyDrawer
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		{
+			Debug.Log ("GetPropertyHeight");
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			return NWDItem.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		{
+			Debug.Log ("OnGUI");
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			NWDItem.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	#endif
+	//-------------------------------------------------------------------------------------------------------------
+	#endregion
+	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

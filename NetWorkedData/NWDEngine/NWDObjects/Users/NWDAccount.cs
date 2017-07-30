@@ -6,9 +6,15 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 using UnityEngine;
-using UnityEngine.UI;
+
+using SQLite4Unity3d;
 
 using BasicToolBox;
 
@@ -30,8 +36,15 @@ namespace NetWorkedData
 	public partial class NWDAccount : NWDBasis <NWDAccount>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//public bool DiscoverItYourSelf { get; set; }
-
+		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+		//-------------------------------------------------------------------------------------------------------------
+		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+		//-------------------------------------------------------------------------------------------------------------
+		#region Properties
+		//-------------------------------------------------------------------------------------------------------------
+		// Your properties
 		/// <summary>
 		/// Gets or sets the NickName.
 		/// </summary>
@@ -92,18 +105,92 @@ namespace NetWorkedData
 		/// <value><c>true</c> if ban; otherwise, <c>false</c>.</value>
 		public int Ban { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDAccount ()
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Constructors
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDAccount()
 		{
 			//Init your instance here
-			//DiscoverItYourSelf = true;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Class methods
+		//-------------------------------------------------------------------------------------------------------------
+		public static void MyClassMethod ()
+		{
+			// do something with this class
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Instance methods
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
+		{
+			// do something with this object
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#region override of NetWorkedData addons methods
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
+		{
+			// do something when object will be inserted
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdateMe ()
+		{
+			// do something when object will be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdatedMe ()
+		{
+			// do something when object finish to be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDuplicateMe ()
+		{
+			// do something when object will be dupplicate
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonEnableMe ()
+		{
+			// do something when object will be enabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDisableMe ()
+		{
+			// do something when object will be disabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonTrashMe ()
+		{
+			// do something when object will be put in trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUnTrashMe ()
+		{
+			// do something when object will be remove from trash
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
-		private string kInternalLogin;
-		private string kInternalPassword;
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor (Rect sInRect)
+		//Addons for Edition
+		//-------------------------------------------------------------------------------------------------------------
+		public override bool AddonEdited( bool sNeedBeUpdate)
+		{
+			if (sNeedBeUpdate == true) 
+			{
+				// do something
+			}
+			return sNeedBeUpdate;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		private string kInternalLogin; //TODO : change prefiuxe by p
+		private string kInternalPassword; //TODO : change prefiuxe by p
+		//-------------------------------------------------------------------------------------------------------------
+		public override float AddonEditor (Rect sInRect)
 		{
 			//Debug.Log ("AddonEditor");
 			float tWidth = sInRect.width;
@@ -156,14 +243,14 @@ namespace NetWorkedData
 			}
 
 			//			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
-//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
-//				this.Email = BTBSecurityTools.generateSha (kInternalLogin + tEnvironmentProd.SaltStart, BTBSecurityShaTypeEnum.Sha1);
-//				this.Password = BTBSecurityTools.generateSha (kInternalPassword + tEnvironmentProd.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
-//				this.InternalDescription = "Account for Prod test (" + kInternalLogin + " / " + kInternalPassword + ")";
-//				kInternalLogin = "";
-//				kInternalPassword = "";
-//				this.UpdateMeIfModified();
-//			}
+			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
+			//				this.Email = BTBSecurityTools.generateSha (kInternalLogin + tEnvironmentProd.SaltStart, BTBSecurityShaTypeEnum.Sha1);
+			//				this.Password = BTBSecurityTools.generateSha (kInternalPassword + tEnvironmentProd.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+			//				this.InternalDescription = "Account for Prod test (" + kInternalLogin + " / " + kInternalPassword + ")";
+			//				kInternalLogin = "";
+			//				kInternalPassword = "";
+			//				this.UpdateMeIfModified();
+			//			}
 
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			EditorGUI.EndDisabledGroup ();
@@ -187,13 +274,13 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
 			}
 
-//			if (GUI.Button (new Rect (tX + (tWidthTiers + NWDConstants.kFieldMarge) * 2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
-//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
-//				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", null, null, null, null, tEnvironmentProd);
-//				sOperation.Action = "rescue";
-//				sOperation.Email = Email;
-//				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
-//			}
+			//			if (GUI.Button (new Rect (tX + (tWidthTiers + NWDConstants.kFieldMarge) * 2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
+			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
+			//				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", null, null, null, null, tEnvironmentProd);
+			//				sOperation.Action = "rescue";
+			//				sOperation.Email = Email;
+			//				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
+			//			}
 
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			EditorGUI.EndDisabledGroup ();
@@ -219,14 +306,14 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
 			}
 
-//			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn prod", tMiniButtonStyle)) {
-//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
-//
-//				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", null, null, null, null, tEnvironmentProd);
-//				sOperation.Action = "signin";
-//				sOperation.EmailHash = Email;
-//				sOperation.PasswordHash = Password;
-//				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
+			//			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn prod", tMiniButtonStyle)) {
+			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
+			//
+			//				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", null, null, null, null, tEnvironmentProd);
+			//				sOperation.Action = "signin";
+			//				sOperation.EmailHash = Email;
+			//				sOperation.PasswordHash = Password;
+			//				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
 			//			}
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			EditorGUI.EndDisabledGroup ();
@@ -262,6 +349,87 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-    }
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	#region Connexion NWDAccount with Unity MonoBehavior
+	//-------------------------------------------------------------------------------------------------------------
+	/// <summary>
+	/// NWDAccount connexion.
+	/// In your MonoBehaviour Script connect object with :
+	/// <code>
+	///	[NWDConnexionAttribut(true,true, true, true)]
+	/// public NWDAccountConnexion MyNWDAccountObject;
+	/// </code>
+	/// </summary>
+	//-------------------------------------------------------------------------------------------------------------
+	// CONNEXION STRUCTURE METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class NWDAccountConnexion
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		[SerializeField]
+		public string Reference;
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDAccount GetObject ()
+		{
+			return NWDAccount.GetObjectWithReference (Reference);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetObject (NWDAccount sObject)
+		{
+			Reference = sObject.Reference;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDAccount NewObject ()
+		{
+			NWDAccount tObject = NWDAccount.NewObject ();
+			Reference = tObject.Reference;
+			return tObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	// CUSTOM PROPERTY DRAWER METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	#if UNITY_EDITOR
+	//-------------------------------------------------------------------------------------------------------------
+	[CustomPropertyDrawer (typeof(NWDAccountConnexion))]
+	public class NWDAccountConnexionDrawer : PropertyDrawer
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		{
+			Debug.Log ("GetPropertyHeight");
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			return NWDAccount.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		{
+			Debug.Log ("OnGUI");
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			NWDAccount.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	#endif
+	//-------------------------------------------------------------------------------------------------------------
+	#endregion
+	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

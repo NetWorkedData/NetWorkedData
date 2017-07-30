@@ -337,7 +337,7 @@ namespace NetWorkedData
 				// delete all datas for this user
 				foreach (NWDBasis<K> tObject in ObjectsList)
 				{
-					if (tObject.IsAccountConnected (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
+					if (tObject.IsVisibleForAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
 					{
 						tObject.DeleteMe ();
 					}

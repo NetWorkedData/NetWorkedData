@@ -103,12 +103,12 @@ namespace NetWorkedData
 			return (ActualIndex < mObjectsList.Count-1);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static void InspectNetWorkedData (object sTarget, bool sResetStack = true)
+		public static void InspectNetWorkedData (object sTarget, bool sResetStack = true, bool sFocus=true)
 		{
-			ShareInstance ().Data (sTarget, sResetStack);
+			ShareInstance ().Data (sTarget, sResetStack,sFocus);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void Data (object sTarget, bool sResetStack = true)
+		public void Data (object sTarget, bool sResetStack = true, bool sFocus=true)
 		{
 			if (sResetStack == true) {
 				mObjectsList = new List<object> ();
@@ -119,8 +119,10 @@ namespace NetWorkedData
 			mObjectsList.Add (sTarget);
 			mObjectInEdition = sTarget;
 			Repaint ();
-			RemoveActualFocus = true;
-			Focus();
+			RemoveActualFocus = sFocus;
+			if (sFocus == true) {
+				Focus ();
+			}
 //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
 		}
 		//-------------------------------------------------------------------------------------------------------------

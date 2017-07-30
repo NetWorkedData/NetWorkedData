@@ -36,8 +36,15 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDVersion : NWDBasis<NWDVersion>
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		//public bool DiscoverItYourSelf { get; set; }
+			//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+			//-------------------------------------------------------------------------------------------------------------
+			// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+			// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+			// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+			//-------------------------------------------------------------------------------------------------------------
+			#region Properties
+			//-------------------------------------------------------------------------------------------------------------
+			// Your properties
 		public NWDVersionType Version { get; set; }
 		[NWDSeparatorAttribute]
 		public bool BuildActive { get; set; }
@@ -54,11 +61,19 @@ namespace NetWorkedData
 		public string AppleStoreURL { get; set; }
 		public string GooglePlayURL { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Constructors
+		//-------------------------------------------------------------------------------------------------------------
 		public NWDVersion()
 		{
 			//Init your instance here
 			//DiscoverItYourSelf = true;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -135,19 +150,72 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override bool  AddonEdited( bool sNeedBeUpdate)
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Instance methods
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
+		{
+			// do something with this object
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#region override of NetWorkedData addons methods
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
+		{
+			// do something when object will be inserted
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdateMe ()
+		{
+			// do something when object will be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdatedMe ()
+		{
+			// do something when object finish to be updated
+			NWDVersion.UpdateVersionBundle ();
+			NWDDataManager.SharedInstance.RepaintWindowsInManager (typeof(NWDVersion));
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDuplicateMe ()
+		{
+			// do something when object will be dupplicate
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonEnableMe ()
+		{
+			// do something when object will be enabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDisableMe ()
+		{
+			// do something when object will be disabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonTrashMe ()
+		{
+			// do something when object will be put in trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUnTrashMe ()
+		{
+			// do something when object will be remove from trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		//Addons for Edition
+		//-------------------------------------------------------------------------------------------------------------
+		public override bool AddonEdited( bool sNeedBeUpdate)
 		{
 			if (sNeedBeUpdate == true) 
 			{
 				this.InternalKey = this.Version.ToString ();
 			}
 			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe ()
-		{
-			NWDVersion.UpdateVersionBundle ();
-			NWDDataManager.SharedInstance.RepaintWindowsInManager (typeof(NWDVersion));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditor (Rect sInRect)
@@ -198,6 +266,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditorHeight ()
 		{
+			// draw editor add-on
 			GUIStyle tTextFieldStyle = new GUIStyle (EditorStyles.textField);
 			tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight (new GUIContent ("A"), 100);
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
@@ -224,6 +293,85 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
 	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	#region Connexion NWDVersion with Unity MonoBehavior
+	//-------------------------------------------------------------------------------------------------------------
+	/// <summary>
+	/// NWDVersion connexion.
+	/// In your MonoBehaviour Script connect object with :
+	/// <code>
+	///	[NWDConnexionAttribut(true,true, true, true)]
+	/// public NWDVersionConnexion MyNWDVersionObject;
+	/// </code>
+	/// </summary>
+	//-------------------------------------------------------------------------------------------------------------
+	// CONNEXION STRUCTURE METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class NWDVersionConnexion
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		[SerializeField]
+		public string Reference;
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDVersion GetObject ()
+		{
+			return NWDVersion.GetObjectWithReference (Reference);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetObject (NWDVersion sObject)
+		{
+			Reference = sObject.Reference;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDVersion NewObject ()
+		{
+			NWDVersion tObject = NWDVersion.NewObject ();
+			Reference = tObject.Reference;
+			return tObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	// CUSTOM PROPERTY DRAWER METHODS
+	//-------------------------------------------------------------------------------------------------------------
+	#if UNITY_EDITOR
+	//-------------------------------------------------------------------------------------------------------------
+	[CustomPropertyDrawer (typeof(NWDVersionConnexion))]
+	public class NWDVersionConnexionDrawer : PropertyDrawer
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
+		{
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			return NWDVersion.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
+		{
+			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			}
+			NWDVersion.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	#endif
+	//-------------------------------------------------------------------------------------------------------------
+	#endregion
+	//-------------------------------------------------------------------------------------------------------------
 }
-//=====================================================================================================================
+//======================================================================================================================================================================================================================

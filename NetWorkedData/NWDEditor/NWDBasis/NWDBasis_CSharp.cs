@@ -458,12 +458,12 @@ namespace NetWorkedData
 			"//-------------------- \n" +
 			"\tpublic partial class " + tClassName + " : NWDBasis <" + tClassName + ">\n" +
 			"\t{\n" +
-//			"//-------------------- \n" +
+			"//-------------------- \n" +
 //			"\t\tpublic override bool IsAccountDependent ()\n" +
 //			"\t\t{\n" +
 //			"\t\t\treturn " + tAccountConnected + ";\n" +
 //			"\t\t}\n" +
-//			"//-------------------- \n" +
+			"//-------------------- \n" +
 //			"\t\tpublic override bool IsAccountConnected (string sAccountReference)\n" +
 //			"\t\t{\n";
 //			if (tAccountUsed == true) {
@@ -494,145 +494,145 @@ namespace NetWorkedData
 //			"\t\t\treturn " + tLockedObject + ";\n" +
 //			"\t\t\t#" + "endif\n" +
 //			"\t\t}\n" +
-//			"//-------------------- \n" +
-			"public static " + tClassName + " NewObject()\n" +
-			"\t\t{\n" +
-				"\t\t\t" + tClassName + " rReturn = " + tClassName + ".NewInstance () as " + tClassName + ";\n";
-
-			if (tAccountUsed == true) {
-				tWorkFlowFile += "" +
-					"\t\t\tNWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount> ();\n" +
-					"\t\t\ttAccountReference.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);\n" +
-					"\t\t\trReturn."+tAccountPropertyName+" = tAccountReference;\n" +
-					"\t\t\trReturn.UpdateMeLater ();" +
-//					"\t\t\trReturn."+tAccountPropertyName+".SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);\n" +
-//					"\t\t\trReturn.UpdateMe();\n" +
-					"";
-			}
-
-			tWorkFlowFile += "\t\t\treturn rReturn;\n" +
-			"\t\t}\n" +
 			"//-------------------- \n" +
-			"\t\tpublic override void InstanceInit ()\n" +
-			"\t\t{\n";
-			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-				Type tTypeOfThis = tPropertyInfo.PropertyType;
-				if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
-					if (tTypeOfThis.IsGenericType) {
-						int tBacktick = tTypeOfThis.GetGenericTypeDefinition ().Name.IndexOf('`');
-						Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-						tWorkFlowFile += "\t\t\t" + tPropertyInfo.Name + " = new " + tTypeOfThis.GetGenericTypeDefinition ().Name.Remove(tBacktick) + "<"+tSubType.Name+">(); // generic type \n";
-					} else {
-						tWorkFlowFile += "\t\t\t" + tPropertyInfo.Name + " = new " + tTypeOfThis.Name + "(); // normal type\n";
-					}
-				}
-			}
-			tWorkFlowFile += "" +
-				"\t\t}\n" +
+//			"public static " + tClassName + " NewObject()\n" +
+//			"\t\t{\n" +
+//				"\t\t\t" + tClassName + " rReturn = " + tClassName + ".NewInstance () as " + tClassName + ";\n";
+//
+//			if (tAccountUsed == true) {
+//				tWorkFlowFile += "" +
+//					"\t\t\tNWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount> ();\n" +
+//					"\t\t\ttAccountReference.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);\n" +
+//					"\t\t\trReturn."+tAccountPropertyName+" = tAccountReference;\n" +
+//					"\t\t\trReturn.UpdateMeLater ();" +
+////					"\t\t\trReturn."+tAccountPropertyName+".SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);\n" +
+////					"\t\t\trReturn.UpdateMe();\n" +
+//					"";
+//			}
+//
+//			tWorkFlowFile += "\t\t\treturn rReturn;\n" +
+//			"\t\t}\n" +
+			"//-------------------- \n" +
+//			"\t\tpublic override void InstanceInit ()\n" +
+//			"\t\t{\n";
+//			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+//				Type tTypeOfThis = tPropertyInfo.PropertyType;
+//				if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
+//					if (tTypeOfThis.IsGenericType) {
+//						int tBacktick = tTypeOfThis.GetGenericTypeDefinition ().Name.IndexOf('`');
+//						Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+//						tWorkFlowFile += "\t\t\t" + tPropertyInfo.Name + " = new " + tTypeOfThis.GetGenericTypeDefinition ().Name.Remove(tBacktick) + "<"+tSubType.Name+">(); // generic type \n";
+//					} else {
+//						tWorkFlowFile += "\t\t\t" + tPropertyInfo.Name + " = new " + tTypeOfThis.Name + "(); // normal type\n";
+//					}
+//				}
+//			}
+//			tWorkFlowFile += "" +
+//				"\t\t}\n" +
 				"//-------------------- \n" +
-				"    public static " + tClassName + "[] GetAllObjects()\n" +
-				"     {\n" +
-				"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
-				"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
-				"      {\n" +
-				"       if (tObject.Reference != null" + tAccountAnalzeListANDString + ") {\n" +
-				"           rReturn.Add(tObject);\n" +
-				"          }\n" +
-				"       }\n" +
-				"      return rReturn.ToArray();\n" +
-				"    }\n" +
+//				"    public static " + tClassName + "[] GetAllObjects()\n" +
+//				"     {\n" +
+//				"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
+//				"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
+//				"      {\n" +
+//				"       if (tObject.Reference != null" + tAccountAnalzeListANDString + ") {\n" +
+//				"           rReturn.Add(tObject);\n" +
+//				"          }\n" +
+//				"       }\n" +
+//				"      return rReturn.ToArray();\n" +
+//				"    }\n" +
 				"//-------------------- \n" +
-			"    public static " + tClassName + " GetObjectWithReference(string sReference)\n" +
-			"     {\n" +
-			"     " + tClassName + " rReturn = null;\n" +
-			"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
-			"      {\n" +
-			"       if (tObject.Reference == sReference" + tAccountAnalzeListANDString + ") {\n" +
-			"       rReturn = tObject;\n" +
-			"       break;\n" +
-			"      }\n" +
-			"      }\n" +
-			"      return rReturn;\n" +
-			"    }\n" +
+//			"    public static " + tClassName + " GetObjectWithReference(string sReference)\n" +
+//			"     {\n" +
+//			"     " + tClassName + " rReturn = null;\n" +
+//			"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
+//			"      {\n" +
+//			"       if (tObject.Reference == sReference" + tAccountAnalzeListANDString + ") {\n" +
+//			"       rReturn = tObject;\n" +
+//			"       break;\n" +
+//			"      }\n" +
+//			"      }\n" +
+//			"      return rReturn;\n" +
+//			"    }\n" +
 			"//-------------------- \n" +
-			"\n" +
-			"    public static " + tClassName + "[] GetObjectsWithReferences(string[] sReferences)\n" +
-			"     {\n" +
-			"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
-			"      foreach(string tReference in sReferences)\n" +
-			"       {\n" +
-			"         " + tClassName + " tObject = GetObjectWithReference(tReference);\n" +
-			"         if (tObject!=null)\n" +
-			"          {\n" +
-			"           rReturn.Add(tObject);\n" +
-			"          }\n" +
-			"       }\n" +
-			"      return rReturn.ToArray();\n" +
-			"    }\n" +
+//			"\n" +
+//			"    public static " + tClassName + "[] GetObjectsWithReferences(string[] sReferences)\n" +
+//			"     {\n" +
+//			"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
+//			"      foreach(string tReference in sReferences)\n" +
+//			"       {\n" +
+//			"         " + tClassName + " tObject = GetObjectWithReference(tReference);\n" +
+//			"         if (tObject!=null)\n" +
+//			"          {\n" +
+//			"           rReturn.Add(tObject);\n" +
+//			"          }\n" +
+//			"       }\n" +
+//			"      return rReturn.ToArray();\n" +
+//			"    }\n" +
 			"//-------------------- \n" +
-			"\n" +
-			"    public static " + tClassName + " GetObjectWithInternalKey(string sInternalKey)\n" +
-			"    {\n" +
-			"     " + tClassName + " rReturn = null;\n" +
-			"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
-			"      {\n" +
-			"       if (tObject.InternalKey == sInternalKey" + tAccountAnalzeListANDString + ")\n" +
-			"       {\n" +
-			"         rReturn = tObject;\n" +
-			"         break;\n" +
-			"       }\n" +
-			"      }\n" +
-			"     return rReturn;\n" +
-			"    }\n" +
+//			"\n" +
+//			"    public static " + tClassName + " GetObjectWithInternalKey(string sInternalKey)\n" +
+//			"    {\n" +
+//			"     " + tClassName + " rReturn = null;\n" +
+//			"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
+//			"      {\n" +
+//			"       if (tObject.InternalKey == sInternalKey" + tAccountAnalzeListANDString + ")\n" +
+//			"       {\n" +
+//			"         rReturn = tObject;\n" +
+//			"         break;\n" +
+//			"       }\n" +
+//			"      }\n" +
+//			"     return rReturn;\n" +
+//			"    }\n" +
 			"//-------------------- \n" +
-			"\n" +
-			"    public static " + tClassName + "[] GetObjectsWithInternalKeys(string[] sInternalKeys)\n" +
-			"     {\n" +
-			"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
-			"      foreach(string tInternalKey in sInternalKeys)\n" +
-			"       {\n" +
-			"         " + tClassName + " tObject = GetObjectWithInternalKey(tInternalKey);\n" +
-			"         if (tObject!=null)\n" +
-			"          {\n" +
-			"           rReturn.Add(tObject);\n" +
-			"          }\n" +
-			"       }\n" +
-			"      return rReturn.ToArray();\n" +
-			"    }\n" +
-			"\n" +
+//			"\n" +
+//			"    public static " + tClassName + "[] GetObjectsWithInternalKeys(string[] sInternalKeys)\n" +
+//			"     {\n" +
+//			"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
+//			"      foreach(string tInternalKey in sInternalKeys)\n" +
+//			"       {\n" +
+//			"         " + tClassName + " tObject = GetObjectWithInternalKey(tInternalKey);\n" +
+//			"         if (tObject!=null)\n" +
+//			"          {\n" +
+//			"           rReturn.Add(tObject);\n" +
+//			"          }\n" +
+//			"       }\n" +
+//			"      return rReturn.ToArray();\n" +
+//			"    }\n" +
+//			"\n" +
 			"//-------------------- \n" +
 			"// USER UPDATE \n" +
 			"//-------------------- \n" +
-			"    public static void TryToChangeUserForAllObjects (string sOldUser, string sNewUser)\n" +
-			"    {\n" +
-			"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
-			"      {\n" +
-			"       tObject.ChangeUser(sOldUser, sNewUser);" +
-			"      }\n" +
-			"    }\n" +
+//			"    public static void TryToChangeUserForAllObjects (string sOldUser, string sNewUser)\n" +
+//			"    {\n" +
+//			"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
+//			"      {\n" +
+//			"       tObject.ChangeUser(sOldUser, sNewUser);" +
+//			"      }\n" +
+//			"    }\n" +
 			"//-------------------- \n";
 
 			// write methods to upadte the user account reference UUID when definitive UUID is receipt
 			tWorkFlowFile += "" +
-			"    public void ChangeUser(string sOldUser, string sNewUser)\n" +
-			"    {\n";
-
-			if (tAccountAnalzeList.Count > 0) {
-				tWorkFlowFile += "" +
-				"     // TO DO CHANGE USER IF USER EXISTS IN \n";
-				foreach (string tProperty in tAccountReferenceList) {
-					tWorkFlowFile += "     if (" + tProperty + ".Value == sOldUser)\n" +
-					"      {\n" +
-					"        " + tProperty + ".SetReference(sNewUser);\n" +
-					"      }\n";
-				}
-				tWorkFlowFile += "" +
-				"     // If user exist In need to change the Reference To by simple replace the usersequence by the new user sequence (the xxxxxxT by xxxxxxxS)\n" +
-				"     UpdateReference(sOldUser, sNewUser);\n" +
-				"     UpdateMe();\n";
-			}
-			tWorkFlowFile += "" +
-			"    }\n" +
+//			"    public void ChangeUser(string sOldUser, string sNewUser)\n" +
+//			"    {\n";
+//
+//			if (tAccountAnalzeList.Count > 0) {
+//				tWorkFlowFile += "" +
+//				"     // TO DO CHANGE USER IF USER EXISTS IN \n";
+//				foreach (string tProperty in tAccountReferenceList) {
+//					tWorkFlowFile += "     if (" + tProperty + ".Value == sOldUser)\n" +
+//					"      {\n" +
+//					"        " + tProperty + ".SetReference(sNewUser);\n" +
+//					"      }\n";
+//				}
+//				tWorkFlowFile += "" +
+//				"     // If user exist In need to change the Reference To by simple replace the usersequence by the new user sequence (the xxxxxxT by xxxxxxxS)\n" +
+//				"     UpdateReference(sOldUser, sNewUser);\n" +
+//				"     UpdateMe();\n";
+//			}
+//			tWorkFlowFile += "" +
+//			"    }\n" +
 			"//-------------------- \n" +
 			"\n";
 

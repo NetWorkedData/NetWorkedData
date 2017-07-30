@@ -22,10 +22,11 @@ using UnityEngine;
 namespace NetWorkedData
 {
 	[Serializable]
-	public class NWDConnexionType<T> : NWDConnexion
+	public class NWDConnexionBasis
 	{
 		//-------------------------------------------------------------------------------------------------------------
-
+		[SerializeField]
+		public string Reference;
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

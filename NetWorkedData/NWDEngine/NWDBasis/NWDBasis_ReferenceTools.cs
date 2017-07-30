@@ -32,6 +32,9 @@ namespace NetWorkedData
 		#region Class Methods
 
 		//-------------------------------------------------------------------------------------------------------------
+
+
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Changes the reference for another in all objects.
 		/// </summary>
@@ -43,6 +46,16 @@ namespace NetWorkedData
 			//BTBDebug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
 			foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList) {
 				tObject.ChangeReferenceForAnother (sOldReference, sNewReference, sType);
+			}
+		}
+
+
+		//-------------------------------------------------------------------------------------------------------------
+		public static void TryToChangeUserForAllObjects (string sOldUser, string sNewUser)
+		{
+			foreach (NWDBasis<K> tObject in NWDBasis<K> .ObjectsList)
+			{
+				tObject.ChangeUser(sOldUser, sNewUser);     
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -91,20 +104,20 @@ namespace NetWorkedData
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the reference without change repercsusion security.
-		/// </summary>
-		/// <param name="sOldUser">S old user.</param>
-		/// <param name="sNewUser">S new user.</param>
-		public void UpdateReference (string sOldUser, string sNewUser)
-		{
-			string tReference = Reference.Replace (UUIDTransformForReference (sOldUser), UUIDTransformForReference (sNewUser));
-			bool tValid = TestReference (tReference);
-			while (tValid == false) {
-				tReference = tReference + UnityEngine.Random.Range (100, 999);
-				tValid = TestReference (tReference);
-			}
-		}
+//		/// <summary>
+//		/// Updates the reference without change repercsusion security.
+//		/// </summary>
+//		/// <param name="sOldUser">S old user.</param>
+//		/// <param name="sNewUser">S new user.</param>
+//		public void UpdateReference (string sOldUser, string sNewUser)
+//		{
+//			string tReference = Reference.Replace (UUIDTransformForReference (sOldUser), UUIDTransformForReference (sNewUser));
+//			bool tValid = TestReference (tReference);
+//			while (tValid == false) {
+//				tReference = tReference + UnityEngine.Random.Range (100, 999);
+//				tValid = TestReference (tReference);
+//			}
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Test the reference allready exists.
@@ -123,19 +136,17 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// New reference.
+		/// New reference. If account dependent this UUID of Player Account is integrate in Reference generation
 		/// </summary>
 		/// <returns>The reference.</returns>
-		public virtual string NewReference ()
+		public string NewReference ()
 		{
-//			string tUUID = NWDDataManager.SharedInstance.PlayerAccountUUID;
-			if (IsAccountDependent () == true) {
+			if (AccountDependent () == true) {
 				return NewReferenceFromUUID (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
 			} else {
 				return NewReferenceFromUUID ("");
 			}
 		}
-
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Regenerates the reference.
@@ -147,7 +158,7 @@ namespace NetWorkedData
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
 				var tMethodInfo = tType.GetMethod ("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, new object[]{ tOldReference, tNewReference, GetType () });
+					tMethodInfo.Invoke (null, new object[]{ tOldReference, tNewReference });
 				}
 			}
 			RemoveObjectInListOfEdition (this);
@@ -155,7 +166,6 @@ namespace NetWorkedData
 			UpdateMe (true);
 			AddObjectInListOfEdition (this);
 		}
-
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Changes the reference for another.
@@ -200,6 +210,17 @@ namespace NetWorkedData
 			if (rModify == true) {
 //				BTBDebug.LogVerbose ("I WAS UPDATED");
 				UpdateMe ();
+			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void ChangeUser(string sOldUser, string sNewUser)
+		{
+			if (AccountDependent () == true) {
+				foreach (PropertyInfo tProp in PropertiesAccountConnect()) {
+					NWDReferenceType<NWDAccount> tObject = tProp.GetValue (this, null) as NWDReferenceType<NWDAccount>;
+					tObject.ChangeReferenceForAnother (sOldUser, sNewUser);
+				}
+				UpdateMeIfModified ();
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

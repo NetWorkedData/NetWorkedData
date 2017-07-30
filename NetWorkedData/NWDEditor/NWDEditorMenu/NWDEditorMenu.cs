@@ -139,10 +139,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// CREATE FILE
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_CREATE, false, 9000)]
-		public static void CreateFiles ()
-		{
-		}
+//		[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_CREATE, false, 9000)]
+//		public static void CreateFiles ()
+//		{
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_FILES, false, 9001)]
 		public static void CreatePHP ()
@@ -314,7 +314,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//LOCALS
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
+		//[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_LOCAL, false, 9200)]
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_LOCAL_CREATE_TABLES, false, 9201)]
 		public static void CreateTables ()

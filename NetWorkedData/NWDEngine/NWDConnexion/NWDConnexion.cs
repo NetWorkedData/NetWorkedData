@@ -27,11 +27,25 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
 	[Serializable]
-	public class NWDConnexion 
+	public class NWDConnexion <W> : NWDConnexionBasis where W : NWDBasis <W>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public string Reference;
-		public Type PrivateType;
+		public W GetObject ()
+		{
+			return NWDBasis <W>.GetObjectWithReference (Reference);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetObject (W sObject)
+		{
+			Reference = sObject.Reference;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public W NewObject ()
+		{
+			W tObject = NWDBasis <W>.NewObject ();
+			Reference = tObject.Reference;
+			return tObject;
+		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

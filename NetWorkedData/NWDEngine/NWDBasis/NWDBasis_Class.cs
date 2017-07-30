@@ -381,13 +381,17 @@ namespace NetWorkedData
 								rLockedObject = false;
 							}
 						} else if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-						         || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)
-						         || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)) {
+						         || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)) {
 							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
 							if (tSubType == typeof(NWDAccount)) {
-								// it's not directly a NWDAccount a dependancy ....
-								// I don't know what I must do with in this case..
+								// it's not directly a NWDAccount a dependency ....
 								tPropertyListConnected.Add (tProp);
+							}
+						} else if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)) {
+							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+							if (tSubType == typeof(NWDAccount)) {
+								// it's not directly a NWDAccount a dependency ....
+								// I don't know what I must do with in this case..
 							}
 						}
 					} else if (tTypeOfThis.IsSubclassOf (typeof(NWDAssetType))) {
@@ -453,8 +457,8 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Propertieses the account connected but not dependent : connected with NWDReferencesListType<NWDAccount> , 
-		/// NWDReferencesQuantityType<NWDAccount> or NWDReferenceHashType<NWDAccount>.
+		/// Propertieses the account connected but not dependent : connected with NWDReferencesType<NWDAccount> ,
+		/// NWDReferencesListType<NWDAccount> or NWDReferencesQuantityType<NWDAccount>.
 		/// </summary>
 		/// <returns>The account connected PropertyInfo array.</returns>
 		public static PropertyInfo[] PropertiesAccountConnect ()

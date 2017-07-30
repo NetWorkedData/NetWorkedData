@@ -25,13 +25,15 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	[CustomPropertyDrawer (typeof(NWDConnexion), true)]
+	[CustomPropertyDrawer (typeof(NWDConnexionBasis), true)]
+//	[CustomPropertyDrawer (typeof(NWDConnexion<NWDAccount>), true)]
 	public partial class NWDConnexionDrawer : PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			float tHeight = 80.0f;
+			Debug.Log ("I PASS HERREEEEEEEEEEE HEIGHTTTTT");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
@@ -44,7 +46,7 @@ namespace NetWorkedData
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 			}
 			Type tClassType  = tTypeParent.BaseType;
-			if (tClassType == typeof(NWDConnexion) && tTypeDefintion!=null)
+			if (tClassType == typeof(NWDConnexion<>) && tTypeDefintion!=null)
 			{
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionHeight", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -63,6 +65,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
+			Debug.Log ("I PASS HERREEEEEEEEEEE");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
@@ -75,7 +78,7 @@ namespace NetWorkedData
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 			}
 			Type tClassType  = tTypeParent.BaseType;
-			if (tClassType == typeof(NWDConnexion) && tTypeDefintion != null) {
+			if (tClassType == typeof(NWDConnexion<>) && tTypeDefintion != null) {
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionField", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
