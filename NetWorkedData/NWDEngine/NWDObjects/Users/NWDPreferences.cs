@@ -31,7 +31,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("User Preferences descriptions Class")]
 	[NWDClassMenuNameAttribute ("User Preferences")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeClassInPackageAttribute]
+//	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDPreferences : NWDBasis <NWDPreferences>
 	{
@@ -168,7 +168,7 @@ namespace NetWorkedData
 			}
 			tObject.Value.SetBool (sValue);
 		}
-		//------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get the float value for internal key.
 		/// </summary>
@@ -268,14 +268,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditor (Rect sInRect)
 		{
-			// height editor add-on
+			// Draw the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditorHeight ()
 		{
-			// draw editor add-on
+			// Height calculate for the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
 		}

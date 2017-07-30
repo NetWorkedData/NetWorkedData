@@ -31,10 +31,10 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Configurations of game descriptions Class")]
 	[NWDClassMenuNameAttribute ("Configurations")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeClassInPackageAttribute]
+//	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWD game configuration.
+	/// NWD configuration NetWorkedData class. Use to configure the game throught NetWorkedData.
 	/// </summary>
 	public partial class NWDConfiguration : NWDBasis <NWDConfiguration>
 	{
@@ -142,7 +142,7 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
-		//------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get the float value for internal key.
 		/// </summary>
@@ -230,14 +230,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditor (Rect sInRect)
 		{
-			// height editor add-on
+			// Draw the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditorHeight ()
 		{
-			// draw editor add-on
+			// Height calculate for the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
 		}

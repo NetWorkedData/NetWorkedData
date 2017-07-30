@@ -158,11 +158,11 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.ExportWebSites();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]
-		public static void CreateCSharp ()
-		{
-			NWDDataManager.SharedInstance.CreateCShapAllClass();
-		}
+//		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]
+//		public static void CreateCSharp ()
+//		{
+//			NWDDataManager.SharedInstance.CreateCShapAllClass();
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		// LOCALIZATION
 		//-------------------------------------------------------------------------------------------------------------

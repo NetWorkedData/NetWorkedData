@@ -32,7 +32,7 @@ namespace NetWorkedData
 	[NWDClassMenuNameAttribute ("Version")]
 	[NWDInternalKeyNotEditableAttribute]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeClassInPackageAttribute]
+//	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDVersion : NWDBasis<NWDVersion>
 	{
@@ -266,7 +266,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditorHeight ()
 		{
-			// draw editor add-on
+			// Height calculate for the interface addon for editor
 			GUIStyle tTextFieldStyle = new GUIStyle (EditorStyles.textField);
 			tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight (new GUIContent ("A"), 100);
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
@@ -374,4 +374,4 @@ namespace NetWorkedData
 	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }
-//======================================================================================================================================================================================================================
+//=====================================================================================================================

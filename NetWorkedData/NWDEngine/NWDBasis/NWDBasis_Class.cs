@@ -358,6 +358,7 @@ namespace NetWorkedData
 		/// with the properties informations
 		/// </summary>
 		public static Dictionary<string, PropertyInfo[]> kAssetDependentProperties = new Dictionary<string, PropertyInfo[]> ();
+
 		//-------------------------------------------------------------------------------------------------------------
 		public static void AccountDependentAnalyze ()
 		{

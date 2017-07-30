@@ -31,7 +31,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Categories descriptions Class")]
 	[NWDClassMenuNameAttribute ("Categories")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeClassInPackageAttribute]
+//	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDCategory : NWDBasis <NWDCategory>
 	{
@@ -131,14 +131,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditor (Rect sInRect)
 		{
-			// height editor add-on
+			// Draw the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditorHeight ()
 		{
-			// draw editor add-on
+			// Height calculate for the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
 		}

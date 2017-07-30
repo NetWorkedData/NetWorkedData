@@ -76,10 +76,12 @@ namespace NetWorkedData
 		public const string K_MENU_GAME = 							K_MENU_BASE+"Game's configurations";
 		public const string K_MENU_ALL_CLASSES = 					K_MENU_BASE+"All Data's Classes (herited from NWDBasis<K>)";
 
-		public const string K_MENU_CREATE = 						"Creation of files";
-		public const string K_MENU_CREATE_PHP_FILES = 				K_MENU_BASE+K_MENU_CREATE+"/Create PHP Files";
-		public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = 	K_MENU_BASE+K_MENU_CREATE+"/Export website(s)";
-		public const string K_MENU_CREATE_CSHARP_FILES = 			K_MENU_BASE+K_MENU_CREATE+"/Create CSharp Files Workflow";
+		public const string K_MENU_CREATE_PHP = 						"Creation of files for server";
+		public const string K_MENU_CREATE_PHP_FILES = 				K_MENU_BASE+K_MENU_CREATE_PHP+"/Create PHP Files";
+		public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = 	K_MENU_BASE+K_MENU_CREATE_PHP+"/Export website(s)";
+
+		public const string K_MENU_CREATE_CSHARP = 					"Creation of  files of workflow";
+		public const string K_MENU_CREATE_CSHARP_FILES = 			K_MENU_BASE+K_MENU_CREATE_CSHARP+"/Create CSharp Files Workflow";
 
 		public const string K_MENU_LOCALIZATION = 					"Localization";
 		public const string K_MENU_LOCALIZATION_CONFIG =			K_MENU_BASE+K_MENU_LOCALIZATION+"/Localization configuration";

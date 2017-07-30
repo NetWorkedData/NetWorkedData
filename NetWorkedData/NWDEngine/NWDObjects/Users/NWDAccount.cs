@@ -31,7 +31,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Account descriptions Class")]
 	[NWDClassMenuNameAttribute ("Account")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeClassInPackageAttribute]
+//	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDAccount : NWDBasis <NWDAccount>
 	{

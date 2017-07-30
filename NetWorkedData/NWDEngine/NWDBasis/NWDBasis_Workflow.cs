@@ -13,6 +13,7 @@ using System.IO;
 using System.Reflection;
 
 using UnityEngine;
+using System.Linq.Expressions;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -95,6 +96,29 @@ namespace NetWorkedData
 				}
 			}
 			return rReturn.ToArray();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		// TODO: must be tested
+		public static K[] Where (Expression<Func<K, bool>> predExpr)
+		{
+			IEnumerable<K> tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (predExpr);
+			List<K> tAllReferences = new List<K> ();
+			foreach (K tItem in tEnumerable) {
+				int tIndex = ObjectsByReferenceList.IndexOf(tItem.Reference);
+
+				K tObject = ObjectsList.ElementAt (tIndex) as K;
+				if (tObject.IsVisibleForAccount ()) {
+					tAllReferences.Add (tObject);
+				}
+			}
+			return tAllReferences.ToArray();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static K[] SelectOrderedList(K[] sArray, Comparison<K> sComparison) {
+			List<K> tList = new List<K> ();
+			tList.AddRange (sArray);
+			tList.Sort (sComparison);
+			return tList.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
