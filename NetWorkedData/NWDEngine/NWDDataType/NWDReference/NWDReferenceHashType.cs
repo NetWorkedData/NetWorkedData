@@ -36,31 +36,6 @@ namespace NetWorkedData
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public bool ContainsReference (string sReference)
-		{
-			if (sReference == null) {
-				return false;
-			}
-			return Value.Contains (sReference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetReference (string sReference)
-		{
-			if (sReference == null) 
-			{
-				sReference =  "";
-			}
-			Value = sReference;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public string GetReference ()
-		{
-			if (Value == null) {
-				return "";
-			}
-			return Value;
-		}
-		//-------------------------------------------------------------------------------------------------------------
 		public bool ContainsObject (K sObject)
 		{
 			if (sObject == null) {
@@ -133,10 +108,6 @@ namespace NetWorkedData
 				}
 			}
 			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool ChangeAssetPath (string sOldPath, string sNewPath) {
-			return false;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif

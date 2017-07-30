@@ -18,7 +18,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("User Preferences descriptions Class")]
 	[NWDClassMenuNameAttribute ("User Preferences")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDPreferences : NWDBasis <NWDPreferences>
 	{

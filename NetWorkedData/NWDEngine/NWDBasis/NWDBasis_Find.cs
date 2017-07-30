@@ -27,31 +27,39 @@ namespace NetWorkedData
 {
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
+
+
+
+		#region objects finder
+
+		// find objects and get objects from database
+		//-------------------------------------------------------------------------------------------------------------
+		public static List<object> ObjectsList = new List<object> ();
+		public static List<string> ObjectsByReferenceList = new List<string> ();
+		public static List<string> ObjectsByInternalKeyList = new List<string> ();
+		public static List<string> ObjectsByKeyList = new List<string> ();
+		//-------------------------------------------------------------------------------------------------------------
+		public static IEnumerable<K> GetAllBasisObjects ()
+		{
+			return NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDBasis<K> FindObjectInDataBaseByReference (string sReference)
+		{
+			NWDBasis<K> rReturnObject = null;
+			IEnumerable<K> tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.Reference == sReference);
+			int tCount = tEnumerable.Cast<K> ().Count<K> ();
+			if (tCount == 1) {
+				rReturnObject = tEnumerable.Cast<K> ().ElementAt (0);
+			}
+			return rReturnObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+
+
 		// This part can be automatically rewrite and optimized by generate CSharp File
 		#region Generic Analyze
-
-
-		public static bool AccountDependent ()
-		{
-			bool rAccountConnected = false;
-			Type tType = ClassType ();
-			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-				Type tTypeOfThis = tProp.PropertyType;
-				if (tTypeOfThis != null) {
-					if (tTypeOfThis.IsGenericType) {
-						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
-							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-							if (tSubType == typeof(NWDAccount)) {
-								rAccountConnected = true;
-							}
-						}
-					}
-				}
-			}
-			return rAccountConnected;
-		}
-
-
 		public virtual bool IsAccountDependent ()
 		{
 			bool rAccountConnected = false;
@@ -71,9 +79,11 @@ namespace NetWorkedData
 			}
 			return rAccountConnected;
 		}
-
-		public virtual bool IsAccountConnected (string sAccountReference)
+		public virtual bool IsAccountConnected (string sAccountReference = null)
 		{
+			if (sAccountReference == null || sAccountReference=="") {
+				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
+			}
 			bool rAccountConnected = false;
 			Type tType = GetType ();
 			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
@@ -102,30 +112,71 @@ namespace NetWorkedData
 			}
 			return rAccountConnected;
 		}
-
-		public virtual bool IsLockedObject () // return true during the player game
-			{
-			#if UNITY_EDITOR
-			return false;
-			#else
-				bool rLockedObject = true;
-				Type tType = GetType ();
-				foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+		public virtual bool DisposableForAccount (string sAccountReference = null)
+		{
+			if (sAccountReference == null || sAccountReference=="") {
+				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
+			}
+			bool rAccountConnected = false;
+			bool rAccountPropertieFind = false;
+			Type tType = GetType ();
+			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tProp.PropertyType;
 				if (tTypeOfThis != null) {
 					if (tTypeOfThis.IsGenericType) {
-						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
+						if (
+							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)
+							|| tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
+							|| tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)
+						) {
 							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
 							if (tSubType == typeof(NWDAccount)) {
-								rLockedObject = false;
+								rAccountPropertieFind = true;
+								var tValue = tProp.GetValue (this, null);
+								var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
+								if (tMethodInfo != null) {
+									string tValueToString = tMethodInfo.Invoke (tValue, null) as string;
+									if (tValueToString.Contains (sAccountReference)) {
+										rAccountConnected = true;
+									}
+								}
 							}
 						}
 					}
 				}
 			}
-			return rLockedObject;
-			#endif
+			if (rAccountPropertieFind == false) {
+				rAccountConnected = true;
+			}
+			return rAccountConnected;
 		}
+
+
+//
+//
+//		public virtual bool IsLockedObject () // return true during the player game
+//			{
+//			#if UNITY_EDITOR
+//			return false;
+//			#else
+//				bool rLockedObject = true;
+//				Type tType = GetType ();
+//				foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+//				Type tTypeOfThis = tProp.PropertyType;
+//				if (tTypeOfThis != null) {
+//					if (tTypeOfThis.IsGenericType) {
+//						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
+//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+//							if (tSubType == typeof(NWDAccount)) {
+//								rLockedObject = false;
+//							}
+//						}
+//					}
+//				}
+//			}
+//			return rLockedObject;
+//			#endif
+//		}
 		#endregion
 
 		#region Static Get Object
@@ -145,8 +196,6 @@ namespace NetWorkedData
 			}
 			return rObject;
 		}
-
-
 
 		public static NWDBasis<K> GetObjectByReference (string sReference)
 		{
@@ -208,88 +257,6 @@ namespace NetWorkedData
 			return rObject;
 		}
 		#endregion
-
-
-
-		/*
-		public static Dictionary<string, K> kDictionaryOfAllObjects = new Dictionary<string, K> ();
-		public static Dictionary<string, K> kDictionaryOfAllActiveObjects = new Dictionary<string, K> ();
-		public static IEnumerable<K> kEnumerableOfAllObjects;
-
-		public static void ReloadAllObjects ()
-		{
-			kDictionaryOfAllObjects = new Dictionary<string, K> ();
-			kDictionaryOfAllActiveObjects = new Dictionary<string, K> ();
-			kEnumerableOfAllObjects = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ();
-			if (kEnumerableOfAllObjects != null) 
-			{
-				foreach (K tItem in kEnumerableOfAllObjects) 
-				{
-					kDictionaryOfAllObjects.Add (tItem.Reference, tItem);
-					if (tItem.AC == true) 
-					{
-						kDictionaryOfAllActiveObjects.Add (tItem.Reference, tItem);
-					}
-				}
-
-			}
-			NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new IDENotification (NWDDataManager.kUpdateDatasNotificationsKey, null));
-			FilterTableEditor ();
-		}
-
-		public IEnumerable<K> AllObjects ()
-		{
-			return kEnumerableOfAllObjects;
-		}
-
-		public List<K> ListAllObjects (bool sActiveOnly = false)
-		{
-			Dictionary<string, K> tDico = kDictionaryOfAllObjects;
-			if (sActiveOnly == true)
-			{
-				tDico = kDictionaryOfAllActiveObjects;
-			}
-			List<K> rList = new List<K> ();
-			foreach (KeyValuePair<string, K> tEntry in tDico) 
-			{
-				rList.Add(tEntry.Value);
-			}
-			return rList;
-		}
-
-		public static List<K> ListOfObjectsWithReferences(string[] sReferences, bool sActiveOnly = false)
-		{
-			Dictionary<string, K> tDico = kDictionaryOfAllObjects;
-			if (sActiveOnly == true)
-			{
-				tDico = kDictionaryOfAllActiveObjects;
-			}
-			List<K> rList = new List<K> ();
-			foreach (string tRef in sReferences)
-			{
-				if (tDico.ContainsKey (tRef)) 
-				{
-					rList.Add(tDico[tRef]);
-				}
-			}
-			return rList;
-		}
-
-		public static K ObjectWithReference(string sReference, bool sActiveOnly = false)
-		{
-			Dictionary<string, K> tDico = kDictionaryOfAllObjects;
-			if (sActiveOnly == true)
-			{
-				tDico = kDictionaryOfAllActiveObjects;
-			}
-			K rObject = null;
-			if (tDico.ContainsKey (sReference)) 
-				{
-				rObject = tDico[sReference];
-				}
-			return rObject;
-		}
-*/
 	}
 }
 //=====================================================================================================================

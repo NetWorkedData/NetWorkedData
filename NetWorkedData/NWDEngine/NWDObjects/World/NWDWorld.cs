@@ -20,7 +20,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Worlds descriptions Class")]
 	[NWDClassMenuNameAttribute ("Worlds")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDWorld : NWDBasis<NWDWorld>
 	{

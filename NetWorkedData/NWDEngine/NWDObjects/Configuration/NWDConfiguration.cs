@@ -20,7 +20,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Configurations of game descriptions Class")]
 	[NWDClassMenuNameAttribute ("Configurations")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// NWD game configuration.

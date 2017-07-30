@@ -28,6 +28,10 @@ namespace NetWorkedData
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
+
+		#region Class Methods
+
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the reference value from CSV.
 		/// </summary>
@@ -39,7 +43,7 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Gets the DM value from CSV.
+		/// Gets the DM value from CSV. DM for Date Modification.
 		/// </summary>
 		/// <returns>The DM value from CSV.</returns>
 		/// <param name="sDataArray">data array.</param>
@@ -75,113 +79,10 @@ namespace NetWorkedData
 				tAssembly += sDataArray [i];
 			}
 			string tCalculateIntegrity = HashSum (PrefSaltA () + tAssembly + PrefSaltB ());
-//			BTBDebug.LogVerbose ("tAssembly = " +tAssembly);
-//			BTBDebug.LogVerbose ("tCalculateIntegrity = " + tCalculateIntegrity);
-//			BTBDebug.LogVerbose ("tActualIntegrity = " + tActualIntegrity);
 			if (tActualIntegrity != tCalculateIntegrity) {
 				rReturn = false;
 			}
 			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the with CSV.
-		/// </summary>
-		/// <param name="sDataArray">data array.</param>
-		public void UpdateWithCSV (NWDAppEnvironment sEnvironment, string[] sDataArray)
-		{
-			// get key order assembly of cvs
-			string[] tKey = CSVAssemblyOrderArray ();
-			// get values 
-			string[] tValue = sDataArray;
-			// Short circuit the sync date
-			// not replace the date from the other environment
-			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
-				tValue [4] = PreprodSync.ToString ();
-				tValue [5] = ProdSync.ToString ();
-			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
-				tValue [3] = DevSync.ToString ();
-				tValue [5] = ProdSync.ToString ();
-			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
-				tValue [3] = DevSync.ToString ();
-				tValue [4] = PreprodSync.ToString ();
-			}
-			// process to insertion
-			Type tType = ClassType ();
-			for (int tI = 0; tI < tKey.Count (); tI++) {
-				if (tValue.Count () > tI) {
-					PropertyInfo tPropertyInfo = tType.GetProperty (tKey [tI], BindingFlags.Public | BindingFlags.Instance);
-					Type tTypeOfThis = tPropertyInfo.PropertyType;
-					string tValueString = tValue [tI] as string;
-
-					//TO-DO : (FUTUR ADDS) Insert new NWDxxxxType
-					// Do for NWD simple Structures
-
-					if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
-						var tObject = Activator.CreateInstance (tTypeOfThis);
-						var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
-						if (tMethodInfo != null) {
-							tMethodInfo.Invoke (tObject, new object[]{ tValueString });
-							}
-						tPropertyInfo.SetValue (this, tObject, null);
-					}
-//					if (tTypeOfThis == typeof(NWDColorType)) {
-//						tPropertyInfo.SetValue (this, new NWDColorType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDVersionType)) {
-//						tPropertyInfo.SetValue (this, new NWDVersionType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDPrefabType)) {
-//						tPropertyInfo.SetValue (this, new NWDPrefabType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDTextureType)) {
-//						tPropertyInfo.SetValue (this, new NWDTextureType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDLocalizableStringType)) {
-//						tPropertyInfo.SetValue (this, new NWDLocalizableStringType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDLocalizableTextType)) {
-//						tPropertyInfo.SetValue (this, new NWDLocalizableTextType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDLocalizablePrefabType)) {
-//						tPropertyInfo.SetValue (this, new NWDLocalizablePrefabType (tValueString), null);
-//					} else if (tTypeOfThis == typeof(NWDPrefabType)) {
-//						tPropertyInfo.SetValue (this, new NWDPrefabType (tValueString), null);
-//					} 
-//					// Do for NWD Complexe Structures
-//					else if (tTypeOfThis.IsGenericType == true) {
-//						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)
-//						    || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)
-//						    || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-//						    || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)) {
-//							var tObject = Activator.CreateInstance (tTypeOfThis);
-//							var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
-//							if (tMethodInfo != null) {
-//								tMethodInfo.Invoke (tObject, new object[]{ tValueString });
-//							}
-//							tPropertyInfo.SetValue (this, tObject, null);
-//						}
-//
-//					}
-					// Do for Standard type
-					else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string)) {
-						tPropertyInfo.SetValue (this, tValueString, null);
-					} else if (tTypeOfThis == typeof(bool)) {
-						bool tValueInsert = false; 
-						int tTemp = 0;
-						int.TryParse (tValueString, out tTemp);
-						if (tTemp > 0) {
-							tValueInsert = true;
-						}
-						tPropertyInfo.SetValue (this, tValueInsert, null);
-					} else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64)) {
-						int tValueInsert = 0; 
-						int.TryParse (tValueString, out tValueInsert);
-						tPropertyInfo.SetValue (this, tValueInsert, null);
-					} else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Double) || tTypeOfThis == typeof(Decimal)) {
-						float tValueInsert = 0; 
-						float.TryParse (tValueString, out tValueInsert);
-						tPropertyInfo.SetValue (this, tValueInsert, null);
-					} else {
-
-					}
-				}
-			}
-			NWDDataManager.SharedInstance.UpdateObject (this);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -298,6 +199,82 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region Instance Methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the with CSV.
+		/// </summary>
+		/// <param name="sDataArray">data array.</param>
+		public void UpdateWithCSV (NWDAppEnvironment sEnvironment, string[] sDataArray)
+		{
+			// get key order assembly of cvs
+			string[] tKey = CSVAssemblyOrderArray ();
+			// get values 
+			string[] tValue = sDataArray;
+			// Short circuit the sync date
+			// not replace the date from the other environment
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
+				tValue [4] = PreprodSync.ToString ();
+				tValue [5] = ProdSync.ToString ();
+			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
+				tValue [3] = DevSync.ToString ();
+				tValue [5] = ProdSync.ToString ();
+			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				tValue [3] = DevSync.ToString ();
+				tValue [4] = PreprodSync.ToString ();
+			}
+			// process to insertion
+			Type tType = ClassType ();
+			for (int tI = 0; tI < tKey.Count (); tI++) {
+				if (tValue.Count () > tI) {
+					PropertyInfo tPropertyInfo = tType.GetProperty (tKey [tI], BindingFlags.Public | BindingFlags.Instance);
+					Type tTypeOfThis = tPropertyInfo.PropertyType;
+					string tValueString = tValue [tI] as string;
+
+					//TO-DO : (FUTUR ADDS) Insert new NWDxxxxType
+					// Do for NWD simple Structures
+
+					if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
+						var tObject = Activator.CreateInstance (tTypeOfThis);
+						var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
+						if (tMethodInfo != null) {
+							tMethodInfo.Invoke (tObject, new object[]{ tValueString });
+						}
+						tPropertyInfo.SetValue (this, tObject, null);
+					}
+					// Do for Standard type
+					else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string)) {
+						tPropertyInfo.SetValue (this, tValueString, null);
+					} else if (tTypeOfThis == typeof(bool)) {
+						bool tValueInsert = false; 
+						int tTemp = 0;
+						int.TryParse (tValueString, out tTemp);
+						if (tTemp > 0) {
+							tValueInsert = true;
+						}
+						tPropertyInfo.SetValue (this, tValueInsert, null);
+					} else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64)) {
+						int tValueInsert = 0; 
+						int.TryParse (tValueString, out tValueInsert);
+						tPropertyInfo.SetValue (this, tValueInsert, null);
+					} else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Double) || tTypeOfThis == typeof(Decimal)) {
+						float tValueInsert = 0; 
+						float.TryParse (tValueString, out tValueInsert);
+						tPropertyInfo.SetValue (this, tValueInsert, null);
+					} else {
+
+					}
+				}
+			}
+			NWDDataManager.SharedInstance.UpdateObject (this);
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Datas assembly for integrity calculate or cvs export.
 		/// </summary>
@@ -321,61 +298,19 @@ namespace NetWorkedData
 				Type tTypeOfThis = tProp.PropertyType;
 				string tValueString = "";
 
-				//TO-DO : (FUTUR ADDS) Insert new NWDxxxxType
-//				if (tTypeOfThis == typeof(NWDColorType)) {
-//					NWDColorType tValueStruct = (NWDColorType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				} else if (tTypeOfThis == typeof(NWDVersionType)) {
-//					NWDVersionType tValueStruct = (NWDVersionType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				} else if (tTypeOfThis == typeof(NWDPrefabType)) {
-//					NWDPrefabType tValueStruct = (NWDPrefabType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				} else if (tTypeOfThis == typeof(NWDTextureType)) {
-//					NWDTextureType tValueStruct = (NWDTextureType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				}
-//				else if (tTypeOfThis == typeof(NWDLocalizableStringType)) {
-//					NWDLocalizableStringType tValueStruct = (NWDLocalizableStringType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				} else if (tTypeOfThis == typeof(NWDLocalizablePrefabType)) {
-//					NWDLocalizablePrefabType tValueStruct = (NWDLocalizablePrefabType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				} else if (tTypeOfThis == typeof(NWDLocalizableTextType)) {
-//					NWDLocalizableTextType tValueStruct = (NWDLocalizableTextType)tProp.GetValue (this, null);
-//					tValueString = tValueStruct.ToString ();
-//				}
-//
-//				else if (tTypeOfThis.IsGenericType==true)
-//				{
-//				if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>) 
-//					||tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)
-//					||tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-//					||tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)
-//				) 
-//				{
-//					var tMethodInfo = tTypeOfThis.GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
-//					if (tMethodInfo != null)
-//					{
-//						tValueString = tMethodInfo.Invoke (tProp.GetValue (this, null), null) as string;
-//					}
-//				}
-//				}
-//				else {
-					object tValue = tProp.GetValue (this, null);
+				object tValue = tProp.GetValue (this, null);
 				if (tValue == null) {
 					tValue = "";
 				}
-					tValueString = tValue.ToString ();
-					if (tTypeOfThis == typeof(bool)) {
-                    //BTBDebug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
-                    if (tValueString == "False") {
-							tValueString = "0";
-						} else {
-							tValueString = "1";
-						}
+				tValueString = tValue.ToString ();
+				if (tTypeOfThis == typeof(bool)) {
+					//BTBDebug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+					if (tValueString == "False") {
+						tValueString = "0";
+					} else {
+						tValueString = "1";
 					}
-//				}
+				}
 				if (sAsssemblyAsCSV == true) {
 					rReturn += NWDToolbox.TextCSVProtect (tValueString) + NWDConstants.kStandardSeparator;
 				} else {
@@ -384,25 +319,25 @@ namespace NetWorkedData
 			}
 			if (sAsssemblyAsCSV == true) {
 				rReturn = Reference + NWDConstants.kStandardSeparator +
-					DM + NWDConstants.kStandardSeparator +
-					DS + NWDConstants.kStandardSeparator + 
-					DevSync + NWDConstants.kStandardSeparator +
-					PreprodSync + NWDConstants.kStandardSeparator +
-					ProdSync + NWDConstants.kStandardSeparator +
-					rReturn + 
-					Integrity;
+				DM + NWDConstants.kStandardSeparator +
+				DS + NWDConstants.kStandardSeparator +
+				DevSync + NWDConstants.kStandardSeparator +
+				PreprodSync + NWDConstants.kStandardSeparator +
+				ProdSync + NWDConstants.kStandardSeparator +
+				rReturn +
+				Integrity;
 			} else {
 				rReturn = Reference +
-					DM +
-					//					DS +  // not include in integrity
-					//					DevSync + // not include in integrity
-					//					PreprodSync + // not include in integrity
-					//					ProdSync + // not include in integrity
-					rReturn;
+				DM +
+				rReturn;
 			}
-            //BTBDebug.Log ("DataAssembly = " + rReturn);
-            return rReturn;
+			return rReturn;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

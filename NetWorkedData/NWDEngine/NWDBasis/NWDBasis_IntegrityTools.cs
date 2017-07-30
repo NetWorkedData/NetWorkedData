@@ -24,42 +24,12 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	/// <summary>
-	/// NWD basis. Integrity tools 
+	/// NWD basis. Integrity tools
 	/// </summary>
-	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
+	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Updates the integrity. Set the integrity value of object's data in the field Integrity.
-		/// </summary>
-		public void UpdateIntegrity ()
-		{
-			Integrity = IntegrityValue ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Tests the integrity.
-		/// </summary>
-		/// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
-		public bool TestIntegrity ()
-		{
-			bool rReturn = false;
-			// test integrity
-			if (Integrity == IntegrityValue ()) {
-				rReturn = true;
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Integrity value for this object's data.
-		/// </summary>
-		/// <returns>The value.</returns>
-		public string IntegrityValue ()
-		{
-			// use salts to interfere with data assembly in the hash sum computing
-			return HashSum (PrefSaltA () + DataAssembly () + PrefSaltB ());
-		}
+		#region Class Methods
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Determines hash sum of specified strToEncrypt.
@@ -100,6 +70,44 @@ namespace NetWorkedData
 				tObject.UpdateMe ();
 			}
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Instance Methods
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Updates the integrity. Set the integrity value of object's data in the field Integrity.
+		/// </summary>
+		public void UpdateIntegrity ()
+		{
+			Integrity = IntegrityValue ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Tests the integrity.
+		/// </summary>
+		/// <returns><c>true</c>, if integrity is validated, <c>false</c> if integrity is not validate.</returns>
+		public bool TestIntegrity ()
+		{
+			bool rReturn = false;
+			// test integrity
+			if (Integrity == IntegrityValue ()) {
+				rReturn = true;
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Integrity value for this object's data.
+		/// </summary>
+		/// <returns>The value.</returns>
+		public string IntegrityValue ()
+		{
+			// use salts to interfere with data assembly in the hash sum computing
+			return HashSum (PrefSaltA () + DataAssembly () + PrefSaltB ());
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

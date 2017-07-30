@@ -130,17 +130,6 @@ namespace NetWorkedData
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Return if the asset path is used in this DataType.
-		/// </summary>
-		/// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
-		/// <param name="sOldPath">S old path.</param>
-		/// <param name="sNewPath">S new path.</param>
-		public override bool ChangeAssetPath (string sOldPath, string sNewPath)
-		{
-			return false;
-		}
-		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
 	}

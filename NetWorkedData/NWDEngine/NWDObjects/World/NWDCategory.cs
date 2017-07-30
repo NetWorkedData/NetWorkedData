@@ -18,7 +18,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Categories descriptions Class")]
 	[NWDClassMenuNameAttribute ("Categories")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDCategory : NWDBasis <NWDCategory>
 	{

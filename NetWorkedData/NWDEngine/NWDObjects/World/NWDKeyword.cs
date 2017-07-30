@@ -20,7 +20,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Keywords descriptions Class")]
 	[NWDClassMenuNameAttribute ("Keywords")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDKeyword : NWDBasis<NWDKeyword>
 	{

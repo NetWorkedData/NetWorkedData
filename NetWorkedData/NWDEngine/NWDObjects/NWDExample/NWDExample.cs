@@ -56,6 +56,48 @@ namespace NetWorkedData
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		// Addons for work flow
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
+		{
+			// do something when object will be inserted
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdateMe ()
+		{
+			// do something when object will be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUpdatedMe ()
+		{
+			// do something when object finish to be updated
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDuplicateMe ()
+		{
+			// do something when object will be dupplicate
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonEnableMe ()
+		{
+			// do something when object will be enabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonDisableMe ()
+		{
+			// do something when object will be disabled
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonTrashMe ()
+		{
+			// do something when object will be put in trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonUnTrashMe ()
+		{
+			// do something when object will be remove from trash
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
@@ -67,11 +109,6 @@ namespace NetWorkedData
 				// do something
 			}
 			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void Updated ()
-		{
-			// do something
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditor (Rect sInRect)

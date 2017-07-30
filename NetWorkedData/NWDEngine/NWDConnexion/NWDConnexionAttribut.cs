@@ -6,39 +6,40 @@
 //=====================================================================================================================
 
 using System;
-
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.IO;
 
 using SQLite4Unity3d;
 
 using BasicToolBox;
 
+using UnityEngine;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
+	public class NWDConnexionAttribut : PropertyAttribute
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
+		public bool ShowInspector = false;
+		public bool Editable = false;
+		public bool EditButton = true;
+		public bool NewButton = true;
 		//-------------------------------------------------------------------------------------------------------------
-		public static void ClassInfos (string sString)
+		public NWDConnexionAttribut ()
 		{
-			BTBDebug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static string Informations ()
+		public NWDConnexionAttribut (bool sShowInspector, bool sEditable = false, bool sEditButton = true, bool sNewButton = true)
 		{
-			int tCount = ObjectsList.Count;
-			if (tCount == 0) {
-				return "" + ClassNamePHP () + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + "\n";
-			} else if (tCount == 1) {
-				return "" + ClassNamePHP () + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + "\n";
-			} else {
-				return "" + ClassNamePHP () + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + "\n";
-			}
+			ShowInspector = sShowInspector;
+			Editable = sEditable;
+			EditButton = sEditButton;
+			NewButton = sNewButton;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

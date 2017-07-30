@@ -32,7 +32,7 @@ namespace NetWorkedData
 	[NWDClassMenuNameAttribute ("Version")]
 	[NWDInternalKeyNotEditableAttribute]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDVersion : NWDBasis<NWDVersion>
 	{
@@ -144,7 +144,7 @@ namespace NetWorkedData
 			return sNeedBeUpdate;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override void Updated ()
+		public override void AddonUpdatedMe ()
 		{
 			NWDVersion.UpdateVersionBundle ();
 			NWDDataManager.SharedInstance.RepaintWindowsInManager (typeof(NWDVersion));

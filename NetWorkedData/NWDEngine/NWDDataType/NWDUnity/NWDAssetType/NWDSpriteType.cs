@@ -26,17 +26,18 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//-------------------------------------------------------------------------------------------------------------
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDPrefabType : NWDUnityType
+	public class NWDSpriteType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPrefabType ()
+		public NWDSpriteType ()
 		{
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPrefabType (string sValue = "")
+		public NWDSpriteType (string sValue = "")
 		{
 			if (sValue == null) {
 				Value = "";
@@ -45,14 +46,15 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public GameObject ToGameObject ()
+		public Sprite ToSprite ()
 		{
-			GameObject tObject = null;
+			Sprite tObject = null;
 			if (Value != null && Value != "") {
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
 				#if UNITY_EDITOR
-				tObject = AssetDatabase.LoadAssetAtPath (Value, typeof(GameObject)) as GameObject;
+				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
 				#else
-				tObject = Resources.Load (Value, typeof(GameObject)) as GameObject;
+				tObject = Resources.Load (tPath, typeof(Sprite)) as Sprite;
 				#endif
 			}
 			return tObject;
@@ -74,37 +76,22 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPosition, string sEntitled)
 		{
-			NWDPrefabType tTemporary = new NWDPrefabType ();
-			tTemporary.Value = Value;
-
+			NWDSpriteType tTemporary = new NWDSpriteType ();
 			float tWidth = sPosition.width;
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
 			tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight (new GUIContent ("A"), tWidth);
-
-			GameObject tObject = null;
+			Sprite tObject = null;
 			if (Value != null && Value != "") {
-				tObject = AssetDatabase.LoadAssetAtPath (Value, typeof(GameObject)) as GameObject;
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
 			}
-			//Editor tGameObjectEditor = Editor.CreateEditor (tObject);
-
-			Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
-			if (tTexture2D != null) {
-				EditorGUI.DrawPreviewTexture (new Rect (tWidth - NWDConstants.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tTexture2D);
-			}
-			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, (UnityEngine.Object)tObject, typeof(GameObject), false);
-			if (pObj != null) 
-			{
-				if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) 
-				{
-					tTemporary.Value = AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabObject (pObj));
-				}
-			} 
-			else 
-			{
+			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Sprite), false);
+			if (pObj != null) {
+				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;
+			} else {
 				tTemporary.Value = "";
 			}
 			return tTemporary;

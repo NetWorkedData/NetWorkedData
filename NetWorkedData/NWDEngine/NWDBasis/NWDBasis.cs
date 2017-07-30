@@ -25,8 +25,13 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	/// <summary>
+	/// NWD basis the base object of the NetWorkedData framework. This object can be synchronize, modified, update, connect with other NWDBasis <K> Object, etc.
+	/// And this object's class can be connect with GameObject by properties autogenerate
+	/// </summary>
 	public partial class NWDBasis <K> : NWDTypeClass where K : NWDBasis <K>, new()
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		[PrimaryKey, AutoIncrement,NWDNotEditable]
 		public int ID { get; set; }
 
@@ -87,29 +92,6 @@ namespace NetWorkedData
 
 		//[NWDNotEditable]
 		//public string ProdHash { get; set; }
-
-
-
-		//-------------------------------------------------------------------------------------------------------------
-		public static void ClassDeclare (bool sServerSynchronize, string sTrigrammeName, string sDescription, string sMenuName)
-		{
-			Type tType = MethodBase.GetCurrentMethod ().DeclaringType;
-			//Debug.Log ("tType : " + tType.Name);
-			//Debug.Log ("K : " + typeof(K).Name);
-			NWDTypeInfos.Declare (typeof(K), sServerSynchronize, sTrigrammeName, sDescription, sMenuName);
-			NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sTrigrammeName, sMenuName, sDescription);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static void ClassInfos (string sString)
-		{
-			BTBDebug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDTypeInfos TypeInfos ()
-		{
-			return NWDTypeInfos.FindTypeInfos (typeof(K));
-		}
-		//-------------------------------------------------------------------------------------------------------------
 
 		//-------------------------------------------------------------------------------------------------------------
 		public static string m_SearchInternalName = "";

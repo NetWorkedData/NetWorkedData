@@ -8,42 +8,40 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.IO;
 
 using UnityEngine;
 
+using SQLite4Unity3d;
+
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditorInternal;
 #endif
-
-using SQLite4Unity3d;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDClassServerSynchronizeAttribute (false)]
-	[NWDClassTrigrammeAttribute ("RQT")]
-	[NWDClassDescriptionAttribute ("RequestToken descriptions Class")]
-	[NWDClassMenuNameAttribute ("RequestToken")]
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeClassInPackageAttribute]
-	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDRequestToken : NWDBasis <NWDRequestToken>
+	[SerializeField]
+	public class NWDAssetType : NWDUnityType
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//public bool DiscoverItYourSelf { get; set; }
-		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceHashType<NWDAccount> UUIDHash { get; set; } // TODO: A virer
-		public NWDReferenceHashType<NWDAccount> AccountReferenceHash { get; set; }
-		public string Token { get; set; }
+		public static string kAssetDelimiter = "**";
+		// TODO: must protect asset path by a symbol start and symbol end!
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDRequestToken()
-		{
-			//Init your instance here
-			//DiscoverItYourSelf = true;
+		public bool ChangeAssetPath (string sOldPath, string sNewPath) {
+			//BTBDebug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
+			bool rChange = false;
+			if (Value.Contains (sOldPath)) {
+				Value = Value.Replace (kAssetDelimiter+sOldPath+kAssetDelimiter, kAssetDelimiter+sNewPath+kAssetDelimiter);
+				rChange = true;
+				//BTBDebug.Log ("BTBDataType ChangeAssetPath YES I DID", BTBDebugResult.Success);
+			}
+			return rChange;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

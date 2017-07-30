@@ -16,6 +16,8 @@ using UnityEngine;
 
 using SQLite4Unity3d;
 
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -25,6 +27,22 @@ namespace NetWorkedData
 {
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
+		//-------------------------------------------------------------------------------------------------------------
+		#region Class methods
+		//-------------------------------------------------------------------------------------------------------------
+		public static void ClassDeclare (bool sServerSynchronize, string sTrigrammeName, string sDescription, string sMenuName)
+		{
+			Type tType = MethodBase.GetCurrentMethod ().DeclaringType;
+			//Debug.Log ("tType : " + tType.Name);
+			//Debug.Log ("K : " + typeof(K).Name);
+			NWDTypeInfos.Declare (typeof(K), sServerSynchronize, sTrigrammeName, sDescription, sMenuName);
+			NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sTrigrammeName, sMenuName, sDescription);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDTypeInfos TypeInfos ()
+		{
+			return NWDTypeInfos.FindTypeInfos (typeof(K));
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static string ClassID ()
 		{
@@ -272,6 +290,8 @@ namespace NetWorkedData
 			SetClassDescription (sDescription);
 			PrefLoad ();
             
+			AccountDependentAnalyze ();
+
 #if UNITY_EDITOR
             CreateTable();
             LoadTableEditor();
@@ -299,7 +319,7 @@ namespace NetWorkedData
 			//NWDAppConfiguration.SharedInstance.SaveNewCSharpFile ();
 #endif
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static void PrefLoad ()
 		{
 			//Debug.Log ("PrefLoad");
@@ -308,6 +328,207 @@ namespace NetWorkedData
 			SetPrefSaltB (NWDAppConfiguration.SharedInstance.GetSalt(PrefBaseKey (),kPrefSaltBKey, kPrefSaltValidKey));
 			SetPrefSalt (NWDAppConfiguration.SharedInstance.GetSaltValid(PrefBaseKey (),kPrefSaltValidKey));
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// The account dependent. If this class' object is connected to an user account by a NWDReferenceType
+		/// </summary>
+		public static Dictionary<string, bool> kAccountDependent = new Dictionary<string, bool> ();
+		/// <summary>
+		/// The account dependent properties. If this class' object is connected to an user account by NWDReferencesListType 
+		/// with the properties informations
+		/// </summary>
+		public static Dictionary<string, PropertyInfo[]> kAccountDependentProperties = new Dictionary<string, PropertyInfo[]> ();
+		/// <summary>
+		/// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType
+		///  NWDReferencesQuantityType or NWDReferenceHashType with the properties informations
+		/// </summary>
+		public static Dictionary<string, PropertyInfo[]> kAccountConnectedProperties = new Dictionary<string, PropertyInfo[]> ();
+		/// <summary>
+		/// The class is not account dependent, then the class must be locked on game. Allways return false in editor.
+		/// </summary>
+		public static Dictionary<string, bool> kLockedObject = new Dictionary<string, bool> ();
+
+
+		/// <summary>
+		/// The asset dependent. If this class' object is connected to an asset by a NWDAssetType subclass
+		/// </summary>
+		public static Dictionary<string, bool> kAssetDependent = new Dictionary<string, bool> ();
+		/// <summary>
+		/// The asset dependent properties. If this class' object is connected to a NWDAssetType subclass 
+		/// with the properties informations
+		/// </summary>
+		public static Dictionary<string, PropertyInfo[]> kAssetDependentProperties = new Dictionary<string, PropertyInfo[]> ();
+		//-------------------------------------------------------------------------------------------------------------
+		public static void AccountDependentAnalyze ()
+		{
+			bool rAccountConnected = false;
+			bool rAssetConnected = false;
+			bool rLockedObject = true;
+			List<PropertyInfo> tPropertyList = new List<PropertyInfo> ();
+			List<PropertyInfo> tPropertyListConnected = new List<PropertyInfo> ();
+			List<PropertyInfo> tAssetPropertyList= new List<PropertyInfo> ();
+			Type tType = ClassType ();
+			foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+				Type tTypeOfThis = tProp.PropertyType;
+				if (tTypeOfThis != null) {
+					if (tTypeOfThis.IsGenericType) {
+						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
+							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+							if (tSubType == typeof(NWDAccount)) {
+								tPropertyList.Add (tProp);
+								tPropertyListConnected.Add (tProp);
+								rAccountConnected = true;
+								rLockedObject = false;
+							}
+						} else if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
+						         || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)
+						         || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)) {
+							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+							if (tSubType == typeof(NWDAccount)) {
+								// it's not directly a NWDAccount a dependancy ....
+								// I don't know what I must do with in this case..
+								tPropertyListConnected.Add (tProp);
+							}
+						}
+					} else if (tTypeOfThis.IsSubclassOf (typeof(NWDAssetType))) {
+						rAssetConnected = true;
+						tAssetPropertyList.Add (tProp);
+					}
+				}
+			}
+
+			// reccord if class' object is account dependent
+			if (kAccountDependent.ContainsKey (ClassID ()) == false) {
+				kAccountDependent.Add(ClassID (),rAccountConnected);
+			} else {
+				kAccountDependent[ClassID ()] = rAccountConnected;
+			}
+			// reccord class' object is account dependent properties
+			if (kAccountDependentProperties.ContainsKey (ClassID ()) == false) {
+				kAccountDependentProperties.Add(ClassID (),tPropertyList.ToArray());
+			} else {
+				kAccountDependentProperties[ClassID ()] = tPropertyList.ToArray();
+			}
+			// reccord class' object is account connected properties
+			if (kAccountConnectedProperties.ContainsKey (ClassID ()) == false) {
+				kAccountConnectedProperties.Add(ClassID (),tPropertyListConnected.ToArray());
+			} else {
+				kAccountConnectedProperties[ClassID ()] = tPropertyListConnected.ToArray();
+			}
+
+
+			// reccord if class' object is locked for editor
+
+			#if UNITY_EDITOR
+			rLockedObject = false;
+			#endif
+			if (kLockedObject.ContainsKey (ClassID ()) == false) {
+				kLockedObject.Add(ClassID (),rLockedObject);
+			} else {
+				kLockedObject[ClassID ()] = rLockedObject;
+			}
+
+
+			// reccord if class' object is asset dependent
+			if (kAssetDependent.ContainsKey (ClassID ()) == false) {
+				kAssetDependent.Add(ClassID (),rAssetConnected);
+			} else {
+				kAssetDependent[ClassID ()] = rAssetConnected;
+			}
+			// reccord class' object is asset dependent properties
+			if (kAssetDependentProperties.ContainsKey (ClassID ()) == false) {
+				kAssetDependentProperties.Add(ClassID (),tAssetPropertyList.ToArray());
+			} else {
+				kAssetDependentProperties[ClassID ()] = tAssetPropertyList.ToArray();
+			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Propertieses the account dependent : connected with NWDReferenceType<NWDAccount>.
+		/// </summary>
+		/// <returns>The account dependent PropertyInfo array.</returns>
+		public static PropertyInfo[] PropertiesAccountDependent ()
+		{
+			return kAccountDependentProperties [ClassID ()];
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Propertieses the account connected but not dependent : connected with NWDReferencesListType<NWDAccount> , 
+		/// NWDReferencesQuantityType<NWDAccount> or NWDReferenceHashType<NWDAccount>.
+		/// </summary>
+		/// <returns>The account connected PropertyInfo array.</returns>
+		public static PropertyInfo[] PropertiesAccountConnect ()
+		{
+			return kAccountConnectedProperties [ClassID ()];
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static bool AccountDependent ()
+		{
+//			bool rAccountConnected = false;
+//			Type tType = ClassType ();
+//			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+//				Type tTypeOfThis = tProp.PropertyType;
+//				if (tTypeOfThis != null) {
+//					if (tTypeOfThis.IsGenericType) {
+//						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
+//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+//							if (tSubType == typeof(NWDAccount)) {
+//								rAccountConnected = true;
+//							}
+//						}
+//					}
+//				}
+//			}
+//			return rAccountConnected;
+			return kAccountDependent[ClassID ()];
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static bool IsClassLockedObject ()
+		{
+			return kLockedObject [ClassID ()];
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static bool AssetDependent ()
+		{
+			return kAssetDependent [ClassID ()];
+		}
+		//----------------------------------------------
+		public static PropertyInfo[] PropertiesAssetDependent()
+		{
+			return kAssetDependentProperties [ClassID ()];
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Instance methods
+		//-------------------------------------------------------------------------------------------------------------
+		public virtual bool IsLockedObject () // return true during the player game
+		{
+//			//			bool rLockedObject = true;
+//			//			#if UNITY_EDITOR
+//			//			rLockedObject = false;
+//			//			#else
+//			//			Type tType = GetType ();
+//			//			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+//			//			Type tTypeOfThis = tProp.PropertyType;
+//			//			if (tTypeOfThis != null) {
+//			//			if (tTypeOfThis.IsGenericType) {
+//			//			if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
+//			//			Type tSubType = tTypeOfThis.GetGenericArguments () [0];
+//			//			if (tSubType == typeof(NWDAccount)) {
+//			//			rLockedObject = false;
+//			//			}
+//			//			}
+//			//			}
+//			//			}
+//			//			}
+//			//			#endif
+//			//			return rLockedObject;
+//
+			return kLockedObject [ClassID ()];
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

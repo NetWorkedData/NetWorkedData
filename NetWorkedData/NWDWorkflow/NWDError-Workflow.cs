@@ -108,14 +108,14 @@ namespace NetWorkedData
 			return NewReferenceFromUUID("");
 		}
 //-------------------- 
-		public override bool IsLockedObject () // return true during the player game if this object cannot be modified by player
-		{
-			#if UNITY_EDITOR
-			return false;
-			#else
-			return true;
-			#endif
-		}
+//		public override bool IsLockedObject () // return true during the player game if this object cannot be modified by player
+//		{
+//			#if UNITY_EDITOR
+//			return false;
+//			#else
+//			return true;
+//			#endif
+//		}
 //-------------------- 
 public static NWDError NewObject()
 		{

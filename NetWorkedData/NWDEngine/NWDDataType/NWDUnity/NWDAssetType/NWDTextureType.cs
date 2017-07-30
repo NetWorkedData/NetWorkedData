@@ -29,15 +29,15 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDSpriteType : NWDUnityType
+	public class NWDTextureType : NWDAssetType
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSpriteType ()
+		public NWDTextureType ()
 		{
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSpriteType (string sValue = "")
+		public NWDTextureType (string sValue = "")
 		{
 			if (sValue == null) {
 				Value = "";
@@ -46,18 +46,30 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Sprite ToSprite ()
+		public Texture2D ToTexture()
 		{
-			Sprite tObject = null;
+			Texture2D rTexture = null;
 			if (Value != null && Value != "") {
-				#if UNITY_EDITOR
-				tObject = AssetDatabase.LoadAssetAtPath (Value, typeof(Sprite)) as Sprite;
-				#else
-				tObject = Resources.Load (Value, typeof(Sprite)) as Sprite;
-				#endif
-			}
-			return tObject;
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+                #if UNITY_EDITOR
+				rTexture = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
+                #else
+				rTexture = Resources.Load (tPath, typeof(Texture2D)) as Texture2D;
+                #endif
+            }
+            return rTexture;
 		}
+        //-------------------------------------------------------------------------------------------------------------
+        public Sprite ToSprite()
+        {
+            Texture2D tSprite = ToTexture();
+            Sprite rSprite = null;
+            if (tSprite != null)
+            {
+                rSprite = Sprite.Create(tSprite, new Rect(0, 0, tSprite.width, tSprite.height), new Vector2(0.5f, 0.5f));
+            }
+            return rSprite;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -75,20 +87,21 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPosition, string sEntitled)
 		{
-			NWDSpriteType tTemporary = new NWDSpriteType ();
+			NWDTextureType tTemporary = new NWDTextureType ();
 			float tWidth = sPosition.width;
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
 			tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight (new GUIContent ("A"), tWidth);
-			Sprite tObject = null;
+			Texture2D tObject = null;
 			if (Value != null && Value != "") {
-				tObject = AssetDatabase.LoadAssetAtPath (Value, typeof(Sprite)) as Sprite;
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
 			}
-			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Sprite), false);
+			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Texture2D), false);
 			if (pObj != null) {
-				tTemporary.Value = AssetDatabase.GetAssetPath (pObj);
+				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;
 			} else {
 				tTemporary.Value = "";
 			}

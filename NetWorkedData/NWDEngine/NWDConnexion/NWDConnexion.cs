@@ -9,23 +9,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using System.Reflection;
-
-using SQLite4Unity3d;
+using System.IO;
 
 using BasicToolBox;
 
+using SQLite4Unity3d;
+
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditorInternal;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	[Serializable]
-	public class NWDConnexionType<T> : NWDConnexion
+	public class NWDConnexion 
 	{
 		//-------------------------------------------------------------------------------------------------------------
-
+		public string Reference;
+		public Type PrivateType;
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

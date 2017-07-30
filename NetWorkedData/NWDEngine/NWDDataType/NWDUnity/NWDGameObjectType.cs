@@ -26,10 +26,6 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	[SerializeField]
-	public class NWDUnityType : BTBDataType
-	{
-	}
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDGameObjectType : NWDUnityType
 	{

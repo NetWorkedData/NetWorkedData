@@ -18,7 +18,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Families descriptions Class")]
 	[NWDClassMenuNameAttribute ("Families")]
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDPackageClassAttribute]
+	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDFamily : NWDBasis<NWDFamily>
 	{

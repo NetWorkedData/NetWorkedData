@@ -9,81 +9,72 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 using SQLite4Unity3d;
 
 using BasicToolBox;
 
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditorInternal;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//TODO: FINISH THIS CLASS NWDScheduleType
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDScheduleType : BTBDataType
+	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public static string kDaysSchedulePrefix = "N";
-		public static string kDaysOfWeekSchedulePrefix = "D";
-		public static string kMonthsSchedulePrefix = "M";
-		public static string kHoursSchedulePrefix = "H";
-		public static string kMinutesSchedulePrefix = "i";
-		public static string kSecondsSchedulePrefix = "s";
+		#region Class Methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static string kMinutesUnit = "M";
-		public static string kHoursUnit = "H";
-		public static string kNowSuccess = "Now √";
-		public static string kNowFailed = "Now x";
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDScheduleType ()
+		public static void CreateTable ()
 		{
-			Value = "";
+			NWDDataManager.SharedInstance.CreateTable (ClassType ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDScheduleType (string sValue = "")
-		{
-			if (sValue == null) {
-				Value = "";
-			} else {
-				Value = sValue;
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public virtual bool ResultNow () 
-		{
-			return ResultForDate (DateTime.Now);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public virtual bool ResultForDate (DateTime sDateTime)
-		{
-			return false;
+        public static void ConnectToDatabase()
+        {
+            NWDDataManager.SharedInstance.ConnectToDatabase();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
+        public static void PopulateTable ()
 		{
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			float tHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			return tHeight;
+			NWDDataManager.SharedInstance.PopulateTable (ClassType ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+		public static void EmptyTable ()
 		{
-			NWDScheduleType tTemporary = new NWDScheduleType ();
-			return tTemporary;
+			NWDDataManager.SharedInstance.EmptyTable (ClassType ());
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static void DropTable ()
+		{
+			NWDDataManager.SharedInstance.DropTable (ClassType ());
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static void ReInitializeTable ()
+		{
+			NWDDataManager.SharedInstance.ReInitializeTable (ClassType ());
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static void ResetTable ()
+		{
+			NWDDataManager.SharedInstance.ResetTable (ClassType ());
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		protected static string GenerateNewSalt ()
+		{
+			return NWDToolbox.RandomString(UnityEngine.Random.Range (12, 24));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

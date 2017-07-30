@@ -59,7 +59,7 @@ namespace NetWorkedData
 				// no file found, use default path : Assets/NetWorkedDataWorkflow;
 			}
 
-			if (tType.GetCustomAttributes (typeof(NWDPackageClassAttribute), true).Length > 0) {
+			if (tType.GetCustomAttributes (typeof(NWDTypeClassInPackageAttribute), true).Length > 0) {
 				tEngineRoot = NWDFindPackage.PathOfPackage ();
 				tFolder = "NWDWorkflow";
 				// override tFindNWDFindWorkflow to not create this file in the package
@@ -189,7 +189,7 @@ namespace NetWorkedData
 				// no file found, use default path : Assets/NetWorkedDataWorkflow;
 			}
 
-			if (tType.GetCustomAttributes (typeof(NWDPackageClassAttribute), true).Length > 0) {
+			if (tType.GetCustomAttributes (typeof(NWDTypeClassInPackageAttribute), true).Length > 0) {
 				tEngineRoot = NWDFindPackage.PathOfPackage ();
 				tFolder = "NWDWorkflow";
 				// override tFindNWDFindWorkflow to not create this file in the package
@@ -458,43 +458,43 @@ namespace NetWorkedData
 			"//-------------------- \n" +
 			"\tpublic partial class " + tClassName + " : NWDBasis <" + tClassName + ">\n" +
 			"\t{\n" +
+//			"//-------------------- \n" +
+//			"\t\tpublic override bool IsAccountDependent ()\n" +
+//			"\t\t{\n" +
+//			"\t\t\treturn " + tAccountConnected + ";\n" +
+//			"\t\t}\n" +
+//			"//-------------------- \n" +
+//			"\t\tpublic override bool IsAccountConnected (string sAccountReference)\n" +
+//			"\t\t{\n";
+//			if (tAccountUsed == true) {
+//				tWorkFlowFile += "" +
+//				"\t\t\tbool rReturn = false;\n" +
+//				"\t\t\tif (" + tAccountAnalzeListString + ") {\n" +
+//				"\t\t\t\t\trReturn = true;\n" +
+//				"\t\t\t}\n" +
+//				"\t\t\treturn rReturn;\n";
+//			} else {
+//				tWorkFlowFile += "\t\t\treturn true;\n";
+//			}
+//			tWorkFlowFile += "\t\t}\n" +
+//				"\t\tpublic override string NewReference ()\n" +
+//				"\t\t{\n";
+//			if (tAccountUsed == true) {
+//				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);\n";
+//			} else {
+//				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(\"\");\n";
+//			}
+//			tWorkFlowFile += "\t\t}\n" +
 			"//-------------------- \n" +
-			"\t\tpublic override bool IsAccountDependent ()\n" +
-			"\t\t{\n" +
-			"\t\t\treturn " + tAccountConnected + ";\n" +
-			"\t\t}\n" +
-			"//-------------------- \n" +
-			"\t\tpublic override bool IsAccountConnected (string sAccountReference)\n" +
-			"\t\t{\n";
-			if (tAccountUsed == true) {
-				tWorkFlowFile += "" +
-				"\t\t\tbool rReturn = false;\n" +
-				"\t\t\tif (" + tAccountAnalzeListString + ") {\n" +
-				"\t\t\t\t\trReturn = true;\n" +
-				"\t\t\t}\n" +
-				"\t\t\treturn rReturn;\n";
-			} else {
-				tWorkFlowFile += "\t\t\treturn true;\n";
-			}
-			tWorkFlowFile += "\t\t}\n" +
-				"\t\tpublic override string NewReference ()\n" +
-				"\t\t{\n";
-			if (tAccountUsed == true) {
-				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);\n";
-			} else {
-				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(\"\");\n";
-			}
-			tWorkFlowFile += "\t\t}\n" +
-			"//-------------------- \n" +
-			"\t\tpublic override bool IsLockedObject () // return true during the player game if this object cannot be modified by player\n" +
-			"\t\t{\n" +
-			"\t\t\t#" + "if UNITY_EDITOR\n" +
-			"\t\t\treturn false;\n" +
-			"\t\t\t#" + "else\n" +
-			"\t\t\treturn " + tLockedObject + ";\n" +
-			"\t\t\t#" + "endif\n" +
-			"\t\t}\n" +
-			"//-------------------- \n" +
+//			"\t\tpublic override bool IsLockedObject () // return true during the player game if this object cannot be modified by player\n" +
+//			"\t\t{\n" +
+//			"\t\t\t#" + "if UNITY_EDITOR\n" +
+//			"\t\t\treturn false;\n" +
+//			"\t\t\t#" + "else\n" +
+//			"\t\t\treturn " + tLockedObject + ";\n" +
+//			"\t\t\t#" + "endif\n" +
+//			"\t\t}\n" +
+//			"//-------------------- \n" +
 			"public static " + tClassName + " NewObject()\n" +
 			"\t\t{\n" +
 				"\t\t\t" + tClassName + " rReturn = " + tClassName + ".NewInstance () as " + tClassName + ";\n";
