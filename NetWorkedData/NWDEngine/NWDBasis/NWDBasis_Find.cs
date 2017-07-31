@@ -88,10 +88,10 @@ namespace NetWorkedData
 		public bool IsVisibleForAccount (string sAccountReference = null)
 		{
 			bool rReturn = false;
+			if (AccountDependent ()) {
 			if (sAccountReference == null || sAccountReference == "") {
 				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
 			}
-			if (AccountDependent ()) {
 				foreach (PropertyInfo tProp in PropertiesAccountConnect()) {
 					var tValue = tProp.GetValue (this, null);
 					var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
@@ -103,6 +103,7 @@ namespace NetWorkedData
 					}
 				}
 			} else {
+				rReturn = true;
 			}
 			return rReturn;
 		}
