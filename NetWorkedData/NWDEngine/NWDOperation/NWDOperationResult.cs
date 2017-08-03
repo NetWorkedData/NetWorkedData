@@ -101,7 +101,7 @@ namespace NetWorkedData
 
             if (isError)
             {
-                errorDesc = NWDError.GetObjectByInternalKey(errorCode) as NWDError;
+                errorDesc = NWDError.GetErrorWithCode(errorCode) as NWDError;
             }
 
 			param = new Dictionary<string, object>(data);
