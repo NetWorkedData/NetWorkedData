@@ -10,9 +10,10 @@ using System.IO;
 
 using BasicToolBox;
 
+#if UNITY_EDITOR
+
 using UnityEditor;
 
-#if UNITY_EDITOR
 //=====================================================================================================================
 
 namespace NetWorkedData
@@ -20,7 +21,7 @@ namespace NetWorkedData
 	[InitializeOnLoad]
 	public class NWDAssetWatcher : UnityEditor.AssetModificationProcessor
 	{
-		static List<string> kExtensionsWatchedList = new List<string>(){
+		static List<string> kExtensionsWatchedList = new List<string> () {
 			".prefab", 
 			".tga", 
 			".mat", 

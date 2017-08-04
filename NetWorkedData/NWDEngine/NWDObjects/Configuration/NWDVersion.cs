@@ -176,8 +176,10 @@ namespace NetWorkedData
 		public override void AddonUpdatedMe ()
 		{
 			// do something when object finish to be updated
+			#if UNITY_EDITOR
 			NWDVersion.UpdateVersionBundle ();
 			NWDDataManager.SharedInstance.RepaintWindowsInManager (typeof(NWDVersion));
+			#endif
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonDuplicateMe ()

@@ -317,6 +317,8 @@ namespace NetWorkedData
 			return BTBSecurityTools.GenerateSha (sAdminKey + GenerateSALT (sFrequence), BTBSecurityShaTypeEnum.Sha1);
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Find the folder with FindClassName (ScriptableObject) or create the folder and the script FindClassName to find the folder if not found.
 		/// </summary>
@@ -427,6 +429,8 @@ namespace NetWorkedData
 			}
 			return tEngineRootFolder;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion

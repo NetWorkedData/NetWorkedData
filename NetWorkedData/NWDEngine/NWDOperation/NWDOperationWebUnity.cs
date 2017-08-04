@@ -134,10 +134,6 @@ namespace NetWorkedData
 						BTBDebug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
 						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IN_PROGRESS, this));
 					}
-					if (Request.isDone == true) {
-						BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
-						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
-					}
 					#if UNITY_EDITOR
 					yield return null;
 					#else
@@ -146,10 +142,17 @@ namespace NetWorkedData
 					#endif
 				}
 
+				if (Request.isDone == true) {
+					BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
+				}
+
 //				BTBDebug.LogVerbose ("NWDOperationWebUnity Request isDone: " + Request.isDone);
 				if (Request.isNetworkError) { // Error
 					BTBDebug.LogVerbose ("NWDOperationWebUnity isNetworkError ", BTBDebugResult.Fail);
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
+
+					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
 
 					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OffLine);
 
@@ -159,6 +162,8 @@ namespace NetWorkedData
 				} else if (Request.isHttpError) { // Error
 					BTBDebug.LogVerbose ("NWDOperationWebUnity isHttpError ", BTBDebugResult.Fail);
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
+
+					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
 
 					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OnLine);
 
@@ -174,6 +179,9 @@ namespace NetWorkedData
 
 					Dictionary<string, object> tData = new Dictionary<string, object> ();
 					if (Request.downloadHandler.text.Equals ("")) {
+
+						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
+
 						Statut = BTBOperationState.Error;
 						NWDOperationResult tInfosFail = new NWDOperationResult ("WEB03");
 						FailInvoke (Request.downloadProgress, tInfosFail);
@@ -183,10 +191,17 @@ namespace NetWorkedData
 						// verif Dico answer
 						// TODO : TOKEN IS FAILED : DISCONNECT AND RESET DATA FOR THIS USER... NO SYNC AUTHORIZED... DELETE LOCAL DATA... RESTAURE FROM LOGIN
 						if (tData == null) {
+
+
+							BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
+
 							Statut = BTBOperationState.Error;
 							NWDOperationResult tInfosFail = new NWDOperationResult ("WEB04");
 							FailInvoke (Request.downloadProgress, tInfosFail);
 						} else {
+
+							BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_SUCCESSED, this));
+
 							NWDOperationResult tInfosResult = new NWDOperationResult (tData);
 
 							// memorize the token for next connexion

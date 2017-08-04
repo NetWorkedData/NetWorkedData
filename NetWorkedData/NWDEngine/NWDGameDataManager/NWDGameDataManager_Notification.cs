@@ -39,6 +39,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public const string NOTIFICATION_DOWNLOAD_IS_DONE = "NOTIFICATION_DOWNLOAD_IS_DONE";
 		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_DOWNLOAD_FAILED = "NOTIFICATION_DOWNLOAD_FAILED";
+		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_DOWNLOAD_ERROR = "NOTIFICATION_DOWNLOAD_ERROR";
+		//-------------------------------------------------------------------------------------------------------------
 		public const string NOTIFICATION_ERROR = "NOTIFICATION_ERROR";
 		//-------------------------------------------------------------------------------------------------------------
 		public const string NOTIFICATION_SESSION_EXPIRED = "NOTIFICATION_SESSION_EXPIRED";
