@@ -650,7 +650,9 @@
 								if ($tResult->num_rows == 0)
 								{
 										// unknow user
-									error('SGN26');
+										//error('SGN26');
+										//create new anonymous account
+										AccountAnonymeGenerate();
 								}
 								else if ($tResult->num_rows == 1)
 								{

@@ -30,7 +30,7 @@ namespace NetWorkedData
 			string tProgressBarTitle = "NetWorkedData Create all php files";
 			float tCountClass = mTypeList.Count + 1;
 			float tOperation = 1;
-			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation/tCountClass);
+			EditorUtility.DisplayProgressBar (tProgressBarTitle, "Create general error index", tOperation / tCountClass);
 			tOperation++;
 			NWDError.CreateGenericError ("account", "INN00", "JSon", "not a json object", "critical");
 			NWDError.CreateGenericError ("account", "UIG00", "ID", "error in unique generate", "alert");
@@ -113,6 +113,14 @@ namespace NetWorkedData
 			NWDError.CreateGenericError ("account", "SGN17", "Account sign error", "singin error allready log with this account", "alert");
 			NWDError.CreateGenericError ("account", "SGN18", "Account sign error", "singin error multi-account ", "alert");
 			NWDError.CreateGenericError ("account", "SGN19", "Account sign error", "delete error in update account", "alert");
+
+			NWDError.CreateGenericError ("account", "SGN25", "Account sign error", "signanonymous error in request account", "alert");
+			NWDError.CreateGenericError ("account", "SGN26", "Account sign error", "signanonymous error no account", "alert");
+			NWDError.CreateGenericError ("account", "SGN27", "Account sign error", "signanonymous error allready log with this account", "alert");
+			NWDError.CreateGenericError ("account", "SGN28", "Account sign error", "signanonymous error multi-account", "alert");
+
+			NWDError.CreateGenericError ("account", "SGN33", "Account sign error", "signout impossible with anonymous account equal to restaured account", "alert");
+
 			NWDError.CreateGenericError ("account", "SGN70", "Account sign error", "rescue select error", "alert");
 			NWDError.CreateGenericError ("account", "SGN71", "Account sign error", "rescue unknow user", "alert");
 			NWDError.CreateGenericError ("account", "SGN72", "Account sign error", "rescue multi-user", "alert");
@@ -135,15 +143,15 @@ namespace NetWorkedData
 			BTBConfigManager.SharedInstance ().Save ();
 			CreateAllPHP ();
 			foreach (Type tType in mTypeList) {
-				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create "+tType.Name+" files", tOperation/tCountClass);
+				EditorUtility.DisplayProgressBar (tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
 				tOperation++;
 				var tMethodInfo = tType.GetMethod ("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					tMethodInfo.Invoke (null, null);
 				}
 			}
-			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
-			EditorUtility.ClearProgressBar();
+			EditorUtility.DisplayProgressBar (tProgressBarTitle, "Finish", 1.0F);
+			EditorUtility.ClearProgressBar ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreateAllPHP ()

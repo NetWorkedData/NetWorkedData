@@ -125,15 +125,16 @@ namespace NetWorkedData
 					NWDOperationResult tInfosProgress = new NWDOperationResult ();
 					ProgressInvoke (Request.downloadProgress, tInfosProgress);
 					if (Request.uploadProgress < 1.0f) {
-						//BTBDebug.Log ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
-						//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("uploadProgress", this));
+						BTBDebug.LogVerbose ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
+						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_UPLOAD_IN_PROGRESS, this));
 					}
 					if (Request.downloadProgress < 1.0f) {
-						//BTBDebug.Log ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
-						//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("downloadProgress", this));
+						BTBDebug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
+						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IN_PROGRESS, this));
 					}
 					if (Request.isDone == true) {
-//						BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+						BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
 					}
 					#if UNITY_EDITOR
 					yield return null;
@@ -151,7 +152,7 @@ namespace NetWorkedData
 					FailInvoke (Request.downloadProgress, tInfosError);
 				} else { // Success
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
-//					BTBDebug.LogVerbose ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
+					BTBDebug.LogVerbose ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
 					Dictionary<string, object> tData = new Dictionary<string, object> ();
 					if (Request.downloadHandler.text.Equals ("")) {
 						Statut = BTBOperationState.Error;
@@ -179,8 +180,32 @@ namespace NetWorkedData
 								Statut = BTBOperationState.Failed;
 
 								//TODO if error do something
-                                
+								if (tInfosResult.errorCode == "RQT90" ||
+								    tInfosResult.errorCode == "RQT91" ||
+								    tInfosResult.errorCode == "RQT92" ||
+								    tInfosResult.errorCode == "RQT93" ||
+									tInfosResult.errorCode == "RQT94") {
+									// TODO : Alert (Session expire)
+									#if UNITY_EDITOR
+									EditorUtility.DisplayDialog ("Alert", "Session expired (error code " + tInfosResult.errorCode + ")", "Ok");
+									#endif
+									BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_SESSION_EXPIRED, tInfosResult));
+									// TODO : Change for anonymous account
+									NWDAppConfiguration.SharedInstance.SelectedEnvironment ().RestaureAnonymousSession ();
+								} else {
+
+									#if UNITY_EDITOR
+									string tDescription = "unknown error (error code " + tInfosResult.errorCode + ")";
+									if (tInfosResult.errorDesc!=null)
+									{
+										tDescription = "error " +tInfosResult.errorCode + " : " +tInfosResult.errorDesc.LocalizedDescription.GetLocalString ();
+									}
+									EditorUtility.DisplayDialog ("  Alert", tDescription, "Ok");
+									#endif
+									BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_ERROR, tInfosResult));
+								}
 								FailInvoke (Request.downloadProgress, tInfosResult);
+
 							} else {
 								Statut = BTBOperationState.Success;
 
@@ -213,13 +238,13 @@ namespace NetWorkedData
 										}
 									}
 								}
-
 								if (tInfosResult.isReloadingData) {
 									//TODO : need reload data
 								}
 
 								DataDownloadedCompute (tData);
 
+								BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_SUCCESSED, tInfosResult));
 								SuccessInvoke (Request.downloadProgress, tInfosResult);
 							}
 						}
@@ -335,11 +360,20 @@ namespace NetWorkedData
 			// add hash for admin
 			#if UNITY_EDITOR
 			tHeaderParams.Add (AdminHashKey, NWDToolbox.GenerateAdminHash (Environment.AdminKey, Environment.SaltFrequency));
+			string tDebug = "";
 			#endif
+
 			// insert dico of header in request header
 			foreach (KeyValuePair<string, object> tEntry in tHeaderParams) {
 				Request.SetRequestHeader (tEntry.Key, tEntry.Value.ToString ());
+			#if UNITY_EDITOR
+			tDebug += tEntry.Key + " = '" + tEntry.Value.ToString () + "' , ";
+			#endif
 			}
+			#if UNITY_EDITOR
+			BTBDebug.LogVerbose ("Header : " + tDebug);
+			#endif
+
 		}
 
 		static string UnSecureKey = "prm";
@@ -358,7 +392,7 @@ namespace NetWorkedData
 			string tDigestKey = UnSecureDigestKey;
 			string tParamValue = "";
 			string tDigestValue = "";
-//			BTBDebug.LogVerbose ("Insert data in request : json = " + Json.Serialize (Data), BTBDebugResult.Success);
+			BTBDebug.LogVerbose ("Data : " + Json.Serialize (Data), BTBDebugResult.Success);
 			if (SecureData) {
 				tParamKey = SecureKey;
 				tDigestKey = SecureDigestKey;

@@ -89,6 +89,16 @@ namespace NetWorkedData
 			SavePreferences ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public void RestaureAnonymousSession ()
+		{
+			Debug.Log ("RestaureAnonymousSession in " + Environment);
+			PlayerAccountReference = AnonymousPlayerAccountReference;
+			RequesToken = "";
+			PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;
+			// TODO :  must connect to server
+			SavePreferences ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================
