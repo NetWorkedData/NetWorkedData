@@ -70,6 +70,27 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
+		public static NWDPreferences GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sValue, string sInternalDescription = "")
+		{
+			BTBDebug.Log ("GetPreferenceByInternalKeyOrCreate",BTBDebugResult.Success);
+			NWDPreferences rObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sInternalKey) as NWDPreferences;
+			if (rObject == null) {
+				BTBDebug.Log ("New object",BTBDebugResult.Success);
+				rObject = NWDBasis<NWDPreferences>.NewInstance () as NWDPreferences;
+				RemoveObjectInListOfEdition (rObject);
+				rObject.InternalKey = sInternalKey;
+				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
+				tAccountReference.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
+				rObject.AccountReference = tAccountReference;
+				NWDMultiType tValue = new NWDMultiType (sValue);
+				rObject.Value = tValue;
+				rObject.InternalDescription = sInternalDescription;
+				rObject.UpdateMe ();
+				AddObjectInListOfEdition (rObject);
+			}
+			return rObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get the local string for internal key.
 		/// </summary>
@@ -78,7 +99,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static string GetString (string sKey, string sDefault = "")
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault);
 			string rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.Value.ToString();
@@ -93,7 +114,7 @@ namespace NetWorkedData
 		/// <param name="sValue">S value.</param>
 		public static void SetString (string sKey, string sValue)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue);
 			if (tObject == null) {
 				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
 				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
@@ -111,7 +132,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static int GetInt (string sKey, int sDefault = 0)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
 			int rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.Value.ToInt();
@@ -126,7 +147,7 @@ namespace NetWorkedData
 		/// <param name="sValue">S value.</param>
 		public static void SetInt (string sKey, int sValue)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			if (tObject == null) {
 				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
 				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
@@ -144,7 +165,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">If set to <c>true</c> default value.</param>
 		public static bool GetBool (string sKey, bool sDefault = false)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
 			bool rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.Value.ToBool();
@@ -159,7 +180,7 @@ namespace NetWorkedData
 		/// <param name="sValue">If set to <c>true</c> s value.</param>
 		public static void SetBool (string sKey, bool sValue)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			if (tObject == null) {
 				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
 				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
@@ -177,7 +198,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static float GetFloat (string sKey, float sDefault = 0.0F)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
 			float rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.Value.ToFloat();
@@ -192,7 +213,7 @@ namespace NetWorkedData
 		/// <param name="sValue">S value.</param>
 		public static void SetFloat (string sKey, float sValue)
 		{
-			NWDPreferences tObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sKey) as NWDPreferences;
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			if (tObject == null) {
 				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
 				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();

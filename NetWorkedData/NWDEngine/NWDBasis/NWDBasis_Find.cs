@@ -245,6 +245,22 @@ namespace NetWorkedData
 			return rObject;
 		}
 
+		public static NWDBasis<K> GetObjectByInternalKeyOrCreate (string sInternalKey, string sInternalDescription = "")
+		{
+			NWDBasis<K> rObject = GetObjectByInternalKey (sInternalKey);
+			if (rObject == null) {
+				rObject = NWDBasis<K>.NewInstance ();
+				RemoveObjectInListOfEdition (rObject);
+				rObject.InternalKey = sInternalKey;
+				rObject.InternalDescription = sInternalDescription;
+				rObject.UpdateMe ();
+				AddObjectInListOfEdition (rObject);
+			}
+			return rObject;
+		}
+
+
+
 		public static NWDBasis<K> GetObjectByReference (string sReference)
 		{
 			NWDBasis<K> rObject = null;
@@ -274,16 +290,16 @@ namespace NetWorkedData
 			return rObject;
 		}
 
-
-		public static NWDBasis<K> GetObjectByReferenceLimited (string sReference)
-		{
-			NWDBasis<K> rObject = null;
-			if (ObjectsByReferenceList.Contains (sReference)) {
-				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
-				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
-			}
-			return rObject;
-		}
+//
+//		public static NWDBasis<K> GetObjectByReferenceLimited (string sReference)
+//		{
+//			NWDBasis<K> rObject = null;
+//			if (ObjectsByReferenceList.Contains (sReference)) {
+//				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
+//				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
+//			}
+//			return rObject;
+//		}
 
 		public static NWDBasis<K> GetObjectInObjectsByReferenceList (string sReference)
 		{

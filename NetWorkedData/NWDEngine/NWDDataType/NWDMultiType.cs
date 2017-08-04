@@ -26,8 +26,8 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//TODO: FINISH THIS CLASS NWDDateType
 	[SerializeField]
+	// TODO : DOC
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDMultiType : BTBDataType
 	{
@@ -46,15 +46,15 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-//		public string ToString()
-//		{
-//			return Value;
-//		}
+		public string ToString()
+		{
+			return Value;
+		}
 		//-------------------------------------------------------------------------------------------------------------
-//		public void SetString(string sValue)
-//		{
-//			Value = sValue;
-//		}
+		public void SetString(string sValue)
+		{
+			Value = sValue;
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		public int ToInt(int sDefault=0)
 		{
@@ -83,7 +83,6 @@ namespace NetWorkedData
 		public bool ToBool(bool sDefault=false)
 		{
 			bool rReturn = sDefault;
-//			bool.TryParse (Value, out rReturn);
 			if (Value.ToUpper () == "FALSE" || Value.ToUpper () == "NO" || Value == "0") {
 				rReturn = false;
 			} else if (Value.ToUpper () == "TRUE" || Value.ToUpper () == "YES" || Value == "1") {
@@ -132,7 +131,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPosition, string sEntitled)
 		{
-			NWDDateType tTemporary = new NWDDateType ();
+			NWDMultiType tTemporary = new NWDMultiType ();
 			string tNextValue = EditorGUI.TextField (sPosition , sEntitled+"*", Value);
 			tTemporary.Value = tNextValue;
 			return tTemporary;
