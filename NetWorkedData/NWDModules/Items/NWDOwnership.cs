@@ -46,7 +46,7 @@ namespace NetWorkedData
 		[Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
 		public NWDReferenceType<NWDItem> ItemReference { get; set; }
-		[NWDIntSliderAttribute(0,250)]
+		//[NWDIntSliderAttribute(0,250)]
 		public int Quantity { get; set; }
 		public string ValueA { get; set; }
 		public string ValueB { get; set; }
