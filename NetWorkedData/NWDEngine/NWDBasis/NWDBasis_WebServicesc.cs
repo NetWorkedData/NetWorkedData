@@ -41,7 +41,11 @@ namespace NetWorkedData
 		public static string SynchronizationPrefsKey (NWDAppEnvironment sEnvironment)
 		{
 			// use the accountReference with prefbase key associated with environement and key time 
-			return sEnvironment.PlayerAccountReference + PrefBaseKey () + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+			if (AccountDependent ()) {
+				return sEnvironment.PlayerAccountReference + PrefBaseKey () + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+			} else {
+				return PrefBaseKey () + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -84,7 +88,11 @@ namespace NetWorkedData
 		public static string SynchronizationInWaitingPrefsKey (NWDAppEnvironment sEnvironment)
 		{
 			// use the accountReference with prefbase key associated with environement and key time 
-			return sEnvironment.PlayerAccountReference + PrefBaseKey () + sEnvironment.Environment + SynchronizeKeyInWaitingTimestamp;
+			if (AccountDependent ()) {
+				return sEnvironment.PlayerAccountReference + PrefBaseKey () + sEnvironment.Environment + SynchronizeKeyInWaitingTimestamp;
+			} else {
+				return PrefBaseKey () + sEnvironment.Environment + SynchronizeKeyInWaitingTimestamp;
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

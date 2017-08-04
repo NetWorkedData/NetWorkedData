@@ -107,13 +107,12 @@ namespace NetWorkedData
 			param = new Dictionary<string, object>(data);
         }
 
-        public NWDOperationResult(string code)
+        public NWDOperationResult(string sCode)
         {
             Init();
-
-            errorDesc = NWDError.GetObjectByInternalKey(errorCode) as NWDError;
+			errorDesc = NWDError.GetErrorWithCode(sCode) as NWDError;
             isError = true;
-            errorCode = code;
+			errorCode = sCode;
         }
 
         private void Init()

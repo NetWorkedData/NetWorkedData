@@ -17,6 +17,15 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+
+	//-------------------------------------------------------------------------------------------------------------
+	public enum NWDNetworkState
+	{
+		Unknow,
+		OnLine,
+		OffLine,
+	}
+	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// NWD game data manager.
 	/// Extends class to use as singleton in unity3D
@@ -24,139 +33,45 @@ namespace NetWorkedData
 	public partial class NWDGameDataManager : MonoBehaviour
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The unity singleton. (destroy other instance)
-		/// </summary>
-		private static NWDGameDataManager kUnitySingleton = null;
-		/// <summary>
-		/// The application stand by.
-		/// </summary>
-		private bool ApplicationStandBy = false;
+		public const string NOTIFICATION_UPLOAD_IN_PROGRESS = "NOTIFICATION_UPLOAD_IN_PROGRESS";
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the runtime method load event.
-		/// </summary>
-		[RuntimeInitializeOnLoadMethod]
-		static void OnRuntimeMethodLoad ()
-		{
-			//BTBDebug.LogVerbose ("NWDGameDataManager OnRuntimeMethodLoad");
-			UnitySingleton ();
-		}
+		public const string NOTIFICATION_DOWNLOAD_IN_PROGRESS = "NOTIFICATION_DOWNLOAD_IN_PROGRESS";
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Unity the singleton game object.
-		/// </summary>
-		/// <returns>The singleton game object.</returns>
-		public static GameObject UnitySingletonGameObject ()
-		{
-			return UnitySingleton ().gameObject;
-		}
+		public const string NOTIFICATION_DOWNLOAD_IS_DONE = "NOTIFICATION_DOWNLOAD_IS_DONE";
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Unity singleton.
-		/// </summary>
-		/// <returns>The singleton.</returns>
-		public static NWDGameDataManager UnitySingleton ()
+		public const string NOTIFICATION_ERROR = "NOTIFICATION_ERROR";
+		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_SESSION_EXPIRED = "NOTIFICATION_SESSION_EXPIRED";
+		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_DOWNLOAD_SUCCESSED = "NOTIFICATION_DOWNLOAD_SUCCESSED";
+		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_NETWORK_OFFLINE = "NOTIFICATION_NETWORK_OFFLINE";
+		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_NETWORK_ONLINE = "NOTIFICATION_NETWORK_ONLINE";
+		//-------------------------------------------------------------------------------------------------------------
+		public const string NOTIFICATION_NETWORK_UNKNOW = "NOTIFICATION_NETWORK_UNKNOW";
+		//-------------------------------------------------------------------------------------------------------------
+
+		public NWDNetworkState NetworkStatut = NWDNetworkState.Unknow;
+		//-------------------------------------------------------------------------------------------------------------
+		// Test network connexion
+		public void NetworkStatutChange (NWDNetworkState sNewNetWorkStatut)
 		{
-			//BTBDebug.LogVerbose ("NWDGameDataManager Singleton");
-			if (kUnitySingleton == null) {
-				// I need to create singleton
-				GameObject tObjToSpawn;
-				//spawn object
-				tObjToSpawn = new GameObject ("NWDGameDataManagerUnitySingleton");
-				//Add Components
-				tObjToSpawn.AddComponent<NWDGameDataManager> ();
-				// keep k_Singleton
-				kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager> ();
-				// check real Singleton
-				NWDGameDataManager[] tOtherInstances = FindObjectsOfType<NWDGameDataManager> ();
-				foreach (NWDGameDataManager tOtherInstance in tOtherInstances) {
-					if (tOtherInstance.gameObject != tObjToSpawn) {
-						#if UNITY_EDITOR
-						DestroyImmediate (tOtherInstance.gameObject);
-						#else
-						Destroy (tOtherInstance.gameObject);
-						#endif
-					}
+			if (sNewNetWorkStatut != NetworkStatut) {
+				NetworkStatut = sNewNetWorkStatut;
+				if (NetworkStatut == NWDNetworkState.OffLine) {
+					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, null));
+				} else if (NetworkStatut == NWDNetworkState.OnLine) {
+					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, null));
+				} else {
+					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, null));
 				}
 			}
-			return kUnitySingleton;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Start this instance.
-		/// </summary>
-		void Start ()
+		public bool HasNetWork ()
 		{
-			//BTBDebug.LogVerbose ("NWDGameDataManager Start");
-			DataManager = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataManager;
-			AppConfiguration = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.AppConfiguration;
-			NotificationCenter = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.NotificationCenter;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the destroy event.
-		/// </summary>
-		void OnDestroy()
-		{
-			//BTBDebug.LogVerbose ("NWDGameDataManager Destroy");
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Awake this instance.
-		/// </summary>
-		void Awake ()
-		{
-			//BTBDebug.LogVerbose ("NWDGameDataManager Awake");
-			//Check if there is already an instance
-			if (kUnitySingleton == null) {
-				//if not, set it to this.
-				kUnitySingleton = this;
-				#if UNITY_EDITOR
-				if (Application.isEditor && Application.isPlaying == true) {
-					DontDestroyOnLoad (gameObject);
-				}
-				#else
-				DontDestroyOnLoad (gameObject);
-				#endif
-			}
-			//If instance already exists:
-			else if (kUnitySingleton != this) {
-				//Destroy this, this enforces our singleton pattern so there can only be one instance.
-				#if UNITY_EDITOR
-				DestroyImmediate (this.gameObject);
-				#else
-				Destroy (this.gameObject);
-				#endif
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the application focus event.
-		/// </summary>
-		/// <param name="sHasFocus">If set to <c>true</c> s has focus.</param>
-		void OnApplicationFocus (bool sHasFocus)
-		{
-			ApplicationStandBy = !sHasFocus;
-			if (ApplicationStandBy == false) {
-				//BTBDebug.LogVerbose ("OnApplicationFocus Focus is ON");
-			} else {
-				//BTBDebug.LogVerbose ("OnApplicationFocus Focus is OFF");
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the application pause event.
-		/// </summary>
-		/// <param name="sPauseStatus">If set to <c>true</c> s pause status.</param>
-		void OnApplicationPause (bool sPauseStatus)
-		{
-			ApplicationStandBy = sPauseStatus;
-			if (ApplicationStandBy == false) {
-				//BTBDebug.LogVerbose ("OnApplicationPause Pause is OFF");
-			} else {
-				//BTBDebug.LogVerbose ("OnApplicationPause Pause is ON");
-			}
+			return NetworkStatut == NWDNetworkState.OnLine;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

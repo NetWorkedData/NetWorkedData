@@ -48,6 +48,10 @@ namespace NetWorkedData
 		/// The text of web result.
 		/// </summary>
 		public Text TextWebResult;
+		/// <summary>
+		/// The text of network statut.
+		/// </summary>
+		public Text TextNetworkResult;
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Use to test Synchronization
@@ -185,7 +189,31 @@ namespace NetWorkedData
 		// Use this for initialization
 		void Start ()
 		{
-		
+			BTBDebug.LogVerbose ("START NWDAccountPanel");
+			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification) {
+				if (TextNetworkResult!=null)
+				{
+				TextNetworkResult.text = "ON LINE";
+				}
+			});
+			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, delegate (BTBNotification sNotification) {
+				if (TextNetworkResult!=null)
+				{
+				TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
+				}
+			});
+			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, delegate (BTBNotification sNotification) {
+				if (TextNetworkResult!=null)
+				{
+					TextNetworkResult.text = "<color=orange><b>????</b></color>";
+				}
+			});
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		// Use this for destroy
+		void OnDestroy ()
+		{
+			BTBNotificationManager.SharedInstance.RemoveObserverEveryWhere (this);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// Update is called once per frame

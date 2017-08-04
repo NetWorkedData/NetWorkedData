@@ -111,6 +111,8 @@ namespace NetWorkedData
 			// I insert the data
 			WWWForm tWWWForm = InsertDataInRequest ();
 			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm)) {
+
+				Request.timeout = 5;
 				//BTBDebug.Log ("URL : " + Request.url);
 				// I prepare the header 
 				// I put the header in my request
@@ -146,17 +148,34 @@ namespace NetWorkedData
 
 //				BTBDebug.LogVerbose ("NWDOperationWebUnity Request isDone: " + Request.isDone);
 				if (Request.isNetworkError) { // Error
+					BTBDebug.LogVerbose ("NWDOperationWebUnity isNetworkError ", BTBDebugResult.Fail);
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
+
+					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OffLine);
+
 					Statut = BTBOperationState.Error;
-					NWDOperationResult tInfosError = new NWDOperationResult (Request.error);
+					NWDOperationResult tInfosError = new NWDOperationResult ("WEB01");
 					FailInvoke (Request.downloadProgress, tInfosError);
-				} else { // Success
+				} else if (Request.isHttpError) { // Error
+					BTBDebug.LogVerbose ("NWDOperationWebUnity isHttpError ", BTBDebugResult.Fail);
+					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
+
+					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OnLine);
+
+					Statut = BTBOperationState.Error;
+					NWDOperationResult tInfosError = new NWDOperationResult ("WEB02");
+					FailInvoke (Request.downloadProgress, tInfosError);
+				} else { 
+					// Success
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
 					BTBDebug.LogVerbose ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
+
+					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OnLine);
+
 					Dictionary<string, object> tData = new Dictionary<string, object> ();
 					if (Request.downloadHandler.text.Equals ("")) {
 						Statut = BTBOperationState.Error;
-						NWDOperationResult tInfosFail = new NWDOperationResult ("INN00");
+						NWDOperationResult tInfosFail = new NWDOperationResult ("WEB03");
 						FailInvoke (Request.downloadProgress, tInfosFail);
 					} else {
 						tData = Json.Deserialize (Request.downloadHandler.text) as Dictionary<string, object>;
@@ -165,7 +184,7 @@ namespace NetWorkedData
 						// TODO : TOKEN IS FAILED : DISCONNECT AND RESET DATA FOR THIS USER... NO SYNC AUTHORIZED... DELETE LOCAL DATA... RESTAURE FROM LOGIN
 						if (tData == null) {
 							Statut = BTBOperationState.Error;
-							NWDOperationResult tInfosFail = new NWDOperationResult ("INN00");
+							NWDOperationResult tInfosFail = new NWDOperationResult ("WEB04");
 							FailInvoke (Request.downloadProgress, tInfosFail);
 						} else {
 							NWDOperationResult tInfosResult = new NWDOperationResult (tData);

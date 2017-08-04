@@ -32,27 +32,36 @@ namespace NetWorkedData
 			float tOperation = 1;
 			EditorUtility.DisplayProgressBar (tProgressBarTitle, "Create general error index", tOperation / tCountClass);
 			tOperation++;
-			NWDError.CreateGenericError ("account", "INN00", "JSon", "not a json object", "critical");
-			NWDError.CreateGenericError ("account", "UIG00", "ID", "error in unique generate", "alert");
-			NWDError.CreateGenericError ("account", "SQL00", "SQL", "error SQL CONNEXION IMPOSSIBLE", "alert");
-			NWDError.CreateGenericError ("account", "HEA01", "header error", "os is empty", "alert");
-			NWDError.CreateGenericError ("account", "HEA02", "header error", "version is empty", "alert");
-			NWDError.CreateGenericError ("account", "HEA03", "header error", "lang is empty", "alert");
-			NWDError.CreateGenericError ("account", "HEA04", "header error", "uuid is empty", "alert");
-			NWDError.CreateGenericError ("account", "HEA05", "header error", "hash is empty", "alert");
-			NWDError.CreateGenericError ("account", "HEA11", "header error", "os is invalid", "alert");
-			NWDError.CreateGenericError ("account", "HEA12", "header error", "version is invalid", "alert");
-			NWDError.CreateGenericError ("account", "HEA13", "header error", "lang is invalid", "alert");
-			NWDError.CreateGenericError ("account", "HEA14", "header error", "uuid is invalid", "alert");
-			NWDError.CreateGenericError ("account", "HEA15", "header error", "hash is invalid", "alert");
-			NWDError.CreateGenericError ("account", "HEA90", "header error", "hash error", "alert");
-			NWDError.CreateGenericError ("account", "PAR97", "param error", "not json valid", "alert");
-			NWDError.CreateGenericError ("account", "PAR98", "param error", "json digest is false", "alert");
-			NWDError.CreateGenericError ("account", "PAR99", "param error", "json null", "alert");
-			NWDError.CreateGenericError ("account", "GVA00", "version error", "error in sql select Version", "alert");
-			NWDError.CreateGenericError ("account", "GVA01", "version error", "stop : update app", "alert");
-			NWDError.CreateGenericError ("account", "GVA02", "version error", "stop unknow version : update app", "alert");
-			NWDError.CreateGenericError ("account", "GVA99", "version error", "block data", "alert");
+
+			NWDError.CreateGenericError ("webrequest", "WEB01", "Network", "no network", "warning");
+			NWDError.CreateGenericError ("webrequest", "WEB02", "Network", "http error", "warning");
+			NWDError.CreateGenericError ("webrequest", "WEB03", "Network", "http respond is empty", "warning");
+			NWDError.CreateGenericError ("webrequest", "WEB04", "Network", "http respond is not valid format", "critical");
+
+			NWDError.CreateGenericError ("sql", "UIG00", "ID", "error in unique generate", "alert");
+			NWDError.CreateGenericError ("sql", "SQL00", "SQL", "error SQL CONNEXION IMPOSSIBLE", "alert");
+
+			NWDError.CreateGenericError ("header", "HEA01", "header error", "os is empty", "alert");
+			NWDError.CreateGenericError ("header", "HEA02", "header error", "version is empty", "alert");
+			NWDError.CreateGenericError ("header", "HEA03", "header error", "lang is empty", "alert");
+			NWDError.CreateGenericError ("header", "HEA04", "header error", "uuid is empty", "alert");
+			NWDError.CreateGenericError ("header", "HEA05", "header error", "hash is empty", "alert");
+			NWDError.CreateGenericError ("header", "HEA11", "header error", "os is invalid", "alert");
+			NWDError.CreateGenericError ("header", "HEA12", "header error", "version is invalid", "alert");
+			NWDError.CreateGenericError ("header", "HEA13", "header error", "lang is invalid", "alert");
+			NWDError.CreateGenericError ("header", "HEA14", "header error", "uuid is invalid", "alert");
+			NWDError.CreateGenericError ("header", "HEA15", "header error", "hash is invalid", "alert");
+			NWDError.CreateGenericError ("header", "HEA90", "header error", "hash error", "alert");
+
+			NWDError.CreateGenericError ("param", "PAR97", "param error", "not json valid", "alert");
+			NWDError.CreateGenericError ("param", "PAR98", "param error", "json digest is false", "alert");
+			NWDError.CreateGenericError ("param", "PAR99", "param error", "json null", "alert");
+
+			NWDError.CreateGenericError ("gameversion", "GVA00", "version error", "error in sql select Version", "alert");
+			NWDError.CreateGenericError ("gameversion", "GVA01", "version error", "stop : update app", "alert");
+			NWDError.CreateGenericError ("gameversion", "GVA02", "version error", "stop unknow version : update app", "alert");
+			NWDError.CreateGenericError ("gameversion", "GVA99", "version error", "block data", "alert");
+
 			NWDError.CreateGenericError ("account", "ACC01", "Account error", "action is empty", "alert");
 			NWDError.CreateGenericError ("account", "ACC02", "Account error", "action is invalid format", "alert");
 			NWDError.CreateGenericError ("account", "ACC03", "Account error", "appname is empty", "alert");
@@ -127,15 +136,16 @@ namespace NetWorkedData
 			NWDError.CreateGenericError ("account", "SGN80", "Account sign error", "session select error", "alert");
 			NWDError.CreateGenericError ("account", "SGN81", "Account sign error", "impossible unknow user", "alert");
 			NWDError.CreateGenericError ("account", "SGN82", "Account sign error", "impossible multi-users", "alert");
-			NWDError.CreateGenericError ("account", "RQT01", "Token error", "error in request token creation", "alert");
-			NWDError.CreateGenericError ("account", "RQT11", "Token error", "new token is not in base", "alert");
-			NWDError.CreateGenericError ("account", "RQT12", "Token error", "error in token select", "alert");
-			NWDError.CreateGenericError ("account", "RQT13", "Token error", "error in token delete", "alert");
-			NWDError.CreateGenericError ("account", "RQT90", "Token error", "session not exists", "alert");
-			NWDError.CreateGenericError ("account", "RQT91", "Token error", "session expired", "alert");
-			NWDError.CreateGenericError ("account", "RQT92", "Token error", "token not in base", "alert");
-			NWDError.CreateGenericError ("account", "RQT93", "Token error", "too much tokens in base ... reconnect you", "alert");
-			NWDError.CreateGenericError ("account", "RQT94", "Token error", "too much tokens in base ... reconnect you", "alert");
+
+			NWDError.CreateGenericError ("token", "RQT01", "Token error", "error in request token creation", "alert");
+			NWDError.CreateGenericError ("token", "RQT11", "Token error", "new token is not in base", "alert");
+			NWDError.CreateGenericError ("token", "RQT12", "Token error", "error in token select", "alert");
+			NWDError.CreateGenericError ("token", "RQT13", "Token error", "error in token delete", "alert");
+			NWDError.CreateGenericError ("token", "RQT90", "Token error", "session not exists", "alert");
+			NWDError.CreateGenericError ("token", "RQT91", "Token error", "session expired", "alert");
+			NWDError.CreateGenericError ("token", "RQT92", "Token error", "token not in base", "alert");
+			NWDError.CreateGenericError ("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "alert");
+			NWDError.CreateGenericError ("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "alert");
 
 			int tPHPBuild = BTBConfigManager.SharedInstance ().GetInt (NWDConstants.K_NWD_WS_BUILD, 0);
 			tPHPBuild++;
