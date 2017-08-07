@@ -94,7 +94,7 @@ namespace NetWorkedData
 			}
 				foreach (PropertyInfo tProp in PropertiesAccountConnect()) {
 					var tValue = tProp.GetValue (this, null);
-					var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
+					MethodInfo tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
 					if (tMethodInfo != null) {
 						string tValueToString = tMethodInfo.Invoke (tValue, null) as string;
 						if (tValueToString.Contains (sAccountReference)) {
@@ -105,6 +105,9 @@ namespace NetWorkedData
 			} else {
 				// non account dependency return acces is true.
 				rReturn = true;
+			}
+			if (rReturn == true && XX > 0) {
+				rReturn = false;
 			}
 			return rReturn;
 		}
