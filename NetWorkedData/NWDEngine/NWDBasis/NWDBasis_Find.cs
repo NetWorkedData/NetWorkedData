@@ -62,7 +62,6 @@ namespace NetWorkedData
 		// This part can be automatically rewrite and optimized by generate CSharp File
 
 		#region Generic Analyze
-
 		public bool IsAccountDependent (string sAccountReference = null)
 		{
 			bool rReturn = false;
@@ -84,7 +83,7 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
-
+		//TODO : RENAME visible is not evident
 		public bool IsVisibleForAccount (string sAccountReference = null)
 		{
 			bool rReturn = false;
@@ -233,7 +232,7 @@ namespace NetWorkedData
 		#endregion
 
 		#region Static Get Object
-
+		//TODO : RENAME with instance or basis 
 		public static NWDBasis<K> GetObjectByInternalKey (string sInternalKey)
 		{
 			NWDBasis<K> rObject = null;
@@ -247,7 +246,7 @@ namespace NetWorkedData
 			}
 			return rObject;
 		}
-
+		//TODO : RENAME with instance or basis 
 		public static NWDBasis<K> GetObjectByInternalKeyOrCreate (string sInternalKey, string sInternalDescription = "")
 		{
 			NWDBasis<K> rObject = GetObjectByInternalKey (sInternalKey);
@@ -262,8 +261,7 @@ namespace NetWorkedData
 			return rObject;
 		}
 
-
-
+		//TODO : RENAME with instance or basis 
 		public static NWDBasis<K> GetObjectByReference (string sReference)
 		{
 			NWDBasis<K> rObject = null;
@@ -273,7 +271,7 @@ namespace NetWorkedData
 			}
 			return rObject;
 		}
-
+		//TODO : RENAME with instance or basis 
 		public static NWDBasis<K> GetObjectByReferenceOrCreate (string sReference, string sInternalKey = "", string sInternalDescription = "")
 		{
 			NWDBasis<K> rObject = null;
@@ -302,8 +300,8 @@ namespace NetWorkedData
 //				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
 //			}
 //			return rObject;
-//		}
-
+		//		}
+		//TODO : RENAME with instance or basis 
 		public static NWDBasis<K> GetObjectInObjectsByReferenceList (string sReference)
 		{
 			NWDBasis<K> rObject = null;
@@ -313,7 +311,7 @@ namespace NetWorkedData
 			}
 			return rObject;
 		}
-
+		//TODO : RENAME with instance or basis 
 		public static NWDBasis<K> GetObjectInObjectsByKeyList (string sKey)
 		{
 			NWDBasis<K> rObject = null;
