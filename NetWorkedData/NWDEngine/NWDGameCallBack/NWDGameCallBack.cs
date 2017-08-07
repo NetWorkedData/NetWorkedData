@@ -101,7 +101,7 @@ namespace NetWorkedData
 		/// </summary>
 		void Start ()
 		{
-			InstallObserver ();
+//			InstallObserver ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -116,7 +116,7 @@ namespace NetWorkedData
 		/// </summary>
 		void OnDestroy ()
 		{
-			RemoveObserver ();
+			//RemoveObserver ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

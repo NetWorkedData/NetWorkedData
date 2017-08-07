@@ -50,7 +50,7 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static void SetObjectInEdition (object sObject, bool sResetStack = true, bool sFocus=true)
+		public static void SetObjectInEdition (object sObject, bool sResetStack = true, bool sFocus = true)
 		{
 			
 			GUI.FocusControl (null);
@@ -71,8 +71,8 @@ namespace NetWorkedData
 			bool rReturn = false; 
 			//if (NWDDataManager.UseUnityInpector == false) {
 			if (NWDDataInspector.ObjectInEdition () == sObject) {
-					rReturn = true;
-				}
+				rReturn = true;
+			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -124,8 +124,8 @@ namespace NetWorkedData
 			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
 				    tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
-					&& tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview" 
-					&& tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
+				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
+				    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
 					//  foldout group is finish or start a new one?
 					if (tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true).Length > 0) {
 						tY += NWDConstants.kFieldMarge;
@@ -208,8 +208,7 @@ namespace NetWorkedData
 
 								//TO-DO : (FUTUR ADDS) Insert new NWDDataType
 
-								else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
-								{
+								else if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
 									var tValue = tProp.GetValue (this, null);
 									if (tValue == null) {
 										tValue = Activator.CreateInstance (tTypeOfThis);
@@ -225,8 +224,7 @@ namespace NetWorkedData
 //										float.TryParse (tHeightString, out tHeight);
 //									}
 //									tY += tHeight + NWDConstants.kFieldMarge;
-								}
-								else {
+								} else {
 									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 								}
 							}
@@ -312,8 +310,8 @@ namespace NetWorkedData
 			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
 				    tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
-				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview" 
-					&& tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
+				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
+				    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
 
 					//  foldout group is finish or start a new one?
 					if (tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true).Length > 0) {
@@ -606,17 +604,16 @@ namespace NetWorkedData
 
 
 
-								else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
-								{
+								else if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
 									var tValue = tProp.GetValue (this, null);
 									if (tValue == null) {
 										tValue = Activator.CreateInstance (tTypeOfThis);
 									}
 									BTBDataType tBTBDataType = tValue as BTBDataType;
 									BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-										tEntitled) as BTBDataType;
+										                               tEntitled) as BTBDataType;
 
-									if (tBTBDataTypeNext.Value!= tBTBDataType.Value) {
+									if (tBTBDataTypeNext.Value != tBTBDataType.Value) {
 										tProp.SetValue (this, tBTBDataTypeNext, null);
 										rNeedBeUpdate = true;
 									}
@@ -840,7 +837,7 @@ namespace NetWorkedData
 
 			// add button to navigate next / preview
 			if (NWDDataInspector.InspectNetWorkedPreview ()) {
-				if (GUI.Button (new Rect (tX , tY, 20, 20), "<")) {
+				if (GUI.Button (new Rect (tX, tY, 20, 20), "<")) {
 					NWDDataInspector.InspectNetWorkedDataPreview ();
 				}
 			}
@@ -909,7 +906,7 @@ namespace NetWorkedData
 				tY += NWDConstants.kFieldMarge;
 			}
 
-			float tImageWidth = (tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge)*3;
+			float tImageWidth = (tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge) * 3;
 
 			tX = tImageWidth + NWDConstants.kFieldMarge * 2;
 			tWidth = sInRect.width - NWDConstants.kFieldMarge * 3 - tImageWidth;
@@ -943,22 +940,22 @@ namespace NetWorkedData
 			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE + Reference, tMiniLabelStyle);
 			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + NWDToolbox.TimeStampToDateTime (DC).ToString ("G"), tMiniLabelStyle);
+			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + NWDToolbox.TimeStampToDateTime (DC).ToString ("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
 			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime (DM).ToString ("G"), tMiniLabelStyle);
+			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime (DM).ToString ("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
 			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + NWDToolbox.TimeStampToDateTime (DevSync).ToString ("G")
-//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
+			//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + NWDToolbox.TimeStampToDateTime (DevSync).ToString ("yyyy MM dd")
+			//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString ("yyyy MM dd")+")" , tMiniLabelStyle);
 //			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 //
-//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + NWDToolbox.TimeStampToDateTime (PreprodSync).ToString ("G")
-//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
+			//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + NWDToolbox.TimeStampToDateTime (PreprodSync).ToString ("yyyy MM dd")
+			//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString ("yyyy MM dd")+")" , tMiniLabelStyle);
 //			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 //
-//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime (ProdSync).ToString ("G")
-//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString ("G")+")" , tMiniLabelStyle);
+			//			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime (ProdSync).ToString ("yyyy MM dd")
+			//				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString ("yyyy MM dd")+")" , tMiniLabelStyle);
 //			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
@@ -1031,7 +1028,7 @@ namespace NetWorkedData
 			bool tInternalKeyEditable = true;
 //			NWDInternalKeyNotEditable
 
-			if (GetType().GetCustomAttributes (typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0) {
+			if (GetType ().GetCustomAttributes (typeof(NWDInternalKeyNotEditableAttribute), true).Length > 0) {
 				tInternalKeyEditable = false;
 			}
 
@@ -1064,7 +1061,7 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 			}
 				
-			float tBottomHeight = tBoldLabelStyle.fixedHeight*2 + tMiniButtonStyle.fixedHeight*3 + tLabelStyle.fixedHeight*2 + NWDConstants.kFieldMarge*7;
+			float tBottomHeight = tBoldLabelStyle.fixedHeight * 2 + tMiniButtonStyle.fixedHeight * 3 + tLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 7;
 
 			Rect tRectProperty = new Rect (0, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
 			EditorGUI.DrawRect (tRectProperty, kPropertyColor);
@@ -1100,7 +1097,7 @@ namespace NetWorkedData
 				}
 			}
 
-			if (GUI.Button (new Rect (tX+tButtonWidth+NWDConstants.kFieldMarge, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle)) {
+			if (GUI.Button (new Rect (tX + tButtonWidth + NWDConstants.kFieldMarge, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle)) {
 				DM = NWDToolbox.Timestamp ();
 				UpdateIntegrity ();
 				UpdateObjectInListOfEdition (this);
@@ -1108,7 +1105,7 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.UpdateQueueExecute ();
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 			}
-			if (GUI.Button (new Rect (tX+(tButtonWidth+NWDConstants.kFieldMarge)*2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle)) {
+			if (GUI.Button (new Rect (tX + (tButtonWidth + NWDConstants.kFieldMarge) * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle)) {
 				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
 				K tNexObject = (K)DuplicateMe ();
 				AddObjectInListOfEdition (tNexObject);
@@ -1119,12 +1116,12 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 			}
 			if (AC == false) {
-				if (GUI.Button (new Rect (tX+(tButtonWidth+NWDConstants.kFieldMarge)*3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle)) {
+				if (GUI.Button (new Rect (tX + (tButtonWidth + NWDConstants.kFieldMarge) * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle)) {
 					EnableMe ();
 					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}
 			} else {
-				if (GUI.Button (new Rect (tX+(tButtonWidth+NWDConstants.kFieldMarge)*3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle)) {
+				if (GUI.Button (new Rect (tX + (tButtonWidth + NWDConstants.kFieldMarge) * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle)) {
 					DisableMe ();
 					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}

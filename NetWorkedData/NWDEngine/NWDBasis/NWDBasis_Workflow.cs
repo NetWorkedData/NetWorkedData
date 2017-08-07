@@ -55,30 +55,47 @@ namespace NetWorkedData
 		public static K GetObjectWithReference(string sReference)
 		{
 			K rReturn = null;
-			foreach (K tObject in GetAllObjects()) {
-				if (tObject.Reference == sReference) {
+			int tIndex = ObjectsByReferenceList.IndexOf(sReference);
+			if (tIndex >= 0) {
+				K tObject = ObjectsList.ElementAt (tIndex) as K;
+				if (tObject.IsVisibleForAccount ()) {
 					rReturn = tObject;
-					break;
 				}
 			}
+			// replace this research
+//			foreach (K tObject in GetAllObjects()) {
+//				if (tObject.Reference == sReference) {
+//					rReturn = tObject;
+//					break;
+//				}
+//			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static K[] GetObjectsWithReferences(string[] sReferences)
 		{
 			List<K> rReturn = new List<K>();
-			foreach (K tObject in GetAllObjects()) {
-				if (sReferences.Contains(tObject.Reference)) {
+			foreach (string tReference in sReferences) {
+				K tObject = GetObjectWithReference(tReference);
+				if (tObject!=null)
+				{
 					rReturn.Add(tObject);
 				}
 			}
+			// replace this research
+//			foreach (K tObject in GetAllObjects()) {
+//				if (sReferences.Contains(tObject.Reference)) {
+//					rReturn.Add(tObject);
+//				}
+//			}
 			return rReturn.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static K GetObjectWithInternalKey(string sInternalKey)
 		{
 			K rReturn = null;
-			foreach (K tObject in GetAllObjects()) {
+			// TODO : optimize with Dictionnary with inetrnalkey/object 
+			foreach (K tObject in GetAllObjects()) {// TODO: use dictionary here
 				if (tObject.InternalKey == sInternalKey) {
 					rReturn = tObject;
 					break;
@@ -90,7 +107,8 @@ namespace NetWorkedData
 		public static K[] GetObjectsWithInternalKeys(string[] sInternalKeys)
 		{
 			List<K> rReturn = new List<K>();
-			foreach (K tObject in GetAllObjects()) {
+			// TODO : optimize with Dictionnary with inetrnalkey/object 
+			foreach (K tObject in GetAllObjects()) {// TODO: use dictionary here
 				if (sInternalKeys.Contains(tObject.InternalKey)) {
 					rReturn.Add(tObject);
 				}

@@ -96,6 +96,11 @@ namespace NetWorkedData
 			return NWDToolbox.TextUnprotect(SplitDico (NWDDataManager.SharedInstance.PlayerLanguage));
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public string GetBaseString ()
+		{
+			return NWDToolbox.TextUnprotect(SplitDico (NWDDataLocalizationManager.kBaseDev));
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
