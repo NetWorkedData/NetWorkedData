@@ -175,7 +175,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItemExtension GetObject ()
 		{
-			return NWDItemExtension.GetObjectWithReference (Reference);
+			return NWDItemExtension.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDItemExtension sObject)

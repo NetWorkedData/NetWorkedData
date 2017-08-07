@@ -193,7 +193,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDialog GetObject ()
 		{
-			return NWDDialog.GetObjectWithReference (Reference);
+			return NWDDialog.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDDialog sObject)

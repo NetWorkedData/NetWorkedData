@@ -226,7 +226,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItem GetObject ()
 		{
-			return NWDItem.GetObjectWithReference (Reference);
+			return NWDItem.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDItem sObject)

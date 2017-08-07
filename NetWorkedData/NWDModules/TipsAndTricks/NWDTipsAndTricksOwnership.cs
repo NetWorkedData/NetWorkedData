@@ -176,7 +176,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTipsAndTricksOwnership GetObject ()
 		{
-			return NWDTipsAndTricksOwnership.GetObjectWithReference (Reference);
+			return NWDTipsAndTricksOwnership.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDTipsAndTricksOwnership sObject)

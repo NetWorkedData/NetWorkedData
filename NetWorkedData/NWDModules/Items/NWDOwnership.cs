@@ -232,7 +232,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOwnership GetObject ()
 		{
-			return NWDOwnership.GetObjectWithReference (Reference);
+			return NWDOwnership.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDOwnership sObject)

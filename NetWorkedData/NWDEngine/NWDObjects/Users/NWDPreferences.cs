@@ -332,7 +332,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPreferences GetObject ()
 		{
-			return NWDPreferences.GetObjectWithReference (Reference);
+			return NWDPreferences.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDPreferences sObject)

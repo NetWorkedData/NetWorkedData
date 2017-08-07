@@ -177,7 +177,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBattleProperty GetObject ()
 		{
-			return NWDBattleProperty.GetObjectWithReference (Reference);
+			return NWDBattleProperty.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDBattleProperty sObject)

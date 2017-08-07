@@ -184,7 +184,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterRequest GetObject ()
 		{
-			return NWDBarterRequest.GetObjectWithReference (Reference);
+			return NWDBarterRequest.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDBarterRequest sObject)

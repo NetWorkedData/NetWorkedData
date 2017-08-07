@@ -324,7 +324,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDVersion GetObject ()
 		{
-			return NWDVersion.GetObjectWithReference (Reference);
+			return NWDVersion.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDVersion sObject)

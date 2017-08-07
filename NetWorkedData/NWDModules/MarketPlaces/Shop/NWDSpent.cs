@@ -177,7 +177,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDSpent GetObject ()
 		{
-			return NWDSpent.GetObjectWithReference (Reference);
+			return NWDSpent.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDSpent sObject)

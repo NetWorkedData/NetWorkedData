@@ -28,24 +28,21 @@ namespace NetWorkedData
 {
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
-
-
-
-		#region objects finder
-
+		//-------------------------------------------------------------------------------------------------------------
 		// find objects and get objects from database
 		//-------------------------------------------------------------------------------------------------------------
 		public static List<object> ObjectsList = new List<object> ();
 		public static List<string> ObjectsByReferenceList = new List<string> ();
-		public static List<string> ObjectsByInternalKeyList = new List<string> ();
 		public static List<string> ObjectsByKeyList = new List<string> ();
 		//-------------------------------------------------------------------------------------------------------------
-		public static IEnumerable<K> GetAllBasisObjects ()
-		{
-			return NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ();
-		}
+		#region Basis finder
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDBasis<K> FindObjectInDataBaseByReference (string sReference)
+//		public static IEnumerable<K> GetAllBasisObjects ()
+//		{
+//			return NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ();
+//		}
+		//-------------------------------------------------------------------------------------------------------------
+		private static NWDBasis<K> FindObjectInDataBaseByReference (string sReference)
 		{
 			NWDBasis<K> rReturnObject = null;
 			IEnumerable<K> tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.Reference == sReference);
@@ -57,34 +54,32 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#region Reacheable
+		//-------------------------------------------------------------------------------------------------------------
+//		public bool IsAccountDependent (string sAccountReference = null)
+//		{
+//			bool rReturn = false;
+//			if (sAccountReference == null || sAccountReference == "") {
+//				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
+//			}
+//			if (AccountDependent ()) {
+//				foreach (PropertyInfo tProp in PropertiesAccountDependent()) {
+//					var tValue = tProp.GetValue (this, null);
+//					var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
+//					if (tMethodInfo != null) {
+//						string tValueToString = tMethodInfo.Invoke (tValue, null) as string;
+//						if (tValueToString.Contains (sAccountReference)) {
+//							rReturn = true;
+//						}
+//					}
+//				}
+//			} else {
+//			}
+//			return rReturn;
+//		}
 
-
-		// This part can be automatically rewrite and optimized by generate CSharp File
-
-		#region Generic Analyze
-		public bool IsAccountDependent (string sAccountReference = null)
-		{
-			bool rReturn = false;
-			if (sAccountReference == null || sAccountReference == "") {
-				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
-			}
-			if (AccountDependent ()) {
-				foreach (PropertyInfo tProp in PropertiesAccountDependent()) {
-					var tValue = tProp.GetValue (this, null);
-					var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
-					if (tMethodInfo != null) {
-						string tValueToString = tMethodInfo.Invoke (tValue, null) as string;
-						if (tValueToString.Contains (sAccountReference)) {
-							rReturn = true;
-						}
-					}
-				}
-			} else {
-			}
-			return rReturn;
-		}
-		//TODO : RENAME visible is not evident
-		public bool IsVisibleForAccount (string sAccountReference = null)
+		public bool IsReacheableByAccount (string sAccountReference = null)
 		{
 			bool rReturn = false;
 			if (AccountDependent ()) {
@@ -110,186 +105,70 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
-
-		//		public virtual bool IsAccountDependent ()
-		//		{
-		//			bool rAccountConnected = false;
-		//			Type tType = GetType ();
-		//			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-		//				Type tTypeOfThis = tProp.PropertyType;
-		//				if (tTypeOfThis != null) {
-		//					if (tTypeOfThis.IsGenericType) {
-		//						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
-		//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-		//							if (tSubType == typeof(NWDAccount)) {
-		//								rAccountConnected = true;
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//			return rAccountConnected;
-		//		}
-		//		public virtual bool IsAccountConnected (string sAccountReference = null)
-		//		{
-		//			if (sAccountReference == null || sAccountReference=="") {
-		//				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
-		//			}
-		//			bool rAccountConnected = false;
-		//			Type tType = GetType ();
-		//			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-		//				Type tTypeOfThis = tProp.PropertyType;
-		//				if (tTypeOfThis != null) {
-		//					if (tTypeOfThis.IsGenericType) {
-		//						if (
-		//							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)
-		//							|| tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-		//							|| tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)
-		//						) {
-		//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-		//							if (tSubType == typeof(NWDAccount)) {
-		//								var tValue = tProp.GetValue (this, null);
-		//								var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
-		//								if (tMethodInfo != null) {
-		//									string tValueToString = tMethodInfo.Invoke (tValue, null) as string;
-		//									if (tValueToString.Contains (sAccountReference)) {
-		//										rAccountConnected = true;
-		//									}
-		//								}
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//			return rAccountConnected;
-		//		}
-		//		public virtual bool DisposableForAccount (string sAccountReference = null)
-		//		{
-		//			if (sAccountReference == null || sAccountReference=="") {
-		//				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
-		//			}
-		//			bool rAccountConnected = false;
-		//			bool rAccountPropertieFind = false;
-		//			Type tType = GetType ();
-		//			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-		//				Type tTypeOfThis = tProp.PropertyType;
-		//				if (tTypeOfThis != null) {
-		//					if (tTypeOfThis.IsGenericType) {
-		//						if (
-		//							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)
-		//							|| tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-		//							|| tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)
-		//						) {
-		//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-		//							if (tSubType == typeof(NWDAccount)) {
-		//								rAccountPropertieFind = true;
-		//								var tValue = tProp.GetValue (this, null);
-		//								var tMethodInfo = tValue.GetType ().GetMethod ("ToString", BindingFlags.Public | BindingFlags.Instance);
-		//								if (tMethodInfo != null) {
-		//									string tValueToString = tMethodInfo.Invoke (tValue, null) as string;
-		//									if (tValueToString.Contains (sAccountReference)) {
-		//										rAccountConnected = true;
-		//									}
-		//								}
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//			if (rAccountPropertieFind == false) {
-		//				rAccountConnected = true;
-		//			}
-		//			return rAccountConnected;
-		//		}
-		//
-
-		//
-		//
-		//		public virtual bool IsLockedObject () // return true during the player game
-		//			{
-		//			#if UNITY_EDITOR
-		//			return false;
-		//			#else
-		//				bool rLockedObject = true;
-		//				Type tType = GetType ();
-		//				foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-		//				Type tTypeOfThis = tProp.PropertyType;
-		//				if (tTypeOfThis != null) {
-		//					if (tTypeOfThis.IsGenericType) {
-		//						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
-		//							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-		//							if (tSubType == typeof(NWDAccount)) {
-		//								rLockedObject = false;
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//			return rLockedObject;
-		//			#endif
-		//		}
-
 		#endregion
 
 		#region Static Get Object
+
+
 		//TODO : RENAME with instance or basis 
-		public static NWDBasis<K> GetObjectByInternalKey (string sInternalKey)
+		public static NWDBasis<K> InstanceByReference (string sReference)
 		{
 			NWDBasis<K> rObject = null;
-			foreach (NWDBasis<K> tObject in ObjectsList) {
-				if (tObject.InternalKey == sInternalKey) {
-					if (tObject.IsVisibleForAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference)) {
-						rObject = tObject;
-						break;
-					}
-				}
-			}
-			return rObject;
-		}
-		//TODO : RENAME with instance or basis 
-		public static NWDBasis<K> GetObjectByInternalKeyOrCreate (string sInternalKey, string sInternalDescription = "")
-		{
-			NWDBasis<K> rObject = GetObjectByInternalKey (sInternalKey);
-			if (rObject == null) {
-				rObject = NWDBasis<K>.NewInstance ();
-				RemoveObjectInListOfEdition (rObject);
-				rObject.InternalKey = sInternalKey;
-				rObject.InternalDescription = sInternalDescription;
-				rObject.UpdateMe ();
-				AddObjectInListOfEdition (rObject);
+			if (ObjectsByReferenceList.Contains (sReference)) {
+				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
+				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
 			}
 			return rObject;
 		}
 
+
 		//TODO : RENAME with instance or basis 
-		public static NWDBasis<K> GetObjectByReference (string sReference)
-		{
-			NWDBasis<K> rObject = null;
-			if (ObjectsByReferenceList.Contains (sReference)) {
-				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
-				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
-			}
-			return rObject;
-		}
+//		public static NWDBasis<K> GetObjectByInternalKey (string sInternalKey)
+//		{
+//			NWDBasis<K> rObject = null;
+//			foreach (NWDBasis<K> tObject in ObjectsList) {
+//				if (tObject.InternalKey == sInternalKey) {
+//					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference)) {
+//						rObject = tObject;
+//						break;
+//					}
+//				}
+//			}
+//			return rObject;
+//		}
 		//TODO : RENAME with instance or basis 
-		public static NWDBasis<K> GetObjectByReferenceOrCreate (string sReference, string sInternalKey = "", string sInternalDescription = "")
-		{
-			NWDBasis<K> rObject = null;
-			if (ObjectsByReferenceList.Contains (sReference)) {
-				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
-				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
-			}
-			if (rObject == null) {
-				rObject = NWDBasis<K>.NewInstance ();
-				RemoveObjectInListOfEdition (rObject);
-				rObject.Reference = sReference;
-				rObject.InternalKey = sInternalKey;
-				rObject.InternalDescription = sInternalDescription;
-				rObject.UpdateMe ();
-				AddObjectInListOfEdition (rObject);
-			}
-			return rObject;
-		}
+//		public static NWDBasis<K> GetObjectByInternalKeyOrCreate (string sInternalKey, string sInternalDescription = "")
+//		{
+//			NWDBasis<K> rObject = GetObjectByInternalKey (sInternalKey);
+//			if (rObject == null) {
+//				rObject = NWDBasis<K>.NewInstance ();
+//				RemoveObjectInListOfEdition (rObject);
+//				rObject.InternalKey = sInternalKey;
+//				rObject.InternalDescription = sInternalDescription;
+//				rObject.UpdateMe ();
+//				AddObjectInListOfEdition (rObject);
+//			}
+//			return rObject;
+//		}
+		//TODO : RENAME with instance or basis 
+//		public static NWDBasis<K> GetObjectByReferenceOrCreate (string sReference, string sInternalKey = "", string sInternalDescription = "")
+//		{
+//			NWDBasis<K> rObject = null;
+//			if (ObjectsByReferenceList.Contains (sReference)) {
+//				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
+//				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
+//			}
+//			if (rObject == null) {
+//				rObject = NWDBasis<K>.NewInstance ();
+//				RemoveObjectInListOfEdition (rObject);
+//				rObject.Reference = sReference;
+//				rObject.InternalKey = sInternalKey;
+//				rObject.InternalDescription = sInternalDescription;
+//				rObject.UpdateMe ();
+//				AddObjectInListOfEdition (rObject);
+//			}
+//			return rObject;
+//		}
 
 //
 //		public static NWDBasis<K> GetObjectByReferenceLimited (string sReference)
@@ -302,25 +181,25 @@ namespace NetWorkedData
 //			return rObject;
 		//		}
 		//TODO : RENAME with instance or basis 
-		public static NWDBasis<K> GetObjectInObjectsByReferenceList (string sReference)
-		{
-			NWDBasis<K> rObject = null;
-			if (ObjectsByReferenceList.Contains (sReference)) {
-				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
-				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
-			}
-			return rObject;
-		}
-		//TODO : RENAME with instance or basis 
-		public static NWDBasis<K> GetObjectInObjectsByKeyList (string sKey)
-		{
-			NWDBasis<K> rObject = null;
-			if (ObjectsByKeyList.Contains (sKey)) {
-				int tObjectIndex = ObjectsByKeyList.IndexOf (sKey);
-				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
-			}
-			return rObject;
-		}
+//		public static NWDBasis<K> GetObjectInObjectsByReferenceList (string sReference)
+//		{
+//			NWDBasis<K> rObject = null;
+//			if (ObjectsByReferenceList.Contains (sReference)) {
+//				int tObjectIndex = ObjectsByReferenceList.IndexOf (sReference);
+//				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
+//			}
+//			return rObject;
+//		}
+//		//TODO : RENAME with instance or basis 
+//		public static NWDBasis<K> GetObjectInObjectsByKeyList (string sKey)
+//		{
+//			NWDBasis<K> rObject = null;
+//			if (ObjectsByKeyList.Contains (sKey)) {
+//				int tObjectIndex = ObjectsByKeyList.IndexOf (sKey);
+//				rObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
+//			}
+//			return rObject;
+//		}
 
 		#endregion
 	}

@@ -196,7 +196,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDWorld GetObject ()
 		{
-			return NWDWorld.GetObjectWithReference (Reference);
+			return NWDWorld.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDWorld sObject)

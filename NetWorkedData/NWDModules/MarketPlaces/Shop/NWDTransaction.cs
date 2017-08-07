@@ -177,7 +177,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTransaction GetObject ()
 		{
-			return NWDTransaction.GetObjectWithReference (Reference);
+			return NWDTransaction.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDTransaction sObject)

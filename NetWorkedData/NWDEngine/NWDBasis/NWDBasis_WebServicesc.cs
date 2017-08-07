@@ -150,7 +150,7 @@ namespace NetWorkedData
 		{
             //BTBDebug.Log ("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV (sDataArray);
-			NWDBasis<K> tObject = GetObjectInObjectsByReferenceList (tReference);
+			NWDBasis<K> tObject = InstanceByReference (tReference);
 			if (tObject == null) {
                 //BTBDebug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
                 tObject = NewInstanceFromCSV (sEnvironment, sDataArray);
@@ -345,7 +345,7 @@ namespace NetWorkedData
 				// delete all datas for this user
 				foreach (NWDBasis<K> tObject in ObjectsList)
 				{
-					if (tObject.IsVisibleForAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
+					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
 					{
 						tObject.DeleteMe ();
 					}

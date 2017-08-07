@@ -46,7 +46,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public K GetObject ()
 		{
-			return NWDBasis <K>.GetObjectInObjectsByReferenceList (Value) as K;
+			return NWDBasis<K>.GetObjectByReference (Value);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)
@@ -82,7 +82,7 @@ namespace NetWorkedData
 			if (tReferenceListInfo != null) {
 				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
 			}
-			var tInternalNameListInfo = sFromType.GetField ("ObjectsByInternalKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tInternalNameListInfo != null) {
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}

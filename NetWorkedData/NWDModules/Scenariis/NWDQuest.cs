@@ -178,7 +178,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDQuest GetObject ()
 		{
-			return NWDQuest.GetObjectWithReference (Reference);
+			return NWDQuest.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDQuest sObject)

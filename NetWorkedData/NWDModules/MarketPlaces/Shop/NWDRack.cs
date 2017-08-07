@@ -182,7 +182,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRack GetObject ()
 		{
-			return NWDRack.GetObjectWithReference (Reference);
+			return NWDRack.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDRack sObject)

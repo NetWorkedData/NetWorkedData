@@ -99,6 +99,7 @@ namespace NetWorkedData
 		public static Vector2 m_ScrollPositionCard;
 		public static bool mSearchShowing = false;
 		//-------------------------------------------------------------------------------------------------------------
+		public static List<string> ObjectsInEditorTableKeyList = new List<string> ();
 		public static List<string> ObjectsInEditorTableList = new List<string> ();
 		public static List<bool> ObjectsInEditorTableSelectionList = new List<bool> ();
 		//-------------------------------------------------------------------------------------------------------------
@@ -243,7 +244,7 @@ namespace NetWorkedData
 				ObjectsByReferenceList.Add (sObject.Reference);
 				ObjectsByKeyList.Add (sObject.InternalKey);
 				#if UNITY_EDITOR
-				ObjectsByInternalKeyList.Add (sObject.InternalKey + " <" + sObject.Reference + ">");
+				ObjectsInEditorTableKeyList.Add (sObject.InternalKey + " <" + sObject.Reference + ">");
 				ObjectsInEditorTableList.Add (sObject.Reference);
 				ObjectsInEditorTableSelectionList.Add (false);
 				#endif
@@ -258,7 +259,7 @@ namespace NetWorkedData
 				ObjectsByReferenceList.RemoveAt (tIndex);
 				ObjectsByKeyList.RemoveAt (tIndex);
 				#if UNITY_EDITOR
-				ObjectsByInternalKeyList.RemoveAt (tIndex);
+				ObjectsInEditorTableKeyList.RemoveAt (tIndex);
 				ObjectsInEditorTableList.Remove (sObject.Reference);
 				ObjectsInEditorTableSelectionList.RemoveAt (tIndex);
 				#endif
@@ -270,11 +271,11 @@ namespace NetWorkedData
 			if (ObjectsList.Contains (sObject) == true) {
 				int tIndex = ObjectsList.IndexOf (sObject);
 				#if UNITY_EDITOR
-				ObjectsByInternalKeyList.RemoveAt (tIndex);
-				ObjectsByInternalKeyList.Insert (tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
+				ObjectsInEditorTableKeyList.RemoveAt (tIndex);
+				ObjectsInEditorTableKeyList.Insert (tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
 				#endif
 				ObjectsByKeyList.RemoveAt (tIndex);
-				ObjectsByKeyList.Insert (tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
+				ObjectsByKeyList.Insert (tIndex, sObject.InternalKey);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -295,7 +296,7 @@ namespace NetWorkedData
 			ObjectsByKeyList = new List<string> ();
 
 			#if UNITY_EDITOR
-			ObjectsByInternalKeyList = new List<string> ();
+			ObjectsInEditorTableKeyList = new List<string> ();
 			ObjectsInEditorTableSelectionList = new List<bool> ();
 			ObjectsInEditorTableList = new List<string> ();
 			#endif

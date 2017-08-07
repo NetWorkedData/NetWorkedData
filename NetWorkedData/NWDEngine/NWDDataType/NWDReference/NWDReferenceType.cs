@@ -70,7 +70,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public K GetObject ()
 		{
-			return NWDBasis <K>.GetObjectInObjectsByReferenceList (Value) as K;
+			return NWDBasis <K>.GetObjectByReference (Value) as K;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)
@@ -110,7 +110,7 @@ namespace NetWorkedData
 			if (tReferenceListInfo != null) {
 				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
 			}
-			var tInternalNameListInfo = sFromType.GetField ("ObjectsByInternalKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tInternalNameListInfo != null) {
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}
@@ -118,7 +118,7 @@ namespace NetWorkedData
 			int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), sEntitled, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
 			if (tIndex >= 0) {
 				if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
-					NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.GetObjectByReference (tReferenceList.ElementAt (rIndex)),false);
+					NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (rIndex)),false);
 				}
 			}
 			if (rIndex != tIndex) 

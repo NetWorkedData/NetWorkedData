@@ -50,7 +50,7 @@ namespace NetWorkedData
 			List<K> tList = new List<K>();
 			string [] tArray = GetReferences ();
 			foreach (string tRef in tArray) {
-				K tObject = NWDBasis<K>.GetObjectInObjectsByReferenceList (tRef) as K;
+				K tObject = NWDBasis<K>.GetObjectByReference (tRef) as K;
 				if (tObject != null) {
 					tList.Add (tObject);
 				}
@@ -100,7 +100,7 @@ namespace NetWorkedData
 					if (tLineValue.Length == 2) {
 						int tQ = 0;
 						int.TryParse (tLineValue [1], out tQ);
-						K tObject = NWDBasis<K>.GetObjectInObjectsByReferenceList (tLineValue [0]) as K;
+						K tObject = NWDBasis<K>.GetObjectByReference (tLineValue [0]) as K;
 						tValueDico.Add(tObject, tQ);
 					}
 				}
@@ -148,7 +148,7 @@ namespace NetWorkedData
 				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
 			}
 
-			var tInternalNameListInfo = sFromType.GetField ("ObjectsByInternalKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tInternalNameListInfo != null) {
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}
@@ -180,7 +180,7 @@ namespace NetWorkedData
 				if (tIndex > 0) {
 					tQ = EditorGUI.IntField (new Rect (tX + tWidth - tIntWidth - NWDConstants.kFieldMarge - tEditWidth, tY, tIntWidth, tPopupdStyle.fixedHeight), tQ);
 					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
-						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.GetObjectByReference (tReferenceList.ElementAt (tIndex)),false);
+						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (tIndex)),false);
 					}
 				}
 				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;

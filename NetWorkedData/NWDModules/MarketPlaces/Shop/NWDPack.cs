@@ -208,7 +208,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPack GetObject ()
 		{
-			return NWDPack.GetObjectWithReference (Reference);
+			return NWDPack.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDPack sObject)

@@ -84,7 +84,7 @@ namespace NetWorkedData
 			if (tReferenceListInfo != null) {
 				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
 			}
-			var tInternalNameListInfo = tType.GetField ("ObjectsByInternalKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			var tInternalNameListInfo = tType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tInternalNameListInfo != null) {
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}
@@ -227,7 +227,7 @@ namespace NetWorkedData
 				if (tReferenceListInfo != null) {
 					tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
 				}
-				var tInternalNameListInfo = tType.GetField ("ObjectsByInternalKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				var tInternalNameListInfo = tType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tInternalNameListInfo != null) {
 					tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 				}

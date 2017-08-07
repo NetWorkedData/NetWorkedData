@@ -102,7 +102,7 @@ namespace NetWorkedData
 		{
 			string tReference = "ERR-"+sDomain + "-" + sCode;
 			// TODO: alert if reference is too long for ereg / or substring if too long
-			NWDError tError = GetObjectByReference (tReference) as NWDError;
+			NWDError tError = InstanceByReference (tReference) as NWDError;
 			if (tError == null) {
 				tError = NWDBasis<NWDError>.NewInstance () as NWDError;
 				RemoveObjectInListOfEdition (tError);
@@ -244,7 +244,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDError GetObject ()
 		{
-			return NWDError.GetObjectWithReference (Reference);
+			return NWDError.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDError sObject)

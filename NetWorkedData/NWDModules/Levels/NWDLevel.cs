@@ -176,7 +176,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLevel GetObject ()
 		{
-			return NWDLevel.GetObjectWithReference (Reference);
+			return NWDLevel.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDLevel sObject)

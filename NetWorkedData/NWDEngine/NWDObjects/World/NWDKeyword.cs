@@ -174,7 +174,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDKeyword GetObject ()
 		{
-			return NWDKeyword.GetObjectWithReference (Reference);
+			return NWDKeyword.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDKeyword sObject)

@@ -32,7 +32,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public W GetObject ()
 		{
-			return NWDBasis <W>.GetObjectWithReference (Reference);
+			return NWDBasis <W>.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (W sObject)

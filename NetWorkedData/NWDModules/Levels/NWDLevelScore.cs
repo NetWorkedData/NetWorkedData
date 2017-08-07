@@ -193,7 +193,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLevelScore GetObject ()
 		{
-			return NWDLevelScore.GetObjectWithReference (Reference);
+			return NWDLevelScore.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDLevelScore sObject)

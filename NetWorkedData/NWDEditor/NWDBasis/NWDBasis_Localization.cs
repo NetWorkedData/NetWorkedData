@@ -230,7 +230,7 @@ namespace NetWorkedData
 			{
 				if (tDico ["Type"] == ClassTrigramme ()) {
 					//Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
-					NWDBasis<K> tObject = NWDBasis<K>.GetObjectInObjectsByReferenceList (tDico ["Reference"]);
+					NWDBasis<K> tObject = NWDBasis<K>.InstanceByReference (tDico ["Reference"]);
 					if (tObject != null) {
 						//Debug.Log ("tObject reference " + tObject.Reference + " found ");
 						if (tObject.TestIntegrity () == true) {

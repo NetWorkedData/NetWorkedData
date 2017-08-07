@@ -356,10 +356,10 @@ namespace NetWorkedData
 			"\t{\n" +
 			"\t\t[SerializeField]\n" +
 			"\t\tpublic string Reference;\n" +
-			"\t\tpublic " + tClassName + " GetObject ()\n" +
-			"\t\t{\n" +
-			"\t\t\treturn " + tClassName + ".GetObjectWithReference (Reference);\n" +
-			"\t\t}\n" +
+//			"\t\tpublic " + tClassName + " GetObject ()\n" +
+//			"\t\t{\n" +
+//			"\t\t\treturn " + tClassName + ".GetObjectWithReference (Reference);\n" +
+//			"\t\t}\n" +
 			"\t\tpublic void SetObject (" + tClassName + " sObject)\n" +
 			"\t\t{\n" +
 			"\t\t\tReference = sObject.Reference;\n" +
@@ -650,56 +650,57 @@ namespace NetWorkedData
 						Type tSubType = tTypeOfThis.GetGenericArguments () [0];
 
 						tWorkFlowFile += "" +
-						"    public " + tSubType.Name + " " + tProp.Name + "Object()\n" +
-						"     {\n" +
-						"      " + tSubType.Name + " rReturn = " + tSubType.Name + ".GetObjectByReference(this." + tProp.Name + ".Value) as " + tSubType.Name + ";\n" +
-						"      return rReturn;\n" +
-						"     }\n" +
+//						"    public " + tSubType.Name + " " + tProp.Name + "Object()\n" +
+//						"     {\n" +
+//						"      " + tSubType.Name + " rReturn = " + tSubType.Name + ".GetObjectByReference(this." + tProp.Name + ".Value) as " + tSubType.Name + ";\n" +
+//						"      return rReturn;\n" +
+//						"     }\n" +
 						"\n" +
-						"    static public " + tClassName + "[] ObjectLinkedWith" + tProp.Name + "(" + tSubType.Name + " sConnexion)\n" +
-						"     {\n" +
-						"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
-						"      // I need to find the reference in the DataBase .... or in objects ... \n" +
-						"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
-						"      {\n" +
-						"       if (tObject." + tProp.Name + ".ContainsReference(sConnexion.Reference)) {\n" +
-						"       " + tClassName + " tTryObject = GetObjectWithReference(tObject.Reference);\n" +
-						"       if (tTryObject!=null)\n" +
-						"        {\n" +
-						"         rReturn.Add(tTryObject);\n" +
-						"        }\n" +
-						"      }\n" +
-						"      }\n" +
-						"      return rReturn.ToArray();\n" +
-						"     }\n" +
+//						"    static public " + tClassName + "[] ObjectLinkedWith" + tProp.Name + "(" + tSubType.Name + " sConnexion)\n" +
+//						"     {\n" +
+//						"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
+//						"      // I need to find the reference in the DataBase .... or in objects ... \n" +
+//						"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
+//						"      {\n" +
+//						"       if (tObject." + tProp.Name + ".ContainsReference(sConnexion.Reference)) {\n" +
+//						"       " + tClassName + " tTryObject = GetObjectWithReference(tObject.Reference);\n" +
+//						"       if (tTryObject!=null)\n" +
+//						"        {\n" +
+//						"         rReturn.Add(tTryObject);\n" +
+//						"        }\n" +
+//						"      }\n" +
+//						"      }\n" +
+//						"      return rReturn.ToArray();\n" +
+//						"     }\n" +
 						"\n";
 					}
 
 					if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)) {
 						Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-						tWorkFlowFile += "    public " + tSubType.Name + "[] " + tProp.Name + "Objects()\n" +
-						"     {\n" +
-						"      string[] tReferencesArray = " + tProp.Name + ".Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);\n" +
-						"      " + tSubType.Name + "[] rReturn = " + tSubType.Name + ".GetObjectsWithReferences(tReferencesArray);\n" +
-						"      return rReturn;\n" +
-						"     }\n" +
+						tWorkFlowFile += " " +
+//							"   public " + tSubType.Name + "[] " + tProp.Name + "Objects()\n" +
+//						"     {\n" +
+//						"      string[] tReferencesArray = " + tProp.Name + ".Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);\n" +
+//						"      " + tSubType.Name + "[] rReturn = " + tSubType.Name + ".GetObjectsWithReferences(tReferencesArray);\n" +
+//						"      return rReturn;\n" +
+//						"     }\n" +
 						"\n" +
-						"    static public " + tClassName + "[] ObjectsLinkedWith" + tProp.Name + "(" + tSubType.Name + " sConnexion)\n" +
-						"     {\n" +
-						"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
-						"      // I need to find the reference in the DataBase .... or in objects ... \n" +
-						"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
-						"      {\n" +
-						"       if (tObject." + tProp.Name + ".Value.Contains(sConnexion.Reference)) {\n" +
-						"       " + tClassName + " tTryObject = GetObjectWithReference(tObject.Reference);\n" +
-						"       if (tTryObject!=null)\n" +
-						"        {\n" +
-						"         rReturn.Add(tTryObject);\n" +
-						"        }\n" +
-						"      }\n" +
-						"      }\n" +
-						"      return rReturn.ToArray();\n" +
-						"     }\n" +
+//						"    static public " + tClassName + "[] ObjectsLinkedWith" + tProp.Name + "(" + tSubType.Name + " sConnexion)\n" +
+//						"     {\n" +
+//						"      List<" + tClassName + "> rReturn = new List<" + tClassName + ">();\n" +
+//						"      // I need to find the reference in the DataBase .... or in objects ... \n" +
+//						"     foreach (" + tClassName + " tObject in " + tClassName + ".ObjectsList)\n" +
+//						"      {\n" +
+//						"       if (tObject." + tProp.Name + ".Value.Contains(sConnexion.Reference)) {\n" +
+//						"       " + tClassName + " tTryObject = GetObjectWithReference(tObject.Reference);\n" +
+//						"       if (tTryObject!=null)\n" +
+//						"        {\n" +
+//						"         rReturn.Add(tTryObject);\n" +
+//						"        }\n" +
+//						"      }\n" +
+//						"      }\n" +
+//						"      return rReturn.ToArray();\n" +
+//						"     }\n" +
 						"\n";
 					}
 				}

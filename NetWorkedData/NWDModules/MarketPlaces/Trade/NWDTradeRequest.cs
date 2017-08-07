@@ -182,7 +182,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTradeRequest GetObject ()
 		{
-			return NWDTradeRequest.GetObjectWithReference (Reference);
+			return NWDTradeRequest.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDTradeRequest sObject)

@@ -219,7 +219,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDCookRecipe GetObject ()
 		{
-			return NWDCookRecipe.GetObjectWithReference (Reference);
+			return NWDCookRecipe.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDCookRecipe sObject)

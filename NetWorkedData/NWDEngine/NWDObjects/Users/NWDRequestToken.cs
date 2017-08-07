@@ -177,7 +177,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRequestToken GetObject ()
 		{
-			return NWDRequestToken.GetObjectWithReference (Reference);
+			return NWDRequestToken.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDRequestToken sObject)

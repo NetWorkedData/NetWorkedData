@@ -174,7 +174,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDCategory GetObject ()
 		{
-			return NWDCategory.GetObjectWithReference (Reference);
+			return NWDCategory.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDCategory sObject)

@@ -180,7 +180,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterProposition GetObject ()
 		{
-			return NWDBarterProposition.GetObjectWithReference (Reference);
+			return NWDBarterProposition.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDBarterProposition sObject)

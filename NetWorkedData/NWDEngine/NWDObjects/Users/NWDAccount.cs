@@ -378,7 +378,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDAccount GetObject ()
 		{
-			return NWDAccount.GetObjectWithReference (Reference);
+			return NWDAccount.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDAccount sObject)

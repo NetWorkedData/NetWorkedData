@@ -171,7 +171,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDExample GetObject ()
 		{
-			return NWDExample.GetObjectWithReference (Reference);
+			return NWDExample.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDExample sObject)

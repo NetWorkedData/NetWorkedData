@@ -202,7 +202,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterPlace GetObject ()
 		{
-			return NWDBarterPlace.GetObjectWithReference (Reference);
+			return NWDBarterPlace.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDBarterPlace sObject)

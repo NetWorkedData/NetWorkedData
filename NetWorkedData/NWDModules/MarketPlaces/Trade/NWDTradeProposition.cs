@@ -177,7 +177,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTradeProposition GetObject ()
 		{
-			return NWDTradeProposition.GetObjectWithReference (Reference);
+			return NWDTradeProposition.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDTradeProposition sObject)

@@ -277,7 +277,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDConfiguration GetObject ()
 		{
-			return NWDConfiguration.GetObjectWithReference (Reference);
+			return NWDConfiguration.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDConfiguration sObject)

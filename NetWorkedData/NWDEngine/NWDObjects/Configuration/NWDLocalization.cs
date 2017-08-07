@@ -140,7 +140,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AutoLocalize(UnityEngine.UI.Text sText)
         {
-            NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
+			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
             if (tObject != null)
             {
                 sText.text = tObject.TextValue.GetLocalString();
@@ -256,7 +256,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLocalization GetObject ()
 		{
-			return NWDLocalization.GetObjectWithReference (Reference);
+			return NWDLocalization.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDLocalization sObject)
