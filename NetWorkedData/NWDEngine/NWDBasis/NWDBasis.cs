@@ -221,7 +221,22 @@ namespace NetWorkedData
 			IEnumerable tEnumerable = SelectForEditionObjects (m_SearchInternalName, m_SearchInternalDescription);
 			if (tEnumerable != null) {
 				foreach (NWDBasis<K> tItem in tEnumerable) {
-					ObjectsInEditorTableList.Add (tItem.Reference);
+					bool tAdd = true;
+					if (tItem.TestIntegrity () == false && m_ShowIntegrityError == false) {
+						tAdd = false;
+					}
+					if (tItem.AC == true && m_ShowEnable == false) {
+						tAdd = false;
+					}
+					if (tItem.AC == false && m_ShowDisable == false) {
+						tAdd = false;
+					}
+					if (tItem.XX >0 && m_ShowTrashed == false) {
+						tAdd = false;
+					}
+					if (tAdd == true) {
+						ObjectsInEditorTableList.Add (tItem.Reference);
+					}
 				}
 			}
 

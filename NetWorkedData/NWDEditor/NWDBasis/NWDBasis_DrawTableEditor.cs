@@ -69,7 +69,10 @@ namespace NetWorkedData
 		//public static int m_ToogleToListPageLimit = 15;
 
 
-
+		public static bool m_ShowEnable = true;
+		public static bool m_ShowDisable = true;
+		public static bool m_ShowTrashed = true;
+		public static bool m_ShowIntegrityError = true;
 
 		public static void DrawPagesTab ()
 		{
@@ -184,6 +187,36 @@ namespace NetWorkedData
 			}
 			// |||||||||||||||||||||||||||||||||||||||||||
 			GUILayout.EndVertical ();
+
+
+			GUILayout.BeginVertical (GUILayout.Width (300));
+			// |||||||||||||||||||||||||||||||||||||||||||
+			bool t_ShowEnable = EditorGUILayout.ToggleLeft ("Show Enable", m_ShowEnable, GUILayout.Width (200));
+			if (m_ShowEnable != t_ShowEnable) {
+				m_ShowEnable = t_ShowEnable;
+				FilterTableEditor ();
+			}
+			bool t_ShowDisable = EditorGUILayout.ToggleLeft ("Show Disable", m_ShowDisable, GUILayout.Width (200));
+			if (m_ShowDisable != t_ShowDisable) {
+				m_ShowDisable = t_ShowDisable;
+				FilterTableEditor ();
+			}
+			bool t_ShowTrashed = EditorGUILayout.ToggleLeft ("Show Trashed", m_ShowTrashed, GUILayout.Width (200));
+			if (m_ShowTrashed != t_ShowTrashed) {
+				m_ShowTrashed = t_ShowTrashed;
+				FilterTableEditor ();
+			}
+			bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft ("Show Integrity error", m_ShowIntegrityError, GUILayout.Width (200));
+			if (m_ShowIntegrityError != t_ShowIntegrityError) {
+				m_ShowIntegrityError = t_ShowIntegrityError;
+				FilterTableEditor ();
+			}
+
+			// |||||||||||||||||||||||||||||||||||||||||||
+			GUILayout.EndVertical ();
+
+
+
 			// -------------------------------------------
 			GUILayout.EndHorizontal ();
 			EditorGUILayout.HelpBox (NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_A + " " +
