@@ -101,7 +101,9 @@ namespace NetWorkedData
 						int tQ = 0;
 						int.TryParse (tLineValue [1], out tQ);
 						K tObject = NWDBasis<K>.GetObjectByReference (tLineValue [0]) as K;
-						tValueDico.Add(tObject, tQ);
+						if (tObject != null) {
+							tValueDico.Add (tObject, tQ);
+						}
 					}
 				}
 			}
