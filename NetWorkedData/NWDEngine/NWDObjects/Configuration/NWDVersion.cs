@@ -84,19 +84,19 @@ namespace NetWorkedData
 			string tVersionString = "0.00.00";
 			int tVersionInt = 0;
 			int.TryParse (tVersionString.Replace(".",""), out tVersionInt);
-			foreach (NWDVersion tGameVersionObject in NWDVersion.ObjectsList)
+			foreach (NWDVersion tVersionObject in NWDVersion.ObjectsList)
 			{
-				if (tGameVersionObject.TestIntegrity () == true  && tGameVersionObject.AC == true && tGameVersionObject.BuildActive == true) 
+				if (tVersionObject.TestIntegrity () == true  && tVersionObject.AC == true && tVersionObject.BuildActive == true) 
 				{
-					if ((NWDAppConfiguration.SharedInstance.DevEnvironment == sEnvironment && tGameVersionObject.ActiveDev == true) || 
-						(NWDAppConfiguration.SharedInstance.PreprodEnvironment == sEnvironment && tGameVersionObject.ActivePreprod == true) ||
-						(NWDAppConfiguration.SharedInstance.ProdEnvironment == sEnvironment && tGameVersionObject.ActiveProd == true))
+					if ((NWDAppConfiguration.SharedInstance.DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) || 
+						(NWDAppConfiguration.SharedInstance.PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
+						(NWDAppConfiguration.SharedInstance.ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
 					{
 						int tVersionInteger = 0;
-						int.TryParse (tGameVersionObject.Version.ToString ().Replace (".", ""), out tVersionInteger);
+						int.TryParse (tVersionObject.Version.ToString ().Replace (".", ""), out tVersionInteger);
 						if (tVersionInt < tVersionInteger) {
 							tVersionInt = tVersionInteger;
-							tVersionString = tGameVersionObject.Version.ToString ();
+							tVersionString = tVersionObject.Version.ToString ();
 						}
 					}
 				}
@@ -118,28 +118,28 @@ namespace NetWorkedData
 			string tVersionString = "0.00.00";
 			int tVersionInt = 0;
 			int.TryParse (tVersionString.Replace(".",""), out tVersionInt);
-			NWDVersion tLastGameVersionObject = null;
-			foreach (NWDVersion tGameVersionObject in NWDVersion.ObjectsList)
+			NWDVersion tLastVersionObject = null;
+			foreach (NWDVersion tVersionObject in NWDVersion.ObjectsList)
 			{
-				if (tGameVersionObject.TestIntegrity () == true  && tGameVersionObject.AC == true && tGameVersionObject.BuildActive == true) 
+				if (tVersionObject.TestIntegrity () == true  && tVersionObject.AC == true && tVersionObject.BuildActive == true) 
 				{
-					if ((NWDAppConfiguration.SharedInstance.IsDevEnvironement () && tGameVersionObject.ActiveDev == true) || 
-						(NWDAppConfiguration.SharedInstance.IsPreprodEnvironement () && tGameVersionObject.ActivePreprod == true) ||
-						(NWDAppConfiguration.SharedInstance.IsProdEnvironement () && tGameVersionObject.ActiveProd == true))
+					if ((NWDAppConfiguration.SharedInstance.IsDevEnvironement () && tVersionObject.ActiveDev == true) || 
+						(NWDAppConfiguration.SharedInstance.IsPreprodEnvironement () && tVersionObject.ActivePreprod == true) ||
+						(NWDAppConfiguration.SharedInstance.IsProdEnvironement () && tVersionObject.ActiveProd == true))
 					{
 						int tVersionInteger = 0;
-						int.TryParse (tGameVersionObject.Version.ToString ().Replace (".", ""), out tVersionInteger);
+						int.TryParse (tVersionObject.Version.ToString ().Replace (".", ""), out tVersionInteger);
 						if (tVersionInt < tVersionInteger) {
 							tVersionInt = tVersionInteger;
-							tVersionString = tGameVersionObject.Version.ToString ();
-							tLastGameVersionObject = tGameVersionObject;
+							tVersionString = tVersionObject.Version.ToString ();
+							tLastVersionObject = tVersionObject;
 						}
 					}
 				}
 			}
-			if (tLastGameVersionObject != null) {
-				if (PlayerSettings.bundleVersion != tLastGameVersionObject.Version.ToString ()) {
-					PlayerSettings.bundleVersion = tLastGameVersionObject.Version.ToString ();
+			if (tLastVersionObject != null) {
+				if (PlayerSettings.bundleVersion != tLastVersionObject.Version.ToString ()) {
+					PlayerSettings.bundleVersion = tLastVersionObject.Version.ToString ();
 				}
 			}
 			else
