@@ -121,7 +121,7 @@ namespace NetWorkedData
 			if (tObject != null) {
 				rReturn = tObject.TextValue.GetLocalString ();
 			} else {
-				tObject = CreateLocalizationTextValue (sKey, sDefault);
+				CreateLocalizationTextValue (sKey, sDefault);
 			}
 			return rReturn;
 		}
@@ -180,8 +180,8 @@ namespace NetWorkedData
 			int rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue.ToInt ();
-						} else {
-							CreateLocalizationAnnexe (sKey,sDefault.ToString ());
+			} else {
+				CreateLocalizationAnnexe (sKey,sDefault.ToString ());
 			}
 			return rReturn;
 		}
@@ -191,8 +191,8 @@ namespace NetWorkedData
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sText.text) as NWDLocalization;
 			if (tObject != null) {
 				sText.text = tObject.TextValue.GetLocalString ();
-						} else {
-							tObject = CreateLocalizationTextValue (sText.text, sDefault);
+			} else {
+				CreateLocalizationTextValue (sText.text, sDefault);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
