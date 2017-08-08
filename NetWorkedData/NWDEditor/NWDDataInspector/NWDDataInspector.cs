@@ -113,7 +113,9 @@ namespace NetWorkedData
 			if (sResetStack == true) {
 				mObjectsList = new List<object> ();
 			} else {
-				mObjectsList.RemoveRange (ActualIndex + 1, mObjectsList.Count - ActualIndex - 1);
+				if (mObjectsList.Count > ActualIndex) {
+					mObjectsList.RemoveRange (ActualIndex + 1, mObjectsList.Count - ActualIndex - 1);
+				}
 			}
 			ActualIndex = mObjectsList.Count;
 			mObjectsList.Add (sTarget);

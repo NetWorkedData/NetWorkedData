@@ -50,6 +50,7 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		//TODO: rename PutObjectInInspector
 		public static void SetObjectInEdition (object sObject, bool sResetStack = true, bool sFocus = true)
 		{
 			
