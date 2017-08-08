@@ -78,13 +78,27 @@ namespace NetWorkedData
 		/// <returns>The local string.</returns>
 		/// <param name="sKey">key.</param>
 		/// <param name="sDefault">default value.</param>
-		public static string GetLocalText (string sKey, string sDefault="")
+		public static string GetLocalText (string sKey, string sDefault = "")
 		{
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
 			string rReturn = sDefault;
-			if (tObject != null) {
+			if (tObject != null)
+            {
 				rReturn = tObject.TextValue.GetLocalString ();
 			}
+            else
+            {
+                //tObject = NWDBasis<NWDLocalization>.NewObject();
+                //tObject.InternalKey = sKey;
+                // TODO : Add method for set localized value
+                //tObject.TextValue = new NWDLocalizableTextType();
+                //tObject.SaveModifications();
+
+                if( sDefault.Equals("") )
+                {
+                    rReturn = sKey;
+                }
+            }
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -140,7 +154,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AutoLocalize(UnityEngine.UI.Text sText)
         {
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
+            NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
             if (tObject != null)
             {
                 sText.text = tObject.TextValue.GetLocalString();
