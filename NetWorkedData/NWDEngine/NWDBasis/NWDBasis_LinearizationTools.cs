@@ -205,7 +205,7 @@ namespace NetWorkedData
 		/// <returns>The instance from CS.</returns>
 		/// <param name="sEnvironment">S environment.</param>
 		/// <param name="sDataArray">S data array.</param>
-		public static NWDBasis<K> NewInstanceFromCSV (NWDAppEnvironment sEnvironment, string[] sDataArray)
+		private static NWDBasis<K> NewInstanceFromCSV (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
 			NWDBasis<K> rReturnObject = null;
 			rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());

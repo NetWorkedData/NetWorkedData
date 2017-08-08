@@ -104,7 +104,7 @@ namespace NetWorkedData
 			// TODO: alert if reference is too long for ereg / or substring if too long
 			NWDError tError = InstanceByReference (tReference) as NWDError;
 			if (tError == null) {
-				tError = NWDBasis<NWDError>.NewInstance () as NWDError;
+				tError = NWDBasis<NWDError>.NewObject ();
 				RemoveObjectInListOfEdition (tError);
 				tError.Reference = tReference;
 				//				tError.InternalKey = Domain + " : " + sCode;

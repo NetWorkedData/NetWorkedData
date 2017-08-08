@@ -718,8 +718,9 @@ namespace NetWorkedData
 			GUILayout.Label (NWDConstants.K_APP_TABLE_ADD_ZONE, tCenterLabel);
 			if (GUILayout.Button (NWDConstants.K_APP_TABLE_ADD_ROW, EditorStyles.miniButton)) {
 				// add card editor change
-				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
-				AddObjectInListOfEdition (tNewObject);
+//				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
+//				AddObjectInListOfEdition (tNewObject);
+				K tNewObject = NWDBasis<K>.NewObject ();
 				m_PageSelected = m_MaxPage * 3;
 				SetObjectInEdition (tNewObject);
 //				sEditorWindow.Repaint ();

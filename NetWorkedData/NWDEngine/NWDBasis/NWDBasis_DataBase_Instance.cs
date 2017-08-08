@@ -42,7 +42,7 @@ namespace NetWorkedData
 		/// New instance.
 		/// </summary>
 		/// <returns>The instance.</returns>
-		public static NWDBasis<K> NewInstance ()
+		private static NWDBasis<K> NewInstance ()
 		{
 			return NewInstanceWithReference (null);
 		}
@@ -52,7 +52,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The instance with reference.</returns>
 		/// <param name="sReference">S reference.</param>
-		public static NWDBasis<K> NewInstanceWithReference (string sReference)
+		private static NWDBasis<K> NewInstanceWithReference (string sReference)
 		{
 			NWDBasis<K> rReturnObject = null;
 			rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());

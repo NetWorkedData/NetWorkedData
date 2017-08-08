@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -76,7 +76,7 @@ namespace NetWorkedData
 			NWDPreferences rObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sInternalKey) as NWDPreferences;
 			if (rObject == null) {
 				BTBDebug.Log ("New object",BTBDebugResult.Success);
-				rObject = NWDBasis<NWDPreferences>.NewInstance () as NWDPreferences;
+				rObject = NWDBasis<NWDPreferences>.NewObject ();
 				RemoveObjectInListOfEdition (rObject);
 				rObject.InternalKey = sInternalKey;
 				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
@@ -100,11 +100,7 @@ namespace NetWorkedData
 		public static string GetString (string sKey, string sDefault = "")
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault);
-			string rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.Value.ToString();
-			}
-			return rReturn;
+			return tObject.Value.ToString();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -115,13 +111,8 @@ namespace NetWorkedData
 		public static void SetString (string sKey, string sValue)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue);
-			if (tObject == null) {
-				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
-				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
-				tAccountValue.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
-				tObject.AccountReference = tAccountValue;
-			}
 			tObject.Value.SetString (sValue);
+			tObject.SaveModifications ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -133,11 +124,7 @@ namespace NetWorkedData
 		public static int GetInt (string sKey, int sDefault = 0)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
-			int rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.Value.ToInt();
-			}
-			return rReturn;
+			return tObject.Value.ToInt();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -148,13 +135,8 @@ namespace NetWorkedData
 		public static void SetInt (string sKey, int sValue)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
-			if (tObject == null) {
-				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
-				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
-				tAccountValue.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
-				tObject.AccountReference = tAccountValue;
-			}
 			tObject.Value.SetInt (sValue);
+			tObject.SaveModifications ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -166,11 +148,7 @@ namespace NetWorkedData
 		public static bool GetBool (string sKey, bool sDefault = false)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
-			bool rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.Value.ToBool();
-			}
-			return rReturn;
+			return tObject.Value.ToBool();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -181,13 +159,8 @@ namespace NetWorkedData
 		public static void SetBool (string sKey, bool sValue)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
-			if (tObject == null) {
-				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
-				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
-				tAccountValue.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
-				tObject.AccountReference = tAccountValue;
-			}
 			tObject.Value.SetBool (sValue);
+			tObject.SaveModifications ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -199,11 +172,7 @@ namespace NetWorkedData
 		public static float GetFloat (string sKey, float sDefault = 0.0F)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
-			float rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.Value.ToFloat();
-			}
-			return rReturn;
+			return tObject.Value.ToFloat();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -214,13 +183,8 @@ namespace NetWorkedData
 		public static void SetFloat (string sKey, float sValue)
 		{
 			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
-			if (tObject == null) {
-				tObject = NWDBasis<NWDPreferences>.NewInstance() as NWDPreferences;
-				NWDReferenceType<NWDAccount> tAccountValue = new NWDReferenceType<NWDAccount> ();
-				tAccountValue.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
-				tObject.AccountReference = tAccountValue;
-			}
 			tObject.Value.SetFloat (sValue);
+			tObject.SaveModifications ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

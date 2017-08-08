@@ -157,9 +157,13 @@ namespace NetWorkedData
 			} else {
 				if (sNewButton == true) {
 					if (GUI.Button (tButtonRect, NWDConstants.K_APP_CONNEXION_NEW, EditorStyles.miniButton)) {
-						tObject = NewInstance ();
+//						tObject = NewInstance ();
+//						tObject.UpdateMe (true);
+//						AddObjectInListOfEdition (tObject);
+//
+						tObject = NWDBasis<K>.NewObject ();
 						tObject.UpdateMe (true);
-						AddObjectInListOfEdition (tObject);
+
 						tValue = tObject.Reference;
 						SetObjectInEdition (tObject);
 						NWDDataManager.SharedInstance.RepaintWindowsInManager (tObject.GetType ());
@@ -300,9 +304,13 @@ namespace NetWorkedData
 				} else {
 					if (sNewButton == true) {
 						if (GUI.Button (tButtonRect, NWDConstants.K_APP_CONNEXION_NEW, EditorStyles.miniButton)) {
-							tObject = NewInstance ();
+//							tObject = NewInstance ();
+//							tObject.UpdateMe (true);
+//							AddObjectInListOfEdition (tObject);
+
+							tObject = NWDBasis<K>.NewObject ();
 							tObject.UpdateMe (true);
-							AddObjectInListOfEdition (tObject);
+
 							tFuturValue = tObject.Reference;
 							SetObjectInEdition (tObject,true,true);
 							NWDDataManager.SharedInstance.RepaintWindowsInManager (tObject.GetType ());

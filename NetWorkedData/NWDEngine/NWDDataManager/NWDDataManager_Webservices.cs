@@ -525,7 +525,8 @@ namespace NetWorkedData
 			sEnvironment.PlayerAccountReference = sNewAccountReference;
 			#if UNITY_EDITOR
 			// add object in Account table 
-			NWDBasis<NWDAccount>.NewInstanceWithReference (sEnvironment.PlayerAccountReference);
+//			NWDBasis<NWDAccount>.NewInstanceWithReference (sEnvironment.PlayerAccountReference);
+			NWDBasis<NWDAccount>.NewObjectWithReference (sEnvironment.PlayerAccountReference);
 			#endif
 			SavePreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
 		}

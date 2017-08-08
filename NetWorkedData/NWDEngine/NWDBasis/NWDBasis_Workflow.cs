@@ -38,6 +38,16 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		public static K NewObjectWithReference(string sReference)
+		{
+			K rReturn = NWDBasis <K>.NewInstanceWithReference (sReference) as K;
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
 		public static K[] GetAllObjects()
 		{
 			List<K> rReturn = new List<K>();
