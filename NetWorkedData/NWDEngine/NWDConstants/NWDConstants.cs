@@ -220,9 +220,9 @@ namespace NetWorkedData
 		public const string K_APP_BASIS_CLASS_CSHARP_GENERATE = 	"Generate C# files for";
 		//-------------------------------------------------------------------------------------------------------------
 		public const string K_APP_TABLE_SEARCH_ZONE = 				"Filter zone";
-		public const string K_APP_TABLE_SHORTCUT_ZONE_A = "Tape 's' to select.";
-		public const string K_APP_TABLE_SHORTCUT_ZONE_B = "Use arrows to navigate throw lines or pages.";
-		public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";
+		public const string K_APP_TABLE_SHORTCUT_ZONE_A = 			"Tape 's' to select.";
+		public const string K_APP_TABLE_SHORTCUT_ZONE_B = 			"Use arrows to navigate throw lines or pages.";
+		public const string K_APP_TABLE_SHORTCUT_ZONE_C = 			"Use 'shift' + 'tab' to navigate throw tabs.";
 		public const string K_APP_TABLE_SEARCH_NAME = 				"Internal name";
 		public const string K_APP_TABLE_SEARCH_DESCRIPTION = 		"Intername description";
 		public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = 		"Remove filter";
@@ -293,6 +293,7 @@ namespace NetWorkedData
 		public static string[] K_VERSION_MAJOR_ARRAY = new string[] { 
 			"0", "1", "2", "3", "4", "5", "6", "7", "8", "9" 
 		};
+		//-------------------------------------------------------------------------------------------------------------
 		public static string[] K_VERSION_MINOR_ARRAY = new string[] { 
 			"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
@@ -305,6 +306,7 @@ namespace NetWorkedData
 			"80", "81", "82", "83", "84", "85", "86", "87", "88", "89",
 			"90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
 		};
+		//-------------------------------------------------------------------------------------------------------------
 		public static string[] K_VERSION_BUILD_ARRAY = new string[] { 
 			"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 			"10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
@@ -318,8 +320,8 @@ namespace NetWorkedData
 			"90", "91", "92", "93", "94", "95", "96", "97", "98", "99"
 		};
 		//-------------------------------------------------------------------------------------------------------------
-
 		public static string K_NWD_WS_BUILD = "NWD_WS_BUILD";
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================
