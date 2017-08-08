@@ -86,9 +86,19 @@ namespace NetWorkedData
 			} else if (kSplitDico.ContainsKey (NWDDataLocalizationManager.kBaseDev)) {
 				rReturn = kSplitDico [NWDDataLocalizationManager.kBaseDev];
 			} else {
-				rReturn = "no key value";
+				rReturn = "no value for key";
 			}
 			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void AddBaseString (string sValue)
+		{
+			AddValue (NWDDataLocalizationManager.kBaseDev, sValue);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void AddLocalString (string sValue)
+		{
+			AddValue (NWDDataManager.SharedInstance.PlayerLanguage, sValue);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public string GetLocalString ()

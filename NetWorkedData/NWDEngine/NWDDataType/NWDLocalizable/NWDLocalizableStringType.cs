@@ -89,6 +89,16 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public void AddBaseString (string sValue)
+		{
+			AddValue (NWDDataLocalizationManager.kBaseDev, sValue);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void AddLocalString (string sValue)
+		{
+			AddValue (NWDDataManager.SharedInstance.PlayerLanguage, sValue);
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public string GetLocalString ()
 		{
 			return NWDToolbox.TextUnprotect( SplitDico (NWDDataManager.SharedInstance.PlayerLanguage));

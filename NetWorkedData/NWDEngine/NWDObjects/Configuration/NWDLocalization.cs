@@ -44,7 +44,9 @@ namespace NetWorkedData
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Properties
+
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		/// <summary>
@@ -52,15 +54,20 @@ namespace NetWorkedData
 		/// </summary>
 		/// <value>The value string.</value>
 		public NWDLocalizableTextType TextValue { get; set; }
+
 		/// <summary>
 		/// Gets or sets the annexe value.
 		/// </summary>
 		/// <value>The annexe value.</value>
-		public NWDMultiType AnnexeValue { get; set;}
+		public NWDMultiType AnnexeValue { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Constructors
+
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLocalization ()
 		{
@@ -68,9 +75,38 @@ namespace NetWorkedData
 			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Class methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDLocalization CreateLocalizationTextValue (string sKey, string sDefault)
+		{
+			NWDLocalization rReturn = NWDBasis<NWDLocalization>.NewObject ();
+			rReturn.InternalKey = sKey;
+			if (sDefault != "") {
+				rReturn.TextValue.AddBaseString (sKey);
+				//rReturn.TextValue.AddLocalString (sKey);
+			} else {
+				rReturn.TextValue.AddBaseString (sDefault);
+				//rReturn.TextValue.AddLocalString (sDefault);
+			}
+			rReturn.SaveModifications ();
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDLocalization CreateLocalizationAnnexe (string sKey, string sDefault)
+		{
+			NWDLocalization rReturn = NWDBasis<NWDLocalization>.NewObject ();
+			rReturn.InternalKey = sKey;
+			//rReturn.TextValue.AddBaseString (sKey);
+			rReturn.AnnexeValue = new NWDMultiType (sDefault);
+			rReturn.SaveModifications ();
+			return rReturn;
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get the local string for internal key.
@@ -82,32 +118,22 @@ namespace NetWorkedData
 		{
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
 			string rReturn = sDefault;
-			if (tObject != null)
-            {
+			if (tObject != null) {
 				rReturn = tObject.TextValue.GetLocalString ();
+			} else {
+				tObject = CreateLocalizationTextValue (sKey, sDefault);
 			}
-            else
-            {
-                //tObject = NWDBasis<NWDLocalization>.NewObject();
-                //tObject.InternalKey = sKey;
-                // TODO : Add method for set localized value
-                //tObject.TextValue = new NWDLocalizableTextType();
-                //tObject.SaveModifications();
-
-                if( sDefault.Equals("") )
-                {
-                    rReturn = sKey;
-                }
-            }
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDMultiType GetAnnexeValue (string sKey)
+		public static NWDMultiType GetAnnexeValue (string sKey, string sDefault = "")
 		{
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			NWDMultiType rReturn = new NWDMultiType();
+			NWDMultiType rReturn = new NWDMultiType ();
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue;
+			} else {
+				CreateLocalizationAnnexe (sKey,sDefault);
 			}
 			return rReturn;
 		}
@@ -117,7 +143,9 @@ namespace NetWorkedData
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
 			string rReturn = sDefault;
 			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToString();
+				rReturn = tObject.AnnexeValue.ToString ();
+			} else {
+				CreateLocalizationAnnexe (sKey,sDefault);
 			}
 			return rReturn;
 		}
@@ -127,7 +155,9 @@ namespace NetWorkedData
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
 			bool rReturn = sDefault;
 			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToBool();
+				rReturn = tObject.AnnexeValue.ToBool ();
+			} else {
+				CreateLocalizationAnnexe (sKey,sDefault.ToString ());
 			}
 			return rReturn;
 		}
@@ -137,7 +167,9 @@ namespace NetWorkedData
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
 			float rReturn = sDefault;
 			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToFloat();
+				rReturn = tObject.AnnexeValue.ToFloat ();
+			} else {
+				CreateLocalizationAnnexe (sKey,sDefault.ToString ());
 			}
 			return rReturn;
 		}
@@ -147,30 +179,39 @@ namespace NetWorkedData
 			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
 			int rReturn = sDefault;
 			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToInt();
+				rReturn = tObject.AnnexeValue.ToInt ();
+						} else {
+							CreateLocalizationAnnexe (sKey,sDefault.ToString ());
 			}
 			return rReturn;
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        public static void AutoLocalize(UnityEngine.UI.Text sText)
-        {
-            NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
-            if (tObject != null)
-            {
-                sText.text = tObject.TextValue.GetLocalString();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod ()
+		//-------------------------------------------------------------------------------------------------------------
+		public static void AutoLocalize (UnityEngine.UI.Text sText, string sDefault = "")
+		{
+			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sText.text) as NWDLocalization;
+			if (tObject != null) {
+				sText.text = tObject.TextValue.GetLocalString ();
+						} else {
+							tObject = CreateLocalizationTextValue (sText.text, sDefault);
+			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region Instance methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
 		{
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region override of NetWorkedData addons methods
+
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{
@@ -216,10 +257,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
 		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
+		public override bool AddonEdited (bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) 
-			{
+			if (sNeedBeUpdate == true) {
 				// do something
 			}
 			return sNeedBeUpdate;
@@ -241,9 +281,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
 	}
 
@@ -298,19 +342,17 @@ namespace NetWorkedData
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0) {
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true) [0];
 			}
-			return NWDLocalization.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDLocalization.ReferenceConnexionHeightSerialized (property, tReferenceConnexion.ShowInspector);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0) {
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true) [0];
 			}
 			NWDLocalization.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}

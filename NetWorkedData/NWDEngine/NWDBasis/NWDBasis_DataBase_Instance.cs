@@ -72,8 +72,8 @@ namespace NetWorkedData
 			}
 			foreach (PropertyInfo tPropInfo in PropertiesAccountDependent()) {
 				Debug.Log ("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
-				NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-				tAtt.Value=NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
+				NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount> ();
+				tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
 				tPropInfo.SetValue (rReturnObject, tAtt, null);
 			}
 			rReturnObject.InsertMe ();
@@ -252,7 +252,9 @@ namespace NetWorkedData
 		/// </summary>
 		public void SaveModifications ()
 		{
+			RemoveObjectInListOfEdition (this);
 			UpdateMe ();
+			AddObjectInListOfEdition (this);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
