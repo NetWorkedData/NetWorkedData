@@ -587,9 +587,17 @@ namespace NetWorkedData
 										tProp.SetValue (this, tValueNext, null);
 										rNeedBeUpdate = true;
 									}
-								} else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Double) || tTypeOfThis == typeof(Decimal)) {
+								} else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Decimal)) {
 									float tValue = (float)tProp.GetValue (this, null);
 									float tValueNext = EditorGUI.FloatField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
+									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+									if (tValueNext != tValue) {
+										tProp.SetValue (this, tValueNext, null);
+										rNeedBeUpdate = true;
+									}
+								}  else if (tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Double)) {
+									double tValue = (double)tProp.GetValue (this, null);
+									double tValueNext = EditorGUI.DoubleField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
 									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 									if (tValueNext != tValue) {
 										tProp.SetValue (this, tValueNext, null);

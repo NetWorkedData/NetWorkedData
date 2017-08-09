@@ -45,10 +45,77 @@ namespace NetWorkedData
 			return Value.Contains (sReference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public bool IsEmpty ()
+		{
+			bool rReturn = true;
+			if (Value != "") {
+				rReturn = false;
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool IsNotEmpty ()
+		{
+			bool rReturn = false;
+			if (Value != "") {
+				rReturn = true;
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool ContainsReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity)
+		{
+			bool rReturn = true;
+			// I compare all elemnt
+			Dictionary<string,int> tThis = GetReferenceAndQuantity ();
+			Dictionary<string,int> tOther = sReferencesQuantity.GetReferenceAndQuantity ();
+
+			foreach (KeyValuePair<string,int> tKeyValue in tOther) {
+				if (tThis.ContainsKey (tKeyValue.Key) == false) {
+					rReturn = false;
+					break;
+				} else {
+					if (tKeyValue.Value > tThis [tKeyValue.Key]) {
+						return false;
+					}
+				}
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool RemoveReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity)
+		{
+			bool rReturn = ContainsReferencesQuantity (sReferencesQuantity);
+			if (rReturn == true) {
+				Dictionary<string,int> tThis = GetReferenceAndQuantity ();
+				Dictionary<string,int> tOther = sReferencesQuantity.GetReferenceAndQuantity ();
+				foreach (KeyValuePair<string,int> tKeyValue in tOther) {
+					tThis [tKeyValue.Key] = tThis [tKeyValue.Key] - tKeyValue.Value;
+				}
+				SetReferenceAndQuantity (tThis);
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void AddReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity)
+		{
+			// I compare all elemnt
+			Dictionary<string,int> tThis = GetReferenceAndQuantity ();
+			Dictionary<string,int> tOther = sReferencesQuantity.GetReferenceAndQuantity ();
+			foreach (KeyValuePair<string,int> tKeyValue in tOther) {
+				if (tThis.ContainsKey (tKeyValue.Key) == false) {
+					tThis.Add (tKeyValue.Key, tKeyValue.Value);
+				} else {
+					tThis [tKeyValue.Key] = tThis [tKeyValue.Key] + tKeyValue.Value;
+				}
+			}
+			SetReferenceAndQuantity (tThis);
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public K[] GetObjects ()
 		{
-			List<K> tList = new List<K>();
-			string [] tArray = GetReferences ();
+			List<K> tList = new List<K> ();
+			string[] tArray = GetReferences ();
 			foreach (string tRef in tArray) {
 				K tObject = NWDBasis<K>.GetObjectByReference (tRef) as K;
 				if (tObject != null) {
@@ -66,16 +133,28 @@ namespace NetWorkedData
 				foreach (string tLine in tValueArray) {
 					string[] tLineValue = tLine.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
 					if (tLineValue.Length == 2) {
-						tValueList.Add(tLineValue [0]);
+						tValueList.Add (tLineValue [0]);
 					}
 				}
 			}
 			return tValueList.ToArray ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public void SetReferenceAndQuantity (Dictionary<string,int>  sDico)
+		{
+			List<string> tValueList = new List<string> ();
+			foreach (KeyValuePair<string,int> tKeyValue in sDico) {
+				tValueList.Add (tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString ());
+			}
+			string[] tNextValueArray = tValueList.Distinct ().ToArray ();
+			string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
+			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
+			Value = tNextValue;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<string,int> GetReferenceAndQuantity ()
 		{
-			Dictionary<string,int> tValueDico = new Dictionary<string,int>();
+			Dictionary<string,int> tValueDico = new Dictionary<string,int> ();
 			if (Value != null && Value != "") {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string tLine in tValueArray) {
@@ -83,7 +162,7 @@ namespace NetWorkedData
 					if (tLineValue.Length == 2) {
 						int tQ = 0;
 						int.TryParse (tLineValue [1], out tQ);
-						tValueDico.Add(tLineValue [0], tQ);
+						tValueDico.Add (tLineValue [0], tQ);
 					}
 				}
 			}
@@ -92,7 +171,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<K,int> GetObjectAndQuantity ()
 		{
-			Dictionary<K,int> tValueDico = new Dictionary<K,int>();
+			Dictionary<K,int> tValueDico = new Dictionary<K,int> ();
 			if (Value != null && Value != "") {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string tLine in tValueArray) {
@@ -182,7 +261,7 @@ namespace NetWorkedData
 				if (tIndex > 0) {
 					tQ = EditorGUI.IntField (new Rect (tX + tWidth - tIntWidth - NWDConstants.kFieldMarge - tEditWidth, tY, tIntWidth, tPopupdStyle.fixedHeight), tQ);
 					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
-						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (tIndex)),false);
+						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (tIndex)), false);
 					}
 				}
 				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -206,12 +285,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public string ChangeReferenceForAnother(string sOldReference, string sNewReference, Type sType)
+		public string ChangeReferenceForAnother (string sOldReference, string sNewReference, Type sType)
 		{
 			string rReturn = "NO";
 			if (Value != null) {
 				if (Value.Contains (sOldReference)) {
-					Debug.Log ("I CHANGE "+sOldReference+" FOR "+sNewReference+"");
+					Debug.Log ("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
 					Value = Value.Replace (sOldReference, sNewReference);
 					rReturn = "YES";
 				}
