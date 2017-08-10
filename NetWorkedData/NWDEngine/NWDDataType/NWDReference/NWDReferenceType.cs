@@ -75,7 +75,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)
 		{
-			Value = sObject.Reference;
+			if (sObject != null) {
+				Value = sObject.Reference;
+			} else {
+				Value = "";
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
