@@ -181,7 +181,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDUsage sObject)
 		{
-			Reference = sObject.Reference;
+			if (sObject != null) {
+				Reference = sObject.Reference;
+			} else {
+				Reference = "";
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDUsage NewObject ()

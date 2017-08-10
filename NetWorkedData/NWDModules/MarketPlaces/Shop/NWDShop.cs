@@ -202,7 +202,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDShop sObject)
 		{
-			Reference = sObject.Reference;
+			if (sObject != null) {
+				Reference = sObject.Reference;
+			} else {
+				Reference = "";
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDShop NewObject ()

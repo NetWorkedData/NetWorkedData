@@ -185,7 +185,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDBarterProposition sObject)
 		{
-			Reference = sObject.Reference;
+			if (sObject != null) {
+				Reference = sObject.Reference;
+			} else {
+				Reference = "";
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterProposition NewObject ()

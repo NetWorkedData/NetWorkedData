@@ -176,7 +176,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDExample sObject)
 		{
-			Reference = sObject.Reference;
+			if (sObject != null) {
+				Reference = sObject.Reference;
+			} else {
+				Reference = "";
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDExample NewObject ()

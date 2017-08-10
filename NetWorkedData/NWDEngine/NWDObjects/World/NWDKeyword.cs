@@ -179,7 +179,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (NWDKeyword sObject)
 		{
-			Reference = sObject.Reference;
+			if (sObject != null) {
+				Reference = sObject.Reference;
+			} else {
+				Reference = "";
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDKeyword NewObject ()

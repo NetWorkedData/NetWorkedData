@@ -100,7 +100,19 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		//TODO : GetAllObjectByInternalKey(string sInternalKey)
+		public static K[] GetAllObjectsByInternalKey(string sInternalKey)
+		{
+			List<K> rReturn = new List<K>();
+			int[] tIndexes = ObjectsByKeyList.Select((b,i) => b == sInternalKey ? i : -1).Where(i => i != -1).ToArray();
+			foreach(int tIndex in tIndexes)
+			{
+				K tObject = ObjectsList.ElementAt (tIndex) as K;
+				if (tObject.IsReacheableByAccount ()) {
+					rReturn.Add(tObject);
+				}
+			}
+			return rReturn.ToArray();
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "")
 		{
