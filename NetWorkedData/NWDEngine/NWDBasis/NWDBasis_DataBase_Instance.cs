@@ -258,6 +258,22 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
+		/// Save the modification of instance. It's a alias of "UpdateMeIfModified (true)" method.
+		/// More understanding method for the developer.
+		/// </summary>
+		public bool SaveModificationsIfModified ()
+		{
+			bool tReturn = false;
+			if (this.Integrity != this.IntegrityValue ()) {
+				tReturn = true;
+				RemoveObjectInListOfEdition (this);
+				UpdateMe ();
+				AddObjectInListOfEdition (this);
+			}
+			return tReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
 		/// Update this instance. Change a lot of states of instance and write in database. 
 		/// Object is not synchronized, integrity changed, ...
 		/// </summary>

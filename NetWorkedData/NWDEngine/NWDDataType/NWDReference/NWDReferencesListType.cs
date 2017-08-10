@@ -119,6 +119,13 @@ namespace NetWorkedData
 			SetReferences (tList.ToArray ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public void AddObject (K sObject)
+		{
+			if (sObject != null) {
+				AddReferences (new string[]{sObject.Reference});
+			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public void AddObjects (K[] sObjects)
 		{
 			List<string> tList = new List<string>();
