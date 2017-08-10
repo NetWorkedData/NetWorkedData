@@ -107,10 +107,45 @@ namespace NetWorkedData
 			}
 			return tlist.ToArray ();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesQuantityType<NWDItem> GetAllItemReferenceAndQuantity()
+        {
+            NWDReferencesQuantityType<NWDItem> rResult = new NWDReferencesQuantityType<NWDItem>();
+            Dictionary<string, int> tDico = new Dictionary<string, int>();
+
+            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.GetObjectAndQuantity())
+            {
+                // Get Item Pack data
+                NWDItemPack tItemPack = pair.Key;
+                int tItemPackQte = pair.Value;
+
+                // Init all Items in Item Pack
+                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
+                foreach (KeyValuePair<NWDItem, int> p in tItems)
+                {
+                    // Get Item data
+                    NWDItem tNWDItem = p.Key;
+                    int tItemQte = p.Value;
+
+                    if(tDico.ContainsKey(tNWDItem.Reference))
+                    {
+                        tDico[tNWDItem.Reference] += tItemQte;
+                    }
+                    else
+                    {
+                        tDico.Add(tNWDItem.Reference, tItemQte);
+                    }
+                }
+            }
+
+            rResult.SetReferenceAndQuantity(tDico);
+
+            return rResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region override of NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}

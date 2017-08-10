@@ -24,7 +24,6 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
 //	#if UNITY_EDITOR
 //	public class BTBOperationControllerMenuTest
 //	{
@@ -146,7 +145,6 @@ namespace NetWorkedData
 //
 //	#endif
 
-
 	public partial class NWDDataManager
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -158,99 +156,84 @@ namespace NetWorkedData
 			return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAllSynchronizationForce");
 			return AddWebRequestAllSynchronizationForceWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForce (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSession (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSession");
 			return AddWebRequestSessionWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignUp (string sEmail, string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignUp");
 			return AddWebRequestSignUpWithBlock (sEmail, sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignIn (string sEmail, string sPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("NWDOperationWebAccount");
 			return AddWebRequestSignInWithBlock (sEmail, sPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignOut (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignOut");
 			return AddWebRequestSignOutWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
-
 		public NWDOperationWebAccount AddWebRequestAnonymousRestaure (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAnonymousRestaure");
 			return AddWebRequestAnonymousRestaureWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignModify (string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignModify");
 			return AddWebRequestSignModifyWithBlock (sEmail, sOldPassword, sNewPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestRescue (string sEmail, string sAppName, string sAppMail, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignModify");
 			return AddWebRequestRescueWithBlock (sEmail, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignDelete (string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignDelete");
 			return AddWebRequestSignDeleteWithBlock (sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestLogFacebook (string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestLogFacebook");
 			return AddWebRequestLogFacebookWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestLogGoogle (string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
             BTBDebug.Log ("AddWebRequestLogGoogle");
 			return AddWebRequestLogGoogleWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -263,7 +246,6 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForceWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -276,8 +258,6 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
-
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -290,7 +270,6 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForceWithBlock (List<Type> sTypeList,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -303,7 +282,6 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSessionWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -318,7 +296,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignUpWithBlock (string sEmail, string sPassword, string sConfirmPassword,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -336,7 +313,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignInWithBlock (string sEmail, string sPassword,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -353,7 +329,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignOutWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -368,8 +343,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
-
 		public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -389,7 +362,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignModifyWithBlock (string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -408,7 +380,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestRescueWithBlock (string sEmail,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -424,7 +395,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestSignDeleteWithBlock (string sPassword, string sConfirmPassword,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -441,7 +411,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestLogFacebookWithBlock (string sSocialToken,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -457,7 +426,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public NWDOperationWebAccount AddWebRequestLogGoogleWithBlock (string sSocialToken,
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -473,7 +441,6 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public void WebRequestFlush (NWDAppEnvironment sEnvironment = null) 
 		{
             BTBDebug.Log ("WebRequestFlush");
@@ -483,7 +450,6 @@ namespace NetWorkedData
 			WebOperationQueue.Flush (sEnvironment.Environment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		public void WebRequestInfos (NWDAppEnvironment sEnvironment = null)
 		{
             BTBDebug.Log ("WebRequestInfos");
@@ -493,7 +459,6 @@ namespace NetWorkedData
 			WebOperationQueue.Infos (sEnvironment.Environment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		/// <summary>
 		/// The synchronize in progress.
 		/// </summary>
@@ -510,7 +475,6 @@ namespace NetWorkedData
 		//		/// So Memorize force required
 		//		/// </summary>
 		//		public static bool SynchronizeRepeatInForce = false;
-
 		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference)
 		{
@@ -530,8 +494,6 @@ namespace NetWorkedData
 			#endif
 			SavePreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
 		}
-
-
 		//-------------------------------------------------------------------------------------------------------------
 		public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData, List<Type> sTypeList)
 		{
@@ -545,7 +507,6 @@ namespace NetWorkedData
 			}
 
 		}
-
 		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
 		{
@@ -563,7 +524,6 @@ namespace NetWorkedData
 			}
 			return rSend;
 		}
-
 		//-------------------------------------------------------------------------------------------------------------
 		public void TokenError (NWDAppEnvironment sEnvironment)
 		{

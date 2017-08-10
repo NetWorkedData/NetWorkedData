@@ -86,7 +86,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// OWNERSHIP AND ITEM FOR PLAYER
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOwnership OwnershipForItem (NWDItem sItem)
+		public static NWDOwnership OwnershipForItem (NWDItem sItem)
 		{
 			NWDOwnership rOwnershipToUse = null;
 			foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects()) {
@@ -104,7 +104,7 @@ namespace NetWorkedData
 			return rOwnershipToUse;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public bool OwnershipForItemExists (NWDItem sItem)
+		public static bool OwnershipForItemExists (NWDItem sItem)
 		{
 			NWDOwnership rOwnershipToUse = null;
 			foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects()) {
@@ -116,7 +116,7 @@ namespace NetWorkedData
 			return rOwnershipToUse != null;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOwnership AddItemToOwnership (NWDItem sItem, int sQuantity)
+		public static NWDOwnership AddItemToOwnership (NWDItem sItem, int sQuantity)
 		{
 			NWDOwnership rOwnershipToUse = OwnershipForItem (sItem);
 			rOwnershipToUse.Quantity += sQuantity;
@@ -124,7 +124,7 @@ namespace NetWorkedData
 			return rOwnershipToUse;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOwnership RemoveItemToOwnership (NWDItem sItem, int sQuantity)
+		public static NWDOwnership RemoveItemToOwnership (NWDItem sItem, int sQuantity)
 		{
 			NWDOwnership rOwnershipToUse = OwnershipForItem (sItem);
 			rOwnershipToUse.Quantity -= sQuantity;

@@ -6,16 +6,8 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using SQLite4Unity3d;
-
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -25,12 +17,14 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDClassServerSynchronizeAttribute (true)]
+    //-----------------------------------------------------------------------------------------------------------------
+    public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughItem, CanBuy, Failed }
+    //-----------------------------------------------------------------------------------------------------------------
+    [NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("SHP")]
 	[NWDClassDescriptionAttribute ("Shop descriptions Class")]
 	[NWDClassMenuNameAttribute ("Shop")]
-	//-------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------
 	public partial class NWDShop :NWDBasis <NWDShop>
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -69,12 +63,16 @@ namespace NetWorkedData
 		public NWDReferencesListType<NWDRack> DailyRack { get; set; }
 		public NWDReferencesListType<NWDRack> WeeklyRack { get; set; }
 		public NWDReferencesListType<NWDRack> MonthlyRack { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDShop()
+        //[NWDGroupEndAttribute]
+        //-------------------------------------------------------------------------------------------------------------
+        public delegate void BuyPackBlock(BuyPackResult result, NWDTransaction transaction);
+        public BuyPackBlock BuyPackBlockDelegate;
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDShop()
 		{
 			//Init your instance here
 		}
@@ -96,10 +94,149 @@ namespace NetWorkedData
 		{
 			// do something with this object
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
+        //-------------------------------------------------------------------------------------------------------------
+        public void BuyPack(NWDPack sPack)
+        {
+            // Sync with the server
+            List<Type> tList = new List<Type>();
+            tList.Add(typeof(NWDOwnership));
+            tList.Add(typeof(NWDItem));
+            tList.Add(typeof(NWDItemPack));
+            tList.Add(typeof(NWDPack));
+
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
+
+                // Define a new NWDTransaction
+                NWDTransaction bTransaction = null;
+
+                // Check if Pack is enable
+                BuyPackResult bResult = PackEnable(sPack.InternalKey);
+
+                // Pack is enable
+                if (bResult == BuyPackResult.Enable)
+                {
+                    // Check if user have enough currency
+                    Dictionary<NWDItem, int> tCost = sPack.ItemsToPay.GetObjectAndQuantity();
+                    bResult = UserCanBuy(tCost);
+
+                    // User can by the Pack
+                    if (bResult == BuyPackResult.CanBuy)
+                    {
+                        // Find all Items Pack in Pack
+                        foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetObjectAndQuantity())
+                        {
+                            // Get Item Pack data
+                            NWDItemPack tItemPack = pair.Key;
+                            int tItemPackQte = pair.Value;
+
+                            // Find all Items from Item Pack
+                            Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
+                            foreach (KeyValuePair<NWDItem, int> p in tItems)
+                            {
+                                // Get Item data
+                                NWDItem tNWDItem = p.Key;
+                                int tItemQte = p.Value;
+
+                                // Add Items to Ownership
+                                NWDOwnership.AddItemToOwnership(tNWDItem, tItemQte);
+                            }
+                        }
+
+                        // Find all currency to remove from ownership
+                        foreach (KeyValuePair<NWDItem, int> pair in tCost)
+                        {
+                            // Get Item Cost data
+                            NWDItem tNWDItem = pair.Key;
+                            int tItemQte = pair.Value;
+
+                            // Remove currency from Ownership
+                            NWDOwnership.RemoveItemToOwnership(tNWDItem, tItemQte);
+                        }
+
+                        // Set a NWDTransaction
+                        bTransaction = NWDTransaction.NewObject();
+                        bTransaction.PackReference.SetReference(sPack.Reference);
+                        bTransaction.InternalKey = sPack.Name.GetBaseString();
+                        bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
+                        bTransaction.SaveModifications();
+                    }
+                }
+
+                if (BuyPackBlockDelegate != null)
+                {
+                    BuyPackBlockDelegate(bResult, bTransaction);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
+
+                if (BuyPackBlockDelegate != null)
+                {
+                    BuyPackBlockDelegate(BuyPackResult.Failed, null);
+                }
+            };
+            NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private BuyPackResult PackEnable(string sPackKey)
+        {
+            BuyPackResult rPackEnable = BuyPackResult.NotFound;
+
+            NWDPack tPack = NWDPack.GetObjectByInternalKey(sPackKey);
+            if (tPack != null)
+            {
+                if (tPack.IsEnable())
+                {
+                    rPackEnable = BuyPackResult.Enable;
+                }
+                else
+                {
+                    rPackEnable = BuyPackResult.Disable;
+                }
+            }
+
+            return rPackEnable;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private BuyPackResult UserCanBuy(Dictionary<NWDItem, int> sPackCost)
+        {
+            BuyPackResult rUserCanBuy = BuyPackResult.None;
+
+            // Check Pack Cost
+            foreach (KeyValuePair<NWDItem, int> pair in sPackCost)
+            {
+                // Get Item Cost data
+                NWDItem tNWDItem = pair.Key;
+                int tItemQte = pair.Value;
+
+                rUserCanBuy = BuyPackResult.CanBuy;
+
+                if (NWDOwnership.OwnershipForItemExists(tNWDItem))
+                {
+                    if (NWDOwnership.OwnershipForItem(tNWDItem).Quantity < tItemQte)
+                    {
+                        // User don't have enough item
+                        rUserCanBuy = BuyPackResult.NotEnoughCurrency;
+                        break;
+                    }
+                }
+                else
+                {
+                    // User don't have the selected item
+                    rUserCanBuy = BuyPackResult.NotEnoughItem;
+                    break;
+                }
+            }
+
+            return rUserCanBuy;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region override of NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
@@ -174,21 +311,21 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 	}
 
-	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDShop with Unity MonoBehavior
-	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWDShop connexion.
-	/// In your MonoBehaviour Script connect object with :
-	/// <code>
-	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDShopConnexion MyNWDShopObject;
-	/// </code>
-	/// </summary>
-	//-------------------------------------------------------------------------------------------------------------
-	// CONNEXION STRUCTURE METHODS
-	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
+    //-----------------------------------------------------------------------------------------------------------------
+    #region Connexion NWDShop with Unity MonoBehavior
+    //-------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// NWDShop connexion.
+    /// In your MonoBehaviour Script connect object with :
+    /// <code>
+    ///	[NWDConnexionAttribut(true,true, true, true)]
+    /// public NWDShopConnexion MyNWDShopObject;
+    /// </code>
+    /// </summary>
+    //-------------------------------------------------------------------------------------------------------------
+    // CONNEXION STRUCTURE METHODS
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
 	public class NWDShopConnexion
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -245,10 +382,10 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
-	//-------------------------------------------------------------------------------------------------------------
-	#endif
-	//-------------------------------------------------------------------------------------------------------------
-	#endregion
-	//-------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------
+    #endif
+    //-------------------------------------------------------------------------------------------------------------
+    #endregion
+    //-----------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================
