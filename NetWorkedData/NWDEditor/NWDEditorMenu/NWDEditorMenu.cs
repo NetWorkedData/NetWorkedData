@@ -129,7 +129,8 @@ namespace NetWorkedData
 		public static void EnvironementSyncShow()
 		{
 			if (kNWDAppEnvironmentSync == null) {
-				kNWDAppEnvironmentSync = (NWDAppEnvironmentSync)ScriptableObject.CreateInstance <NWDAppEnvironmentSync> ();
+				//kNWDAppEnvironmentSync = (NWDAppEnvironmentSync)ScriptableObject.CreateInstance <NWDAppEnvironmentSync> ();
+				kNWDAppEnvironmentSync = EditorWindow.GetWindow (typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
 			}
 			kNWDAppEnvironmentSync.ShowUtility ();
 			kNWDAppEnvironmentSync.Focus ();
@@ -138,7 +139,8 @@ namespace NetWorkedData
 		public static NWDAppEnvironmentSync EnvironementSync()
 		{
 			if (kNWDAppEnvironmentSync == null) {
-				kNWDAppEnvironmentSync = (NWDAppEnvironmentSync)ScriptableObject.CreateInstance <NWDAppEnvironmentSync> ();
+				//kNWDAppEnvironmentSync = (NWDAppEnvironmentSync)ScriptableObject.CreateInstance <NWDAppEnvironmentSync> ();
+				kNWDAppEnvironmentSync = EditorWindow.GetWindow (typeof(NWDAppEnvironmentSync)) as NWDAppEnvironmentSync;
 			}
 			kNWDAppEnvironmentSync.ShowUtility ();
 			kNWDAppEnvironmentSync.Focus ();

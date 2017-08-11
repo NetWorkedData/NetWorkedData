@@ -84,6 +84,9 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		public static Dictionary<string, List<string>> kPropertiesOrderArray = new Dictionary<string, List<string>> ();
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Propertieses the order array.
@@ -91,14 +94,19 @@ namespace NetWorkedData
 		/// <returns>The order array.</returns>
 		public static List<string> PropertiesOrderArray ()
 		{
-			List<string> rReturn = new List<string> ();
-			Type tType = ClassType ();
-			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-				rReturn.Add (tProp.Name);
-			}
-			rReturn.Sort ();
-			return rReturn;
+			if (kPropertiesOrderArray.ContainsKey (ClassID ()) == false) {
+				List<string> rReturn = new List<string> ();
+				Type tType = ClassType ();
+				foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+					rReturn.Add (tProp.Name);
+				}
+				rReturn.Sort ();
+				kPropertiesOrderArray [ClassID ()] = rReturn;
+			} 
+			return  kPropertiesOrderArray [ClassID ()];
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static Dictionary<string, string[]> kCSVAssemblyOrderArray = new Dictionary<string, string[]> ();
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// CSV assembly order array.
@@ -106,25 +114,31 @@ namespace NetWorkedData
 		/// <returns>The assembly order array.</returns>
 		public static string[] CSVAssemblyOrderArray ()
 		{
-			List<string> rReturn = PropertiesOrderArray ();
-			rReturn.Remove ("Integrity");
-			rReturn.Remove ("Reference");
-			rReturn.Remove ("ID");
-			rReturn.Remove ("DM");
-			rReturn.Remove ("DS");
-			rReturn.Remove ("DevSync");
-			rReturn.Remove ("PreprodSync");
-			rReturn.Remove ("ProdSync");
-			// add the good order for this element
-			rReturn.Insert (0, "Reference");
-			rReturn.Insert (1, "DM");
-			rReturn.Insert (2, "DS");
-			rReturn.Insert (3, "DevSync");
-			rReturn.Insert (4, "PreprodSync");
-			rReturn.Insert (5, "ProdSync");
-			rReturn.Add ("Integrity");
-			return rReturn.ToArray<string> ();
+			if (kCSVAssemblyOrderArray.ContainsKey (ClassID ()) == false) {
+				List<string> rReturn = new List<string> ();
+				rReturn.AddRange(PropertiesOrderArray ());
+				rReturn.Remove ("Integrity");
+				rReturn.Remove ("Reference");
+				rReturn.Remove ("ID");
+				rReturn.Remove ("DM");
+				rReturn.Remove ("DS");
+				rReturn.Remove ("DevSync");
+				rReturn.Remove ("PreprodSync");
+				rReturn.Remove ("ProdSync");
+				// add the good order for this element
+				rReturn.Insert (0, "Reference");
+				rReturn.Insert (1, "DM");
+				rReturn.Insert (2, "DS");
+				rReturn.Insert (3, "DevSync");
+				rReturn.Insert (4, "PreprodSync");
+				rReturn.Insert (5, "ProdSync");
+				rReturn.Add ("Integrity");
+				kCSVAssemblyOrderArray [ClassID ()] = rReturn.ToArray<string> ();
+			}
+			return kCSVAssemblyOrderArray [ClassID ()];
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static Dictionary<string, string[]> kSLQAssemblyOrderArray = new Dictionary<string, string[]> ();
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// SLQs the assembly order array.
@@ -132,24 +146,30 @@ namespace NetWorkedData
 		/// <returns>The assembly order array.</returns>
 		public static string[] SLQAssemblyOrderArray ()
 		{
-			List<string> rReturn = PropertiesOrderArray ();
-			rReturn.Remove ("Integrity");
-			rReturn.Remove ("Reference");
-			rReturn.Remove ("ID");
-			rReturn.Remove ("DM");
-			rReturn.Remove ("DS");
-			rReturn.Remove ("DevSync");
-			rReturn.Remove ("PreprodSync");
-			rReturn.Remove ("ProdSync");
-			// add the good order for this element
-			rReturn.Insert (0, "DM");
-			rReturn.Insert (1, "DS");
-			rReturn.Insert (2, "DevSync");
-			rReturn.Insert (3, "PreprodSync");
-			rReturn.Insert (4, "ProdSync");
-			rReturn.Add ("Integrity");
-			return rReturn.ToArray<string> ();
+			if (kSLQAssemblyOrderArray.ContainsKey (ClassID ()) == false) {
+				List<string> rReturn = new List<string> ();
+				rReturn.AddRange(PropertiesOrderArray ());
+				rReturn.Remove ("Integrity");
+				rReturn.Remove ("Reference");
+				rReturn.Remove ("ID");
+				rReturn.Remove ("DM");
+				rReturn.Remove ("DS");
+				rReturn.Remove ("DevSync");
+				rReturn.Remove ("PreprodSync");
+				rReturn.Remove ("ProdSync");
+				// add the good order for this element
+				rReturn.Insert (0, "DM");
+				rReturn.Insert (1, "DS");
+				rReturn.Insert (2, "DevSync");
+				rReturn.Insert (3, "PreprodSync");
+				rReturn.Insert (4, "ProdSync");
+				rReturn.Add ("Integrity");
+				kSLQAssemblyOrderArray [ClassID ()] = rReturn.ToArray<string> ();
+			}
+			return kSLQAssemblyOrderArray [ClassID ()];
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static Dictionary<string, string> kSLQAssemblyOrder = new Dictionary<string, string> ();
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// SLQs the assembly order.
@@ -157,26 +177,32 @@ namespace NetWorkedData
 		/// <returns>The assembly order.</returns>
 		public static string SLQAssemblyOrder ()
 		{
-			List<string> rReturn = PropertiesOrderArray ();
-			rReturn.Remove ("Integrity");
-			rReturn.Remove ("Reference");
-			rReturn.Remove ("ID");
-			rReturn.Remove ("DM");
-			rReturn.Remove ("DS");
-			rReturn.Remove ("DevSync");
-			rReturn.Remove ("PreprodSync");
-			rReturn.Remove ("ProdSync");
-			// add the good order for this element
-			rReturn.Insert (0, "Reference");
-			rReturn.Insert (1, "DM");
-			rReturn.Insert (2, "DS");
-			rReturn.Insert (3, "DevSync");
-			rReturn.Insert (4, "PreprodSync");
-			rReturn.Insert (5, "ProdSync");
-			rReturn.Add ("Integrity");
-			return "`" + string.Join ("`, `", rReturn.ToArray ()) + "`";
+			if (kSLQAssemblyOrder.ContainsKey (ClassID ()) == false) {
+				List<string> rReturn = new List<string> ();
+				rReturn.AddRange(PropertiesOrderArray ());
+				rReturn.Remove ("Integrity");
+				rReturn.Remove ("Reference");
+				rReturn.Remove ("ID");
+				rReturn.Remove ("DM");
+				rReturn.Remove ("DS");
+				rReturn.Remove ("DevSync");
+				rReturn.Remove ("PreprodSync");
+				rReturn.Remove ("ProdSync");
+				// add the good order for this element
+				rReturn.Insert (0, "Reference");
+				rReturn.Insert (1, "DM");
+				rReturn.Insert (2, "DS");
+				rReturn.Insert (3, "DevSync");
+				rReturn.Insert (4, "PreprodSync");
+				rReturn.Insert (5, "ProdSync");
+				rReturn.Add ("Integrity");
+				kSLQAssemblyOrder [ClassID ()] = "`" + string.Join ("`, `", rReturn.ToArray ()) + "`";
+			}
+			return kSLQAssemblyOrder [ClassID ()];
 		}
 
+		//-------------------------------------------------------------------------------------------------------------
+		public static Dictionary<string, List<string>> kSLQIntegrityOrder = new Dictionary<string, List<string>> ();
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// SLQs the assembly order.
@@ -184,20 +210,52 @@ namespace NetWorkedData
 		/// <returns>The assembly order.</returns>
 		public static List<string> SLQIntegrityOrder ()
 		{
-			List<string> rReturn = PropertiesOrderArray ();
-			rReturn.Remove ("Integrity");
-			rReturn.Remove ("Reference");
-			rReturn.Remove ("ID");
-			rReturn.Remove ("DM");
-			rReturn.Remove ("DS");
-			rReturn.Remove ("DevSync");
-			rReturn.Remove ("PreprodSync");
-			rReturn.Remove ("ProdSync");
-			// add the good order for this element
-			rReturn.Insert (0, "Reference");
-			rReturn.Insert (1, "DM");
-			return rReturn;
+			if (kSLQIntegrityOrder.ContainsKey (ClassID ()) == false) {
+				List<string> rReturn = new List<string> ();
+				rReturn.AddRange(PropertiesOrderArray ());
+				rReturn.Remove ("Integrity");
+				rReturn.Remove ("Reference");
+				rReturn.Remove ("ID");
+				rReturn.Remove ("DM");
+				rReturn.Remove ("DS");
+				rReturn.Remove ("DevSync");
+				rReturn.Remove ("PreprodSync");
+				rReturn.Remove ("ProdSync");
+				// add the good order for this element
+				rReturn.Insert (0, "Reference");
+				rReturn.Insert (1, "DM");
+				kSLQIntegrityOrder [ClassID ()] = rReturn;
+			}
+			return kSLQIntegrityOrder [ClassID ()];
 		}
+
+		//-------------------------------------------------------------------------------------------------------------
+		public static Dictionary<string, List<string>> kDataAssemblyPropertiesList = new Dictionary<string, List<string>> ();
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// SLQs the assembly order.
+		/// </summary>
+		/// <returns>The assembly order.</returns>
+		public static List<string> DataAssemblyPropertiesList ()
+		{
+			if (kDataAssemblyPropertiesList.ContainsKey (ClassID ()) == false) {
+				List<string> rReturn = new List<string> ();
+				rReturn.AddRange(PropertiesOrderArray ());
+				rReturn.Remove ("Integrity"); // not include in integrity
+				rReturn.Remove ("Reference");
+				rReturn.Remove ("ID");
+				rReturn.Remove ("DM");
+				rReturn.Remove ("DS");// not include in integrity
+				rReturn.Remove ("DevSync");// not include in integrity
+				rReturn.Remove ("PreprodSync");// not include in integrity
+				rReturn.Remove ("ProdSync");// not include in integrity
+				kDataAssemblyPropertiesList [ClassID ()] = rReturn;
+			}
+			return kDataAssemblyPropertiesList [ClassID ()];
+		}
+
+
+
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// New instance from CSV.
@@ -253,15 +311,16 @@ namespace NetWorkedData
 					Type tTypeOfThis = tPropertyInfo.PropertyType;
 					string tValueString = tValue [tI] as string;
 
-					//TO-DO : (FUTUR ADDS) Insert new NWDxxxxType
-					// Do for NWD simple Structures
-
 					if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
-						var tObject = Activator.CreateInstance (tTypeOfThis);
-						var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
-						if (tMethodInfo != null) {
-							tMethodInfo.Invoke (tObject, new object[]{ tValueString });
-						}
+//						var tObject = Activator.CreateInstance (tTypeOfThis);
+//						var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
+//						if (tMethodInfo != null) {
+//							tMethodInfo.Invoke (tObject, new object[]{ tValueString });
+//						}
+//
+						BTBDataType tObject = Activator.CreateInstance (tTypeOfThis) as BTBDataType;
+						tObject.SetString (tValueString);
+
 						tPropertyInfo.SetValue (this, tObject, null);
 					}
 					// Do for Standard type
@@ -300,15 +359,7 @@ namespace NetWorkedData
 		{
 			string rReturn = "";
 			Type tType = ClassType ();
-			List<string> tPropertiesList = PropertiesOrderArray ();
-			tPropertiesList.Remove ("Integrity"); // not include in integrity
-			tPropertiesList.Remove ("Reference");
-			tPropertiesList.Remove ("ID");
-			tPropertiesList.Remove ("DM");
-			tPropertiesList.Remove ("DS");// not include in integrity
-			tPropertiesList.Remove ("DevSync");// not include in integrity
-			tPropertiesList.Remove ("PreprodSync");// not include in integrity
-			tPropertiesList.Remove ("ProdSync");// not include in integrity
+			List<string> tPropertiesList = DataAssemblyPropertiesList ();
 			foreach (string tPropertieName in tPropertiesList) {
 				PropertyInfo tProp = tType.GetProperty (tPropertieName);
 				Type tTypeOfThis = tProp.PropertyType;
