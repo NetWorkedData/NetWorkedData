@@ -169,6 +169,7 @@ namespace NetWorkedData
 
 					Statut = BTBOperationState.Error;
 					NWDOperationResult tInfosError = new NWDOperationResult ("WEB02");
+					tInfosError.Octects = 0;
 					FailInvoke (Request.downloadProgress, tInfosError);
 				} else { 
 					// Success
@@ -184,6 +185,7 @@ namespace NetWorkedData
 
 						Statut = BTBOperationState.Error;
 						NWDOperationResult tInfosFail = new NWDOperationResult ("WEB03");
+						tInfosFail.Octects = 0;
 						FailInvoke (Request.downloadProgress, tInfosFail);
 					} else {
 						tData = Json.Deserialize (Request.downloadHandler.text) as Dictionary<string, object>;
@@ -197,6 +199,7 @@ namespace NetWorkedData
 
 							Statut = BTBOperationState.Error;
 							NWDOperationResult tInfosFail = new NWDOperationResult ("WEB04");
+							tInfosFail.Octects = Request.downloadHandler.text.Length;
 							FailInvoke (Request.downloadProgress, tInfosFail);
 						} else {
 
@@ -204,6 +207,7 @@ namespace NetWorkedData
 
 							NWDOperationResult tInfosResult = new NWDOperationResult (tData);
 
+							tInfosResult.Octects = Request.downloadHandler.text.Length;
 							// memorize the token for next connexion
 							if (!tInfosResult.token.Equals ("")) {
 								Environment.RequesToken = tInfosResult.token;

@@ -167,6 +167,16 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
+		/// Return timestamp milliseconds from unix 1970 january 01.
+		/// </summary>
+		public static double TimestampMilliseconds (DateTime sDateTime)
+		{
+			DateTime tUnixStartTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+			double rUnixCurrentTime = (double)(sDateTime - tUnixStartTime).TotalMilliseconds;
+			return rUnixCurrentTime;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
 		/// Return timestamp from unix 1970 january 01.
 		/// </summary>
 		public static int Timestamp ()

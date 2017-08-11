@@ -124,7 +124,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// TheNWD app configuration window.
 		/// </summary>
-		static NWDAppEnvironmentSync kNWDAppEnvironmentSync;
+		public static NWDAppEnvironmentSync kNWDAppEnvironmentSync;
 		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_SYNC, false, 62)]
 		public static void EnvironementSyncShow()
 		{
@@ -134,6 +134,17 @@ namespace NetWorkedData
 			kNWDAppEnvironmentSync.ShowUtility ();
 			kNWDAppEnvironmentSync.Focus ();
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDAppEnvironmentSync EnvironementSync()
+		{
+			if (kNWDAppEnvironmentSync == null) {
+				kNWDAppEnvironmentSync = (NWDAppEnvironmentSync)ScriptableObject.CreateInstance <NWDAppEnvironmentSync> ();
+			}
+			kNWDAppEnvironmentSync.ShowUtility ();
+			kNWDAppEnvironmentSync.Focus ();
+			return kNWDAppEnvironmentSync;
+		}
+
 		//-------------------------------------------------------------------------------------------------------------
 		// Loop for classes menu
 		//-------------------------------------------------------------------------------------------------------------
@@ -202,31 +213,31 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
 		public static void DevCreateTablesServer ()
 		{
-			NWDDataManager.SharedInstance.CreateAllTablesServer(NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().CreateAllTablesServer(NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_DEV_SYNCHRONIZE_DATAS, false, 9121)]
 		public static void DevSynchronizeAllData ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestAllSynchronization (false, NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().AllSynchronization (NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_DEV_FORCE_SYNCHRONIZE, false, 9122)]
 		public static void DevForceSynchronizeAllData ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestAllSynchronizationForce (true, NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().AllSynchronizationForce (NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_DEV_RESET_CONNEXION, false, 9140)]
 		public static void DevResetUuidAndToken ()
 		{
-			NWDDataManager.SharedInstance.ResetPreferences (NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().Reset (NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_DEV_FLUSH_CONNEXION, false, 9141)]
 		public static void DevFlushQueue ()
 		{
-			NWDDataManager.SharedInstance.WebRequestFlush (NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().Flush (NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// PREPROD
@@ -236,31 +247,31 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9101)]
 		public static void PreprodCreateTablesServer ()
 		{
-			NWDDataManager.SharedInstance.CreateAllTablesServer(NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			EnvironementSync().CreateAllTablesServer(NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PREPROD_SYNCHRONIZE_DATAS, false, 9121)]
 		public static void PreprodSynchronizeAllData ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestAllSynchronization (false, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			EnvironementSync().AllSynchronization (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PREPROD_FORCE_SYNCHRONIZE, false, 9122)]
 		public static void PreprodForceSynchronizeAllData ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestAllSynchronizationForce (true, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			EnvironementSync().AllSynchronizationForce (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PREPROD_RESET_CONNEXION, false, 9140)]
 		public static void PreprodFlushQueue ()
 		{
-			NWDDataManager.SharedInstance.ResetPreferences (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			EnvironementSync().Reset (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PREPROD_FLUSH_CONNEXION, false, 9141)]
 		public static void PreprodResetUuidAndToken ()
 		{
-			NWDDataManager.SharedInstance.WebRequestFlush (NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().Flush (NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		//PROD
@@ -273,8 +284,8 @@ namespace NetWorkedData
 				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 					    NWDConstants.K_SYNC_ALERT_OK,
-					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-					NWDDataManager.SharedInstance.CreateAllTablesServer (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				NWDConstants.K_SYNC_ALERT_CANCEL)) {
+				EnvironementSync().CreateAllTablesServer (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -284,8 +295,8 @@ namespace NetWorkedData
 				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 					    NWDConstants.K_SYNC_ALERT_OK,
-					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				NWDDataManager.SharedInstance.AddWebRequestAllSynchronization (false, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				NWDConstants.K_SYNC_ALERT_CANCEL)) {
+				EnvironementSync().AllSynchronization (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -295,21 +306,21 @@ namespace NetWorkedData
 				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 					NWDConstants.K_SYNC_ALERT_MESSAGE,
 					NWDConstants.K_SYNC_ALERT_OK,
-					NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				NWDDataManager.SharedInstance.AddWebRequestAllSynchronizationForce (true, NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				NWDConstants.K_SYNC_ALERT_CANCEL)) {
+				EnvironementSync().AllSynchronizationForce (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PROD_RESET_CONNEXION, false, 9140)]
 		public static void ProdResetUuidAndToken ()
 		{
-			NWDDataManager.SharedInstance.ResetPreferences (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+			EnvironementSync().Reset (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PROD_FLUSH_CONNEXION, false, 9141)]
 		public static void ProdFlushQueue ()
 		{
-			NWDDataManager.SharedInstance.WebRequestFlush (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+			EnvironementSync().Flush (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		//LOCALS

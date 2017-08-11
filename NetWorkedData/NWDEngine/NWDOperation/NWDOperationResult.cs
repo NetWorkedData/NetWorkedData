@@ -30,6 +30,8 @@ namespace NetWorkedData
         public bool isReloadingData { get; private set; }
         public int wsBuild { get; private set; }
 
+		public double Octects { get; set; }
+
         // TODO: remove and replace by properties exhaustives (with enum)
         public Dictionary<string, object> param { get; private set; }
 

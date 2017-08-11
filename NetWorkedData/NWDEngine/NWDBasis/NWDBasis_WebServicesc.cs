@@ -329,9 +329,17 @@ namespace NetWorkedData
 		{
 			bool rReturn = false;
 			if (sForceAll == true) {
+				#if UNITY_EDITOR
+				NWDEditorMenu.EnvironementSync().SynchronizationForce (new List<Type>{ClassType ()}, sEnvironment);
+				#else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
+				#endif
 			} else {
+				#if UNITY_EDITOR
+				NWDEditorMenu.EnvironementSync().Synchronization (new List<Type>{ClassType ()}, sEnvironment);
+				#else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
+				#endif
 			}
 			rReturn = true;
 			return rReturn;
