@@ -225,7 +225,11 @@ namespace NetWorkedData
 			TextAnonymousAccount.text = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().AnonymousPlayerAccountReference;
 			TextAnonymousToken.text = "????";
 		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+        public void ShowAccount()
+        {
+            gameObject.SetActive(!gameObject.activeInHierarchy);
+        }
+    }
 }
 //=====================================================================================================================
