@@ -212,10 +212,20 @@ namespace NetWorkedData
 			// show helpbox
 			EditorGUILayout.HelpBox (NWDConstants.K_APP_SYNC_ENVIRONMENT, MessageType.None);
 
+
+
+			var tStyleCenter = new GUIStyle (EditorStyles.label);
+			tStyleCenter.alignment = TextAnchor.MiddleCenter;
+
+
+			var tStyleBoldCenter = new GUIStyle (EditorStyles.boldLabel);
+			tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
+
+
 			GUILayout.BeginHorizontal ();
-			GUILayout.Label ("Dev", EditorStyles.boldLabel);
-			GUILayout.Label ("Preprod", EditorStyles.boldLabel);
-			GUILayout.Label ("Prod", EditorStyles.boldLabel);
+			GUILayout.Label ("Dev", tStyleBoldCenter);
+			GUILayout.Label ("Preprod", tStyleBoldCenter);
+			GUILayout.Label ("Prod", tStyleBoldCenter);
 			GUILayout.EndHorizontal ();
 
 
@@ -256,9 +266,6 @@ namespace NetWorkedData
 			}
 			GUILayout.EndHorizontal ();
 
-			var tStyleCenter = new GUIStyle (EditorStyles.label);
-			tStyleCenter.alignment = TextAnchor.MiddleCenter;
-
 			GUILayout.BeginHorizontal ();
 			GUILayout.Label (DevIcon, tStyleCenter, GUILayout.Height (20));
 			GUILayout.Label (PreProdIcon, tStyleCenter, GUILayout.Height (20));
@@ -280,11 +287,11 @@ namespace NetWorkedData
 			//			EditorGUILayout.LabelField ("Total Duration", tDuration.ToString () +"s");
 
 			double tDurationDataMilliseconds = (NWDToolbox.TimestampMilliseconds (EndTime) - NWDToolbox.TimestampMilliseconds (MiddleTime)) / 1000.0F;
-			; 
+
 			EditorGUILayout.LabelField ("DataBase Duration", tDurationDataMilliseconds.ToString ("#0.000") + " s");
 
 			double tDurationMilliseconds = (NWDToolbox.TimestampMilliseconds (EndTime) - NWDToolbox.TimestampMilliseconds (StartTime)) / 1000.0F;
-			; 
+
 			EditorGUILayout.LabelField ("Total Duration", tDurationMilliseconds.ToString ("#0.000") + " s");
 
 
