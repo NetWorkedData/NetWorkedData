@@ -497,15 +497,21 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData, List<Type> sTypeList)
 		{
+			bool sUpdateData = false;
 			if (sTypeList != null) {
 				foreach (Type tType in sTypeList) {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
-						tMethodInfo.Invoke (null, new object[]{ sEnvironment, sData });
+						object tResult = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sData }) as string;
+						if (tResult == "YES") {
+							sUpdateData = true;
+						}
 					}
 				}
 			}
-
+			if (sUpdateData == true) {
+				NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)

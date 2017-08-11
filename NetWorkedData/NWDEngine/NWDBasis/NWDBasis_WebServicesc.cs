@@ -148,17 +148,17 @@ namespace NetWorkedData
 		/// <param name="sDataArray">S data array.</param>
 		public static NWDBasis<K> SynchronizationInsertInBase (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
-            //BTBDebug.Log ("SynchronizationInsertInBase ");
-            string tReference = GetReferenceValueFromCSV (sDataArray);
+			//BTBDebug.Log ("SynchronizationInsertInBase ");
+			string tReference = GetReferenceValueFromCSV (sDataArray);
 			NWDBasis<K> tObject = InstanceByReference (tReference);
 			if (tObject == null) {
-                //BTBDebug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
-                tObject = NewInstanceFromCSV (sEnvironment, sDataArray);
+				//BTBDebug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
+				tObject = NewInstanceFromCSV (sEnvironment, sDataArray);
 				AddObjectInListOfEdition (tObject);
 			} else {
-                // test if Modification is older than actual object
-                //BTBDebug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
-                if (tObject.DM <= GetDMValueFromCSV (sDataArray)) {
+				// test if Modification is older than actual object
+				//BTBDebug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
+				if (tObject.DM <= GetDMValueFromCSV (sDataArray)) {
 					tObject.UpdateWithCSV (sEnvironment, sDataArray);
 				}
 			}
@@ -171,9 +171,9 @@ namespace NetWorkedData
 		/// <param name="sDataArray">S data array.</param>
 		public static void SynchronizationInsertInMemory (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
-            //BTBDebug.Log ("SynchronizationInsertInMemory ");
-            // if NWDject.reference allready in memory I must replace this object and distroy old object
-            NWDBasis<K> tFindObject = null;
+			//BTBDebug.Log ("SynchronizationInsertInMemory ");
+			// if NWDject.reference allready in memory I must replace this object and distroy old object
+			NWDBasis<K> tFindObject = null;
 			string tReference = GetReferenceValueFromCSV (sDataArray);
 			foreach (NWDBasis<K> tObject in ObjectsList) {
 				if (tObject.Reference == tReference) {
@@ -199,8 +199,8 @@ namespace NetWorkedData
 		/// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
 		public static NWDBasis<K> SynchronizationTryToUse (NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
 		{
-            //BTBDebug.Log ("SynchronizationTryToUse ");
-            NWDBasis<K> rReturn = null;
+			//BTBDebug.Log ("SynchronizationTryToUse ");
+			NWDBasis<K> rReturn = null;
 			string[] tDataArray = sData.Split (NWDConstants.kStandardSeparator.ToCharArray ());
 			for (int tI = 0; tI < tDataArray.Length; tI++) {
 				tDataArray [tI] = NWDToolbox.TextCSVUnprotect (tDataArray [tI]);
@@ -219,7 +219,7 @@ namespace NetWorkedData
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
 		public static Dictionary<string, object> SynchronizationPushData (NWDAppEnvironment sEnvironment, bool sForceAll)
 		{
-            //BTBDebug.Log ("SynchronizationPushData for table " + TableName ());
+			//BTBDebug.Log ("SynchronizationPushData for table " + TableName ());
 			// ok if sync will be ok this date will be the last sync for this table
 			SynchronizationSetInWaitingTimestamp (sEnvironment, NWDToolbox.Timestamp ());
 			// create respond object
@@ -258,8 +258,8 @@ namespace NetWorkedData
 				}
 			}
 			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
-            // return the data
-            //BTBDebug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+			// return the data
+			//BTBDebug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
 			return rSend;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -267,9 +267,10 @@ namespace NetWorkedData
 		/// Synchronizations the pull data.
 		/// </summary>
 		/// <param name="sData">S data.</param>
-		public static void SynchronizationPullData (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData)
+		public static string SynchronizationPullData (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData)
 		{
-            //BTBDebug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
+			string rReturn = "";
+			//BTBDebug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
 			// Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
 			if (sData.ContainsKey ("error")) {
 				// error to show on Device
@@ -285,35 +286,39 @@ namespace NetWorkedData
 				string tTableName = TableName ();
 				// Ok I need to compute all datas for this Class tablename
 				if (sData.ContainsKey (tTableName)) {
-                    //BTBDebug.Log (tTableName + "'s Datas found! it's a " + sData [tTableName].GetType ().Name);
-                    List<object> tListOfRows = sData [tTableName] as List<object>;
-                    //BTBDebug.Log ("tListOfRows found! with " + tListOfRows.Count + " row(s)");
-                    foreach (object tCsvValue in tListOfRows) {
-						string tCsvValueString = tCsvValue as string;
-                        //BTBDebug.Log ("Datas found : '" + tCsvValueString + "'");
-						// I try to use this data to ... insert/update/delete/... ?
-						bool tForceToUse = false;
+					//BTBDebug.Log (tTableName + "'s Datas found! it's a " + sData [tTableName].GetType ().Name);
+					List<object> tListOfRows = sData [tTableName] as List<object>;
+					//BTBDebug.Log ("tListOfRows found! with " + tListOfRows.Count + " row(s)");
+					if (tListOfRows.Count > 0) {
+						foreach (object tCsvValue in tListOfRows) {
+							string tCsvValueString = tCsvValue as string;
+							//BTBDebug.Log ("Datas found : '" + tCsvValueString + "'");
+							// I try to use this data to ... insert/update/delete/... ?
+							bool tForceToUse = false;
+							#if UNITY_EDITOR
+							tForceToUse = true;
+							#endif
+							NWDBasis<K> tObject = SynchronizationTryToUse (sEnvironment, tCsvValueString, tForceToUse);
+							// trash this object ?
+							FlushTrash (tObject);
+						}
+						rReturn = "YES";
+						//NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
 						#if UNITY_EDITOR
-						tForceToUse = true;
+						//	ReloadAllObjects ();
+						FilterTableEditor ();
 						#endif
-						NWDBasis<K> tObject = SynchronizationTryToUse (sEnvironment, tCsvValueString, tForceToUse);
-						// trash this object ?
-						FlushTrash (tObject);
 					}
 				}
-				NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
-				#if UNITY_EDITOR
-//				ReloadAllObjects ();
-				FilterTableEditor ();
-				#endif
 			}
+			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Trash from web service.
 		/// </summary>
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static bool TrashFromWebService ( NWDAppEnvironment sEnvironment)
+		public static bool TrashFromWebService (NWDAppEnvironment sEnvironment)
 		{
 			bool rReturn = false;
 
@@ -330,13 +335,13 @@ namespace NetWorkedData
 			bool rReturn = false;
 			if (sForceAll == true) {
 				#if UNITY_EDITOR
-				NWDEditorMenu.EnvironementSync().SynchronizationForce (new List<Type>{ClassType ()}, sEnvironment);
+				NWDEditorMenu.EnvironementSync ().SynchronizationForce (new List<Type>{ ClassType () }, sEnvironment);
 				#else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
 				#endif
 			} else {
 				#if UNITY_EDITOR
-				NWDEditorMenu.EnvironementSync().Synchronization (new List<Type>{ClassType ()}, sEnvironment);
+				NWDEditorMenu.EnvironementSync ().Synchronization (new List<Type>{ ClassType () }, sEnvironment);
 				#else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
 				#endif
@@ -351,15 +356,13 @@ namespace NetWorkedData
 				// reset last sync to zero
 				SynchronizationSetNewTimestamp (sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
 				// delete all datas for this user
-				foreach (NWDBasis<K> tObject in ObjectsList)
-				{
-					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference))
-					{
+				foreach (NWDBasis<K> tObject in ObjectsList) {
+					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference)) {
 						tObject.DeleteMe ();
 					}
 				}
 				// need to reload this data now : to remove all tObjects from memory!
-				LoadTableEditor();
+				LoadTableEditor ();
 			}
 		}
 	}

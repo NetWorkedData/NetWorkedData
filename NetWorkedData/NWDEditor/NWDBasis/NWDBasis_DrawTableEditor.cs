@@ -648,12 +648,12 @@ namespace NetWorkedData
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
 			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME, EditorStyles.miniButton)) {
-				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-					    NWDConstants.K_SYNC_ALERT_MESSAGE,
-					    NWDConstants.K_SYNC_ALERT_OK,
-					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+//					    NWDConstants.K_SYNC_ALERT_OK,
+//					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
 					SynchronizationFromWebService (false, NWDAppConfiguration.SharedInstance.ProdEnvironment);
-				}
+//				}
 			}
 			EditorGUI.EndDisabledGroup ();
 			GUILayout.EndHorizontal ();
@@ -669,12 +669,12 @@ namespace NetWorkedData
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
 			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " force", EditorStyles.miniButton)) {
-				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-					    NWDConstants.K_SYNC_ALERT_MESSAGE,
-					    NWDConstants.K_SYNC_ALERT_OK,
-					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+//					    NWDConstants.K_SYNC_ALERT_OK,
+//					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
 					SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.ProdEnvironment);
-				}
+//				}
 			}
 			EditorGUI.EndDisabledGroup ();
 			GUILayout.EndHorizontal ();

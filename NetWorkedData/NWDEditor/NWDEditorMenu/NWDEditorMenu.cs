@@ -213,7 +213,7 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
 		public static void DevCreateTablesServer ()
 		{
-			EnvironementSync().CreateAllTablesServer(NWDAppConfiguration.SharedInstance.DevEnvironment);
+			EnvironementSync().CreateTable(NWDAppConfiguration.SharedInstance.DevEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_DEV_SYNCHRONIZE_DATAS, false, 9121)]
@@ -247,7 +247,7 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9101)]
 		public static void PreprodCreateTablesServer ()
 		{
-			EnvironementSync().CreateAllTablesServer(NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			EnvironementSync().CreateTable(NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PREPROD_SYNCHRONIZE_DATAS, false, 9121)]
@@ -281,34 +281,34 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_PROD_CREATE_TABLES, false, 9101)]
 		public static void ProdCreateTablesServer ()
 		{
-				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-					    NWDConstants.K_SYNC_ALERT_MESSAGE,
-					    NWDConstants.K_SYNC_ALERT_OK,
-				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				EnvironementSync().CreateAllTablesServer (NWDAppConfiguration.SharedInstance.ProdEnvironment);
-				}
+//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+//					    NWDConstants.K_SYNC_ALERT_OK,
+//				NWDConstants.K_SYNC_ALERT_CANCEL)) {
+				EnvironementSync().CreateTable (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+//				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PROD_SYNCHRONIZE_DATAS, false, 9121)]
 		public static void ProdSynchronizeAllData ()
 		{
-				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-					    NWDConstants.K_SYNC_ALERT_MESSAGE,
-					    NWDConstants.K_SYNC_ALERT_OK,
-				NWDConstants.K_SYNC_ALERT_CANCEL)) {
+//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+//					    NWDConstants.K_SYNC_ALERT_OK,
+//				NWDConstants.K_SYNC_ALERT_CANCEL)) {
 				EnvironementSync().AllSynchronization (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
-				}
+//				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PROD_FORCE_SYNCHRONIZE, false, 9122)]
 		public static void ProdForceSynchronizeAllData ()
 		{
-				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-					NWDConstants.K_SYNC_ALERT_MESSAGE,
-					NWDConstants.K_SYNC_ALERT_OK,
-				NWDConstants.K_SYNC_ALERT_CANCEL)) {
+//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+//					NWDConstants.K_SYNC_ALERT_MESSAGE,
+//					NWDConstants.K_SYNC_ALERT_OK,
+//				NWDConstants.K_SYNC_ALERT_CANCEL)) {
 				EnvironementSync().AllSynchronizationForce (NWDAppConfiguration.SharedInstance.ProdEnvironment);
-				}
+//				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_PROD_RESET_CONNEXION, false, 9140)]

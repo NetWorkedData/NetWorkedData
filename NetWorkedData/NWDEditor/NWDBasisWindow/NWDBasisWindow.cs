@@ -120,12 +120,12 @@ namespace NetWorkedData
 			int tN = 0;
 			foreach( Type tType in mTabTypeList)
 			{
-				NWDDataManager.SharedInstance.NotificationCenter.AddObserver (this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
-					{
-//						Debug.Log ("###### method invoke");
-						UpdateDatas();
-					}
-				);
+//				NWDDataManager.SharedInstance.NotificationCenter.AddObserver (this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
+//					{
+////						Debug.Log ("###### method invoke");
+//						UpdateDatas();
+//					}
+//				);
 				var tMethodInfo = tType.GetMethod("MenuName", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) 
 				{

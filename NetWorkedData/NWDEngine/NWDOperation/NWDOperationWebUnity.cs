@@ -27,6 +27,8 @@ namespace NetWorkedData
 	[ExecuteInEditMode]
 	public partial class NWDOperationWebUnity : BTBOperation
 	{
+
+		public static int kTimeOutOfRequest = 30;
 		public GameObject GameObjectToSpawn;
 
 		public bool SecureData = false;
@@ -112,7 +114,7 @@ namespace NetWorkedData
 			WWWForm tWWWForm = InsertDataInRequest ();
 			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm)) {
 
-				Request.timeout = 5;
+				Request.timeout = kTimeOutOfRequest;
 				//BTBDebug.Log ("URL : " + Request.url);
 				// I prepare the header 
 				// I put the header in my request
@@ -143,6 +145,7 @@ namespace NetWorkedData
 				}
 
 				if (Request.isDone == true) {
+
 					BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
 					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
 				}
@@ -172,6 +175,11 @@ namespace NetWorkedData
 					tInfosError.Octects = 0;
 					FailInvoke (Request.downloadProgress, tInfosError);
 				} else { 
+
+					// Success ... but put 100% in progress anyway
+					NWDOperationResult tInfosProgress = new NWDOperationResult ();
+					ProgressInvoke (1.0f, tInfosProgress);
+
 					// Success
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
 					BTBDebug.LogVerbose ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
@@ -225,7 +233,7 @@ namespace NetWorkedData
 									tInfosResult.errorCode == "RQT94") {
 									// TODO : Alert (Session expire)
 									#if UNITY_EDITOR
-									EditorUtility.DisplayDialog ("Alert", "Session expired (error code " + tInfosResult.errorCode + ")", "Ok");
+									//EditorUtility.DisplayDialog ("Alert", "Session expired (error code " + tInfosResult.errorCode + ")", "Ok");
 									#endif
 									BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_SESSION_EXPIRED, tInfosResult));
 									// TODO : Change for anonymous account
@@ -233,12 +241,12 @@ namespace NetWorkedData
 								} else {
 
 									#if UNITY_EDITOR
-									string tDescription = "unknown error (error code " + tInfosResult.errorCode + ")";
-									if (tInfosResult.errorDesc!=null)
-									{
-										tDescription = "error " +tInfosResult.errorCode + " : " +tInfosResult.errorDesc.LocalizedDescription.GetLocalString ();
-									}
-									EditorUtility.DisplayDialog ("  Alert", tDescription, "Ok");
+//									string tDescription = "unknown error (error code " + tInfosResult.errorCode + ")";
+//									if (tInfosResult.errorDesc!=null)
+//									{
+//										tDescription = "error " +tInfosResult.errorCode + " : " +tInfosResult.errorDesc.LocalizedDescription.GetLocalString ();
+//									}
+//									EditorUtility.DisplayDialog ("  Alert", tDescription, "Ok");
 									#endif
 									BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_ERROR, tInfosResult));
 								}
@@ -443,6 +451,10 @@ namespace NetWorkedData
 			tBodyData.AddField (tParamKey, tParamValue);
 			tBodyData.AddField (tDigestKey, tDigestValue);
 			//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("data insert finish", this));
+
+			 #if UNITY_EDITOR
+			NWDEditorMenu.EnvironementSync ().SendOctects = tParamValue.Length + tDigestValue.Length;
+			 #endif
 			return tBodyData;
 		}
 	}

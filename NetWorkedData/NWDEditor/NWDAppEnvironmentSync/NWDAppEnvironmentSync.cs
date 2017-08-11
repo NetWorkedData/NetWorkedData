@@ -19,15 +19,27 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//-------------------------------------------------------------------------------------------------------------
+	// Use
+	// #if UNITY_EDITOR
+	// NWDEditorMenu.EnvironementSync ().SendOctects = …
+	// NWDEditorMenu.EnvironementSync ().ReceiptOctects = …
+	// #endif
+	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// NWD app configuration window.
 	/// </summary>
 	public class NWDAppEnvironmentSync : EditorWindow
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		string ErrorCode="";
-		string ErrorDescription="";
-		double Octects = 0;
+		string ErrorCode = "";
+		string ErrorDescription = "";
+		//		double Octects = 0;
+		public double SendOctects = 0;
+		public double ReceiptOctects = 0;
+		public double ActionCounter = 0;
+		public double ClassActionCounter = 0;
+		public double RowCounter = 0;
 		DateTime StartTime;
 		DateTime MiddleTime;
 		DateTime EndTime;
@@ -43,7 +55,7 @@ namespace NetWorkedData
 		private BTBOperationBlock SuccessBlock = null;
 		private BTBOperationBlock FailBlock = null;
 		private BTBOperationBlock CancelBlock = null;
-		private BTBOperationBlock ProgressBlock = null; 
+		private BTBOperationBlock ProgressBlock = null;
 		//-------------------------------------------------------------------------------------------------------------
 		// Icons for Sync
 		private Texture2D kImageRed;
@@ -51,6 +63,7 @@ namespace NetWorkedData
 		private Texture2D kImageOrange;
 		private Texture2D kImageForbidden;
 		private Texture2D kImageEmpty;
+		private Texture2D kImageWaiting;
 		//-------------------------------------------------------------------------------------------------------------
 		public void Start ()
 		{
@@ -70,6 +83,7 @@ namespace NetWorkedData
 			kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
 			kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
 			kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
+			kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
 
 			Debug.Log ("NWDAppEnvironmentSync OnEnable");
 			DevIcon = kImageEmpty;
@@ -77,27 +91,20 @@ namespace NetWorkedData
 			ProdIcon = kImageEmpty;
 			// SUCCESS BLOCK
 			SuccessBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-				
-				EndTime = new DateTime();
-				DevIcon = kImageEmpty;
-				PreProdIcon = kImageEmpty;
-				ProdIcon = kImageEmpty;
+				EndTime = DateTime.Now;
 				NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 				NWDError tError = tInfos.errorDesc;
 				string tErrorCode = tInfos.errorCode;
-				Octects = tInfos.Octects;
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment)
-				{
+				ReceiptOctects = tInfos.Octects;
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment) {
 					DevIcon = kImageGreen;
 					DevSessionExpired = false;
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment)
-				{
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment) {
 					PreProdIcon = kImageGreen;
 					PreProdSessionExpired = false;
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment)
-				{
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment) {
 					ProdIcon = kImageGreen;
 					ProdSessionExpired = false;
 				}
@@ -108,36 +115,39 @@ namespace NetWorkedData
 
 			// FAIL BLOCK
 			FailBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-				EndTime = new DateTime();
-				DevIcon = kImageEmpty;
-				PreProdIcon = kImageEmpty;
-				ProdIcon = kImageEmpty;
+				EndTime = DateTime.Now;
 				NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 				NWDError tError = tInfos.errorDesc;
 				string tErrorCode = tInfos.errorCode;
-				Octects = tInfos.Octects;
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment)
-				{
+				ReceiptOctects = tInfos.Octects;
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment) {
 					DevIcon = kImageRed;
-					if (tErrorCode.Contains ("RQT"))
-					{
+					if (tErrorCode.Contains ("RQT")) {
 						DevSessionExpired = true;
 					}
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment)
-				{
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment) {
 					PreProdIcon = kImageRed;
-					if (tErrorCode.Contains ("RQT"))
-					{
+					if (tErrorCode.Contains ("RQT")) {
 						PreProdSessionExpired = true;
 					}
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment)
-				{
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment) {
 					ProdIcon = kImageRed;
-					if (tErrorCode.Contains ("RQT"))
-					{
+					if (tErrorCode.Contains ("RQT")) {
 						ProdSessionExpired = true;
+					}
+				}
+				Repaint ();
+				if (tInfos.isError) {
+					if (tErrorCode.Contains ("RQT")) {
+						EditorUtility.DisplayDialog ("Alert", "Session expired (error code " + tInfos.errorCode + ")", "Ok");
+				} else {
+					string tDescription = "unknown error (error code " + tInfos.errorCode + ")";
+					if (tInfos.errorDesc != null) {
+						tDescription = "error " + tInfos.errorCode + " : " + tInfos.errorDesc.LocalizedDescription.GetLocalString ();
+					}
+					EditorUtility.DisplayDialog ("  Alert", tDescription, "Ok");
 					}
 				}
 				Repaint ();
@@ -147,55 +157,41 @@ namespace NetWorkedData
 
 			//CANCEL BLOCK
 			CancelBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-				EndTime = new DateTime();
-				DevIcon = kImageEmpty;
-				PreProdIcon = kImageEmpty;
-				ProdIcon = kImageEmpty;
+				EndTime = DateTime.Now;
 				NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 				NWDError tError = tInfos.errorDesc;
 				string tErrorCode = tInfos.errorCode;
-				Octects = tInfos.Octects;
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment)
-				{
+				ReceiptOctects = tInfos.Octects;
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment) {
 					DevIcon = kImageForbidden;
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment)
-				{
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment) {
 					PreProdIcon = kImageForbidden;
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment)
-				{
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment) {
 					ProdIcon = kImageForbidden;
 				}
 				Repaint ();
 			};
 
 
-
 			// PROGRESS BLOCK
 			ProgressBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-				if (bProgress>=1.0f)
-				{
-				MiddleTime = new DateTime();
+				if (bProgress >= 1.0f) {
+					MiddleTime = DateTime.Now;
 				}
-				DevIcon = kImageEmpty;
-				PreProdIcon = kImageEmpty;
-				ProdIcon = kImageEmpty;
 				NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 				NWDError tError = tInfos.errorDesc;
 				string tErrorCode = tInfos.errorCode;
-				Octects = tInfos.Octects;
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment)
-				{
-					DevIcon = kImageOrange;
+				ReceiptOctects = tInfos.Octects;
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.DevEnvironment.Environment) {
+					DevIcon = kImageWaiting;
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment)
-				{
-					PreProdIcon = kImageOrange;
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.PreprodEnvironment.Environment) {
+					PreProdIcon = kImageWaiting;
 				}
-				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment)
-				{
-					ProdIcon = kImageOrange;
+				if (bOperation.QueueName == NWDAppConfiguration.SharedInstance.ProdEnvironment.Environment) {
+					ProdIcon = kImageWaiting;
 				}
 				Repaint ();
 			};
@@ -220,6 +216,20 @@ namespace NetWorkedData
 			GUILayout.Label ("Dev", EditorStyles.boldLabel);
 			GUILayout.Label ("Preprod", EditorStyles.boldLabel);
 			GUILayout.Label ("Prod", EditorStyles.boldLabel);
+			GUILayout.EndHorizontal ();
+
+
+
+			GUILayout.BeginHorizontal ();
+			if (GUILayout.Button ("Dev Table", EditorStyles.miniButton)) {
+				CreateTable (NWDAppConfiguration.SharedInstance.DevEnvironment);
+			}
+			if (GUILayout.Button ("Preprod Table", EditorStyles.miniButton)) {
+				CreateTable (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			}
+			if (GUILayout.Button ("Prod Table", EditorStyles.miniButton)) {
+				CreateTable (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+			}
 			GUILayout.EndHorizontal ();
 
 			GUILayout.BeginHorizontal ();
@@ -250,30 +260,37 @@ namespace NetWorkedData
 			tStyleCenter.alignment = TextAnchor.MiddleCenter;
 
 			GUILayout.BeginHorizontal ();
-			GUILayout.Label(DevIcon,tStyleCenter, GUILayout.Height (20));
-			GUILayout.Label(PreProdIcon,tStyleCenter, GUILayout.Height (20));
-			GUILayout.Label(ProdIcon,tStyleCenter, GUILayout.Height (20));
+			GUILayout.Label (DevIcon, tStyleCenter, GUILayout.Height (20));
+			GUILayout.Label (PreProdIcon, tStyleCenter, GUILayout.Height (20));
+			GUILayout.Label (ProdIcon, tStyleCenter, GUILayout.Height (20));
 			GUILayout.EndHorizontal ();
 
+//			EditorGUILayout.LabelField ("- Start", NWDToolbox.Timestamp (StartTime).ToString ());
+//			EditorGUILayout.LabelField ("- Middle", NWDToolbox.Timestamp (MiddleTime).ToString ());
+//			EditorGUILayout.LabelField ("- End", NWDToolbox.Timestamp (EndTime).ToString ());
 
-			EditorGUILayout.LabelField ("Octect receipt", Octects.ToString ());
+//			int tDurationNet = NWDToolbox.Timestamp (MiddleTime) - NWDToolbox.Timestamp (StartTime); 
+//			EditorGUILayout.LabelField ("Network Duration", tDurationNet.ToString () +"s");
+			double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds (MiddleTime) - NWDToolbox.TimestampMilliseconds (StartTime)) / 1000.0F; 
+			EditorGUILayout.LabelField ("Network Duration", tDurationNetMilliseconds.ToString ("#0.000") + " s");
+			EditorGUILayout.LabelField ("Octect Send", SendOctects.ToString ());
+			EditorGUILayout.LabelField ("Octect receipt", ReceiptOctects.ToString ());
 
-			int tDurationNet = NWDToolbox.Timestamp (MiddleTime) - NWDToolbox.Timestamp (StartTime); 
-			EditorGUILayout.LabelField ("Network Duration", tDurationNet.ToString () +"s");
+//			int tDuration = NWDToolbox.Timestamp (EndTime) - NWDToolbox.Timestamp (StartTime); 
+			//			EditorGUILayout.LabelField ("Total Duration", tDuration.ToString () +"s");
 
-			double tDurationNetMilliseconds = NWDToolbox.TimestampMilliseconds (MiddleTime) - NWDToolbox.TimestampMilliseconds (StartTime); 
-			EditorGUILayout.LabelField ("Network Duration", tDurationNetMilliseconds.ToString () +"s");
+			double tDurationDataMilliseconds = (NWDToolbox.TimestampMilliseconds (EndTime) - NWDToolbox.TimestampMilliseconds (MiddleTime)) / 1000.0F;
+			; 
+			EditorGUILayout.LabelField ("DataBase Duration", tDurationDataMilliseconds.ToString ("#0.000") + " s");
 
-			int tDuration = NWDToolbox.Timestamp (EndTime) - NWDToolbox.Timestamp (StartTime); 
-			EditorGUILayout.LabelField ("Duration", tDuration.ToString () +"s");
-
-			double tDurationMilliseconds = NWDToolbox.TimestampMilliseconds (EndTime) - NWDToolbox.TimestampMilliseconds (StartTime); 
-			EditorGUILayout.LabelField ("Duration", tDurationMilliseconds.ToString () +"s");
+			double tDurationMilliseconds = (NWDToolbox.TimestampMilliseconds (EndTime) - NWDToolbox.TimestampMilliseconds (StartTime)) / 1000.0F;
+			; 
+			EditorGUILayout.LabelField ("Total Duration", tDurationMilliseconds.ToString ("#0.000") + " s");
 
 
 			if (DevSessionExpired == true || PreProdSessionExpired == true || ProdSessionExpired == true) {
 				GUILayout.BeginHorizontal ();
-					EditorGUI.BeginDisabledGroup (!DevSessionExpired);
+				EditorGUI.BeginDisabledGroup (!DevSessionExpired);
 				if (GUILayout.Button ("Dev reset", EditorStyles.miniButton)) {
 					Reset (NWDAppConfiguration.SharedInstance.DevEnvironment);
 				}
@@ -291,82 +308,172 @@ namespace NetWorkedData
 				GUILayout.EndHorizontal ();
 			}
 
+
+			GUILayout.BeginHorizontal ();
+			if (GUILayout.Button ("Dev flush", EditorStyles.miniButton)) {
+				Flush (NWDAppConfiguration.SharedInstance.DevEnvironment);
+			}
+			if (GUILayout.Button ("Preprod flush", EditorStyles.miniButton)) {
+				Flush (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			}
+			if (GUILayout.Button ("Prod flush", EditorStyles.miniButton)) {
+				Flush (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+			}
+			GUILayout.EndHorizontal ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void CreateAllTablesServer (NWDAppEnvironment sEnvironment)
+		public void CreateTable (NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
-			NWDOperationWebManagement.AddOperation ("Create table on server",SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, true);
+			bool tOk = false;
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+					    NWDConstants.K_SYNC_ALERT_OK,
+					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+					tOk = true;
+				}
+			} else {
+				tOk = true;
+			}
+			if (tOk == true) {
+				StartProcess (sEnvironment);
+				NWDOperationWebManagement.AddOperation ("Create table on server", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, true);
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void AllSynchronization (NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
-			NWDOperationWebSynchronisation.AddOperation ("All Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, false, false);
+			bool tOk = false;
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+					    NWDConstants.K_SYNC_ALERT_OK,
+					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+					tOk = true;
+				}
+			} else {
+				tOk = true;
+			}
+			if (tOk == true) {
+				StartProcess (sEnvironment);
+				NWDOperationWebSynchronisation.AddOperation ("All Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, false, false);
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void AllSynchronizationForce (NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
-			NWDOperationWebSynchronisation.AddOperation ("All Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, true, true);
+			bool tOk = false;
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+					    NWDConstants.K_SYNC_ALERT_OK,
+					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+					tOk = true;
+				}
+			} else {
+				tOk = true;
+			}
+			if (tOk == true) {
+				StartProcess (sEnvironment);
+				NWDOperationWebSynchronisation.AddOperation ("All Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, true, true);
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void Synchronization (List<Type> sTypeList, NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
-			NWDOperationWebSynchronisation.AddOperation ("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false);
+			bool tOk = false;
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+					    NWDConstants.K_SYNC_ALERT_OK,
+					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+					tOk = true;
+				}
+			} else {
+				tOk = true;
+			}
+			if (tOk == true) {
+				StartProcess (sEnvironment);
+				NWDOperationWebSynchronisation.AddOperation ("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false);
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SynchronizationForce (List<Type> sTypeList, NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
-			NWDOperationWebSynchronisation.AddOperation ("Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true);
+			bool tOk = false;
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+					    NWDConstants.K_SYNC_ALERT_OK,
+					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+					tOk = true;
+				}
+			} else {
+				tOk = true;
+			}
+			if (tOk == true) {
+				StartProcess (sEnvironment);
+				NWDOperationWebSynchronisation.AddOperation ("Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true);
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void Reset (NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
+			StartProcess (sEnvironment);
 			sEnvironment.ResetPreferences ();
 			// TODO : add message in window
-			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
-			{
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
 				DevIcon = kImageEmpty;
 				DevSessionExpired = false;
 			}
-			if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
-			{
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
 				PreProdIcon = kImageEmpty;
 				PreProdSessionExpired = false;
 			}
-			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
-			{
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
 				ProdIcon = kImageEmpty;
 				ProdSessionExpired = false;
 			}
-			EndTime = new DateTime ();
+			EndTime = DateTime.Now;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void Flush (NWDAppEnvironment sEnvironment)
 		{
-			StartTime = new DateTime ();
-			MiddleTime = new DateTime ();
-			EndTime = new DateTime ();
+			StartProcess (sEnvironment);
 			NWDDataManager.SharedInstance.WebOperationQueue.Flush (sEnvironment.Environment);
 			// TODO : add message in window
-			EndTime = new DateTime ();
+			EndTime = DateTime.Now;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		void StartProcess (NWDAppEnvironment sEnvironment)
+		{
+			StartTime = DateTime.Now;
+			MiddleTime = StartTime;
+			EndTime = StartTime;
+			SendOctects = 0;
+			ReceiptOctects = 0;
+			ActionCounter = 0;
+			ClassActionCounter = 0;
+			RowCounter = 0;
+
+			DevIcon = kImageEmpty;
+			PreProdIcon = kImageEmpty;
+			ProdIcon = kImageEmpty;
+
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
+				DevIcon = kImageEmpty;
+				DevSessionExpired = false;
+			}
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
+				PreProdIcon = kImageEmpty;
+				PreProdSessionExpired = false;
+			}
+			if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
+				ProdIcon = kImageEmpty;
+				ProdSessionExpired = false;
+			}
+		}
+
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }
