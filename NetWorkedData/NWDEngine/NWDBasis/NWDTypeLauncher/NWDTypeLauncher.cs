@@ -52,15 +52,17 @@ namespace NetWorkedData
 				                       where type.IsSubclassOf (typeof(NWDTypeClass))
 				                       select type).ToArray ();
 				// Force launch and register class type
+				int tTrigrammeAbstract = 111;
 				foreach (Type tType in tAllNWDTypes) {
 					if (tType.ContainsGenericParameters == false) {
 						//Debug.Log ("FIND tType = " + tType.Name);
-						string tTrigramme = "000";
+						tTrigrammeAbstract++;
+						string tTrigramme = tTrigrammeAbstract.ToString ();
 						if (tType.GetCustomAttributes (typeof(NWDClassTrigrammeAttribute), true).Length > 0) {
 							NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tType.GetCustomAttributes (typeof(NWDClassTrigrammeAttribute), true) [0];
 							tTrigramme = tTrigrammeAttribut.Trigramme;
 							if (tTrigramme == null || tTrigramme == "") {
-								tTrigramme = "111";
+								tTrigramme = tTrigrammeAbstract.ToString ();
 							}
 						}
 						bool tServerSynchronize = true;
@@ -84,9 +86,10 @@ namespace NetWorkedData
 								tMenuName = tType.Name + " menu";
 							}
 						}
+
 						var tMethodDeclare = tType.GetMethod ("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 						if (tMethodDeclare != null) {
-							tMethodDeclare.Invoke (null, new object[]{ tServerSynchronize, tTrigramme, tDescription, tMenuName });
+							tMethodDeclare.Invoke (null, new object[]{ tServerSynchronize, tTrigramme, tMenuName, tDescription});
 						}
 						/* DEBUG */
 //						var tMethodInfo = tType.GetMethod ("ClassInfos", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);

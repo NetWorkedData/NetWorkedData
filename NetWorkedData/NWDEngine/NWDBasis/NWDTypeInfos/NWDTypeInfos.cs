@@ -33,11 +33,34 @@ namespace NetWorkedData
 		public string TrigrammeName = "";
 		public string ClassDescription = "";
 		public string MenuName = "";
+		public string TableName = "";
 		//-------------------------------------------------------------------------------------------------------------
-//		public string SaltOk = "";
-//		public string SaltA = "";
-//		public string SaltB = "";
-//		public string PrefBaseKey = "";
+		public string PrefBaseKey = "";
+
+		static public string kPrefSaltValidKey = "SaltValid";
+		static public string kPrefSaltAKey = "SaltA";
+		static public string kPrefSaltBKey = "SaltB";
+
+		public string Salt = "";
+		public string SaltA = "";
+		public string SaltB = "";
+		public string SaltOk = "";
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		//public Object kObjectInEdition;
+		//public Object[] kObjectsArrayInEdition;
+		//-------------------------------------------------------------------------------------------------------------
+		public string m_SearchInternalName = "";
+		public string m_SearchInternalDescription = "";
+		public Vector2 m_ScrollPositionCard;
+		public bool mSearchShowing = false;
+		//-------------------------------------------------------------------------------------------------------------
+		public List<string> ObjectsInEditorTableKeyList = new List<string> ();
+		public List<string> ObjectsInEditorTableList = new List<string> ();
+		public List<bool> ObjectsInEditorTableSelectionList = new List<bool> ();
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTypeInfos ()
 		{
@@ -45,7 +68,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static Dictionary<Type,NWDTypeInfos> TypesDictionary = new Dictionary<Type,NWDTypeInfos> ();
 		//-------------------------------------------------------------------------------------------------------------
-		public static void Declare (Type sType, bool sServerSynchronize, string sTrigrammeName, string sDescription, string sMenuName)
+		public static void Declare (Type sType, bool sServerSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
 		{
 			if (sType.IsSubclassOf (typeof(NWDTypeClass))) {
 				NWDTypeInfos tTypeInfos = null;
@@ -61,6 +84,13 @@ namespace NetWorkedData
 				tTypeInfos.ClassDescription = sDescription;
 				tTypeInfos.ClassType = sType;
 				tTypeInfos.ServerSynchronize = sServerSynchronize;
+
+				tTypeInfos.PropertiesArrayPrepare ();
+				tTypeInfos.PropertiesOrderArrayPrepare ();
+				tTypeInfos.SLQAssemblyOrderArrayPrepare ();
+				tTypeInfos.SLQAssemblyOrderPrepare ();
+				tTypeInfos.SLQIntegrityOrderPrepare ();
+				tTypeInfos.DataAssemblyPropertiesListPrepare ();
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -104,6 +134,210 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public PropertyInfo[] PropertiesArray;
+		//-------------------------------------------------------------------------------------------------------------
+		public void PropertiesArrayPrepare ()
+		{
+			PropertiesArray = ClassType.GetProperties (BindingFlags.Public | BindingFlags.Instance);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public List<string> PropertiesOrderArray;
+		//-------------------------------------------------------------------------------------------------------------
+		public void PropertiesOrderArrayPrepare ()
+		{
+			List<string> rReturn = new List<string> ();
+			foreach (var tProp in PropertiesArray) {
+				rReturn.Add (tProp.Name);
+			}
+			rReturn.Sort ();
+			PropertiesOrderArray = rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public string[] CSVAssemblyOrderArray;
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// CSV assembly order array.
+		/// </summary>
+		/// <returns>The assembly order array.</returns>
+		public void CSVAssemblyOrderArrayPrepare ()
+		{
+			List<string> rReturn = new List<string> ();
+			rReturn.AddRange (PropertiesOrderArray);
+			rReturn.Remove ("Integrity");
+			rReturn.Remove ("Reference");
+			rReturn.Remove ("ID");
+			rReturn.Remove ("DM");
+			rReturn.Remove ("DS");
+			rReturn.Remove ("DevSync");
+			rReturn.Remove ("PreprodSync");
+			rReturn.Remove ("ProdSync");
+			// add the good order for this element
+			rReturn.Insert (0, "Reference");
+			rReturn.Insert (1, "DM");
+			rReturn.Insert (2, "DS");
+			rReturn.Insert (3, "DevSync");
+			rReturn.Insert (4, "PreprodSync");
+			rReturn.Insert (5, "ProdSync");
+			rReturn.Add ("Integrity");
+			CSVAssemblyOrderArray = rReturn.ToArray<string> ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public  string[] SLQAssemblyOrderArray;
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// SLQs the assembly order array.
+		/// </summary>
+		/// <returns>The assembly order array.</returns>
+		public void SLQAssemblyOrderArrayPrepare ()
+		{
+			List<string> rReturn = new List<string> ();
+			rReturn.AddRange (PropertiesOrderArray);
+			rReturn.Remove ("Integrity");
+			rReturn.Remove ("Reference");
+			rReturn.Remove ("ID");
+			rReturn.Remove ("DM");
+			rReturn.Remove ("DS");
+			rReturn.Remove ("DevSync");
+			rReturn.Remove ("PreprodSync");
+			rReturn.Remove ("ProdSync");
+			// add the good order for this element
+			rReturn.Insert (0, "DM");
+			rReturn.Insert (1, "DS");
+			rReturn.Insert (2, "DevSync");
+			rReturn.Insert (3, "PreprodSync");
+			rReturn.Insert (4, "ProdSync");
+			rReturn.Add ("Integrity");
+			SLQAssemblyOrderArray = rReturn.ToArray<string> ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public string SLQAssemblyOrder;
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// SLQs the assembly order.
+		/// </summary>
+		/// <returns>The assembly order.</returns>
+		public void SLQAssemblyOrderPrepare ()
+		{
+			List<string> rReturn = new List<string> ();
+			rReturn.AddRange (PropertiesOrderArray);
+			rReturn.Remove ("Integrity");
+			rReturn.Remove ("Reference");
+			rReturn.Remove ("ID");
+			rReturn.Remove ("DM");
+			rReturn.Remove ("DS");
+			rReturn.Remove ("DevSync");
+			rReturn.Remove ("PreprodSync");
+			rReturn.Remove ("ProdSync");
+			// add the good order for this element
+			rReturn.Insert (0, "Reference");
+			rReturn.Insert (1, "DM");
+			rReturn.Insert (2, "DS");
+			rReturn.Insert (3, "DevSync");
+			rReturn.Insert (4, "PreprodSync");
+			rReturn.Insert (5, "ProdSync");
+			rReturn.Add ("Integrity");
+			SLQAssemblyOrder = "`" + string.Join ("`, `", rReturn.ToArray ()) + "`";
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public List<string> SLQIntegrityOrder;
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// SLQs the assembly order.
+		/// </summary>
+		/// <returns>The assembly order.</returns>
+		public void SLQIntegrityOrderPrepare ()
+		{
+			List<string> rReturn = new List<string> ();
+			rReturn.AddRange (PropertiesOrderArray);
+			rReturn.Remove ("Integrity");
+			rReturn.Remove ("Reference");
+			rReturn.Remove ("ID");
+			rReturn.Remove ("DM");
+			rReturn.Remove ("DS");
+			rReturn.Remove ("DevSync");
+			rReturn.Remove ("PreprodSync");
+			rReturn.Remove ("ProdSync");
+			// add the good order for this element
+			rReturn.Insert (0, "Reference");
+			rReturn.Insert (1, "DM");
+			SLQIntegrityOrder = rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public List<string> DataAssemblyPropertiesList;
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// SLQs the assembly order.
+		/// </summary>
+		/// <returns>The assembly order.</returns>
+		public void DataAssemblyPropertiesListPrepare ()
+		{
+			List<string> rReturn = new List<string> ();
+			rReturn.AddRange (PropertiesOrderArray);
+			rReturn.Remove ("Integrity"); // not include in integrity
+			rReturn.Remove ("Reference");
+			rReturn.Remove ("ID");
+			rReturn.Remove ("DM");
+			rReturn.Remove ("DS");// not include in integrity
+			rReturn.Remove ("DevSync");// not include in integrity
+			rReturn.Remove ("PreprodSync");// not include in integrity
+			rReturn.Remove ("ProdSync");// not include in integrity
+			DataAssemblyPropertiesList = rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool kAccountDependent;
+		public PropertyInfo[] kAccountDependentProperties;
+		public PropertyInfo[] kAccountConnectedProperties;
+		public bool kLockedObject;
+		public bool kAssetDependent;
+		public PropertyInfo[] kAssetDependentProperties;
+		//-------------------------------------------------------------------------------------------------------------
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		//-------------------------------------------------------------------------------------------------------------
+		public List<object> ObjectsList = new List<object> ();
+		public List<string> ObjectsByReferenceList = new List<string> ();
+		public List<string> ObjectsByKeyList = new List<string> (); // TODO Rename ObjectsByInternalKeyList
+		//-------------------------------------------------------------------------------------------------------------
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		public static string SynchronizeKeyData = "data";
+		public static string SynchronizeKeyDataCount = "rowCount";
+		public static string SynchronizeKeyTimestamp = "sync";
+		public static string SynchronizeKeyLastTimestamp = "last";
+		public static string SynchronizeKeyInWaitingTimestamp = "waiting";
+		//-------------------------------------------------------------------------------------------------------------
+
+
+		public static bool mSettingsShowing = false;
+		//-------------------------------------------------------------------------------------------------------------
+		public static bool mForceSynchronization = false;
+		//-------------------------------------------------------------------------------------------------------------
+
+		public static Vector2 m_ObjectEditorScrollPosition = Vector2.zero; // not obligation
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+
+
 	}
+
 }
 //=====================================================================================================================

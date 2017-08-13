@@ -30,13 +30,16 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static void ClassDeclare (bool sServerSynchronize, string sTrigrammeName, string sDescription, string sMenuName)
+		public static void ClassDeclare (bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription)
 		{
 			Type tType = MethodBase.GetCurrentMethod ().DeclaringType;
 			//Debug.Log ("tType : " + tType.Name);
 			//Debug.Log ("K : " + typeof(K).Name);
-			NWDTypeInfos.Declare (typeof(K), sServerSynchronize, sTrigrammeName, sDescription, sMenuName);
-			NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sTrigrammeName, sMenuName, sDescription);
+			NWDTypeInfos.Declare (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+//			NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+
+			redefineClassToUse (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDTypeInfos TypeInfos ()
@@ -277,8 +280,9 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static void redefineClassToUse (Type sType, string sClassTrigramme, string sMenuName, string sDescription = "")
+		public static void redefineClassToUse (Type sType, bool  sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
 		{
+
 			string tTableName = sType.Name;
 			string tClassName = sType.AssemblyQualifiedName;
 			SetClassType (sType);
@@ -289,9 +293,59 @@ namespace NetWorkedData
 			SetMenuName (sMenuName);
 			SetClassDescription (sDescription);
 			PrefLoad ();
-            
+
 			AccountDependentAnalyze ();
 
+			if (NWDDataManager.SharedInstance.mTypeList.Contains (sType) == false) {
+					NWDDataManager.SharedInstance.mTypeList.Add (sType);
+			}
+			if (sServerSynchronize == true) {
+					if (NWDDataManager.SharedInstance.mTypeSynchronizedList.Contains (sType) == false) {
+						NWDDataManager.SharedInstance.mTypeSynchronizedList.Add (sType);
+				}
+					if (NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Contains (sType) == true) {
+						NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Remove (sType);
+				}
+
+				if (AccountDependent ()) {
+					if (NWDDataManager.SharedInstance.mTypeAccountDependantList.Contains (sType) == false) {
+						NWDDataManager.SharedInstance.mTypeAccountDependantList.Add (sType);
+					}
+					if (NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Contains (sType) == true) {
+						NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Remove (sType);
+					}
+				} else {
+					if (NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Contains (sType) == false) {
+						NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Add (sType);
+					}
+					if (NWDDataManager.SharedInstance.mTypeAccountDependantList.Contains (sType) == true) {
+						NWDDataManager.SharedInstance.mTypeAccountDependantList.Remove (sType);
+					}
+				}
+
+			} else {
+					if (NWDDataManager.SharedInstance.mTypeSynchronizedList.Contains (sType) == true) {
+						NWDDataManager.SharedInstance.mTypeSynchronizedList.Remove (sType);
+				}
+					if (NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Contains (sType) == false) {
+						NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Add (sType);
+				}
+				if (NWDDataManager.SharedInstance.mTypeAccountDependantList.Contains (sType) == true) {
+					NWDDataManager.SharedInstance.mTypeAccountDependantList.Remove (sType);
+				}
+				if (NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Contains (sType) == true) {
+					NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Remove (sType);
+				}
+			}
+				if (NWDDataManager.SharedInstance.mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) {
+					Debug.Log ("ERROR this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance.mTrigramTypeDictionary [sClassTrigramme] + ")");
+				} else {
+						NWDDataManager.SharedInstance.mTrigramTypeDictionary.Add (sClassTrigramme, sType);
+				}
+
+					NWDDataManager.SharedInstance.mTypeLoadedList.Add (sType);
+
+		
 #if UNITY_EDITOR
             CreateTable();
             LoadTableEditor();

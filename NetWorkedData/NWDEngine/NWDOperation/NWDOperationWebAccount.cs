@@ -57,6 +57,10 @@ namespace NetWorkedData
 		//		public string AnonymousRequesToken;
 		public string AnonymousResetPassword = "";
 
+//		public List<Type> TypeList;
+//		public bool ForceSync = true;
+//		public bool FlushTrash = false;
+
 		static public NWDOperationWebAccount AddOperation (string sName,
 		                                                   BTBOperationBlock sSuccessBlock = null, 
 		                                                   BTBOperationBlock sFailBlock = null, 
@@ -113,6 +117,14 @@ namespace NetWorkedData
 
 		public override void DataUploadPrepare ()
 		{
+
+			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeAccountDependantList);
+			tData.Add ("action", "sync");
+			#if UNITY_EDITOR
+			tData.Add ("flushtrash", true);
+			#endif
+			Data = tData;
+
 			if (Action != null) {
 				if (Data.ContainsKey (ActionKey)) {
 					Data [ActionKey] = Action;
@@ -232,7 +244,7 @@ namespace NetWorkedData
 
 		public override void DataDownloadedCompute (Dictionary<string, object> sData)
 		{
-			
+			NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, NWDDataManager.SharedInstance.mTypeAccountDependantList);
 		}
 	}
 }

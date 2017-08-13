@@ -105,43 +105,47 @@ namespace NetWorkedData
 		public List<Type> mTypeList = new List<Type> ();
 		public List<Type> mTypeSynchronizedList = new List<Type> ();
 		public List<Type> mTypeUnSynchronizedList = new List<Type> ();
+
+		public List<Type> mTypeAccountDependantList = new List<Type> ();
+		public List<Type> mTypeNotAccountDependantList = new List<Type> ();
+
 		public Dictionary<string, Type> mTrigramTypeDictionary = new Dictionary<string, Type> ();
 		//-------------------------------------------------------------------------------------------------------------
-		public void AddClassToManage (Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
-		{
-			if (mTypeList.Contains (sType) == false) {
-				mTypeList.Add (sType);
-			}
-			if (sServerSynchronize == true) {
-				if (mTypeSynchronizedList.Contains (sType) == false) {
-					mTypeSynchronizedList.Add (sType);
-				}
-				if (mTypeUnSynchronizedList.Contains (sType) == true) {
-					mTypeUnSynchronizedList.Remove (sType);
-				}
-			} else {
-				if (mTypeSynchronizedList.Contains (sType) == true) {
-					mTypeSynchronizedList.Remove (sType);
-				}
-				if (mTypeUnSynchronizedList.Contains (sType) == false) {
-					mTypeUnSynchronizedList.Add (sType);
-				}
-			}
-			if (mTypeLoadedList.Contains (sType) == false) {
-				var tMethodInfo = sType.GetMethod ("redefineClassToUse", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, new object[]{ sType, sClassTrigramme, sMenuName, sDescription });
-				}
-
-				if (mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) {
-					Debug.Log ("ERROR this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + mTrigramTypeDictionary [sClassTrigramme] + ")");
-				} else {
-					mTrigramTypeDictionary.Add (sClassTrigramme, sType);
-				}
-
-				mTypeLoadedList.Add (sType);
-			}
-		}
+//		public void AddClassToManage (Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
+//		{
+//			if (mTypeList.Contains (sType) == false) {
+//				mTypeList.Add (sType);
+//			}
+//			if (sServerSynchronize == true) {
+//				if (mTypeSynchronizedList.Contains (sType) == false) {
+//					mTypeSynchronizedList.Add (sType);
+//				}
+//				if (mTypeUnSynchronizedList.Contains (sType) == true) {
+//					mTypeUnSynchronizedList.Remove (sType);
+//				}
+//			} else {
+//				if (mTypeSynchronizedList.Contains (sType) == true) {
+//					mTypeSynchronizedList.Remove (sType);
+//				}
+//				if (mTypeUnSynchronizedList.Contains (sType) == false) {
+//					mTypeUnSynchronizedList.Add (sType);
+//				}
+//			}
+//			if (mTypeLoadedList.Contains (sType) == false) {
+//				var tMethodInfo = sType.GetMethod ("redefineClassToUse", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+//				if (tMethodInfo != null) {
+//					tMethodInfo.Invoke (null, new object[]{ sType,sServerSynchronize, sClassTrigramme, sMenuName, sDescription });
+//				}
+//
+//				if (mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) {
+//					Debug.Log ("ERROR this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + mTrigramTypeDictionary [sClassTrigramme] + ")");
+//				} else {
+//					mTrigramTypeDictionary.Add (sClassTrigramme, sType);
+//				}
+//
+//				mTypeLoadedList.Add (sType);
+//			}
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		void ReLoadAllClass ()
 		{
