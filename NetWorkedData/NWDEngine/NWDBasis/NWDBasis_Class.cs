@@ -289,9 +289,14 @@ namespace NetWorkedData
 			SetClassName (tClassName);
 			SetTableName (tTableName);
 			SetClassTrigramme (sClassTrigramme);
+
 			SetPrefBaseKey (tTableName + "_");
 			SetMenuName (sMenuName);
 			SetClassDescription (sDescription);
+
+
+
+
 			PrefLoad ();
 
 			AccountDependentAnalyze ();

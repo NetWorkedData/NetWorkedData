@@ -48,6 +48,15 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public static void SynchronizationResetTimestamp (NWDAppEnvironment sEnvironment)
+		{
+			#if UNITY_EDITOR
+			EditorPrefs.SetInt (SynchronizationPrefsKey (sEnvironment), sEnvironment.BuildTimestamp);
+			#else
+			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sEnvironment.BuildTimestamp);
+			#endif
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Synchronizations the get last timestamp.
 		/// </summary>

@@ -48,6 +48,32 @@ namespace NetWorkedData
 
 
 
+//		//-------------------------------------------------------------------------------------------------------------
+//		protected void PrefSave ()
+//		{
+//			#if UNITY_EDITOR
+//			//Debug.Log ("PrefSave");
+//			// reccord data to user's preferences
+//			NWDAppConfiguration.SharedInstance.SetSalt(PrefBaseKey,kPrefSaltAKey, SaltA);
+//			NWDAppConfiguration.SharedInstance.SetSalt(PrefBaseKey,kPrefSaltBKey, SaltB);
+//			NWDAppConfiguration.SharedInstance.SetSaltValid(PrefBaseKey,kPrefSaltValidKey, "ok");
+//			//NWDAppConfiguration.SharedInstance.SaveNewCSharpFile ();
+//			#endif
+//		}
+//		//-------------------------------------------------------------------------------------------------------------
+//		public void PrefLoad ()
+//		{
+//			//Debug.Log ("PrefLoad");
+//			// load data from user's preferences
+//			SetPrefSaltA (NWDAppConfiguration.SharedInstance.GetSalt(PrefBaseKey,kPrefSaltAKey, kPrefSaltValidKey));
+//			SetPrefSaltB (NWDAppConfiguration.SharedInstance.GetSalt(PrefBaseKey,kPrefSaltBKey, kPrefSaltValidKey));
+//			SetPrefSalt (NWDAppConfiguration.SharedInstance.GetSaltValid(PrefBaseKey,kPrefSaltValidKey));
+//		}
+//
+
+
+
+
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -81,12 +107,20 @@ namespace NetWorkedData
 					tTypeInfos = new NWDTypeInfos ();
 					TypesDictionary.Add (sType, tTypeInfos);
 				}
-				tTypeInfos.ClassName = sType.Name;
+
+				tTypeInfos.ClassType = sType;
+				tTypeInfos.TableName = sType.Name;
+				tTypeInfos.ClassName = sType.AssemblyQualifiedName;
+
 				tTypeInfos.TrigrammeName = sTrigrammeName;
 				tTypeInfos.MenuName = sMenuName;
 				tTypeInfos.ClassDescription = sDescription;
-				tTypeInfos.ClassType = sType;
+
 				tTypeInfos.ServerSynchronize = sServerSynchronize;
+
+
+				tTypeInfos.PrefBaseKey = sType.Name + "_";
+
 
 				tTypeInfos.PropertiesArrayPrepare ();
 				tTypeInfos.PropertiesOrderArrayPrepare ();

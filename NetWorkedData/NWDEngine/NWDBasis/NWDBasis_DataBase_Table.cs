@@ -29,6 +29,34 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class Methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		public static void CopyTable (SQLiteConnection BundleSQLiteConnection)
+		{
+
+			#if UNITY_EDITOR
+			 // nothing do to ... update bundle is not possible
+			#else
+			if (AccountDependent () == false) {
+				// reset sync timestamp
+				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment);
+				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				// flush object in memory and drop table of document 
+				ResetTable ();
+				// load data from BundleSQLiteConnection
+				IEnumerable tEnumerable = BundleSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
+				if (tEnumerable != null) {
+					foreach (NWDBasis<K> tItem in tEnumerable) {
+						AddObjectInListOfEdition (tItem);
+						NWDDataManager.SharedInstance.InsertObject (tItem);
+					}
+				}
+
+			}
+			#endif
+		}
+
 		//-------------------------------------------------------------------------------------------------------------
 		public static void CreateTable ()
 		{

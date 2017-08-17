@@ -256,7 +256,6 @@ namespace NetWorkedData
 			}
 		}
 
-		#if UNITY_EDITOR
 
 		public void EmptyTable (Type sType)
 		{
@@ -288,6 +287,7 @@ namespace NetWorkedData
 			DropTable (sType);
 			CreateTable (sType);
 		}
+		#if UNITY_EDITOR
 		#endif
 	}
 			}

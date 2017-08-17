@@ -272,21 +272,24 @@ namespace NetWorkedData
 				"if (!errorDetected())\n" +
 				"\t{\n" +
 				"\t\tglobal $REP;\n" +
-				"\t\tif ($REP['signin'] == true)\n" +
-				"\t\t\t{\n";
+				"\t\tif (isset($REP['signin']))\n" +
+				"\t\t\t{\n" +
+				"\t\t\t\tif ($REP['signin'] == true)\n" +
+				"\t\t\t\t\t{\n";
 			// I need include ALL tables management files to manage ALL tables
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList) {
 //				foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					string tClassName = tMethodInfo.Invoke (null, null) as string;
-					tAccountServices += "\t\t\t\t$dico['"+ tClassName +"']['sync'] = true;\n";
-					tAccountServices += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
-					tAccountServices += "\t\t\t\tSynchronize" + tClassName + " ($dico, 0, $uuid, false, 0, 100000);\n";
-					tAccountServices += "\t\t\t\t\n";
+					tAccountServices += "\t\t\t\t\t\t$dico['"+ tClassName +"']['sync'] = true;\n";
+					tAccountServices += "\t\t\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+					tAccountServices += "\t\t\t\t\t\tSynchronize" + tClassName + " ($dico, 0, $uuid, false, 0, 100000);\n";
+					tAccountServices += "\t\t\t\t\t\t\n";
 				}
 			}
 			tAccountServices += "" +
+				"\t\t\t\t\t}\n" +
 				"\t\t\t}\n" +
 				"\t\t}\n" +
 				"//--------------------\n" +
