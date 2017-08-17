@@ -28,12 +28,15 @@ namespace NetWorkedData
 	{
 		public void ConnectToDatabase ()
 		{
-			if (kConnectedToDatabase == false) {
+			if (kConnectedToDatabase == false)
+            {
 				kConnectedToDatabase = true;
 
-				if (ManagementType != NWDTypeService.ServerOnly) {
-#if UNITY_EDITOR
-					if (AssetDatabase.IsValidFolder (mDatabasePath) == false) {
+				if (ManagementType != NWDTypeService.ServerOnly)
+                {
+#if !UNITY_EDITOR
+					if (AssetDatabase.IsValidFolder (mDatabasePath) == false)
+                    {
 						AssetDatabase.CreateFolder ("Assets", "StreamingAssets");
 					}
 					var dbPath = mDatabasePath + "/" + mDatabaseName;
@@ -44,40 +47,94 @@ namespace NetWorkedData
                     BTBDebug.Log("Persistent path:" + filepath);
 					if (!File.Exists(filepath))
 					{
-					BTBDebug.Log("Database not in Persistent path");
-					// if it doesn't ->
-					// open StreamingAssets directory and load the db ->
+					    BTBDebug.Log("Database not in Persistent path");
+					    // if it doesn't ->
+					    // open StreamingAssets directory and load the db ->
 #if UNITY_ANDROID
-					var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + mDatabaseName);  // this is the path to your StreamingAssets in android
-					while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
-					// then save to Application.persistentDataPath
-					File.WriteAllBytes(filepath, loadDb.bytes);
+					    var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + mDatabaseName);  // this is the path to your StreamingAssets in android
+					    while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
+					    // then save to Application.persistentDataPath
+					    File.WriteAllBytes(filepath, loadDb.bytes);
 #elif UNITY_IOS
-					var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
-					// then save to Application.persistentDataPath
-					File.Copy(loadDb, filepath);
+					    var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
+					    // then save to Application.persistentDataPath
+					    File.Copy(loadDb, filepath);
 #elif UNITY_WP8
-					var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
-					// then save to Application.persistentDataPath
-					File.Copy(loadDb, filepath);
+					    var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
+					    // then save to Application.persistentDataPath
+					    File.Copy(loadDb, filepath);
 #elif UNITY_WINRT
-					var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
-					// then save to Application.persistentDataPath
-					File.Copy(loadDb, filepath);
+					    var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
+					    // then save to Application.persistentDataPath
+					    File.Copy(loadDb, filepath);
 #else
-					var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
-					// then save to Application.persistentDataPath
-					File.Copy(loadDb, filepath);
+					    var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
+					    // then save to Application.persistentDataPath
+					    File.Copy(loadDb, filepath);
 #endif
-					BTBDebug.Log("Database written");
-                    BTBDebug.Log("Path:" + loadDb);
+                        // Save App version in pref for futur used
+                        NWDPreferences.SetString("APP_VERSION", Application.version);
+
+                        BTBDebug.Log("Database written");
+                        BTBDebug.Log("Path:" + loadDb);
 					}
-					var dbPath = filepath;
+                    else
+                    {
+                        // Get saved App version from pref
+                        String tAppVersion = NWDPreferences.GetString("APP_VERSION");
+
+                        // Check build version
+                        if (tAppVersion.Equals(Application.version) == false)
+                        {
+                            // Set temporary patch for copy the database localy
+                            var tFilepathTemp = string.Format("{0}/{1}", Application.persistentDataPath, "TempDB.prp");
+
+                            // Copy data from the bundle database into temporary location
+#if UNITY_ANDROID
+                            var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + mDatabaseName);  // this is the path to your StreamingAssets in android
+                            while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
+                            // then save to Application.persistentDataPath
+                            File.WriteAllBytes(tFilepathTemp, loadDb.bytes);
+#elif UNITY_IOS
+					        var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
+					        // then save to Application.persistentDataPath
+					        File.Copy(loadDb, tFilepathTemp);
+#elif UNITY_WP8
+					        var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
+					        // then save to Application.persistentDataPath
+					        File.Copy(loadDb, tFilepathTemp);
+#elif UNITY_WINRT
+					        var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
+					        // then save to Application.persistentDataPath
+					        File.Copy(loadDb, tFilepathTemp);
 #endif
+                            // Load the temporay database
+                            SQLiteConnection tSQLiteTemp = new SQLiteConnection(tFilepathTemp, SQLiteOpenFlags.ReadOnly | SQLiteOpenFlags.Create);
 
-                    SQLiteConnection = new SQLiteConnection (dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-					BTBDebug.Log ("Final PATH: " + dbPath);
+                            // Load actual database
+                            SQLiteConnection tSQLiteConnection = new SQLiteConnection(filepath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
+                            // Update the actual database
+                            List<NWDItem> query = tSQLiteTemp.Query<NWDItem>("Select * From NWDItem");
+                            //select * from db2.table where not exists (select * from db1.table where db1.table.column1 = db2.table.column1);
+
+                            // Update sync timestamp in pref
+
+                            // Close both database
+                            tSQLiteTemp.Close();
+                            tSQLiteConnection.Close();
+
+                            // Remove temporary database
+                            File.Delete(tFilepathTemp);
+
+                            // Save App version in pref
+                            NWDPreferences.SetString("APP_VERSION", Application.version);
+                        }
+                    }
+					//var dbPath = filepath;
+#endif
+                    SQLiteConnection = new SQLiteConnection (filepath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+					BTBDebug.Log ("Final PATH: " + filepath);
 
 					//TODO : Find build NWD in preference (user pref)
 					//TODO : find build NWD in this IPA
@@ -87,7 +144,7 @@ namespace NetWorkedData
 					//TODO : copy in the document database each row which is newer than the used row
 
 				} else {
-					// TO DO with webservice only
+					//TODO : with webservice only
 				}
 			}
 		}
