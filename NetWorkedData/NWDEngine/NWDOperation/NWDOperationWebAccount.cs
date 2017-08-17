@@ -29,6 +29,7 @@ namespace NetWorkedData
 {
 	public class NWDOperationWebAccount : NWDOperationWebUnity
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		public static string ActionKey = "action";
 		public static string EmailKey = "email";
 		public static string EmailRescueKey = "emailrescue";
@@ -38,10 +39,12 @@ namespace NetWorkedData
 		public static string ConfirmPasswordKey = "password_confirm";
 		public static string SocialTokenKey = "social_token";
 
+		//-------------------------------------------------------------------------------------------------------------
 		public string AnonymousPlayerAccountReferenceKey = "auuid";
 		//		public string AnonymousRequesTokenKey = "atoken";
 		public string AnonymousResetPasswordKey = "apassword";
 
+		//-------------------------------------------------------------------------------------------------------------
 		public string Action;
 		public string Email;
 		public string Password;
@@ -52,15 +55,18 @@ namespace NetWorkedData
 		public string NewPassword;
 		public string ConfirmPassword;
 		public string SocialToken;
+		//-------------------------------------------------------------------------------------------------------------
 
 		public string AnonymousPlayerAccountReference = "";
 		//		public string AnonymousRequesToken;
 		public string AnonymousResetPassword = "";
+		//-------------------------------------------------------------------------------------------------------------
 
 //		public List<Type> TypeList;
 //		public bool ForceSync = true;
 //		public bool FlushTrash = false;
 
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebAccount AddOperation (string sName,
 		                                                   BTBOperationBlock sSuccessBlock = null, 
 		                                                   BTBOperationBlock sFailBlock = null, 
@@ -72,7 +78,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebAccount Create (string sName,
 		                                             BTBOperationBlock sSuccessBlock = null, 
 		                                             BTBOperationBlock sFailBlock = null, 
@@ -109,23 +115,21 @@ namespace NetWorkedData
 			// END
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
 		{
 			return "account.php";
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-
-			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeAccountDependantList);
-			tData.Add ("action", "sync");
-			#if UNITY_EDITOR
-			tData.Add ("flushtrash", true);
-			#endif
-			Data = tData;
-
+			Dictionary<string, object> tData = new Dictionary<string, object>();
 			if (Action != null) {
+				if (Action == "signin" || Action == "facebook" || Action == "google") {
+					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeNotAccountDependantList);
+				} else {
+					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeSynchronizedList);
+				}
 				if (Data.ContainsKey (ActionKey)) {
 					Data [ActionKey] = Action;
 				} else {
@@ -240,12 +244,21 @@ namespace NetWorkedData
 					}
 				}
 			}
-		}
 
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DataDownloadedCompute (Dictionary<string, object> sData)
 		{
+			if (sData.ContainsKey ("signin")) {
+				foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList) {
+					var tMethodInfo = tType.GetMethod ("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+					if (tMethodInfo != null) {
+					}
+				}
+			}
 			NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, NWDDataManager.SharedInstance.mTypeAccountDependantList);
 		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

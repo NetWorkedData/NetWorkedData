@@ -166,10 +166,10 @@ namespace NetWorkedData
 				{
 					CreateAllPHP ();
 				}
-				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_CSHARP_GENERATE+" '" + MenuName () + "'", EditorStyles.miniButton))
-				{
-					CreateCSharp ();
-				}
+//				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_CSHARP_GENERATE+" '" + MenuName () + "'", EditorStyles.miniButton))
+//				{
+//					CreateCSharp ();
+//				}
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

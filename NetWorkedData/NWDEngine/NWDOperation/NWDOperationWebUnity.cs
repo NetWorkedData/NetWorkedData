@@ -27,7 +27,7 @@ namespace NetWorkedData
 	[ExecuteInEditMode]
 	public partial class NWDOperationWebUnity : BTBOperation
 	{
-
+		//-------------------------------------------------------------------------------------------------------------
 		public static int kTimeOutOfRequest = 30;
 		public GameObject GameObjectToSpawn;
 
@@ -37,13 +37,14 @@ namespace NetWorkedData
 
 		public NWDAppEnvironment Environment;
 
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebUnity AddOperation (string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
 		{
 			NWDOperationWebUnity rReturn = NWDOperationWebUnity.Create (sName, sEnvironment);
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebUnity Create (string sName, NWDAppEnvironment sEnvironment = null)
 		{
 			NWDOperationWebUnity rReturn = null;
@@ -64,30 +65,30 @@ namespace NetWorkedData
 			#endif
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void Execute ()
 		{
 			StartCoroutine (ExecuteAsync ());
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public virtual void DataUploadPrepare ()
 		{
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public virtual void DataDownloadedCompute (Dictionary<string, object> sData)
 		{
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public virtual string ServerFile ()
 		{
 			return "index.php";
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public virtual string ServerBase ()
 		{
 			return Environment.ServerHTTPS.TrimEnd ('/') + "/Environment/" + Environment.Environment + "/" + ServerFile ();
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		IEnumerator ExecuteAsync ()
 		{
 			Statut = BTBOperationState.Start;
@@ -307,7 +308,7 @@ namespace NetWorkedData
 				Finish ();
 			}
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void Cancel ()
 		{
 //			BTBDebug.LogVerbose ("NWDOperationWebUnity Cancel");
@@ -323,7 +324,7 @@ namespace NetWorkedData
 			IsFinish = true;
 			Parent.NextOperation (this.QueueName);
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void Finish ()
 		{
 //			BTBDebug.LogVerbose ("NWDOperationWebUnity Finish");
@@ -331,7 +332,7 @@ namespace NetWorkedData
 			IsFinish = true;
 			Parent.NextOperation (this.QueueName);
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DestroyThisOperation ()
 		{
 			this.Statut = BTBOperationState.Destroy;
@@ -343,24 +344,26 @@ namespace NetWorkedData
 			BTBDebug.Log("BTBOperation Destroy ");
 #endif
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		static string OSKey = "os";
 		static string LangKey = "lang";
 		static string VersionKey = "version";
 		static string UUIDKey = "uuid";
 		static string RequestTokenKey = "token";
 		static string HashKey = "hash";
-
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
 		static string AdminHashKey = "adminHash";
+		//-------------------------------------------------------------------------------------------------------------
 		#endif
-
+		//-------------------------------------------------------------------------------------------------------------
 		public string OS;
 		public string Lang;
 		public string Version;
 		public string UUID;
 		public string RequestToken;
-
+		//-------------------------------------------------------------------------------------------------------------
 		public void InsertHeaderInRequest ()
 		{
 			//TODO: Insert Header In Request
@@ -421,14 +424,14 @@ namespace NetWorkedData
 			#endif
 
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		static string UnSecureKey = "prm";
 		static string SecureKey = "scr";
 		static string UnSecureDigestKey = "prmdgt";
 		static string SecureDigestKey = "scrdgt";
-
+		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<string,object> Data = new Dictionary<string,object> ();
-
+		//-------------------------------------------------------------------------------------------------------------
 		public WWWForm InsertDataInRequest ()
 		{
 			//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("data insert start", this));
@@ -457,6 +460,7 @@ namespace NetWorkedData
 			 #endif
 			return tBodyData;
 		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

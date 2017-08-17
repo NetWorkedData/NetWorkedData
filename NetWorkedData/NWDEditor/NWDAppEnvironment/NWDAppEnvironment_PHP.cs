@@ -208,12 +208,11 @@ namespace NetWorkedData
 			tWebServices += "\n" +
 				"$tPage = 0;\n" +
 				"if (isset($dico['page'])) { $tPage = $dico['page'];};\n" +
-				"$tLimit = 1000;\n" +
+				"$tLimit = 100000;\n" +
 				"if (isset($dico['limit'])) { $tLimit = $dico['limit'];};\n" +
 				"$tDate = time()-36000000; // check just one hour by default\n" +
 				"$tDate = 0; // check just one hour by default\n" +
 				"if (isset($dico['date'])) { $tDate = $dico['date'];};\n";
-
 
 			// I need include ALL tables management files to manage ALL tables
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
@@ -251,6 +250,49 @@ namespace NetWorkedData
 				"?>\n";
 			File.WriteAllText (tServerRootFolder + "/webservices.php", tWebServices);
 			AssetDatabase.ImportAsset (tServerRootFolder + "/webservices.php");
+
+
+
+
+
+
+			//========= WEBSERVICE FILE WHEN ACCOUNT IS SIGN-IN SUCCESSED
+
+			string tAccountServices = "";
+			tAccountServices += "<?php\n" +
+				"//NWD Autogenerate File at " + tDateTimeString + "\n" +
+				"//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
+				"//Created by Jean-François CONTART\n" +
+				"//--------------------\n" +
+				"// WEBSERVICES FUNCTIONS\n" +
+				"//--------------------\n" +
+				"// Determine the file tree path\n" +
+				"$PATH_BASE = dirname(dirname(__DIR__));\n" +
+				"//--------------------\n" +
+				"if (!errorDetected())\n" +
+				"\t{\n" +
+				"\t\tglobal $REP;\n" +
+				"\t\tif ($REP['signin'] == true)\n" +
+				"\t\t\t{\n";
+			// I need include ALL tables management files to manage ALL tables
+			foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList) {
+//				foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
+				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null) {
+					string tClassName = tMethodInfo.Invoke (null, null) as string;
+					tAccountServices += "\t\t\t\t$dico['"+ tClassName +"']['sync'] = true;\n";
+					tAccountServices += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+					tAccountServices += "\t\t\t\tSynchronize" + tClassName + " ($dico, 0, $uuid, false, 0, 100000);\n";
+					tAccountServices += "\t\t\t\t\n";
+				}
+			}
+			tAccountServices += "" +
+				"\t\t\t}\n" +
+				"\t\t}\n" +
+				"//--------------------\n" +
+				"?>\n";
+			File.WriteAllText (tServerRootFolder + "/accountservices.php", tAccountServices);
+			AssetDatabase.ImportAsset (tServerRootFolder + "/accountservices.php");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

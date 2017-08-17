@@ -29,9 +29,11 @@ namespace NetWorkedData
 {
 	public class NWDOperationWebSynchronisation : NWDOperationWebUnity
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		public List<Type> TypeList;
 		public bool ForceSync = false;
 		public bool FlushTrash = false;
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebSynchronisation AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
 		                                                           BTBOperationBlock sFailBlock = null, 
@@ -44,7 +46,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebSynchronisation Create (string sName,
 		                                                     BTBOperationBlock sSuccessBlock = null, 
 		                                                     BTBOperationBlock sFailBlock = null,
@@ -81,12 +83,12 @@ namespace NetWorkedData
 			// END
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
 		{
 			return "webservices.php";
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
 			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList);
@@ -96,12 +98,12 @@ namespace NetWorkedData
 			#endif
 			Data = tData;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DataDownloadedCompute (Dictionary<string, object> sData)
 		{
 			NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

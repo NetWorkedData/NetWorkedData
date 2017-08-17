@@ -28,6 +28,7 @@ namespace NetWorkedData
 {
 	public class NWDOperationWebManagement : NWDOperationWebUnity
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebManagement AddOperation (string sName,
 		                                                      BTBOperationBlock sSuccessBlock = null, 
 		                                                      BTBOperationBlock sFailBlock = null, 
@@ -39,7 +40,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebManagement Create (string sName,
 		                                                BTBOperationBlock sSuccessBlock = null, 
 		                                                BTBOperationBlock sFailBlock = null,
@@ -72,21 +73,21 @@ namespace NetWorkedData
 			// END
 			return rReturn;
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
 		{
 			return "management.php";
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
 			Data.Add ("management", "create");
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public override void DataDownloadedCompute (Dictionary<string, object> sData)
 		{
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

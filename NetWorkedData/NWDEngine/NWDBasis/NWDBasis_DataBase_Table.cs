@@ -40,6 +40,19 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance.ConnectToDatabase();
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public static void ResetTable ()
+		{
+			NWDDataManager.SharedInstance.ResetTable (ClassType ());
+
+			#if UNITY_EDITOR
+
+			#else
+			ObjectsList = new List<object> ();
+			ObjectsByReferenceList = new List<string> ();
+			ObjectsByKeyList = new List<string> ();
+			#endif
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
         public static void PopulateTable ()
@@ -60,11 +73,6 @@ namespace NetWorkedData
 		public static void ReInitializeTable ()
 		{
 			NWDDataManager.SharedInstance.ReInitializeTable (ClassType ());
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static void ResetTable ()
-		{
-			NWDDataManager.SharedInstance.ResetTable (ClassType ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		protected static string GenerateNewSalt ()

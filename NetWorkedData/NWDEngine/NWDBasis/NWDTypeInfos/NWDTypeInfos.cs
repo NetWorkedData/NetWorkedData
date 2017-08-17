@@ -41,10 +41,13 @@ namespace NetWorkedData
 		static public string kPrefSaltAKey = "SaltA";
 		static public string kPrefSaltBKey = "SaltB";
 
-		public string Salt = "";
 		public string SaltA = "";
 		public string SaltB = "";
 		public string SaltOk = "";
+
+
+
+
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------

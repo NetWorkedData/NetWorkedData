@@ -14,7 +14,8 @@ using UnityEngine;
 namespace NetWorkedData
 {
     public class NWDOperationResult : BTBOperationResult
-    {
+	{
+		//-------------------------------------------------------------------------------------------------------------
         public int timestamp { get; private set; }
         public float perform { get; private set; }
         public bool isError { get; private set; }
@@ -35,11 +36,12 @@ namespace NetWorkedData
         // TODO: remove and replace by properties exhaustives (with enum)
         public Dictionary<string, object> param { get; private set; }
 
+		//-------------------------------------------------------------------------------------------------------------
         public NWDOperationResult()
         {
             Init();
-        }
-
+		}
+		//-------------------------------------------------------------------------------------------------------------
         public NWDOperationResult(Dictionary<string, object> data)
         {
             Init();
@@ -107,16 +109,16 @@ namespace NetWorkedData
             }
 
 			param = new Dictionary<string, object>(data);
-        }
-
+		}
+		//-------------------------------------------------------------------------------------------------------------
         public NWDOperationResult(string sCode)
         {
             Init();
 			errorDesc = NWDError.GetErrorWithCode(sCode) as NWDError;
             isError = true;
 			errorCode = sCode;
-        }
-
+		}
+		//-------------------------------------------------------------------------------------------------------------
         private void Init()
         {
             timestamp = 0;
@@ -133,7 +135,8 @@ namespace NetWorkedData
             uuid = "";
 
             param = new Dictionary<string, object>();
-        }
+		}
+		//-------------------------------------------------------------------------------------------------------------
     }
 }
 //=====================================================================================================================
