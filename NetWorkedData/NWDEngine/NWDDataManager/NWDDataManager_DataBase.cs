@@ -42,7 +42,6 @@ namespace NetWorkedData
 					// check if file exists in Application.persistentDataPath
 					var filepath = string.Format("{0}/{1}", Application.persistentDataPath, mDatabaseName);
                     BTBDebug.Log("Persistent path:" + filepath);
-
 					if (!File.Exists(filepath))
 					{
 					BTBDebug.Log("Database not in Persistent path");
@@ -78,6 +77,15 @@ namespace NetWorkedData
 
                     SQLiteConnection = new SQLiteConnection (dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 					BTBDebug.Log ("Final PATH: " + dbPath);
+
+
+					//TODO : Find build NWD in preference (user pref)
+					//TODO : find build NWD in this IPA
+					//TODO : if build different copy the not connected table and reccord the new build verison in user prefs
+					//TODO : check all table of notaccountconnected class 
+					//TODO : select all in the bundle database
+					//TODO : copy in the document database each row which is newer than the used row
+
 				} else {
 					// TO DO with webservice only
 				}
