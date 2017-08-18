@@ -46,6 +46,8 @@ namespace NetWorkedData
 				IsLaunched = true;
 				// Get ShareInstance
 				NWDDataManager tShareInstance = NWDDataManager.SharedInstance;
+				// connect to database;
+				tShareInstance.ConnectToDatabase ();
 				// Find all Type of NWDType
 				Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly ().GetTypes ();
 				Type[] tAllNWDTypes = (from System.Type type in tAllTypes
@@ -53,10 +55,12 @@ namespace NetWorkedData
 				                       select type).ToArray ();
 				// Force launch and register class type
 				int tTrigrammeAbstract = 111;
+				int tNumberOfClasses = tAllNWDTypes.Count ();
+				int tIndexOfActualClass = 0;
 				foreach (Type tType in tAllNWDTypes) {
+					tTrigrammeAbstract++;
 					if (tType.ContainsGenericParameters == false) {
 						//Debug.Log ("FIND tType = " + tType.Name);
-						tTrigrammeAbstract++;
 						string tTrigramme = tTrigrammeAbstract.ToString ();
 						if (tType.GetCustomAttributes (typeof(NWDClassTrigrammeAttribute), true).Length > 0) {
 							NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tType.GetCustomAttributes (typeof(NWDClassTrigrammeAttribute), true) [0];
@@ -91,6 +95,7 @@ namespace NetWorkedData
 						if (tMethodDeclare != null) {
 							tMethodDeclare.Invoke (null, new object[]{ tServerSynchronize, tTrigramme, tMenuName, tDescription});
 						}
+
 						/* DEBUG */
 //						var tMethodInfo = tType.GetMethod ("ClassInfos", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 //						if (tMethodInfo != null) {
@@ -98,7 +103,22 @@ namespace NetWorkedData
 //						}
 						/* DEBUG */
 					}
+					tShareInstance.LoadedClass(tType, tNumberOfClasses, tIndexOfActualClass);
+					tIndexOfActualClass++;
 				}
+			}
+
+
+			if (NWDDataManager.SharedInstance.NeedCopy == true) {
+				// Close both database
+				NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy.Close ();
+				// Remove temporary database
+				File.Delete (NWDDataManager.SharedInstance.PathDatabaseFromBundleCopy);
+				NWDDataManager.SharedInstance.NeedCopy = false;
+
+				// Save App version in pref
+//				NWDPreferences.SetString("APP_VERSION", Application.version);
+				NWDPreferences.SetString("APP_VERSION", NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ());
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

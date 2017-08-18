@@ -59,6 +59,11 @@ namespace NetWorkedData
 
 		public BTBNotificationManager NotificationCenter;
 
+
+		public SQLiteConnection SQLiteConnectionFromBundleCopy;
+		public string PathDatabaseFromBundleCopy;
+		public bool NeedCopy = false;
+
 		//-------------------------------------------------------------------------------------------------------------
 		private NWDDataManager ()
 		{
@@ -190,6 +195,11 @@ namespace NetWorkedData
 				//Debug.Log ("Singleton");
 				return kSharedInstance; 
 			}
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void LoadedClass(Type sType, int sNumberOfClasses, int sIndexOfActualClass)
+		{
+			Debug.Log (sType.Name + " loaded ("+ (sIndexOfActualClass) +" / "+ sNumberOfClasses +")");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

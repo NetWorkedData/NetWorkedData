@@ -34,7 +34,7 @@ namespace NetWorkedData
 
 				if (ManagementType != NWDTypeService.ServerOnly)
                 {
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
 					if (AssetDatabase.IsValidFolder (mDatabasePath) == false)
                     {
 						AssetDatabase.CreateFolder ("Assets", "StreamingAssets");
@@ -72,8 +72,9 @@ namespace NetWorkedData
 					    // then save to Application.persistentDataPath
 					    File.Copy(loadDb, filepath);
 #endif
-                        // Save App version in pref for futur used
-                        NWDPreferences.SetString("APP_VERSION", Application.version);
+					// Save App version in pref for futur used
+					string tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ();
+					NWDPreferences.SetString("APP_VERSION", tBuildTimeStamp);
 
                         BTBDebug.Log("Database written");
                         BTBDebug.Log("Path:" + loadDb);
@@ -81,60 +82,67 @@ namespace NetWorkedData
                     else
                     {
                         // Get saved App version from pref
-                        String tAppVersion = NWDPreferences.GetString("APP_VERSION");
+
+//                        String tAppVersion = NWDPreferences.GetString("APP_VERSION");
+					string tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ();
+					string tBuildTimeStampActual = NWDPreferences.GetString("APP_VERSION");
+//					if (tBuildTimeStampActual==null)
+//					{tBuildTimeStampActual = "";
+//					}
 
                         // Check build version
-                        if (tAppVersion.Equals(Application.version) == false)
+					//                        if (tAppVersion.Equals(Application.version) == false)
+					if (tBuildTimeStamp.Equals(tBuildTimeStampActual) == false)
                         {
+							NeedCopy = true;
                             // Set temporary patch for copy the database localy
-                            var tFilepathTemp = string.Format("{0}/{1}", Application.persistentDataPath, "TempDB.prp");
+					PathDatabaseFromBundleCopy = string.Format("{0}/{1}", Application.persistentDataPath, "TempDB.prp");
 
                             // Copy data from the bundle database into temporary location
 #if UNITY_ANDROID
                             var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + mDatabaseName);  // this is the path to your StreamingAssets in android
                             while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                             // then save to Application.persistentDataPath
-                            File.WriteAllBytes(tFilepathTemp, loadDb.bytes);
+					File.WriteAllBytes(PathDatabaseFromBundleCopy, loadDb.bytes);
 #elif UNITY_IOS
 					        var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
 					        // then save to Application.persistentDataPath
-					        File.Copy(loadDb, tFilepathTemp);
+					File.Copy(loadDb, PathDatabaseFromBundleCopy);
 #elif UNITY_WP8
 					        var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
 					        // then save to Application.persistentDataPath
-					        File.Copy(loadDb, tFilepathTemp);
+					File.Copy(loadDb, PathDatabaseFromBundleCopy);
 #elif UNITY_WINRT
 					        var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
 					        // then save to Application.persistentDataPath
-					        File.Copy(loadDb, tFilepathTemp);
+					File.Copy(loadDb, PathDatabaseFromBundleCopy);
 #endif
                             // Load the temporay database
-                            SQLiteConnection tSQLiteTemp = new SQLiteConnection(tFilepathTemp, SQLiteOpenFlags.ReadOnly | SQLiteOpenFlags.Create);
-
-                            // Load actual database
-                            SQLiteConnection tSQLiteConnection = new SQLiteConnection(filepath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+					SQLiteConnectionFromBundleCopy = new SQLiteConnection(PathDatabaseFromBundleCopy, SQLiteOpenFlags.ReadOnly | SQLiteOpenFlags.Create);
 
                             // Update the actual database
-                            List<NWDItem> query = tSQLiteTemp.Query<NWDItem>("Select * From NWDItem");
+
+//                            List<NWDItem> query = tSQLiteTemp.Query<NWDItem>("Select * From NWDItem");
                             //select * from db2.table where not exists (select * from db1.table where db1.table.column1 = db2.table.column1);
 
+
+
                             // Update sync timestamp in pref
-
-                            // Close both database
-                            tSQLiteTemp.Close();
-                            tSQLiteConnection.Close();
-
-                            // Remove temporary database
-                            File.Delete(tFilepathTemp);
+//
+//                            // Close both database
+//					SQLiteConnectionFromBundleCopy.Close();
+//
+//                            // Remove temporary database
+//					File.Delete(PathDatabaseFromBundleCopy);
 
                             // Save App version in pref
-                            NWDPreferences.SetString("APP_VERSION", Application.version);
+//                            NWDPreferences.SetString("APP_VERSION", Application.version);
                         }
                     }
-					//var dbPath = filepath;
+					var dbPath = filepath;
 #endif
-                    SQLiteConnection = new SQLiteConnection (filepath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-					BTBDebug.Log ("Final PATH: " + filepath);
+					SQLiteConnection = new SQLiteConnection (dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+					BTBDebug.Log ("Final PATH: " + dbPath);
 
 					//TODO : Find build NWD in preference (user pref)
 					//TODO : find build NWD in this IPA

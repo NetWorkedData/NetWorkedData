@@ -63,10 +63,10 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance.CreateTable (ClassType ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public static void ConnectToDatabase()
-        {
-            NWDDataManager.SharedInstance.ConnectToDatabase();
-		}
+//        public static void ConnectToDatabase()
+//        {
+//            NWDDataManager.SharedInstance.ConnectToDatabase();
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ResetTable ()
 		{

@@ -350,17 +350,16 @@ namespace NetWorkedData
 
 					NWDDataManager.SharedInstance.mTypeLoadedList.Add (sType);
 
-		
+			CreateTable();
+			if (NWDDataManager.SharedInstance.NeedCopy == true) {
+				CopyTable (NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy);
+			}
+			LoadTableEditor();
 #if UNITY_EDITOR
-            CreateTable();
-            LoadTableEditor();
-            FilterTableEditor();
+			FilterTableEditor();
+			PrefSave();
 #else
-            ConnectToDatabase();
-            LoadTableEditor ();
 #endif
-
-            PrefSave();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		static public string kPrefSaltValidKey = "SaltValid";
