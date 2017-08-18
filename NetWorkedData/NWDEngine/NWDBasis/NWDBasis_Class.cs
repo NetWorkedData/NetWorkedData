@@ -352,7 +352,7 @@ namespace NetWorkedData
 
 			CreateTable();
 			if (NWDDataManager.SharedInstance.NeedCopy == true) {
-				CopyTable (NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy);
+				CopyTable (/*NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy*/);
 			}
 			LoadTableEditor();
 #if UNITY_EDITOR
@@ -427,6 +427,15 @@ namespace NetWorkedData
 			List<PropertyInfo> tPropertyListConnected = new List<PropertyInfo> ();
 			List<PropertyInfo> tAssetPropertyList= new List<PropertyInfo> ();
 			Type tType = ClassType ();
+
+
+			// TODO : check 
+			// exception for NWDAccount table
+			if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken)) {
+				rAccountConnected = true;
+			}
+
+
 			foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tProp.PropertyType;
 				if (tTypeOfThis != null) {

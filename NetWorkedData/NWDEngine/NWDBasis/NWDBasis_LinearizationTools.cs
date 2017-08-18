@@ -269,7 +269,7 @@ namespace NetWorkedData
 			rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());
 			rReturnObject.InstanceInit ();
 			rReturnObject.UpdateWithCSV (sEnvironment, sDataArray);
-			NWDDataManager.SharedInstance.InsertObject (rReturnObject);
+			NWDDataManager.SharedInstance.InsertObject (rReturnObject,AccountDependent ());
 			return rReturnObject;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -347,7 +347,7 @@ namespace NetWorkedData
 					}
 				}
 			}
-			NWDDataManager.SharedInstance.UpdateObject (this);
+			NWDDataManager.SharedInstance.UpdateObject (this,AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

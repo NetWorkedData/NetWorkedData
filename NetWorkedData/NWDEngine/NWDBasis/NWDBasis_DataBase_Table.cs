@@ -31,10 +31,10 @@ namespace NetWorkedData
 		#region Class Methods
 
 		//-------------------------------------------------------------------------------------------------------------
-		public static void CopyTable (SQLiteConnection BundleSQLiteConnection)
+		public static void CopyTable (/*SQLiteConnection BundleSQLiteConnection*/)
 		{
 
-			#if UNITY_EDITOR
+			#if !UNITY_EDITOR
 			 // nothing do to ... update bundle is not possible
 			#else
 			if (AccountDependent () == false) {
@@ -43,15 +43,15 @@ namespace NetWorkedData
 				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 				// flush object in memory and drop table of document 
-				ResetTable ();
-				// load data from BundleSQLiteConnection
-				IEnumerable tEnumerable = BundleSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
-				if (tEnumerable != null) {
-					foreach (NWDBasis<K> tItem in tEnumerable) {
-						AddObjectInListOfEdition (tItem);
-						NWDDataManager.SharedInstance.InsertObject (tItem);
-					}
-				}
+//				ResetTable ();
+//				// load data from BundleSQLiteConnection
+//				IEnumerable tEnumerable = BundleSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
+//				if (tEnumerable != null) {
+//					foreach (NWDBasis<K> tItem in tEnumerable) {
+//						AddObjectInListOfEdition (tItem);
+//						NWDDataManager.SharedInstance.InsertObject (tItem);
+//					}
+//				}
 
 			}
 			#endif
@@ -60,7 +60,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void CreateTable ()
 		{
-			NWDDataManager.SharedInstance.CreateTable (ClassType ());
+			NWDDataManager.SharedInstance.CreateTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 //        public static void ConnectToDatabase()
@@ -70,7 +70,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ResetTable ()
 		{
-			NWDDataManager.SharedInstance.ResetTable (ClassType ());
+			NWDDataManager.SharedInstance.ResetTable (ClassType (), AccountDependent ());
 
 			#if UNITY_EDITOR
 
@@ -85,22 +85,22 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public static void PopulateTable ()
 		{
-			NWDDataManager.SharedInstance.PopulateTable (ClassType ());
+			NWDDataManager.SharedInstance.PopulateTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void EmptyTable ()
 		{
-			NWDDataManager.SharedInstance.EmptyTable (ClassType ());
+			NWDDataManager.SharedInstance.EmptyTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void DropTable ()
 		{
-			NWDDataManager.SharedInstance.DropTable (ClassType ());
+			NWDDataManager.SharedInstance.DropTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ReInitializeTable ()
 		{
-			NWDDataManager.SharedInstance.ReInitializeTable (ClassType ());
+			NWDDataManager.SharedInstance.ReInitializeTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		protected static string GenerateNewSalt ()

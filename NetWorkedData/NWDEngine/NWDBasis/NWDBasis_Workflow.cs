@@ -167,7 +167,12 @@ namespace NetWorkedData
 		// TODO: must be tested
 		public static K[] Where (Expression<Func<K, bool>> predExpr)
 		{
-			IEnumerable<K> tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (predExpr);
+			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+			if (AccountDependent ())
+			{
+				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+			}
+			IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K> ().Where (predExpr);
 			List<K> tAllReferences = new List<K> ();
 			foreach (K tItem in tEnumerable) {
 				int tIndex = ObjectsByReferenceList.IndexOf(tItem.Reference);

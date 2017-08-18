@@ -228,7 +228,7 @@ namespace NetWorkedData
 					this.AddonInsertMe ();
 				}
 				this.UpdateIntegrity ();
-				NWDDataManager.SharedInstance.InsertObject (this);
+				NWDDataManager.SharedInstance.InsertObject (this, AccountDependent ());
 				AddObjectInListOfEdition (this);
 				rReturn = true;
 			} else {
@@ -291,7 +291,7 @@ namespace NetWorkedData
 			this.PreprodSync = 0;
 			this.ProdSync = 0;
 			this.UpdateIntegrity ();
-			NWDDataManager.SharedInstance.UpdateObject (this);
+			NWDDataManager.SharedInstance.UpdateObject (this, AccountDependent ());
 			// object was updated
 			this.AddonUpdatedMe (); // call override method
 			// I have one or more uploaded datas to synchronize;
@@ -349,12 +349,19 @@ namespace NetWorkedData
 		/// <returns>The me.</returns>
 		public NWDBasis<K> DuplicateMe ()
 		{
+
+			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+			if (AccountDependent ())
+			{
+				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+			}
+
 			// Must reccord object in data base 
 			UpdateMe ();
 			// prepare a request from database to create a new object from original object 
 			//(so , don't need to copy actual object if updated)
 			NWDBasis<K> rReturnObject = null;
-			IEnumerable<K> tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.ID == this.ID);
+			IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K> ().Where (x => x.ID == this.ID);
 			int tCount = tEnumerable.Cast<K> ().Count<K> ();
 			if (tCount == 1) {
 				rReturnObject = tEnumerable.Cast<K> ().ElementAt (0);
@@ -421,7 +428,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void DeleteMe ()
 		{
-			NWDDataManager.SharedInstance.DeleteObject (this);
+			NWDDataManager.SharedInstance.DeleteObject (this, AccountDependent ());
 
 		}
 		//-------------------------------------------------------------------------------------------------------------

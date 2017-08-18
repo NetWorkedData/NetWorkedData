@@ -228,6 +228,13 @@ namespace NetWorkedData
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
 		public static Dictionary<string, object> SynchronizationPushData (NWDAppEnvironment sEnvironment, bool sForceAll)
 		{
+
+			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+			if (AccountDependent ())
+			{
+				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+			}
+
 			//BTBDebug.Log ("SynchronizationPushData for table " + TableName ());
 			// ok if sync will be ok this date will be the last sync for this table
 			SynchronizationSetInWaitingTimestamp (sEnvironment, NWDToolbox.Timestamp ());
@@ -246,13 +253,13 @@ namespace NetWorkedData
 			//TODO: BUT IF SYNC = TIME ?
 			if (sForceAll == true) {
 				tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
-				tResults = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.DM >= tLastSynchronization);
+				tResults = tSQLiteConnection.Table<K> ().Where (x => x.DM >= tLastSynchronization);
 			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
-				tResults = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.DevSync == 0);
+				tResults = tSQLiteConnection.Table<K> ().Where (x => x.DevSync == 0);
 			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
-				tResults = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.PreprodSync == 0);
+				tResults = tSQLiteConnection.Table<K> ().Where (x => x.PreprodSync == 0);
 			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment) {
-				tResults = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.ProdSync == 0);
+				tResults = tSQLiteConnection.Table<K> ().Where (x => x.ProdSync == 0);
 			}
 			if (tResults != null) {
 				foreach (NWDBasis<K> tItem in tResults) {

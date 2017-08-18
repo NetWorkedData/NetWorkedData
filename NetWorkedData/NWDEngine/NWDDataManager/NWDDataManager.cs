@@ -26,15 +26,15 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	public enum NWDTypeService
-	{
-		LocalOnly,
-		// just localbase (example : device without network) => file database to manage data
-		LocalWithServer,
-		// Synchronize with server and copy to local to use offline (example : smartphone, computer, etc ) => file database and webservice to synchronize to manage data
-		ServerOnly,
-		// no copy to local, only data from webservices (example : facebook app) => webservice to manage data
-	}
+//	public enum NWDTypeService
+//	{
+//		LocalOnly,
+//		// just localbase (example : device without network) => file database to manage data
+//		LocalWithServer,
+//		// Synchronize with server and copy to local to use offline (example : smartphone, computer, etc ) => file database and webservice to synchronize to manage data
+//		ServerOnly,
+//		// no copy to local, only data from webservices (example : facebook app) => webservice to manage data
+//	}
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDDataManager
 	{
@@ -50,19 +50,29 @@ namespace NetWorkedData
 		//		public string PlayerAccountUUID;
 		//		public string PlayerAccountToken;
 
-		// Members properties
-		public SQLiteConnection SQLiteConnection;
-		public string mDatabasePath = "Assets/StreamingAssets";
-		public string mDatabaseName = "NWDmage.prp";
-		public NWDTypeService ManagementType = NWDTypeService.LocalWithServer;
+		// Members properties for NOT account dependant database (data from editor)
+		//public SQLiteConnection SQLiteConnection;
+		public SQLiteConnection SQLiteConnectionEditor;
+		public string DatabasePathEditor = "Assets/StreamingAssets";
+		public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
+
+		// Members properties for account dependant database (data from user)
+		public SQLiteConnection SQLiteConnectionAccount;
+		public string DatabasePathAccount = "Assets";
+		public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
+
+
+//		public NWDTypeService ManagementType = NWDTypeService.LocalWithServer;
 		private bool kConnectedToDatabase = false;
 
 		public BTBNotificationManager NotificationCenter;
 
 
-		public SQLiteConnection SQLiteConnectionFromBundleCopy;
-		public string PathDatabaseFromBundleCopy;
+//		public SQLiteConnection SQLiteConnectionFromBundleCopy;
+//		public string PathDatabaseFromBundleCopy;
 		public bool NeedCopy = false;
+
+
 
 		//-------------------------------------------------------------------------------------------------------------
 		private NWDDataManager ()

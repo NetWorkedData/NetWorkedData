@@ -114,19 +114,19 @@ namespace NetWorkedData
 
 			if (NWDDataManager.SharedInstance.NeedCopy == true) {
 
-				Debug.Log ("Close original copy from bundle database");
-				// Close original copy from bundle database
-				NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy.Close ();
-				// Remove temporary database
-				Debug.Log ("DELETE original copy from bundle database");
-				File.Delete (NWDDataManager.SharedInstance.PathDatabaseFromBundleCopy);
-				Debug.Log ("NeedCopy FALSE.....");
-				NWDDataManager.SharedInstance.NeedCopy = false;
+//				Debug.Log ("Close original copy from bundle database");
+//				// Close original copy from bundle database
+//				NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy.Close ();
+//				// Remove temporary database
+//				Debug.Log ("DELETE original copy from bundle database");
+//				File.Delete (NWDDataManager.SharedInstance.PathDatabaseFromBundleCopy);
+//				Debug.Log ("NeedCopy FALSE.....");
+//				NWDDataManager.SharedInstance.NeedCopy = false;
 
 				Debug.Log ("SAVE TIMESTAMP OF BUID IN PREFS");
 				// Save App version in pref
 //				NWDPreferences.SetString("APP_VERSION", Application.version);
-				BTBPrefsManager.ShareInstance ().set("APP_VERSION", NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ());
+//				BTBPrefsManager.ShareInstance ().set("APP_VERSION", NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp);
 
 				Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
 			}

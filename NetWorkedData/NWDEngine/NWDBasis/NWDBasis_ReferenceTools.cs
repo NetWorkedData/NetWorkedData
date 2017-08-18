@@ -126,8 +126,15 @@ namespace NetWorkedData
 		/// <param name="sReference">reference.</param>
 		public bool TestReference (string sReference)
 		{
+
+			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+			if (AccountDependent ())
+			{
+				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+			}
+
 			bool rValid = false;
-			IEnumerable<K> tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.Reference == sReference);
+			IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K> ().Where (x => x.Reference == sReference);
 			int tCount = tEnumerable.Cast<K> ().Count<K> ();
 			if (tCount == 0) {
 				rValid = true;
