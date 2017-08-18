@@ -65,6 +65,8 @@ namespace NetWorkedData
 			RescueEmail = EditorGUILayout.TextField ("RescueEmail", RescueEmail);
 			EditorGUILayout.TextField ("Admin Key for "+ Environment, EditorStyles.boldLabel);
 			AdminKey = EditorGUILayout.TextField ("AdminKey", AdminKey);
+			EditorGUILayout.TextField ("Token Historic limit for "+ Environment, EditorStyles.boldLabel);
+			TokenHistoric = EditorGUILayout.IntSlider ("Token number", TokenHistoric, 1, 10);
 			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
 			EditorGUILayout.LabelField ("version", NWDVersion.GetVersionForEnvironemt (this), EditorStyles.boldLabel);
 			EditorGUILayout.EndVertical();

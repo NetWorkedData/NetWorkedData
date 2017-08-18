@@ -20,6 +20,18 @@
 		return $tToken;
 	}
 		//--------------------
+	function NWDRequestTokenDeleteOldToken ($sUUIDHash, $sTimestamp, $sToken)
+	{
+		global $SQL_CON, $ENV;
+		$tQuery = 'DELETE FROM `'.$ENV.'_NWDRequestToken` WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\' AND `DM` <= \''.$SQL_CON->real_escape_string($sTimestamp).'\' AND `Token` != \''.$SQL_CON->real_escape_string($sToken).'\';';
+		$tResult = $SQL_CON->query($tQuery);
+		if (!$tResult)
+		{
+			error('RQT14');
+			myLog('ERROR IN '.$tQuery);
+		}
+	}
+		//--------------------
 	function NWDRequestTokenGenerateToken ($sUUIDHash)
 	{
 		$tRandom =  $sUUIDHash.'-'.time().'-'.rand ( 1000000000 , 9999999999 ).'-0';
@@ -52,6 +64,7 @@
 		global $SQL_CON, $ENV;
 		global $REP;
 		global $token;
+		global $RTH;
 		$rReturn = false;
 		if ($sToken=='')
 		{
@@ -75,68 +88,91 @@
 					$rReturn = false;
 					error('RQT90');
 				}
-				else if ($tResult->num_rows == 1)
+				else if ($tResult->num_rows <= $RTH)
 				{
-						// ok I have only one token !
+						// ok I have some token for this user ...
+					$tTokenIsValid = false;
+					$tTimestamp = 0;
+					$tToken = '';
 					while($tRow = $tResult->fetch_array())
 					{
 						if ($tRow['Token'] == $sToken)
 						{
 								// If the token is unique and equal to the reccord => valid
 								// must update with the next Token
-							
-							$token = NWDRequestTokenGenerateToken ($sUUIDHash);
-							$tQueryNewToken = 'UPDATE `'.$ENV.'_NWDRequestToken` SET `DM` = \''.time().'\', `Token` = \''.$SQL_CON->real_escape_string($token).'\' WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\';';
-							$tResultNewToken = $SQL_CON->query($tQueryNewToken);
-							if (!$tResultNewToken)
-							{
-								error('RQT11');
-							}
-							else
-							{
-								$REP['token'] = $token;
-							}
-							$rReturn = true;
+//							
+//							$token = NWDRequestTokenGenerateToken ($sUUIDHash);
+//							$tQueryNewToken = 'UPDATE `'.$ENV.'_NWDRequestToken` SET `DM` = \''.time().'\', `Token` = \''.$SQL_CON->real_escape_string($token).'\' WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\';';
+//							$tResultNewToken = $SQL_CON->query($tQueryNewToken);
+//							if (!$tResultNewToken)
+//							{
+//								error('RQT11');
+//							}
+//							else
+//							{
+//								$REP['token'] = $token;
+//							}
+//							$rReturn = true;
+							$tTokenIsValid = true;
+							$tTimestamp = $tRow['DM'];
+							$tToken = $tRow['Token'];
 						}
 						else
 						{
 								//the token is too old and the base was purged since the last connexion ?
-							$rReturn = false;
-							error('RQT91');
+//							$rReturn = false;
+//							error('RQT91');
 						}
 					}
-				}
-				else
-				{
-					$TokenDate = '';
-					$LastTokenDate = '';
-					$TokenInConflict; // only one by one;
-					$TokenMajor;
-					while($tRow = $tResult->fetch_array())
+					if ($tTokenIsValid==true)
 					{
-						if ($tRow['Token'] == $sToken)
-						{
-							$TokenDate = $tRow['Token'];
-						}
-						else
-						{
-							$TokenInConflict[] = $tRow['Token'];
-						}
-						if ($tRow['Token'] > $LastTokenDate)
-						{
-							$LastTokenDate = $tRow['Token'];
-							$TokenMajor = $tRow['Token'];
-						}
-					}
-					if ($LastTokenDate == $TokenDate)
-					{
-							// ok I have the last token but another session is working …
-						error('RQT93');
+						
+						$rReturn = true;
+						NWDRequestTokenDeleteOldToken ($sUUIDHash, $tTimestamp, $tToken);
+						$token = NWDRequestTokenCreate($sUUIDHash);
+						$REP['token'] = $token;
 					}
 					else
 					{
-						error('RQT94');
+						$rReturn = false;
+						error('RQT91');
 					}
+					
+				}
+				else
+				{
+					
+					error('RQT93');
+					
+//					$TokenDate = '';
+//					$LastTokenDate = '';
+//					$TokenInConflict; // only one by one;
+//					$TokenMajor;
+//					while($tRow = $tResult->fetch_array())
+//					{
+//						if ($tRow['Token'] == $sToken)
+//						{
+//							$TokenDate = $tRow['Token'];
+//						}
+//						else
+//						{
+//							$TokenInConflict[] = $tRow['Token'];
+//						}
+//						if ($tRow['Token'] > $LastTokenDate)
+//						{
+//							$LastTokenDate = $tRow['Token'];
+//							$TokenMajor = $tRow['Token'];
+//						}
+//					}
+//					if ($LastTokenDate == $TokenDate)
+//					{
+//							// ok I have the last token but another session is working …
+//						error('RQT93');
+//					}
+//					else
+//					{
+//						error('RQT94');
+//					}
 				}
 				mysqli_free_result($tResult);
 			}

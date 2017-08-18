@@ -48,6 +48,7 @@ namespace NetWorkedData
 		public string UnityAppKey = "";
 		public string TwitterAppKey = "";
 		public int BuildTimestamp = 0;
+		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
 		public string RescueEmail = "no-reply@my-web-site.com";
 //		public string Version = "0.00.00";
@@ -108,6 +109,9 @@ namespace NetWorkedData
 			}
 			if (AdminKey == "") {
 				AdminKey = NWDToolbox.RandomString (16);
+			}
+			if (TokenHistoric <1 || TokenHistoric>10) {
+				TokenHistoric = 3;
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

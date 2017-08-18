@@ -102,6 +102,7 @@ namespace NetWorkedData
 			"\t\t\tthis.ProdEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp ().ToString () + ";\n" +
+			"\t\t\tthis.ProdEnvironment.TokenHistoric = " + this.ProdEnvironment.TokenHistoric.ToString () + ";\n" +
 //			"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.LoadPreferences ();\n" +
 			"\t\t\tthis.ProdEnvironment.FormatVerification ();\n" +
@@ -123,9 +124,10 @@ namespace NetWorkedData
 			"\t\t\tthis.PreprodEnvironment.UnityAppKey = \"" + this.PreprodEnvironment.UnityAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.TwitterAppKey = \"" + this.PreprodEnvironment.TwitterAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.PreprodEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp ().ToString () + ";\n" +
+			"\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString () + ";\n" +
 //			"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.LoadPreferences ();\n" +
 			"\t\t\tthis.PreprodEnvironment.FormatVerification ();\n" +
@@ -148,9 +150,10 @@ namespace NetWorkedData
 			"\t\t\tthis.DevEnvironment.UnityAppKey = \"" + this.DevEnvironment.UnityAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.DevEnvironment.TwitterAppKey = \"" + this.DevEnvironment.TwitterAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.DevEnvironment.AdminKey = \"" + this.DevEnvironment.AdminKey.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.DevEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.DevEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp ().ToString () + ";\n" +
+			"\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString () + ";\n" +
 //			"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.DevEnvironment.LoadPreferences ();\n" +
 			"\t\t\tthis.DevEnvironment.FormatVerification ();\n" +

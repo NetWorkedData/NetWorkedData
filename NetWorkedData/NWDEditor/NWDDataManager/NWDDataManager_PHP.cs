@@ -140,7 +140,9 @@ namespace NetWorkedData
 			NWDError.CreateGenericError ("token", "RQT01", "Token error", "error in request token creation", "alert");
 			NWDError.CreateGenericError ("token", "RQT11", "Token error", "new token is not in base", "alert");
 			NWDError.CreateGenericError ("token", "RQT12", "Token error", "error in token select", "alert");
-			NWDError.CreateGenericError ("token", "RQT13", "Token error", "error in token delete", "alert");
+			NWDError.CreateGenericError ("token", "RQT13", "Token error", "error in all token delete", "alert");
+			NWDError.CreateGenericError ("token", "RQT14", "Token error", "error in old token delete", "alert");
+
 			NWDError.CreateGenericError ("token", "RQT90", "Token error", "session not exists", "alert");
 			NWDError.CreateGenericError ("token", "RQT91", "Token error", "session expired", "alert");
 			NWDError.CreateGenericError ("token", "RQT92", "Token error", "token not in base", "alert");
