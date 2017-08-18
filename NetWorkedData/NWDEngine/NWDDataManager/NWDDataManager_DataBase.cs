@@ -28,12 +28,10 @@ namespace NetWorkedData
 	{
 		public void ConnectToDatabase ()
 		{
-			if (kConnectedToDatabase == false)
-            {
+			if (kConnectedToDatabase == false) {
 				kConnectedToDatabase = true;
 
-				if (ManagementType != NWDTypeService.ServerOnly)
-                {
+				if (ManagementType != NWDTypeService.ServerOnly) {
 #if UNITY_EDITOR
 					if (AssetDatabase.IsValidFolder (mDatabasePath) == false)
                     {
@@ -43,22 +41,21 @@ namespace NetWorkedData
                     //var dbPath = string.Format(@"Assets/StreamingAssets/{0}", mDatabaseName);
 #else
 					// check if file exists in Application.persistentDataPath
-					var filepath = string.Format("{0}/{1}", Application.persistentDataPath, mDatabaseName);
-                    BTBDebug.Log("Persistent path:" + filepath);
-					if (!File.Exists(filepath))
-					{
-					    BTBDebug.Log("Database not in Persistent path");
-					    // if it doesn't ->
-					    // open StreamingAssets directory and load the db ->
+					var filepath = string.Format ("{0}/{1}", Application.persistentDataPath, mDatabaseName);
+					BTBDebug.Log ("Persistent path:" + filepath);
+					if (!File.Exists (filepath)) {
+						BTBDebug.Log ("Database not in Persistent path");
+						// if it doesn't ->
+						// open StreamingAssets directory and load the db ->
 #if UNITY_ANDROID
 					    var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + mDatabaseName);  // this is the path to your StreamingAssets in android
 					    while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
 					    // then save to Application.persistentDataPath
 					    File.WriteAllBytes(filepath, loadDb.bytes);
 #elif UNITY_IOS
-					    var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
-					    // then save to Application.persistentDataPath
-					    File.Copy(loadDb, filepath);
+						var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
+						// then save to Application.persistentDataPath
+						File.Copy (loadDb, filepath);
 #elif UNITY_WP8
 					    var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
 					    // then save to Application.persistentDataPath
@@ -72,42 +69,36 @@ namespace NetWorkedData
 					    // then save to Application.persistentDataPath
 					    File.Copy(loadDb, filepath);
 #endif
-					// Save App version in pref for futur used
-					string tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ();
-					NWDPreferences.SetString("APP_VERSION", tBuildTimeStamp);
+						// Save App version in pref for futur used
+						string tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ();
+						BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
 
-                        BTBDebug.Log("Database written");
-                        BTBDebug.Log("Path:" + loadDb);
-					}
-                    else
-                    {
-                        // Get saved App version from pref
+						BTBDebug.Log ("Database written");
+						BTBDebug.Log ("Path:" + loadDb);
+					} else {
 
-//                        String tAppVersion = NWDPreferences.GetString("APP_VERSION");
-					string tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ();
-					string tBuildTimeStampActual = NWDPreferences.GetString("APP_VERSION");
-//					if (tBuildTimeStampActual==null)
-//					{tBuildTimeStampActual = "";
-//					}
+						Debug.Log ("#### BASE ALLREDAY EXISTS");
+						// Get saved App version from pref
+						string tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp.ToString ();
+						string tBuildTimeStampActual = BTBPrefsManager.ShareInstance ().getString ("APP_VERSION");
+						// Check build version
+						if (tBuildTimeStamp.Equals (tBuildTimeStampActual) == false) {
 
-                        // Check build version
-					//                        if (tAppVersion.Equals(Application.version) == false)
-					if (tBuildTimeStamp.Equals(tBuildTimeStampActual) == false)
-                        {
+							Debug.Log ("#### BASE ALLREDAY EXISTS AND NEED UPDATE FROM BUNDLE DATABASE");
 							NeedCopy = true;
-                            // Set temporary patch for copy the database localy
-					PathDatabaseFromBundleCopy = string.Format("{0}/{1}", Application.persistentDataPath, "TempDB.prp");
+							// Set temporary patch for copy the database localy
+							PathDatabaseFromBundleCopy = string.Format ("{0}/{1}", Application.persistentDataPath, "TempDB.prp");
 
-                            // Copy data from the bundle database into temporary location
+							// Copy data from the bundle database into temporary location
 #if UNITY_ANDROID
                             var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + mDatabaseName);  // this is the path to your StreamingAssets in android
                             while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
                             // then save to Application.persistentDataPath
 					File.WriteAllBytes(PathDatabaseFromBundleCopy, loadDb.bytes);
 #elif UNITY_IOS
-					        var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
-					        // then save to Application.persistentDataPath
-					File.Copy(loadDb, PathDatabaseFromBundleCopy);
+							var loadDb = Application.dataPath + "/Raw/" + mDatabaseName;  // this is the path to your StreamingAssets in iOS
+							// then save to Application.persistentDataPath
+							File.Copy (loadDb, PathDatabaseFromBundleCopy);
 #elif UNITY_WP8
 					        var loadDb = Application.dataPath + "/Resources/" + mDatabaseName;
 					        // then save to Application.persistentDataPath
@@ -117,17 +108,17 @@ namespace NetWorkedData
 					        // then save to Application.persistentDataPath
 					File.Copy(loadDb, PathDatabaseFromBundleCopy);
 #endif
-                            // Load the temporay database
-					SQLiteConnectionFromBundleCopy = new SQLiteConnection(PathDatabaseFromBundleCopy, SQLiteOpenFlags.ReadOnly | SQLiteOpenFlags.Create);
+							// Load the temporay database
+					SQLiteConnectionFromBundleCopy = new SQLiteConnection (PathDatabaseFromBundleCopy, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                            // Update the actual database
+							// Update the actual database
 
 //                            List<NWDItem> query = tSQLiteTemp.Query<NWDItem>("Select * From NWDItem");
-                            //select * from db2.table where not exists (select * from db1.table where db1.table.column1 = db2.table.column1);
+							//select * from db2.table where not exists (select * from db1.table where db1.table.column1 = db2.table.column1);
 
 
 
-                            // Update sync timestamp in pref
+							// Update sync timestamp in pref
 //
 //                            // Close both database
 //					SQLiteConnectionFromBundleCopy.Close();
@@ -135,10 +126,14 @@ namespace NetWorkedData
 //                            // Remove temporary database
 //					File.Delete(PathDatabaseFromBundleCopy);
 
-                            // Save App version in pref
-//                            NWDPreferences.SetString("APP_VERSION", Application.version);
-                        }
-                    }
+							// Save App version in pref
+//					BTBPrefsManager.ShareInstance ().set("APP_VERSION", Application.version);
+						}
+					else
+					{
+					Debug.Log ("#### BASE ALLREDAY EXISTS BUT NOT NEED UPDATE !!! ");
+					}
+					}
 					var dbPath = filepath;
 #endif
 					SQLiteConnection = new SQLiteConnection (dbPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
@@ -235,14 +230,14 @@ namespace NetWorkedData
 			}
 		}
 
-#if UNITY_EDITOR
-        public void CreateAllTablesServer (NWDAppEnvironment sEnvironment)
+		#if UNITY_EDITOR
+		public void CreateAllTablesServer (NWDAppEnvironment sEnvironment)
 		{
-			NWDOperationWebManagement.AddOperation ("Create table on server",null,null,null,null, sEnvironment, true);
+			NWDOperationWebManagement.AddOperation ("Create table on server", null, null, null, null, sEnvironment, true);
 		}
-#endif
+		#endif
 
-        public void CreateTable (Type sType)
+		public void CreateTable (Type sType)
 		{
 			//Debug.Log ("CreateTable " + sType.Name);
 			if (ManagementType != NWDTypeService.ServerOnly) {
@@ -298,5 +293,5 @@ namespace NetWorkedData
 		#if UNITY_EDITOR
 		#endif
 	}
-			}
-			//=====================================================================================================================
+}
+//=====================================================================================================================
