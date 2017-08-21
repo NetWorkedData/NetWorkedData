@@ -527,7 +527,7 @@ namespace NetWorkedData
 				foreach (Type tType in sTypeList) {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
-						object tResult = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sData }) as string;
+						string tResult = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sData }) as string;
 						if (tResult == "YES") {
 							sUpdateData = true;
 						}

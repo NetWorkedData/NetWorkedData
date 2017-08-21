@@ -123,7 +123,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-			Dictionary<string, object> tData = new Dictionary<string, object>();
 			if (Action != null) {
 				if (Action == "signin" || Action == "facebook" || Action == "google") {
 					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeNotAccountDependantList);

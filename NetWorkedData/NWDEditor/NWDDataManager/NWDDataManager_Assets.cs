@@ -23,8 +23,10 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataManager
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeAssetPath (string sOldPath, string sNewPath) {
 			BTBDebug.Log ("ChangeAssetPath " + sOldPath + " to " + sNewPath);
 			string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
@@ -45,7 +47,9 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

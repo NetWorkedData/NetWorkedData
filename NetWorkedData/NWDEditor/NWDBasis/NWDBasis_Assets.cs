@@ -24,9 +24,15 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Change the asset path in all object of this class.
+		/// </summary>
+		/// <param name="sOldPath">old path.</param>
+		/// <param name="sNewPath">new path.</param>
 		public static void ChangeAssetPath (string sOldPath, string sNewPath) {
 			//BTBDebug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
 			if (AssetDependent() == true)
@@ -37,6 +43,11 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Change the asset path in this object.
+		/// </summary>
+		/// <param name="sOldPath">old path.</param>
+		/// <param name="sNewPath">new path.</param>
 		public virtual void ChangeAssetPathMe (string sOldPath, string sNewPath)
 		{
 			//BTBDebug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
@@ -50,20 +61,6 @@ namespace NetWorkedData
 						//BTBDebug.Log ("Preview ChangeAssetPath YES I DID", BTBDebugResult.Success);
 					}
 				}
-
-				//				Type tType = ClassType ();
-				//				foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-				//					Type tTypeOfThis = tProp.PropertyType;
-				//					if (tTypeOfThis.IsSubclassOf (typeof(NWDUnityType))) {
-				//						NWDUnityType tValueStruct = (NWDUnityType)tProp.GetValue (this, null);
-				//						if (tValueStruct != null) {
-				//							if (tValueStruct.ChangeAssetPath (sOldPath, sNewPath)) {
-				//								tUpdate = true;
-				//							}
-				//						}
-				//					}
-				//				}
-
 				foreach (var tProp in PropertiesAssetDependent()) {
 					Type tTypeOfThis = tProp.PropertyType;
 					NWDAssetType tValueStruct = (NWDAssetType)tProp.GetValue (this, null);
@@ -73,8 +70,6 @@ namespace NetWorkedData
 							}
 						}
 				}
-
-
 				if (tUpdate == true) {
 					UpdateMeLater ();
 				}
@@ -82,6 +77,7 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

@@ -19,8 +19,10 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataLocalizationManager
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		public void ReOrderAllLocalizations ()
 		{
 			string tProgressBarTitle = "NetWorkedData Reorder localization";
@@ -42,7 +44,7 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public void ExportToCSV ()
 		{
 			Debug.Log ("ExportToCSV");
@@ -72,7 +74,7 @@ namespace NetWorkedData
 				File.WriteAllText (tPath, tFile);
 			}
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
 		public void ImportFromCSV ()
 		{
 			Debug.Log ("ImportFromCSV");
@@ -98,7 +100,9 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.UpdateQueueExecute ();
 			}
 		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

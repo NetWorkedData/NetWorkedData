@@ -163,6 +163,12 @@ namespace NetWorkedData
 					Statut = BTBOperationState.Error;
 					NWDOperationResult tInfosError = new NWDOperationResult ("WEB01");
 					FailInvoke (Request.downloadProgress, tInfosError);
+
+					if (Application.isPlaying == true) {
+						NWDGameDataManager.UnitySingleton ().ErrorManagement (tInfosError.errorDesc);
+					}
+
+
 				} else if (Request.isHttpError) { // Error
 					BTBDebug.LogVerbose ("NWDOperationWebUnity isHttpError ", BTBDebugResult.Fail);
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
@@ -175,6 +181,11 @@ namespace NetWorkedData
 					NWDOperationResult tInfosError = new NWDOperationResult ("WEB02");
 					tInfosError.Octects = 0;
 					FailInvoke (Request.downloadProgress, tInfosError);
+
+					if (Application.isPlaying == true) {
+						NWDGameDataManager.UnitySingleton ().ErrorManagement (tInfosError.errorDesc);
+					}
+
 				} else { 
 
 					// Success ... but put 100% in progress anyway
@@ -196,6 +207,11 @@ namespace NetWorkedData
 						NWDOperationResult tInfosFail = new NWDOperationResult ("WEB03");
 						tInfosFail.Octects = 0;
 						FailInvoke (Request.downloadProgress, tInfosFail);
+
+						if (Application.isPlaying == true) {
+							NWDGameDataManager.UnitySingleton ().ErrorManagement (tInfosFail.errorDesc);
+						}
+
 					} else {
 						tData = Json.Deserialize (Request.downloadHandler.text) as Dictionary<string, object>;
 
@@ -210,6 +226,11 @@ namespace NetWorkedData
 							NWDOperationResult tInfosFail = new NWDOperationResult ("WEB04");
 							tInfosFail.Octects = Request.downloadHandler.text.Length;
 							FailInvoke (Request.downloadProgress, tInfosFail);
+
+							if (Application.isPlaying == true) {
+								NWDGameDataManager.UnitySingleton ().ErrorManagement (tInfosFail.errorDesc);
+							}
+
 						} else {
 
 							BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_SUCCESSED, this));
@@ -252,6 +273,10 @@ namespace NetWorkedData
 									BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_ERROR, tInfosResult));
 								}
 								FailInvoke (Request.downloadProgress, tInfosResult);
+								if (Application.isPlaying == true) {
+									NWDGameDataManager.UnitySingleton ().ErrorManagement (tInfosResult.errorDesc);
+								}
+
 
 							} else {
 								Statut = BTBOperationState.Success;

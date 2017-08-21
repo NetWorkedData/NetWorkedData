@@ -106,7 +106,7 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
+               // NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 
                 // Define a new NWDTransaction
                 NWDTransaction bTransaction = null;
@@ -171,7 +171,7 @@ namespace NetWorkedData
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
+                //NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 
                 if (BuyPackBlockDelegate != null)
                 {

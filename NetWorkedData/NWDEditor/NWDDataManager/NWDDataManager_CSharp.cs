@@ -24,6 +24,7 @@ namespace NetWorkedData
 {
 	public partial class NWDDataManager
 	{
+		/*
 		public void CreateCShapAllClass () {
 			//Debug.Log ("CreateCShapAllClass");
 			string tProgressBarTitle = "NetWorkedData Create all C# files";
@@ -45,6 +46,7 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}
+		*/
 	}
 }
 //=====================================================================================================================

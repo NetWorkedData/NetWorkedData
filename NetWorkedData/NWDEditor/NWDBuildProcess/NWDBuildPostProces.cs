@@ -22,6 +22,7 @@ using UnityEditor.Build;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBuildPostProcess : IPostprocessBuild {
 		//-------------------------------------------------------------------------------------------------------------
 		public int callbackOrder { get { return 0; } }
@@ -31,20 +32,20 @@ namespace NetWorkedData
 			Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
 
             // TODO : find ALL TARGET PATH
-            bool tNeedPatchDatabase = false;
+//            bool tNeedPatchDatabase = false;
 
 			// must find the good database 
-			string tPath = path; // Hum not good path ...
+//			string tPath = path; // Hum not good path ...
 			BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
 			switch (tBuildTarget) {
 			case BuildTarget.StandaloneOSXUniversal: 
 				{
-					tPath = path + "/Data/Raw/NWDmage.prp";
+//					tPath = path + "/Data/Raw/NWDmage.prp";
 				}
 				break;
 			case BuildTarget.StandaloneOSXIntel: 
 				{
-					tPath = path + "/Data/Raw/NWDmage.prp";
+//					tPath = path + "/Data/Raw/NWDmage.prp";
 				}
 				break;
 			case BuildTarget.StandaloneWindows: 
@@ -53,8 +54,8 @@ namespace NetWorkedData
 				break;
 			case BuildTarget.iOS: 
 				{
-                    tNeedPatchDatabase = true;
-                    tPath = path + "/Data/Raw/NWDmage.prp";
+//                    tNeedPatchDatabase = true;
+//                    tPath = path + "/Data/Raw/NWDmage.prp";
 				}
 				break;
 			case BuildTarget.Android: 
@@ -88,7 +89,7 @@ namespace NetWorkedData
 				break;
 			case BuildTarget.StandaloneOSXIntel64: 
 				{
-					tPath = path + "/Data/Raw/NWDmage.prp";
+//					tPath = path + "/Data/Raw/NWDmage.prp";
 				}
 				break;
 			case BuildTarget.Tizen: 
@@ -128,7 +129,7 @@ namespace NetWorkedData
 				}
 				break;
 			}
-
+			/*
             if (tNeedPatchDatabase == true)
             {
                 // connect to database 
@@ -168,9 +169,11 @@ namespace NetWorkedData
                     }
                 }
             }
+            */
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

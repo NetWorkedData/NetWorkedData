@@ -19,6 +19,7 @@ namespace NetWorkedData
 	public partial class NWDAppEnvironment
 	{
 		#region properties
+
 		//-------------------------------------------------------------------------------------------------------------
 		public bool Selected = false;
 		public string Environment = NWDConstants.K_PRODUCTION_NAME;
@@ -27,9 +28,11 @@ namespace NetWorkedData
 		public string PlayerAccountReference = "";
 		public string RequesToken = "";
 		//-------------------------------------------------------------------------------------------------------------
-		public string AnonymousPlayerAccountReference = ""; // reccord the first anonymous value to restaure old original account
-//		public string AnonymousRequesToken = ""; // reccord the last anonymous value to restaure original account
-		public string AnonymousResetPassword = ""; // reccord the secretKey to reset token
+		public string AnonymousPlayerAccountReference = "";
+		// reccord the first anonymous value to restaure old original account
+		//		public string AnonymousRequesToken = ""; // reccord the last anonymous value to restaure original account
+		public string AnonymousResetPassword = "";
+		// reccord the secretKey to reset token
 		//-------------------------------------------------------------------------------------------------------------
 		public string DataSHAPassword = "";
 		public string DataSHAVector = "";
@@ -51,38 +54,48 @@ namespace NetWorkedData
 		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
 		public string RescueEmail = "no-reply@my-web-site.com";
-//		public string Version = "0.00.00";
+		//		public string Version = "0.00.00";
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		#region constructor
+
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDAppEnvironment () {
+		public NWDAppEnvironment ()
+		{
 			PlayerAccountReference = NWDToolbox.GenerateUniqueID ();
 			FormatVerification ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDAppEnvironment (string sEnvironement, bool sSelected) {
+		public NWDAppEnvironment (string sEnvironement, bool sSelected)
+		{
 			this.Environment = sEnvironement;
 			this.Selected = sSelected;
 			FormatVerification ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		#region instance methods
+
 		//-------------------------------------------------------------------------------------------------------------
-		public void AnonymousVerification () {
+		public void AnonymousVerification ()
+		{
 			if (AnonymousPlayerAccountReference == "") {
 				AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID ();
 			}
 			if (AnonymousResetPassword == "") {
 				AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
 			}
-	}
+		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void FormatVerification () {
-            // BTBDebug.Log ("VerifySecurity");
-            // clean the salts
-            DataSHAPassword = NWDToolbox.SaltCleaner (DataSHAPassword);
+		public void FormatVerification ()
+		{
+			// BTBDebug.Log ("VerifySecurity");
+			// clean the salts
+			DataSHAPassword = NWDToolbox.SaltCleaner (DataSHAPassword);
 			DataSHAVector = NWDToolbox.SaltCleaner (DataSHAVector);
 			SaltStart = NWDToolbox.SaltCleaner (SaltStart);
 			SaltEnd = NWDToolbox.SaltCleaner (SaltEnd);
@@ -110,11 +123,12 @@ namespace NetWorkedData
 			if (AdminKey == "") {
 				AdminKey = NWDToolbox.RandomString (16);
 			}
-			if (TokenHistoric <1 || TokenHistoric>10) {
+			if (TokenHistoric < 1 || TokenHistoric > 10) {
 				TokenHistoric = 3;
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
 	}
 }
