@@ -61,25 +61,32 @@ namespace NetWorkedData
 		public bool DiscoverItYourSelf { get; set;}
 
 		[NWDHeaderAttribute("ITEMS REQUIRED")]
-		public NWDReferencesQuantityType<NWDItem> ItemsRequired{ get; set; }
+		public NWDReferencesQuantityType<NWDItemGroup> ItemsRequired{ get; set; }
 
 		[NWDHeaderAttribute("RECIPE")]
 
 		public bool OrderIsImportant { get; set; }
 
-		public NWDReferenceType<NWDItem> ItemOne { get; set; }
+		public NWDReferenceType<NWDItemGroup> Catalyzer { get; set; }
+		public NWDReferenceType<NWDItem> CatalyzerSpecific { get; set; }
+		public NWDReferenceType<NWDItemGroup> ItemOne { get; set; }
+		public NWDReferenceType<NWDItem> ItemOneSpecific { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayOne { get; set; }
-		public NWDReferenceType<NWDItem> ItemTwo { get; set; }
+		public NWDReferenceType<NWDItemGroup> ItemTwo { get; set; }
+		public NWDReferenceType<NWDItem> ItemTwoSpecific { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayTwo { get; set; }
-		public NWDReferenceType<NWDItem> ItemThree { get; set; }
+		public NWDReferenceType<NWDItemGroup> ItemThree { get; set; }
+		public NWDReferenceType<NWDItem> ItemThreeSpecific { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayThree { get; set; }
-		public NWDReferenceType<NWDItem> ItemFour { get; set; }
+		public NWDReferenceType<NWDItemGroup> ItemFour { get; set; }
+		public NWDReferenceType<NWDItem> ItemFourSpecific { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayFour { get; set; }
-		public NWDReferenceType<NWDItem> ItemFive { get; set; }
+		public NWDReferenceType<NWDItemGroup> ItemFive { get; set; }
+		public NWDReferenceType<NWDItem> ItemFiveSpecific { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayFive { get; set; }
 
@@ -99,6 +106,7 @@ namespace NetWorkedData
 		public NWDCookRecipe()
 		{
 			//Init your instance here
+			OrderIsImportant = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

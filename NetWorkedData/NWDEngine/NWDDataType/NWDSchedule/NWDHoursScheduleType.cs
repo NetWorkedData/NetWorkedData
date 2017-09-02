@@ -67,7 +67,7 @@ namespace NetWorkedData
 			return tHeight * 8 + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPos, string sEntitled)
+		public object ControlField (Rect sPos, string sEntitled)
 		{
 			NWDHoursScheduleType tTemporary = new NWDHoursScheduleType ();
 

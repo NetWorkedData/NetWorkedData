@@ -21,6 +21,7 @@ namespace NetWorkedData
 		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDItemGroup),
+			typeof(NWDItem),
 			typeof(NWDCookRecipe),
 			/* Add NWDBasis here*/
 		}

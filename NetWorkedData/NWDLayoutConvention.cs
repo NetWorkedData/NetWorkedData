@@ -13,10 +13,7 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-// Convention of layout 
-
-
-
+// Convention of layout for all our unity project!
 
 //=====================================================================================================================
 //
@@ -25,20 +22,23 @@
 //
 //=====================================================================================================================
 
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	#if UNITY_EDITOR
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDLayoutClass //In ChamelCase, start by UpperCase
+	public partial class NWDLayoutClass //In ChamelCase, start by TRIGRAM of project or package
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public bool MyProperties; //In ChamelCase, start by UpperCase
+		public const string K_MENU_BASE = "NAME"; //In UpperCases start by 'K' and plit by '_' if public
+		const string kOverlayLogLimitKey = "myKey"; // //In ChamelCase, start by 'k' if private for class
+		//-------------------------------------------------------------------------------------------------------------
+		public bool MyProperties; //In ChamelCase, start by UpperCase ... (no prefix : '_', 'm', 'my', …)
+		public bool AnotherProperty; //In ChamelCase, start by UpperCase ... (no prefix : '_', 'm', 'my', …)
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// My the method. In ChamelCase, start by UpperCase
+		/// My the method. In ChamelCase, start by UpperCase 
 		/// </summary>
 		/// <returns><c>true</c>, if method was myed, <c>false</c> otherwise.</returns>
 		/// <param name="sSentData">If set to <c>true</c> s sent data.</param>
@@ -46,7 +46,7 @@ namespace NetWorkedData
 		{
 			bool rReturnData = false; // r to prefix futur return Data
 			bool tTemporaryData = !sSentData; // t to prefix temporary return Data
-			if (tTemporaryData == false) {
+			if (tTemporaryData == false) { // no Ternary 
 				rReturnData = true;
 			}
 			return rReturnData;

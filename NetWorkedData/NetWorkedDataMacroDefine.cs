@@ -13,13 +13,15 @@ namespace NetWorkedData
 {
 	[InitializeOnLoad]
 	/// <summary>
-	/// Net worked data macro define.
+	/// Net worked data macro define can find if kMacro is set in the settings and add it if necessary.
+	/// This class auto run at build project.
+	/// You can use kMacro in precompile definition.
 	/// </summary>
 	public class NetWorkedDataMacroDefine :  IActiveBuildTargetChanged
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// The macro to check this package.
+		/// The macro to check in this project. It's tag in settings.
 		/// </summary>
 		const string kMacro = "NET_WORKED_DATA";
 		//-------------------------------------------------------------------------------------------------------------

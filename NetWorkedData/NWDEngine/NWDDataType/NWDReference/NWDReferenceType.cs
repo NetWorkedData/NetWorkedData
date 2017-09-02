@@ -92,7 +92,7 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+		public object ControlField (Rect sPosition, string sEntitled)
 		{
 			NWDReferenceType<K> tTemporary = new NWDReferenceType<K> ();
 			tTemporary.Value = Value;
