@@ -189,6 +189,28 @@ namespace NetWorkedData
 			return tValueDico;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public List<K> ExploseInItemsList ()
+		{
+			List<K> rList = new List<K> ();
+			if (Value != null && Value != "") {
+				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (string tLine in tValueArray) {
+					string[] tLineValue = tLine.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+					if (tLineValue.Length == 2) {
+						int tQ = 0;
+						int.TryParse (tLineValue [1], out tQ);
+						K tObject = NWDBasis<K>.GetObjectByReference (tLineValue [0]) as K;
+						if (tObject != null) {
+							for (int i = 0; i < tQ; i++) {
+								rList.Add (tObject);
+							}
+						}
+					}
+				}
+			}
+			return rList;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()

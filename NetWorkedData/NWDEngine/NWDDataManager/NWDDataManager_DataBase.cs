@@ -166,8 +166,8 @@ namespace NetWorkedData
 				SQLiteConnectionEditor = new SQLiteConnection (tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 				SQLiteConnectionAccount = new SQLiteConnection (tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 				#if UNITY_EDITOR
-				AssetDatabase.ImportAsset (tDatabasePathEditor);
-				AssetDatabase.ImportAsset (tDatabasePathAccount);
+//				AssetDatabase.ImportAsset (tDatabasePathEditor);
+//				AssetDatabase.ImportAsset (tDatabasePathAccount);
 				#endif
 			}
 		}
