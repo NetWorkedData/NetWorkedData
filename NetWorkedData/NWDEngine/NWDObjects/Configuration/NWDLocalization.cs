@@ -188,7 +188,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void AutoLocalize (UnityEngine.UI.Text sText, string sDefault = "")
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sText.text) as NWDLocalization;
+            if (sDefault.Equals(""))
+            {
+                sDefault = sText.text;
+            }
+
+            NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sText.text) as NWDLocalization;
 			if (tObject != null) {
 				sText.text = tObject.TextValue.GetLocalString ();
 			} else {

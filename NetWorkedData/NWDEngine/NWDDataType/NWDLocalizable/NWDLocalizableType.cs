@@ -114,8 +114,8 @@ namespace NetWorkedData
 		{
 			Dictionary<string,string> tResult = GetDictionary ();
 			if (sValue != null) {
-				tResult.Add (sKey, sValue);
-			} else {
+                tResult.Add(sKey, NWDToolbox.TextProtect(sValue));
+            } else {
 				if (tResult.ContainsKey (sKey)) {
 					tResult.Remove (sKey);
 				}
