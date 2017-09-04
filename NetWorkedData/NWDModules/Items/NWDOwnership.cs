@@ -48,6 +48,7 @@ namespace NetWorkedData
 		public NWDReferenceType<NWDItem> ItemReference { get; set; }
 		//[NWDIntSliderAttribute(0,250)]
 		public int Quantity { get; set; }
+		public bool FirstAcquisition { get; set; }
 		public string ValueA { get; set; }
 		public string ValueB { get; set; }
 		public string ValueC { get; set; }
@@ -67,6 +68,7 @@ namespace NetWorkedData
 		public NWDOwnership()
 		{
 			//Init your instance here
+			FirstAcquisition = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
