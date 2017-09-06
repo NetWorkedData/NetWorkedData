@@ -49,7 +49,7 @@ namespace NetWorkedData
 			/// </summary>
 			static void InstanceCounterLog ()
 			{
-				BTBDebug.LogVerbose ("(NWDGameDataManager SharedInstanceAsSingleton number of instance : "+InstanceCounter+")");
+				//BTBDebug.LogVerbose ("(NWDGameDataManager SharedInstanceAsSingleton number of instance : "+InstanceCounter+")");
 			}
 			//-------------------------------------------------------------------------------------------------------------
 			/// <summary>

@@ -43,8 +43,8 @@ namespace NetWorkedData
 		[RuntimeInitializeOnLoadMethod] // for unity player
 		public static void Launcher ()
 		{
-			Debug.Log ("#### NWDTypeLauncher Launcher");
-			BTBDebug.Log ("NWDTypeLauncher Launcher", BTBDebugResult.Success);
+			//Debug.Log ("#### NWDTypeLauncher Launcher");
+			//BTBDebug.Log ("NWDTypeLauncher Launcher", BTBDebugResult.Success);
 			if (IsLaunched == false) {
 				IsLaunched = true;
 				// Get ShareInstance
@@ -123,12 +123,12 @@ namespace NetWorkedData
 //				Debug.Log ("NeedCopy FALSE.....");
 //				NWDDataManager.SharedInstance.NeedCopy = false;
 
-				Debug.Log ("SAVE TIMESTAMP OF BUID IN PREFS");
+				//Debug.Log ("SAVE TIMESTAMP OF BUID IN PREFS");
 				// Save App version in pref
 //				NWDPreferences.SetString("APP_VERSION", Application.version);
 //				BTBPrefsManager.ShareInstance ().set("APP_VERSION", NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp);
 
-				Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
+				//Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

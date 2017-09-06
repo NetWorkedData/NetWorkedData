@@ -115,7 +115,8 @@ namespace NetWorkedData
 		public static void EnvironementChooserShow()
 		{
 			if (kNWDAppEnvironmentChooser == null) {
-				kNWDAppEnvironmentChooser = (NWDAppEnvironmentChooser)ScriptableObject.CreateInstance <NWDAppEnvironmentChooser> ();
+//				kNWDAppEnvironmentChooser = (NWDAppEnvironmentChooser)ScriptableObject.CreateInstance <NWDAppEnvironmentChooser> ();
+				kNWDAppEnvironmentChooser = EditorWindow.GetWindow (typeof(NWDAppEnvironmentChooser)) as NWDAppEnvironmentChooser;
 			}
 			kNWDAppEnvironmentChooser.ShowUtility ();
 			kNWDAppEnvironmentChooser.Focus ();

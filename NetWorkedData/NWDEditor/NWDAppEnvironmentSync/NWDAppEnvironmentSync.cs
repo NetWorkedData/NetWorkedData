@@ -67,16 +67,17 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void Start ()
 		{
-			Debug.Log ("NWDAppEnvironmentSync Start");
+		//	Debug.Log ("NWDAppEnvironmentSync Start");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void Awake ()
 		{
-			Debug.Log ("NWDAppEnvironmentSync Awake");
+		//	Debug.Log ("NWDAppEnvironmentSync Awake");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void OnEnable ()
 		{
+			//	Debug.Log ("NWDAppEnvironmentSync OnEnable");
 
 			kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDRed.psd"));
 			kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
@@ -85,7 +86,6 @@ namespace NetWorkedData
 			kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
 			kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
 
-			Debug.Log ("NWDAppEnvironmentSync OnEnable");
 			DevIcon = kImageEmpty;
 			PreProdIcon = kImageEmpty;
 			ProdIcon = kImageEmpty;

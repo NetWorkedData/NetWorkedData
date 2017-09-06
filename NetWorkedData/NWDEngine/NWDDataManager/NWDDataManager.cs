@@ -209,7 +209,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void LoadedClass(Type sType, int sNumberOfClasses, int sIndexOfActualClass)
 		{
-			Debug.Log (sType.Name + " loaded ("+ (sIndexOfActualClass) +" / "+ sNumberOfClasses +")");
+			//Debug.Log (sType.Name + " loaded ("+ (sIndexOfActualClass) +" / "+ sNumberOfClasses +")");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
