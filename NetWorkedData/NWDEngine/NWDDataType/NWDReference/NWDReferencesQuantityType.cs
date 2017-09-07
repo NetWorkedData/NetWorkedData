@@ -83,23 +83,51 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public bool RemoveReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity)
+		public bool RemoveReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
 		{
+            //TODO : add comment to explain the used of a boolean
 			bool rReturn = ContainsReferencesQuantity (sReferencesQuantity);
 			if (rReturn == true) {
 				Dictionary<string,int> tThis = GetReferenceAndQuantity ();
 				Dictionary<string,int> tOther = sReferencesQuantity.GetReferenceAndQuantity ();
 				foreach (KeyValuePair<string,int> tKeyValue in tOther) {
-					tThis [tKeyValue.Key] = tThis [tKeyValue.Key] - tKeyValue.Value;
+                    //TODO : check negative value
+                    //TODO : use RemoveObjectQuantity
+                    tThis[tKeyValue.Key] = tThis [tKeyValue.Key] - tKeyValue.Value;
 				}
 				SetReferenceAndQuantity (tThis);
 			}
 			return rReturn;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void AddReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity)
+        //-------------------------------------------------------------------------------------------------------------
+        public void RemoveObjectQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        {
+            Dictionary<string, int> tThis = GetReferenceAndQuantity();
+            if (tThis.ContainsKey(sObject.Reference) == false)
+            {
+                tThis.Add(sObject.Reference, -sQuantity);
+            }
+            else
+            {
+                tThis[sObject.Reference] = tThis[sObject.Reference] - sQuantity;
+            }
+
+            if(sCanBeNegative == false && tThis[sObject.Reference] < 0)
+            {
+                tThis[sObject.Reference] = 0;
+            }
+
+            if (sRemoveEmpty == true && tThis[sObject.Reference] == 0)
+            {
+                tThis.Remove(sObject.Reference);
+            }
+
+            SetReferenceAndQuantity(tThis);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddReferencesQuantity (NWDReferencesQuantityType<K> sReferencesQuantity)
 		{
-			// I compare all elemnt
+			// I compare all element
 			Dictionary<string,int> tThis = GetReferenceAndQuantity ();
 			Dictionary<string,int> tOther = sReferencesQuantity.GetReferenceAndQuantity ();
 			foreach (KeyValuePair<string,int> tKeyValue in tOther) {
@@ -111,8 +139,23 @@ namespace NetWorkedData
 			}
 			SetReferenceAndQuantity (tThis);
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public K[] GetObjects ()
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddObjectQuantity(NWDBasis<K> sObject, int sQuantity)
+        {
+            // I compare all element
+            Dictionary<string, int> tThis = GetReferenceAndQuantity();
+            if (tThis.ContainsKey(sObject.Reference) == false)
+            {
+                tThis.Add(sObject.Reference, sQuantity);
+            }
+            else
+            {
+                tThis[sObject.Reference] = tThis[sObject.Reference] + sQuantity;
+            }
+            SetReferenceAndQuantity(tThis);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] GetObjects ()
 		{
 			List<K> tList = new List<K> ();
 			string[] tArray = GetReferences ();
