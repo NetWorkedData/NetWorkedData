@@ -185,20 +185,30 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static void AutoLocalize (UnityEngine.UI.Text sText, string sDefault = "")
-		{
-            if (sDefault.Equals(""))
+        //-------------------------------------------------------------------------------------------------------------
+        public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "")
+        {
+            if (sText.gameObject != null)
             {
-                sDefault = sText.text;
-            }
+                if (sDefault.Equals(""))
+                {
+                    sDefault = sText.text;
+                }
 
-            NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sText.text) as NWDLocalization;
-			if (tObject != null) {
-				sText.text = tObject.TextValue.GetLocalString ();
-			} else {
-				CreateLocalizationTextValue (sText.text, sDefault);
-			}
+                NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
+                if (tObject != null)
+                {
+                    sText.text = tObject.TextValue.GetLocalString();
+                }
+                else
+                {
+                    CreateLocalizationTextValue(sText.text, sDefault);
+                }
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 

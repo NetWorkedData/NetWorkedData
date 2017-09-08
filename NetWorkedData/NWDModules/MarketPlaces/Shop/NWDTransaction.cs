@@ -43,18 +43,20 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		public NWDReferenceType<NWDPack>  PackReference { get; set; }
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount>  AccountReference { get; set; }
-		public NWDReferenceType<NWDInAppPack>  InAppReference { get; set; }
-		public string Platform { get; set; }
-		public string InAppTransaction { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDTransaction()
+		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
+        public NWDReferenceType<NWDShop> ShopReference { get; set; }
+        public NWDReferenceType<NWDRack> RackReference { get; set; }
+        public NWDReferenceType<NWDPack> PackReference { get; set; }
+        public string Platform { get; set; }
+        public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
+        public string InAppTransaction { get; set; }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTransaction()
 		{
 			//Init your instance here
 		}
