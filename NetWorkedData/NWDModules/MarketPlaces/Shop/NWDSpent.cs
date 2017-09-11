@@ -26,7 +26,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDClassServerSynchronizeAttribute (true)]
+	[NWDClassServerSynchronizeAttribute (false)]
 	[NWDClassTrigrammeAttribute ("SPT")]
 	[NWDClassDescriptionAttribute ("Spent descriptions Class")]
 	[NWDClassMenuNameAttribute ("Spent")]

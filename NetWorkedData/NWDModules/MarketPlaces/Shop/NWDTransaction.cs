@@ -33,17 +33,20 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDTransaction :NWDBasis <NWDTransaction>
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		[Indexed ("AccountIndex", 0)]
+        //-----------------------------------------------------------------------------------------------------------------
+        public enum TransactionType { None, Daily, Weekly, Monthly }
+        //-----------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+        //-------------------------------------------------------------------------------------------------------------
+        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        // Your properties
+        [Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
         public NWDReferenceType<NWDShop> ShopReference { get; set; }
         public NWDReferenceType<NWDRack> RackReference { get; set; }
@@ -73,11 +76,6 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
@@ -147,30 +145,86 @@ namespace NetWorkedData
 			float tYadd = 0.0f;
 			return tYadd;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Static methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<NWDTransaction> GetTransactionsByShopAndType(NWDShop sShop, NWDRack[] sRacks, TransactionType sType)
+        {
+            // Create Transaction array
+            List<NWDTransaction> rTransactionList = new List<NWDTransaction>();
 
-	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDTransaction with Unity MonoBehavior
-	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWDTransaction connexion.
-	/// In your MonoBehaviour Script connect object with :
-	/// <code>
-	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDTransactionConnexion MyNWDTransactionObject;
-	/// </code>
-	/// </summary>
-	//-------------------------------------------------------------------------------------------------------------
-	// CONNEXION STRUCTURE METHODS
-	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
+            // Init all transactions done by the user for selected shop and type
+            NWDTransaction[] tList = NWDTransaction.GetAllObjects();
+            foreach (NWDTransaction transaction in tList)
+            {
+                // Verify we are in the right Shop
+                if (transaction.ShopReference.ContainsObject(sShop))
+                {
+                    // Parse selected Shop Racks
+                    foreach (NWDRack tRack in sRacks)
+                    {
+                        // Verify the Rack
+                        if (transaction.RackReference.ContainsObject(tRack))
+                        {
+                            // Take only transaction filter by ShopType
+                            bool isValidate = false;
+                            switch (sType)
+                            {
+                                case TransactionType.Daily:
+                                    double tLocalDateStart = BTBDateHelper.ConvertToUnixTimestamp(DateTime.Today);
+                                    double tLocalDateEnd = BTBDateHelper.ConvertToUnixTimestamp(DateTime.Today.AddDays(1));
+                                    if (transaction.DC >= tLocalDateStart && transaction.DC <= tLocalDateEnd)
+                                    {
+                                        isValidate = true;
+                                    }
+                                    break;
+                                case TransactionType.Weekly:
+                                    isValidate = true;
+                                    break;
+                                case TransactionType.Monthly:
+                                    isValidate = true;
+                                    break;
+                            }
+
+                            // Transaction found (shop and shop type match) and validate
+                            if (isValidate)
+                            {
+                                rTransactionList.Add(transaction);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return rTransactionList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    //-------------------------------------------------------------------------------------------------------------
+    #region Connexion NWDTransaction with Unity MonoBehavior
+    //-------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// NWDTransaction connexion.
+    /// In your MonoBehaviour Script connect object with :
+    /// <code>
+    ///	[NWDConnexionAttribut(true,true, true, true)]
+    /// public NWDTransactionConnexion MyNWDTransactionObject;
+    /// </code>
+    /// </summary>
+    //-------------------------------------------------------------------------------------------------------------
+    // CONNEXION STRUCTURE METHODS
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
 	public class NWDTransactionConnexion
 	{
 		//-------------------------------------------------------------------------------------------------------------

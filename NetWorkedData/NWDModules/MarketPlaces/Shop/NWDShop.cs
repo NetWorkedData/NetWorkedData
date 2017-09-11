@@ -18,7 +18,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //-----------------------------------------------------------------------------------------------------------------
-    public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughItem, CanBuy, Failed }
+    public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughItem, NotEnoughPack, CanBuy, Failed }
     //-----------------------------------------------------------------------------------------------------------------
     [NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("SHP")]
@@ -89,13 +89,8 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
         //-------------------------------------------------------------------------------------------------------------
-        public void BuyPack(NWDPack sPack)
+        public void BuyPack(NWDShop sShop, NWDRack sRack, NWDPack sPack)
         {
             // Sync with the server
             List<Type> tList = new List<Type>();
@@ -117,6 +112,9 @@ namespace NetWorkedData
                 // Pack is enable
                 if (bResult == BuyPackResult.Enable)
                 {
+                    // Check if there is enough pack to buy
+                    bResult = EnoughPackToBuy();
+
                     // Check if user have enough currency
                     Dictionary<NWDItem, int> tCost = sPack.ItemsToPay.GetObjectAndQuantity();
                     bResult = UserCanBuy(tCost);
@@ -157,9 +155,11 @@ namespace NetWorkedData
 
                         // Set a NWDTransaction
                         bTransaction = NWDTransaction.NewObject();
-                        bTransaction.PackReference.SetReference(sPack.Reference);
                         bTransaction.InternalKey = sPack.Name.GetBaseString();
                         bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
+                        bTransaction.ShopReference.SetReference(sShop.Reference);
+                        bTransaction.RackReference.SetReference(sRack.Reference);
+                        bTransaction.PackReference.SetReference(sPack.Reference);
                         bTransaction.SaveModifications();
                     }
                 }
@@ -232,6 +232,13 @@ namespace NetWorkedData
             }
 
             return rUserCanBuy;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private BuyPackResult EnoughPackToBuy()
+        {
+            BuyPackResult rEnoughPackToBuy = BuyPackResult.None;
+
+            return rEnoughPackToBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
         #region override of NetWorkedData addons methods
