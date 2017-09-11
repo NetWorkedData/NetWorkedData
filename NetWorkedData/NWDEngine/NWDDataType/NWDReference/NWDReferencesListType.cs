@@ -109,8 +109,21 @@ namespace NetWorkedData
 			}
 			return tList.ToArray ();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetObjects (K[] sObjects)
+        //-------------------------------------------------------------------------------------------------------------
+        public List<K> GetObjectsList()
+        {
+            List<K> tList = new List<K>();
+            string[] tArray = GetReferences();
+            foreach (string tRef in tArray) {
+                K tObject = NWDBasis<K>.GetObjectByReference(tRef) as K;
+                if (tObject != null) {
+                    tList.Add(tObject);
+                }
+            }
+            return tList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetObjects (K[] sObjects)
 		{
 			List<string> tList = new List<string>();
 			foreach (K tObject in sObjects) {

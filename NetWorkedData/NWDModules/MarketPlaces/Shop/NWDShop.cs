@@ -18,7 +18,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //-----------------------------------------------------------------------------------------------------------------
-    public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughItem, NotEnoughPack, CanBuy, Failed }
+    public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughPackToBuy, EnoughPackToBuy, CanBuy, Failed }
     //-----------------------------------------------------------------------------------------------------------------
     [NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("SHP")]
@@ -90,7 +90,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void BuyPack(NWDShop sShop, NWDRack sRack, NWDPack sPack)
+        public void BuyPack(NWDShop sShop, NWDRack sRack, NWDPack sPack, NWDTransaction.TransactionType sType)
         {
             // Sync with the server
             List<Type> tList = new List<Type>();
@@ -98,10 +98,11 @@ namespace NetWorkedData
             tList.Add(typeof(NWDItem));
             tList.Add(typeof(NWDItemPack));
             tList.Add(typeof(NWDPack));
+            tList.Add(typeof(NWDTransaction));
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-               // NWDOperationResult tInfos = (NWDOperationResult)bInfos;
+                // NWDOperationResult tInfos = (NWDOperationResult)bInfos;
 
                 // Define a new NWDTransaction
                 NWDTransaction bTransaction = null;
@@ -113,54 +114,58 @@ namespace NetWorkedData
                 if (bResult == BuyPackResult.Enable)
                 {
                     // Check if there is enough pack to buy
-                    bResult = EnoughPackToBuy();
+                    bResult = EnoughPackToBuy(sShop, sRack, sPack, sType);
 
-                    // Check if user have enough currency
-                    Dictionary<NWDItem, int> tCost = sPack.ItemsToPay.GetObjectAndQuantity();
-                    bResult = UserCanBuy(tCost);
-
-                    // User can by the Pack
-                    if (bResult == BuyPackResult.CanBuy)
+                    // User can buy if there is enough Pack to buy
+                    if (bResult == BuyPackResult.EnoughPackToBuy)
                     {
-                        // Find all Items Pack in Pack
-                        foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetObjectAndQuantity())
-                        {
-                            // Get Item Pack data
-                            NWDItemPack tItemPack = pair.Key;
-                            int tItemPackQte = pair.Value;
+                        // Check if user have enough currency
+                        Dictionary<NWDItem, int> tCost = sPack.ItemsToPay.GetObjectAndQuantity();
+                        bResult = UserCanBuy(tCost);
 
-                            // Find all Items from Item Pack
-                            Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
-                            foreach (KeyValuePair<NWDItem, int> p in tItems)
+                        // User can buy the Pack
+                        if (bResult == BuyPackResult.CanBuy)
+                        {
+                            // Find all Items Pack in Pack
+                            foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetObjectAndQuantity())
                             {
-                                // Get Item data
-                                NWDItem tNWDItem = p.Key;
-                                int tItemQte = p.Value;
+                                // Get Item Pack data
+                                NWDItemPack tItemPack = pair.Key;
+                                int tItemPackQte = pair.Value;
 
-                                // Add Items to Ownership
-                                NWDOwnership.AddItemToOwnership(tNWDItem, tItemQte);
+                                // Find all Items from Item Pack
+                                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
+                                foreach (KeyValuePair<NWDItem, int> p in tItems)
+                                {
+                                    // Get Item data
+                                    NWDItem tNWDItem = p.Key;
+                                    int tItemQte = p.Value;
+
+                                    // Add Items to Ownership
+                                    NWDOwnership.AddItemToOwnership(tNWDItem, tItemQte);
+                                }
                             }
+
+                            // Find all currency to remove from ownership
+                            foreach (KeyValuePair<NWDItem, int> pair in tCost)
+                            {
+                                // Get Item Cost data
+                                NWDItem tNWDItem = pair.Key;
+                                int tItemQte = pair.Value;
+
+                                // Remove currency from Ownership
+                                NWDOwnership.RemoveItemToOwnership(tNWDItem, tItemQte);
+                            }
+
+                            // Set a NWDTransaction
+                            bTransaction = NWDTransaction.NewObject();
+                            bTransaction.InternalKey = sPack.Name.GetBaseString();
+                            bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
+                            bTransaction.ShopReference.SetReference(sShop.Reference);
+                            bTransaction.RackReference.SetReference(sRack.Reference);
+                            bTransaction.PackReference.SetReference(sPack.Reference);
+                            bTransaction.SaveModifications();
                         }
-
-                        // Find all currency to remove from ownership
-                        foreach (KeyValuePair<NWDItem, int> pair in tCost)
-                        {
-                            // Get Item Cost data
-                            NWDItem tNWDItem = pair.Key;
-                            int tItemQte = pair.Value;
-
-                            // Remove currency from Ownership
-                            NWDOwnership.RemoveItemToOwnership(tNWDItem, tItemQte);
-                        }
-
-                        // Set a NWDTransaction
-                        bTransaction = NWDTransaction.NewObject();
-                        bTransaction.InternalKey = sPack.Name.GetBaseString();
-                        bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
-                        bTransaction.ShopReference.SetReference(sShop.Reference);
-                        bTransaction.RackReference.SetReference(sRack.Reference);
-                        bTransaction.PackReference.SetReference(sPack.Reference);
-                        bTransaction.SaveModifications();
                     }
                 }
 
@@ -226,7 +231,7 @@ namespace NetWorkedData
                 else
                 {
                     // User don't have the selected item
-                    rUserCanBuy = BuyPackResult.NotEnoughItem;
+                    rUserCanBuy = BuyPackResult.NotEnoughCurrency;
                     break;
                 }
             }
@@ -234,9 +239,51 @@ namespace NetWorkedData
             return rUserCanBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult EnoughPackToBuy()
+        private BuyPackResult EnoughPackToBuy(NWDShop sShop, NWDRack sRack, NWDPack sPack, NWDTransaction.TransactionType sType)
         {
             BuyPackResult rEnoughPackToBuy = BuyPackResult.None;
+
+            // Create Transactions array
+            List<NWDTransaction> tTransactionList = new List<NWDTransaction>();
+
+            // Create Racks array
+            List<NWDRack> tRackList = new List<NWDRack>();
+
+            // Init all transactions done by the user for selected shop and type
+            tRackList.Add(sRack);
+            tTransactionList = NWDTransaction.GetTransactionsByShopAndType(sShop, tRackList, sType);
+
+            // Search for the right Pack in Rack (for quantities)
+            Dictionary<NWDPack, int> tPacks = sRack.PackReference.GetObjectAndQuantity();
+            foreach (KeyValuePair<NWDPack, int> pair in tPacks)
+            {
+                NWDPack tPack = pair.Key;
+                int tPackQte = pair.Value;
+
+                if (tPack.Equals(sPack))
+                {
+                    // Verify if there is enough number of pack to buy
+                    foreach (NWDTransaction transaction in tTransactionList)
+                    {
+                        if (transaction.RackReference.ContainsObject(sRack) &&
+                            transaction.PackReference.ContainsObject(sPack))
+                        {
+                            tPackQte--;
+                        }
+                    }
+
+                    if (tPackQte > 0)
+                    {
+                        rEnoughPackToBuy = BuyPackResult.EnoughPackToBuy;
+                    }
+                    else
+                    {
+                        rEnoughPackToBuy = BuyPackResult.NotEnoughPackToBuy;
+                    }
+
+                    break;
+                }
+            }
 
             return rEnoughPackToBuy;
         }

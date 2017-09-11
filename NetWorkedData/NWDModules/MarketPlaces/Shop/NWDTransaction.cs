@@ -154,7 +154,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Static methods
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDTransaction> GetTransactionsByShopAndType(NWDShop sShop, NWDRack[] sRacks, TransactionType sType)
+        public static List<NWDTransaction> GetTransactionsByShopAndType(NWDShop sShop, List<NWDRack> sRacks, TransactionType sType)
         {
             // Create Transaction array
             List<NWDTransaction> rTransactionList = new List<NWDTransaction>();
