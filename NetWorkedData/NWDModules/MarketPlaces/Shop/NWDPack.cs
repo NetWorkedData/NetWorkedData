@@ -45,6 +45,11 @@ namespace NetWorkedData
 		// Your properties
 		// for example : pack of forest hunter 
 		// referenceList : pack of 5 arrows; longbow
+
+		[NWDHeaderAttribute("Representation")]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+
+
 		[NWDHeaderAttribute("Informations")]
 		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }

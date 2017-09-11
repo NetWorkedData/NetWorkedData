@@ -44,7 +44,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[NWDHeaderAttribute("Informations")]
-		public NWDReferencesListType<NWDItemGroup> ItemGroupReferencesList { get; set; }
+		//public NWDReferencesListType<NWDItemGroup> ItemGroupReferencesList { get; set; }
 		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }
 		public NWDLocalizableStringType Description { get; set; }

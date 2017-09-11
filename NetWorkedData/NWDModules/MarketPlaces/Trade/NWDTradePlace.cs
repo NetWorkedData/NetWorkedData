@@ -43,6 +43,12 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
+		[NWDHeaderAttribute("Representation")]
+
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+
+		[NWDHeaderAttribute("Informations")]
+
 		public NWDLocalizableStringType Name { get; set; }
 
 		public NWDLocalizableStringType SubName { get; set; }

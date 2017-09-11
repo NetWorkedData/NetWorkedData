@@ -43,42 +43,25 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
+		[NWDHeaderAttribute("Representation")]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-
-		public NWDReferenceType<NWDItem> ItemToDescribeRecipe { get; set; }
-
-//		public NWDLocalizableStringType Name { get; set; }
-//
-//		public NWDLocalizableStringType SubName { get; set; }
-//
-//		public NWDLocalizableStringType Description { get; set; }
-//
-//		[NWDGroupStartAttribute("Classification", false , true ,true)]
-//		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-//		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-//		public NWDReferencesListType<NWDFamily> Families { get; set; }
-//		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDHeaderAttribute("RECIPE CAN BE DISCOVER YOURSELF")]
-
-//		public bool DiscoverItYourSelf { get; set;}
-
-//		[NWDHeaderAttribute("ITEMS REQUIRED")]
-//		public NWDReferencesQuantityType<NWDItemGroup> ItemsRequired{ get; set; }
-
-		[NWDHeaderAttribute("RECIPE")]
-
+		[NWDHeaderAttribute("Recipe informations")]
 		public bool OrderIsImportant { get; set; }
 
-
-		[NWDHeaderAttribute("RECIPE Version list")]
-
+		[NWDHeaderAttribute("Required one's of those catalyzers")]
 		public NWDReferencesListType<NWDItem> CatalyzerPossibilities { get; set; }
 
-		public NWDReferencesListType<NWDItem> ItemPossibilitiesOne { get; set; }
+		[NWDHeaderAttribute("First ingredient : one's of those items")]
+		public NWDReferencesListType<NWDItem> ItemsOne { get; set; }
+		public NWDReferencesListType<NWDItemGroup> ItemGroupsOne { get; set; }
+
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayBetweenOne { get; set; }
+		[NWDEntitledAttribute("Delay before second ingredient")]
+		public int DelayOne { get; set; }
+
+		[NWDHeaderAttribute("Element One")]
+
 		public NWDReferencesListType<NWDItem> ItemPossibilitiesTwo { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayBetweenTwo { get; set; }
@@ -92,46 +75,18 @@ namespace NetWorkedData
 
 
 
+		[NWDHeaderAttribute("RESULT")]
+		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
+
 		[NWDHeaderAttribute("RECIPE Sign")]
 		//[NWDNotEditableAttribute]
-		public string AllSignPossibilities; // use to create the table of recipe fast found
+		public string AllSignPossibilities { get; set; } // use to create the table of recipe fast found
 
 		[NWDHeaderAttribute("RECIPE Sign")]
 		public NWDPrefabType SuccessEffect { get; set; }
 		public NWDPrefabType SuccessSound { get; set; }
 		public NWDPrefabType FailEffect { get; set; }
 		public NWDPrefabType FailSound{ get; set; }
-
-		[NWDHeaderAttribute("RESULT")]
-		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
-
-
-
-		[NWDHeaderAttribute("RECIPE Version grouped")]
-
-		public NWDReferenceType<NWDItemGroup> Catalyzer { get; set; }
-		public NWDReferenceType<NWDItem> CatalyzerSpecific { get; set; }
-
-		public NWDReferenceType<NWDItemGroup> ItemOne { get; set; }
-		public NWDReferenceType<NWDItem> ItemOneSpecific { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayOne { get; set; }
-		public NWDReferenceType<NWDItemGroup> ItemTwo { get; set; }
-		public NWDReferenceType<NWDItem> ItemTwoSpecific { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayTwo { get; set; }
-		public NWDReferenceType<NWDItemGroup> ItemThree { get; set; }
-		public NWDReferenceType<NWDItem> ItemThreeSpecific { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayThree { get; set; }
-		public NWDReferenceType<NWDItemGroup> ItemFour { get; set; }
-		public NWDReferenceType<NWDItem> ItemFourSpecific { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayFour { get; set; }
-		public NWDReferenceType<NWDItemGroup> ItemFive { get; set; }
-		public NWDReferenceType<NWDItem> ItemFiveSpecific { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayFive { get; set; }
 
 
 		public string ParticuleEffetGameObject { get; set; }
@@ -178,6 +133,9 @@ namespace NetWorkedData
 		public override void AddonUpdateMe ()
 		{
 			// do something when object will be updated
+
+
+			//TODO recalculate all sign possibilities
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonUpdatedMe ()

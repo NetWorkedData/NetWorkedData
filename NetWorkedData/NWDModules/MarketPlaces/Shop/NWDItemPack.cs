@@ -47,6 +47,9 @@ namespace NetWorkedData
 		// reference : arrow 
 		// quantity : 5
 
+		[NWDHeaderAttribute("Representation")]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+
 		[NWDHeaderAttribute("Informations")]
 		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }
