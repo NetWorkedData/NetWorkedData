@@ -2,3 +2,7 @@
 	path = NetWorkedData/Dependencies/BasicToolBox_Package
 	url = git@gitlab.hephaiscode.com:idemobi-games/BasicToolBox.git
 	fetchrecursesubmodules = true
+[submodule "BasicToolBox"]
+	path = BasicToolBox
+	url = git@gitlab.hephaiscode.com:idemobi-games/BasicToolBox.git
+	fetchrecursesubmodules = true
