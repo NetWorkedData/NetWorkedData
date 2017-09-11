@@ -43,32 +43,75 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		public NWDLocalizableStringType Name { get; set; }
 
-		public NWDLocalizableStringType SubName { get; set; }
 
-		public NWDLocalizableStringType Description { get; set; }
+		public NWDReferenceType<NWDItem> ItemToDescribeRecipe { get; set; }
 
-		[NWDGroupStartAttribute("Classification", false , true ,true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
+//		public NWDLocalizableStringType Name { get; set; }
+//
+//		public NWDLocalizableStringType SubName { get; set; }
+//
+//		public NWDLocalizableStringType Description { get; set; }
+//
+//		[NWDGroupStartAttribute("Classification", false , true ,true)]
+//		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
+//		public NWDReferencesListType<NWDCategory> Categories { get; set; }
+//		public NWDReferencesListType<NWDFamily> Families { get; set; }
+//		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDHeaderAttribute("RECIPE CAN BE DISCOVER YOURSELF")]
 
-		public bool DiscoverItYourSelf { get; set;}
+//		public bool DiscoverItYourSelf { get; set;}
 
-		[NWDHeaderAttribute("ITEMS REQUIRED")]
-		public NWDReferencesQuantityType<NWDItemGroup> ItemsRequired{ get; set; }
+//		[NWDHeaderAttribute("ITEMS REQUIRED")]
+//		public NWDReferencesQuantityType<NWDItemGroup> ItemsRequired{ get; set; }
 
 		[NWDHeaderAttribute("RECIPE")]
 
 		public bool OrderIsImportant { get; set; }
 
+
+		[NWDHeaderAttribute("RECIPE Version list")]
+
+		public NWDReferencesListType<NWDItem> CatalyzerPossibilities { get; set; }
+
+		public NWDReferencesListType<NWDItem> ItemPossibilitiesOne { get; set; }
+		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+		public int DelayBetweenOne { get; set; }
+		public NWDReferencesListType<NWDItem> ItemPossibilitiesTwo { get; set; }
+		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+		public int DelayBetweenTwo { get; set; }
+		public NWDReferencesListType<NWDItem> ItemPossibilitiesThree { get; set; }
+		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+		public int DelayBetweenThree { get; set; }
+		public NWDReferencesListType<NWDItem> ItemPossibilitiesFour { get; set; }
+		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+		public int DelayBetweenFour { get; set; }
+		public NWDReferencesListType<NWDItem> ItemPossibilitiesFive { get; set; }
+
+
+
+		[NWDHeaderAttribute("RECIPE Sign")]
+		//[NWDNotEditableAttribute]
+		public string AllSignPossibilities; // use to create the table of recipe fast found
+
+		[NWDHeaderAttribute("RECIPE Sign")]
+		public NWDPrefabType SuccessEffect { get; set; }
+		public NWDPrefabType SuccessSound { get; set; }
+		public NWDPrefabType FailEffect { get; set; }
+		public NWDPrefabType FailSound{ get; set; }
+
+		[NWDHeaderAttribute("RESULT")]
+		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
+
+
+
+		[NWDHeaderAttribute("RECIPE Version grouped")]
+
 		public NWDReferenceType<NWDItemGroup> Catalyzer { get; set; }
 		public NWDReferenceType<NWDItem> CatalyzerSpecific { get; set; }
+
 		public NWDReferenceType<NWDItemGroup> ItemOne { get; set; }
 		public NWDReferenceType<NWDItem> ItemOneSpecific { get; set; }
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
@@ -90,8 +133,6 @@ namespace NetWorkedData
 		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
 		public int DelayFive { get; set; }
 
-		[NWDHeaderAttribute("RESULT")]
-		public NWDReferencesQuantityType<NWDItem> Result { get; set; }
 
 		public string ParticuleEffetGameObject { get; set; }
 
