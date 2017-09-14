@@ -40,15 +40,6 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-//
-//		[NWDHeaderAttribute("Informations")]
-//		public NWDLocalizableStringType Name { get; set; }
-//		public NWDLocalizableStringType SubName { get; set; }
-//		public NWDLocalizableStringType Description { get; set; }
-//		[NWDHeaderAttribute("Images")]
-//		public NWDTextureType NormalTexture { get; set; }
-//		public NWDTextureType SelectedTexture { get; set; }
-//
 		[NWDGroupStartAttribute("Classification",true, true, true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
 		public NWDReferencesListType<NWDCategory> Categories { get; set; }
@@ -163,7 +154,7 @@ namespace NetWorkedData
 
                             // Set a NWDTransaction
                             bTransaction = NWDTransaction.NewObject();
-                            bTransaction.InternalKey = sPack.Name.GetBaseString();
+                            //bTransaction.InternalKey = sPack.Name.GetBaseString();
                             bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
                             bTransaction.ShopReference.SetReference(sShop.Reference);
                             bTransaction.RackReference.SetReference(sRack.Reference);
