@@ -224,6 +224,60 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	#endif
 	//-------------------------------------------------------------------------------------------------------------
+	// Example of monobehaviour component
+	// This class example can be use to simple connect gameobject with NWDItem Data
+	// You can use this class to connect prefab, gameobject , etc.
+	//-------------------------------------------------------------------------------------------------------------
+	public class NWDExampleMonoBehavior : MonoBehaviour
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDExampleConnexion NetWorkedDataObject;
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDExampleMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDExample sNetWorkedDataObject)
+		{
+			NWDExampleMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDExampleMonoBehavior> () as NWDExampleMonoBehavior;
+			if (tMonoBehavior == null) {
+				tMonoBehavior = sGameObject.AddComponent<NWDExampleMonoBehavior> ();
+			}
+			tMonoBehavior.SetNetWorkedDataObject (sNetWorkedDataObject);
+			return tMonoBehavior;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDExample GetNetWorkedDataObject (GameObject sGameObject)
+		{
+			NWDExample rReturn = null;
+			NWDExampleMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDExampleMonoBehavior> () as NWDExampleMonoBehavior;
+			if (tMonoBehavior != null) {
+				rReturn = tMonoBehavior.GetNetWorkedDataObject ();
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDExample GetNetWorkedDataObject () {
+			return NetWorkedDataObject.GetObject();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetNetWorkedDataObject (NWDExample sNetWorkedDataObject) {
+			NetWorkedDataObject.SetObject(sNetWorkedDataObject);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDExample : NWDBasis <NWDExample>
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDExampleMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDExample sNetWorkedDataObject)
+		{
+			return NWDExampleMonoBehavior.SetNetWorkedDataObject (sGameObject,sNetWorkedDataObject);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDExample GetNetWorkedDataObject (GameObject sGameObject)
+		{
+			return NWDExampleMonoBehavior.GetNetWorkedDataObject (sGameObject);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
 	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }

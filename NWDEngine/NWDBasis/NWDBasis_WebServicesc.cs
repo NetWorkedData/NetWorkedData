@@ -30,6 +30,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static string SynchronizeKeyData = "data";
 		public static string SynchronizeKeyDataCount = "rowCount";
+		public static string SynchronizeKeyClean = "clean";
 		public static string SynchronizeKeyTimestamp = "sync";
 		public static string SynchronizeKeyLastTimestamp = "last";
 		public static string SynchronizeKeyInWaitingTimestamp = "waiting";
@@ -226,7 +227,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The push data.</returns>
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static Dictionary<string, object> SynchronizationPushData (NWDAppEnvironment sEnvironment, bool sForceAll)
+		public static Dictionary<string, object> SynchronizationPushData (NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
 		{
 
 			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
@@ -272,6 +273,10 @@ namespace NetWorkedData
 					rSendDatas.Add (SynchronizeKeyDataCount, tDatas.Count);
 					rSendDatas.Add (SynchronizeKeyData, tDatas);
 				}
+			}
+			if (sClean == true)
+			{
+				rSendDatas.Add (SynchronizeKeyClean,sClean.ToString());
 			}
 			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
 			// return the data
@@ -331,13 +336,17 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Trash from web service.
+		/// Synchronizations from web service.
 		/// </summary>
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static bool TrashFromWebService (NWDAppEnvironment sEnvironment)
+		public static bool SynchronizationFromWebServiceForce ( NWDAppEnvironment sEnvironment)
 		{
 			bool rReturn = false;
-
+				#if UNITY_EDITOR
+				NWDEditorMenu.EnvironementSync ().SynchronizationForce (new List<Type>{ ClassType () }, sEnvironment);
+				#else
+				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
+				#endif
 			rReturn = true;
 			return rReturn;
 		}
@@ -346,22 +355,30 @@ namespace NetWorkedData
 		/// Synchronizations from web service.
 		/// </summary>
 		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static bool SynchronizationFromWebService (bool sForceAll, NWDAppEnvironment sEnvironment)
+		public static bool SynchronizationFromWebService ( NWDAppEnvironment sEnvironment)
 		{
 			bool rReturn = false;
-			if (sForceAll == true) {
-				#if UNITY_EDITOR
-				NWDEditorMenu.EnvironementSync ().SynchronizationForce (new List<Type>{ ClassType () }, sEnvironment);
-				#else
-				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
-				#endif
-			} else {
-				#if UNITY_EDITOR
+				//#if UNITY_EDITOR
 				NWDEditorMenu.EnvironementSync ().Synchronization (new List<Type>{ ClassType () }, sEnvironment);
-				#else
+				//#else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
-				#endif
-			}
+				//#endif
+			rReturn = true;
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Synchronizations from web service.
+		/// </summary>
+		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+		public static bool SynchronizationFromWebServiceClean ( NWDAppEnvironment sEnvironment)
+		{
+			bool rReturn = false;
+			#if UNITY_EDITOR
+			NWDEditorMenu.EnvironementSync ().SynchronizationClean (new List<Type>{ ClassType () }, sEnvironment);
+			#else
+			NWDDataManager.SharedInstance.AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
+			#endif
 			rReturn = true;
 			return rReturn;
 		}

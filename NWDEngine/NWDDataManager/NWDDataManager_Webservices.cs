@@ -150,16 +150,28 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public BTBOperationController WebOperationQueue = new BTBOperationController ();
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationClean (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAllSynchronization");
 			return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		{
+			BTBDebug.Log ("AddWebRequestAllSynchronization");
+			return AddWebRequestAllSynchronizationCleanWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAllSynchronizationForce");
 			return AddWebRequestAllSynchronizationForceWithBlock (null, null, null, null, sPriority, sEnvironment);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDOperationWebSynchronisation AddWebRequestSynchronizationClean (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		{
+			BTBDebug.Log ("AddWebRequestSynchronization");
+			return AddWebRequestSynchronizationCleanWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
@@ -260,6 +272,18 @@ namespace NetWorkedData
 			return AddWebRequestLogGoogleWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationCleanWithBlock (
+			BTBOperationBlock sSuccessBlock = null, 
+			BTBOperationBlock sErrorBlock = null, 
+			BTBOperationBlock sCancelBlock = null,
+			BTBOperationBlock sProgressBlock = null, 
+			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		{
+			BTBDebug.Log ("AddWebRequestAllSynchronizationWithBlock");
+			/*BTBOperationSynchronisation sOperation = */
+			return NWDOperationWebSynchronisation.AddOperation ("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority, true);
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationWithBlock (
 			BTBOperationBlock sSuccessBlock = null, 
 			BTBOperationBlock sErrorBlock = null, 
@@ -281,7 +305,19 @@ namespace NetWorkedData
 		{
 			BTBDebug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
-			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
+			return NWDOperationWebSynchronisation.AddOperation ("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDOperationWebSynchronisation AddWebRequestSynchronizationCleanWithBlock (List<Type> sTypeList,
+			BTBOperationBlock sSuccessBlock = null, 
+			BTBOperationBlock sErrorBlock = null, 
+			BTBOperationBlock sCancelBlock = null,
+			BTBOperationBlock sProgressBlock = null, 
+			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		{
+			BTBDebug.Log ("AddWebRequestSynchronizationWithBlock");
+			/*BTBOperationSynchronisation sOperation = */
+			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, true);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
@@ -539,14 +575,14 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList)
+		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
 		{
 			Dictionary<string, object> rSend = new Dictionary<string, object> ();
 			if (sTypeList != null) {
 				foreach (Type tType in sTypeList) {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
-						Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sForceAll }) as Dictionary<string, object>;
+						Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
 						foreach (string tKey in rSendPartial.Keys) {
 							rSend.Add (tKey, rSendPartial [tKey]);
 						}

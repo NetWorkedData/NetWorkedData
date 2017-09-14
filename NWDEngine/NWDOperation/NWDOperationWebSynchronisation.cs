@@ -40,9 +40,9 @@ namespace NetWorkedData
 		                                                           BTBOperationBlock sCancelBlock = null,
 		                                                           BTBOperationBlock sProgressBlock = null, 
 		                                                           NWDAppEnvironment sEnvironment = null,
-		                                                           List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false)
+			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false)
 		{
-			NWDOperationWebSynchronisation rReturn = NWDOperationWebSynchronisation.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync);
+			NWDOperationWebSynchronisation rReturn = NWDOperationWebSynchronisation.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean);
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
@@ -52,7 +52,7 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
-		                                                     NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false)
+			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, bool sClean = false)
 		{
 			NWDOperationWebSynchronisation rReturn = null;
 			if (sName == null) {
@@ -71,7 +71,7 @@ namespace NetWorkedData
 			rReturn.QueueName = sEnvironment.Environment;
 			rReturn.TypeList = sTypeList;
 			rReturn.ForceSync = sForceSync;
-
+			rReturn.FlushTrash = sClean;
 			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
 
 			#if UNITY_EDITOR
@@ -91,11 +91,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList);
+			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, FlushTrash);
 			tData.Add ("action", "sync");
-			#if UNITY_EDITOR
-			tData.Add ("flushtrash", FlushTrash);
-			#endif
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------

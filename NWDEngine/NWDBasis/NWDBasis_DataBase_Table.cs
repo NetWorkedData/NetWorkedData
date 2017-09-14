@@ -56,7 +56,20 @@ namespace NetWorkedData
 			}
 			#endif
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
+		public static void CleanTable ()
+		{
+			List<object> tObjectsListToDelete = new List<object> ();
+			foreach (NWDBasis<K> tObject in ObjectsList) {
+				if (tObject.XX > 0) {
+					tObjectsListToDelete.Add (tObject);
+				}
+			}
+			foreach (NWDBasis<K> tObject in tObjectsListToDelete) {
+				RemoveObjectInListOfEdition (tObject);
+				tObject.DeleteMe ();
+			}
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void CreateTable ()
 		{

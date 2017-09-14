@@ -31,7 +31,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Item descriptions Class")]
 	[NWDClassMenuNameAttribute ("Item")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDItem :NWDBasis <NWDItem>
+	public partial class NWDItem : NWDBasis <NWDItem>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -280,6 +280,60 @@ namespace NetWorkedData
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	#endif
+	//-------------------------------------------------------------------------------------------------------------
+	// Example of monobehaviour component
+	// This class example can be use to simple connect gameobject with NWDItem Data
+	// You can use this class to connect prefab, gameobject , etc.
+	//-------------------------------------------------------------------------------------------------------------
+	public class NWDItemMonoBehavior : MonoBehaviour
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDItemConnexion NetWorkedDataObject;
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDItemMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDItem sNetWorkedDataObject)
+		{
+			NWDItemMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDItemMonoBehavior> () as NWDItemMonoBehavior;
+			if (tMonoBehavior == null) {
+				tMonoBehavior = sGameObject.AddComponent<NWDItemMonoBehavior> ();
+			}
+			tMonoBehavior.SetNetWorkedDataObject (sNetWorkedDataObject);
+			return tMonoBehavior;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDItem GetNetWorkedDataObject (GameObject sGameObject)
+		{
+			NWDItem rReturn = null;
+			NWDItemMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDItemMonoBehavior> () as NWDItemMonoBehavior;
+			if (tMonoBehavior != null) {
+				rReturn = tMonoBehavior.GetNetWorkedDataObject ();
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDItem GetNetWorkedDataObject () {
+			return NetWorkedDataObject.GetObject();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetNetWorkedDataObject (NWDItem sNetWorkedDataObject) {
+			NetWorkedDataObject.SetObject(sNetWorkedDataObject);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDItem : NWDBasis <NWDItem>
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDItemMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDItem sNetWorkedDataObject)
+		{
+			return NWDItemMonoBehavior.SetNetWorkedDataObject (sGameObject,sNetWorkedDataObject);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDItem GetNetWorkedDataObject (GameObject sGameObject)
+		{
+			return NWDItemMonoBehavior.GetNetWorkedDataObject (sGameObject);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+	}
 	//-------------------------------------------------------------------------------------------------------------
 	#endregion
 	//-------------------------------------------------------------------------------------------------------------

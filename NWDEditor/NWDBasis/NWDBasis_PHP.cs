@@ -131,22 +131,23 @@ namespace NetWorkedData
 //			tConstantsFile += "//-------------------- \n";
 //			// }
 
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x01" , "Error in" + tClassName ,"error in request creation in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x02" ,"Error in" + tClassName ,"error in request creation add primary key in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x03", "Error in" + tClassName ,"error in request creation add autoincrement modify in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x05", "Error in" + tClassName ,"error in sql index creation in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x07", "Error in" + tClassName ,"error in sql defragment in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x08", "Error in" + tClassName ,"error in sql drop in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x09", "Error in" + tClassName ,"error in sql Flush in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x11", "Error in" + tClassName ,"error in sql add columns in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x12", "Error in" + tClassName ,"error in sql alter columns in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x31", "Error in" + tClassName ,"error in request insert new datas before update in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x32", "Error in" + tClassName ,"error in request select datas to update in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x33", "Error in" + tClassName ,"error in request select updatable datas in " + tClassName + "" );
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x38", "Error in" + tClassName ,"error in request update datas in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x39", "Error in" + tClassName ,"error too much datas for this reference in  " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x91", "Error in" + tClassName ,"error update integrity in " + tClassName + "");
-			NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in" + tClassName ,"integrity of one datas is false, break in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x01", "Error in" + tClassName, "error in request creation in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x02", "Error in" + tClassName, "error in request creation add primary key in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x03", "Error in" + tClassName, "error in request creation add autoincrement modify in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x05", "Error in" + tClassName, "error in sql index creation in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x07", "Error in" + tClassName, "error in sql defragment in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x08", "Error in" + tClassName, "error in sql drop in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x09", "Error in" + tClassName, "error in sql Flush in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x11", "Error in" + tClassName, "error in sql add columns in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x12", "Error in" + tClassName, "error in sql alter columns in " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x31", "Error in" + tClassName, "error in request insert new datas before update in " + tClassName + " (update table?)");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x32", "Error in" + tClassName, "error in request select datas to update in " + tClassName + " (update table?)");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x33", "Error in" + tClassName, "error in request select updatable datas in " + tClassName + " (update table?)");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x38", "Error in" + tClassName, "error in request update datas in " + tClassName + " (update table?)");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x39", "Error in" + tClassName, "error too much datas for this reference in  " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x40", "Error in" + tClassName, "error in flush trashed in  " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x91", "Error in" + tClassName, "error update integrity in " + tClassName + " (update table?)");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x88", "Error in" + tClassName, "integrity of one datas is false, break in " + tClassName + "");
 
 			tConstantsFile += "" +
 			"errorDeclaration('" + tTrigramme + "x01', 'error in request creation in " + tClassName + "');\n" +
@@ -164,8 +165,9 @@ namespace NetWorkedData
 			"errorDeclaration('" + tTrigramme + "x33', 'error in request select updatable datas in " + tClassName + "');\n" +
 			"errorDeclaration('" + tTrigramme + "x38', 'error in request update datas in " + tClassName + "');\n" +
 			"errorDeclaration('" + tTrigramme + "x39', 'error too much datas for this reference in  " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "x91', 'error update integrity in " + tClassName + "');\n" +
-			"errorDeclaration('" + tTrigramme + "x88', 'integrity of one datas is false, break in " + tClassName + "');\n" +
+				"errorDeclaration('" + tTrigramme + "x88', 'integrity of one datas is false, break in " + tClassName + "');\n" +
+				"errorDeclaration('" + tTrigramme + "x91', 'error update integrity in " + tClassName + "');\n" +
+				"errorDeclaration('" + tTrigramme + "x99', 'error columns number in " + tClassName + "');\n" +
 			"\n" +
 			"//-------------------- \n" +
 			"?>\n";
@@ -321,7 +323,7 @@ namespace NetWorkedData
 
 
 					if (tColumnType.IsSubclassOf (typeof(BTBDataType))) {
-							columnNamesFinalList.Add ("`" + tName + "`(24)");
+						columnNamesFinalList.Add ("`" + tName + "`(24)");
 					} else if (tColumnType == typeof(string)) {
 						columnNamesFinalList.Add ("`" + tName + "`(24)");
 					} else if (tColumnType == typeof(string)) {
@@ -448,41 +450,41 @@ namespace NetWorkedData
 
 			string tSynchronizationFile = "";
 			tSynchronizationFile += "" +
-				"<?php\n" +
-			                              "//NWD Autogenerate File at " + tDateTimeString + "\n" +
-			                              "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
-			                              "//Created by Jean-François CONTART\n" +
-			                              "//--------------------\n" +
-			                              "// SYNCHRONIZATION FUNCTIONS\n" +
-			                              "//-------------------- \n" +
-			                              "include_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/Database/" + tClassName + "/constants.php');\n" +
-			                              "include_once ($PATH_BASE.'/Engine/functions.php');\n" +
-			                              "//-------------------- \n" +
-			                              "function Integrity" + tClassName + "Test ($sCsv)\n" +
-			                              "\t{\n" +
-			                              "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
-			                              "\t\t$rReturn = true;\n" +
-			                              "\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
-											"\t\t$tIntegrity = array_pop($sCsvList);\n" +
-											"\t\tunset($sCsvList[2]);//remove DS\n" +
-											"\t\tunset($sCsvList[3]);//remove DevSync\n" +
-											"\t\tunset($sCsvList[4]);//remove PreprodSync\n" +
-											"\t\tunset($sCsvList[5]);//remove ProdSync\n" +
-			                              "\t\t$sDataString = implode('',$sCsvList);\n" +
-			                              "\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
-			                              "\t\tif ($tCalculate!=$tIntegrity)\n" +
-			                              "\t\t\t{\n" +
-			                              "\t\t\t\t$rReturn = false;\n" +
-			                              "\t\t\t\terror('" + tTrigramme + "x88');\n" +
-			                              "\t\t\t}\n" +
-			                              "\t\treturn $rReturn;\n" +
-			                              "\t}\n" +
-			                              "//-------------------- \n" +
-			                              "function Prepare" + tClassName + "Data ($sCsv)\n" +
-			                              "\t{\n" +
-			                              "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
-			                              "\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
-			                              "\t\t$sCsvList[2] = time();// change DS\n";
+			"<?php\n" +
+			"//NWD Autogenerate File at " + tDateTimeString + "\n" +
+			"//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
+			"//Created by Jean-François CONTART\n" +
+			"//--------------------\n" +
+			"// SYNCHRONIZATION FUNCTIONS\n" +
+			"//-------------------- \n" +
+			"include_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/Database/" + tClassName + "/constants.php');\n" +
+			"include_once ($PATH_BASE.'/Engine/functions.php');\n" +
+			"//-------------------- \n" +
+			"function Integrity" + tClassName + "Test ($sCsv)\n" +
+			"\t{\n" +
+			"\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+			"\t\t$rReturn = true;\n" +
+			"\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
+			"\t\t$tIntegrity = array_pop($sCsvList);\n" +
+			"\t\tunset($sCsvList[2]);//remove DS\n" +
+			"\t\tunset($sCsvList[3]);//remove DevSync\n" +
+			"\t\tunset($sCsvList[4]);//remove PreprodSync\n" +
+			"\t\tunset($sCsvList[5]);//remove ProdSync\n" +
+			"\t\t$sDataString = implode('',$sCsvList);\n" +
+			"\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+			"\t\tif ($tCalculate!=$tIntegrity)\n" +
+			"\t\t\t{\n" +
+			"\t\t\t\t$rReturn = false;\n" +
+			"\t\t\t\terror('" + tTrigramme + "x88');\n" +
+			"\t\t\t}\n" +
+			"\t\treturn $rReturn;\n" +
+			"\t}\n" +
+			"//-------------------- \n" +
+			"function Prepare" + tClassName + "Data ($sCsv)\n" +
+			"\t{\n" +
+			"\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+			"\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
+			"\t\t$sCsvList[2] = time();// change DS\n";
 			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
 				tSynchronizationFile += "\t\t$sCsvList[3] = time();// change DevSync\n";
 			} else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
@@ -518,7 +520,7 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t$sDataString ='';\n";
 			foreach (string tPropertyName in SLQIntegrityOrder ()) {
 				tSynchronizationFile += "" +
-					"\t\t\t\t\t\t$sDataString .= $tRow['"+tPropertyName+"'];\n";
+				"\t\t\t\t\t\t$sDataString .= $tRow['" + tPropertyName + "'];\n";
 			}
 			tSynchronizationFile += "" +
 			"\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
@@ -548,9 +550,10 @@ namespace NetWorkedData
 				tColumnNameList.Add ("`" + tProperty + "`");
 				tColumnValueList.Add ("\\''.$SQL_CON->real_escape_string($sCsvList[" + tIndex.ToString () + "]).'\\'");
 				tIndex++;
-			};
+			}
+			;
 
-			tSynchronizationFile +="function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
+			tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
 			"\t{\n" +
 				//"" + tGlobal +
 			"\t\tglobal $SQL_CON;\n" +
@@ -558,8 +561,14 @@ namespace NetWorkedData
 			"\t\tglobal $admin;\n" +
 			"\t\tif (Integrity" + tClassName + "Test ($sCsv) == true)\n" +
 			"\t\t\t{\n" +
-				//"$sCsvList = explode('"+NWDConstants.kStandardSeparator+"',$sCsv);\n" +
+			//"$sCsvList = explode('"+NWDConstants.kStandardSeparator+"',$sCsv);\n" +
 			"\t\t\t\t$sCsvList = Prepare" + tClassName + "Data($sCsv);\n" +
+			"\t\t\t\tif (count ($sCsvList) != "+tColumnNameList.Count.ToString()+")\n" +
+			"\t\t\t\t{\n" +
+			"\t\t\t\t\t\terror('" + tTrigramme + "x99');\n" +
+			"\t\t\t\t}\n" +
+			"\t\t\t\telse\n" +
+			"\t\t\t\t{\n" +
 			"\t\t\t\t$tReference = $sCsvList[0];\n" +
 			"\t\t\t\t$tDM = $sCsvList[1];\n" +
 			"\t\t\t\t$tQuery = 'SELECT `Reference` FROM `" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
@@ -575,7 +584,7 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t\t{\n" +
 			"\t\t\t\t\t\t\t\tif ($tResult->num_rows == 0)\n" +
 			"\t\t\t\t\t\t\t\t\t{\n" +
-				"\t\t\t\t\t\t\t\t\t\t$tInsert = 'INSERT INTO `" + tTableName + "` ("+string.Join (", ", tColumnNameList.ToArray ())+") VALUES ("+string.Join (", ", tColumnValueList.ToArray ())+");';\n" +
+			"\t\t\t\t\t\t\t\t\t\t$tInsert = 'INSERT INTO `" + tTableName + "` (" + string.Join (", ", tColumnNameList.ToArray ()) + ") VALUES (" + string.Join (", ", tColumnValueList.ToArray ()) + ");';\n" +
 			"\t\t\t\t\t\t\t\t\t\t$tInsertResult = $SQL_CON->query($tInsert);\n" +
 			"\t\t\t\t\t\t\t\t\t\tif (!$tInsertResult)\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t{\n" +
@@ -613,8 +622,20 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\tmysqli_free_result($tResult);\n" +
 			"\t\t\t\t\t}\n" +
-			"\t\t\t}\n" +
+				"\t\t\t}\n" +
+				"\t\t\t}\n" +
 			"\t}\n" +
+			"//-------------------- \n" +
+			"function FlushTrashedDatas" + tClassName + " ()\n" +
+			"\t{\n" +
+			"\t\tglobal $SQL_CON;\n" +
+			"\t\t$tQuery = 'DELETE FROM `" + tTableName + "` WHERE XX>0';\n" +
+			"\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+			"\t\tif (!$tResult)\n" +
+			"\t\t\t{\n" +
+			"\t\t\t\terror('" + tTrigramme + "x40');\n" +
+			"\t\t\t}\n" +
+			"}" +
 			"//-------------------- \n" +
 			"function GetDatas" + tClassName + " ($sTimeStamp, $sAccountReference, $sPage, $sLimit)\n" +
 			"\t{\n" +
@@ -661,11 +682,11 @@ namespace NetWorkedData
 				tSynchronizationFile += "\t\tif ($sAdmin == true){\n";
 			}
 			tSynchronizationFile += "" +
-				"\t\tif ($sAdmin == true)\n" +
-				"\t\t\t{\n" +
-				"\t\t\t\t$sAccountReference = '%';\n" +
-				"\t\t\t}\n" +
-				"\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
+			"\t\tif ($sAdmin == true)\n" +
+			"\t\t\t{\n" +
+			"\t\t\t\t$sAccountReference = '%';\n" +
+			"\t\t\t}\n" +
+			"\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
 			"\t\t\t{\n" +
 			"\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['data']))\n" +
 			"\t\t\t\t\t{\n" +
@@ -683,6 +704,13 @@ namespace NetWorkedData
 			}
 			tSynchronizationFile += "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
 			"\t\t\t{\n" +
+			"\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['clean']))\n" +
+			"\t\t\t\t\t{\n" +
+			"\t\t\t\t\t\tif (!errorDetected())\n" +
+			"\t\t\t\t\t\t\t{\n" +
+			"\t\t\t\t\t\t\t\tFlushTrashedDatas" + tClassName + " ();\n" +
+			"\t\t\t\t\t\t\t}\n" +
+			"\t\t\t\t\t}\n" +
 			"\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['sync']))\n" +
 			"\t\t\t\t\t{\n" +
 			"\t\t\t\t\t\tif (!errorDetected())\n" +

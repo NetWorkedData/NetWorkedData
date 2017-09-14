@@ -641,11 +641,11 @@ namespace NetWorkedData
 
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME, EditorStyles.miniButton)) {
-				SynchronizationFromWebService (false, NWDAppConfiguration.SharedInstance.DevEnvironment);
+				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
 
 			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME, EditorStyles.miniButton)) {
-				SynchronizationFromWebService (false, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
 			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME, EditorStyles.miniButton)) {
@@ -653,7 +653,7 @@ namespace NetWorkedData
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
 //					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-					SynchronizationFromWebService (false, NWDAppConfiguration.SharedInstance.ProdEnvironment);
+					SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 //				}
 			}
 			EditorGUI.EndDisabledGroup ();
@@ -663,10 +663,10 @@ namespace NetWorkedData
 			// FORCE SYNCHRO
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " force", EditorStyles.miniButton)) {
-				SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.DevEnvironment);
+				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
 			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " force", EditorStyles.miniButton)) {
-				SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
 			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " force", EditorStyles.miniButton)) {
@@ -674,41 +674,39 @@ namespace NetWorkedData
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
 //					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-					SynchronizationFromWebService (true, NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 //				}
 			}
 			EditorGUI.EndDisabledGroup ();
 			GUILayout.EndHorizontal ();
 
 
+			Color tOldColor = GUI.backgroundColor;
+			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+			// FORCE SYNCHRO And Clean
+			GUILayout.BeginHorizontal ();
+			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " clean", EditorStyles.miniButton)) {
+				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.DevEnvironment);
+			}
+			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " clean", EditorStyles.miniButton)) {
+				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+			}
+			EditorGUI.BeginDisabledGroup (tDisableProd);
+			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " clean", EditorStyles.miniButton)) {
+				//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
+				//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
+				//					    NWDConstants.K_SYNC_ALERT_OK,
+				//					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
+				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				//				}
+			}
+			EditorGUI.EndDisabledGroup ();
+			GUILayout.EndHorizontal ();
 
-
-//			// FORCE TO TRASH
-//			GUILayout.BeginHorizontal ();
-//			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " trash", EditorStyles.miniButton)) 
-//			{
-//				TrashFromWebService (NWDAppConfiguration.SharedInstance.DevEnvironment);
-//			}
-//			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " trash", EditorStyles.miniButton)) 
-//			{
-//				TrashFromWebService (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
-//			}
-//			EditorGUI.BeginDisabledGroup (tDisableProd);
-//			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " trash", EditorStyles.miniButton)) 
-//			{
-//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
-//					NWDConstants.K_SYNC_ALERT_MESSAGE,
-//					NWDConstants.K_SYNC_ALERT_OK,
-//					NWDConstants.K_SYNC_ALERT_CANCEL)) {
-//					TrashFromWebService (NWDAppConfiguration.SharedInstance.ProdEnvironment);
-//				}
-//			}
-//			EditorGUI.EndDisabledGroup ();
-//			GUILayout.EndHorizontal ();
-//
-//
-
-
+			if (GUILayout.Button ("local base clean", EditorStyles.miniButton)) {
+				CleanTable ();
+			}
+			GUI.backgroundColor = tOldColor;
 
 			// |||||||||||||||||||||||||||||||||||||||||||
 			GUILayout.EndVertical ();

@@ -243,6 +243,24 @@ namespace NetWorkedData
 			}
 		}
 
+
+				public void CleanAllTablesLocal ()
+				{
+				//			if (ManagementType != NWDTypeService.ServerOnly) {
+				//				SQLiteConnection = new SQLiteConnection (mDatabasePath + mDatabaseName, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+				//				#if UNITY_EDITOR
+				//				AssetDatabase.ImportAsset (mDatabasePath + mDatabaseName);
+				//				#endif
+				//			}
+
+				foreach (Type tType in mTypeList) {
+				var tMethodInfo = tType.GetMethod ("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null) {
+				tMethodInfo.Invoke (null, null);
+				}
+				}
+				}
+
 		#if UNITY_EDITOR
 		public void CreateAllTablesServer (NWDAppEnvironment sEnvironment)
 		{
