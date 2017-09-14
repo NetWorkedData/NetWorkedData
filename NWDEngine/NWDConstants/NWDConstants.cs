@@ -290,7 +290,7 @@ namespace NetWorkedData
 		public const string K_APP_CONNEXION_EDIT =					"edit";
 		public const string K_APP_CONNEXION_NEW = 					"new";
 		//-------------------------------------------------------------------------------------------------------------
-		public static Color K_RED_BUTTON_COLOR = 					null;
+		public static Color K_RED_BUTTON_COLOR = 					new Color(0.8F, 0.40F, 0.30F, 1.0F);
 		//-------------------------------------------------------------------------------------------------------------
 		public static string[] K_VERSION_MAJOR_ARRAY = new string[] { 
 			"0", "1", "2", "3", "4", "5", "6", "7", "8", "9" 
@@ -326,7 +326,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		static NWDConstants ()
 		{
-			K_RED_BUTTON_COLOR = new Color(0.8F, 0.40F, 0.30F, 1.0F);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
