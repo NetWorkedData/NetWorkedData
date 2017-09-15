@@ -138,183 +138,215 @@ namespace NetWorkedData
 			//Init your instance here
 			FirstAcquisition = true;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
 
-		//-------------------------------------------------------------------------------------------------------------
-		// OWNERSHIP AND ITEM FOR PLAYER
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Ownership for item's reference.
-		/// </summary>
-		/// <returns>The for item reference.</returns>
-		/// <param name="sItemReference">S item reference.</param>
-		public static NWDOwnership OwnershipForItemReference (string sItemReference)
-		{
-			NWDOwnership rOwnershipToUse = null;
-			foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects()) {
-				if (tOwnership.ItemReference.GetReference () == sItemReference) {
-					rOwnershipToUse = tOwnership;
-					break;
-				}
-			}
-			if (rOwnershipToUse == null) {
-				rOwnershipToUse = NWDOwnership.NewObject ();
-				rOwnershipToUse.ItemReference.SetReference (sItemReference);
-				rOwnershipToUse.Quantity = 0;
-				rOwnershipToUse.SaveModifications ();
-			}
-			return rOwnershipToUse;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Ownership for item's reference exists.
-		/// </summary>
-		/// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
-		/// <param name="sItemReference">S item reference.</param>
-		public static bool OwnershipForItemReferenceExists (string sItemReference)
-		{
-			NWDOwnership rOwnershipToUse = null;
-			foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects()) {
-				if (tOwnership.ItemReference.GetReference () == sItemReference) {
-					rOwnershipToUse = tOwnership;
-					break;
-				}
-			}
-			return rOwnershipToUse != null;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Return the Ownership for item.
-		/// </summary>
-		/// <returns>The for item.</returns>
-		/// <param name="sItem">S item.</param>
-		public static NWDOwnership OwnershipForItem (NWDItem sItem)
-		{
-			NWDOwnership rOwnershipToUse = null;
-			foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects()) {
-				if (tOwnership.ItemReference.GetObject () == sItem) {
-					rOwnershipToUse = tOwnership;
-					break;
-				}
-			}
-			if (rOwnershipToUse == null) {
-				rOwnershipToUse = NWDOwnership.NewObject ();
-				rOwnershipToUse.ItemReference.SetObject (sItem);
-				rOwnershipToUse.Quantity = 0;
-				rOwnershipToUse.SaveModifications ();
-			}
-			return rOwnershipToUse;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Ownership for item exists.
-		/// </summary>
-		/// <returns><c>true</c>, if for item exists was ownershiped, <c>false</c> otherwise.</returns>
-		/// <param name="sItem">S item.</param>
-		public static bool OwnershipForItemExists (NWDItem sItem)
-		{
-			NWDOwnership rOwnershipToUse = null;
-			foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects()) {
-				if (tOwnership.ItemReference.GetObject () == sItem) {
-					rOwnershipToUse = tOwnership;
-					break;
-				}
-			}
-			return rOwnershipToUse != null;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add the item's quantity to ownership.
-		/// </summary>
-		/// <returns>The item to ownership.</returns>
-		/// <param name="sItem">S item.</param>
-		/// <param name="sQuantity">S quantity.</param>
-		public static NWDOwnership AddItemToOwnership (NWDItem sItem, int sQuantity)
-		{
-			NWDOwnership rOwnershipToUse = OwnershipForItem (sItem);
-			rOwnershipToUse.Quantity += sQuantity;
-			rOwnershipToUse.SaveModifications ();
-			return rOwnershipToUse;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Remove the item's quantity to ownership.
-		/// </summary>
-		/// <returns>The item to ownership.</returns>
-		/// <param name="sItem">S item.</param>
-		/// <param name="sQuantity">S quantity.</param>
-		public static NWDOwnership RemoveItemToOwnership (NWDItem sItem, int sQuantity)
-		{
-			NWDOwnership rOwnershipToUse = OwnershipForItem (sItem);
-			rOwnershipToUse.Quantity -= sQuantity;
-			rOwnershipToUse.SaveModifications ();
-			return rOwnershipToUse;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add item's quantity to ownership.
-		/// </summary>
-		/// <param name="sItemsReferenceQuantity">items reference/quantity.</param>
-		public static void AddItemToOwnership (NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
-		{
-			if (sItemsReferenceQuantity != null) {
-				foreach (KeyValuePair<string,int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity()) {
-					NWDOwnership rOwnershipToUse = OwnershipForItemReference (tItemQuantity.Key);
-					rOwnershipToUse.Quantity += tItemQuantity.Value;
-					rOwnershipToUse.SaveModifications ();
-				}
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Remove item's quantity to ownership.
-		/// </summary>
-		/// <param name="sItemsReferenceQuantity">items reference/quantity.</param>
-		public static void RemoveItemToOwnership (NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
-		{
-			if (sItemsReferenceQuantity != null) {
-				foreach (KeyValuePair<string,int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity()) {
-					NWDOwnership rOwnershipToUse = OwnershipForItemReference (tItemQuantity.Key);
-					rOwnershipToUse.Quantity -= tItemQuantity.Value;
-					rOwnershipToUse.SaveModifications ();
-				}
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Contains items with quantities.
-		/// </summary>
-		/// <returns><c>true</c>, if items was contained with the enough quantity, <c>false</c> otherwise.</returns>
-		/// <param name="sItemsReferenceQuantity">S items reference quantity.</param>
-		public static bool ContainsItems (NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity) {
-			bool rReturn = true;
-			if (sItemsReferenceQuantity != null) {
-				foreach (KeyValuePair<string,int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity()) {
-					NWDOwnership rOwnershipToUse = OwnershipForItemReference (tItemQuantity.Key);
-					if (rOwnershipToUse.Quantity < tItemQuantity.Value) {
-						rReturn = false;
-					}
-				}
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
+        //-------------------------------------------------------------------------------------------------------------
+        // OWNERSHIP AND ITEM FOR PLAYER
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Ownership for item's reference.
+        /// </summary>
+        /// <returns>The for item reference.</returns>
+        /// <param name="sItemReference">S item reference.</param>
+        public static NWDOwnership OwnershipForItemReference(string sItemReference)
+        {
+            NWDOwnership rOwnershipToUse = null;
+            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
+            {
+                if (tOwnership.ItemReference.GetReference() == sItemReference)
+                {
+                    rOwnershipToUse = tOwnership;
+                    break;
+                }
+            }
+            if (rOwnershipToUse == null)
+            {
+                rOwnershipToUse = NWDOwnership.NewObject();
+                rOwnershipToUse.ItemReference.SetReference(sItemReference);
+                rOwnershipToUse.Quantity = 0;
+                rOwnershipToUse.SaveModifications();
+            }
+            return rOwnershipToUse;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Ownership for item's reference exists.
+        /// </summary>
+        /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
+        /// <param name="sItemReference">S item reference.</param>
+        public static bool OwnershipForItemReferenceExists(string sItemReference)
+        {
+            NWDOwnership rOwnershipToUse = null;
+            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
+            {
+                if (tOwnership.ItemReference.GetReference() == sItemReference)
+                {
+                    rOwnershipToUse = tOwnership;
+                    break;
+                }
+            }
+            return rOwnershipToUse != null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return the Ownership for item.
+        /// </summary>
+        /// <returns>The for item.</returns>
+        /// <param name="sItem">S item.</param>
+        public static NWDOwnership OwnershipForItem(NWDItem sItem)
+        {
+            NWDOwnership rOwnershipToUse = null;
+            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
+            {
+                if (tOwnership.ItemReference.GetObject() == sItem)
+                {
+                    rOwnershipToUse = tOwnership;
+                    break;
+                }
+            }
+            if (rOwnershipToUse == null)
+            {
+                rOwnershipToUse = NWDOwnership.NewObject();
+                rOwnershipToUse.ItemReference.SetObject(sItem);
+                rOwnershipToUse.Quantity = 0;
+                rOwnershipToUse.SaveModifications();
+            }
+            return rOwnershipToUse;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Ownership for item exists.
+        /// </summary>
+        /// <returns><c>true</c>, if for item exists was ownershiped, <c>false</c> otherwise.</returns>
+        /// <param name="sItem">S item.</param>
+        public static bool OwnershipForItemExists(NWDItem sItem)
+        {
+            NWDOwnership rOwnershipToUse = null;
+            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
+            {
+                if (tOwnership.ItemReference.GetObject() == sItem)
+                {
+                    rOwnershipToUse = tOwnership;
+                    break;
+                }
+            }
+            return rOwnershipToUse != null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Add the item's quantity to ownership.
+        /// </summary>
+        /// <returns>The item to ownership.</returns>
+        /// <param name="sItem">S item.</param>
+        /// <param name="sQuantity">S quantity.</param>
+        public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
+        {
+            NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            rOwnershipToUse.Quantity += sQuantity;
+            rOwnershipToUse.SaveModifications();
+            return rOwnershipToUse;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Remove the item's quantity to ownership.
+        /// </summary>
+        /// <returns>The item to ownership.</returns>
+        /// <param name="sItem">S item.</param>
+        /// <param name="sQuantity">S quantity.</param>
+        public static NWDOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
+        {
+            NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            rOwnershipToUse.Quantity -= sQuantity;
+            rOwnershipToUse.SaveModifications();
+            return rOwnershipToUse;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Add item's quantity to ownership.
+        /// </summary>
+        /// <param name="sItemsReferenceQuantity">items reference/quantity.</param>
+        public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
+        {
+            if (sItemsReferenceQuantity != null)
+            {
+                foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
+                {
+                    NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
+                    rOwnershipToUse.Quantity += tItemQuantity.Value;
+                    rOwnershipToUse.SaveModifications();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Remove item's quantity to ownership.
+        /// </summary>
+        /// <param name="sItemsReferenceQuantity">items reference/quantity.</param>
+        public static void RemoveItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
+        {
+            if (sItemsReferenceQuantity != null)
+            {
+                foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
+                {
+                    NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
+                    rOwnershipToUse.Quantity -= tItemQuantity.Value;
+                    rOwnershipToUse.SaveModifications();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Contains items with quantities.
+        /// </summary>
+        /// <returns><c>true</c>, if items was contained with the enough quantity, <c>false</c> otherwise.</returns>
+        /// <param name="sItemsReferenceQuantity">S items reference quantity.</param>
+        public static bool ContainsItems(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
+        {
+            bool rReturn = true;
+            if (sItemsReferenceQuantity != null)
+            {
+                foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
+                {
+                    NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
+                    if (rOwnershipToUse.Quantity < tItemQuantity.Value)
+                    {
+                        rReturn = false;
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public bool CheckOwnershipAndItemValidity()
+        {
+            bool rReturn = false;
+
+            NWDItem tNWDItem = ItemReference.GetObject();
+
+            // Check if item is not null
+            if (tNWDItem != null)
+            {
+                // Check if item is enable
+                if (tNWDItem.IsEnable() && IsEnable())
+                {
+                    rReturn = true;
+                }
+            }
+
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region override of NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
