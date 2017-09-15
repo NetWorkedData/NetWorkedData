@@ -125,10 +125,10 @@ namespace NetWorkedData
 		{
 			// do something with this object
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
+        //-------------------------------------------------------------------------------------------------------------
+        #region override of NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
