@@ -291,12 +291,18 @@ namespace NetWorkedData
 		{
 			if (ObjectsList.Contains (sObject) == true) {
 				int tIndex = ObjectsList.IndexOf (sObject);
+				// ObjectsList don't change
+				ObjectsByReferenceList.RemoveAt (tIndex);
+				ObjectsByReferenceList.Insert (tIndex, sObject.Reference);
+				ObjectsByKeyList.RemoveAt (tIndex);
+				ObjectsByKeyList.Insert (tIndex, sObject.InternalKey);
 				#if UNITY_EDITOR
 				ObjectsInEditorTableKeyList.RemoveAt (tIndex);
 				ObjectsInEditorTableKeyList.Insert (tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
+				ObjectsInEditorTableList.RemoveAt (tIndex);
+				ObjectsInEditorTableList.Insert (tIndex, sObject.Reference);
+				// ObjectsInEditorTableSelectionList don't change
 				#endif
-				ObjectsByKeyList.RemoveAt (tIndex);
-				ObjectsByKeyList.Insert (tIndex, sObject.InternalKey);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

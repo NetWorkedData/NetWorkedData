@@ -358,11 +358,11 @@ namespace NetWorkedData
 		public static bool SynchronizationFromWebService ( NWDAppEnvironment sEnvironment)
 		{
 			bool rReturn = false;
-				//#if UNITY_EDITOR
+				#if UNITY_EDITOR
 				NWDEditorMenu.EnvironementSync ().Synchronization (new List<Type>{ ClassType () }, sEnvironment);
-				//#else
+				#else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
-				//#endif
+				#endif
 			rReturn = true;
 			return rReturn;
 		}

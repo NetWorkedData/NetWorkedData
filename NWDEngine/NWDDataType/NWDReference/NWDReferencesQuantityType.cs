@@ -350,7 +350,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public string ChangeReferenceForAnother (string sOldReference, string sNewReference, Type sType)
+		public string ChangeReferenceForAnother (string sOldReference, string sNewReference)
 		{
 			string rReturn = "NO";
 			if (Value != null) {

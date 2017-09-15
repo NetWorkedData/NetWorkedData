@@ -136,14 +136,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public bool ChangeReferenceForAnother(string sOldReference, string sNewReference)
+		public string ChangeReferenceForAnother (string sOldReference, string sNewReference)
 		{
-			bool rReturn = false;
+			string rReturn = "NO";
 			if (Value != null) {
 				if (Value.Contains (sOldReference)) {
-					Debug.Log ("I CHANGE "+sOldReference+" FOR "+sNewReference+"");
+					Debug.Log ("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
 					Value = Value.Replace (sOldReference, sNewReference);
-					rReturn = true;
+					rReturn = "YES";
 				}
 			}
 			return rReturn;

@@ -1164,10 +1164,7 @@ namespace NetWorkedData
 					    NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
 					    NWDConstants.K_APP_BASIS_NEW_REFERENCE_OK,
 					    NWDConstants.K_APP_BASIS_NEW_REFERENCE_CANCEL)) {
-					RemoveObjectInListOfEdition (this);
 					RegenerateNewReference ();
-					AddObjectInListOfEdition (this);
-					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}
 			}
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;

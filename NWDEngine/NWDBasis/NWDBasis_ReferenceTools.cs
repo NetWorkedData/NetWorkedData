@@ -41,11 +41,11 @@ namespace NetWorkedData
 		/// <param name="sOldReference">S old reference.</param>
 		/// <param name="sNewReference">S new reference.</param>
 		/// <param name="sType">S type.</param>
-		public static void ChangeReferenceForAnotherInAllObjects (string sOldReference, string sNewReference, Type sType)
+		public static void ChangeReferenceForAnotherInAllObjects (string sOldReference, string sNewReference)
 		{
 			//BTBDebug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
 			foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList) {
-				tObject.ChangeReferenceForAnother (sOldReference, sNewReference, sType);
+				tObject.ChangeReferenceForAnother (sOldReference, sNewReference);
 			}
 		}
 
@@ -160,18 +160,20 @@ namespace NetWorkedData
 		/// </summary>
 		public void RegenerateNewReference ()
 		{
+			#if UNITY_EDITOR
 			string tOldReference = Reference;
 			string tNewReference = NewReference ();
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
 				var tMethodInfo = tType.GetMethod ("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, new object[]{ tOldReference, tNewReference });
+					tMethodInfo.Invoke (null, new object[]{ tOldReference, tNewReference});
 				}
 			}
-			RemoveObjectInListOfEdition (this);
 			Reference = tNewReference;
 			UpdateMe (true);
-			AddObjectInListOfEdition (this);
+			UpdateObjectInListOfEdition (this);
+			NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+			#endif
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -180,7 +182,7 @@ namespace NetWorkedData
 		/// <param name="sOldReference">old reference.</param>
 		/// <param name="sNewReference">new reference.</param>
 		/// <param name="sType">type.</param>
-		public void ChangeReferenceForAnother (string sOldReference, string sNewReference, Type sType)
+		public void ChangeReferenceForAnother (string sOldReference, string sNewReference)
 		{
 			bool rModify = false;
 			Type tType = ClassType ();
@@ -203,7 +205,7 @@ namespace NetWorkedData
 									tNext = Activator.CreateInstance (tTypeOfThis);
 								}
 //								BTBDebug.LogVerbose ("tNext preview = " + tNext);
-								string tChanged = tMethodInfo.Invoke (tNext, new object[]{ sOldReference, sNewReference, sType }) as string;
+								string tChanged = tMethodInfo.Invoke (tNext, new object[]{ sOldReference, sNewReference}) as string;
 								if (tChanged == "YES") {
 //									BTBDebug.LogVerbose ("tNext changed = " + tNext);
 									tProp.SetValue (this, tNext, null);
