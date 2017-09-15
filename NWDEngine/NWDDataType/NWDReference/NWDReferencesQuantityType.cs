@@ -256,15 +256,45 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
+		public List<string> ReferenceInError( List<string> sReferencesList) {
+			List<string> rReturn = new List<string> ();
+			foreach (string tReference in sReferencesList) {
+				if (NWDBasis<K>.InstanceByReference (tReference) == null) {
+					rReturn.Add (tReference);
+				}
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
 			int tRow = 1;
+			int tConnexion = 0;
 			if (Value != null && Value != "") {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tRow += tValueArray.Count ();
+				List<string> tValueListERROR = ReferenceInError (new List<string> (GetReferences ()));
+				if (tValueListERROR.Count > 0) {
+					tConnexion = 1;
+				}
 			}
+			float tWidth = 100.0F;
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			float tHeight = (tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f) + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge;
+			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
+			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
+			tLabelStyle.fixedHeight = tLabelStyle.CalcHeight (new GUIContent ("A"), tWidth);
+			tLabelStyle.normal.textColor = Color.red;
+			GUIStyle tLabelAssetStyle = new GUIStyle (EditorStyles.label);
+			tLabelAssetStyle.fontSize = 9;
+			tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight (new GUIContent ("A"), tWidth);
+			tLabelAssetStyle.normal.textColor = Color.gray;
+			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
+			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
+
+			float tHeight = (tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f) + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge + 
+				tConnexion*(tLabelStyle.fixedHeight+NWDConstants.kFieldMarge+
+					//tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
+					tMiniButtonStyle.fixedHeight+NWDConstants.kFieldMarge);
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -283,6 +313,17 @@ namespace NetWorkedData
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
+			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
+			tLabelStyle.fixedHeight = tLabelStyle.CalcHeight (new GUIContent ("A"), tWidth);
+			tLabelStyle.normal.textColor = Color.red;
+			GUIStyle tLabelAssetStyle = new GUIStyle (EditorStyles.label);
+			tLabelAssetStyle.fontSize = 9;
+			tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight (new GUIContent ("A"), tWidth);
+			tLabelAssetStyle.normal.textColor = Color.red;
+			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
+			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
+
+			bool tConnexion = true;
 
 			List<string> tReferenceList = new List<string> ();
 			List<string> tInternalNameList = new List<string> ();
@@ -304,6 +345,15 @@ namespace NetWorkedData
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tValueList = new List<string> (tValueArray);
 			}
+
+			List<string> tValueListERROR = ReferenceInError (new List<string> (GetReferences ()));
+			if (tValueListERROR.Count > 0) {
+				tConnexion = false;
+			}
+
+			EditorGUI.BeginDisabledGroup (!tConnexion);
+
+
 			tValueList.Add ("");
 			for (int i = 0; i < tValueList.Count; i++) {
 				string tFieldName = sEntitled;
@@ -323,6 +373,11 @@ namespace NetWorkedData
 				}
 
 				tIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - tIntWidth - NWDConstants.kFieldMarge - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+
+				if (tValueListERROR.Contains (tV)) {
+					GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth+NWDConstants.kFieldMarge, tY+1, tWidth - tIntWidth - EditorGUIUtility.labelWidth -NWDConstants.kFieldMarge*4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <"+tV+">", tLabelAssetStyle);
+				}
+
 				if (tIndex > 0) {
 					tQ = EditorGUI.IntField (new Rect (tX + tWidth - tIntWidth - NWDConstants.kFieldMarge - tEditWidth, tY, tIntWidth, tPopupdStyle.fixedHeight), tQ);
 					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
@@ -345,6 +400,29 @@ namespace NetWorkedData
 			string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
 			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 			tTemporary.Value = tNextValue;
+
+
+			EditorGUI.EndDisabledGroup ();
+
+			if (tConnexion == false) {
+				tTemporary.Value = Value;
+
+				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, tLabelStyle);
+				tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+				//				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+				//				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+				Color tOldColor = GUI.backgroundColor;
+				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
+					Dictionary<string,int> tDicoClean = GetReferenceAndQuantity ();
+					foreach (string tDeleteReference in tValueListERROR) {
+							tDicoClean.Remove (tDeleteReference);
+					}
+							tTemporary.SetReferenceAndQuantity(tDicoClean);
+				}
+				GUI.backgroundColor = tOldColor;
+				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+			}
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

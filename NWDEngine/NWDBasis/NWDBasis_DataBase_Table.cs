@@ -61,14 +61,20 @@ namespace NetWorkedData
 		{
 			List<object> tObjectsListToDelete = new List<object> ();
 			foreach (NWDBasis<K> tObject in ObjectsList) {
-				if (tObject.XX > 0) {
+				if (tObject.XX > 0 && tObject.DevSync>0 && tObject.PreprodSync>0 && tObject.ProdSync>0) {
 					tObjectsListToDelete.Add (tObject);
 				}
 			}
 			foreach (NWDBasis<K> tObject in tObjectsListToDelete) {
 				RemoveObjectInListOfEdition (tObject);
+				#if UNITY_EDITOR
+				if (IsObjectInEdition (tObject)) {
+					SetObjectInEdition (null);
+				}
+				#endif
 				tObject.DeleteMe ();
 			}
+			// TODO : remove reference from all tables columns?
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void CreateTable ()

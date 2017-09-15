@@ -43,7 +43,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static string kAlertSaltShortError = 				"ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
 		public static float kFieldMarge = 							5.0f;
-		public static float kPrefabSize = 							40.0f;
+		public static float kPrefabSize = 							80.0f;
 		public static float kIntWidth = 							36.0f;
 		public static float kEditWidth = 							12.0f;
 		public static float kLangWidth = 							200.0f;
@@ -53,6 +53,12 @@ namespace NetWorkedData
 		public const string K_SYNC_ALERT_MESSAGE = 					"YOU WILL SYNCHRONIZE ON THE PRODUCTION ENVIRONEMENT";
 		public const string K_SYNC_ALERT_OK = 						"Ok";
 		public const string K_SYNC_ALERT_CANCEL = 					"Cancel";
+		//-------------------------------------------------------------------------------------------------------------
+		// NetWorked synchronize alert
+		public const string K_CLEAN_ALERT_TITLE = 					"CLEAN ALERT";
+		public const string K_CLEAN_ALERT_MESSAGE = 				"You will flush all objects trashed. Only objects sync in dev, preprod and prod will be delete. So, clean dev, preprod and prod must be execute before.";
+		public const string K_CLEAN_ALERT_OK = 						"Clean";
+		public const string K_CLEAN_ALERT_CANCEL = 					"Cancel";
 		//-------------------------------------------------------------------------------------------------------------
 		// Idemobi alert Strings
 		public const string K_ALERT_IDEMOBI_TITLE = 				"NetWorkedData";
@@ -177,6 +183,14 @@ namespace NetWorkedData
 		public const string K_APP_BASIS_INTERNAL_KEY = 				"Internal Key";
 		public const string K_APP_BASIS_INTERNAL_DESCRIPTION = 		"Internal Description";
 
+
+		public const string K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD = 	"Asset must be download";
+		public const string K_APP_BASIS_ASSET_DELETE = 				"Delete";
+		public const string K_APP_BASIS_REFERENCE_ERROR = 			"Reference error";
+		public const string K_APP_BASIS_REFERENCE_LIST_ERROR = 		"Reference(s) error";
+		public const string K_APP_BASIS_REFERENCE_QUANTITY_ERROR = 		"Reference(s) error";
+		public const string K_APP_BASIS_REFERENCE_CLEAN = 			"Clean";
+
 		public const string K_APP_BASIS_TRASH_ZONE = 				"TRASH ZONE";
 		public const string K_APP_BASIS_ACTION_ZONE = 				"ACTION ZONE";
 		public const string K_APP_BASIS_PUT_IN_TRASH = 				"Trash-it";
@@ -290,7 +304,7 @@ namespace NetWorkedData
 		public const string K_APP_CONNEXION_EDIT =					"edit";
 		public const string K_APP_CONNEXION_NEW = 					"new";
 		//-------------------------------------------------------------------------------------------------------------
-		public static Color K_RED_BUTTON_COLOR = 					new Color(0.8F, 0.40F, 0.30F, 1.0F);
+		public static Color K_RED_BUTTON_COLOR = 					new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
 		//-------------------------------------------------------------------------------------------------------------
 		public static string[] K_VERSION_MAJOR_ARRAY = new string[] { 
 			"0", "1", "2", "3", "4", "5", "6", "7", "8", "9" 

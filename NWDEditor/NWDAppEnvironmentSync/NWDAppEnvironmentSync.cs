@@ -349,8 +349,14 @@ namespace NetWorkedData
 
 			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 			GUILayout.Label ("Local database", tStyleBoldCenter);
-			if (GUILayout.Button ("Clean local tables", EditorStyles.miniButton)) {
-				NWDDataManager.SharedInstance.CleanAllTablesLocal ();
+
+			if (GUILayout.Button ("Clean all local tables", EditorStyles.miniButton)) {
+				if (EditorUtility.DisplayDialog (NWDConstants.K_CLEAN_ALERT_TITLE,
+					    NWDConstants.K_CLEAN_ALERT_MESSAGE,
+					    NWDConstants.K_CLEAN_ALERT_OK,
+					    NWDConstants.K_CLEAN_ALERT_CANCEL)) {
+					NWDDataManager.SharedInstance.CleanAllTablesLocal ();
+				}
 			}
 			GUI.backgroundColor = tOldColor;
 		}

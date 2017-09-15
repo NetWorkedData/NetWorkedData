@@ -221,8 +221,8 @@ namespace NetWorkedData
 			// -------------------------------------------
 			GUILayout.EndHorizontal ();
 			EditorGUILayout.HelpBox (NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_A + " " +
-				NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_B + " " +
-				NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_C, MessageType.Info);
+			NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_B + " " +
+			NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_C, MessageType.Info);
 			
 			// ===========================================
 			DrawPagesTab ();
@@ -653,7 +653,7 @@ namespace NetWorkedData
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
 //					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-					SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 //				}
 			}
 			EditorGUI.EndDisabledGroup ();
@@ -704,7 +704,13 @@ namespace NetWorkedData
 			GUILayout.EndHorizontal ();
 
 			if (GUILayout.Button ("local base clean", EditorStyles.miniButton)) {
-				CleanTable ();
+
+				if (EditorUtility.DisplayDialog (NWDConstants.K_CLEAN_ALERT_TITLE,
+					        NWDConstants.K_CLEAN_ALERT_MESSAGE,
+					        NWDConstants.K_CLEAN_ALERT_OK,
+					        NWDConstants.K_CLEAN_ALERT_CANCEL)) {
+					CleanTable ();
+				}
 			}
 			GUI.backgroundColor = tOldColor;
 

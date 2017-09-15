@@ -158,11 +158,11 @@ namespace NetWorkedData
 			#if UNITY_EDITOR
 			if (sObject.XX > 0 && sObject.DevSync > 0 && sObject.PreprodSync > 0 && sObject.ProdSync > 0) {
 				//				Debug.Log (sObject.Reference + "Must be trashed!");
-				RemoveObjectInListOfEdition (sObject);
-				if (IsObjectInEdition (sObject)) {
-					SetObjectInEdition (null);
-				}
-				sObject.DeleteMe ();
+//				RemoveObjectInListOfEdition (sObject);
+//				if (IsObjectInEdition (sObject)) {
+//					SetObjectInEdition (null);
+//				}
+//				sObject.DeleteMe ();
 			}
 			#else
 			if (sObject.XX > 0) 
