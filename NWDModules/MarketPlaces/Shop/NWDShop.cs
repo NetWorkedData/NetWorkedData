@@ -97,8 +97,6 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                // NWDOperationResult tInfos = (NWDOperationResult)bInfos;
-
                 // Define a new NWDTransaction
                 NWDTransaction bTransaction = null;
 
@@ -153,8 +151,9 @@ namespace NetWorkedData
                             }
 
                             // Set a NWDTransaction
+                            NWDItem tItemDescribe = sPack.ItemToDescribe.GetObject();
                             bTransaction = NWDTransaction.NewObject();
-                            //bTransaction.InternalKey = sPack.Name.GetBaseString();
+                            bTransaction.InternalKey = tItemDescribe.Name.GetBaseString();
                             bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
                             bTransaction.ShopReference.SetReference(sShop.Reference);
                             bTransaction.RackReference.SetReference(sRack.Reference);
@@ -171,8 +170,6 @@ namespace NetWorkedData
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                //NWDOperationResult tInfos = (NWDOperationResult)bInfos;
-
                 if (BuyPackBlockDelegate != null)
                 {
                     BuyPackBlockDelegate(BuyPackResult.Failed, null);
