@@ -939,6 +939,9 @@ namespace NetWorkedData
 			}
 			// draw prefab if it's possible
 			Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
+			while (AssetPreview.IsLoadingAssetPreview(tObject.GetInstanceID())) {
+				// Loading
+			}
 			if (tTexture2D != null) {
 				EditorGUI.DrawPreviewTexture (new Rect (NWDConstants.kFieldMarge, tY + tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth), tTexture2D);
 			}
