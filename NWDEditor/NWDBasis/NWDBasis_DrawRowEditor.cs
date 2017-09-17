@@ -39,7 +39,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Row design
 		public static float kRowOutMarge = 25.0f;
-		public static float kRowHeight = 25.0f;
+		public static float kRowHeight = 30.0f;
 		public static float kRowHeightImage = 20.0f;
 		public static float kRowHeightSpace = 5.0f;
 		//static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
@@ -213,7 +213,7 @@ namespace NetWorkedData
 			// Draw prefab preview
 			Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
 			if (tTexture2D != null) {
-				EditorGUI.DrawPreviewTexture (new Rect (tRectPreview.x, tRectPreview.y, 20.0f, 20.0f), tTexture2D);
+				EditorGUI.DrawPreviewTexture (new Rect (tRectPreview.x, tRectPreview.y-3, kPrefabWidth, kPrefabWidth), tTexture2D);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

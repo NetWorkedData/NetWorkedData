@@ -51,7 +51,7 @@ namespace NetWorkedData
 		public static int m_ItemPerPageSelection = 0;
 
 		public static string[] m_ItemPerPageOptions = new string[] {
-			"20", "30", "40", "50", "100", "200", 
+			"15", "20", "30", "40", "50", "100", "200", 
 		};
 
 		/// <summary>
