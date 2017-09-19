@@ -116,19 +116,31 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
+        public static NWDCookRecipe GetCookRecipeByNWDItem(NWDItem item)
+        {
+            NWDCookRecipe rReturn = null;
+
+            NWDCookRecipe[] tRecipes = GetAllObjects();
+            foreach(NWDCookRecipe recipe in tRecipes)
+            {
+                if (recipe.ItemToDescribe.ContainsReference(item.Reference))
+                {
+                    rReturn = recipe;
+                    break;
+                }
+            }
+
+            return rReturn;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
+        //-------------------------------------------------------------------------------------------------------------
+        public void GetItemsRequired()
+        {
+            //ItemsOne
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------

@@ -144,37 +144,43 @@ namespace NetWorkedData
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
-			EditorGUI.BeginDisabledGroup (!tConnexion);
-				List<string> tReferenceList = new List<string> ();
-				List<string> tInternalNameList = new List<string> ();
-				tReferenceList.Add (NWDConstants.kFieldSeparatorA);
-				tInternalNameList.Add (" ");
-				var tReferenceListInfo = sFromType.GetField ("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tReferenceListInfo != null) {
-					tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
-				}
-				var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tInternalNameListInfo != null) {
-					tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
-				}
-				int tIndex = tReferenceList.IndexOf (Value);
-				int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), sEntitled, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
-			if (tConnexion == false) {
+		    EditorGUI.BeginDisabledGroup (!tConnexion);
+			List<string> tReferenceList = new List<string> ();
+			List<string> tInternalNameList = new List<string> ();
+			tReferenceList.Add (NWDConstants.kFieldSeparatorA);
+			tInternalNameList.Add (" ");
+			var tReferenceListInfo = sFromType.GetField ("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			if (tReferenceListInfo != null) {
+				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
+			}
+
+			var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			if (tInternalNameListInfo != null) {
+				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
+			}
+
+			int tIndex = tReferenceList.IndexOf (Value);
+			int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), sEntitled, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+
+            if (tConnexion == false) {
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth+NWDConstants.kFieldMarge, tY+1, tWidth - EditorGUIUtility.labelWidth- NWDConstants.kFieldMarge*4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <"+Value+">", tLabelAssetStyle);
 
 			}	
-			tY = tY + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;
-				if (tIndex >= 0) {
-					if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
-						NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (rIndex)), false);
-					}
+			
+			if (tIndex >= 0) {
+				if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
+					NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (rIndex)), false);
 				}
-				if (rIndex != tIndex) {
-					string tNextValue = tReferenceList.ElementAt (rIndex);
-					tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
-					tTemporary.Value = tNextValue;
 			}
-			EditorGUI.EndDisabledGroup ();
+
+			if (rIndex != tIndex) {
+				string tNextValue = tReferenceList.ElementAt (rIndex);
+				tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
+				tTemporary.Value = tNextValue;
+			}
+
+            tY = tY + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;
+            EditorGUI.EndDisabledGroup ();
 
 			if (tConnexion == false) {
 				tTemporary.Value = Value;
