@@ -43,60 +43,89 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		[NWDHeaderAttribute("Informations")]
-		//public NWDReferencesListType<NWDItemGroup> ItemGroupReferencesList { get; set; }
-		public NWDLocalizableStringType Name { get; set; }
-		public NWDLocalizableStringType SubName { get; set; }
-		public NWDLocalizableStringType Description { get; set; }
-		[NWDFloatSliderAttribute(0.0F,1.0F)]
-		public float Rarity { get; set; }
-		[NWDHeaderAttribute("Images")]
-		public NWDTextureType NormalTexture { get; set; }
-		public NWDTextureType SelectedTexture { get; set; }
-		public bool Usable { get; set; }
-		[NWDHeaderAttribute("Color")]
-		public NWDColorType ColorNormal { get; set; }
-		public NWDColorType ColorSelected { get; set; }
-		[NWDHeaderAttribute("Prefab")]
-		public NWDPrefabType NormalPrefab { get; set; }
-		public NWDPrefabType SelectedPrefab { get; set; }
+		[NWDGroupStartAttribute("Informations",true, true, true)]
+
+			public NWDLocalizableStringType Name { get; set; }
+			public NWDLocalizableStringType SubName { get; set; }
+			public NWDLocalizableStringType Description { get; set; }
+
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
 		[NWDGroupStartAttribute("Classification",true, true, true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
+
+			public NWDReferencesListType<NWDWorld> Worlds { get; set; }
+			public NWDReferencesListType<NWDCategory> Categories { get; set; }
+			public NWDReferencesListType<NWDFamily> Families { get; set; }
+			public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
+
 		[NWDGroupEndAttribute]
 
-		[NWDGroupStartAttribute("Is Character in the game",true,false,true)]
-		public bool IsCharactersCreation { get; set; }
-		public float LevelMin { get; set; }
-		public float LevelMax { get; set; }
-		public float LifeLevelMin { get; set; }
-		public float LifeLevelMax { get; set; }
-		public float AttackLevelMin { get; set; }
-		public float AttackLevelMax { get; set; }
-		public float DefenseLevelMin { get; set; }
-		public float DefenseLevelMax { get; set; }
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Usage, Loot and Drop",true, true, true)]
+
+			[NWDGroupStartAttribute("Use object delayed",true, true, true)]
+				public bool Usable { get; set; }
+				public int DelayToUse { get; set; }
+				public int DelayToReUse { get; set; }
+			[NWDGroupEndAttribute]
+
+			[NWDFloatSliderAttribute(0.0F,1.0F)]
+			[NWDEntitledAttribute("Rarity : float [0,1]")]
+			public float Rarity { get; set; }
+			public NWDReferencesQuantityType<NWDItem> DroppableItems { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDHeaderAttribute("Is Battle active in the game")]
-		public bool HasBattleProperties { get; set; }
-		public NWDReferencesListType<NWDBattleProperty> BattleProperties { get; set; }
+		[NWDSeparatorAttribute]
 
-		[NWDHeaderAttribute("Is cook recipe script in the game")]
+		[NWDGroupStartAttribute("Extensions Properties",true, true, true)]
+			public NWDReferencesQuantityType<NWDItemExtension> Properties { get; set; }
+		[NWDGroupEndAttribute]
 
-		public NWDReferenceType<NWDCookRecipe> CookRecipeReference { get; set; }
+		[NWDSeparatorAttribute]
 
-		[NWDHeaderAttribute("For developer a JSON data")]
+		[NWDGroupStartAttribute("Assets",true, true, true)]
+			[NWDHeaderAttribute("Images")]
+			public NWDTextureType NormalTexture { get; set; }
+			public NWDTextureType SelectedTexture { get; set; }
+			[NWDHeaderAttribute("Color")]
+			public NWDColorType ColorNormal { get; set; }
+			public NWDColorType ColorSelected { get; set; }
+			[NWDHeaderAttribute("Prefab")]
+			public NWDPrefabType NormalPrefab { get; set; }
+			public NWDPrefabType SelectedPrefab { get; set; }
 
-		[NWDGroupStartAttribute("JSON for this object",true, false, true)]
+
+
+
+		//[NWDGroupStartAttribute("Is Character in the game",true,false,true)]
+		//public bool IsCharactersCreation { get; set; }
+		//public float LevelMin { get; set; }
+		//public float LevelMax { get; set; }
+		//public float LifeLevelMin { get; set; }
+		//public float LifeLevelMax { get; set; }
+		//public float AttackLevelMin { get; set; }
+		//public float AttackLevelMax { get; set; }
+		//public float DefenseLevelMin { get; set; }
+		//public float DefenseLevelMax { get; set; }
+		//[NWDGroupEndAttribute]
+
+		//[NWDHeaderAttribute("Is Battle active in the game")]
+		//public bool HasBattleProperties { get; set; }
+		//public NWDReferencesListType<NWDBattleProperty> BattleProperties { get; set; }
+
+		//[NWDHeaderAttribute("Is cook recipe script in the game")]
+
+		//public NWDReferenceType<NWDCookRecipe> CookRecipeReference { get; set; }
+
+			[NWDHeaderAttribute("For developer a JSON data")]
+
+			[NWDGroupStartAttribute("JSON for this object",true, false, true)]
 		public string JSON { get; set; }
-		[NWDGroupEndAttribute]
+//		[NWDGroupEndAttribute]
 
-		[NWDHeaderAttribute("Use object delayed")]
-		[NWDGroupStartAttribute("Delay of usage",true, false, true)]
-		public int DelayToUse { get; set; }
-		public int DelayToReUse { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

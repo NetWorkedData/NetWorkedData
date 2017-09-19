@@ -46,43 +46,50 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
+
+		// use in sign md5
 		[NWDHeaderAttribute("Recipe informations")]
 		public bool OrderIsImportant { get; set; }
-
-		[NWDHeaderAttribute("Required one's of those catalyzers")]
-		public NWDReferencesListType<NWDItem> CatalyzerPossibilities { get; set; }
-
-		[NWDHeaderAttribute("First ingredient : one's of those items")]
-		public NWDReferencesListType<NWDItem> ItemsOne { get; set; }
-		public NWDReferencesListType<NWDItemGroup> ItemGroupsOne { get; set; }
-
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		[NWDEntitledAttribute("Delay before second ingredient")]
-		public int DelayOne { get; set; }
-
-		[NWDHeaderAttribute("Element One")]
-
-		public NWDReferencesListType<NWDItem> ItemPossibilitiesTwo { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayBetweenTwo { get; set; }
-		public NWDReferencesListType<NWDItem> ItemPossibilitiesThree { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayBetweenThree { get; set; }
-		public NWDReferencesListType<NWDItem> ItemPossibilitiesFour { get; set; }
-		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-		public int DelayBetweenFour { get; set; }
-		public NWDReferencesListType<NWDItem> ItemPossibilitiesFive { get; set; }
-
-
-
-		[NWDHeaderAttribute("RESULT")]
+		[NWDHeaderAttribute("Recipient needed?")]
+		public NWDReferenceType<NWDItemGroup> Recipent { get; set; }
+		[NWDHeaderAttribute("Recipe's Ingredients")]
+		public NWDReferencesQuantityType<NWDItemGroup> Ingredients { get; set; }
+		[NWDHeaderAttribute("Recipe's result")]
 		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
+		[NWDHeaderAttribute("Recipe's Hash (for fast research)")]
+		[NWDNotEditableAttribute]
+		public string Hash { get; set;}
 
-		[NWDHeaderAttribute("RECIPE Sign")]
-		//[NWDNotEditableAttribute]
-		public string AllSignPossibilities { get; set; } // use to create the table of recipe fast found
 
-		[NWDHeaderAttribute("RECIPE Sign")]
+//		public NWDReferencesListType<NWDItemGroup> ItemGroupsOne { get; set; }
+//
+//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+//		[NWDEntitledAttribute("Delay before second ingredient")]
+//		public int DelayOne { get; set; }
+//
+//		[NWDHeaderAttribute("Element One")]
+//
+//		public NWDReferencesListType<NWDItem> ItemPossibilitiesTwo { get; set; }
+//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+//		public int DelayBetweenTwo { get; set; }
+//		public NWDReferencesListType<NWDItem> ItemPossibilitiesThree { get; set; }
+//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+//		public int DelayBetweenThree { get; set; }
+//		public NWDReferencesListType<NWDItem> ItemPossibilitiesFour { get; set; }
+//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
+//		public int DelayBetweenFour { get; set; }
+//		public NWDReferencesListType<NWDItem> ItemPossibilitiesFive { get; set; }
+//
+
+
+//		[NWDHeaderAttribute("RESULT")]
+//		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
+
+//		[NWDHeaderAttribute("RECIPE Sign")]
+//		//[NWDNotEditableAttribute]
+//		public string AllSignPossibilities { get; set; } // use to create the table of recipe fast found
+
+		[NWDHeaderAttribute("Recipe effect (optional)")]
 		public NWDPrefabType SuccessEffect { get; set; }
 		public NWDPrefabType SuccessSound { get; set; }
 		public NWDPrefabType FailEffect { get; set; }

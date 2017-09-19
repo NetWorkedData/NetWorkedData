@@ -8,6 +8,10 @@
 using System;
 using System.Reflection;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {//-------------------------------------------------------------------------------------------------------------
@@ -69,6 +73,42 @@ namespace NetWorkedData
 		public bool mBoldHeader;
 		public bool mReducible;
 		public bool mOpen;
+
+		public NWDGroupStartAttribute Parent;
+
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		private string Key (String sClassName)
+		{
+			return sClassName + mGroupName;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool IsDrawable (String sClassName)
+		{
+			bool rReturn = GetDrawable (sClassName);
+			if (Parent != null) {
+				rReturn = IsDrawable (sClassName);
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void SetDrawable (String sClassName, bool sBool)
+		{
+			string tKey = Key(sClassName);
+			EditorPrefs.HasKey (tKey);
+			EditorPrefs.SetBool (tKey, sBool);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public bool GetDrawable (String sClassName)
+		{
+			string tKey = Key(sClassName);
+			EditorPrefs.HasKey (tKey);
+			return EditorPrefs.GetBool (tKey);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
 		public NWDGroupStartAttribute (string sGroupName, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
 		{
 			this.mGroupName = sGroupName;

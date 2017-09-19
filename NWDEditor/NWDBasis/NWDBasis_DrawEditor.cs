@@ -78,11 +78,71 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+////		public static Dictionary<int,bool> DrawableList = new Dictionary<int,bool>();
+//		public static List<bool> GroupLevelList = new List<bool>();
+//		public static List<bool> GroupOpenList = new List<bool>();
+//		//-------------------------------------------------------------------------------------------------------------
+//		public void ResetDrawable ()
+//		{
+////			DrawableList = new Dictionary<int,bool>();
+//			DrawableList = new List<bool>();
+//		}
+//		//-------------------------------------------------------------------------------------------------------------
+//		public bool GetDrawable ()
+//		{
+////			bool rReturn = true;
+////			int tI = EditorGUI.indentLevel;
+////			while (tI > 0) {
+////				if (DrawableList.ContainsKey (tI)) {
+////					if (DrawableList [tI] == false) {
+////						rReturn = false;
+////					}
+////				}
+////				tI--;
+////			}
+////			rReturn = true;
+////			return rReturn;
+////			return DrawableList.LastOrDefault<bool>(true);
+//
+//			bool rReturn = true;
+//			foreach (bool tV in DrawableList) {
+//				if (tV == false) {
+//					rReturn = false;
+//				}
+//			}
+//
+//			rReturn = true;
+//
+//			return rReturn;
+//		}
+//		//-------------------------------------------------------------------------------------------------------------
+//		public void AddDrawable (bool sValue)
+//		{
+////			if (DrawableList.ContainsKey (EditorGUI.indentLevel)) {
+////				DrawableList [EditorGUI.indentLevel] = sValue;
+////			} else {
+////				DrawableList.Add(EditorGUI.indentLevel,sValue);
+////			}
+//			DrawableList.Add(sValue);
+//		}
+//		//-------------------------------------------------------------------------------------------------------------
+//		public void RemoveDrawable ()
+//		{
+////			if (DrawableList.ContainsKey (EditorGUI.indentLevel)) {
+////				DrawableList [EditorGUI.indentLevel] = sValue;
+////			} else {
+////				DrawableList.Add(EditorGUI.indentLevel,sValue);
+////			}
+//			if (DrawableList.Count () > 0) {
+//				DrawableList.RemoveAt (DrawableList.Count () - 1);
+//			}
+//		}
+		//-------------------------------------------------------------------------------------------------------------
 		public float DrawObjectInspectorHeight ()
 		{
-			
 			float tY = 0;
-
+			//EditorGUI.indentLevel = 0;
+//			ResetDrawable ();
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
 			tLabelStyle.fixedHeight = tLabelStyle.CalcHeight (new GUIContent ("A"), 100);
 
@@ -120,68 +180,78 @@ namespace NetWorkedData
 			tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
 			tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight (new GUIContent ("A"), 100);
 
-			bool tDraw = true;
 			Type tType = ClassType ();
+
+			bool tDraw = true;
+			NWDGroupStartAttribute tActualGroupReference = null;
 
 			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
 				    tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
 				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
 				    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
-					//  foldout group is finish or start a new one?
-					if (tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true).Length > 0) {
-						tY += NWDConstants.kFieldMarge;
-						tDraw = true;
-					}
-					// draw the header title
-//					if (tProp.GetCustomAttributes (typeof(NWDHeaderAttribute), true).Length > 0) 
-//					{
-//						tY+=tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-//					}
-//
-					foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes (typeof(NWDHeaderAttribute), true)) {
-//						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mHeader, tBoldLabelStyle);
-						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+					foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true)) {
+						if (tActualGroupReference != null) {
+							tActualGroupReference = tActualGroupReference.Parent;
+						}
+						if (tActualGroupReference != null) {
+							tDraw = tActualGroupReference.IsDrawable (ClassName ());
+						} else {
+							tDraw = true;
+						}
 					}
 
 					// draw separator before
-					if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
+					foreach (NWDSeparatorAttribute tReference in tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true)) {
 						tY += NWDConstants.kFieldMarge * 2;
 					}
-					// draw space
-					if (tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true).Length > 0) {
-						tY += NWDConstants.kFieldMarge * 3;
-					}
+
 					// create a foldout group
-					if (tProp.GetCustomAttributes (typeof(NWDGroupStartAttribute), true).Length > 0) {
-						NWDGroupStartAttribute tReference = (NWDGroupStartAttribute)tProp.GetCustomAttributes (typeof(NWDGroupStartAttribute), true) [0];
-						// get the foldout value 
-						bool tBold = tReference.mBoldHeader;
-						bool tReducible = tReference.mReducible;
-						bool tActualDraw = tReference.mOpen;
-						if (EditorPrefs.HasKey (ClassName () + tReference.mGroupName)) {
-							tActualDraw = EditorPrefs.GetBool (ClassName () + tReference.mGroupName);
-						}
-						if (tReducible == true) {
-							if (tBold == true) {
-								tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-							} else {
-								tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-							}
-						} else {
-							if (tActualDraw == true) {
+					foreach (NWDGroupStartAttribute tReference in tProp.GetCustomAttributes (typeof(NWDGroupStartAttribute), true).Reverse()) {
+						if (tDraw==true) {
+							bool tBold = tReference.mBoldHeader;
+							bool tReducible = tReference.mReducible;
+							bool tActualDraw = tReference.mOpen;
+							tActualDraw = tReference.GetDrawable (ClassName ());
+							if (tReducible == true) {
 								if (tBold == true) {
-									tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
 								} else {
-									tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+								}
+							} else {
+								if (tActualDraw == true) {
+									if (tBold == true) {
+										tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									} else {
+										tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									}
 								}
 							}
+							tReference.SetDrawable (ClassName (), tActualDraw);
+							tDraw = tReference.IsDrawable(ClassName ());
 						}
-						tDraw = tActualDraw;
+						tReference.Parent = tActualGroupReference;
+						tActualGroupReference = tReference;
+					}
+
+
+
+						if (tDraw) {
+						// draw space
+						foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true)) {
+//						if (tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true).Length > 0) {
+							tY += NWDConstants.kFieldMarge * 3;
+						}
+						foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes (typeof(NWDHeaderAttribute), true)) {
+							//						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mHeader, tBoldLabelStyle);
+							tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+						}
 					}
 					// finish the foldout group management
 					// So Iif I nee dto draw somethings … 
-					if (tDraw == true) {
+						if (tDraw) {
 						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
 							tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 						} else {
@@ -234,6 +304,8 @@ namespace NetWorkedData
 					}
 				}
 			}
+			// add final marge
+			tY += NWDConstants.kFieldMarge;
 			tY += AddonEditorHeight ();
 			return tY;
 		}
@@ -244,12 +316,9 @@ namespace NetWorkedData
 		/// <returns><c>true</c>, if object inspector was updated, <c>false</c> otherwise.</returns>
 		public Rect DrawObjectInspector (Rect sInRect, bool sWithScrollview, bool sEditionEnable)
 		{
-			//			float tWidth = EditorGUIUtility.currentViewWidth;
 			float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
-//			float tHeight = sInRect.height-tMarge*2;
 			float tX = sInRect.position.x + NWDConstants.kFieldMarge;
 			float tY = sInRect.position.y + NWDConstants.kFieldMarge;
-			//Rect tPropertiesRect = new Rect (sInRect.x, sInRect.y, sInRect.width, sInRect.height);
 
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
 			tLabelStyle.fixedHeight = tLabelStyle.CalcHeight (new GUIContent ("A"), tWidth);
@@ -288,6 +357,7 @@ namespace NetWorkedData
 			tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
 			tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
+
 			bool rNeedBeUpdate = false;
 			if (sWithScrollview == true) {
 				float tScrollBarMarge = 0;
@@ -301,11 +371,10 @@ namespace NetWorkedData
 				tX = NWDConstants.kFieldMarge;
 				tY = NWDConstants.kFieldMarge;
 			}
-			bool tDraw = true;
-			Type tType = ClassType ();
 
-//			bool tTestIntegrity = TestIntegrity ();
-//			EditorGUI.BeginDisabledGroup (tTestIntegrity == false || XX > 0 || sEditionEnable==false);
+			bool tDraw = true;
+			NWDGroupStartAttribute tActualGroupReference = null;
+			Type tType = ClassType ();
 
 			EditorGUI.BeginDisabledGroup (sEditionEnable == false);
 
@@ -315,72 +384,78 @@ namespace NetWorkedData
 				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
 				    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
 
-					//  foldout group is finish or start a new one?
-					if (tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true).Length > 0) {
-						tY += NWDConstants.kFieldMarge;
-						tDraw = true;
-						EditorGUI.indentLevel--;
+					foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true)) {
+						if (tActualGroupReference != null) {
+							tActualGroupReference = tActualGroupReference.Parent;
+						}
+						if (tActualGroupReference != null) {
+							tDraw = tActualGroupReference.IsDrawable (ClassName());
+						} else {
+							tDraw = true;
+						}
+						if (tDraw == true) {
+							EditorGUI.indentLevel--;
+						}
 					}
-
-
-					// draw the header title
-//					if (tProp.GetCustomAttributes (typeof(NWDHeaderAttribute), true).Length > 0) {
-					foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes (typeof(NWDHeaderAttribute), true)) {
-						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mHeader, tBoldLabelStyle);
-						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-					}
-//					}
-
 					// draw separator before
-					if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
+					foreach (NWDSeparatorAttribute tReference in tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true)) {
+						//						if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
 						EditorGUI.DrawRect (new Rect (tX, tY + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
 						tY += NWDConstants.kFieldMarge * 2;
 					}
 
-					// draw space
-					if (tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true).Length > 0) {
-//						NWDSpaceAttribute tReference = (NWDSpaceAttribute)tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true) [0];
-						tY += NWDConstants.kFieldMarge * 3;
-					}
-
 					// create a foldout group
-					if (tProp.GetCustomAttributes (typeof(NWDGroupStartAttribute), true).Length > 0) {
-						NWDGroupStartAttribute tReference = (NWDGroupStartAttribute)tProp.GetCustomAttributes (typeof(NWDGroupStartAttribute), true) [0];
-						// get the foldout value 
-						bool tBold = tReference.mBoldHeader;
-						bool tReducible = tReference.mReducible;
-						bool tActualDraw = tReference.mOpen;
-						if (EditorPrefs.HasKey (ClassName () + tReference.mGroupName)) {
-							tActualDraw = EditorPrefs.GetBool (ClassName () + tReference.mGroupName);
-						}
-						if (tReducible == true) {
-							if (tBold == true) {
-								tActualDraw = EditorGUI.Foldout (new Rect (tX, tY, tWidth, tBoldFoldoutStyle.fixedHeight), tActualDraw, tReference.mGroupName, tBoldFoldoutStyle);
-								tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-							} else {
-								tActualDraw = EditorGUI.Foldout (new Rect (tX, tY, tWidth, tFoldoutStyle.fixedHeight), tActualDraw, tReference.mGroupName, tFoldoutStyle);
-								tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
-							}
-						} else {
-							if (tActualDraw == true) {
+					foreach (NWDGroupStartAttribute tReference in tProp.GetCustomAttributes (typeof(NWDGroupStartAttribute), true).Reverse()) {
+						if (tDraw==true) {
+							bool tBold = tReference.mBoldHeader;
+							bool tReducible = tReference.mReducible;
+							bool tActualDraw = tReference.mOpen;
+							tActualDraw = tReference.GetDrawable (ClassName ());
+							if (tReducible == true) {
 								if (tBold == true) {
-									EditorGUI.LabelField (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mGroupName, tBoldLabelStyle);
-									tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									tActualDraw = EditorGUI.Foldout (new Rect (tX, tY, tWidth, tBoldFoldoutStyle.fixedHeight), tActualDraw, tReference.mGroupName, tBoldFoldoutStyle);
+									tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
 								} else {
-									EditorGUI.LabelField (new Rect (tX, tY, tWidth, tLabelStyle.fixedHeight), tReference.mGroupName, tLabelStyle);
-									tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									tActualDraw = EditorGUI.Foldout (new Rect (tX, tY, tWidth, tFoldoutStyle.fixedHeight), tActualDraw, tReference.mGroupName, tFoldoutStyle);
+									tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+								}
+							} else {
+								if (tActualDraw == true) {
+									if (tBold == true) {
+										EditorGUI.LabelField (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mGroupName, tBoldLabelStyle);
+										tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									} else {
+										EditorGUI.LabelField (new Rect (tX, tY, tWidth, tLabelStyle.fixedHeight), tReference.mGroupName, tLabelStyle);
+										tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+									}
 								}
 							}
+							tReference.SetDrawable (ClassName (), tActualDraw);
+							tDraw = tReference.IsDrawable(ClassName ());
+							EditorGUI.indentLevel++;
 						}
-						EditorPrefs.SetBool (ClassName () + tReference.mGroupName, tActualDraw);
-						tDraw = tActualDraw;
-						EditorGUI.indentLevel++;
+						tReference.Parent = tActualGroupReference;
+						tActualGroupReference = tReference;
 					}
 					// finish the foldout group management
 
 
+					if (tDraw) {
+						
+						// draw space
+						foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true)) {
+//						if (tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true).Length > 0) {
+							//						NWDSpaceAttribute tReference = (NWDSpaceAttribute)tProp.GetCustomAttributes (typeof(NWDSpaceAttribute), true) [0];
+							tY += NWDConstants.kFieldMarge * 3;
+						}
+						foreach (NWDHeaderAttribute tReference in tProp.GetCustomAttributes (typeof(NWDHeaderAttribute), true)) {
+							GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), tReference.mHeader, tBoldLabelStyle);
+							tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+						}
+					}
+
 					// So Iif I nee dto draw somethings … 
-					if (tDraw == true) {
+					if (tDraw) {
 
 						// get entitled and toolstips
 						string tEntitled = NWDToolbox.SplitCamelCase (tProp.Name);
@@ -596,7 +671,7 @@ namespace NetWorkedData
 										tProp.SetValue (this, tValueNext, null);
 										rNeedBeUpdate = true;
 									}
-								}  else if (tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Double)) {
+								} else if (tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Double)) {
 									double tValue = (double)tProp.GetValue (this, null);
 									double tValueNext = EditorGUI.DoubleField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
 									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
