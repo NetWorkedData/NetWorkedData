@@ -224,10 +224,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeUser(string sOldUser, string sNewUser)
 		{
-			if (AccountDependent () == true) {
-				foreach (PropertyInfo tProp in PropertiesAccountConnect()) {
+			if (AccountDependent () == true)
+            {
+				foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                {
 					NWDReferenceType<NWDAccount> tObject = tProp.GetValue (this, null) as NWDReferenceType<NWDAccount>;
-					tObject.ChangeReferenceForAnother (sOldUser, sNewUser);
+                    if (tObject != null)
+                    {
+                        tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
+                    }
 				}
 				UpdateMeIfModified ();
 			}
