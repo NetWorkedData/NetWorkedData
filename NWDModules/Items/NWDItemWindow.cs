@@ -24,8 +24,8 @@ namespace NetWorkedData
 		new Type[] {
 			typeof(NWDItemGroup), 
 			typeof(NWDItem), 
-			typeof(NWDItemExtension), 
-			typeof(NWDBattleProperty), 
+			typeof(NWDItemProperties), 
+//			typeof(NWDBattleProperty), 
 //			typeof(NWDItemPack), 
 //			typeof(NWDPack), 
 //			typeof(NWDSpent), 

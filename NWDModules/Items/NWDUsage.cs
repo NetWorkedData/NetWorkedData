@@ -43,10 +43,13 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
+		[NWDGroupStartAttribute("Informations",true, true, true)] // ok
 		[Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
 		public NWDReferencesQuantityType<NWDItem> ItemsUsed { get; set; }
 		public NWDReferencesQuantityType<NWDItem> ItemsGot { get; set; }
+//		[NWDGroupEndAttribute]
+//		[NWDSeparatorAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

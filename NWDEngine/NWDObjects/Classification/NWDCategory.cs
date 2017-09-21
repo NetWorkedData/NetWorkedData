@@ -27,13 +27,13 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("KWD")]
-	[NWDClassDescriptionAttribute ("Keywords descriptions Class")]
-	[NWDClassMenuNameAttribute ("Keywords")]
+	[NWDClassTrigrammeAttribute ("CAT")]
+	[NWDClassDescriptionAttribute ("Categories descriptions Class")]
+	[NWDClassMenuNameAttribute ("Categories")]
 	//-------------------------------------------------------------------------------------------------------------
 //	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDKeyword : NWDBasis<NWDKeyword>
+	public partial class NWDCategory : NWDBasis <NWDCategory>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -45,13 +45,20 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
+		[NWDGroupStartAttribute ("Informations", true, true, true)]
 		public NWDLocalizableStringType Name { get; set; }
+		public NWDReferenceType<NWDCategory> Parent { get; set; } // TODO : NWDHiearchicList
+		[NWDGroupEndAttribute]
+		[NWDSeparatorAttribute]
+		[NWDGroupStartAttribute ("Description", true, true, true)]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDKeyword()
+		public NWDCategory()
 		{
 			//Init your instance here
 		}
@@ -152,32 +159,32 @@ namespace NetWorkedData
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDKeyword with Unity MonoBehavior
+	#region Connexion NWDCategory with Unity MonoBehavior
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWDKeyword connexion.
+	/// NWDCategory connexion.
 	/// In your MonoBehaviour Script connect object with :
 	/// <code>
 	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDKeywordConnexion MyNWDKeywordObject;
+	/// public NWDCategoryConnexion MyNWDCategoryObject;
 	/// </code>
 	/// </summary>
 	//-------------------------------------------------------------------------------------------------------------
 	// CONNEXION STRUCTURE METHODS
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDKeywordConnexion
+	public class NWDCategoryConnexion
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[SerializeField]
 		public string Reference;
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDKeyword GetObject ()
+		public NWDCategory GetObject ()
 		{
-			return NWDKeyword.GetObjectByReference (Reference);
+			return NWDCategory.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDKeyword sObject)
+		public void SetObject (NWDCategory sObject)
 		{
 			if (sObject != null) {
 				Reference = sObject.Reference;
@@ -186,9 +193,9 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDKeyword NewObject ()
+		public NWDCategory NewObject ()
 		{
-			NWDKeyword tObject = NWDKeyword.NewObject ();
+			NWDCategory tObject = NWDCategory.NewObject ();
 			Reference = tObject.Reference;
 			return tObject;
 		}
@@ -199,8 +206,8 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	#if UNITY_EDITOR
 	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDKeywordConnexion))]
-	public class NWDKeywordConnexionDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof(NWDCategoryConnexion))]
+	public class NWDCategoryConnexionDrawer : PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
@@ -211,7 +218,7 @@ namespace NetWorkedData
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			return NWDKeyword.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDCategory.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
@@ -222,7 +229,7 @@ namespace NetWorkedData
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			NWDKeyword.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+			NWDCategory.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

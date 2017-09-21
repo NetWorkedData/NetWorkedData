@@ -27,11 +27,13 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("CBK")]
-	[NWDClassDescriptionAttribute ("Cook Recipes descriptions Class")]
-	[NWDClassMenuNameAttribute ("Cook Recipes")]
+	[NWDClassTrigrammeAttribute ("KWD")]
+	[NWDClassDescriptionAttribute ("Keywords descriptions Class")]
+	[NWDClassMenuNameAttribute ("Keywords")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDCookRecipe :NWDBasis <NWDCookRecipe>
+//	[NWDTypeClassInPackageAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDKeyword : NWDBasis<NWDKeyword>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -43,104 +45,40 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
-
-		// use in sign md5
-		[NWDHeaderAttribute("Recipe informations")]
-		public bool OrderIsImportant { get; set; }
-		[NWDHeaderAttribute("Recipient needed?")]
-		public NWDReferenceType<NWDItemGroup> Recipent { get; set; }
-		[NWDHeaderAttribute("Recipe's Ingredients")]
-		public NWDReferencesQuantityType<NWDItemGroup> Ingredients { get; set; }
-		[NWDHeaderAttribute("Recipe's result")]
-		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
-		[NWDHeaderAttribute("Recipe's Hash (for fast research)")]
-		[NWDNotEditableAttribute]
-		public string Hash { get; set;}
-
-
-//		public NWDReferencesListType<NWDItemGroup> ItemGroupsOne { get; set; }
-//
-//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-//		[NWDEntitledAttribute("Delay before second ingredient")]
-//		public int DelayOne { get; set; }
-//
-//		[NWDHeaderAttribute("Element One")]
-//
-//		public NWDReferencesListType<NWDItem> ItemPossibilitiesTwo { get; set; }
-//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-//		public int DelayBetweenTwo { get; set; }
-//		public NWDReferencesListType<NWDItem> ItemPossibilitiesThree { get; set; }
-//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-//		public int DelayBetweenThree { get; set; }
-//		public NWDReferencesListType<NWDItem> ItemPossibilitiesFour { get; set; }
-//		[NWDEnumAttribute(new int[]{0,1,2,3},new string[]{"0","1","2","3"})]
-//		public int DelayBetweenFour { get; set; }
-//		public NWDReferencesListType<NWDItem> ItemPossibilitiesFive { get; set; }
-//
-
-
-//		[NWDHeaderAttribute("RESULT")]
-//		public NWDReferencesQuantityType<NWDItem> ItemsResult { get; set; }
-
-//		[NWDHeaderAttribute("RECIPE Sign")]
-//		//[NWDNotEditableAttribute]
-//		public string AllSignPossibilities { get; set; } // use to create the table of recipe fast found
-
-		[NWDHeaderAttribute("Recipe effect (optional)")]
-		public NWDPrefabType SuccessEffect { get; set; }
-		public NWDPrefabType SuccessSound { get; set; }
-		public NWDPrefabType FailEffect { get; set; }
-		public NWDPrefabType FailSound{ get; set; }
-
-
-		public string ParticuleEffetGameObject { get; set; }
-
-		[NWDHeaderAttribute("STAMP")]
-		[NWDNotEditableAttribute]
-		public string StampSearch { get; set; }
+		[NWDGroupStartAttribute ("Informations", true, true, true)]
+		public NWDLocalizableStringType Name { get; set; }
+		[NWDGroupEndAttribute]
+		[NWDSeparatorAttribute]
+		[NWDGroupStartAttribute ("Description", true, true, true)]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDCookRecipe()
+		public NWDKeyword()
 		{
 			//Init your instance here
-			OrderIsImportant = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-        public static NWDCookRecipe GetCookRecipeByNWDItem(NWDItem item)
-        {
-            NWDCookRecipe rReturn = null;
-
-            NWDCookRecipe[] tRecipes = GetAllObjects();
-            foreach(NWDCookRecipe recipe in tRecipes)
-            {
-                if (recipe.ItemToDescribe.ContainsReference(item.Reference))
-                {
-                    rReturn = recipe;
-                    break;
-                }
-            }
-
-            return rReturn;
-        }
+		public static void MyClassMethod ()
+		{
+			// do something with this class
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public void GetItemsRequired()
-        {
-            //ItemsOne
-        }
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
+		{
+			// do something with this object
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
@@ -152,9 +90,6 @@ namespace NetWorkedData
 		public override void AddonUpdateMe ()
 		{
 			// do something when object will be updated
-
-
-			//TODO recalculate all sign possibilities
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonUpdatedMe ()
@@ -223,32 +158,32 @@ namespace NetWorkedData
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDCookRecipe with Unity MonoBehavior
+	#region Connexion NWDKeyword with Unity MonoBehavior
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWDCookRecipe connexion.
+	/// NWDKeyword connexion.
 	/// In your MonoBehaviour Script connect object with :
 	/// <code>
 	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDCookRecipeConnexion MyNWDCookRecipeObject;
+	/// public NWDKeywordConnexion MyNWDKeywordObject;
 	/// </code>
 	/// </summary>
 	//-------------------------------------------------------------------------------------------------------------
 	// CONNEXION STRUCTURE METHODS
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDCookRecipeConnexion
+	public class NWDKeywordConnexion
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[SerializeField]
 		public string Reference;
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDCookRecipe GetObject ()
+		public NWDKeyword GetObject ()
 		{
-			return NWDCookRecipe.GetObjectByReference (Reference);
+			return NWDKeyword.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDCookRecipe sObject)
+		public void SetObject (NWDKeyword sObject)
 		{
 			if (sObject != null) {
 				Reference = sObject.Reference;
@@ -257,9 +192,9 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDCookRecipe NewObject ()
+		public NWDKeyword NewObject ()
 		{
-			NWDCookRecipe tObject = NWDCookRecipe.NewObject ();
+			NWDKeyword tObject = NWDKeyword.NewObject ();
 			Reference = tObject.Reference;
 			return tObject;
 		}
@@ -270,8 +205,8 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	#if UNITY_EDITOR
 	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDCookRecipeConnexion))]
-	public class NWDCookRecipeConnexionDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof(NWDKeywordConnexion))]
+	public class NWDKeywordConnexionDrawer : PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
@@ -282,7 +217,7 @@ namespace NetWorkedData
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			return NWDCookRecipe.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDKeyword.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
@@ -293,7 +228,7 @@ namespace NetWorkedData
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			NWDCookRecipe.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+			NWDKeyword.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

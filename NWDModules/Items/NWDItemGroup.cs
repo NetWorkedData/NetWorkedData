@@ -45,38 +45,15 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-//		[NWDHeaderAttribute("Informations")]
-//		public NWDLocalizableStringType Name { get; set; }
-//		public NWDLocalizableStringType SubName { get; set; }
-//		public NWDLocalizableStringType Description { get; set; }
-		//
-		[NWDHeaderAttribute("Representation")]
+		[NWDGroupStartAttribute("Description",true, true, true)] // ok
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+		[NWDGroupEndAttribute]
 
-		[NWDHeaderAttribute("Items of this group")]
-		public NWDReferencesListType<NWDItem> ItemsReferencesList { get; set; }
+		[NWDSeparatorAttribute]
 
-
-//		[NWDFloatSliderAttribute(0.0F,1.0F)]
-//		public float Rarity { get; set; }
-//
-//		[NWDHeaderAttribute("Images")]
-//		public NWDTextureType NormalTexture { get; set; }
-//		public NWDTextureType SelectedTexture { get; set; }
-//
-//		[NWDHeaderAttribute("Color")]
-//		public NWDColorType ColorNormal { get; set; }
-//		public NWDColorType ColorSelected { get; set; }
-//
-//		[NWDHeaderAttribute("Prefab")]
-//		public NWDPrefabType NormalPrefab { get; set; }
-//		public NWDPrefabType SelectedPrefab { get; set; }
-//
-//		[NWDGroupStartAttribute("Classification",true, true, true)]
-//		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-//		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-//		public NWDReferencesListType<NWDFamily> Families { get; set; }
-//		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+		[NWDGroupStartAttribute("Item(s) in this group",true, true, true)] // ok
+		public NWDReferencesListType<NWDItem> ItemList { get; set; }
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

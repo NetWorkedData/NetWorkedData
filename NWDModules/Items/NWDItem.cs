@@ -40,124 +40,119 @@ namespace NetWorkedData
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Properties
+
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		[NWDGroupStartAttribute("Informations",true, true, true)]
-
-			public NWDLocalizableStringType Name { get; set; }
-			public NWDLocalizableStringType SubName { get; set; }
-			public NWDLocalizableStringType Description { get; set; }
-
+		[NWDGroupStartAttribute ("Description", true, true, true)]
+		public NWDLocalizableStringType Name { get; set; }
+		public NWDLocalizableStringType SubName { get; set; }
+		public NWDLocalizableStringType Description { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
-		[NWDGroupStartAttribute("Classification",true, true, true)]
+		[NWDGroupStartAttribute ("Classification", true, true, true)]
+		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
+		public NWDReferencesListType<NWDCategory> Categories { get; set; }
+		public NWDReferencesListType<NWDFamily> Families { get; set; }
+		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+		[NWDGroupEndAttribute]
 
-			public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-			public NWDReferencesListType<NWDCategory> Categories { get; set; }
-			public NWDReferencesListType<NWDFamily> Families { get; set; }
-			public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
-
+		[NWDSeparatorAttribute]
+	
+		[NWDGroupStartAttribute ("Rarity", true, true, true)]
+		[NWDFloatSliderAttribute (0.0F, 1.0F)]
+		[NWDEntitledAttribute ("Rarity : float [0,1]")]
+		public float Rarity { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
-		[NWDGroupStartAttribute("Usage, Loot and Drop",true, true, true)]
-
-			[NWDGroupStartAttribute("Use object delayed",true, true, true)]
-				public bool Usable { get; set; }
-				public int DelayToUse { get; set; }
-				public int DelayToReUse { get; set; }
-			[NWDGroupEndAttribute]
-
-			[NWDFloatSliderAttribute(0.0F,1.0F)]
-			[NWDEntitledAttribute("Rarity : float [0,1]")]
-			public float Rarity { get; set; }
-			public NWDReferencesQuantityType<NWDItem> DroppableItems { get; set; }
+		[NWDGroupStartAttribute ("Usage", true, true, true)]
+		public bool Usable { get; set; }
+		public int DelayToUse { get; set; }
+		public int DelayToReUse { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
-		[NWDGroupStartAttribute("Extensions Properties",true, true, true)]
-			public NWDReferencesQuantityType<NWDItemExtension> Properties { get; set; }
+		[NWDGroupStartAttribute ("Extensions", true, true, true)]
+		public NWDReferencesQuantityType<NWDItem> ItemsContained{ get; set; }
+		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
-		[NWDGroupStartAttribute("Assets",true, true, true)]
-			[NWDHeaderAttribute("Images")]
-			public NWDTextureType NormalTexture { get; set; }
-			public NWDTextureType SelectedTexture { get; set; }
-			[NWDHeaderAttribute("Color")]
-			public NWDColorType ColorNormal { get; set; }
-			public NWDColorType ColorSelected { get; set; }
-			[NWDHeaderAttribute("Prefab")]
-			public NWDPrefabType NormalPrefab { get; set; }
-			public NWDPrefabType SelectedPrefab { get; set; }
+		[NWDGroupStartAttribute ("Assets", true, true, true)]
+		[NWDHeaderAttribute ("Textures")]
+		public NWDTextureType PrimaryTexture { get; set; }
+		public NWDTextureType SecondaryTexture { get; set; }
+		public NWDTextureType TertiaryTexture { get; set; }
+		[NWDHeaderAttribute ("Colors")]
+		public NWDColorType PrimaryColor { get; set; }
+		public NWDColorType SecondaryColor { get; set; }
+		public NWDColorType TertiaryColor { get; set; }
+		[NWDHeaderAttribute ("Prefabs")]
+		public NWDPrefabType PrimaryPrefab { get; set; }
+		public NWDPrefabType SecondaryPrefab { get; set; }
+		public NWDPrefabType TertiaryPrefab { get; set; }
+		[NWDGroupEndAttribute]
 
+		[NWDSeparatorAttribute]
 
-
-
-		//[NWDGroupStartAttribute("Is Character in the game",true,false,true)]
-		//public bool IsCharactersCreation { get; set; }
-		//public float LevelMin { get; set; }
-		//public float LevelMax { get; set; }
-		//public float LifeLevelMin { get; set; }
-		//public float LifeLevelMax { get; set; }
-		//public float AttackLevelMin { get; set; }
-		//public float AttackLevelMax { get; set; }
-		//public float DefenseLevelMin { get; set; }
-		//public float DefenseLevelMax { get; set; }
+		[NWDGroupStartAttribute ("Development addons", true, true, true)]
+		public string JSON { get; set; }
+		public string KeysValues { get; set; }
 		//[NWDGroupEndAttribute]
 
-		//[NWDHeaderAttribute("Is Battle active in the game")]
-		//public bool HasBattleProperties { get; set; }
-		//public NWDReferencesListType<NWDBattleProperty> BattleProperties { get; set; }
-
-		//[NWDHeaderAttribute("Is cook recipe script in the game")]
-
-		//public NWDReferenceType<NWDCookRecipe> CookRecipeReference { get; set; }
-
-			[NWDHeaderAttribute("For developer a JSON data")]
-
-			[NWDGroupStartAttribute("JSON for this object",true, false, true)]
-		public string JSON { get; set; }
-//		[NWDGroupEndAttribute]
-
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Constructors
+
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDItem()
+		public NWDItem ()
 		{
 			//Init your instance here
 			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Class methods
+
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()
 		{
 			// do something with this class
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Instance methods
+
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe ()
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region override of NetWorkedData addons methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
@@ -201,10 +196,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
 		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
+		public override bool AddonEdited (bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) 
-			{
+			if (sNeedBeUpdate == true) {
 				// do something
 			}
 			return sNeedBeUpdate;
@@ -226,9 +220,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
 	}
 
@@ -288,20 +286,18 @@ namespace NetWorkedData
 		{
 			Debug.Log ("GetPropertyHeight");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0) {
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true) [0];
 			}
-			return NWDItem.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDItem.ReferenceConnexionHeightSerialized (property, tReferenceConnexion.ShowInspector);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
 			Debug.Log ("OnGUI");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0) {
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true) [0];
 			}
 			NWDItem.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
@@ -319,7 +315,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItemConnexion NetWorkedDataObject;
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDItemMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDItem sNetWorkedDataObject)
+		public static NWDItemMonoBehavior SetNetWorkedDataObject (GameObject sGameObject, NWDItem sNetWorkedDataObject)
 		{
 			NWDItemMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDItemMonoBehavior> () as NWDItemMonoBehavior;
 			if (tMonoBehavior == null) {
@@ -339,12 +335,14 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDItem GetNetWorkedDataObject () {
-			return NetWorkedDataObject.GetObject();
+		public NWDItem GetNetWorkedDataObject ()
+		{
+			return NetWorkedDataObject.GetObject ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetNetWorkedDataObject (NWDItem sNetWorkedDataObject) {
-			NetWorkedDataObject.SetObject(sNetWorkedDataObject);
+		public void SetNetWorkedDataObject (NWDItem sNetWorkedDataObject)
+		{
+			NetWorkedDataObject.SetObject (sNetWorkedDataObject);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
@@ -352,9 +350,9 @@ namespace NetWorkedData
 	public partial class NWDItem : NWDBasis <NWDItem>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDItemMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDItem sNetWorkedDataObject)
+		public static NWDItemMonoBehavior SetNetWorkedDataObject (GameObject sGameObject, NWDItem sNetWorkedDataObject)
 		{
-			return NWDItemMonoBehavior.SetNetWorkedDataObject (sGameObject,sNetWorkedDataObject);
+			return NWDItemMonoBehavior.SetNetWorkedDataObject (sGameObject, sNetWorkedDataObject);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDItem GetNetWorkedDataObject (GameObject sGameObject)

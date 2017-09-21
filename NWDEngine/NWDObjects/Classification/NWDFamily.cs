@@ -45,7 +45,13 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		public NWDLocalizableStringType Name{ get; set; }
+		[NWDGroupStartAttribute ("Informations", true, true, true)]
+		public NWDLocalizableStringType Name { get; set; }
+		[NWDGroupEndAttribute]
+		[NWDSeparatorAttribute]
+		[NWDGroupStartAttribute ("Description", true, true, true)]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

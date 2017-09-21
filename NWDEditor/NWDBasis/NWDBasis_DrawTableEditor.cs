@@ -502,6 +502,8 @@ namespace NetWorkedData
 
 			EditorGUI.BeginDisabledGroup (tSelectionCount == 0);
 
+			Color tOldColor = GUI.backgroundColor;
+			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 			GUILayout.Label (NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
 			if (GUILayout.Button (NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton)) {
 				string tDialog = "";
@@ -566,6 +568,7 @@ namespace NetWorkedData
 				}
 			}
 
+			GUI.backgroundColor = tOldColor;
 			EditorGUI.EndDisabledGroup ();
 
 			// |||||||||||||||||||||||||||||||||||||||||||
@@ -681,7 +684,7 @@ namespace NetWorkedData
 			GUILayout.EndHorizontal ();
 
 
-			Color tOldColor = GUI.backgroundColor;
+			tOldColor = GUI.backgroundColor;
 			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 			// FORCE SYNCHRO And Clean
 			GUILayout.BeginHorizontal ();

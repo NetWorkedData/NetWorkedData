@@ -1179,6 +1179,10 @@ namespace NetWorkedData
 
 			float tButtonWidth = (tWidth - (NWDConstants.kFieldMarge * 3)) / 4.0f;
 
+
+			Color tOldColor = GUI.backgroundColor;
+			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+
 			if (GUI.Button (new Rect (tX, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, tMiniButtonStyle)) {
 				if (EditorUtility.DisplayDialog (NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
 					    NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
@@ -1188,6 +1192,7 @@ namespace NetWorkedData
 					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 				}
 			}
+			GUI.backgroundColor = tOldColor;
 
 			if (GUI.Button (new Rect (tX + tButtonWidth + NWDConstants.kFieldMarge, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle)) {
 				DM = NWDToolbox.Timestamp ();
@@ -1227,6 +1232,8 @@ namespace NetWorkedData
 			EditorGUI.EndDisabledGroup ();
 
 			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_WARNING_ZONE, tBoldLabelStyle);
+			tOldColor = GUI.backgroundColor;
+			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 			tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 			if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle)) {
@@ -1250,6 +1257,9 @@ namespace NetWorkedData
 				}
 			}
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+			GUI.backgroundColor = tOldColor;
+
+
 			EditorGUI.LabelField (new Rect (tX, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_VALUE, Integrity, tLabelStyle);
 			tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 			EditorGUI.LabelField (new Rect (tX, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_VALUE + " new", IntegrityValue (), tLabelStyle);

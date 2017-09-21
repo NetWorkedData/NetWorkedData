@@ -27,208 +27,88 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("LCL")]
-	[NWDClassDescriptionAttribute ("Localization of game descriptions Class")]
-	[NWDClassMenuNameAttribute ("Localization")]
+	[NWDClassTrigrammeAttribute ("CBK")]
+	[NWDClassDescriptionAttribute ("Craft Book Recipes descriptions Class")]
+	[NWDClassMenuNameAttribute ("Craft Book")]
 	//-------------------------------------------------------------------------------------------------------------
-//	[NWDTypeClassInPackageAttribute]
-	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWD game configuration.
-	/// </summary>
-	public partial class NWDLocalization : NWDBasis <NWDLocalization>
+	public partial class NWDCraftBook :NWDBasis <NWDCraftBook>
 	{
+		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
 		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Properties
-
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		/// <summary>
-		/// Gets or sets the value string.
-		/// </summary>
-		/// <value>The value string.</value>
-		public NWDLocalizableTextType TextValue { get; set; }
 
-		/// <summary>
-		/// Gets or sets the annexe value.
-		/// </summary>
-		/// <value>The annexe value.</value>
-		public NWDMultiType AnnexeValue { get; set; }
+
+		[NWDGroupStartAttribute("Description",true, true, true)] // ok
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+
+		[NWDGroupStartAttribute("Recipe attribut",true, true, true)] // ok
+		public bool OrderIsImportant { get; set; }
+		public NWDReferenceType<NWDItemGroup> ItemGroupRecipent { get; set; }
+		public NWDReferencesQuantityType<NWDItemGroup> ItemGroupIngredient { get; set; }
+		public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Development addons",true, true, true)]
+		[NWDNotEditableAttribute]
+		public string RecipeHash { get; set;}
+		//[NWDGroupEndAttribute]
+
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Constructors
-
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDLocalization ()
+		public NWDCraftBook()
 		{
 			//Init your instance here
-			//DiscoverItYourSelf = true;
+			OrderIsImportant = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class methods
-
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDLocalization CreateLocalizationTextValue (string sKey, string sDefault)
-		{
-			NWDLocalization rReturn = NWDBasis<NWDLocalization>.NewObject ();
-			rReturn.InternalKey = sKey;
-			if (sDefault != "") {
-				rReturn.TextValue.AddBaseString (sKey);
-				//rReturn.TextValue.AddLocalString (sKey);
-			} else {
-				rReturn.TextValue.AddBaseString (sDefault);
-				//rReturn.TextValue.AddLocalString (sDefault);
-			}
-			rReturn.SaveModifications ();
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDLocalization CreateLocalizationAnnexe (string sKey, string sDefault)
-		{
-			NWDLocalization rReturn = NWDBasis<NWDLocalization>.NewObject ();
-			rReturn.InternalKey = sKey;
-			//rReturn.TextValue.AddBaseString (sKey);
-			rReturn.AnnexeValue = new NWDMultiType (sDefault);
-			rReturn.SaveModifications ();
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get the local string for internal key.
-		/// </summary>
-		/// <returns>The local string.</returns>
-		/// <param name="sKey">key.</param>
-		/// <param name="sDefault">default value.</param>
-		public static string GetLocalText (string sKey, string sDefault = "")
-		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			string rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.TextValue.GetLocalString ();
-			} else {
-				CreateLocalizationTextValue (sKey, sDefault);
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDMultiType GetAnnexeValue (string sKey, string sDefault = "")
-		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			NWDMultiType rReturn = new NWDMultiType ();
-			if (tObject != null) {
-				rReturn = tObject.AnnexeValue;
-			} else {
-				CreateLocalizationAnnexe (sKey,sDefault);
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string GetAnnexeString (string sKey, string sDefault = "")
-		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			string rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToString ();
-			} else {
-				CreateLocalizationAnnexe (sKey,sDefault);
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static bool GetAnnexeBool (string sKey, bool sDefault = false)
-		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			bool rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToBool ();
-			} else {
-				CreateLocalizationAnnexe (sKey,sDefault.ToString ());
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static float GetAnnexeFloat (string sKey, float sDefault = 0.0f)
-		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			float rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToFloat ();
-			} else {
-				CreateLocalizationAnnexe (sKey,sDefault.ToString ());
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static float GetAnnexeInt (string sKey, int sDefault = 0)
-		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
-			int rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.AnnexeValue.ToInt ();
-			} else {
-				CreateLocalizationAnnexe (sKey,sDefault.ToString ());
-			}
-			return rReturn;
-		}
-        //-------------------------------------------------------------------------------------------------------------
-        public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "")
+        public static NWDCraftBook GetCraftBookByItem(NWDItem item)
         {
-            if (sText.gameObject != null)
-            {
-                if (sDefault.Equals(""))
-                {
-                    sDefault = sText.text;
-                }
+            NWDCraftBook rReturn = null;
 
-                NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
-                if (tObject != null)
-                {
-                    sText.text = tObject.TextValue.GetLocalString();
-                }
-                else
-                {
-                    CreateLocalizationTextValue(sText.text, sDefault);
-                }
-            }
-            else
+            NWDCraftBook[] tRecipes = GetAllObjects();
+            foreach(NWDCraftBook recipe in tRecipes)
             {
-				#if UNITY_EDITOR
-                EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
-				#endif
+                if (recipe.ItemToDescribe.ContainsReference(item.Reference))
+                {
+                    rReturn = recipe;
+                    break;
+                }
             }
-		}
+
+            return rReturn;
+        }
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Instance methods
-
+        //-------------------------------------------------------------------------------------------------------------
+        public void GetItemsRequired()
+        {
+            //ItemsOne
+        }
 		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
-		//-------------------------------------------------------------------------------------------------------------
-
 		#region override of NetWorkedData addons methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{
@@ -238,6 +118,14 @@ namespace NetWorkedData
 		public override void AddonUpdateMe ()
 		{
 			// do something when object will be updated
+
+
+			//TODO recalculate all sign possibilities
+			string tAssembly = OrderIsImportant.ToString () +
+			                   ItemGroupRecipent.ToString () +
+								ItemGroupIngredient.ToString ();
+
+			RecipeHash = BTBSecurityTools.GenerateSha (tAssembly, BTBSecurityShaTypeEnum.Sha1);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonUpdatedMe ()
@@ -274,9 +162,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
 		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited (bool sNeedBeUpdate)
+		public override bool AddonEdited( bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) {
+			if (sNeedBeUpdate == true) 
+			{
 				// do something
 			}
 			return sNeedBeUpdate;
@@ -298,43 +187,39 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDLocalization with Unity MonoBehavior
+	#region Connexion NWDCookRecipe with Unity MonoBehavior
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWDLocalization connexion.
+	/// NWDCookRecipe connexion.
 	/// In your MonoBehaviour Script connect object with :
 	/// <code>
 	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDLocalizationConnexion MyNWDLocalizationObject;
+	/// public NWDCookRecipeConnexion MyNWDCookRecipeObject;
 	/// </code>
 	/// </summary>
 	//-------------------------------------------------------------------------------------------------------------
 	// CONNEXION STRUCTURE METHODS
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDLocalizationConnexion
+	public class NWDCookRecipeConnexion
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[SerializeField]
 		public string Reference;
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDLocalization GetObject ()
+		public NWDCraftBook GetObject ()
 		{
-			return NWDLocalization.GetObjectByReference (Reference);
+			return NWDCraftBook.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDLocalization sObject)
+		public void SetObject (NWDCraftBook sObject)
 		{
 			if (sObject != null) {
 				Reference = sObject.Reference;
@@ -343,9 +228,9 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDLocalization NewObject ()
+		public NWDCraftBook NewObject ()
 		{
-			NWDLocalization tObject = NWDLocalization.NewObject ();
+			NWDCraftBook tObject = NWDCraftBook.NewObject ();
 			Reference = tObject.Reference;
 			return tObject;
 		}
@@ -356,26 +241,30 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	#if UNITY_EDITOR
 	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDLocalizationConnexion))]
-	public class NWDLocalizationConnexionDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof(NWDCookRecipeConnexion))]
+	public class NWDCookRecipeConnexionDrawer : PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
+			Debug.Log ("GetPropertyHeight");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0) {
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true) [0];
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			return NWDLocalization.ReferenceConnexionHeightSerialized (property, tReferenceConnexion.ShowInspector);
+			return NWDCraftBook.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
+			Debug.Log ("OnGUI");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0) {
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true) [0];
+			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
+			{
+				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			NWDLocalization.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+			NWDCraftBook.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

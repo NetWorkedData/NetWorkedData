@@ -49,6 +49,7 @@ namespace NetWorkedData
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
+		[NWDGroupStartAttribute ("Value(s)", true, true, true)]
 		/// <summary>
 		/// Gets or sets the value string.
 		/// </summary>
@@ -72,6 +73,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <value>The value float.</value>
 		public float ValueFloat { get; set; }
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion

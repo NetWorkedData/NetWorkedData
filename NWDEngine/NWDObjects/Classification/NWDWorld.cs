@@ -37,25 +37,36 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//public bool DiscoverItYourSelf { get; set; }
-		public NWDLocalizableStringType Name{ get; set; }
-
+		[NWDGroupStartAttribute ("Informations", true, true, true)]
+		public NWDLocalizableStringType Name { get; set; }
 		public NWDLocalizableStringType SubName { get; set; }
-
 		public NWDLocalizableStringType Description { get; set; }
+		[NWDGroupEndAttribute]
 
-		[NWDGroupStartAttribute("Colors of world",true,true,true)]
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute ("Desription", true, true, true)]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Classification",true,true,true)]
+		//public string Kind { get; set; }
+		public NWDReferencesListType<NWDCategory> Categories { get; set; }
+		public NWDReferencesListType<NWDFamily> Families { get; set; }
+		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Assets",true,true,true)]
 		public NWDColorType PrimaryColor { get; set; }
 
 		public NWDColorType SecondaryColor { get; set; }
 	
 		public NWDColorType TertiaryColor { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDGroupStartAttribute("Type of world",true,true,true)]
-		public string Kind { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------

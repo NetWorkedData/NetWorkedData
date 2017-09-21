@@ -16,25 +16,25 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Cooking",
-		"cooking Edition",
+	[NWDTypeWindowParamAttribute("Craft",
+		"Craft edition",
 		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDItemGroup),
 			typeof(NWDItem),
-			typeof(NWDCookRecipe),
+			typeof(NWDCraftBook),
 			/* Add NWDBasis here*/
 		}
 	)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDCookWindow : NWDBasisWindow <NWDCookWindow>
+	public class NWDCraftBookWindow : NWDBasisWindow <NWDCraftBookWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+ "Cooking"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+		[MenuItem (NWDConstants.K_MENU_BASE+ "Craft"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDCookWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDCraftBookWindow));
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

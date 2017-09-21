@@ -25,17 +25,21 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	public delegate void NWDErrorBlock(NWDError sError);
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("CAT")]
-	[NWDClassDescriptionAttribute ("Categories descriptions Class")]
-	[NWDClassMenuNameAttribute ("Categories")]
+	[NWDClassTrigrammeAttribute ("ERR")]
+	[NWDClassDescriptionAttribute ("Error descriptions Class")]
+	[NWDClassMenuNameAttribute ("Errors")]
 	//-------------------------------------------------------------------------------------------------------------
-//	[NWDTypeClassInPackageAttribute]
+	[NWDInternalKeyNotEditableAttribute]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDCategory : NWDBasis <NWDCategory>
+	//	[NWDTypeClassInPackageAttribute]
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	public partial class NWDError : NWDBasis <NWDError>
 	{
-		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
 		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
@@ -45,25 +49,95 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		public NWDLocalizableStringType Name { get; set; }
+		//public bool DiscoverItYourSelf { get; set; }
+		[NWDGroupStartAttribute ("Informations", true, true, true)] //ok
+		[NWDEnumString (new string[] { "alert", "critical", "verbose" })]
+		public string Type { get; set; }
+		public string Domain { get; set; }
+		public string Code { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
+		public NWDLocalizableStringType LocalizedTitle { get; set; } // TODO : rename by Title ?
+		public NWDLocalizableStringType LocalizedDescription { get; set; } // TODO : rename by Description ?
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDCategory()
+		public NWDError ()
 		{
 			//Init your instance here
+			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
+		public static NWDError GetErrorWithCode (string sCode)
 		{
-			// do something with this class
+			NWDError rReturn = null;
+			foreach (NWDError tObject in NWDError.ObjectsList) {
+				if (tObject.Code == sCode) {
+					rReturn = tObject;
+					break;
+				}
+			}
+			return rReturn;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDError GetErrorWithDomainAndCode (string sDomain , string sCode)
+		{
+			NWDError rReturn = null;
+			foreach (NWDError tObject in NWDError.ObjectsList) {
+				if (tObject.Code == sCode && tObject.Domain == sDomain) {
+					rReturn = tObject;
+					break;
+				}
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sType = "verbose")
+		{
+			string tReference = "ERR-"+sDomain + "-" + sCode;
+			// TODO: alert if reference is too long for ereg / or substring if too long
+			NWDError tError = InstanceByReference (tReference) as NWDError;
+			if (tError == null) {
+				tError = NWDBasis<NWDError>.NewObject ();
+				RemoveObjectInListOfEdition (tError);
+				tError.Reference = tReference;
+				//				tError.InternalKey = Domain + " : " + sCode;
+				tError.InternalDescription = sDescription;
+				// domain code
+				tError.Domain = sDomain;
+				tError.Code = sCode;
+				// title
+				NWDLocalizableStringType tTitle = new NWDLocalizableStringType ();
+				tTitle.Value = "BASE:" + sTitle;
+				tError.LocalizedTitle = tTitle;
+				// description
+				NWDLocalizableStringType tDescription = new NWDLocalizableStringType ();
+				tDescription.Value = "BASE:" + sDescription;
+				tError.LocalizedDescription = tDescription;
+				// type of alert
+				tError.Type = sType;
+				// add-on edited
+				tError.AddonEdited (true);
+				// reccord
+				tError.UpdateMe ();
+				AddObjectInListOfEdition (tError);
+			}
+			return tError;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -122,9 +196,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override bool AddonEdited( bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
+			if (sNeedBeUpdate == true) {
+				if (Domain == null || Domain == "") {
+					Domain = "Unknow";
+				}
+				InternalKey = Domain + " : "+ Code;
 			}
 			return sNeedBeUpdate;
 		}
@@ -152,32 +228,32 @@ namespace NetWorkedData
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDCategory with Unity MonoBehavior
+	#region Connexion NWDError with Unity MonoBehavior
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWDCategory connexion.
+	/// NWDError connexion.
 	/// In your MonoBehaviour Script connect object with :
 	/// <code>
 	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDCategoryConnexion MyNWDCategoryObject;
+	/// public NWDErrorConnexion MyNWDErrorObject;
 	/// </code>
 	/// </summary>
 	//-------------------------------------------------------------------------------------------------------------
 	// CONNEXION STRUCTURE METHODS
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDCategoryConnexion
+	public class NWDErrorConnexion
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[SerializeField]
 		public string Reference;
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDCategory GetObject ()
+		public NWDError GetObject ()
 		{
-			return NWDCategory.GetObjectByReference (Reference);
+			return NWDError.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDCategory sObject)
+		public void SetObject (NWDError sObject)
 		{
 			if (sObject != null) {
 				Reference = sObject.Reference;
@@ -186,9 +262,9 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDCategory NewObject ()
+		public NWDError NewObject ()
 		{
-			NWDCategory tObject = NWDCategory.NewObject ();
+			NWDError tObject = NWDError.NewObject ();
 			Reference = tObject.Reference;
 			return tObject;
 		}
@@ -199,30 +275,28 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	#if UNITY_EDITOR
 	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDCategoryConnexion))]
-	public class NWDCategoryConnexionDrawer : PropertyDrawer
+	[CustomPropertyDrawer (typeof(NWDErrorConnexion))]
+	public class NWDErrorConnexionDrawer : PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			Debug.Log ("GetPropertyHeight");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			return NWDCategory.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
+			return NWDError.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			Debug.Log ("OnGUI");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			NWDCategory.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
+			NWDError.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

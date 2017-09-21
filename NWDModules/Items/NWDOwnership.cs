@@ -53,81 +53,28 @@ namespace NetWorkedData
 		/// Gets or sets the account reference.
 		/// </summary>
 		/// <value>The account reference.</value>
+		/// 
+		[NWDGroupStartAttribute("Ownership",true, true, true)] // ok
+		public bool FirstAcquisition { get; set; }
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
-
-		/// <summary>
-		/// Gets or sets the item reference.
-		/// </summary>
-		/// <value>The item reference.</value>
-		public NWDReferenceType<NWDItem> ItemReference { get; set; }
-		/// <summary>
-		/// Gets or sets the quantity of this items.
-		/// </summary>
-		/// <value>The quantity.</value>
+		public NWDReferenceType<NWDAccount> Account { get; set; }
+		public NWDReferenceType<NWDItem> Item { get; set; }
 		//[NWDIntSliderAttribute(0,250)]
 		public int Quantity { get; set; }
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NetWorkedData.NWDOwnership"/> first acquisition.
-		///  Put this value to false after show the panel of description of this item
-		/// </summary>
-		/// <value><c>true</c> if first acquisition; otherwise, <c>false</c>.</value>
-		public bool FirstAcquisition { get; set; }
-		/// <summary>
-		/// Gets or sets the special value a for this ownership.
-		/// </summary>
-		/// <value>The value a.</value>
-		public string ValueA { get; set; }
-		/// <summary>
-		/// Gets or sets the special value b.
-		/// </summary>
-		/// <value>The value b.</value>
-		public string ValueB { get; set; }
-		/// <summary>
-		/// Gets or sets the special value c.
-		/// </summary>
-		/// <value>The value c.</value>
-		public string ValueC { get; set; }
-		/// <summary>
-		/// Gets or sets the special value d.
-		/// </summary>
-		/// <value>The value d.</value>
-		public string ValueD { get; set; }
-		/// <summary>
-		/// Gets or sets the special value e.
-		/// </summary>
-		/// <value>The value e.</value>
-		public string ValueE { get; set; }
-		/// <summary>
-		/// Gets or sets the special value f.
-		/// </summary>
-		/// <value>The value f.</value>
-		public string ValueF { get; set; }
-		/// <summary>
-		/// Gets or sets the special value g.
-		/// </summary>
-		/// <value>The value g.</value>
-		public string ValueG { get; set; }
-		/// <summary>
-		/// Gets or sets the special value h.
-		/// </summary>
-		/// <value>The value h.</value>
-		public string ValueH { get; set; }
-		/// <summary>
-		/// Gets or sets the special value i.
-		/// </summary>
-		/// <value>The value i.</value>
-		public string ValueI { get; set; }
-		/// <summary>
-		/// Gets or sets the special value j.
-		/// </summary>
-		/// <value>The value j.</value>
-		public string ValueJ { get; set; }
-		/// <summary>
-		/// Gets or sets the special.
-		/// </summary>
-		/// <value>The special.</value>
-		public string Special { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute ("Extensions", true, true, true)]
+		public NWDReferencesQuantityType<NWDItem> ItemsContained{ get; set; }
+		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
+		[NWDGroupEndAttribute]
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute ("Development addons", true, true, true)]
+		public string JSON { get; set; }
+		public string KeysValues { get; set; }
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -157,7 +104,7 @@ namespace NetWorkedData
             NWDOwnership rOwnershipToUse = null;
             foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
             {
-                if (tOwnership.ItemReference.GetReference() == sItemReference)
+                if (tOwnership.Item.GetReference() == sItemReference)
                 {
                     rOwnershipToUse = tOwnership;
                     break;
@@ -166,7 +113,7 @@ namespace NetWorkedData
             if (rOwnershipToUse == null)
             {
                 rOwnershipToUse = NWDOwnership.NewObject();
-                rOwnershipToUse.ItemReference.SetReference(sItemReference);
+                rOwnershipToUse.Item.SetReference(sItemReference);
                 rOwnershipToUse.Quantity = 0;
                 rOwnershipToUse.SaveModifications();
             }
@@ -183,7 +130,7 @@ namespace NetWorkedData
             NWDOwnership rOwnershipToUse = null;
             foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
             {
-                if (tOwnership.ItemReference.GetReference() == sItemReference)
+                if (tOwnership.Item.GetReference() == sItemReference)
                 {
                     rOwnershipToUse = tOwnership;
                     break;
@@ -202,7 +149,7 @@ namespace NetWorkedData
             NWDOwnership rOwnershipToUse = null;
             foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
             {
-                if (tOwnership.ItemReference.GetObject() == sItem)
+                if (tOwnership.Item.GetObject() == sItem)
                 {
                     rOwnershipToUse = tOwnership;
                     break;
@@ -211,7 +158,7 @@ namespace NetWorkedData
             if (rOwnershipToUse == null)
             {
                 rOwnershipToUse = NWDOwnership.NewObject();
-                rOwnershipToUse.ItemReference.SetObject(sItem);
+                rOwnershipToUse.Item.SetObject(sItem);
                 rOwnershipToUse.Quantity = 0;
                 rOwnershipToUse.SaveModifications();
             }
@@ -228,7 +175,7 @@ namespace NetWorkedData
             NWDOwnership rOwnershipToUse = null;
             foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
             {
-                if (tOwnership.ItemReference.GetObject() == sItem)
+                if (tOwnership.Item.GetObject() == sItem)
                 {
                     rOwnershipToUse = tOwnership;
                     break;
@@ -329,7 +276,7 @@ namespace NetWorkedData
         {
             bool rReturn = false;
 
-            NWDItem tNWDItem = ItemReference.GetObject();
+            NWDItem tNWDItem = Item.GetObject();
 
             // Check if item is not null
             if (tNWDItem != null)
