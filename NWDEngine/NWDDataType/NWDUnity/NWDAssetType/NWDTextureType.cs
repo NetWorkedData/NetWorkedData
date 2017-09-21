@@ -49,15 +49,22 @@ namespace NetWorkedData
 		public Texture2D ToTexture ()
 		{
 			Texture2D rTexture = null;
-			if (Value != null && Value != "") {
+			if (Value != null && Value != "")
+            {
 				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
-				#if UNITY_EDITOR
-				rTexture = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
-				#else
-				rTexture = Resources.Load (tPath, typeof(Texture2D)) as Texture2D;
-				#endif
-			}
-			return rTexture;
+#if UNITY_EDITOR
+                //--------------------------------------------------------------------------------------
+                rTexture = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
+                //--------------------------------------------------------------------------------------
+#else
+                //--------------------------------------------------------------------------------------
+                tPath = tPath.Replace("Assets/Resources/", "");
+                tPath = tPath.Substring(0, tPath.LastIndexOf("."));
+                rTexture = Resources.Load(tPath, typeof(Texture2D)) as Texture2D;
+                //--------------------------------------------------------------------------------------
+#endif
+            }
+            return rTexture;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public Sprite ToSprite ()
