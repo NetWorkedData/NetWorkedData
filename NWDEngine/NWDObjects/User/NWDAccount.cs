@@ -26,6 +26,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
+	[Serializable]
+	public class NWDAccountConnexion : NWDConnexion <NWDAccount> {}
+	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (false)]
 	[NWDClassTrigrammeAttribute ("ACC")]
 	[NWDClassDescriptionAttribute ("Account descriptions Class")]
@@ -354,86 +357,6 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 	}
-
-	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDAccount with Unity MonoBehavior
-	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWDAccount connexion.
-	/// In your MonoBehaviour Script connect object with :
-	/// <code>
-	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDAccountConnexion MyNWDAccountObject;
-	/// </code>
-	/// </summary>
-	//-------------------------------------------------------------------------------------------------------------
-	// CONNEXION STRUCTURE METHODS
-	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
-	public class NWDAccountConnexion
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[SerializeField]
-		public string Reference;
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDAccount GetObject ()
-		{
-			return NWDAccount.GetObjectByReference (Reference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDAccount sObject)
-		{
-			if (sObject != null) {
-				Reference = sObject.Reference;
-			} else {
-				Reference = "";
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDAccount NewObject ()
-		{
-			NWDAccount tObject = NWDAccount.NewObject ();
-			Reference = tObject.Reference;
-			return tObject;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
-	// CUSTOM PROPERTY DRAWER METHODS
-	//-------------------------------------------------------------------------------------------------------------
-	#if UNITY_EDITOR
-	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDAccountConnexion))]
-	public class NWDAccountConnexionDrawer : PropertyDrawer
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
-		{
-			Debug.Log ("GetPropertyHeight");
-			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
-			}
-			return NWDAccount.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
-		{
-			Debug.Log ("OnGUI");
-			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
-			}
-			NWDAccount.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
-	#endif
-	//-------------------------------------------------------------------------------------------------------------
-	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

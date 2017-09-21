@@ -343,7 +343,7 @@ namespace NetWorkedData
 				}
 			}
 				if (NWDDataManager.SharedInstance.mTrigramTypeDictionary.ContainsKey (sClassTrigramme)) {
-					Debug.Log ("ERROR this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance.mTrigramTypeDictionary [sClassTrigramme] + ")");
+				Debug.Log ("ERROR in "+tClassName+", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance.mTrigramTypeDictionary [sClassTrigramme] + ")");
 				} else {
 						NWDDataManager.SharedInstance.mTrigramTypeDictionary.Add (sClassTrigramme, sType);
 				}

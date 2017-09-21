@@ -9,50 +9,46 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.IO;
-
-using BasicToolBox;
-
-using SQLite4Unity3d;
+using System.Reflection;
 
 using UnityEngine;
 
+using SQLite4Unity3d;
+
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditorInternal;
 #endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[Serializable]
-	public class NWDConnexion <K> : NWDConnexionBasis where K : NWDBasis <K>, new()
+	public partial class NWDBasis <K> : NWDTypeClass where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public K GetObject ()
+		public void AddNetWorkedDataToObject (GameObject sGameObject)
 		{
-			return NWDBasis <K>.GetObjectByReference (Reference);
+			SetNetWorkedDataObject (sGameObject, this);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (K sObject)
+		public static void SetNetWorkedDataObject (GameObject sGameObject, NWDBasis <K> sObject)
 		{
-			if (sObject != null) {
-				Reference = sObject.Reference;
-			} else {
-				Reference = "";
+			NWDMonoBehaviour tNWDMonoBehaviour = NWDMonoBehaviour.SetNetWorkedDataObject (sGameObject, sObject);
+			tNWDMonoBehaviour.Type = sObject.GetType ().ToString();
+			tNWDMonoBehaviour.Reference = sObject.Reference;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDBasis <K> GetNetWorkedDataObject (GameObject sGameObject)
+		{
+			object rReturn = NWDMonoBehaviour.GetNetWorkedDataObject (sGameObject);
+			if (rReturn.GetType () != typeof(K)) {
+				rReturn = null;
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public K NewObject ()
-		{
-			K tObject = NWDBasis <K>.NewObject ();
-			Reference = tObject.Reference;
-			return tObject;
+			return rReturn as NWDBasis <K>;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

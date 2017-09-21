@@ -25,79 +25,71 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	// CUSTOM PROPERTY DRAWER METHODS
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#if UNITY_EDITOR
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[CustomPropertyDrawer (typeof(NWDConnexionBasis), true)]
-//	[CustomPropertyDrawer (typeof(NWDConnexion<NWDAccount>), true)]
-	public partial class NWDConnexionDrawer : PropertyDrawer
+	public class NWDConnexionDrawer: PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			float tHeight = 80.0f;
-			Debug.Log ("I PASS HERREEEEEEEEEEE HEIGHTTTTT");
+			Debug.Log ("NWDConnexionDrawer GetPropertyHeight");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
+			float tHeight = 0.0f;
+			Debug.Log ("Type of property " + property.type);
 			Type tType = Type.GetType ("NetWorkedData."+property.type);
 			Type tTypeParent = tType.BaseType;
+			Debug.Log ("tTypeParent " + tTypeParent.Name);
 			Type tTypeDefintion = null;
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
-			}
-			Type tClassType  = tTypeParent.BaseType;
-			if (tClassType == typeof(NWDConnexion<>) && tTypeDefintion!=null)
-			{
+				Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
+
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
-				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionHeight", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (tMethodInfo != null)
-			{
-				string tHeightString = tMethodInfo.Invoke (null, new object[]
-					{
-						tTargetReference,
-						tReferenceConnexion.ShowInspector
-					}) as string;
-				float.TryParse (tHeightString, out tHeight);
-			}
+				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null)
+				{
+					string tHeightString = tMethodInfo.Invoke (null, new object[]{property, tReferenceConnexion.ShowInspector}) as string;
+					float.TryParse (tHeightString, out tHeight);
+				}
 			}
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
-			Debug.Log ("I PASS HERREEEEEEEEEEE");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
+			Debug.Log ("Type of property " + property.type);
 			Type tType = Type.GetType ("NetWorkedData."+property.type);
 			Type tTypeParent = tType.BaseType;
+			Debug.Log ("tTypeParent " + tTypeParent.Name);
 			Type tTypeDefintion = null;
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
-			}
-			Type tClassType  = tTypeParent.BaseType;
-			if (tClassType == typeof(NWDConnexion<>) && tTypeDefintion != null) {
+				Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
-				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionField", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-					string tNewValue = tMethodInfo.Invoke (null,
-						                  new object[] {position,
-							property.displayName,
-							tTargetReference,
-							"",
-							tReferenceConnexion.ShowInspector,
-							tReferenceConnexion.Editable,
-							tReferenceConnexion.EditButton,
-							tReferenceConnexion.NewButton
-						}) as string;
-					property.FindPropertyRelative ("Reference").stringValue = tNewValue;
+				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionFieldSerialized", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				if (tMethodInfo != null)
+				{
+					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton});
 				}
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#endif
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 

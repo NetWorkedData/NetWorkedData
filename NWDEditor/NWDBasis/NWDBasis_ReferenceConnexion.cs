@@ -200,6 +200,10 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
+		public static string ReferenceConnexionHeightSerializedString (SerializedProperty sProperty, bool sShowInspector)
+		{
+			return ReferenceConnexionHeightSerialized (sProperty, sShowInspector).ToString ();
+		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ReferenceConnexionFieldSerialized (Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
 		{

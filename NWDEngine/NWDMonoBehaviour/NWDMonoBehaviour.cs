@@ -9,47 +9,50 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.IO;
-
-using BasicToolBox;
-
-using SQLite4Unity3d;
+using System.Reflection;
 
 using UnityEngine;
 
+using SQLite4Unity3d;
+
+using BasicToolBox;
+
 #if UNITY_EDITOR
 using UnityEditor;
-using UnityEditorInternal;
 #endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	// Example of monobehaviour component
+	// This class example can be use to simple connect gameobject with NWDItem Data
+	// You can use this class to connect prefab, gameobject , etc.
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[Serializable]
-	public class NWDConnexion <K> : NWDConnexionBasis where K : NWDBasis <K>, new()
+	public class NWDMonoBehaviour : MonoBehaviour
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public K GetObject ()
-		{
-			return NWDBasis <K>.GetObjectByReference (Reference);
-		}
+		public object NetWorkedData;
+		public string Type;
+		public string Reference;
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (K sObject)
+		public static NWDMonoBehaviour SetNetWorkedDataObject (GameObject sGameObject, object sObject)
 		{
-			if (sObject != null) {
-				Reference = sObject.Reference;
-			} else {
-				Reference = "";
+			NWDMonoBehaviour tMonoBehavior = sGameObject.GetComponent<NWDMonoBehaviour> () as NWDMonoBehaviour;
+			if (tMonoBehavior == null) {
+				tMonoBehavior = sGameObject.AddComponent<NWDMonoBehaviour> ();
 			}
+			return tMonoBehavior;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public K NewObject ()
+		public static object GetNetWorkedDataObject (GameObject sGameObject)
 		{
-			K tObject = NWDBasis <K>.NewObject ();
-			Reference = tObject.Reference;
-			return tObject;
+			object rReturn = null;
+			NWDMonoBehaviour tMonoBehavior = sGameObject.GetComponent<NWDMonoBehaviour> () as NWDMonoBehaviour;
+			if (tMonoBehavior != null) {
+				rReturn = tMonoBehavior.NetWorkedData;
+			}
+			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

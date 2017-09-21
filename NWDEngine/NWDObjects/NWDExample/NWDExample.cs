@@ -23,14 +23,26 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	/// <summary>
+	/// NWDExampleConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+	/// Use like :
+	/// public class MyScriptInGame : MonoBehaviour
+	/// { 
+	/// [NWDConnexionAttribut (true, true, true, true)] // optional
+	/// public NWDExampleConnexion MyNetWorkedData;
+	/// }
+	/// </summary>
+	[Serializable]
+	public class NWDExampleConnexion : NWDConnexion <NWDExample> {}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("NWDExample_Tri")]
 	[NWDClassDescriptionAttribute ("NWDExample_Description")]
 	[NWDClassMenuNameAttribute ("NWDExample_MenuName")]
-	//-------------------------------------------------------------------------------------------------------------
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//[NWDInternalKeyNotEditableAttribute]
-	//-------------------------------------------------------------------------------------------------------------
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDExample : NWDBasis<NWDExample>
 	{
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -162,122 +174,11 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	// CONNEXION STRUCTURE METHODS
 	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
-	public class NWDExampleConnexion
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[SerializeField]
-		public string Reference;
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDExample GetObject ()
-		{
-			return NWDExample.GetObjectByReference (Reference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDExample sObject)
-		{
-			if (sObject != null) {
-				Reference = sObject.Reference;
-			} else {
-				Reference = "";
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDExample NewObject ()
-		{
-			NWDExample tObject = NWDExample.NewObject ();
-			Reference = tObject.Reference;
-			return tObject;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+
 	//-------------------------------------------------------------------------------------------------------------
-	// CUSTOM PROPERTY DRAWER METHODS
+
 	//-------------------------------------------------------------------------------------------------------------
-	#if UNITY_EDITOR
-	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDExampleConnexion))]
-	public class NWDExampleConnexionDrawer : PropertyDrawer
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
-		{
-			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
-			}
-			return NWDExample.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
-		{
-			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
-			}
-			NWDExample.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
-	#endif
-	//-------------------------------------------------------------------------------------------------------------
-	// Example of monobehaviour component
-	// This class example can be use to simple connect gameobject with NWDItem Data
-	// You can use this class to connect prefab, gameobject , etc.
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDExampleMonoBehavior : MonoBehaviour
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDExampleConnexion NetWorkedDataObject;
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDExampleMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDExample sNetWorkedDataObject)
-		{
-			NWDExampleMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDExampleMonoBehavior> () as NWDExampleMonoBehavior;
-			if (tMonoBehavior == null) {
-				tMonoBehavior = sGameObject.AddComponent<NWDExampleMonoBehavior> ();
-			}
-			tMonoBehavior.SetNetWorkedDataObject (sNetWorkedDataObject);
-			return tMonoBehavior;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDExample GetNetWorkedDataObject (GameObject sGameObject)
-		{
-			NWDExample rReturn = null;
-			NWDExampleMonoBehavior tMonoBehavior = sGameObject.GetComponent<NWDExampleMonoBehavior> () as NWDExampleMonoBehavior;
-			if (tMonoBehavior != null) {
-				rReturn = tMonoBehavior.GetNetWorkedDataObject ();
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDExample GetNetWorkedDataObject () {
-			return NetWorkedDataObject.GetObject();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetNetWorkedDataObject (NWDExample sNetWorkedDataObject) {
-			NetWorkedDataObject.SetObject(sNetWorkedDataObject);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDExample : NWDBasis <NWDExample>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDExampleMonoBehavior SetNetWorkedDataObject (GameObject sGameObject,  NWDExample sNetWorkedDataObject)
-		{
-			return NWDExampleMonoBehavior.SetNetWorkedDataObject (sGameObject,sNetWorkedDataObject);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDExample GetNetWorkedDataObject (GameObject sGameObject)
-		{
-			return NWDExampleMonoBehavior.GetNetWorkedDataObject (sGameObject);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+	//public class NWDExampleMonoBehaviour: NWDMonoBehaviour<NWDExampleMonoBehaviour> {}
 	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }
