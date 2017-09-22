@@ -110,6 +110,21 @@ namespace NetWorkedData
 		public override void AddonUpdatedMe ()
 		{
 			// do something when object finish to be updated
+
+			foreach (NWDItem tItem in NWDItem.GetAllObjects()) {
+				if (tItem.ItemGroupList != null) {
+					tItem.ItemGroupList.RemoveObjects (new NWDItemGroup[]{ this });
+					tItem.UpdateMeIfModified();
+				}
+			}
+			foreach (NWDItem tItem in ItemList.GetObjects()) {
+				Debug.Log ("tItem must be update " + tItem.InternalKey );
+				if (tItem.ItemGroupList == null) {
+					tItem.ItemGroupList = new NWDReferencesListType<NWDItemGroup> ();
+				}
+				tItem.ItemGroupList.AddObject(this);
+				tItem.UpdateMeIfModified();
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonDuplicateMe ()
@@ -170,6 +185,20 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
+
+//		public static List<NWDItemGroup> GetItemGroupForItem (NWDItem sItem)
+//		{
+//			List<NWDItemGroup> rReturn = new List<NWDItemGroup> ();
+//			foreach (NWDItemGroup tGroup in GetAllObjects()) {
+//				if (tGroup.ItemList.ContainsObject (sItem)) {
+//					rReturn.Add (tGroup);
+//				}
+//			}
+//			return rReturn;
+//		}
+
+		//-------------------------------------------------------------------------------------------------------------
+
 	}
 	//-------------------------------------------------------------------------------------------------------------
 }

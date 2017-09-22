@@ -45,7 +45,7 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public GameObject ToGameObject ()
+		public GameObject ToPrefab ()
 		{
 			GameObject tObject = null;
 			if (Value != null && Value != "") {
@@ -58,6 +58,13 @@ namespace NetWorkedData
 				#endif
 			}
 			return tObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public GameObject ToGameObject (GameObject sParent=null)
+		{
+			GameObject rReturn = UnityEngine.Object.Instantiate (ToPrefab ());
+			rReturn.transform.SetParent(sParent.transform);
+			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR

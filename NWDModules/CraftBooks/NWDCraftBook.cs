@@ -56,7 +56,8 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute("Recipe attribut",true, true, true)] // ok
 		public bool OrderIsImportant { get; set; }
 		public NWDReferenceType<NWDItemGroup> ItemGroupRecipent { get; set; }
-		public NWDReferencesQuantityType<NWDItemGroup> ItemGroupIngredient { get; set; }
+//		public NWDReferencesQuantityType<NWDItemGroup> ItemGroupIngredient { get; set; }
+		public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
 		public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
 		[NWDGroupEndAttribute]
 
@@ -120,12 +121,24 @@ namespace NetWorkedData
 			// do something when object will be updated
 
 
+			#if UNITY_EDITOR
 			//TODO recalculate all sign possibilities
-			string tAssembly = OrderIsImportant.ToString () +
-			                   ItemGroupRecipent.ToString () +
-								ItemGroupIngredient.ToString ();
-
+			// I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
+			string tAssembly = "";
+			if (OrderIsImportant == true) {
+				tAssembly = OrderIsImportant.ToString () +
+					ItemGroupRecipent.ToString () +
+					ItemGroupIngredient.ToString ();
+			} else {
+				tAssembly = OrderIsImportant.ToString () +
+					ItemGroupRecipent.ToString () +
+					ItemGroupIngredient.ToStringSorted ();
+			}
 			RecipeHash = BTBSecurityTools.GenerateSha (tAssembly, BTBSecurityShaTypeEnum.Sha1);
+
+			NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+			NWDDataInspector.ActiveRepaint();
+			#endif
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonUpdatedMe ()
@@ -191,87 +204,30 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-	}
 
-	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDCookRecipe with Unity MonoBehavior
-	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWDCookRecipe connexion.
-	/// In your MonoBehaviour Script connect object with :
-	/// <code>
-	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDCookRecipeConnexion MyNWDCookRecipeObject;
-	/// </code>
-	/// </summary>
-	//-------------------------------------------------------------------------------------------------------------
-	// CONNEXION STRUCTURE METHODS
-	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
-	public class NWDCookRecipeConnexion
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[SerializeField]
-		public string Reference;
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDCraftBook GetObject ()
-		{
-			return NWDCraftBook.GetObjectByReference (Reference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (NWDCraftBook sObject)
-		{
-			if (sObject != null) {
-				Reference = sObject.Reference;
-			} else {
-				Reference = "";
+		public static NWDCraftBook GetCraftBookFor(NWDReferenceType<NWDItemGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient) {
+			NWDCraftBook tReturn = null;
+
+			bool tOrdered = true;
+			string tAssemblyA = tOrdered.ToString () + sRecipientGroup.ToString () + sItemGroupIngredient.ToString ();
+			tOrdered = false;
+			string tAssemblyB = tOrdered.ToString () + sRecipientGroup.ToString () + sItemGroupIngredient.ToStringSorted ();
+
+			string tRecipeHashA = BTBSecurityTools.GenerateSha (tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
+			string tRecipeHashB = BTBSecurityTools.GenerateSha (tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
+			Debug.Log ("research tRecipeHashA " + tRecipeHashA);
+			Debug.Log ("research tRecipeHashB " + tRecipeHashB);
+			foreach (NWDCraftBook tCraft in NWDCraftBook.GetAllObjects()) {
+				if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB) {
+					tReturn = tCraft;
+					break;
+				}
 			}
+
+			return tReturn;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDCraftBook NewObject ()
-		{
-			NWDCraftBook tObject = NWDCraftBook.NewObject ();
-			Reference = tObject.Reference;
-			return tObject;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+
 	}
-	//-------------------------------------------------------------------------------------------------------------
-	// CUSTOM PROPERTY DRAWER METHODS
-	//-------------------------------------------------------------------------------------------------------------
-	#if UNITY_EDITOR
-	//-------------------------------------------------------------------------------------------------------------
-	[CustomPropertyDrawer (typeof(NWDCookRecipeConnexion))]
-	public class NWDCookRecipeConnexionDrawer : PropertyDrawer
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
-		{
-			Debug.Log ("GetPropertyHeight");
-			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
-			}
-			return NWDCraftBook.ReferenceConnexionHeightSerialized(property, tReferenceConnexion.ShowInspector);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
-		{
-			Debug.Log ("OnGUI");
-			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
-			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
-			{
-				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
-			}
-			NWDCraftBook.ReferenceConnexionFieldSerialized (position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
-	#endif
-	//-------------------------------------------------------------------------------------------------------------
-	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

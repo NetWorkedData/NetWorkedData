@@ -252,9 +252,10 @@ namespace NetWorkedData
 					// finish the foldout group management
 					// So Iif I nee dto draw somethings … 
 						if (tDraw) {
-						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
-							tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-						} else {
+//						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
+//							tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//						} else 
+						{
 							//TO-DO : (FUTUR ADDS) Insert new NWDxxxxType
 
 							if (tProp.GetCustomAttributes (typeof(NWDIntSliderAttribute), true).Length > 0) {
@@ -468,11 +469,19 @@ namespace NetWorkedData
 
 
 						// if is enable 
-						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
-							string tValue = tProp.GetValue (this, null) as string;
-							EditorGUI.LabelField (new Rect (tX, tY, tWidth, tLabelStyle.fixedHeight), tEntitled, tValue, tLabelStyle);
-							tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-						} else {
+//						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
+////							string tValue = tProp.GetValue (this, null) as string;
+////							EditorGUI.LabelField (new Rect (tX, tY, tWidth, tLabelStyle.fixedHeight), tEntitled, tValue, tLabelStyle);
+////							tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+//
+//
+//						} 
+
+						EditorGUI.BeginDisabledGroup (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0);
+						//else 
+						
+						
+						{
 
 
 							// Special attribut
@@ -837,6 +846,8 @@ namespace NetWorkedData
 								}
 							}
 						}
+
+						EditorGUI.EndDisabledGroup ();
 					}
 					//Console.WriteLine("{0}={1}", prop.Name, prop.GetValue(foo, null));
 				}

@@ -118,6 +118,13 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute ("Development addons", true, true, true)]
 		public string JSON { get; set; }
 		public string KeysValues { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute ("Precalculate", true, true, true)]
+		[NWDNotEditableAttribute]
+		public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
 		//[NWDGroupEndAttribute]
 
 		//-------------------------------------------------------------------------------------------------------------
@@ -178,6 +185,9 @@ namespace NetWorkedData
 		public override void AddonUpdatedMe ()
 		{
 			// do something when object finish to be updated
+//			NWDReferencesListType<NWDItemGroup>  tList = new NWDReferencesListType<NWDItemGroup> ();
+//			tList.AddObjects (NWDItemGroup.GetItemGroupForItem (this).ToArray());
+//			ItemGroupList = tList;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonDuplicateMe ()
