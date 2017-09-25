@@ -83,11 +83,21 @@ namespace NetWorkedData
 		{
 			// do something with this class
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Buy a Pack :
+        /// - Remove currency from Ownership
+        /// - Add items to Ownership
+        /// - Add a new transaction to Account
+        /// </summary>
+        /// <param name="sShop">NWDShop from where we buy the NWDPack.</param>
+        /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
+        /// <param name="sPack">NWDPack the pack we just buy.</param>
+        /// <param name="sType">Enum to represente the type of the transaction (Daily, Weekly, Monthly).</param>
         public void BuyPack(NWDShop sShop, NWDRack sRack, NWDPack sPack, NWDTransaction.TransactionType sType)
         {
             // Sync with the server
@@ -142,7 +152,7 @@ namespace NetWorkedData
                                 }
                             }
 
-                            // Find all currency to remove from ownership
+                            // Find all currency to remove from Ownership
                             foreach (KeyValuePair<NWDItem, int> pair in tCost)
                             {
                                 // Get Item Cost data
@@ -153,15 +163,9 @@ namespace NetWorkedData
                                 NWDOwnership.RemoveItemToOwnership(tNWDItem, tItemQte);
                             }
 
-                            // Set a NWDTransaction
+                            // Add a new NWDTransaction to user Account
                             NWDItem tItemDescribe = sPack.ItemToDescribe.GetObject();
-                            bTransaction = NWDTransaction.NewObject();
-                            bTransaction.InternalKey = tItemDescribe.Name.GetBaseString();
-                            bTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
-                            bTransaction.ShopReference.SetReference(sShop.Reference);
-                            bTransaction.RackReference.SetReference(sRack.Reference);
-                            bTransaction.PackReference.SetReference(sPack.Reference);
-                            bTransaction.SaveModifications();
+                            bTransaction = NWDTransaction.AddTransactionToAccount(tItemDescribe, sShop, sRack, sPack);
                         }
                     }
                 }

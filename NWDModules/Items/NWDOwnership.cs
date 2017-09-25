@@ -206,6 +206,8 @@ namespace NetWorkedData
         public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
         {
             NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            rOwnershipToUse.InternalKey = sItem.Name.GetBaseString();
+            rOwnershipToUse.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
             rOwnershipToUse.Quantity += sQuantity;
             rOwnershipToUse.SaveModifications();
             return rOwnershipToUse;
