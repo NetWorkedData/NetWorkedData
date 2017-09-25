@@ -66,23 +66,39 @@ namespace NetWorkedData
 		{
 			//Init your instance here
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Add a new transaction to user account.
+        /// </summary>
+        /// <returns>The transaction.</returns>
+        /// <param name="sItem">NWDItem to description the transaction.</param>
+        /// <param name="sShop">NWDShop from where we buy the NWDPack.</param>
+        /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
+        /// <param name="sPack">NWDPack the pack we just buy.</param>
+        public static NWDTransaction AddTransactionToAccount(NWDItem sItem, NWDShop sShop, NWDRack sRack, NWDPack sPack)
+        {
+            // Set a NWDTransaction
+            NWDTransaction rTransaction = NewObject();
+            rTransaction.InternalKey = sItem.Name.GetBaseString();
+            rTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
+            rTransaction.ShopReference.SetReference(sShop.Reference);
+            rTransaction.RackReference.SetReference(sRack.Reference);
+            rTransaction.PackReference.SetReference(sPack.Reference);
+            rTransaction.SaveModifications();
+            return rTransaction;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        #region override of NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
