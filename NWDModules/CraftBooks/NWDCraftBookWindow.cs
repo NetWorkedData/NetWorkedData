@@ -21,6 +21,7 @@ namespace NetWorkedData
 		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDItemGroup),
+			typeof(NWDRecipientGroup),
 			typeof(NWDItem),
 			typeof(NWDCraftBook),
 			/* Add NWDBasis here*/

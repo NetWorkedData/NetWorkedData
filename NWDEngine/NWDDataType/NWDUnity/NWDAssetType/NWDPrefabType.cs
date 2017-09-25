@@ -60,10 +60,16 @@ namespace NetWorkedData
 			return tObject;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public GameObject ToGameObject (GameObject sParent=null)
+		public GameObject ToGameObject (GameObject sParent = null)
 		{
-			GameObject rReturn = UnityEngine.Object.Instantiate (ToPrefab ());
-			rReturn.transform.SetParent(sParent.transform);
+			GameObject rReturn = null;
+			GameObject tPrefab = ToPrefab ();
+			if (tPrefab != null) {
+				rReturn = UnityEngine.Object.Instantiate (ToPrefab ());
+				if (sParent != null) {
+					rReturn.transform.SetParent (sParent.transform);
+				}
+			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

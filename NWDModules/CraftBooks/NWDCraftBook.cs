@@ -55,10 +55,20 @@ namespace NetWorkedData
 
 		[NWDGroupStartAttribute("Recipe attribut",true, true, true)] // ok
 		public bool OrderIsImportant { get; set; }
-		public NWDReferenceType<NWDItemGroup> ItemGroupRecipent { get; set; }
+		public NWDReferenceType<NWDRecipientGroup> RecipientGroup { get; set; }
 //		public NWDReferencesQuantityType<NWDItemGroup> ItemGroupIngredient { get; set; }
 		public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
 		public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("FX (Special Effects)",true, true, true)]
+		public NWDPrefabType SuccessParticles { get; set; }
+		public NWDPrefabType SuccessSound { get; set; }
+		public NWDPrefabType FailParticles { get; set; }
+		public NWDPrefabType FailSound { get; set; }
+
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
@@ -124,14 +134,24 @@ namespace NetWorkedData
 			#if UNITY_EDITOR
 			//TODO recalculate all sign possibilities
 			// I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
+
+			if (RecipientGroup == null)
+			{
+				RecipientGroup= new NWDReferenceType<NWDRecipientGroup>();
+			}
+			if (ItemGroupIngredient == null)
+			{
+				ItemGroupIngredient= new NWDReferencesArrayType<NWDItemGroup>();
+			}
+
 			string tAssembly = "";
 			if (OrderIsImportant == true) {
 				tAssembly = OrderIsImportant.ToString () +
-					ItemGroupRecipent.ToString () +
+					RecipientGroup.ToString () +
 					ItemGroupIngredient.ToString ();
 			} else {
 				tAssembly = OrderIsImportant.ToString () +
-					ItemGroupRecipent.ToString () +
+					RecipientGroup.ToString () +
 					ItemGroupIngredient.ToStringSorted ();
 			}
 			RecipeHash = BTBSecurityTools.GenerateSha (tAssembly, BTBSecurityShaTypeEnum.Sha1);
@@ -205,7 +225,7 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 
-		public static NWDCraftBook GetCraftBookFor(NWDReferenceType<NWDItemGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient) {
+		public static NWDCraftBook GetCraftBookFor(NWDReferencesListType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient) {
 			NWDCraftBook tReturn = null;
 
 			bool tOrdered = true;
