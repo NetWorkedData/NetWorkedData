@@ -47,29 +47,44 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public GameObject ToPrefab ()
 		{
-			GameObject tObject = null;
+			GameObject rObject = null;
 			if (Value != null && Value != "") {
 				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
-
-				#if UNITY_EDITOR
-				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(GameObject)) as GameObject;
-				#else
-				tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
-				#endif
-			}
-			return tObject;
+                #if UNITY_EDITOR
+                //--------------------------------------------------------------------------------------
+                rObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
+                //--------------------------------------------------------------------------------------
+                #else
+                //--------------------------------------------------------------------------------------
+                tPath = tPath.Replace("Assets/Resources/", "");
+                tPath = tPath.Substring(0, tPath.LastIndexOf("."));
+                rObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
+                //--------------------------------------------------------------------------------------
+                #endif
+            }
+            return rObject;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public GameObject ToGameObject (GameObject sParent=null)
 		{
-			GameObject rReturn = UnityEngine.Object.Instantiate (ToPrefab ());
-			rReturn.transform.SetParent(sParent.transform);
+            GameObject rReturn = null;
+            GameObject tPrefab = ToPrefab();
+            if (tPrefab != null)
+            {
+                rReturn = UnityEngine.Object.Instantiate(tPrefab);
+                rReturn.transform.SetParent(sParent.transform);
+            }
 			return rReturn;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsEmpty()
+        {
+            return (Value == "");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
 			if (Value != "") {
