@@ -88,6 +88,18 @@ namespace NetWorkedData
 		{
 			return Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 		}
+
+		//-------------------------------------------------------------------------------------------------------------
+//		public void Epurate ()
+//		{
+//			List<string> tList = new List<string>();
+//			foreach (string tObject in GetReferences ()) {
+//				tList.Add (tObject);
+//			}
+//			tList.Distinct();
+//			tList.Sort((a, b) => a.Length.CompareTo(b.Length));
+//			Value = string.Join (NWDConstants.kFieldSeparatorA, tList.ToArray());
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 		public string  ToStringSorted ()
 		{

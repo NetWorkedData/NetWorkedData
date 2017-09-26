@@ -176,7 +176,12 @@ namespace NetWorkedData
 				foreach (string tLine in tValueArray) {
 					string[] tLineValue = tLine.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
 					if (tLineValue.Length == 2) {
+						int tCount = 0;
+						int.TryParse (tLineValue [1], out tCount);
+						for( int tJ = 0; tJ<tCount; tJ++)
+						{
 						tValueList.Add (tLineValue [0]);
+						}
 					}
 				}
 			}

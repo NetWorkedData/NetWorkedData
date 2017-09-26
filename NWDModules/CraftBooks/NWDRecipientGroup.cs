@@ -36,16 +36,18 @@ namespace NetWorkedData
 	/// }
 	/// </summary>
 	[Serializable]
-	public class NWDItemConnexion : NWDConnexion <NWDItem> {}
+	public class NWDRecipientGroupConnexion : NWDConnexion <NWDRecipientGroup> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("ITM")]
-	[NWDClassDescriptionAttribute ("Item descriptions Class")]
-	[NWDClassMenuNameAttribute ("Item")]
+	[NWDClassTrigrammeAttribute ("RCP")]
+	[NWDClassDescriptionAttribute ("Recipient descriptions Class")]
+	[NWDClassMenuNameAttribute ("Recipient")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDItem : NWDBasis <NWDItem>
+	public partial class NWDRecipientGroup :NWDBasis <NWDRecipientGroup>
 	{
+		//-------------------------------------------------------------------------------------------------------------
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
@@ -53,126 +55,56 @@ namespace NetWorkedData
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Properties
-
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		[NWDGroupStartAttribute ("Description", true, true, true)]
-		public NWDLocalizableStringType Name { get; set; }
-		public NWDLocalizableStringType SubName { get; set; }
-		public NWDLocalizableStringType Description { get; set; }
+		[NWDGroupStartAttribute("Description",true, true, true)] // ok
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
-		[NWDGroupStartAttribute ("Classification", true, true, true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-	
-		[NWDGroupStartAttribute ("Rarity", true, true, true)]
-		[NWDFloatSliderAttribute (0.0F, 1.0F)]
-		[NWDEntitledAttribute ("Rarity : float [0,1]")]
-		public float Rarity { get; set; }
+		[NWDGroupStartAttribute("Usage",true, true, true)] // ok
+		public bool CraftOnlyMax {get; set;}
+		public bool CraftUnUsedElements {get; set;}
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
-		[NWDGroupStartAttribute ("Usage", true, true, true)]
-		public bool Usable { get; set; }
-		public int DelayToUse { get; set; }
-		public int DelayToReUse { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute ("Extensions", true, true, true)]
-		public NWDReferencesQuantityType<NWDItem> ItemsContained{ get; set; }
-		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute ("Assets", true, true, true)]
-		[NWDHeaderAttribute ("Textures")]
-		public NWDTextureType PrimaryTexture { get; set; }
-		public NWDTextureType SecondaryTexture { get; set; }
-		public NWDTextureType TertiaryTexture { get; set; }
-		[NWDHeaderAttribute ("Colors")]
-		public NWDColorType PrimaryColor { get; set; }
-		public NWDColorType SecondaryColor { get; set; }
-		public NWDColorType TertiaryColor { get; set; }
-		[NWDHeaderAttribute ("Prefabs")]
-		public NWDPrefabType PrimaryPrefab { get; set; }
-		public NWDPrefabType SecondaryPrefab { get; set; }
-		public NWDPrefabType TertiaryPrefab { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute ("Development addons", true, true, true)]
-		public string JSON { get; set; }
-		public string KeysValues { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute ("Precalculate", true, true, true)]
-		[NWDNotEditableAttribute]
-		public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
-		[NWDNotEditableAttribute]
-		public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList { get; set; }
+		[NWDGroupStartAttribute("Item(s) use as recipient",true, true, true)] // ok
+		public NWDReferencesListType<NWDItem> ItemList { get; set; }
 		//[NWDGroupEndAttribute]
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Constructors
-
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDItem ()
+		public NWDRecipientGroup()
 		{
 			//Init your instance here
-			//DiscoverItYourSelf = true;
+			CraftOnlyMax = true;
+			CraftUnUsedElements = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()
 		{
 			// do something with this class
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Instance methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region override of NetWorkedData addons methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{
@@ -187,16 +119,26 @@ namespace NetWorkedData
 		public override void AddonUpdatedMe ()
 		{
 			// do something when object finish to be updated
-//			NWDReferencesListType<NWDItemGroup>  tList = new NWDReferencesListType<NWDItemGroup> ();
-//			tList.AddObjects (NWDItemGroup.GetItemGroupForItem (this).ToArray());
-//			ItemGroupList = tList;
+
+			foreach (NWDItem tItem in NWDItem.GetAllObjects()) {
+				if (tItem.RecipientGroupList != null) {
+					tItem.RecipientGroupList.RemoveObjects (new NWDRecipientGroup[]{ this });
+					tItem.UpdateMeIfModified();
+				}
+			}
+			foreach (NWDItem tItem in ItemList.GetObjects()) {
+				Debug.Log ("tItem must be update " + tItem.InternalKey );
+				if (tItem.RecipientGroupList == null) {
+					tItem.RecipientGroupList = new NWDReferencesListType<NWDRecipientGroup> ();
+				}
+				tItem.RecipientGroupList.AddObject(this);
+				tItem.UpdateMeIfModified();
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonDuplicateMe ()
 		{
 			// do something when object will be dupplicate
-			ItemGroupList = new NWDReferencesListType<NWDItemGroup>();
-			RecipientGroupList = new NWDReferencesListType<NWDRecipientGroup> ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonEnableMe ()
@@ -223,9 +165,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
 		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited (bool sNeedBeUpdate)
+		public override bool AddonEdited( bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) {
+			if (sNeedBeUpdate == true) 
+			{
 				// do something
 			}
 			return sNeedBeUpdate;
@@ -247,14 +190,24 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+		#endregion
+		//-------------------------------------------------------------------------------------------------------------
+
+//		public static List<NWDRecipientGroup> GetItemGroupForItem (NWDItem sItem)
+//		{
+//			List<NWDRecipientGroup> rReturn = new List<NWDRecipientGroup> ();
+//			foreach (NWDRecipientGroup tGroup in GetAllObjects()) {
+//				if (tGroup.ItemList.ContainsObject (sItem)) {
+//					rReturn.Add (tGroup);
+//				}
+//			}
+//			return rReturn;
+//		}
 
 		//-------------------------------------------------------------------------------------------------------------
 
-		#endregion
-
-		//-------------------------------------------------------------------------------------------------------------
 	}
 	//-------------------------------------------------------------------------------------------------------------
 }
