@@ -71,6 +71,23 @@ namespace NetWorkedData
 
 		[NWDSeparatorAttribute]
 
+		[NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
+        [NWDHeaderAttribute("Active Recipient")]
+		public NWDPrefabType ActiveParticles { get; set; }
+		public NWDPrefabType ActiveSound { get; set; }
+
+		[NWDHeaderAttribute("Add Item")]
+		public NWDPrefabType AddParticles { get; set; }
+		public NWDPrefabType AddSound { get; set; }
+
+		[NWDHeaderAttribute("Disactive Recipient")]
+		public NWDPrefabType DisactiveParticles { get; set; }
+		public NWDPrefabType DisactiveSound { get; set; }
+
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
 		[NWDGroupStartAttribute("Item(s) use as recipient",true, true, true)] // ok
 		public NWDReferencesListType<NWDItem> ItemList { get; set; }
 		//[NWDGroupEndAttribute]

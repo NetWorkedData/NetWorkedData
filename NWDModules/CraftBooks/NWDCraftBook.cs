@@ -227,23 +227,35 @@ namespace NetWorkedData
 
 		public static NWDCraftBook GetCraftBookFor(NWDReferencesListType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient) {
 			NWDCraftBook tReturn = null;
+            string[] tRecipientsArray = new string[]{""};
+            if (sRecipientGroup.Value!="")
+            {
+                tRecipientsArray = sRecipientGroup.GetReferences();
+            }
+            foreach (string tRecipientValue in tRecipientsArray)
+            {
+                bool tOrdered = true;
+                string tAssemblyA = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToString();
+                tOrdered = false;
+                string tAssemblyB = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToStringSorted();
 
-			bool tOrdered = true;
-			string tAssemblyA = tOrdered.ToString () + sRecipientGroup.ToString () + sItemGroupIngredient.ToString ();
-			tOrdered = false;
-			string tAssemblyB = tOrdered.ToString () + sRecipientGroup.ToString () + sItemGroupIngredient.ToStringSorted ();
-
-			string tRecipeHashA = BTBSecurityTools.GenerateSha (tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
-			string tRecipeHashB = BTBSecurityTools.GenerateSha (tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-			Debug.Log ("research tRecipeHashA " + tRecipeHashA);
-			Debug.Log ("research tRecipeHashB " + tRecipeHashB);
-			foreach (NWDCraftBook tCraft in NWDCraftBook.GetAllObjects()) {
-				if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB) {
-					tReturn = tCraft;
-					break;
-				}
-			}
-
+                string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
+                string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
+                //Debug.Log("research tRecipeHashA " + tRecipeHashA);
+                //Debug.Log("research tRecipeHashB " + tRecipeHashB);
+                foreach (NWDCraftBook tCraft in NWDCraftBook.GetAllObjects())
+                {
+                    if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
+                    {
+                        tReturn = tCraft;
+                        break;
+                    }
+                }
+                if (tReturn!=null)
+                {
+                    break;
+                }
+            }
 			return tReturn;
 		}
 

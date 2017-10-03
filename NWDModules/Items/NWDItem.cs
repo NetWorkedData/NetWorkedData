@@ -85,8 +85,20 @@ namespace NetWorkedData
 
 		[NWDGroupStartAttribute ("Usage", true, true, true)]
 		public bool Usable { get; set; }
-		public int DelayToUse { get; set; }
-		public int DelayToReUse { get; set; }
+		public float DelayBeforeUse { get; set; }
+		public float DurationOfUse { get; set; }
+		public float DelayBeforeReUse { get; set; }
+        [NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Craft Usage", true, true, true)]
+		[NWDNotEditableAttribute]
+		public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
+        public float DelayBeforeCraft { get; set; }
+        public float DurationOfCraft { get; set; }
+        public float DelayOfImmunity { get; set; }
+        public NWDReferenceType<NWDRecipientGroup> RecipientType { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
@@ -123,8 +135,8 @@ namespace NetWorkedData
 		[NWDSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Precalculate", true, true, true)]
-		[NWDNotEditableAttribute]
-		public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
+		//[NWDNotEditableAttribute]
+		//public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
 		[NWDNotEditableAttribute]
 		public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList { get; set; }
 		//[NWDGroupEndAttribute]
