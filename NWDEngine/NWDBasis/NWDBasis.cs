@@ -261,6 +261,7 @@ namespace NetWorkedData
 		public static void AddObjectInListOfEdition (NWDBasis<K> sObject) // TO DO Rename … AddObjectInListOfManagment
 		{
 			if (ObjectsList.Contains (sObject) == false) {
+				sObject.AddonLoadedMe ();
 				ObjectsList.Add (sObject);
 				ObjectsByReferenceList.Add (sObject.Reference);
 				ObjectsByKeyList.Add (sObject.InternalKey);
@@ -275,6 +276,7 @@ namespace NetWorkedData
 		public static void RemoveObjectInListOfEdition (NWDBasis<K> sObject) // TO DO Rename … RemoveObjectFromListOfManagment
 		{
 			if (ObjectsList.Contains (sObject) == true) {
+				sObject.AddonUnloadMe ();
 				int tIndex = ObjectsList.IndexOf (sObject);
 				ObjectsList.RemoveAt (tIndex);
 				ObjectsByReferenceList.RemoveAt (tIndex);

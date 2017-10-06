@@ -171,6 +171,19 @@ namespace NetWorkedData
             if (rOwnershipToUse == null)
             {
                 rOwnershipToUse = NWDOwnership.NewObject();
+				//--------------
+				#if UNITY_EDITOR
+				//--------------
+				if (sItem.Name != null) {
+					string tItemNameBase = sItem.Name.GetBaseString ();
+					if (tItemNameBase != null) {
+						rOwnershipToUse.InternalKey = tItemNameBase;
+					}
+				}
+				rOwnershipToUse.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
+				//--------------
+				#endif
+				//--------------
                 rOwnershipToUse.Item.SetObject(sItem);
                 rOwnershipToUse.Quantity = 0;
                 rOwnershipToUse.SaveModifications();
@@ -195,7 +208,21 @@ namespace NetWorkedData
                 }
             }
             return rOwnershipToUse != null;
-        }
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Add the item's quantity to ownership and set to sQuantity.
+		/// </summary>
+		/// <returns>The item to ownership.</returns>
+		/// <param name="sItem">S item.</param>
+		/// <param name="sQuantity">S quantity.</param>
+		public static NWDOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
+		{
+			NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
+			rOwnershipToUse.Quantity = sQuantity;
+			rOwnershipToUse.SaveModifications();
+			return rOwnershipToUse;
+		}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Add the item's quantity to ownership.
@@ -206,8 +233,6 @@ namespace NetWorkedData
         public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
         {
             NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            rOwnershipToUse.InternalKey = sItem.Name.GetBaseString();
-            rOwnershipToUse.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
             rOwnershipToUse.Quantity += sQuantity;
             rOwnershipToUse.SaveModifications();
             return rOwnershipToUse;

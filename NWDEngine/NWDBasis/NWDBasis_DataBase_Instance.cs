@@ -25,19 +25,17 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class Methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		//		protected static object CreateTypeInstance<D> () where D : new()
 		//		{
 		//			return (object)new D ();
 		//		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		/// <summary>
 		/// New instance.
 		/// </summary>
@@ -78,6 +76,25 @@ namespace NetWorkedData
 			}
 			rReturnObject.InsertMe ();
 			return rReturnObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Init the instance if it's necessary (not used by default).
+		/// </summary>
+		public void InstanceInit ()
+		{
+			Type tType = ClassType ();
+			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
+				Type tTypeOfThis = tPropertyInfo.PropertyType;
+				if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
+					var tObject = Activator.CreateInstance (tTypeOfThis);
+					var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
+					if (tMethodInfo != null) {
+						tMethodInfo.Invoke (tObject, new object[]{ "" });
+					}
+					tPropertyInfo.SetValue (this, tObject, null);
+				}
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -432,102 +449,9 @@ namespace NetWorkedData
 
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
-		//-------------------------------------------------------------------------------------------------------------
-
-		#region Virtual Instance Methods
-
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Init the instance if it's necessary (not used by default).
-		/// </summary>
-		//TODO: must be rename and is not used  ... 
-		public virtual void InstanceInit ()
-		{
-			Type tType = ClassType ();
-			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-				Type tTypeOfThis = tPropertyInfo.PropertyType;
-				if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
-					var tObject = Activator.CreateInstance (tTypeOfThis);
-					var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
-					if (tMethodInfo != null) {
-						tMethodInfo.Invoke (tObject, new object[]{ "" });
-					}
-					tPropertyInfo.SetValue (this, tObject, null);
-				}
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when insert me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonInsertMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when update me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonUpdateMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when updated me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonUpdatedMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when duplicate me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonDuplicateMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when enable me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonEnableMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when disable me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonDisableMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when trash me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonTrashMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when untrahs me. Can be ovverride in herited Class.
-		/// </summary>
-		public virtual void AddonUnTrashMe ()
-		{
-
-		}
-		//-------------------------------------------------------------------------------------------------------------
-
-		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
 	}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

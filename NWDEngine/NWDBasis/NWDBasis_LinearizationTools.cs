@@ -348,6 +348,7 @@ namespace NetWorkedData
 				}
 			}
 			NWDDataManager.SharedInstance.UpdateObject (this,AccountDependent ());
+			AddonUpdatedMeFromWeb ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

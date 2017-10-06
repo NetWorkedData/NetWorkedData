@@ -49,6 +49,16 @@ namespace NetWorkedData
 			if (tTemporaryData == false) { // no Ternary 
 				rReturnData = true;
 			}
+
+			//--------------
+			#if UNITY_EDITOR
+			//--------------
+			//  recalculate all sign possibilities
+			rReturnData = true;
+			//--------------
+			#endif
+			//--------------
+
 			return rReturnData;
 		}
 	//-------------------------------------------------------------------------------------------------------------

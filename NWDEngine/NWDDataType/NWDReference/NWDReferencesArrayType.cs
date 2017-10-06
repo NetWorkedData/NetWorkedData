@@ -36,6 +36,23 @@ namespace NetWorkedData
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public NWDReferencesArrayType (string[] sReferences)
+		{
+			Value = "";
+			this.SetReferences (sReferences);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDReferencesArrayType (K[] sObjects)
+		{
+			Value = "";
+			this.SetObjects (sObjects);
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDReferencesArrayType (NWDReferencesArrayType<K> sArray)
+		{
+			Value = "" + sArray.Value;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		public bool ContainsReference (string sReference)
 		{
 			if (sReference == null) {
@@ -88,7 +105,16 @@ namespace NetWorkedData
 		{
 			return Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 		}
-
+		//-------------------------------------------------------------------------------------------------------------
+		public void AddReferencesArray (NWDReferencesArrayType<K> sArrayToRemove)
+		{
+			this.AddReferences (sArrayToRemove.GetReferences());
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public void RemoveReferencesArray (NWDReferencesArrayType<K> sArrayToRemove)
+		{
+			this.RemoveReferences (sArrayToRemove.GetReferences());
+		}
 		//-------------------------------------------------------------------------------------------------------------
 //		public void Epurate ()
 //		{
