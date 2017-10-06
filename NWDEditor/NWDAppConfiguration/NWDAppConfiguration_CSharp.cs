@@ -92,20 +92,22 @@ namespace NetWorkedData
 			"\t\t\tthis.ProdEnvironment.SaltEnd = \"" + this.ProdEnvironment.SaltEnd.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.SaltFrequency = " + this.ProdEnvironment.SaltFrequency.ToString () + ";\n" +
 			"\t\t\tthis.ProdEnvironment.ServerHTTPS = \"" + this.ProdEnvironment.ServerHTTPS.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\t#if UNITY_EDITOR\n" +
 			"\t\t\tthis.ProdEnvironment.ServerHost = \"" + this.ProdEnvironment.ServerHost.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.ServerUser = \"" + this.ProdEnvironment.ServerUser.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.ServerPassword = \"" + this.ProdEnvironment.ServerPassword.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.ServerBase = \"" + this.ProdEnvironment.ServerBase.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.ProdEnvironment.AdminKey = \"" + this.ProdEnvironment.AdminKey.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.ProdEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.ProdEnvironment.TokenHistoric = " + this.ProdEnvironment.TokenHistoric.ToString () + ";\n" +
+			"\t\t\t#endif\n" +
 			"\t\t\tthis.ProdEnvironment.FacebookAppID = \"" + this.ProdEnvironment.FacebookAppID.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.FacebookAppSecret = \"" + this.ProdEnvironment.FacebookAppSecret.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.GoogleAppKey = \"" + this.ProdEnvironment.GoogleAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.UnityAppKey = \"" + this.ProdEnvironment.UnityAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.TwitterAppKey = \"" + this.ProdEnvironment.TwitterAppKey.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.ProdEnvironment.AdminKey = \"" + this.ProdEnvironment.AdminKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.ProdEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp ().ToString () + ";\n" +
-			"\t\t\tthis.ProdEnvironment.TokenHistoric = " + this.ProdEnvironment.TokenHistoric.ToString () + ";\n" +
 //			"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.ProdEnvironment.LoadPreferences ();\n" +
 			"\t\t\tthis.ProdEnvironment.FormatVerification ();\n" +
@@ -117,20 +119,22 @@ namespace NetWorkedData
 			"\t\t\tthis.PreprodEnvironment.SaltEnd = \"" + this.PreprodEnvironment.SaltEnd.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.SaltFrequency = " + this.PreprodEnvironment.SaltFrequency.ToString () + ";\n" +
 			"\t\t\tthis.PreprodEnvironment.ServerHTTPS = \"" + this.PreprodEnvironment.ServerHTTPS.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\t#if UNITY_EDITOR\n" +
 			"\t\t\tthis.PreprodEnvironment.ServerHost = \"" + this.PreprodEnvironment.ServerHost.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.ServerUser = \"" + this.PreprodEnvironment.ServerUser.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.ServerPassword = \"" + this.PreprodEnvironment.ServerPassword.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.ServerBase = \"" + this.PreprodEnvironment.ServerBase.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString () + ";\n" +
+			"\t\t\t#endif\n" +
 			"\t\t\tthis.PreprodEnvironment.FacebookAppID = \"" + this.PreprodEnvironment.FacebookAppID.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.FacebookAppSecret = \"" + this.PreprodEnvironment.FacebookAppSecret.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.GoogleAppKey = \"" + this.PreprodEnvironment.GoogleAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.UnityAppKey = \"" + this.PreprodEnvironment.UnityAppKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.TwitterAppKey = \"" + this.PreprodEnvironment.TwitterAppKey.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace ("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp ().ToString () + ";\n" +
-			"\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString () + ";\n" +
 //			"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
 			"\t\t\tthis.PreprodEnvironment.LoadPreferences ();\n" +
 			"\t\t\tthis.PreprodEnvironment.FormatVerification ();\n" +

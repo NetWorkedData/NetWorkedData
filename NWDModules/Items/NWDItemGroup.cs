@@ -114,7 +114,9 @@ namespace NetWorkedData
 			foreach (NWDItem tItem in NWDItem.GetAllObjects()) {
 				if (tItem.ItemGroupList != null) {
 					tItem.ItemGroupList.RemoveObjects (new NWDItemGroup[]{ this });
-					tItem.UpdateMeIfModified();
+					if (tItem.UpdateMeIfModified ()) {
+						Debug.Log ("tItem must be update (remove data)" + tItem.InternalKey );
+					}
 				}
 			}
 			foreach (NWDItem tItem in ItemList.GetObjects()) {
