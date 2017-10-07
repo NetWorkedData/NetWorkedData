@@ -74,15 +74,55 @@ namespace NetWorkedData
 			Type tTypeParent = tType.BaseType;
 			Debug.Log ("tTypeParent " + tTypeParent.Name);
 			Type tTypeDefintion = null;
+
+
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 				Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
+
+
+				//bool tConnexion = true;
+				//if (tTargetReference != null && tTargetReference != "")
+				//{
+				//	if (NWDBasis<K>.InstanceByReference(Value) == null)
+				//	{
+				//		tConnexion = false;
+				//	}
+				//}
+				//EditorGUI.BeginDisabledGroup(!tConnexion);
+
+
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionFieldSerialized", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null)
 				{
 					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, "", tReferenceConnexion.ShowInspector, tReferenceConnexion.Editable, tReferenceConnexion.EditButton, tReferenceConnexion.NewButton});
 				}
+
+			//EditorGUI.EndDisabledGroup();
+
+			//if (tConnexion == false)
+			//{
+			//	tTemporary.Value = Value;
+
+			//	GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, tLabelStyle);
+			//	tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+			//	//              GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+			//	//              tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+			//	Color tOldColor = GUI.backgroundColor;
+			//	GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+			//	if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
+			//	{
+			//		tTemporary.Value = "";
+			//	}
+			//	GUI.backgroundColor = tOldColor;
+			//	tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+			//}
+
+
+
+
+
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

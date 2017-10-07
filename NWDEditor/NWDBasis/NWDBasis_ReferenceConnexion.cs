@@ -200,6 +200,7 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
+        //-------------------------------------------------------------------------------------------------------------
 		public static string ReferenceConnexionHeightSerializedString (SerializedProperty sProperty, bool sShowInspector)
 		{
 			return ReferenceConnexionHeightSerialized (sProperty, sShowInspector).ToString ();
@@ -225,6 +226,22 @@ namespace NetWorkedData
 
 				GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 				tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), 100);
+
+
+
+
+
+				bool tConnexion = true;
+				if (tValue != null && tValue != "")
+				{
+				  if (NWDBasis<K>.InstanceByReference(tValue) == null)
+				  {
+				      tConnexion = false;
+				  }
+				}
+				EditorGUI.BeginDisabledGroup(!tConnexion);
+
+
 
 
 				Type tType = ClassType ();
@@ -325,7 +342,36 @@ namespace NetWorkedData
 				if (EditorGUI.EndChangeCheck ()) {
 					sProperty.FindPropertyRelative ("Reference").stringValue = tFuturValue;
 				}
-			}
+
+
+
+
+
+
+
+
+
+				EditorGUI.EndDisabledGroup();
+
+				if (tConnexion == false)
+				{
+				  //GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, tLabelStyle);
+				  //tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+				  ////              GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+				  ////              tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+				  Color tOldColor = GUI.backgroundColor;
+				  GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+				  if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
+					{
+						sProperty.FindPropertyRelative("Reference").stringValue = "";
+				  }
+				  GUI.backgroundColor = tOldColor;
+				  tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+				}
+
+			
+            
+            }
 			EditorGUI.EndProperty ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
