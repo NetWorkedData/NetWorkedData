@@ -344,12 +344,11 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebAccount AddWebRequestSessionWithBlock (
-			BTBOperationBlock sSuccessBlock = null, 
-			BTBOperationBlock sErrorBlock = null, 
-			BTBOperationBlock sCancelBlock = null,
-			BTBOperationBlock sProgressBlock = null,
-			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		public NWDOperationWebAccount AddWebRequestSessionWithBlock (BTBOperationBlock sSuccessBlock = null, 
+                                                        			 BTBOperationBlock sErrorBlock = null, 
+                                                        			 BTBOperationBlock sCancelBlock = null,
+                                                        			 BTBOperationBlock sProgressBlock = null,
+                                                        			 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSessionWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Session with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
@@ -391,12 +390,11 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebAccount AddWebRequestSignOutWithBlock (
-			BTBOperationBlock sSuccessBlock = null, 
-			BTBOperationBlock sErrorBlock = null, 
-			BTBOperationBlock sCancelBlock = null, 
-			BTBOperationBlock sProgressBlock = null, 
-			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		public NWDOperationWebAccount AddWebRequestSignOutWithBlock (BTBOperationBlock sSuccessBlock = null, 
+                                                        			 BTBOperationBlock sErrorBlock = null, 
+                                                        			 BTBOperationBlock sCancelBlock = null, 
+                                                        			 BTBOperationBlock sProgressBlock = null, 
+                                                        			 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestSignOutWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
@@ -405,12 +403,11 @@ namespace NetWorkedData
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock (
-			BTBOperationBlock sSuccessBlock = null, 
-			BTBOperationBlock sErrorBlock = null, 
-			BTBOperationBlock sCancelBlock = null, 
-			BTBOperationBlock sProgressBlock = null, 
-			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+		public NWDOperationWebAccount AddWebRequestAnonymousRestaureWithBlock (BTBOperationBlock sSuccessBlock = null, 
+                                                                			   BTBOperationBlock sErrorBlock = null, 
+                                                                			   BTBOperationBlock sCancelBlock = null, 
+                                                                			   BTBOperationBlock sProgressBlock = null, 
+                                                                			   bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			BTBDebug.Log ("AddWebRequestAnonymousRestaureWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);

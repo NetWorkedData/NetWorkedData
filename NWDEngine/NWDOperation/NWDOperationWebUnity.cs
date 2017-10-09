@@ -130,11 +130,11 @@ namespace NetWorkedData
 					NWDOperationResult tInfosProgress = new NWDOperationResult ();
 					ProgressInvoke (Request.downloadProgress, tInfosProgress);
 					if (Request.uploadProgress < 1.0f) {
-						BTBDebug.LogVerbose ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
+						//BTBDebug.LogVerbose ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
 						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_UPLOAD_IN_PROGRESS, this));
 					}
 					if (Request.downloadProgress < 1.0f) {
-						BTBDebug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
+						//BTBDebug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
 						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IN_PROGRESS, this));
 					}
 					#if UNITY_EDITOR
@@ -233,7 +233,7 @@ namespace NetWorkedData
 
 						} else {
 
-							BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_SUCCESSED, this));
+							//BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_SUCCESSED, this));
 
 							NWDOperationResult tInfosResult = new NWDOperationResult (tData);
 

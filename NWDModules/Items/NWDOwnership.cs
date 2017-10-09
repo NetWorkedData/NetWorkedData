@@ -307,6 +307,25 @@ namespace NetWorkedData
             }
             return rReturn;
         }
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Contains item with quantitie.
+		/// </summary>
+		/// <returns><c>true</c>, if item was contained with the enough quantity, <c>false</c> otherwise.</returns>
+		/// <param name="sItemsReferenceQuantity">S item reference quantity.</param>
+		public static bool ContainsItem(NWDItem sItem, int sQuantity)
+        {
+			bool rReturn = true;
+			if (sItem != null)
+			{
+                NWDOwnership rOwnershipToUse = OwnershipForItemReference(sItem.Reference);
+				if (rOwnershipToUse.Quantity < sQuantity)
+				{
+					rReturn = false;
+				}
+			}
+			return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
