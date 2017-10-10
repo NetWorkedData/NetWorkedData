@@ -31,12 +31,64 @@ namespace NetWorkedData
 	public partial class NWDLayoutClass //In ChamelCase, start by TRIGRAM of project or package
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public const string K_MENU_BASE = "NAME"; //In UpperCases start by 'K' and plit by '_' if public
-		const string kOverlayLogLimitKey = "myKey"; // //In ChamelCase, start by 'k' if private for class
+
+		#region Const
+
 		//-------------------------------------------------------------------------------------------------------------
-		public bool MyProperties; //In ChamelCase, start by UpperCase ... (no prefix : '_', 'm', 'my', …)
-		public bool AnotherProperty; //In ChamelCase, start by UpperCase ... (no prefix : '_', 'm', 'my', …)
+		// Insert constants here
 		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region Class properties
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Insert static properties here
+		/// <summary>
+		/// The shared instance.
+		/// </summary>
+		private static NWDLayoutClass kSharedInstance;
+		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region Instance properties
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Insert instance properties here
+		public const string K_MENU_BASE = "NAME";
+		//In UpperCases start by 'K' and plit by '_' if public
+		const string kOverlayLogLimitKey = "myKey";
+		// //In ChamelCase, start by 'k' if private for class
+		//-------------------------------------------------------------------------------------------------------------
+		public bool MyProperties;
+		//In ChamelCase, start by UpperCase ... (no prefix : '_', 'm', 'my', …)
+		public bool AnotherProperty;
+		//In ChamelCase, start by UpperCase ... (no prefix : '_', 'm', 'my', …)
+		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region Class methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Insert static methods here
+		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
+
+		#region Instance methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		// Insert instance methods here
 		/// <summary>
 		/// My the method. In ChamelCase, start by UpperCase 
 		/// </summary>
@@ -61,7 +113,11 @@ namespace NetWorkedData
 
 			return rReturnData;
 		}
-	//-------------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------------
+
+		#endregion
+
+		//-------------------------------------------------------------------------------------------------------------
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	#endif
