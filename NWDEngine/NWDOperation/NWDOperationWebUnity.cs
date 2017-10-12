@@ -116,14 +116,14 @@ namespace NetWorkedData
 			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm)) {
 
 				Request.timeout = kTimeOutOfRequest;
-				//BTBDebug.Log ("URL : " + Request.url);
+				BTBDebug.Log ("URL : " + Request.url);
 				// I prepare the header 
 				// I put the header in my request
 				InsertHeaderInRequest ();
 				//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("header inserted", this));
 				// I send the data
 				Request.Send ();
-//				BTBDebug.LogVerbose ("Request URL " + Request.url);
+				BTBDebug.LogVerbose ("Request URL " + Request.url);
 				while (!Request.isDone) {
 					//BTBDebug.Log ("Inside waiting loop, updating progress");
 					Statut = BTBOperationState.InProgress;

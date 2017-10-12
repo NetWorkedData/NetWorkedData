@@ -124,10 +124,13 @@ namespace NetWorkedData
 		public override void DataUploadPrepare ()
 		{
 			if (Action != null) {
-				if (Action == "signin" || Action == "facebook" || Action == "google") {
-					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeNotAccountDependantList);
+				if (Action == "signin" || Action == "facebook" || Action == "google" || Action == "session") {
+					// TODO : check if work correctly 
+					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, false, NWDDataManager.SharedInstance.mTypeAccountDependantList);
+					//Data = new Dictionary<string, object> ();
 				} else {
-					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, true, NWDDataManager.SharedInstance.mTypeSynchronizedList);
+					// TODO : check if work correctly 
+					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, false, NWDDataManager.SharedInstance.mTypeSynchronizedList);
 				}
 				if (Data.ContainsKey (ActionKey)) {
 					Data [ActionKey] = Action;
@@ -248,6 +251,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataDownloadedCompute (Dictionary<string, object> sData)
 		{
+			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
 			if (sData.ContainsKey ("signin")) {
 				foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList) {
 					var tMethodInfo = tType.GetMethod ("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -256,6 +260,8 @@ namespace NetWorkedData
 				}
 			}
 			NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, NWDDataManager.SharedInstance.mTypeAccountDependantList);
+
+			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
