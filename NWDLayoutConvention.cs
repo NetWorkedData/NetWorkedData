@@ -22,20 +22,30 @@
 //
 //=====================================================================================================================
 
+// use delimiter by namespace
+// use delimeter around precompile macro if necessary
 //=====================================================================================================================
+// namespace all files in projet
 namespace NetWorkedData
 {
+	// use delimiter by class
+	// use delimeter around precompile macro if necessary
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	#if UNITY_EDITOR
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDLayoutClass //In ChamelCase, start by TRIGRAM of project or package
 	{
+		// use delimiter by region properties group and for all methods
+		// use delimeter around precompile macro if necessary
 		//-------------------------------------------------------------------------------------------------------------
 
 		#region Const
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Insert constants here
+		// Use convention : in uppercase separated by _ start by K_ for public
+		// public const int K_MY_CONSTANT
+
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion
@@ -46,10 +56,18 @@ namespace NetWorkedData
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Insert static properties here
+		// Use convention : in CamelCase start by c if private
+		// Use convention : in CamelCase start by k if public
+		// private static TypeClass kSharedInstance;
+		// puoblic static TypeClass cSharedInstance;
 		/// <summary>
-		/// The shared instance.
+		/// The private shared instance.
 		/// </summary>
-		private static NWDLayoutClass kSharedInstance;
+		private static NWDLayoutClass cSharedInstance;
+		/// <summary>
+		/// The public shared instance.
+		/// </summary>
+		public static NWDLayoutClass kSharedInstance;
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion
@@ -60,6 +78,9 @@ namespace NetWorkedData
 
 		//-------------------------------------------------------------------------------------------------------------
 		// Insert instance properties here
+		/// <summary>
+		/// The MEN_BASE.
+		/// </summary>
 		public const string K_MENU_BASE = "NAME";
 		//In UpperCases start by 'K' and plit by '_' if public
 		const string kOverlayLogLimitKey = "myKey";
