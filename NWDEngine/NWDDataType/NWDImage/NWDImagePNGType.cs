@@ -87,6 +87,21 @@ namespace NetWorkedData
 				Value = "";
 			}
 		}
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert to sprite.
+        /// </summary>
+        /// <returns>The sprite.</returns>
+        public Sprite ToSprite()
+        {
+            Texture2D tTexture = ToTexture();
+            if (tTexture != null)
+            {
+                return Sprite.Create(tTexture, new Rect(0, 0, tTexture.width, tTexture.height), new Vector2(0.5f, 0.5f));
+            }
+
+            return null;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
