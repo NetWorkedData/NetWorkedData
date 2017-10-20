@@ -113,8 +113,8 @@ namespace NetWorkedData
 			DataUploadPrepare ();
 			// I insert the data
 			WWWForm tWWWForm = InsertDataInRequest ();
-			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm)) {
-
+			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm))
+            {
 				Request.timeout = kTimeOutOfRequest;
 				BTBDebug.Log ("URL : " + Request.url);
 				// I prepare the header 
@@ -122,9 +122,11 @@ namespace NetWorkedData
 				InsertHeaderInRequest ();
 				//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("header inserted", this));
 				// I send the data
-				Request.Send ();
+				Request.Send();
 				BTBDebug.LogVerbose ("Request URL " + Request.url);
-				while (!Request.isDone) {
+
+				while (!Request.isDone)
+                {
 					//BTBDebug.Log ("Inside waiting loop, updating progress");
 					Statut = BTBOperationState.InProgress;
 					NWDOperationResult tInfosProgress = new NWDOperationResult ();
@@ -137,22 +139,17 @@ namespace NetWorkedData
 						//BTBDebug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
 						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IN_PROGRESS, this));
 					}
-					#if UNITY_EDITOR
 					yield return null;
-					#else
-					//yield return new WaitForEndOfFrame ();
-					yield return null;
-					#endif
 				}
 
-				if (Request.isDone == true) {
-
+				if (Request.isDone == true)
+                {
 					BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
 					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
 				}
 
-//				BTBDebug.LogVerbose ("NWDOperationWebUnity Request isDone: " + Request.isDone);
-				if (Request.isNetworkError) { // Error
+				if (Request.isNetworkError)
+                { 
 					BTBDebug.LogVerbose ("NWDOperationWebUnity isNetworkError ", BTBDebugResult.Fail);
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
 
