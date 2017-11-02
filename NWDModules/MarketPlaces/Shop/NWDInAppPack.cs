@@ -46,12 +46,10 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		public NWDLocalizableStringType Name { get; set; }
+        [NWDHeaderAttribute("Representation")]
+        public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-		public NWDLocalizableStringType SubName { get; set; }
-
-		public NWDLocalizableStringType Description { get; set; }
-
+        [NWDHeaderAttribute("Specific Store ID")]
 		public string AppleID { get; set; }
 		public string GoogleID { get; set; }
 		public string UnityID { get; set; }
