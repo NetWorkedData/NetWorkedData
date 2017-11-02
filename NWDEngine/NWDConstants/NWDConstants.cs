@@ -69,7 +69,12 @@ namespace NetWorkedData
 //		public const string K_ALERT_IDEMOBI_DOC_HTTP = 				"http://idemobi.com/networkeddata/";
 		//-------------------------------------------------------------------------------------------------------------
 		// Menu Strings
+
+		#if BASIC_TOOLBOX
+		public const string K_MENU_BASE = "ideMobi/NetWorkedDatas/";
+		#else
 		public const string K_MENU_BASE = 							"NetWorkedDatas/";
+		#endif
 		public const string K_MENU_IDEMOBI = 						K_MENU_BASE+"Developped by ideMobi";
 
 		public const string K_MENU_EDITOR_PREFERENCES = 			K_MENU_BASE+"Editor preferences";

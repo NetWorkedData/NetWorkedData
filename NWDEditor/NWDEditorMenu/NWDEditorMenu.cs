@@ -33,7 +33,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Idemobis the net worked data info show.
 		/// </summary>
-		[MenuItem (NWDConstants.K_MENU_IDEMOBI, false, 00)]
+		[MenuItem (NWDConstants.K_MENU_IDEMOBI, false, 9)]
 		public static void IdemobiNetWorkedDataInfoShow()
 		{
 			if (EditorUtility.DisplayDialog (NWDConstants.K_ALERT_IDEMOBI_TITLE,
