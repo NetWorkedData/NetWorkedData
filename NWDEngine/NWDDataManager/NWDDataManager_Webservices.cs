@@ -47,13 +47,13 @@ namespace NetWorkedData
 	//		public static void SessionReset ()
 	//		{
 	//			NWDDataManager.SharedInstance.AddWebRequestSessionWithBlock(delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				BTBDebug.Log("####### Progress");
+	//				Debug.Log("####### Progress");
 	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				BTBDebug.Log("####### Finish");
+	//				Debug.Log("####### Finish");
 	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				BTBDebug.Log("####### Error");
+	//				Debug.Log("####### Error");
 	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				BTBDebug.Log("####### Cancel");
+	//				Debug.Log("####### Cancel");
 	//			},false,NWDAppConfiguration.SharedInstance.SelectedEnvironment ()
 	//			);
 	//		}
@@ -64,7 +64,7 @@ namespace NetWorkedData
 	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
 	//			KPassword = NWDToolbox.RandomString (18);
 	//			KPassword = "1234";
-	//			BTBDebug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
+	//			Debug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
 	//
 	//			NWDDataManager.SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
 	//		}
@@ -152,37 +152,37 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationClean (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAllSynchronization");
+			Debug.Log ("AddWebRequestAllSynchronization");
 			return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAllSynchronization");
+			Debug.Log ("AddWebRequestAllSynchronization");
 			return AddWebRequestAllSynchronizationCleanWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAllSynchronizationForce");
+			Debug.Log ("AddWebRequestAllSynchronizationForce");
 			return AddWebRequestAllSynchronizationForceWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationClean (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronization");
+			Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationCleanWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronization");
+			Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForce (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronizationForce");
+			Debug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//		public List<Type> mTypeAccountDependantList = new List<Type> ();
@@ -190,85 +190,85 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestNotAccountDependantSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronization");
+			Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (mTypeNotAccountDependantList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestNotAccountDependantSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronizationForce");
+			Debug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (mTypeNotAccountDependantList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAccountDependantSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronization");
+			Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAccountDependantSynchronizationForce (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronizationForce");
+			Debug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (mTypeAccountDependantList, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSession (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSession");
+			Debug.Log ("AddWebRequestSession");
 			return AddWebRequestSessionWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignUp (string sEmail, string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignUp");
+			Debug.Log ("AddWebRequestSignUp");
 			return AddWebRequestSignUpWithBlock (sEmail, sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignIn (string sEmail, string sPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("NWDOperationWebAccount");
+			Debug.Log ("NWDOperationWebAccount");
 			return AddWebRequestSignInWithBlock (sEmail, sPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignOut (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignOut");
+			Debug.Log ("AddWebRequestSignOut");
 			return AddWebRequestSignOutWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestAnonymousRestaure (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAnonymousRestaure");
+			Debug.Log ("AddWebRequestAnonymousRestaure");
 			return AddWebRequestAnonymousRestaureWithBlock (null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignModify (string sEmail, string sOldPassword, string sNewPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignModify");
+			Debug.Log ("AddWebRequestSignModify");
 			return AddWebRequestSignModifyWithBlock (sEmail, sOldPassword, sNewPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestRescue (string sEmail, string sAppName, string sAppMail, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignModify");
+			Debug.Log ("AddWebRequestSignModify");
 			return AddWebRequestRescueWithBlock (sEmail, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignDelete (string sPassword, string sConfirmPassword, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignDelete");
+			Debug.Log ("AddWebRequestSignDelete");
 			return AddWebRequestSignDeleteWithBlock (sPassword, sConfirmPassword, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestLogFacebook (string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestLogFacebook");
+			Debug.Log ("AddWebRequestLogFacebook");
 			return AddWebRequestLogFacebookWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestLogGoogle (string sSocialToken, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestLogGoogle");
+			Debug.Log ("AddWebRequestLogGoogle");
 			return AddWebRequestLogGoogleWithBlock (sSocialToken, null, null, null, null, sPriority, sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -279,7 +279,7 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAllSynchronizationWithBlock");
+			Debug.Log ("AddWebRequestAllSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization clean", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority, true);
 		}
@@ -291,7 +291,7 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAllSynchronizationWithBlock");
+			Debug.Log ("AddWebRequestAllSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority);
 		}
@@ -303,7 +303,7 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
+			Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
 		}
@@ -315,7 +315,7 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronizationWithBlock");
+			Debug.Log ("AddWebRequestSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, true);
 		}
@@ -327,7 +327,7 @@ namespace NetWorkedData
 		                                                                             BTBOperationBlock sProgressBlock = null, 
 		                                                                             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronizationWithBlock");
+			Debug.Log ("AddWebRequestSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
 		}
@@ -339,7 +339,7 @@ namespace NetWorkedData
 		                                                                                  BTBOperationBlock sProgressBlock = null, 
 		                                                                                  bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSynchronizationForceWithBlock");
+			Debug.Log ("AddWebRequestSynchronizationForceWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
 		}
@@ -350,7 +350,7 @@ namespace NetWorkedData
                                                         			 BTBOperationBlock sProgressBlock = null,
                                                         			 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSessionWithBlock");
+			Debug.Log ("AddWebRequestSessionWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Session with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "session";
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
@@ -364,7 +364,7 @@ namespace NetWorkedData
 		                                                            BTBOperationBlock sProgressBlock = null, 
 		                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignUpWithBlock");
+			Debug.Log ("AddWebRequestSignUpWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-Up with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "signup";
 			sOperation.Email = sEmail;
@@ -381,7 +381,7 @@ namespace NetWorkedData
 		                                                            BTBOperationBlock sProgressBlock = null, 
 		                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignInWithBlock");
+			Debug.Log ("AddWebRequestSignInWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-in with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "signin";
 			sOperation.Email = sEmail;
@@ -396,7 +396,7 @@ namespace NetWorkedData
                                                         			 BTBOperationBlock sProgressBlock = null, 
                                                         			 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignOutWithBlock");
+			Debug.Log ("AddWebRequestSignOutWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "signout";
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
@@ -409,7 +409,7 @@ namespace NetWorkedData
                                                                 			   BTBOperationBlock sProgressBlock = null, 
                                                                 			   bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestAnonymousRestaureWithBlock");
+			Debug.Log ("AddWebRequestAnonymousRestaureWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "signanonymous";
 			if (sEnvironment != null) {
@@ -427,7 +427,7 @@ namespace NetWorkedData
 		                                                                BTBOperationBlock sProgressBlock = null,
 		                                                                bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignModifyWithBlock");
+			Debug.Log ("AddWebRequestSignModifyWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "modify";
 			sOperation.Email = sEmail;
@@ -445,7 +445,7 @@ namespace NetWorkedData
 		                                                            BTBOperationBlock sProgressBlock = null,
 		                                                            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestRescueWithBlock");
+			Debug.Log ("AddWebRequestRescueWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "modify";
 			sOperation.EmailRescue = sEmail;
@@ -460,7 +460,7 @@ namespace NetWorkedData
 		                                                                BTBOperationBlock sProgressBlock = null, 
 		                                                                bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestSignDeleteWithBlock");
+			Debug.Log ("AddWebRequestSignDeleteWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Delete with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "delete";
 			sOperation.Password = sPassword;
@@ -476,7 +476,7 @@ namespace NetWorkedData
 		                                                                 BTBOperationBlock sProgressBlock = null, 
 		                                                                 bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestLogFacebookWithBlock");
+			Debug.Log ("AddWebRequestLogFacebookWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "facebook";
 			sOperation.SocialToken = sSocialToken;
@@ -491,7 +491,7 @@ namespace NetWorkedData
 		                                                               BTBOperationBlock sProgressBlock = null, 
 		                                                               bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("AddWebRequestLogGoogleWithBlock");
+			Debug.Log ("AddWebRequestLogGoogleWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "google";
 			sOperation.SocialToken = sSocialToken;
@@ -501,7 +501,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void WebRequestFlush (NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("WebRequestFlush");
+			Debug.Log ("WebRequestFlush");
 			if (sEnvironment == null) {
 				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
 			}
@@ -510,7 +510,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void WebRequestInfos (NWDAppEnvironment sEnvironment = null)
 		{
-			BTBDebug.Log ("WebRequestInfos");
+			Debug.Log ("WebRequestInfos");
 			if (sEnvironment == null) {
 				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
 			}
@@ -609,7 +609,7 @@ namespace NetWorkedData
 		//		public bool SynchronizationClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sBackground = true, bool sLoader = false)
 		//		{
 		//
-		//			BTBDebug.Log ("######### SynchronizationClassesDatas start " + Time.time.ToString ());
+		//			Debug.Log ("######### SynchronizationClassesDatas start " + Time.time.ToString ());
 		//			bool rReturn = false;
 		//			if (NWDDataManager.SynchronizeInProgress == false) {
 		//				NWDDataManager.SynchronizeInProgress = true;
@@ -642,10 +642,10 @@ namespace NetWorkedData
 		//						SynchronizeAllData (sEnvironment, tForceAll);
 		//					}
 		//
-		//					BTBDebug.Log ("######### SynchronizationClassesDatas finish success " + Time.time.ToString ());
+		//					Debug.Log ("######### SynchronizationClassesDatas finish success " + Time.time.ToString ());
 		//				};
 		//				request.errorBlockDelegate = delegate(Error error) {
-		//					BTBDebug.Log ("Error: " + error.code + " // " + error.localizedDescription);
+		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
 		//					NWDDataManager.SynchronizeInProgress = false;
 		//					if (NWDDataManager.SynchronizeRepeat == true) {
 		//						bool tForceAll = NWDDataManager.SynchronizeRepeatInForce;
@@ -654,10 +654,10 @@ namespace NetWorkedData
 		//						SynchronizeAllData (sEnvironment, tForceAll);
 		//					}
 		//
-		//					BTBDebug.Log ("######### SynchronizationClassesDatas finish error " + Time.time.ToString ());
+		//					Debug.Log ("######### SynchronizationClassesDatas finish error " + Time.time.ToString ());
 		//				};
 		//
-		//				BTBDebug.Log ("Synchronization send");
+		//				Debug.Log ("Synchronization send");
 		//				request.send ();
 		//			} else {
 		//				NWDDataManager.SynchronizeRepeat = true;
@@ -665,7 +665,7 @@ namespace NetWorkedData
 		//					NWDDataManager.SynchronizeRepeatInForce = sForceAll;
 		//				}
 		//
-		//				BTBDebug.Log ("Synchronization all ready in progress ... prepare to repeat but in force if one ask it ?");
+		//				Debug.Log ("Synchronization all ready in progress ... prepare to repeat but in force if one ask it ?");
 		//			}
 		//			return rReturn;
 		//		}
@@ -677,7 +677,7 @@ namespace NetWorkedData
 		//
 		//		public bool SynchronizeAllData (NWDAppEnvironment sEnvironment, bool sForceAll)
 		//		{
-		//			//BTBDebug.Log ("SynchronizeAllData");
+		//			//Debug.Log ("SynchronizeAllData");
 		//			return SynchronizationAllClassDatas (sEnvironment, sForceAll);
 		//		}
 
@@ -700,16 +700,16 @@ namespace NetWorkedData
 		//				};
 		//				request.errorBlockDelegate = delegate(Error error) {
 		//					NWDDataManager.SynchronizeInProgress = false;
-		//					BTBDebug.Log ("Error: " + error.code + " // " + error.localizedDescription);
+		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
 		//				};
 		//
-		//				BTBDebug.Log ("webservice send");
+		//				Debug.Log ("webservice send");
 		//				request.send ();
 		//			} else {
 		//				//NWDDataManager.SynchronizeRepeat = true;
 		//				// Not necessairy to repeat, the first connexion is in pogress by another task :-)
 		//
-		//				BTBDebug.Log ("webservice all ready in progress");
+		//				Debug.Log ("webservice all ready in progress");
 		//			}
 		//			return rReturn;
 		//		}

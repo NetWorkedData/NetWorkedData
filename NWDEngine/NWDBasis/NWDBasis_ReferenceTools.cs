@@ -43,7 +43,7 @@ namespace NetWorkedData
 		/// <param name="sType">S type.</param>
 		public static void ChangeReferenceForAnotherInAllObjects (string sOldReference, string sNewReference)
 		{
-			//BTBDebug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
+			//Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
 			foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList) {
 				tObject.ChangeReferenceForAnother (sOldReference, sNewReference);
 			}
@@ -197,17 +197,17 @@ namespace NetWorkedData
 							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>) ||
 							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)) {
 
-//							BTBDebug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
+//							Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
 							var tMethodInfo = tTypeOfThis.GetMethod ("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
 							if (tMethodInfo != null) {
 								var tNext = tProp.GetValue (this, null);
 								if (tNext == null) {
 									tNext = Activator.CreateInstance (tTypeOfThis);
 								}
-//								BTBDebug.LogVerbose ("tNext preview = " + tNext);
+//								Debug.LogVerbose ("tNext preview = " + tNext);
 								string tChanged = tMethodInfo.Invoke (tNext, new object[]{ sOldReference, sNewReference}) as string;
 								if (tChanged == "YES") {
-//									BTBDebug.LogVerbose ("tNext changed = " + tNext);
+//									Debug.LogVerbose ("tNext changed = " + tNext);
 									tProp.SetValue (this, tNext, null);
 									rModify = true;
 								}
@@ -217,7 +217,7 @@ namespace NetWorkedData
 				}
 			}
 			if (rModify == true) {
-//				BTBDebug.LogVerbose ("I WAS UPDATED");
+//				Debug.LogVerbose ("I WAS UPDATED");
 				UpdateMe ();
 			}
 		}

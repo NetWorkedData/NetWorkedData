@@ -44,7 +44,7 @@ namespace NetWorkedData
 		public static void Launcher ()
 		{
 			//Debug.Log ("#### NWDTypeLauncher Launcher");
-			//BTBDebug.Log ("NWDTypeLauncher Launcher", BTBDebugResult.Success);
+			//Debug.Log ("NWDTypeLauncher Launcher", DebugResult.Success);
 			if (IsLaunched == false) {
 				IsLaunched = true;
 				// Get ShareInstance

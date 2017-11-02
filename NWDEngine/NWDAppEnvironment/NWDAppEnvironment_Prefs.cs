@@ -46,7 +46,7 @@ namespace NetWorkedData
             }
             catch (ArgumentException e)
             {
-                BTBDebug.Log(e.StackTrace);
+                Debug.Log(e.StackTrace);
             }
 
 			PlayerAccountReference = BTBPrefsManager.ShareInstance ().getString (Environment + kPlayerAccountReferenceKey);

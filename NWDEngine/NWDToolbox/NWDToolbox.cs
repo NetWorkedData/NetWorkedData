@@ -231,11 +231,11 @@ namespace NetWorkedData
 		/// <param name="sImport">If set to <c>true</c> import in unity.</param>
 		public static void CopyFolderFiles (string sFromFolder, string sToFolder, bool sImport = true)
 		{
-			BTBDebug.LogVerbose ("copy files from = " + sFromFolder + " to " + sToFolder);
+			Debug.Log ("copy files from = " + sFromFolder + " to " + sToFolder);
 			DirectoryInfo tDirectory = new DirectoryInfo (sFromFolder);
 			FileInfo[] tInfo = tDirectory.GetFiles ("*.*");
 			foreach (FileInfo tFile in tInfo) {
-				BTBDebug.LogVerbose ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
+				Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
 				string tNewPath = sToFolder + "/" + tFile.Name;
 				if (File.Exists (tNewPath)) {
 					File.Delete (tNewPath);
@@ -249,7 +249,7 @@ namespace NetWorkedData
 			}
 			DirectoryInfo[] tSubFoldersArray = tDirectory.GetDirectories ();
 			foreach (DirectoryInfo tSubFolder in tSubFoldersArray) {
-				BTBDebug.LogVerbose ("find subfolder Name = " + tSubFolder.Name);
+				Debug.Log ("find subfolder Name = " + tSubFolder.Name);
 				string tSubFolderLast = tSubFolder.Name;
 				if (AssetDatabase.IsValidFolder (sToFolder + "/" + tSubFolderLast) == false) {
 					AssetDatabase.CreateFolder (sToFolder, tSubFolderLast);
@@ -265,11 +265,11 @@ namespace NetWorkedData
 		/// <param name="sToFolder">to folder.</param>
 		public static void ExportCopyFolderFiles (string sFromFolder, string sToFolder)
 		{
-			BTBDebug.LogVerbose ("copy files from = " + sFromFolder + " to " + sToFolder);
+			Debug.Log ("copy files from = " + sFromFolder + " to " + sToFolder);
 			DirectoryInfo tDirectory = new DirectoryInfo (sFromFolder);
 			FileInfo[] tInfo = tDirectory.GetFiles ("*.*");
 			foreach (FileInfo tFile in tInfo) {
-				BTBDebug.LogVerbose ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
+				Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
 				string tNewPath = sToFolder + "/" + tFile.Name.Replace ("dot_htaccess.txt", ".htaccess");
 				if (File.Exists (tNewPath)) {
 					File.Delete (tNewPath);
@@ -280,7 +280,7 @@ namespace NetWorkedData
 			}
 			DirectoryInfo[] tSubFoldersArray = tDirectory.GetDirectories ();
 			foreach (DirectoryInfo tSubFolder in tSubFoldersArray) {
-				BTBDebug.LogVerbose ("find subfolder Name = " + tSubFolder.Name);
+				Debug.Log ("find subfolder Name = " + tSubFolder.Name);
 				string tSubFolderLast = tSubFolder.Name;
 				if (Directory.Exists (sToFolder + "/" + tSubFolderLast) == false) {
 					Directory.CreateDirectory (sToFolder + "/" + tSubFolderLast);

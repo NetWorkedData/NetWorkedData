@@ -44,7 +44,7 @@ namespace NetWorkedData
 		{
 			AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
 			string tExtension = Path.GetExtension (sOldPath);
-			BTBDebug.Log ("OnWillMoveAsset " + sOldPath + " to " + sNewPath);
+			UnityEngine.Debug.Log ("OnWillMoveAsset " + sOldPath + " to " + sNewPath);
 			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
 				NWDDataManager.SharedInstance.ChangeAssetPath (sOldPath, sNewPath);
 			}
@@ -54,7 +54,7 @@ namespace NetWorkedData
 		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions e)
 		{
 			AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
-			BTBDebug.Log ("OnWillDeleteAsset " + sOldPath + "");
+			UnityEngine.Debug.Log ("OnWillDeleteAsset " + sOldPath + "");
 			string tExtension = Path.GetExtension (sOldPath);
 			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
 				NWDDataManager.SharedInstance.ChangeAssetPath (sOldPath, "");

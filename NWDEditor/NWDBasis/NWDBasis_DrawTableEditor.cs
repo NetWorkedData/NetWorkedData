@@ -241,7 +241,7 @@ namespace NetWorkedData
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0) {
 				tMousePosition = Event.current.mousePosition;
 				if (Event.current.alt == true) {
-					BTBDebug.LogVerbose ("alt and select", BTBDebugResult.Success);
+					Debug.Log ("alt and select");
 					tSelectAndClick = true;
 				}
 			}
@@ -263,7 +263,7 @@ namespace NetWorkedData
 			// TODO: add instruction in tab view
 			// KEY DOWN ARROW
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow) {
-				//BTBDebug.LogVerbose ("KeyDown DownArrow", BTBDebugResult.Success);
+				//Debug.LogVerbose ("KeyDown DownArrow", DebugResult.Success);
 				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
 				if (tSelected != null) {
 					if (ObjectsInEditorTableList.Contains (tSelected.Reference)) {
@@ -286,7 +286,7 @@ namespace NetWorkedData
 			// TODO: add instruction in tab view
 			// KEY UP ARROW
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow) {
-				//BTBDebug.LogVerbose ("KeyDown UpArrow", BTBDebugResult.Success);
+				//Debug.LogVerbose ("KeyDown UpArrow", DebugResult.Success);
 				NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition () as NWDBasis<K>;
 				if (tSelected != null) {
 					if (ObjectsInEditorTableList.Contains (tSelected.Reference)) {
@@ -311,7 +311,7 @@ namespace NetWorkedData
 
 			// TODO: add instruction in tab view
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow) {
-				//BTBDebug.LogVerbose ("KeyDown RightArrow", BTBDebugResult.Success);
+				//Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
 				if (m_PageSelected < tPagesExpected) {
 					m_PageSelected++;
 					// TODO : reselect first object
@@ -327,7 +327,7 @@ namespace NetWorkedData
 
 			// TODO: add instruction in tab view
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow) {
-				//BTBDebug.LogVerbose ("KeyDown LeftArrow", BTBDebugResult.Success);
+				//Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
 				if (m_PageSelected > 0) {
 					m_PageSelected--;
 					// TODO : reselect first object
@@ -640,7 +640,16 @@ namespace NetWorkedData
 
 			GUILayout.Label (NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
 
-			// SYNCHRO NORMAL
+			// SYNCHRO TIMESTAMP
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.DevEnvironment).ToString());
+            GUILayout.Label(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.PreprodEnvironment).ToString());
+            GUILayout.Label(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.ProdEnvironment).ToString());
+            GUILayout.EndHorizontal();
+
+            // SYNCHRO NORMAL
+
 
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME, EditorStyles.miniButton)) {

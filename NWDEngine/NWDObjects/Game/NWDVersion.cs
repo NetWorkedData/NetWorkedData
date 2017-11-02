@@ -90,7 +90,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static string GetVersionForEnvironemt (NWDAppEnvironment sEnvironment)
 		{
-			BTBDebug.LogVerbose ("GetVersionForEnvironemt");
+			Debug.Log ("GetVersionForEnvironemt");
 			// I will change th last version of my App
 			string tVersionString = "0.00.00";
 			int tVersionInt = 0;

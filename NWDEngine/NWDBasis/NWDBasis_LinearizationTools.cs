@@ -372,7 +372,7 @@ namespace NetWorkedData
 				}
 				tValueString = tValue.ToString ();
 				if (tTypeOfThis == typeof(bool)) {
-					//BTBDebug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+					//Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
 					if (tValueString == "False") {
 						tValueString = "0";
 					} else {

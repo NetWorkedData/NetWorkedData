@@ -93,7 +93,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void FormatVerification ()
 		{
-			// BTBDebug.Log ("VerifySecurity");
+			// Debug.Log ("VerifySecurity");
 			// clean the salts
 			DataSHAPassword = NWDToolbox.SaltCleaner (DataSHAPassword);
 			DataSHAVector = NWDToolbox.SaltCleaner (DataSHAVector);

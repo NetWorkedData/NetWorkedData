@@ -28,7 +28,7 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeAssetPath (string sOldPath, string sNewPath) {
-			BTBDebug.Log ("ChangeAssetPath " + sOldPath + " to " + sNewPath);
+			Debug.Log ("ChangeAssetPath " + sOldPath + " to " + sNewPath);
 			string tProgressBarTitle = "NetWorkedData is looking for asset(s) in datas";
 			float tCountClass = mTypeList.Count + 1;
 			float tOperation = 1;

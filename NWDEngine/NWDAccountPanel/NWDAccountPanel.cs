@@ -189,7 +189,7 @@ namespace NetWorkedData
 		// Use this for initialization
 		void Start ()
 		{
-			BTBDebug.LogVerbose ("START NWDAccountPanel");
+			Debug.Log("START NWDAccountPanel");
 			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification) {
 				if (TextNetworkResult!=null)
 				{

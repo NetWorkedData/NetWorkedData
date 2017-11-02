@@ -34,12 +34,12 @@ namespace NetWorkedData
 		// TODO: must protect asset path by a symbol start and symbol end!
 		//-------------------------------------------------------------------------------------------------------------
 		public bool ChangeAssetPath (string sOldPath, string sNewPath) {
-			//BTBDebug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
+			//Debug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
 			bool rChange = false;
 			if (Value.Contains (sOldPath)) {
 				Value = Value.Replace (kAssetDelimiter+sOldPath+kAssetDelimiter, kAssetDelimiter+sNewPath+kAssetDelimiter);
 				rChange = true;
-				//BTBDebug.Log ("BTBDataType ChangeAssetPath YES I DID", BTBDebugResult.Success);
+				//Debug.Log ("BTBDataType ChangeAssetPath YES I DID", DebugResult.Success);
 			}
 			return rChange;
 		}

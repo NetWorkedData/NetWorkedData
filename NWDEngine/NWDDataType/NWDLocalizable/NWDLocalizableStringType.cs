@@ -198,7 +198,7 @@ namespace NetWorkedData
 					tIndex = 0;
 				}
 				tLangague = tValueFuturList [tIndex];
-//				BTBDebug.LogVerbose ("tIndex = " +tIndex.ToString ());
+//				Debug.LogVerbose ("tIndex = " +tIndex.ToString ());
 				if (tLangague !="") 
 				{
 					tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));

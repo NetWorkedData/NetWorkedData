@@ -158,16 +158,16 @@ namespace NetWorkedData
 		/// <param name="sDataArray">S data array.</param>
 		public static NWDBasis<K> SynchronizationInsertInBase (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
-			//BTBDebug.Log ("SynchronizationInsertInBase ");
+			//Debug.Log ("SynchronizationInsertInBase ");
 			string tReference = GetReferenceValueFromCSV (sDataArray);
 			NWDBasis<K> tObject = InstanceByReference (tReference);
 			if (tObject == null) {
-				//BTBDebug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
+				//Debug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
 				tObject = NewInstanceFromCSV (sEnvironment, sDataArray);
 				AddObjectInListOfEdition (tObject);
 			} else {
 				// test if Modification is older than actual object
-				//BTBDebug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
+				//Debug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
 				if (tObject.DM <= GetDMValueFromCSV (sDataArray)) {
 					tObject.UpdateWithCSV (sEnvironment, sDataArray);
 				}
@@ -181,7 +181,7 @@ namespace NetWorkedData
 		/// <param name="sDataArray">S data array.</param>
 		public static void SynchronizationInsertInMemory (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
-			//BTBDebug.Log ("SynchronizationInsertInMemory ");
+			//Debug.Log ("SynchronizationInsertInMemory ");
 			// if NWDject.reference allready in memory I must replace this object and distroy old object
 			NWDBasis<K> tFindObject = null;
 			string tReference = GetReferenceValueFromCSV (sDataArray);
@@ -209,7 +209,7 @@ namespace NetWorkedData
 		/// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
 		public static NWDBasis<K> SynchronizationTryToUse (NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
 		{
-			//BTBDebug.Log ("SynchronizationTryToUse ");
+			//Debug.Log ("SynchronizationTryToUse ");
 			NWDBasis<K> rReturn = null;
 			string[] tDataArray = sData.Split (NWDConstants.kStandardSeparator.ToCharArray ());
 			for (int tI = 0; tI < tDataArray.Length; tI++) {
@@ -236,7 +236,7 @@ namespace NetWorkedData
 				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
 			}
 
-			//BTBDebug.Log ("SynchronizationPushData for table " + TableName ());
+			//Debug.Log ("SynchronizationPushData for table " + TableName ());
 			// ok if sync will be ok this date will be the last sync for this table
 			SynchronizationSetInWaitingTimestamp (sEnvironment, NWDToolbox.Timestamp ());
 			// create respond object
@@ -280,7 +280,7 @@ namespace NetWorkedData
 			}
 			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
 			// return the data
-			//BTBDebug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+			//Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
 			return rSend;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -291,7 +291,7 @@ namespace NetWorkedData
 		public static string SynchronizationPullData (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData)
 		{
 			string rReturn = "";
-			//BTBDebug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
+			//Debug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
 			// Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
 			if (sData.ContainsKey ("error")) {
 				// error to show on Device
@@ -300,20 +300,20 @@ namespace NetWorkedData
 				if (sData.ContainsKey ("timestamp")) {
 					tTimestampServer = int.Parse (sData ["timestamp"].ToString ());
 				} else {
-					BTBDebug.Warning ("BIG ERROR NO TIMESTAMP");
+//					CADDebug.Warning ("BIG ERROR NO TIMESTAMP");
 				}
 				SynchronizationTimestampValidate (sEnvironment, tTimestampServer);
 				// now i need get only datas for this class tablename
 				string tTableName = TableName ();
 				// Ok I need to compute all datas for this Class tablename
 				if (sData.ContainsKey (tTableName)) {
-					//BTBDebug.Log (tTableName + "'s Datas found! it's a " + sData [tTableName].GetType ().Name);
+					//Debug.Log (tTableName + "'s Datas found! it's a " + sData [tTableName].GetType ().Name);
 					List<object> tListOfRows = sData [tTableName] as List<object>;
-					//BTBDebug.Log ("tListOfRows found! with " + tListOfRows.Count + " row(s)");
+					//Debug.Log ("tListOfRows found! with " + tListOfRows.Count + " row(s)");
 					if (tListOfRows.Count > 0) {
 						foreach (object tCsvValue in tListOfRows) {
 							string tCsvValueString = tCsvValue as string;
-							//BTBDebug.Log ("Datas found : '" + tCsvValueString + "'");
+							//Debug.Log ("Datas found : '" + tCsvValueString + "'");
 							// I try to use this data to ... insert/update/delete/... ?
 							bool tForceToUse = false;
 							#if UNITY_EDITOR

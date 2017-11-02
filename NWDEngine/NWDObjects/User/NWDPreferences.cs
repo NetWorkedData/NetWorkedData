@@ -75,10 +75,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDPreferences GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sValue, string sInternalDescription = "")
 		{
-			BTBDebug.Log ("GetPreferenceByInternalKeyOrCreate",BTBDebugResult.Success);
+			Debug.Log ("GetPreferenceByInternalKeyOrCreate");
 			NWDPreferences rObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sInternalKey) as NWDPreferences;
 			if (rObject == null) {
-				BTBDebug.Log ("New object",BTBDebugResult.Success);
+				Debug.Log ("New object");
 				rObject = NWDBasis<NWDPreferences>.NewObject ();
 				RemoveObjectInListOfEdition (rObject);
 				rObject.InternalKey = sInternalKey;

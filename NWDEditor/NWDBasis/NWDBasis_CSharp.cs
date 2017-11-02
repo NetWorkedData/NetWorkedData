@@ -47,7 +47,7 @@ namespace NetWorkedData
 
 			bool tFindNWDFindWorkflow = false;
 			if (Type.GetType ("NetWorkedData.NWDFindWorkflow") != null) {
-				//BTBDebug.Warning ("NWDFindWorkflow found", BTBDebugResult.Success);
+				//Debug.Warning ("NWDFindWorkflow found", DebugResult.Success);
 				tFindNWDFindWorkflow = true;
 				Type tNWDFindWorkflow = Type.GetType ("NetWorkedData.NWDFindWorkflow");
 				var tMethodInfo = tNWDFindWorkflow.GetMethod ("PathOfPackage", BindingFlags.Public | BindingFlags.Static);
@@ -56,7 +56,7 @@ namespace NetWorkedData
 				}
 				tEngineRootFolder = tEngineRoot; // root is directly the good path of final folder
 			} else {
-				//BTBDebug.Warning ("NWDFindWorkflow NOT found", BTBDebugResult.Fail);
+				//Debug.Warning ("NWDFindWorkflow NOT found", DebugResult.Fail);
 				// no file found, use default path : Assets/NetWorkedDataWorkflow;
 			}
 
@@ -177,7 +177,7 @@ namespace NetWorkedData
 
 			bool tFindNWDFindWorkflow = false;
 			if (Type.GetType ("NetWorkedData.NWDFindWorkflow") != null) {
-				//BTBDebug.Warning ("NWDFindWorkflow found", BTBDebugResult.Success);
+				//Debug.Warning ("NWDFindWorkflow found", DebugResult.Success);
 				tFindNWDFindWorkflow = true;
 				Type tNWDFindWorkflow = Type.GetType ("NetWorkedData.NWDFindWorkflow");
 				var tMethodInfo = tNWDFindWorkflow.GetMethod ("PathOfPackage", BindingFlags.Public | BindingFlags.Static);
@@ -186,7 +186,7 @@ namespace NetWorkedData
 				}
 				tEngineRootFolder = tEngineRoot; // root is directly the good path of final folder
 			} else {
-				//BTBDebug.Warning ("NWDFindWorkflow NOT found", BTBDebugResult.Fail);
+				//Debug.Warning ("NWDFindWorkflow NOT found", DebugResult.Fail);
 				// no file found, use default path : Assets/NetWorkedDataWorkflow;
 			}
 
@@ -297,16 +297,16 @@ namespace NetWorkedData
 			List<string> tAccountAnalzeANDList = new List<string> ();
 			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tProp.PropertyType;
-//				BTBDebug.LogVerbose ("tTypeOfThis = " + tTypeOfThis.Name);	
+//				Debug.LogVerbose ("tTypeOfThis = " + tTypeOfThis.Name);	
 				if (tTypeOfThis != null) {
-					//BTBDebug.LogVerbose ("tTypeOfThis not null = " + tTypeOfThis.Name + " for " + tProp.Name);
+					//Debug.LogVerbose ("tTypeOfThis not null = " + tTypeOfThis.Name + " for " + tProp.Name);
 					if (tTypeOfThis.IsGenericType) {
-						//BTBDebug.LogVerbose ("tTypeOfThis IsGenericTypeDefinition");
+						//Debug.LogVerbose ("tTypeOfThis IsGenericTypeDefinition");
 						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
 							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-							//BTBDebug.LogVerbose ("tTypeOfThis = " + tTypeOfThis.Name + " tSubType = " + tSubType.Name);
+							//Debug.LogVerbose ("tTypeOfThis = " + tTypeOfThis.Name + " tSubType = " + tSubType.Name);
 							if (tSubType == typeof(NWDAccount)) {
-								//BTBDebug.LogVerbose ("tAccountAnalzeList ADDDDDDD");
+								//Debug.LogVerbose ("tAccountAnalzeList ADDDDDDD");
 								tAccountReferenceList.Add (tProp.Name);
 								tAccountAnalzeANDList.Add ("tObject." + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
 								tAccountAnalzeList.Add ("" + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");

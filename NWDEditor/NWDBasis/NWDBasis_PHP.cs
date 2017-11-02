@@ -144,7 +144,7 @@ namespace NetWorkedData
 			NWDError.CreateGenericError (tClassName, tTrigramme + "x32", "Error in" + tClassName, "error in request select datas to update in " + tClassName + " (update table?)");
 			NWDError.CreateGenericError (tClassName, tTrigramme + "x33", "Error in" + tClassName, "error in request select updatable datas in " + tClassName + " (update table?)");
 			NWDError.CreateGenericError (tClassName, tTrigramme + "x38", "Error in" + tClassName, "error in request update datas in " + tClassName + " (update table?)");
-			NWDError.CreateGenericError (tClassName, tTrigramme + "x39", "Error in" + tClassName, "error too much datas for this reference in  " + tClassName + "");
+			NWDError.CreateGenericError (tClassName, tTrigramme + "x39", "Error in" + tClassName, "error more than one row for this reference in  " + tClassName + "");
 			NWDError.CreateGenericError (tClassName, tTrigramme + "x40", "Error in" + tClassName, "error in flush trashed in  " + tClassName + "");
 			NWDError.CreateGenericError (tClassName, tTrigramme + "x91", "Error in" + tClassName, "error update integrity in " + tClassName + " (update table?)");
 			NWDError.CreateGenericError (tClassName, tTrigramme + "x88", "Error in" + tClassName, "integrity of one datas is false, break in " + tClassName + "");

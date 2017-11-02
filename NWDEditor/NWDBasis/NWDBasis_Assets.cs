@@ -34,7 +34,7 @@ namespace NetWorkedData
 		/// <param name="sOldPath">old path.</param>
 		/// <param name="sNewPath">new path.</param>
 		public static void ChangeAssetPath (string sOldPath, string sNewPath) {
-			//BTBDebug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
+			//Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
 			if (AssetDependent() == true)
 			{
 				foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList) {
@@ -50,7 +50,7 @@ namespace NetWorkedData
 		/// <param name="sNewPath">new path.</param>
 		public virtual void ChangeAssetPathMe (string sOldPath, string sNewPath)
 		{
-			//BTBDebug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
+			//Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
 			if (TestIntegrity () == true) {
 				// TODO: must protect asset path by a symbol start and symbol end!
 				bool tUpdate = false;
@@ -58,7 +58,7 @@ namespace NetWorkedData
 					if (Preview.Contains (sOldPath)) {
 						Preview = Preview.Replace (sOldPath, sNewPath);
 						tUpdate = true;
-						//BTBDebug.Log ("Preview ChangeAssetPath YES I DID", BTBDebugResult.Success);
+						//Debug.Log ("Preview ChangeAssetPath YES I DID", DebugResult.Success);
 					}
 				}
 				foreach (var tProp in PropertiesAssetDependent()) {

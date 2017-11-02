@@ -98,7 +98,7 @@ namespace NetWorkedData
 
 			Statut = BTBOperationState.InProgress;
 			float tStart = Time.time;
-//			BTBDebug.LogVerbose ("ExecuteAsync tStart = " + tStart.ToString ());
+//			Debug.LogVerbose ("ExecuteAsync tStart = " + tStart.ToString ());
 			// Put Sync in progress
 			// ParentQueue.SynchronizeInProgress = true;
 			// Send this operation in actual operation for this environment
@@ -116,27 +116,27 @@ namespace NetWorkedData
 			using (Request = UnityWebRequest.Post (ServerBase (), tWWWForm))
             {
 				Request.timeout = kTimeOutOfRequest;
-				BTBDebug.Log ("URL : " + Request.url);
+				Debug.Log ("URL : " + Request.url);
 				// I prepare the header 
 				// I put the header in my request
 				InsertHeaderInRequest ();
 				//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("header inserted", this));
 				// I send the data
 				Request.Send();
-				BTBDebug.LogVerbose ("Request URL " + Request.url);
+				Debug.Log ("Request URL " + Request.url);
 
 				while (!Request.isDone)
                 {
-					//BTBDebug.Log ("Inside waiting loop, updating progress");
+					//Debug.Log ("Inside waiting loop, updating progress");
 					Statut = BTBOperationState.InProgress;
 					NWDOperationResult tInfosProgress = new NWDOperationResult ();
 					ProgressInvoke (Request.downloadProgress, tInfosProgress);
 					if (Request.uploadProgress < 1.0f) {
-						//BTBDebug.LogVerbose ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
+						//Debug.LogVerbose ("NWDOperationWebUnity uploadProgress : " + Request.uploadProgress);
 						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_UPLOAD_IN_PROGRESS, this));
 					}
 					if (Request.downloadProgress < 1.0f) {
-						//BTBDebug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
+						//Debug.LogVerbose ("NWDOperationWebUnity downloadProgress : " + Request.downloadProgress);
 						BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IN_PROGRESS, this));
 					}
 					yield return null;
@@ -144,13 +144,13 @@ namespace NetWorkedData
 
 				if (Request.isDone == true)
                 {
-					BTBDebug.LogVerbose ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+					Debug.Log ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
 					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
 				}
 
 				if (Request.isNetworkError)
                 { 
-					BTBDebug.LogVerbose ("NWDOperationWebUnity isNetworkError ", BTBDebugResult.Fail);
+					Debug.Log ("NWDOperationWebUnity isNetworkError ");
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
 
 					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
@@ -167,7 +167,7 @@ namespace NetWorkedData
 
 
 				} else if (Request.isHttpError) { // Error
-					BTBDebug.LogVerbose ("NWDOperationWebUnity isHttpError ", BTBDebugResult.Fail);
+					Debug.Log ("NWDOperationWebUnity isHttpError ");
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("error", this));
 
 					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
@@ -191,7 +191,7 @@ namespace NetWorkedData
 
 					// Success
 					//BTBNotificationManager.ShareInstance.PostNotification (new BTBNotification ("success", this));
-					BTBDebug.LogVerbose ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
+					Debug.Log ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
 
 					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OnLine);
 
@@ -325,15 +325,15 @@ namespace NetWorkedData
 
 				//float tEnd = Time.time;
 				//float tDelta = tEnd - tStart;
-//				BTBDebug.LogVerbose ("ExecuteAsync tEnd = " + tEnd.ToString ());
-//				BTBDebug.LogVerbose ("ExecuteAsync tDelta = " + tDelta.ToString ());
+//				Debug.LogVerbose ("ExecuteAsync tEnd = " + tEnd.ToString ());
+//				Debug.LogVerbose ("ExecuteAsync tDelta = " + tDelta.ToString ());
 				Finish ();
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Cancel ()
 		{
-//			BTBDebug.LogVerbose ("NWDOperationWebUnity Cancel");
+//			Debug.LogVerbose ("NWDOperationWebUnity Cancel");
 			this.Statut = BTBOperationState.Cancel;
 			if (Request != null) {
 				Request.Abort ();
@@ -349,7 +349,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Finish ()
 		{
-//			BTBDebug.LogVerbose ("NWDOperationWebUnity Finish");
+//			Debug.LogVerbose ("NWDOperationWebUnity Finish");
 			this.Statut = BTBOperationState.Finish;
 			IsFinish = true;
 			Parent.NextOperation (this.QueueName);
@@ -363,7 +363,7 @@ namespace NetWorkedData
 			DestroyImmediate (GameObjectToSpawn);
 #else
 			Destroy (GameObjectToSpawn);
-			BTBDebug.Log("BTBOperation Destroy ");
+			Debug.Log("BTBOperation Destroy ");
 #endif
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -390,7 +390,7 @@ namespace NetWorkedData
 		{
 			//TODO: Insert Header In Request
 			Dictionary<string, object> tHeaderParams = new Dictionary<string, object> ();
-//			BTBDebug.LogVerbose ("UUID USED IS : '" + Environment.PlayerAccountReference + "' and token is = " + Environment.RequesToken);
+//			Debug.LogVerbose ("UUID USED IS : '" + Environment.PlayerAccountReference + "' and token is = " + Environment.RequesToken);
 			// define values
 			UUID = Environment.PlayerAccountReference;
 			RequestToken = Environment.RequesToken;
@@ -442,7 +442,7 @@ namespace NetWorkedData
 			#endif
 			}
 			#if UNITY_EDITOR
-			BTBDebug.LogVerbose ("Header : " + tDebug);
+			Debug.Log ("Header : " + tDebug);
 			#endif
 
 		}
@@ -463,7 +463,7 @@ namespace NetWorkedData
 			string tDigestKey = UnSecureDigestKey;
 			string tParamValue = "";
 			string tDigestValue = "";
-			BTBDebug.LogVerbose ("Data : " + Json.Serialize (Data), BTBDebugResult.Success);
+			Debug.Log ("Data : " + Json.Serialize (Data));
 			if (SecureData) {
 				tParamKey = SecureKey;
 				tDigestKey = SecureDigestKey;

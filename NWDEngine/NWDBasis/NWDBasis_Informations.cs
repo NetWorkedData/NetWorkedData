@@ -23,7 +23,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ClassInfos (string sString)
 		{
-			BTBDebug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
+			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static string Informations ()
