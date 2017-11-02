@@ -17,7 +17,7 @@ namespace NetWorkedData
 	/// This class auto run at build project.
 	/// You can use kMacro in precompile definition.
 	/// </summary>
-	public class NetWorkedDataMacroDefine :  IActiveBuildTargetChanged
+	public class NWDMacroDefine :  IActiveBuildTargetChanged
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -28,16 +28,16 @@ namespace NetWorkedData
 		/// <summary>
 		/// The shared instance used for this class.
 		/// </summary>
-		static NetWorkedDataMacroDefine kSharedInstance;
+		static NWDMacroDefine kSharedInstance;
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes the <see cref="NetWorkedData.NetWorkedDataMacroDefine"/> class. 
 		/// Instance kSharedInstance to use it when method OnActiveBuildTargetChanged must be invoked
 		/// </summary>
-		static NetWorkedDataMacroDefine ()
+		static NWDMacroDefine ()
 		{
 			if (kSharedInstance == null) {
-				kSharedInstance = new NetWorkedDataMacroDefine ();
+				kSharedInstance = new NWDMacroDefine ();
 				kSharedInstance.OnChangedPlatform ();
 			}
 		}
