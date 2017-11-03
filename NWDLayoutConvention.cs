@@ -170,9 +170,11 @@ namespace NetWorkedData
 			bool tTemporaryValue = sSentData; // [CONVENTION] temporary variable in CamelCase by prefix 't'
 
 			// [CONVENTION] no Ternary 
-			if (sSentData == true) { // CONVENTION] use == true or == false, don't use default analyze
+            if (tTemporaryValue == true) { // CONVENTION] use == true or == false, don't use default analyze
+                tTemporaryValue = false;
 				rReturn = false;
-			} else {
+            } else {
+                tTemporaryValue = true;
 				rReturn = true;
 			}
 			return rReturn;

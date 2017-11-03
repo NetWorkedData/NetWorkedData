@@ -67,23 +67,23 @@ namespace NetWorkedData
 			return tHeight * 8 + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public object ControlField (Rect sPos, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled)
 		{
 			NWDHoursScheduleType tTemporary = new NWDHoursScheduleType ();
 
-			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
+			GUI.Label (new Rect (sPosition.x, sPosition.y, sPosition.width, sPosition.height), sEntitled);
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 
-			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth) / 3.0F);
+			float tTiersWidth = Mathf.Ceil( (sPosition.width - EditorGUIUtility.labelWidth) / 3.0F);
 
 
 
 			float tHeightAdd = 0;
 
-			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Hours selection", tLabelStyle);
+			GUI.Label (new Rect (sPosition.x+EditorGUIUtility.labelWidth, sPosition.y, sPosition.width, sPosition.height), "Hours selection", tLabelStyle);
 			tHeightAdd += tHeightTitle;
 
 
@@ -91,7 +91,7 @@ namespace NetWorkedData
 			{
 				int c = i % 8;
 				int l = (i - c) / 8;
-				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y + tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
+				bool tValueTest = GUI.Toggle (new Rect (sPosition.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPosition.y + tHeightAdd+ tHeight * c, tTiersWidth, sPosition.height),
 					!Value.Contains (kHoursSchedulePrefix+i.ToString("00")),
 					NWDDateTimeType.kHours[i]+"H");
 				if (tValueTest==false)
@@ -101,9 +101,9 @@ namespace NetWorkedData
 			}
 
 			if (ResultNow () == false) {
-				GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, sPos.height), kNowFailed);
+				GUI.Label (new Rect (sPosition.x, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowFailed);
 			} else {
-				GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, sPos.height), kNowSuccess);
+				GUI.Label (new Rect (sPosition.x, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowSuccess);
 			}
 			return tTemporary;
 		}

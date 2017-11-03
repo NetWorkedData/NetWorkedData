@@ -49,7 +49,8 @@ namespace NetWorkedData
 		private bool TryParseBase64 (string sEncodedText)
 		{
 			try {
-				byte[] textAsBytes = Convert.FromBase64String (sEncodedText);
+				//byte[] textAsBytes = Convert.FromBase64String (sEncodedText);
+                Convert.FromBase64String(sEncodedText);
 				return true;
 			} catch (Exception) {
 				return false;   
@@ -149,7 +150,7 @@ namespace NetWorkedData
 			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
 			Sprite tObject = null;
-			bool tNoError = true;
+			//bool tNoError = true;
 
 			Texture2D tTexture = tTemporary.ToTexture ();
 			if (Value != null && Value != "" && tTexture == null) {
