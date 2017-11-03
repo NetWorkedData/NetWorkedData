@@ -22,12 +22,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		static NWDPlayerPreProcess()
 		{
-			EditorApplication.playmodeStateChanged -= PlayModeCallback; // remove old callback from compile for this class
-			EditorApplication.playmodeStateChanged += PlayModeCallback;
+            EditorApplication.playModeStateChanged -= PlayModeStateChangedCallback; // remove old callback from compile for this class
+            EditorApplication.playModeStateChanged += PlayModeStateChangedCallback;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static void PlayModeCallback () {
-			Debug.Log("Player State Changed!");
+        public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
+        {
+			Debug.Log("Play Mode State Changed!");
 			NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

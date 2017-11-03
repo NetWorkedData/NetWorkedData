@@ -32,8 +32,7 @@ namespace NetWorkedData
 	public class NWDAppEnvironmentSync : EditorWindow
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		string ErrorCode = "";
-		string ErrorDescription = "";
+		//s ring ErrorDescription = "";
 		//		double Octects = 0;
 		public double SendOctects = 0;
 		public double ReceiptOctects = 0;
