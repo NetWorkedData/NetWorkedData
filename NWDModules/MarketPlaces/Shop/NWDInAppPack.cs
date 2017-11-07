@@ -77,9 +77,18 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
 		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
+        public string GetIAPKey ()
 		{
-			// do something with this object
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                return GoogleID;
+            }
+            else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return AppleID;
+            }
+
+            return "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods
