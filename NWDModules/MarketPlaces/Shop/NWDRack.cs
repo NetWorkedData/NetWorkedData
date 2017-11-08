@@ -49,17 +49,17 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
+        [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]
+		public NWDReferencesQuantityType<NWDPack> PackReference { get; set; }
+		public bool Limited { get; set; }
+        [NWDGroupEndAttribute]
+
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDHeaderAttribute("Packs in this Rack")]
-		public NWDReferencesQuantityType<NWDPack> PackReference { get; set; }
-		[NWDHeaderAttribute("Rack limited by Pack's quantities")]
-		public bool Limited { get; set; }
+        //[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

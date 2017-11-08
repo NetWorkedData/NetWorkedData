@@ -54,6 +54,9 @@ namespace NetWorkedData
 		public string GoogleID { get; set; }
 		public string UnityID { get; set; }
 		public string SteamID { get; set; }
+
+        [NWDHeaderAttribute("Packs in this In App Pack")]
+        public NWDReferencesQuantityType<NWDItem> Items { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

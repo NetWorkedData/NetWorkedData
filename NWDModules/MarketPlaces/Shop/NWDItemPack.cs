@@ -53,15 +53,15 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-		[NWDGroupStartAttribute("Classification",true, true, true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
-		[NWDGroupEndAttribute]
-
 		[NWDHeaderAttribute("Items in this Item Pack")]
 		public NWDReferencesQuantityType<NWDItem> Items { get; set; }
+
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDWorld> Worlds { get; set; }
+        public NWDReferencesListType<NWDCategory> Categories { get; set; }
+        public NWDReferencesListType<NWDFamily> Families { get; set; }
+        public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+        //[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
