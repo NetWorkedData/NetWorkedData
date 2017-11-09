@@ -27,15 +27,49 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDPackConnexion : NWDConnexion <NWDPack> {}
+	public class NWDWorldConnexion : NWDConnexion <NWDWorld> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("PCK")]
-	[NWDClassDescriptionAttribute ("Pack descriptions Class")]
-	[NWDClassMenuNameAttribute ("Pack")]
+	[NWDClassTrigrammeAttribute ("WRD")]
+	[NWDClassDescriptionAttribute ("Worlds descriptions Class")]
+	[NWDClassMenuNameAttribute ("Worlds")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDPack :NWDBasis <NWDPack>
+//	[NWDTypeClassInPackageAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDWorld : NWDBasis<NWDWorld>
 	{
+		//-------------------------------------------------------------------------------------------------------------
+		//public bool DiscoverItYourSelf { get; set; }
+		[NWDGroupStartAttribute ("Informations", true, true, true)]
+		public NWDLocalizableStringType Name { get; set; }
+		public NWDLocalizableStringType SubName { get; set; }
+		public NWDLocalizableStringType Description { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute ("Desription", true, true, true)]
+		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Classification",true,true,true)]
+		//public string Kind { get; set; }
+		public NWDReferencesListType<NWDCategory> Categories { get; set; }
+		public NWDReferencesListType<NWDFamily> Families { get; set; }
+		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+		[NWDGroupEndAttribute]
+
+		[NWDSeparatorAttribute]
+
+		[NWDGroupStartAttribute("Assets",true,true,true)]
+		public NWDColorType PrimaryColor { get; set; }
+
+		public NWDColorType SecondaryColor { get; set; }
+	
+		public NWDColorType TertiaryColor { get; set; }
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
@@ -46,43 +80,16 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		// for example : pack of forest hunter 
-		// referenceList : pack of 5 arrows; longbow
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
-		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
-        public bool EnableFreePack { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
-        public string AppleID { get; set; }
-        public string GoogleID { get; set; }
-        public string SteamID { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-        public NWDReferencesListType<NWDCategory> Categories { get; set; }
-        public NWDReferencesListType<NWDFamily> Families { get; set; }
-        public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        //[NWDGroupEndAttribute]
+		//PROPERTIES
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPack()
+		public NWDWorld()
 		{
 			//Init your instance here
+			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -98,67 +105,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
 		//-------------------------------------------------------------------------------------------------------------
-        public string GetIAPKey()
-        {
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                return GoogleID;
-            }
-            else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            {
-                return AppleID;
-            }
-
-            return "";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-		public NWDItem[] GetAllItemsInPack ()
+		public void MyInstanceMethod ()
 		{
-			List<NWDItem> tlist = new List<NWDItem> ();
-			foreach (NWDItemPack tItemPack in ItemPackReference.GetObjects ()) {
-				tlist.AddRange (tItemPack.Items.GetObjects ());
-			}
-			return tlist.ToArray ();
+			// do something with this object
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesQuantityType<NWDItem> GetAllItemReferenceAndQuantity()
-        {
-            NWDReferencesQuantityType<NWDItem> rResult = new NWDReferencesQuantityType<NWDItem>();
-            Dictionary<string, int> tDico = new Dictionary<string, int>();
-
-            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.GetObjectAndQuantity())
-            {
-                // Get Item Pack data
-                NWDItemPack tItemPack = pair.Key;
-                int tItemPackQte = pair.Value;
-
-                // Init all Items in Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> p in tItems)
-                {
-                    // Get Item data
-                    NWDItem tNWDItem = p.Key;
-                    int tItemQte = p.Value;
-
-                    if(tDico.ContainsKey(tNWDItem.Reference))
-                    {
-                        tDico[tNWDItem.Reference] += tItemQte;
-                    }
-                    else
-                    {
-                        tDico.Add(tNWDItem.Reference, tItemQte);
-                    }
-                }
-            }
-
-            rResult.SetReferenceAndQuantity(tDico);
-
-            return rResult;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe ()
+		//-------------------------------------------------------------------------------------------------------------
+		#region override of NetWorkedData addons methods
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}

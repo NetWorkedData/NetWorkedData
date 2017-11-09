@@ -25,18 +25,24 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-	public class NWDPackConnexion : NWDConnexion <NWDPack> {}
+	public class NWDErrorConnexion : NWDConnexion <NWDError> {}
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	public delegate void NWDErrorBlock(NWDError sError);
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("PCK")]
-	[NWDClassDescriptionAttribute ("Pack descriptions Class")]
-	[NWDClassMenuNameAttribute ("Pack")]
+	[NWDClassTrigrammeAttribute ("ERR")]
+	[NWDClassDescriptionAttribute ("Error descriptions Class")]
+	[NWDClassMenuNameAttribute ("Errors")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDPack :NWDBasis <NWDPack>
+	[NWDInternalKeyNotEditableAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	//	[NWDTypeClassInPackageAttribute]
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	public partial class NWDError : NWDBasis <NWDError>
 	{
-		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
 		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
@@ -46,119 +52,108 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		// for example : pack of forest hunter 
-		// referenceList : pack of 5 arrows; longbow
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+		//public bool DiscoverItYourSelf { get; set; }
+		[NWDGroupStartAttribute ("Informations", true, true, true)] //ok
+		[NWDEnumString (new string[] { "alert", "critical", "verbose" })]
+		public string Type { get; set; }
+		public string Domain { get; set; }
+		public string Code { get; set; }
+		[NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+		[NWDSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
-		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
-        public bool EnableFreePack { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
-        public string AppleID { get; set; }
-        public string GoogleID { get; set; }
-        public string SteamID { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-        public NWDReferencesListType<NWDCategory> Categories { get; set; }
-        public NWDReferencesListType<NWDFamily> Families { get; set; }
-        public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        //[NWDGroupEndAttribute]
+		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
+		public NWDLocalizableStringType LocalizedTitle { get; set; } // TODO : rename by Title ?
+		public NWDLocalizableStringType LocalizedDescription { get; set; } // TODO : rename by Description ?
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPack()
+		public NWDError ()
 		{
 			//Init your instance here
+			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
+		public static NWDError GetErrorWithCode (string sCode)
 		{
-			// do something with this class
+			NWDError rReturn = null;
+			foreach (NWDError tObject in NWDError.ObjectsList) {
+				if (tObject.Code == sCode) {
+					rReturn = tObject;
+					break;
+				}
+			}
+			return rReturn;
 		}
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDError GetErrorWithDomainAndCode (string sDomain , string sCode)
+		{
+			NWDError rReturn = null;
+			foreach (NWDError tObject in NWDError.ObjectsList) {
+				if (tObject.Code == sCode && tObject.Domain == sDomain) {
+					rReturn = tObject;
+					break;
+				}
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sType = "verbose")
+		{
+			string tReference = "ERR-"+sDomain + "-" + sCode;
+			// TODO: alert if reference is too long for ereg / or substring if too long
+			NWDError tError = InstanceByReference (tReference) as NWDError;
+			if (tError == null) {
+				tError = NWDBasis<NWDError>.NewObject ();
+				RemoveObjectInListOfEdition (tError);
+				tError.Reference = tReference;
+				//				tError.InternalKey = Domain + " : " + sCode;
+				tError.InternalDescription = sDescription;
+				// domain code
+				tError.Domain = sDomain;
+				tError.Code = sCode;
+				// title
+				NWDLocalizableStringType tTitle = new NWDLocalizableStringType ();
+				tTitle.Value = "BASE:" + sTitle;
+				tError.LocalizedTitle = tTitle;
+				// description
+				NWDLocalizableStringType tDescription = new NWDLocalizableStringType ();
+				tDescription.Value = "BASE:" + sDescription;
+				tError.LocalizedDescription = tDescription;
+				// type of alert
+				tError.Type = sType;
+				// add-on edited
+				tError.AddonEdited (true);
+				// reccord
+				tError.UpdateMe ();
+				AddObjectInListOfEdition (tError);
+			}
+			return tError;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
 		//-------------------------------------------------------------------------------------------------------------
-        public string GetIAPKey()
-        {
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                return GoogleID;
-            }
-            else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            {
-                return AppleID;
-            }
-
-            return "";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-		public NWDItem[] GetAllItemsInPack ()
+		public void MyInstanceMethod ()
 		{
-			List<NWDItem> tlist = new List<NWDItem> ();
-			foreach (NWDItemPack tItemPack in ItemPackReference.GetObjects ()) {
-				tlist.AddRange (tItemPack.Items.GetObjects ());
-			}
-			return tlist.ToArray ();
+			// do something with this object
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesQuantityType<NWDItem> GetAllItemReferenceAndQuantity()
-        {
-            NWDReferencesQuantityType<NWDItem> rResult = new NWDReferencesQuantityType<NWDItem>();
-            Dictionary<string, int> tDico = new Dictionary<string, int>();
-
-            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.GetObjectAndQuantity())
-            {
-                // Get Item Pack data
-                NWDItemPack tItemPack = pair.Key;
-                int tItemPackQte = pair.Value;
-
-                // Init all Items in Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> p in tItems)
-                {
-                    // Get Item data
-                    NWDItem tNWDItem = p.Key;
-                    int tItemQte = p.Value;
-
-                    if(tDico.ContainsKey(tNWDItem.Reference))
-                    {
-                        tDico[tNWDItem.Reference] += tItemQte;
-                    }
-                    else
-                    {
-                        tDico.Add(tNWDItem.Reference, tItemQte);
-                    }
-                }
-            }
-
-            rResult.SetReferenceAndQuantity(tDico);
-
-            return rResult;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe ()
+		//-------------------------------------------------------------------------------------------------------------
+		#region override of NetWorkedData addons methods
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
@@ -204,9 +199,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override bool AddonEdited( bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
+			if (sNeedBeUpdate == true) {
+				if (Domain == null || Domain == "") {
+					Domain = "Unknow";
+				}
+				InternalKey = Domain + " : "+ Code;
 			}
 			return sNeedBeUpdate;
 		}

@@ -25,14 +25,6 @@ namespace NetWorkedData
 			typeof(NWDItemGroup), 
 			typeof(NWDItem), 
 			typeof(NWDItemProperties), 
-//			typeof(NWDBattleProperty), 
-//			typeof(NWDItemPack), 
-//			typeof(NWDPack), 
-//			typeof(NWDSpent), 
-//			typeof(NWDInAppPack), 
-//			typeof(NWDTransaction), 
-			typeof(NWDOwnership), 
-			typeof(NWDUsage),
 			/* Add NWDBasis here*/
 		}
 	)]

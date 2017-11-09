@@ -12,35 +12,36 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Craft",
-		"Craft edition",
+	[NWDTypeWindowParamAttribute("Game",
+		"Project Edition, You can add, change, remove the item of your game here. " +
+		"Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
 		"NWDIcons_02",
-		new Type[] {
-			typeof(NWDItemGroup),
-			typeof(NWDItem),
-            typeof(NWDRecipientGroup),
-			typeof(NWDCraftBook),
+		new Type[] { 
+			typeof(NWDVersion),
+			typeof(NWDConfiguration),
+			typeof(NWDLocalization),
+			typeof(NWDError),
 			/* Add NWDBasis here*/
 		}
 	)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDCraftBookWindow : NWDBasisWindow <NWDCraftBookWindow>
+	public class NWDGameWindow : NWDBasisWindow <NWDGameWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+ "Craft"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+		[MenuItem (NWDConstants.K_MENU_GAME, false, 300)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDCraftBookWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDGameWindow));
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
-	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================
 #endif

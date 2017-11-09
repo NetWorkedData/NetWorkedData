@@ -27,138 +27,161 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDPackConnexion : NWDConnexion <NWDPack> {}
+	public class NWDConfigurationConnexion : NWDConnexion <NWDConfiguration> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("PCK")]
-	[NWDClassDescriptionAttribute ("Pack descriptions Class")]
-	[NWDClassMenuNameAttribute ("Pack")]
+	[NWDClassTrigrammeAttribute ("CNF")]
+	[NWDClassDescriptionAttribute ("Configurations of game descriptions Class")]
+	[NWDClassMenuNameAttribute ("Configurations")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDPack :NWDBasis <NWDPack>
+//	[NWDTypeClassInPackageAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	/// <summary>
+	/// NWD configuration NetWorkedData class. Use to configure the game throught NetWorkedData.
+	/// </summary>
+	public partial class NWDConfiguration : NWDBasis <NWDConfiguration>
 	{
-		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
 		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Properties
+
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		// for example : pack of forest hunter 
-		// referenceList : pack of 5 arrows; longbow
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+		[NWDGroupStartAttribute ("Value(s)", true, true, true)]
+		/// <summary>
+		/// Gets or sets the value string.
+		/// </summary>
+		/// <value>The value string.</value>
+		public NWDLocalizableStringType ValueString { get; set; }
 
-        [NWDSeparatorAttribute]
+		/// <summary>
+		/// Gets or sets the value int.
+		/// </summary>
+		/// <value>The value int.</value>
+		public int ValueInt { get; set; }
 
-        [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
-		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
-        public bool EnableFreePack { get; set; }
-        [NWDGroupEndAttribute]
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="NetWorkedData.NWDConfiguration"/> value bool.
+		/// </summary>
+		/// <value><c>true</c> if value bool; otherwise, <c>false</c>.</value>
+		public bool ValueBool { get; set; }
 
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
-        public string AppleID { get; set; }
-        public string GoogleID { get; set; }
-        public string SteamID { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-        public NWDReferencesListType<NWDCategory> Categories { get; set; }
-        public NWDReferencesListType<NWDFamily> Families { get; set; }
-        public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        //[NWDGroupEndAttribute]
+		/// <summary>
+		/// Gets or sets the value float.
+		/// </summary>
+		/// <value>The value float.</value>
+		public float ValueFloat { get; set; }
+		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Constructors
+
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPack()
+		public NWDConfiguration ()
 		{
 			//Init your instance here
+			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-        public string GetIAPKey()
-        {
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                return GoogleID;
-            }
-            else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            {
-                return AppleID;
-            }
 
-            return "";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-		public NWDItem[] GetAllItemsInPack ()
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the local string for internal key.
+		/// </summary>
+		/// <returns>The local string.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">default value.</param>
+		public static string GetLocalString (string sKey, string sDefault = "")
 		{
-			List<NWDItem> tlist = new List<NWDItem> ();
-			foreach (NWDItemPack tItemPack in ItemPackReference.GetObjects ()) {
-				tlist.AddRange (tItemPack.Items.GetObjects ());
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
+			string rReturn = sDefault;
+			if (tObject != null) {
+				rReturn = tObject.ValueString.GetLocalString ();
 			}
-			return tlist.ToArray ();
+			return rReturn;
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesQuantityType<NWDItem> GetAllItemReferenceAndQuantity()
-        {
-            NWDReferencesQuantityType<NWDItem> rResult = new NWDReferencesQuantityType<NWDItem>();
-            Dictionary<string, int> tDico = new Dictionary<string, int>();
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the int value for internal key.
+		/// </summary>
+		/// <returns>The int.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">default value.</param>
+		public static int GetInt (string sKey, int sDefault = 0)
+		{
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
+			int rReturn = sDefault;
+			if (tObject != null) {
+				rReturn = tObject.ValueInt;
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the bool value for internal key.
+		/// </summary>
+		/// <returns><c>true</c>, if bool was gotten, <c>false</c> otherwise.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">If set to <c>true</c> default value.</param>
+		public static bool GetBool (string sKey, bool sDefault = false)
+		{
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
+			bool rReturn = sDefault;
+			if (tObject != null) {
+				rReturn = tObject.ValueBool;
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the float value for internal key.
+		/// </summary>
+		/// <returns>The float.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">default value.</param>
+		public static float GetFloat (string sKey, float sDefault = 0.0F)
+		{
+			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
+			float rReturn = sDefault;
+			if (tObject != null) {
+				rReturn = tObject.ValueFloat;
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 
-            foreach (KeyValuePair<NWDItemPack, int> pair in ItemPackReference.GetObjectAndQuantity())
-            {
-                // Get Item Pack data
-                NWDItemPack tItemPack = pair.Key;
-                int tItemPackQte = pair.Value;
+		#endregion
 
-                // Init all Items in Item Pack
-                Dictionary<NWDItem, int> tItems = tItemPack.Items.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> p in tItems)
-                {
-                    // Get Item data
-                    NWDItem tNWDItem = p.Key;
-                    int tItemQte = p.Value;
+		//-------------------------------------------------------------------------------------------------------------
 
-                    if(tDico.ContainsKey(tNWDItem.Reference))
-                    {
-                        tDico[tNWDItem.Reference] += tItemQte;
-                    }
-                    else
-                    {
-                        tDico.Add(tNWDItem.Reference, tItemQte);
-                    }
-                }
-            }
+		#region Instance methods
 
-            rResult.SetReferenceAndQuantity(tDico);
+		//-------------------------------------------------------------------------------------------------------------
+		public void MyInstanceMethod ()
+		{
+			// do something with this object
+		}
+		//-------------------------------------------------------------------------------------------------------------
 
-            return rResult;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe ()
+		#region override of NetWorkedData addons methods
+
+		//-------------------------------------------------------------------------------------------------------------
+		public override void AddonInsertMe ()
 		{
 			// do something when object will be inserted
 		}
@@ -202,10 +225,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
 		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
+		public override bool AddonEdited (bool sNeedBeUpdate)
 		{
-			if (sNeedBeUpdate == true) 
-			{
+			if (sNeedBeUpdate == true) {
 				// do something
 			}
 			return sNeedBeUpdate;
@@ -227,9 +249,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
+
 		#endregion
+
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//-------------------------------------------------------------------------------------------------------------

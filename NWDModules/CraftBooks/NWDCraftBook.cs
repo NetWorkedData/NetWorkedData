@@ -40,9 +40,7 @@ namespace NetWorkedData
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class Properties
-
 		//-------------------------------------------------------------------------------------------------------------
 		// Your static properties
 		/// <summary>
@@ -51,45 +49,31 @@ namespace NetWorkedData
 		private static Dictionary<string,NWDCraftBook> HashByCraftDictionary = new Dictionary<string,NWDCraftBook> ();
 		private static Dictionary<string,NWDCraftBook> ItemByCraftDictionary = new Dictionary<string,NWDCraftBook> ();
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Instance Properties
-
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-
 		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Recipe attribut", true, true, true)] // ok
 		public bool OrderIsImportant { get; set; }
-
 		public NWDReferenceType<NWDRecipientGroup> RecipientGroup { get; set; }
-		//		public NWDReferencesQuantityType<NWDItemGroup> ItemGroupIngredient { get; set; }
 		public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
-
 		public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
-
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("FX (Special Effects)", true, true, true)]
 		public NWDPrefabType SuccessParticles { get; set; }
-
 		public NWDPrefabType SuccessSound { get; set; }
-
 		public NWDPrefabType FailParticles { get; set; }
-
 		public NWDPrefabType FailSound { get; set; }
-
 		[NWDGroupEndAttribute]
 
 		[NWDSeparatorAttribute]
@@ -98,15 +82,10 @@ namespace NetWorkedData
 		[NWDNotEditableAttribute]
 		public string RecipeHash { get; set; }
 		//[NWDGroupEndAttribute]
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Constructors
-
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDCraftBook"/> class.
@@ -117,13 +96,9 @@ namespace NetWorkedData
 			OrderIsImportant = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Count the craft book in dictionary of hash.

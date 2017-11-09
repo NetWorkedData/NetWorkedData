@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -27,14 +27,16 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDRackConnexion : NWDConnexion <NWDRack> {}
+	public class NWDPreferencesConnexion : NWDConnexion <NWDPreferences> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("RCK")]
-	[NWDClassDescriptionAttribute ("Rack descriptions Class")]
-	[NWDClassMenuNameAttribute ("Rack")]
+	[NWDClassTrigrammeAttribute ("PRF")]
+	[NWDClassDescriptionAttribute ("User Preferences descriptions Class")]
+	[NWDClassMenuNameAttribute ("User Preferences")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDRack :NWDBasis <NWDRack>
+//	[NWDTypeClassInPackageAttribute]
+	//-------------------------------------------------------------------------------------------------------------
+	public partial class NWDPreferences : NWDBasis <NWDPreferences>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -46,30 +48,23 @@ namespace NetWorkedData
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]
-		public NWDReferencesQuantityType<NWDPack> PackReference { get; set; }
-		public bool Limited { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-        public NWDReferencesListType<NWDCategory> Categories { get; set; }
-        public NWDReferencesListType<NWDFamily> Families { get; set; }
-        public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        //[NWDGroupEndAttribute]
+		/// <summary>
+		/// Get or set the account reference.
+		/// </summary>
+		/// <value>The account reference.</value>
+		[Indexed ("AccountIndex", 0)]
+		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
+		/// <summary>
+		/// Get or set the value.
+		/// </summary>
+		/// <value>The value.</value>
+		public NWDMultiType Value { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDRack()
+		public NWDPreferences()
 		{
 			//Init your instance here
 		}
@@ -78,9 +73,121 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
+		public static NWDPreferences GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sValue, string sInternalDescription = "")
 		{
-			// do something with this class
+			Debug.Log ("GetPreferenceByInternalKeyOrCreate");
+			NWDPreferences rObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sInternalKey) as NWDPreferences;
+			if (rObject == null) {
+				Debug.Log ("New object");
+				rObject = NWDBasis<NWDPreferences>.NewObject ();
+				RemoveObjectInListOfEdition (rObject);
+				rObject.InternalKey = sInternalKey;
+				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
+				tAccountReference.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
+				rObject.AccountReference = tAccountReference;
+				NWDMultiType tValue = new NWDMultiType (sValue);
+				rObject.Value = tValue;
+				rObject.InternalDescription = sInternalDescription;
+				rObject.UpdateMe ();
+				AddObjectInListOfEdition (rObject);
+			}
+			return rObject;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the local string for internal key.
+		/// </summary>
+		/// <returns>The local string.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">default value.</param>
+		public static string GetString (string sKey, string sDefault = "")
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault);
+			return tObject.Value.ToString();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the string for internal key.
+		/// </summary>
+		/// <param name="sKey">S key.</param>
+		/// <param name="sValue">S value.</param>
+		public static void SetString (string sKey, string sValue)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue);
+			tObject.Value.SetString (sValue);
+			tObject.SaveModifications ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the int value for internal key.
+		/// </summary>
+		/// <returns>The int.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">default value.</param>
+		public static int GetInt (string sKey, int sDefault = 0)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
+			return tObject.Value.ToInt();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the int for internal key.
+		/// </summary>
+		/// <param name="sKey">S key.</param>
+		/// <param name="sValue">S value.</param>
+		public static void SetInt (string sKey, int sValue)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
+			tObject.Value.SetInt (sValue);
+			tObject.SaveModifications ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the bool value for internal key.
+		/// </summary>
+		/// <returns><c>true</c>, if bool was gotten, <c>false</c> otherwise.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">If set to <c>true</c> default value.</param>
+		public static bool GetBool (string sKey, bool sDefault = false)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
+			return tObject.Value.ToBool();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the bool value for internal key.
+		/// </summary>
+		/// <param name="sKey">S key.</param>
+		/// <param name="sValue">If set to <c>true</c> s value.</param>
+		public static void SetBool (string sKey, bool sValue)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
+			tObject.Value.SetBool (sValue);
+			tObject.SaveModifications ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get the float value for internal key.
+		/// </summary>
+		/// <returns>The float.</returns>
+		/// <param name="sKey">key.</param>
+		/// <param name="sDefault">default value.</param>
+		public static float GetFloat (string sKey, float sDefault = 0.0F)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
+			return tObject.Value.ToFloat();
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Set the float value for internal key.
+		/// </summary>
+		/// <param name="sKey">S key.</param>
+		/// <param name="sValue">S value.</param>
+		public static void SetFloat (string sKey, float sValue)
+		{
+			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
+			tObject.Value.SetFloat (sValue);
+			tObject.SaveModifications ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

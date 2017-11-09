@@ -53,8 +53,13 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-		[NWDHeaderAttribute("Items in this Item Pack")]
+        [NWDSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Items Pack in this Item Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItem> Items { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDSeparatorAttribute]
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
