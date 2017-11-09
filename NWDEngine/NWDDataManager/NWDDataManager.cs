@@ -11,11 +11,8 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.IO;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -25,86 +22,47 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-//	public enum NWDTypeService
-//	{
-//		LocalOnly,
-//		// just localbase (example : device without network) => file database to manage data
-//		LocalWithServer,
-//		// Synchronize with server and copy to local to use offline (example : smartphone, computer, etc ) => file database and webservice to synchronize to manage data
-//		ServerOnly,
-//		// no copy to local, only data from webservices (example : facebook app) => webservice to manage data
-//	}
-	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDDataManager
 	{
-		//		#if UNITY_EDITOR
-		//		public static bool UseUnityInpector = false;
-		//		#endif
-		/// <summary>
-		/// The singleton.
-		/// </summary>
+        //-------------------------------------------------------------------------------------------------------------
 		private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
-
+        private bool kConnectedToDatabase = false;
+        //-------------------------------------------------------------------------------------------------------------
 		public string PlayerLanguage = "en";
-		//		public string PlayerAccountUUID;
-		//		public string PlayerAccountToken;
-
-		// Members properties for NOT account dependant database (data from editor)
 		//public SQLiteConnection SQLiteConnection;
 		public SQLiteConnection SQLiteConnectionEditor;
 		public string DatabasePathEditor = "Assets/StreamingAssets";
 		public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
-
 		// Members properties for account dependant database (data from user)
 		public SQLiteConnection SQLiteConnectionAccount;
 		public string DatabasePathAccount = "Assets";
 		public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
-
-
-//		public NWDTypeService ManagementType = NWDTypeService.LocalWithServer;
-		private bool kConnectedToDatabase = false;
-
 		public BTBNotificationManager NotificationCenter;
-
-
-//		public SQLiteConnection SQLiteConnectionFromBundleCopy;
-//		public string PathDatabaseFromBundleCopy;
 		public bool NeedCopy = false;
-
-
-
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 		private NWDDataManager ()
 		{
 			NotificationCenter = BTBNotificationManager.SharedInstance;
 			SystemLanguage tLocalLanguage = Application.systemLanguage;
 			switch (tLocalLanguage) {
-			case SystemLanguage.Afrikaans:
-				PlayerLanguage = "aff";
-				break;
+    			case SystemLanguage.Afrikaans:
+    				PlayerLanguage = "aff";
+    				break;
 
-			case SystemLanguage.French:
-				PlayerLanguage = "fr";
-				break;
+    			case SystemLanguage.French:
+    				PlayerLanguage = "fr";
+    				break;
 
-			case SystemLanguage.English:
-				PlayerLanguage = "en";
-				break;
+    			case SystemLanguage.English:
+    				PlayerLanguage = "en";
+    				break;
 
-			default :
-				PlayerLanguage = "en";
-				break;
+    			default :
+    				PlayerLanguage = "en";
+    				break;
 			}
 
-			//Debug.Log ("NWDDataService");
 			LoadPreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
-//			if (PlayerAccountUUID == null || PlayerAccountUUID == "")
-//			{
-//				PlayerAccountUUID = BTBSecurityTools.generateUniqueID();
-//				PlayerAccountToken = "";
-//				SavePreferences ();
-//			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		~NWDDataManager ()
@@ -164,7 +122,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		void ReLoadAllClass ()
 		{
-			//Debug.Log ("LoadAllClass");
 			foreach (Type tType in mTypeList) {
 				if (mTypeLoadedList.Contains (tType) == false) {
 					var tMethodInfo = tType.GetMethod ("ClassLoad", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -178,7 +135,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public bool TestSaltMemorizationForAllClass ()
 		{
-			//Debug.Log ("LoadAllClass");
 			bool rReturn = true;
 			foreach (Type tType in mTypeList) {
 				var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -202,7 +158,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDDataManager SharedInstance {
 			get {
-				//Debug.Log ("Singleton");
 				return kSharedInstance; 
 			}
 		}
