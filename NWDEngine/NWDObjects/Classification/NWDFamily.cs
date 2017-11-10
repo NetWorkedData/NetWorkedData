@@ -52,6 +52,13 @@ namespace NetWorkedData
 		[NWDSeparatorAttribute]
 		[NWDGroupStartAttribute ("Description", true, true, true)]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+
+		[NWDGroupStartAttribute("Classification",true,true,true)]
+		//public string Kind { get; set; }
+		public NWDReferencesListType<NWDWorld> World { get; set; }
+		public NWDReferencesListType<NWDCategory> Categories { get; set; }
+		public NWDReferencesListType<NWDFamily> Families { get; set; }
+		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

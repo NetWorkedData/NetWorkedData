@@ -56,6 +56,7 @@ namespace NetWorkedData
 
 		[NWDGroupStartAttribute("Classification",true,true,true)]
 		//public string Kind { get; set; }
+		public NWDReferencesListType<NWDWorld> World { get; set; }
 		public NWDReferencesListType<NWDCategory> Categories { get; set; }
 		public NWDReferencesListType<NWDFamily> Families { get; set; }
 		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
