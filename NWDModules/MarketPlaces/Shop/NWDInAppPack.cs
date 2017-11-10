@@ -54,6 +54,9 @@ namespace NetWorkedData
 		public string GoogleID { get; set; }
 		public string UnityID { get; set; }
 		public string SteamID { get; set; }
+
+        [NWDHeaderAttribute("Packs in this In App Pack")]
+        public NWDReferencesQuantityType<NWDItem> Items { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -77,9 +80,18 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
 		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
+        public string GetIAPKey ()
 		{
-			// do something with this object
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                return GoogleID;
+            }
+            else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return AppleID;
+            }
+
+            return "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods

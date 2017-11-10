@@ -51,19 +51,30 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-		[NWDGroupStartAttribute("Classification",true, true, true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
-		[NWDGroupEndAttribute]
+        [NWDSeparatorAttribute]
 
-		[NWDHeaderAttribute("Item Pack in this Pack")]
+        [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
-		[NWDHeaderAttribute("Pay with those items")]
-		public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
-		[NWDHeaderAttribute("Or pay with in app purchase Key")]
-		public NWDReferenceType<NWDInAppPack> InAppPurchasePack { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
+        public bool EnableFreePack { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
+        public string AppleID { get; set; }
+        public string GoogleID { get; set; }
+        public string SteamID { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDWorld> Worlds { get; set; }
+        public NWDReferencesListType<NWDCategory> Categories { get; set; }
+        public NWDReferencesListType<NWDFamily> Families { get; set; }
+        public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+        //[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -87,6 +98,20 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance methods
 		//-------------------------------------------------------------------------------------------------------------
+        public string GetIAPKey()
+        {
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                return GoogleID;
+            }
+            else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                return AppleID;
+            }
+
+            return "";
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		public NWDItem[] GetAllItemsInPack ()
 		{
 			List<NWDItem> tlist = new List<NWDItem> ();

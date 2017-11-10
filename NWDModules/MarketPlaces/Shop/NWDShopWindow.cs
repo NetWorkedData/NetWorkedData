@@ -28,7 +28,7 @@ namespace NetWorkedData
 			typeof(NWDItemPack), 
 			typeof(NWDItem),
 			//typeof(NWDSpent),
-			typeof(NWDInAppPack), 
+			//typeof(NWDInAppPack), 
 			typeof(NWDTransaction), 
 			/* Add NWDBasis here*/
 		}

@@ -49,14 +49,21 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
+        [NWDGroupStartAttribute("Detail", true, true, true)]
         [Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
         public NWDReferenceType<NWDShop> ShopReference { get; set; }
         public NWDReferenceType<NWDRack> RackReference { get; set; }
         public NWDReferenceType<NWDPack> PackReference { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Other", true, true, true)]
         public string Platform { get; set; }
         public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
         public string InAppTransaction { get; set; }
+        //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

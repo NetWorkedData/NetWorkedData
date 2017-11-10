@@ -26,6 +26,9 @@ namespace NetWorkedData
 {
 	public partial class NWDDataManager
 	{
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<object> kObjectToUpdateQueue = new List<object>();
+        //-------------------------------------------------------------------------------------------------------------
 		public void ConnectToDatabase ()
 		{
 			if (kConnectedToDatabase == false)
@@ -33,7 +36,8 @@ namespace NetWorkedData
 				kConnectedToDatabase = true;
 #if UNITY_EDITOR
 				// create the good folder
-				if (AssetDatabase.IsValidFolder (DatabasePathEditor) == false) {
+				if (AssetDatabase.IsValidFolder (DatabasePathEditor) == false) 
+                {
 					AssetDatabase.CreateFolder ("Assets", "StreamingAssets");
 				}
 				// path for base editor
@@ -93,16 +97,19 @@ namespace NetWorkedData
 				SQLiteConnectionAccount = new SQLiteConnection (tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 			}
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void InsertObject (object sObject, bool sAccountConnected)
 		{
-			if (sAccountConnected) {
+			if (sAccountConnected)
+            {
 				SQLiteConnectionAccount.Insert (sObject);
-			} else {
+			}
+            else
+            {
 				SQLiteConnectionEditor.Insert (sObject);
 			}
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void UpdateObject (object sObject, bool sAccountConnected)
 		{
 			if (sAccountConnected) {
@@ -111,7 +118,7 @@ namespace NetWorkedData
 				SQLiteConnectionEditor.Update (sObject);
 			}
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void DeleteObject (object sObject, bool sAccountConnected)
 		{
 			//  update disable with date to delete
@@ -121,42 +128,29 @@ namespace NetWorkedData
 				SQLiteConnectionEditor.Delete (sObject);
 			}
 		}
-
-		//NWDDataManager.SharedInstance.UpdateQueueExecute();
-		public static List<object> kObjectToUpdateQueue = new List<object> ();
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void AddObjectToUpdateQueue (object sObject)
 		{
-			//Debug.Log ("AddObjectToUpdateQueue … ");
 			if (kObjectToUpdateQueue.Contains (sObject) == false) {
 				kObjectToUpdateQueue.Add (sObject);
 			}
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void UpdateQueueExecute ()
 		{
-			//Debug.Log ("UpdateQueueExecute with " + kObjectToUpdateQueue.Count + "element(s)");
 			foreach (object tObject in kObjectToUpdateQueue) {
 				Type tType = tObject.GetType ();
 				var tMethodInfo = tType.GetMethod ("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					tMethodInfo.Invoke (tObject, new object[]{ true });
-				} else {
 				}
 			}
 			kObjectToUpdateQueue = new List<object> ();
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		// Table management
 		public void CreateAllTablesLocal ()
 		{
-//			if (ManagementType != NWDTypeService.ServerOnly) {
-//				SQLiteConnection = new SQLiteConnection (mDatabasePath + mDatabaseName, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-//				#if UNITY_EDITOR
-//				AssetDatabase.ImportAsset (mDatabasePath + mDatabaseName);
-//				#endif
-//			}
-
 			foreach (Type tType in mTypeList) {
 				var tMethodInfo = tType.GetMethod ("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
@@ -164,36 +158,26 @@ namespace NetWorkedData
 				}
 			}
 		}
-
-
-				public void CleanAllTablesLocal ()
-				{
-				//			if (ManagementType != NWDTypeService.ServerOnly) {
-				//				SQLiteConnection = new SQLiteConnection (mDatabasePath + mDatabaseName, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-				//				#if UNITY_EDITOR
-				//				AssetDatabase.ImportAsset (mDatabasePath + mDatabaseName);
-				//				#endif
-				//			}
-
-				foreach (Type tType in mTypeList) {
-				var tMethodInfo = tType.GetMethod ("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-				tMethodInfo.Invoke (null, null);
-				}
-				}
-				}
-
+        //-------------------------------------------------------------------------------------------------------------
+		public void CleanAllTablesLocal ()
+		{
+		    foreach (Type tType in mTypeList) {
+		        var tMethodInfo = tType.GetMethod ("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+		        if (tMethodInfo != null) {
+		            tMethodInfo.Invoke (null, null);
+		        }
+		    }
+		}
+        //-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		public void CreateAllTablesServer (NWDAppEnvironment sEnvironment)
 		{
 			NWDOperationWebManagement.AddOperation ("Create table on server", null, null, null, null, sEnvironment, true);
 		}
 		#endif
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void CreateTable (Type sType, bool sAccountConnected)
 		{
-			//Debug.Log ("CreateTable " + sType.Name);
-			//Debug.Log ("Go to CreateTableByType " + sType.Name);
 			ConnectToDatabase ();
 
 			if (sAccountConnected) {
@@ -204,47 +188,41 @@ namespace NetWorkedData
 
 			PopulateTable (sType, sAccountConnected);
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void PopulateTable (Type sType, bool sAccountConnected)
 		{
-
-			if (sAccountConnected) {
-			} else {
-			}
+            //TODO implement code
 		}
-
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void EmptyTable (Type sType, bool sAccountConnected)
 		{
-			if (sAccountConnected) {
-			} else {
-			}
-			
+            //TODO implement code
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void DropTable (Type sType, bool sAccountConnected)
 		{
-			if (sAccountConnected) {
+			if (sAccountConnected)
+            {
 				SQLiteConnectionAccount.DropTableByType (sType);
-			} else {
+			}
+            else
+            {
 				SQLiteConnectionEditor.DropTableByType (sType);
 			}
-			
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void ReInitializeTable (Type sType, bool sAccountConnected)
 		{
 			EmptyTable (sType, sAccountConnected);
 			PopulateTable (sType, sAccountConnected);
 		}
-
+        //-------------------------------------------------------------------------------------------------------------
 		public void ResetTable (Type sType, bool sAccountConnected)
 		{
 			DropTable (sType, sAccountConnected);
 			CreateTable (sType, sAccountConnected);
 		}
-		#if UNITY_EDITOR
-		#endif
+        //-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

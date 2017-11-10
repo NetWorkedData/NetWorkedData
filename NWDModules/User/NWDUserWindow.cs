@@ -22,9 +22,9 @@ namespace NetWorkedData
 		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDAccount),
-//			typeof(NWDRequestToken),
 			typeof(NWDPreferences),
 			typeof(NWDOwnership),
+            typeof(NWDUsage),
 			/* Add NWDBasis here*/
 		}
 	)]
