@@ -303,7 +303,7 @@ namespace NetWorkedData
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
 //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				EnvironementSync().AllSynchronization (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+                EnvironementSync().AllSynchronization (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 //				}
 		}
 		//-------------------------------------------------------------------------------------------------------------
