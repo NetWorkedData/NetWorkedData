@@ -34,8 +34,6 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Account descriptions Class")]
 	[NWDClassMenuNameAttribute ("Account")]
 	//-------------------------------------------------------------------------------------------------------------
-//	[NWDTypeClassInPackageAttribute]
-	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDAccount : NWDBasis <NWDAccount>
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -120,19 +118,30 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetCurrentAccountReference()
+        {
+            return NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccount GetCurrentAccount()
+        {
+            NWDAccount rReturn = null;
+            int tIndex = ObjectsByReferenceList.IndexOf(GetCurrentAccountReference());
+            if (tIndex >= 0)
+            {
+                rReturn = ObjectsList.ElementAt(tIndex) as NWDAccount;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetAccountReference ()
 		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
+            return Reference;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods

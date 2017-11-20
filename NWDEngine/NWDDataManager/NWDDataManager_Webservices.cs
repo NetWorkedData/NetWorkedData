@@ -34,7 +34,7 @@ namespace NetWorkedData
 	//		public static void Test ()
 	//		{
 	//			NWDOperationWebUnity.AddOperation ("test");
-	////			NWDDataManager.SharedInstance.AddWebRequestAllSynchronization ();
+	////			SharedInstance.AddWebRequestAllSynchronization ();
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/reset", false, 20)]
@@ -46,7 +46,7 @@ namespace NetWorkedData
 	//		[MenuItem ("NWDWEB/session test", false, 20)]
 	//		public static void SessionReset ()
 	//		{
-	//			NWDDataManager.SharedInstance.AddWebRequestSessionWithBlock(delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
+	//			SharedInstance.AddWebRequestSessionWithBlock(delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
 	//				Debug.Log("####### Progress");
 	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
 	//				Debug.Log("####### Finish");
@@ -66,19 +66,19 @@ namespace NetWorkedData
 	//			KPassword = "1234";
 	//			Debug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
+	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/sign-out", false, 23)]
 	//		public static void AccountSignOut ()
 	//		{
-	//			NWDDataManager.SharedInstance.AddWebRequestSignOut ();
+	//			SharedInstance.AddWebRequestSignOut ();
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/sign-in", false, 24)]
 	//		public static void AccountSignIn ()
 	//		{
-	//			NWDDataManager.SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
+	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/modifiy", false, 25)]
@@ -87,13 +87,13 @@ namespace NetWorkedData
 	//			string tOldPassword = KPassword + "";
 	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
 	//			KPassword = NWDToolbox.RandomString (18);
-	//			NWDDataManager.SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
+	//			SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/delete", false, 26)]
 	//		public static void AccountDelete ()
 	//		{
-	//			NWDDataManager.SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
+	//			SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
 	//		}
 	//
 	//
@@ -101,13 +101,13 @@ namespace NetWorkedData
 	//		[MenuItem ("NWDWEB/FLUSH QUEUE", false, 999)]
 	//		public static void FlushQueue ()
 	//		{
-	//			NWDDataManager.SharedInstance.WebRequestFlush ();
+	//			SharedInstance.WebRequestFlush ();
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/INFOS QUEUE", false, 999)]
 	//		public static void InfosQueue ()
 	//		{
-	//			NWDDataManager.SharedInstance.WebRequestInfos ();
+	//			SharedInstance.WebRequestInfos ();
 	//		}
 	//
 	//
@@ -120,26 +120,26 @@ namespace NetWorkedData
 	//
 	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
 	//			KPassword = NWDToolbox.RandomString (18);
-	//			NWDDataManager.SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
+	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignOut ();
+	//			SharedInstance.AddWebRequestSignOut ();
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
+	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
 	//
 	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
 	//			string tOldPassword = KPassword + "";
 	//			KPassword = NWDToolbox.RandomString (18);
-	//			NWDDataManager.SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
+	//			SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
+	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignOut ();
+	//			SharedInstance.AddWebRequestSignOut ();
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
+	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
+	//			SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
 	//
-	//			NWDDataManager.SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
+	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
 	//		}
 	//	}
 	//
@@ -353,7 +353,7 @@ namespace NetWorkedData
 			Debug.Log ("AddWebRequestSessionWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Session with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "session";
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@ namespace NetWorkedData
 			sOperation.Email = sEmail;
 			sOperation.Password = sPassword;
 			sOperation.ConfirmPassword = sConfirmPassword;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -386,7 +386,7 @@ namespace NetWorkedData
 			sOperation.Action = "signin";
 			sOperation.Email = sEmail;
 			sOperation.Password = sPassword;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ namespace NetWorkedData
 			Debug.Log ("AddWebRequestSignOutWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "signout";
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -416,7 +416,7 @@ namespace NetWorkedData
 				sOperation.AnonymousPlayerAccountReference = sEnvironment.AnonymousPlayerAccountReference;
 				sOperation.AnonymousResetPassword = sEnvironment.AnonymousResetPassword;
 			}
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -434,7 +434,7 @@ namespace NetWorkedData
 			sOperation.OldPassword = sOldPassword;
 			sOperation.NewPassword = sNewPassword;
 			sOperation.ConfirmPassword = sConfirmPassword;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -449,7 +449,7 @@ namespace NetWorkedData
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "modify";
 			sOperation.EmailRescue = sEmail;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -465,7 +465,7 @@ namespace NetWorkedData
 			sOperation.Action = "delete";
 			sOperation.Password = sPassword;
 			sOperation.ConfirmPassword = sConfirmPassword;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -480,7 +480,7 @@ namespace NetWorkedData
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "facebook";
 			sOperation.SocialToken = sSocialToken;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -495,7 +495,7 @@ namespace NetWorkedData
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "google";
 			sOperation.SocialToken = sSocialToken;
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -568,7 +568,7 @@ namespace NetWorkedData
 				}
 			}
 			if (sUpdateData == true) {
-				NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
+				SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -611,8 +611,8 @@ namespace NetWorkedData
 		//
 		//			Debug.Log ("######### SynchronizationClassesDatas start " + Time.time.ToString ());
 		//			bool rReturn = false;
-		//			if (NWDDataManager.SynchronizeInProgress == false) {
-		//				NWDDataManager.SynchronizeInProgress = true;
+		//			if (SynchronizeInProgress == false) {
+		//				SynchronizeInProgress = true;
 		//				rReturn = true;
 		//				// I write all data
 		//				UpdateQueueExecute ();
@@ -634,11 +634,11 @@ namespace NetWorkedData
 		//					} else if (tResult == NWDWebRequestorResult.Error) {
 		//
 		//					}
-		//					NWDDataManager.SynchronizeInProgress = false;
-		//					if (NWDDataManager.SynchronizeRepeat == true) {
-		//						bool tForceAll = NWDDataManager.SynchronizeRepeatInForce;
-		//						NWDDataManager.SynchronizeRepeat = false;
-		//						NWDDataManager.SynchronizeRepeatInForce = false;
+		//					SynchronizeInProgress = false;
+		//					if (SynchronizeRepeat == true) {
+		//						bool tForceAll = SynchronizeRepeatInForce;
+		//						SynchronizeRepeat = false;
+		//						SynchronizeRepeatInForce = false;
 		//						SynchronizeAllData (sEnvironment, tForceAll);
 		//					}
 		//
@@ -646,11 +646,11 @@ namespace NetWorkedData
 		//				};
 		//				request.errorBlockDelegate = delegate(Error error) {
 		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
-		//					NWDDataManager.SynchronizeInProgress = false;
-		//					if (NWDDataManager.SynchronizeRepeat == true) {
-		//						bool tForceAll = NWDDataManager.SynchronizeRepeatInForce;
-		//						NWDDataManager.SynchronizeRepeat = false;
-		//						NWDDataManager.SynchronizeRepeatInForce = false;
+		//					SynchronizeInProgress = false;
+		//					if (SynchronizeRepeat == true) {
+		//						bool tForceAll = SynchronizeRepeatInForce;
+		//						SynchronizeRepeat = false;
+		//						SynchronizeRepeatInForce = false;
 		//						SynchronizeAllData (sEnvironment, tForceAll);
 		//					}
 		//
@@ -660,9 +660,9 @@ namespace NetWorkedData
 		//				Debug.Log ("Synchronization send");
 		//				request.send ();
 		//			} else {
-		//				NWDDataManager.SynchronizeRepeat = true;
+		//				SynchronizeRepeat = true;
 		//				if (sForceAll == true) {
-		//					NWDDataManager.SynchronizeRepeatInForce = sForceAll;
+		//					SynchronizeRepeatInForce = sForceAll;
 		//				}
 		//
 		//				Debug.Log ("Synchronization all ready in progress ... prepare to repeat but in force if one ask it ?");
@@ -684,14 +684,14 @@ namespace NetWorkedData
 		//		public bool FirstSynchronisation (NWDAppEnvironment sEnvironment)
 		//		{
 		//			bool rReturn = false;
-		//			if (NWDDataManager.SynchronizeInProgress == false) {
+		//			if (SynchronizeInProgress == false) {
 		//				rReturn = true;
-		//				NWDDataManager.SynchronizeInProgress = true;
+		//				SynchronizeInProgress = true;
 		//				Dictionary<string,object> tDico = new Dictionary<string,object> ();
 		//				tDico.Add ("test", "test");
 		//				BTBUnityWebServiceDataRequest request = NWDWebRequestor.ShareInstance ().RequestDataRequestorWebService (sEnvironment, tDico);
 		//				request.successBlockDelegate = delegate(Dictionary<string, object> data) {
-		//					NWDDataManager.SynchronizeInProgress = false;
+		//					SynchronizeInProgress = false;
 		//					NWDWebRequestorResult tResult = NWDWebRequestor.RespondAnalyzeIsValid (sEnvironment, data);
 		//					if (tResult == NWDWebRequestorResult.Success) {
 		//					} else if (tResult == NWDWebRequestorResult.NewUser) {
@@ -699,14 +699,14 @@ namespace NetWorkedData
 		//					}
 		//				};
 		//				request.errorBlockDelegate = delegate(Error error) {
-		//					NWDDataManager.SynchronizeInProgress = false;
+		//					SynchronizeInProgress = false;
 		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
 		//				};
 		//
 		//				Debug.Log ("webservice send");
 		//				request.send ();
 		//			} else {
-		//				//NWDDataManager.SynchronizeRepeat = true;
+		//				//SynchronizeRepeat = true;
 		//				// Not necessairy to repeat, the first connexion is in pogress by another task :-)
 		//
 		//				Debug.Log ("webservice all ready in progress");

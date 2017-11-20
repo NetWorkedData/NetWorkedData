@@ -11,11 +11,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -34,8 +31,6 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Localization of game descriptions Class")]
 	[NWDClassMenuNameAttribute ("Localization")]
 	//-------------------------------------------------------------------------------------------------------------
-//	[NWDTypeClassInPackageAttribute]
-	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// NWD game configuration.
 	/// </summary>
@@ -47,9 +42,7 @@ namespace NetWorkedData
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Properties
-
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[NWDGroupStartAttribute ("Localization", true, true, true)]
@@ -69,13 +62,9 @@ namespace NetWorkedData
 		public NWDMultiType AnnexeValue { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Constructors
-
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLocalization ()
 		{
@@ -83,34 +72,39 @@ namespace NetWorkedData
 			//DiscoverItYourSelf = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class methods
-
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDLocalization CreateLocalizationTextValue (string sKey, string sDefault)
+        /// <summary>
+        /// Add a base string for internal key.
+        /// </summary>
+        /// <returns>The base string.</returns>
+        /// <param name="sKey">key.</param>
+        /// <param name="sDefault">default value.</param>
+		public static NWDLocalization CreateLocalizationTextValue (string sKey, string sDefault = "")
 		{
-			NWDLocalization rReturn = NWDBasis<NWDLocalization>.NewObject ();
+			NWDLocalization rReturn = NewObject ();
 			rReturn.InternalKey = sKey;
 			if (sDefault != "") {
 				rReturn.TextValue.AddBaseString (sKey);
-				//rReturn.TextValue.AddLocalString (sKey);
 			} else {
 				rReturn.TextValue.AddBaseString (sDefault);
-				//rReturn.TextValue.AddLocalString (sDefault);
 			}
 			rReturn.SaveModifications ();
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Add an annexe value for a string.
+        /// </summary>
+        /// <returns>The base string.</returns>
+        /// <param name="sKey">key.</param>
+        /// <param name="sDefault">default value.</param>
 		public static NWDLocalization CreateLocalizationAnnexe (string sKey, string sDefault)
 		{
-			NWDLocalization rReturn = NWDBasis<NWDLocalization>.NewObject ();
+			NWDLocalization rReturn = NewObject ();
 			rReturn.InternalKey = sKey;
-			//rReturn.TextValue.AddBaseString (sKey);
 			rReturn.AnnexeValue = new NWDMultiType (sDefault);
 			rReturn.SaveModifications ();
 			return rReturn;
@@ -118,13 +112,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Get the local string for internal key.
+        /// Add a base string if internal key is not found.
 		/// </summary>
 		/// <returns>The local string.</returns>
 		/// <param name="sKey">key.</param>
 		/// <param name="sDefault">default value.</param>
 		public static string GetLocalText (string sKey, string sDefault = "")
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
+			NWDLocalization tObject = GetObjectByInternalKey (sKey) as NWDLocalization;
 			string rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.TextValue.GetLocalString ();
@@ -136,7 +131,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDMultiType GetAnnexeValue (string sKey, string sDefault = "")
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
+			NWDLocalization tObject = GetObjectByInternalKey (sKey) as NWDLocalization;
 			NWDMultiType rReturn = new NWDMultiType ();
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue;
@@ -148,7 +143,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static string GetAnnexeString (string sKey, string sDefault = "")
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
+			NWDLocalization tObject = GetObjectByInternalKey (sKey) as NWDLocalization;
 			string rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue.ToString ();
@@ -160,7 +155,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static bool GetAnnexeBool (string sKey, bool sDefault = false)
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
+			NWDLocalization tObject = GetObjectByInternalKey (sKey) as NWDLocalization;
 			bool rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue.ToBool ();
@@ -172,7 +167,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static float GetAnnexeFloat (string sKey, float sDefault = 0.0f)
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
+			NWDLocalization tObject = GetObjectByInternalKey (sKey) as NWDLocalization;
 			float rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue.ToFloat ();
@@ -184,7 +179,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static float GetAnnexeInt (string sKey, int sDefault = 0)
 		{
-			NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey (sKey) as NWDLocalization;
+			NWDLocalization tObject = GetObjectByInternalKey (sKey) as NWDLocalization;
 			int rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.AnnexeValue.ToInt ();
@@ -203,10 +198,11 @@ namespace NetWorkedData
                     sDefault = sText.text;
                 }
 
-                NWDLocalization tObject = NWDBasis<NWDLocalization>.GetObjectByInternalKey(sText.text) as NWDLocalization;
+                NWDLocalization tObject = GetObjectByInternalKey(sText.text) as NWDLocalization;
                 if (tObject != null)
                 {
-                    sText.text = tObject.TextValue.GetLocalString();
+                    string tText = tObject.TextValue.GetLocalString();
+                    sText.text = tText.Replace("<br>", "\n");
                 }
                 else
                 {
@@ -221,22 +217,16 @@ namespace NetWorkedData
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Instance methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region override of NetWorkedData addons methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{
@@ -306,13 +296,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//-------------------------------------------------------------------------------------------------------------

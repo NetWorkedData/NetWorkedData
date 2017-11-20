@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-
 using BTBMiniJSON;
 
 #if UNITY_EDITOR
@@ -38,12 +37,9 @@ namespace NetWorkedData
 		public static string NewPasswordKey = "new_password";
 		public static string ConfirmPasswordKey = "password_confirm";
 		public static string SocialTokenKey = "social_token";
-
 		//-------------------------------------------------------------------------------------------------------------
 		public string AnonymousPlayerAccountReferenceKey = "auuid";
-		//		public string AnonymousRequesTokenKey = "atoken";
 		public string AnonymousResetPasswordKey = "apassword";
-
 		//-------------------------------------------------------------------------------------------------------------
 		public string Action;
 		public string Email;
@@ -56,16 +52,8 @@ namespace NetWorkedData
 		public string ConfirmPassword;
 		public string SocialToken;
 		//-------------------------------------------------------------------------------------------------------------
-
 		public string AnonymousPlayerAccountReference = "";
-		//		public string AnonymousRequesToken;
 		public string AnonymousResetPassword = "";
-		//-------------------------------------------------------------------------------------------------------------
-
-//		public List<Type> TypeList;
-//		public bool ForceSync = true;
-//		public bool FlushTrash = false;
-
 		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebAccount AddOperation (string sName,
 		                                                   BTBOperationBlock sSuccessBlock = null, 
