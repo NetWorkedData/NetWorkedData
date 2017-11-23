@@ -25,15 +25,15 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------
 	[Serializable]
 	public class NWDAccountConnexion : NWDConnexion <NWDAccount> {}
-	//-------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (false)]
 	[NWDClassTrigrammeAttribute ("ACC")]
 	[NWDClassDescriptionAttribute ("Account descriptions Class")]
 	[NWDClassMenuNameAttribute ("Account")]
-	//-------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------
 	public partial class NWDAccount : NWDBasis <NWDAccount>
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -45,19 +45,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		/// <summary>
-		/// Gets or sets the NickName.
-		/// </summary>
-		/// <value>The nickname.</value>
-		public string NickName { get; set; }
-
-		/// <summary>
-		/// Gets or sets the Avatar Data PNG.
-		/// </summary>
-		/// <value>The Avatar Data PNG (limit on server).</value>
-		public string Avatar { get; set; }
-
 		/// <summary>
 		/// Gets or sets the SecretKey to restaure anonymous account.
 		/// </summary>
@@ -122,17 +109,6 @@ namespace NetWorkedData
         public static string GetCurrentAccountReference()
         {
             return NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccount GetCurrentAccount()
-        {
-            NWDAccount rReturn = null;
-            int tIndex = ObjectsByReferenceList.IndexOf(GetCurrentAccountReference());
-            if (tIndex >= 0)
-            {
-                rReturn = ObjectsList.ElementAt(tIndex) as NWDAccount;
-            }
-            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -366,6 +342,6 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 	}
-	//-------------------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================
