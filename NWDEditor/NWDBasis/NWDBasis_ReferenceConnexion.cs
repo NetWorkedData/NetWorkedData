@@ -297,22 +297,32 @@ namespace NetWorkedData
 					if (sShowInspector == true) {
 						GUIStyle tBoldLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 						tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
-						tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight (new GUIContent ("A"), 100);
-						Rect tRectToDrawHeader = new Rect (
-							                         tX + tMargeInspector,
-							                         tY,
-							                         sPosition.width - tMargeInspector, 
-							                         sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
+                        tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight (new GUIContent ("A"), 100);
+                        Rect tRectToHelpBox = new Rect(
+                                                     tX+8,
+                                                     tY,
+                                                     sPosition.width - 8,
+                                                     sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
 
-						EditorGUI.DrawRect (tRectToDrawHeader, kHeaderColorBackground);
 
-						Rect tRectToDrawProperties = new Rect (
-							                             tX + tMargeInspector + tBorder,
-							                             tY + tBoldLabelStyle.fixedHeight,
-							                             sPosition.width - tMargeInspector - tBorder * 2, 
-							                             sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
+                        EditorGUI.HelpBox(tRectToHelpBox, "", MessageType.None);
 
-						EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
+
+						//Rect tRectToDrawHeader = new Rect (
+							                         //tX + tMargeInspector,
+							                         //tY,
+							                         //sPosition.width - tMargeInspector, 
+							                         //sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
+
+						//EditorGUI.DrawRect (tRectToDrawHeader, kHeaderColorBackground);
+
+						//Rect tRectToDrawProperties = new Rect (
+							                             //tX + tMargeInspector + tBorder,
+							                             //tY + tBoldLabelStyle.fixedHeight,
+							                             //sPosition.width - tMargeInspector - tBorder * 2, 
+							                             //sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
+
+						//EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
 						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP (), tBoldLabelStyle);
 						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 						// draw properties in this rect
