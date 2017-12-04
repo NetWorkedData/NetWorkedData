@@ -8,9 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
-
 using BasicToolBox;
 
 //=====================================================================================================================
@@ -19,7 +17,6 @@ namespace NetWorkedData
 	public partial class NWDAppEnvironment
 	{
 		#region properties
-
 		//-------------------------------------------------------------------------------------------------------------
 		public bool Selected = false;
 		public string Environment = NWDConstants.K_PRODUCTION_NAME;
@@ -30,7 +27,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public string AnonymousPlayerAccountReference = "";
 		// reccord the first anonymous value to restaure old original account
-		//		public string AnonymousRequesToken = ""; // reccord the last anonymous value to restaure original account
 		public string AnonymousResetPassword = "";
 		// reccord the secretKey to reset token
 		//-------------------------------------------------------------------------------------------------------------
@@ -56,11 +52,8 @@ namespace NetWorkedData
 		public string RescueEmail = "no-reply@my-web-site.com";
 		//		public string Version = "0.00.00";
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		#region constructor
-
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDAppEnvironment ()
 		{
@@ -75,11 +68,8 @@ namespace NetWorkedData
 			FormatVerification ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		#region instance methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		public void AnonymousVerification ()
 		{
@@ -128,7 +118,6 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
 	}
 }
