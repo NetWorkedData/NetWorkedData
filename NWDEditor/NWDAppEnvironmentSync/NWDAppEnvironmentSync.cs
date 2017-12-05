@@ -110,8 +110,6 @@ namespace NetWorkedData
 				Repaint ();
 			};
 
-
-
 			// FAIL BLOCK
 			FailBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
 				EndTime = DateTime.Now;
@@ -139,20 +137,22 @@ namespace NetWorkedData
 				}
 				Repaint ();
 				if (tInfos.isError) {
-					if (tErrorCode.Contains ("RQT")) {
-						EditorUtility.DisplayDialog ("Alert", "Session expired (error code " + tInfos.errorCode + ")", "Ok");
-				} else {
-					string tDescription = "unknown error (error code " + tInfos.errorCode + ")";
-					if (tInfos.errorDesc != null) {
-						tDescription = "error " + tInfos.errorCode + " : " + tInfos.errorDesc.LocalizedDescription.GetLocalString ();
-					}
-					EditorUtility.DisplayDialog ("  Alert", tDescription, "Ok");
+					if (tErrorCode.Contains ("RQT"))
+                    {
+						EditorUtility.DisplayDialog ("Alert", "Session expired (error code " + tInfos.errorCode + ")", "Ok");
+				    }
+                    else
+                    {
+					    string tDescription = "Unknown error (error code " + tInfos.errorCode + ")";
+					    if (tInfos.errorDesc != null)
+                        {
+						    tDescription = "Error " + tInfos.errorCode + " : " + tInfos.errorDesc.LocalizedDescription.GetLocalString ();
+					    }
+					    EditorUtility.DisplayDialog ("Alert", tDescription, "Ok");
 					}
 				}
 				Repaint ();
 			};
-
-
 
 			//CANCEL BLOCK
 			CancelBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
