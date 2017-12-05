@@ -35,21 +35,21 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			Debug.Log ("NWDConnexionDrawer GetPropertyHeight");
+			//Debug.Log ("NWDConnexionDrawer GetPropertyHeight");
 			NWDConnexionAttribut tReferenceConnexion = new NWDConnexionAttribut ();
 			if (fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true).Length > 0)
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
 			float tHeight = 0.0f;
-			Debug.Log ("Type of property " + property.type);
+			//Debug.Log ("Type of property " + property.type);
 			Type tType = Type.GetType ("NetWorkedData."+property.type);
 			Type tTypeParent = tType.BaseType;
-			Debug.Log ("tTypeParent " + tTypeParent.Name);
+			//Debug.Log ("tTypeParent " + tTypeParent.Name);
 			Type tTypeDefintion = null;
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
-				Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
+				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnexionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -69,16 +69,16 @@ namespace NetWorkedData
 			{
 				tReferenceConnexion = (NWDConnexionAttribut)fieldInfo.GetCustomAttributes (typeof(NWDConnexionAttribut), true)[0];
 			}
-			Debug.Log ("Type of property " + property.type);
+			//Debug.Log ("Type of property " + property.type);
 			Type tType = Type.GetType ("NetWorkedData."+property.type);
 			Type tTypeParent = tType.BaseType;
-			Debug.Log ("tTypeParent " + tTypeParent.Name);
+			//Debug.Log ("tTypeParent " + tTypeParent.Name);
 			Type tTypeDefintion = null;
 
 
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
-				Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
+				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
 
 

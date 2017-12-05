@@ -22,7 +22,8 @@ namespace NetWorkedData
 		" Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
 		"NWDIcons_02",
 		new Type[] {
-			typeof(NWDWorld), 
+            typeof(NWDWorld), 
+            typeof(NWDDistrict), 
 			typeof(NWDCategory), 
 			typeof(NWDFamily), 
 			typeof(NWDKeyword),
