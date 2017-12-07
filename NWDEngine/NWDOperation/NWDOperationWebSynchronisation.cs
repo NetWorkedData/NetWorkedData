@@ -78,9 +78,7 @@ namespace NetWorkedData
 			#else
 			DontDestroyOnLoad (tGameObjectToSpawn);
 			#endif
-			// ELSE IF BTBOperationWWW
-//			rReturn = new BTBOperationSynchronisation();
-			// END
+
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -96,11 +94,11 @@ namespace NetWorkedData
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override void DataDownloadedCompute (Dictionary<string, object> sData)
+        public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-			NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
+            NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

@@ -13,14 +13,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
-
 using BTBMiniJSON;
 
 #if UNITY_EDITOR
 using UnityEditor;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
 
 //=====================================================================================================================
@@ -84,10 +81,11 @@ namespace NetWorkedData
 			Data.Add ("management", "create");
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override void DataDownloadedCompute (Dictionary<string, object> sData)
+        public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
+            
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

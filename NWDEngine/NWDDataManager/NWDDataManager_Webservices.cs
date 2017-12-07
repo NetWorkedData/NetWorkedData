@@ -538,36 +538,44 @@ namespace NetWorkedData
 		{
 			// change account refrence 
 			// generate new Reference for this objetc (based on account reference)
-			foreach (Type tType in mTypeList) {
+			foreach (Type tType in mTypeList)
+            {
 				var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
+				if (tMethodInfo != null)
+                {
 					tMethodInfo.Invoke (null, new object[]{ sEnvironment.PlayerAccountReference, sNewAccountReference });
 				}
 			}
 			sEnvironment.PlayerAccountReference = sNewAccountReference;
+
 			#if UNITY_EDITOR
-			// add object in Account table 
-//			NWDBasis<NWDAccount>.NewInstanceWithReference (sEnvironment.PlayerAccountReference);
 			NWDBasis<NWDAccount>.NewObjectWithReference (sEnvironment.PlayerAccountReference);
 			#endif
-			SavePreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+
+			SavePreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment());
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData, List<Type> sTypeList)
+        public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
 		{
 			bool sUpdateData = false;
-			if (sTypeList != null) {
-				foreach (Type tType in sTypeList) {
+			if (sTypeList != null)
+            {
+				foreach (Type tType in sTypeList)
+                {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null) {
+					if (tMethodInfo != null)
+                    {
 						string tResult = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sData }) as string;
-						if (tResult == "YES") {
+						if (tResult == "YES")
+                        {
 							sUpdateData = true;
 						}
 					}
 				}
 			}
-			if (sUpdateData == true) {
+
+			if (sUpdateData == true)
+            {
 				SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
 			}
 		}
