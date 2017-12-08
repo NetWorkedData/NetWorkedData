@@ -36,7 +36,7 @@ namespace NetWorkedData
 		public static string OldPasswordKey = "old_password";
 		public static string NewPasswordKey = "new_password";
 		public static string ConfirmPasswordKey = "password_confirm";
-		public static string SocialTokenKey = "social_token";
+		public static string SocialTokenKey = "id";
 		//-------------------------------------------------------------------------------------------------------------
 		public string AnonymousPlayerAccountReferenceKey = "auuid";
 		public string AnonymousResetPasswordKey = "apassword";
@@ -197,61 +197,67 @@ namespace NetWorkedData
 					Data.Add (SocialTokenKey, SocialToken);
 				}
 			}
-			if (Action == "signout") {
 
-
+			if (Action == "signout")
+            {
 				Environment.AnonymousVerification ();
+
 				// prepare data for relog anonymous 
-				if (Environment.AnonymousPlayerAccountReference != null) {
+				if (Environment.AnonymousPlayerAccountReference != null)
+                {
 					AnonymousPlayerAccountReference = Environment.AnonymousPlayerAccountReference;
 				}
-				//if (Environment.AnonymousRequesToken != null) {
-				//	AnonymousRequesToken = Environment.AnonymousRequesToken;
-				//}
-				if (Environment.AnonymousResetPassword != null) {
+
+				if (Environment.AnonymousResetPassword != null)
+                {
 					AnonymousResetPassword = Environment.AnonymousResetPassword;
 				}
 
-				if (AnonymousPlayerAccountReference != null) {
-					if (Data.ContainsKey (AnonymousPlayerAccountReferenceKey)) {
+				if (AnonymousPlayerAccountReference != null)
+                {
+					if (Data.ContainsKey (AnonymousPlayerAccountReferenceKey))
+                    {
 						Data [AnonymousPlayerAccountReferenceKey] = AnonymousPlayerAccountReference;
-					} else {
+					}
+                    else
+                    {
 						Data.Add (AnonymousPlayerAccountReferenceKey, AnonymousPlayerAccountReference);
 					}
 				}
-//			if (AnonymousRequesToken != null) {
-//				if (Data.ContainsKey (AnonymousRequesTokenKey)) {
-//					Data [AnonymousRequesTokenKey] = AnonymousRequesToken;
-//				} else {
-//					Data.Add (AnonymousRequesTokenKey, AnonymousRequesToken);
-//				}
-//			}
-				if (AnonymousResetPassword != null) {
-					if (Data.ContainsKey (AnonymousResetPasswordKey)) {
+
+				if (AnonymousResetPassword != null)
+                {
+					if (Data.ContainsKey (AnonymousResetPasswordKey))
+                    {
 						Data [AnonymousResetPasswordKey] = AnonymousResetPassword;
-					} else {
+					}
+                    else
+                    {
 						Data.Add (AnonymousResetPasswordKey, AnonymousResetPassword);
 					}
 				}
 			}
-
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override void DataDownloadedCompute (Dictionary<string, object> sData)
+        public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
 			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
-			if (sData.ContainsKey ("signin")) {
-				foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList) {
+            if (sData.isSignIn)
+            {
+				foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList)
+                {
 					var tMethodInfo = tType.GetMethod ("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null) {
+					if (tMethodInfo != null)
+                    {
+                        //TODO ???
 					}
 				}
 			}
-			NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, NWDDataManager.SharedInstance.mTypeAccountDependantList);
 
+            NWDDataManager.SharedInstance.SynchronizationPullClassesDatas(Environment, sData, NWDDataManager.SharedInstance.mTypeAccountDependantList);
 			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

@@ -8,9 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
-
 using BasicToolBox;
 
 //=====================================================================================================================
@@ -27,9 +25,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SavePreferences ()
 		{
-			if (PlayerAccountReference == "" || PlayerAccountReference == null) {
-				PlayerAccountReference = NWDToolbox.GenerateUniqueID ();
-			} else {
+            if (string.IsNullOrEmpty(PlayerAccountReference))
+            {
+				PlayerAccountReference = NWDToolbox.GenerateUniqueID();
+			}
+            else
+            {
                 BTBPrefsManager.ShareInstance().set(Environment + kPlayerStatusKey, PlayerStatut.ToString());
                 BTBPrefsManager.ShareInstance().set(Environment + kPlayerAccountReferenceKey, PlayerAccountReference);
 				BTBPrefsManager.ShareInstance().set(Environment + kRequesTokenKey, RequesToken);
@@ -37,6 +38,13 @@ namespace NetWorkedData
 				BTBPrefsManager.ShareInstance().set(Environment + kAnonymousResetPasswordKey, AnonymousResetPassword);
 			}
 		}
+        //-------------------------------------------------------------------------------------------------------------
+        public void SavePreferences(NWDOperationResult sData)
+        {
+            SavePreferences();
+
+            //TODO : save usefull information from webservice data result
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void LoadPreferences ()
 		{
@@ -49,14 +57,15 @@ namespace NetWorkedData
                 Debug.Log(e.StackTrace);
             }
 
-			PlayerAccountReference = BTBPrefsManager.ShareInstance ().getString (Environment + kPlayerAccountReferenceKey);
-			RequesToken = BTBPrefsManager.ShareInstance ().getString (Environment + kRequesTokenKey);
-			AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance ().getString (Environment + kAnonymousPlayerAccountReferenceKey);
-			AnonymousResetPassword = BTBPrefsManager.ShareInstance ().getString (Environment + kAnonymousResetPasswordKey);
+			PlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kPlayerAccountReferenceKey);
+			RequesToken = BTBPrefsManager.ShareInstance().getString(Environment + kRequesTokenKey);
+			AnonymousPlayerAccountReference = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousPlayerAccountReferenceKey);
+			AnonymousResetPassword = BTBPrefsManager.ShareInstance().getString(Environment + kAnonymousResetPasswordKey);
 
-			if (PlayerAccountReference == "" || PlayerAccountReference == null) {
-				ResetPreferences ();
-			}
+            if (string.IsNullOrEmpty(PlayerAccountReference))
+            {
+                ResetPreferences();
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetPreferences ()

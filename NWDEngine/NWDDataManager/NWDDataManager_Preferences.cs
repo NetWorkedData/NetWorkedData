@@ -5,21 +5,7 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
-using System.IO;
 using UnityEngine;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData

@@ -288,50 +288,65 @@ namespace NetWorkedData
 		/// Synchronizations the pull data.
 		/// </summary>
 		/// <param name="sData">S data.</param>
-		public static string SynchronizationPullData (NWDAppEnvironment sEnvironment, Dictionary<string, object> sData)
+        public static string SynchronizationPullData(NWDAppEnvironment sEnvironment, NWDOperationResult sData)
 		{
-			string rReturn = "";
-			//Debug.Log ("SynchronizationPullData for table " + TableName () + " with datas receipted");
+			string rReturn = "NO";
+
 			// Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
-			if (sData.ContainsKey ("error")) {
+            if (sData.isError)
+            {
 				// error to show on Device
-			} else {
-				int tTimestampServer = NWDToolbox.Timestamp ();
-				if (sData.ContainsKey ("timestamp")) {
-					tTimestampServer = int.Parse (sData ["timestamp"].ToString ());
-				} else {
-//					CADDebug.Warning ("BIG ERROR NO TIMESTAMP");
+			}
+            else
+            {
+				int tTimestampServer = NWDToolbox.Timestamp();
+                if (sData.timestamp >= 0)
+                {
+                    tTimestampServer = sData.timestamp;
 				}
-				SynchronizationTimestampValidate (sEnvironment, tTimestampServer);
+                else
+                {
+                    Debug.Log("--SynchronizationPullData : BIG ERROR NO TIMESTAMP");
+				}
+
+				SynchronizationTimestampValidate(sEnvironment, tTimestampServer);
+
 				// now i need get only datas for this class tablename
-				string tTableName = TableName ();
+				string tTableName = TableName();
+
 				// Ok I need to compute all datas for this Class tablename
-				if (sData.ContainsKey (tTableName)) {
-					//Debug.Log (tTableName + "'s Datas found! it's a " + sData [tTableName].GetType ().Name);
-					List<object> tListOfRows = sData [tTableName] as List<object>;
-					//Debug.Log ("tListOfRows found! with " + tListOfRows.Count + " row(s)");
-					if (tListOfRows.Count > 0) {
-						foreach (object tCsvValue in tListOfRows) {
+                if (sData.param.ContainsKey(tTableName))
+                {
+                    List<object> tListOfRows = sData.param[tTableName] as List<object>;
+
+					if (tListOfRows.Count > 0)
+                    {
+						foreach (object tCsvValue in tListOfRows)
+                        {
 							string tCsvValueString = tCsvValue as string;
-							//Debug.Log ("Datas found : '" + tCsvValueString + "'");
+							
 							// I try to use this data to ... insert/update/delete/... ?
 							bool tForceToUse = false;
+
 							#if UNITY_EDITOR
 							tForceToUse = true;
 							#endif
+
 							NWDBasis<K> tObject = SynchronizationTryToUse (sEnvironment, tCsvValueString, tForceToUse);
+
 							// trash this object ?
 							FlushTrash (tObject);
 						}
+
 						rReturn = "YES";
-						//NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
+
 						#if UNITY_EDITOR
-						//	ReloadAllObjects ();
-						FilterTableEditor ();
+						FilterTableEditor();
 						#endif
 					}
 				}
 			}
+
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
