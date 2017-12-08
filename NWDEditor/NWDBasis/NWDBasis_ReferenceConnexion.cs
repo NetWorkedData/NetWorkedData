@@ -147,6 +147,8 @@ namespace NetWorkedData
 					EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
 					GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP (), tBoldLabelStyle);
 					tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+					GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" +tObject.Reference+">", tBoldLabelStyle);
+					tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 					// draw properties in this rect
 					Rect tRectToDawInspector = new Rect (
 						                           tX + tMargeInspector + tBorder,
@@ -194,6 +196,7 @@ namespace NetWorkedData
 				if (sShowInspector == true) {
 					GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
 					tLabelStyle.fixedHeight = tLabelStyle.CalcHeight (new GUIContent ("A"), tWidth);
+					rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 					rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 					rReturn += tObject.DrawObjectInspectorHeight () + NWDConstants.kFieldMarge * 2;
 				}
@@ -324,6 +327,8 @@ namespace NetWorkedData
 
 						//EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
 						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP (), tBoldLabelStyle);
+						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" +tObject.Reference+">", tBoldLabelStyle);
 						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 						// draw properties in this rect
 						Rect tRectToDawInspector = new Rect (

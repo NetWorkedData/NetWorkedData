@@ -129,6 +129,7 @@ namespace NetWorkedData
 				ObjectsInEditorTableSelectionList [tIndex] = false;
 				GUILayout.Label ("!!!", GUILayout.Width(kSelectWidth));
 				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
+				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
 				tString = "<color=#a52a2aff>" +tString +"</color>";
 			} else if (XX > 0) {
 				EditorGUI.DrawRect (rRectColored, kRowColorTrash);
@@ -234,7 +235,7 @@ namespace NetWorkedData
 			// check click in rect
 			if (rRectAnalyze.Contains (sMouseClickPosition)) 
 			{
-				NWDDataManager.SharedInstance.UpdateQueueExecute();
+				//NWDDataManager.SharedInstance.UpdateQueueExecute(); // update execute in another place!? in NWDDataManager.SharedInstance destroyed?
 				GUI.FocusControl (null);
 				SetObjectInEdition (this);
 				if (sSelectAndClick==true) {

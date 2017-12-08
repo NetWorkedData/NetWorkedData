@@ -190,6 +190,7 @@ namespace NetWorkedData
 		public const string K_APP_BASIS_PREVIEW_GAMEOBJECT = 		"Preview GameObject";
 		public const string K_APP_BASIS_INTERNAL_KEY = 				"Internal Key";
 		public const string K_APP_BASIS_INTERNAL_DESCRIPTION = 		"Internal Description";
+		public const string K_APP_BASIS_INTERNAL_TAG = 		"Internal Tag";
 
 
 		public const string K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD = 	"Asset must be download";
@@ -247,6 +248,7 @@ namespace NetWorkedData
 		public const string K_APP_TABLE_SHORTCUT_ZONE_C = 			"Use 'shift' + 'tab' to navigate throw tabs.";
 		public const string K_APP_TABLE_SEARCH_NAME = 				"Internal name";
 		public const string K_APP_TABLE_SEARCH_DESCRIPTION = 		"Intername description";
+		public const string K_APP_TABLE_SEARCH_TAG = 		"Intername tag";
 		public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = 		"Remove filter";
 		public const string K_APP_TABLE_SEARCH_FILTER = 			"Filter";
 		public const string K_APP_TABLE_SEARCH_SORT = 				"Sort by name";
@@ -306,6 +308,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public const string K_APP_TABLE_ROW_OBJECT_OK = 			" ";
 		public const string K_APP_TABLE_ROW_OBJECT_ERROR = 			"Error";
+		public const string K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR = 			"No integrate!";
 		public const string K_APP_TABLE_ROW_OBJECT_TRASH = 			"Trashed";
 		public const string K_APP_TABLE_ROW_OBJECT_DISACTIVE = 		"Desactived";
 		//-------------------------------------------------------------------------------------------------------------

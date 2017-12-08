@@ -7,6 +7,7 @@
 
 using System;
 using System.Reflection;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,7 +15,8 @@ using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
-{//-------------------------------------------------------------------------------------------------------------
+{
+//-------------------------------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------------------------------
 	[AttributeUsage (AttributeTargets.Class, AllowMultiple = true)]
 	//-------------------------------------------------------------------------------------------------------------
@@ -28,10 +30,12 @@ namespace NetWorkedData
 	{
 		public string Entitled = "";
 		public string ToolsTips = "";
+
 		public NWDEntitledAttribute (string sEntitled)
 		{
 			this.Entitled = sEntitled;
 		}
+
 		public NWDEntitledAttribute (string sEntitled, string sToolsTips)
 		{
 			this.Entitled = sEntitled;
@@ -44,6 +48,7 @@ namespace NetWorkedData
 	public class NWDHeaderAttribute : Attribute
 	{
 		public string mHeader;
+
 		public NWDHeaderAttribute (string sHeader)
 		{
 			this.mHeader = sHeader;
@@ -55,10 +60,12 @@ namespace NetWorkedData
 	public class NWDSpaceAttribute : Attribute
 	{
 		public float mSize;
+
 		public NWDSpaceAttribute ()
 		{
 			this.mSize = 10.0f;
 		}
+
 		public NWDSpaceAttribute (float sSize)
 		{
 			this.mSize = sSize;
@@ -95,14 +102,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDrawable (String sClassName, bool sBool)
 		{
-			string tKey = Key(sClassName);
+			string tKey = Key (sClassName);
 			EditorPrefs.HasKey (tKey);
 			EditorPrefs.SetBool (tKey, sBool);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public bool GetDrawable (String sClassName)
 		{
-			string tKey = Key(sClassName);
+			string tKey = Key (sClassName);
 			EditorPrefs.HasKey (tKey);
 			return EditorPrefs.GetBool (tKey);
 		}
@@ -116,6 +123,61 @@ namespace NetWorkedData
 			this.mOpen = sOpen;
 			this.mReducible = sReducible;
 		}
+	}
+	//-------------------------------------------------------------------------------------------------------------
+	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
+	//-------------------------------------------------------------------------------------------------------------
+	public class NWDIfAttribute : Attribute
+	{
+		public string mPropertyName;
+		public string[] mValues;
+		public bool mVisible;
+		//-------------------------------------------------------------------------------------------------------------
+		#if UNITY_EDITOR
+		//-------------------------------------------------------------------------------------------------------------
+		public bool IsDrawable (Object sObject)
+		{
+			bool rReturn = true;
+			PropertyInfo tInfo = sObject.GetType ().GetProperty (mPropertyName, BindingFlags.Public | BindingFlags.Instance);
+			if (tInfo != null) {
+				List<string> tList = new List<string> (mValues);
+				if (!tList.Contains (tInfo.GetValue (sObject, null).ToString())) {
+					rReturn = false;
+				}
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		#endif
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDIfAttribute (string sPropertyName, string[] sValues)//, bool sVisible = true)
+		{
+			this.mPropertyName = sPropertyName;
+			this.mValues = sValues;
+//			this.mVisible = sVisible;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDIfAttribute (string sPropertyName, bool sValue)//, bool sVisible = true)
+		{
+			this.mPropertyName = sPropertyName;
+			this.mValues = new string[]{sValue.ToString()};
+			//			this.mVisible = sVisible;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDIfAttribute (string sPropertyName, int sValue)//, bool sVisible = true)
+		{
+			this.mPropertyName = sPropertyName;
+			this.mValues = new string[]{sValue.ToString()};
+			//			this.mVisible = sVisible;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		public NWDIfAttribute (string sPropertyName, float sValue)//, bool sVisible = true)
+		{
+			this.mPropertyName = sPropertyName;
+			this.mValues = new string[]{sValue.ToString()};
+			//			this.mVisible = sVisible;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 	//-------------------------------------------------------------------------------------------------------------
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
@@ -142,6 +204,7 @@ namespace NetWorkedData
 	{
 		public float mMin;
 		public float mMax;
+
 		public NWDFloatSliderAttribute (float sMin, float sMax)
 		{
 			this.mMin = sMin;
@@ -155,6 +218,7 @@ namespace NetWorkedData
 	{
 		public int mMin;
 		public int mMax;
+
 		public NWDIntSliderAttribute (int sMin, int sMax)
 		{
 			this.mMin = sMin;
@@ -168,6 +232,7 @@ namespace NetWorkedData
 	{
 		public int[] mEnumInt;
 		public string[] mEnumString;
+
 		public NWDEnumAttribute (int[] sEnumInt, string[] sEnumString)
 		{
 			this.mEnumInt = sEnumInt;
@@ -180,6 +245,7 @@ namespace NetWorkedData
 	public class NWDEnumStringAttribute : Attribute
 	{
 		public string[] mEnumString;
+
 		public NWDEnumStringAttribute (string[] sEnumString)
 		{
 			this.mEnumString = sEnumString;

@@ -189,7 +189,7 @@ namespace NetWorkedData
 				if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
 				    tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
 				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
-				    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
+					&& tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync" && tProp.Name != "Tag" ) {
 
 					foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true)) {
 						if (tActualGroupReference != null) {
@@ -271,7 +271,12 @@ namespace NetWorkedData
 								//Debug.Log (tTypeOfThis.Name);
 								if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string)) {
 									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-								} else if (tTypeOfThis == typeof(bool)) {
+                                } 
+								else if(tTypeOfThis.IsEnum)
+                                {
+                                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                }
+                                else if (tTypeOfThis == typeof(bool)) {
 									tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
 								} else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64)) {
 									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -383,7 +388,7 @@ namespace NetWorkedData
 				if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
 				    tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
 				    && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
-				    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync") {
+					&& tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync" && tProp.Name != "Tag" ) {
 
 					foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes (typeof(NWDGroupEndAttribute), true)) {
 						if (tActualGroupReference != null) {
@@ -476,8 +481,18 @@ namespace NetWorkedData
 //
 //
 //						} 
+						bool tDisabled = false;
+						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
+							tDisabled = true;
+						} else {
+							if (tProp.GetCustomAttributes (typeof(NWDIfAttribute), true).Length > 0) {
+								NWDIfAttribute tReference = (NWDIfAttribute)tProp.GetCustomAttributes (typeof(NWDIfAttribute), true) [0];
+								tDisabled = !tReference.IsDrawable (this);
 
-						EditorGUI.BeginDisabledGroup (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0);
+								//tToolsTips = tReference.ToolsTips;
+							}
+						}
+						EditorGUI.BeginDisabledGroup (tDisabled);
 						//else 
 						
 						
@@ -642,21 +657,34 @@ namespace NetWorkedData
 								}
 							} else {
 								Type tTypeOfThis = tProp.PropertyType;
-								//Debug.Log (tTypeOfThis.Name);
+                                //Debug.Log (tTypeOfThis.Name);
 
-								if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string)) {
-									string tValue = tProp.GetValue (this, null) as string;
-									string tValueNext = EditorGUI.TextField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
+                                if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                                {
+                                    string tValue = tProp.GetValue(this, null) as string;
+                                    string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
 
-//									string tValueNext = EditorGUI.TextField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, NWDConstants.TextCSVUnprotect (tValue), tTextFieldStyle);
-//									tValueNext = NWDConstants.TextCSVProtect (tValueNext);
+                                    //									string tValueNext = EditorGUI.TextField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, NWDConstants.TextCSVUnprotect (tValue), tTextFieldStyle);
+                                    //									tValueNext = NWDConstants.TextCSVProtect (tValueNext);
 
-									tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                    if (tValueNext != tValue)
+                                    {
+                                        tProp.SetValue(this, tValueNext, null);
+                                        rNeedBeUpdate = true;
+                                    }
+                                }
+								else if (tTypeOfThis.IsEnum)
+								{
+									Enum tValue = tProp.GetValue(this, null) as Enum;
+									Enum tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tEntitled, tValue, tPopupdStyle);
+									tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 									if (tValueNext != tValue) {
 										tProp.SetValue (this, tValueNext, null);
 										rNeedBeUpdate = true;
 									}
-								} else if (tTypeOfThis == typeof(bool)) {
+                                }
+                                else if (tTypeOfThis == typeof(bool)) {
 									bool tValue = (bool)tProp.GetValue (this, null);
 									bool tValueNext = EditorGUI.Toggle (new Rect (tX, tY, tWidth, tToggleStyle.fixedHeight), tEntitled, tValue, tToggleStyle);
 									tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1163,6 +1191,20 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
 			}
+
+
+			NWDBasisTag tInternalTag = (NWDBasisTag)EditorGUI.EnumPopup (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_TAG, (NWDBasisTag)Tag);
+			tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+			if ((int)tInternalTag != Tag) {
+				Tag = (int)tInternalTag;
+				DM = NWDToolbox.Timestamp ();
+				UpdateIntegrity ();
+				UpdateObjectInListOfEdition (this);
+				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
+				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+			}
+
+
 				
 			float tBottomHeight = tBoldLabelStyle.fixedHeight * 2 + tMiniButtonStyle.fixedHeight * 3 + tLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 7;
 

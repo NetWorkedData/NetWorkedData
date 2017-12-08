@@ -152,6 +152,8 @@ namespace NetWorkedData
 			// |||||||||||||||||||||||||||||||||||||||||||
 			m_SearchInternalName = EditorGUILayout.TextField (NWDConstants.K_APP_TABLE_SEARCH_NAME, m_SearchInternalName, GUILayout.Width (300));
 			m_SearchInternalDescription = EditorGUILayout.TextField (NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, m_SearchInternalDescription, GUILayout.Width (300));
+			m_SearchTag = (NWDBasisTag) EditorGUILayout.EnumPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG, m_SearchTag, GUILayout.Width (300));
+
 
 			// |||||||||||||||||||||||||||||||||||||||||||
 			GUILayout.EndVertical ();
@@ -162,6 +164,7 @@ namespace NetWorkedData
 				SetObjectInEdition (null);
 				m_SearchInternalName = "";
 				m_SearchInternalDescription = "";
+				m_SearchTag = NWDBasisTag.NoTag;
 				FilterTableEditor ();
 			}
 			if (GUILayout.Button (NWDConstants.K_APP_TABLE_SEARCH_FILTER, EditorStyles.miniButton, GUILayout.Width (120))) {

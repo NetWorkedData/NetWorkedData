@@ -68,6 +68,9 @@ namespace NetWorkedData
 		~NWDDataManager ()
 		{
 			//Debug.Log ("NWDDataManager Destructor");
+			// reccord all modifications because this instance will be destroyed
+			SharedInstance.UpdateQueueExecute();
+			// remove notification center
 			if (NotificationCenter != null) {
 				NotificationCenter.RemoveAll ();
 				NotificationCenter = null;
