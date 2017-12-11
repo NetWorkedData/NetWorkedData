@@ -44,7 +44,7 @@ namespace NetWorkedData
 				tObject = (NWDBasis<K>)ObjectsList.ElementAt (tObjectIndex);
 			}
 			if (tObject != null) {
-				if (tObject.InternalDescription != "" && tObject.InternalDescription != null) {
+                if (tObject.InternalDescription != "" && tObject.InternalDescription != null) {
 					GUIStyle tHelpBoxStyle = new GUIStyle (EditorStyles.helpBox);
 					float tHelpBoxHeight = tHelpBoxStyle.CalcHeight (new GUIContent (tObject.InternalDescription), tWidth - 20);
 					rReturn += tHelpBoxHeight + NWDConstants.kFieldMarge;
@@ -122,7 +122,7 @@ namespace NetWorkedData
 				if (tObject.InternalDescription != "" && tObject.InternalDescription != null) {
 					GUIStyle tHelpBoxStyle = new GUIStyle (EditorStyles.helpBox);
 					tHelpBoxHeight = tHelpBoxStyle.CalcHeight (new GUIContent (tObject.InternalDescription), tWidth);
-					EditorGUI.HelpBox (new Rect (tX, tY, tWidth, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
+                    EditorGUI.HelpBox (new Rect (tX+ tMargeInspector, tY, tWidth-tMargeInspector, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
 					tY += tHelpBoxHeight + NWDConstants.kFieldMarge;
 					tHelpBoxHeight += NWDConstants.kFieldMarge;
 				}
@@ -194,11 +194,16 @@ namespace NetWorkedData
 					rReturn += tHelpBoxHeight + NWDConstants.kFieldMarge;
 				}
 				if (sShowInspector == true) {
-					GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
-					tLabelStyle.fixedHeight = tLabelStyle.CalcHeight (new GUIContent ("A"), tWidth);
-					rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-					rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-					rReturn += tObject.DrawObjectInspectorHeight () + NWDConstants.kFieldMarge * 2;
+                    // add foldout
+                    rReturn += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    if (kInspectorFoldout == true)
+                    {
+                        GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
+                        tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+                        rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                        rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                        rReturn += tObject.DrawObjectInspectorHeight() + NWDConstants.kFieldMarge * 2;
+                    }
 				}
 			}
 			// check if value must be clean or not 
@@ -218,13 +223,27 @@ namespace NetWorkedData
 		public static string ReferenceConnexionHeightSerializedString (SerializedProperty sProperty, bool sShowInspector)
 		{
 			return ReferenceConnexionHeightSerialized (sProperty, sShowInspector).ToString ();
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool kInspectorFoldout = false;
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// References the connexion field serialized.
+        /// </summary>
+        /// <param name="sPosition">position.</param>
+        /// <param name="sEntitled">entitled.</param>
+        /// <param name="sProperty">property.</param>
+        /// <param name="sToolsTips">tools tips.</param>
+        /// <param name="sShowInspector">If set to <c>true</c> show inspector.</param>
+        /// <param name="sEditionEnable">If set to <c>true</c> edition enable.</param>
+        /// <param name="sEditButton">If set to <c>true</c> edit button.</param>
+        /// <param name="sNewButton">If set to <c>true</c> new button.</param>
 		public static void ReferenceConnexionFieldSerialized (Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
 		{
 
 			GUIContent tLabelContent = new GUIContent (sEntitled);
 
+            // begin draw property with tLabel
 			EditorGUI.BeginProperty (sPosition, tLabelContent, sProperty);
 			{
 				EditorGUI.BeginChangeCheck ();
@@ -241,10 +260,14 @@ namespace NetWorkedData
 				GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 				tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), 100);
 
+                GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+                tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), 100);
 
+                GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+                tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
+                tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), 100);
 
-
-
+                // test if connexion is ok or ko
 				bool tConnexion = true;
 				if (tValue != null && tValue != "")
 				{
@@ -253,11 +276,11 @@ namespace NetWorkedData
 				      tConnexion = false;
 				  }
 				}
+
+                // editable? 
 				EditorGUI.BeginDisabledGroup(!tConnexion);
 
-
-
-
+                // find class and invoke methods
 				Type tType = ClassType ();
 				List<string> tReferenceList = new List<string> ();
 				List<string> tInternalNameList = new List<string> ();
@@ -304,50 +327,38 @@ namespace NetWorkedData
 					if (tObject.InternalDescription != "" && tObject.InternalDescription != null) {
 						GUIStyle tHelpBoxStyle = new GUIStyle (EditorStyles.helpBox);
 						tHelpBoxHeight = tHelpBoxStyle.CalcHeight (new GUIContent (tObject.InternalDescription), tWidth);
-						EditorGUI.HelpBox (new Rect (tX, tY, tWidth, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
+                        EditorGUI.HelpBox (new Rect (tX+ tMargeInspector, tY, tWidth-tMargeInspector, tHelpBoxHeight), tObject.InternalDescription, MessageType.None);
 						tY += tHelpBoxHeight + NWDConstants.kFieldMarge;
 						tHelpBoxHeight += NWDConstants.kFieldMarge;
 					}
 					if (sShowInspector == true) {
-						GUIStyle tBoldLabelStyle = new GUIStyle (EditorStyles.boldLabel);
-						tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
-                        tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight (new GUIContent ("A"), 100);
-                        Rect tRectToHelpBox = new Rect(
-                                                     tX+8,
-                                                     tY,
-                                                     sPosition.width - 8,
-                                                     sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
+
+                       // kInspectorFoldout = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight),kInspectorFoldout,NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT);
+                        kInspectorFoldout = EditorGUI.ToggleLeft(new Rect(tX+ tMargeInspector, tY, tWidth- tMargeInspector, tPopupdStyle.fixedHeight), NWDConstants.K_APP_BASIS_INSPECTOR_FOLDOUT, kInspectorFoldout);
+                        tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                        if (kInspectorFoldout == true)
+                        {
+                            Rect tRectToHelpBox = new Rect(
+                                tX + NWDConstants.kConnexionIndent,
+                                                         tY,
+                                sPosition.width - NWDConstants.kConnexionIndent,
+                                sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge- tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
 
 
-                        EditorGUI.HelpBox(tRectToHelpBox, "", MessageType.None);
-
-
-						//Rect tRectToDrawHeader = new Rect (
-							                         //tX + tMargeInspector,
-							                         //tY,
-							                         //sPosition.width - tMargeInspector, 
-							                         //sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
-
-						//EditorGUI.DrawRect (tRectToDrawHeader, kHeaderColorBackground);
-
-						//Rect tRectToDrawProperties = new Rect (
-							                             //tX + tMargeInspector + tBorder,
-							                             //tY + tBoldLabelStyle.fixedHeight,
-							                             //sPosition.width - tMargeInspector - tBorder * 2, 
-							                             //sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
-
+                            EditorGUI.HelpBox(tRectToHelpBox, "", MessageType.None);
 						//EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
 						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP (), tBoldLabelStyle);
 						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 						GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" +tObject.Reference+">", tBoldLabelStyle);
 						tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-						// draw properties in this rect
-						Rect tRectToDawInspector = new Rect (
-							                           tX + tMargeInspector + tBorder,
-							                           tY,
-							                           sPosition.width - tMargeInspector - tBorder, 
-							                           sPosition.height - tPopupdStyle.fixedHeight - tBorder);
-						tObject.DrawObjectInspector (tRectToDawInspector, false, sEditionEnable);
+                        // draw properties in this rect
+                            Rect tRectToDawInspector = new Rect(
+                                                           tX + tMargeInspector + tBorder,
+                                                           tY,
+                                                           sPosition.width - tMargeInspector - tBorder,
+                                                           sPosition.height - tPopupdStyle.fixedHeight - tBorder);
+                            tObject.DrawObjectInspector(tRectToDawInspector, false, sEditionEnable);
+                        }
 					}
 				} else {
 					if (sNewButton == true) {

@@ -50,7 +50,8 @@ namespace NetWorkedData
 		public static float kPrefabSize = 							80.0f;
 		public static float kIntWidth = 							36.0f;
 		public static float kEditWidth = 							12.0f;
-		public static float kLangWidth = 							200.0f;
+        public static float kLangWidth = 							200.0f;
+        public static float kConnexionIndent = 10.0f;
 		//-------------------------------------------------------------------------------------------------------------
 		// NetWorked synchronize alert
 		public const string K_SYNC_ALERT_TITLE = 					"ALERT PRODUCTION";
@@ -220,6 +221,9 @@ namespace NetWorkedData
 		public const string K_APP_BASIS_NEW_REFERENCE_MESSAGE =		"Do you want to change the reference of this object?";
 		public const string K_APP_BASIS_NEW_REFERENCE_OK = 			"Change it's reference";
 		public const string K_APP_BASIS_NEW_REFERENCE_CANCEL = 		"Cancel";
+
+        public const string K_APP_BASIS_INSPECTOR_FOLDOUT = "See form";
+        public const string K_APP_BASIS_INSPECTOR_FOLDOUT_CLOSE = "Hidde form";
 
 		public const string K_APP_BASIS_INTEGRITY_VALUE = 			"Integrity value";
 
