@@ -17,12 +17,12 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public enum NWDAppEnvironmentPlayerStatut
 	{
-		Temporary,
-		Anonymous,
-		LoginPassword,
-		Facebook,
-		Google,
-		Unknow,
+		Temporary = 0,
+		Anonymous = 1,
+		LoginPassword = 20,
+		Facebook = 30,
+		Google = 31,
+		Unknow = 99,
 	}
 	//-------------------------------------------------------------------------------------------------------------
 }
