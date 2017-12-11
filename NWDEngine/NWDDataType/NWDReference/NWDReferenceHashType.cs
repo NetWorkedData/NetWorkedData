@@ -60,6 +60,15 @@ namespace NetWorkedData
 		{
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			float tHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f);
+
+			// test if error in reference and add button height
+			if (Value != null && Value != "") 
+			{
+//				if (ReferenceInError (new List<string> (Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0) {
+//					tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+//				}
+			}
+
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------

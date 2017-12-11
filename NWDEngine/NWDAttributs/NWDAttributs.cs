@@ -9,6 +9,8 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 
+using UnityEngine;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -131,22 +133,32 @@ namespace NetWorkedData
 	{
 		public string mPropertyName;
 		public string[] mValues;
-		public bool mVisible;
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		public bool IsDrawable (Object sObject)
-		{
-			bool rReturn = true;
-			PropertyInfo tInfo = sObject.GetType ().GetProperty (mPropertyName, BindingFlags.Public | BindingFlags.Instance);
-			if (tInfo != null) {
-				List<string> tList = new List<string> (mValues);
-				if (!tList.Contains (tInfo.GetValue (sObject, null).ToString())) {
-					rReturn = false;
-				}
-			}
-			return rReturn;
-		}
+        //		public bool mVisible;
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsDrawable(System.Object sObject)
+        {
+            bool rReturn = true;
+            PropertyInfo tInfo = sObject.GetType().GetProperty(mPropertyName, BindingFlags.Public | BindingFlags.Instance);
+            if (tInfo != null)
+            {
+                List<string> tList = new List<string>(mValues);
+                object tObject = tInfo.GetValue(sObject, null);
+                string tV = tObject.ToString();
+                if (tObject.GetType().IsEnum)
+                {
+                    int tvv = (int)tObject;
+                    tV = tvv.ToString();
+                }
+                if (!tList.Contains(tV))
+                {
+                    rReturn = false;
+                }
+            }
+            return rReturn;
+        }
+
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
@@ -177,6 +189,23 @@ namespace NetWorkedData
 			this.mValues = new string[]{sValue.ToString()};
 			//			this.mVisible = sVisible;
 		}
+		public NWDIfAttribute (string sPropertyName, int[] sValues)//, bool sVisible = true)
+		{
+			this.mPropertyName = sPropertyName;
+			List<string> tValues = new List<string> ();
+			foreach (int ti in sValues) {
+				tValues.Add (ti.ToString ());
+			}
+			this.mValues = tValues.ToArray ();
+			//			this.mVisible = sVisible;
+		}
+		//-------------------------------------------------------------------------------------------------------------
+//		public NWDIfAttribute (string sPropertyName, Enum sValue)//, bool sVisible = true)
+//		{
+//			this.mPropertyName = sPropertyName;
+//			this.mValues = new string[]{((int)sValue).ToString()};
+//			//			this.mVisible = sVisible;
+//		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//-------------------------------------------------------------------------------------------------------------

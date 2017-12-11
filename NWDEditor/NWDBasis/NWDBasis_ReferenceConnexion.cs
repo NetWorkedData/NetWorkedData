@@ -201,6 +201,17 @@ namespace NetWorkedData
 					rReturn += tObject.DrawObjectInspectorHeight () + NWDConstants.kFieldMarge * 2;
 				}
 			}
+			// check if value must be clean or not 
+			string tValue = sProperty.FindPropertyRelative ("Reference").stringValue;
+			if (tValue != null && tValue != "")
+			{
+				if (NWDBasis<K>.InstanceByReference(tValue) == null)
+				{
+					GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
+					tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
+					rReturn = rReturn + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+				}
+			}
 			return rReturn;
 		}
         //-------------------------------------------------------------------------------------------------------------

@@ -45,9 +45,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetReference (string sReference)
 		{
-			if (sReference == null) 
-			{
-				sReference =  "";
+			if (sReference == null) {
+				sReference = "";
 			}
 			Value = sReference;
 		}
@@ -82,6 +81,16 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+		public List<string> ReferenceInError( List<string> sReferencesList) {
+			List<string> rReturn = new List<string> ();
+			foreach (string tReference in sReferencesList) {
+				if (NWDBasis<K>.InstanceByReference (tReference) == null) {
+					rReturn.Add (tReference);
+				}
+			}
+			return rReturn;
+		}
+		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
@@ -106,9 +115,17 @@ namespace NetWorkedData
 			tLabelAssetStyle.normal.textColor = Color.gray;
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
-			return tPopupdStyle.fixedHeight + tConnexion*(tLabelStyle.fixedHeight+NWDConstants.kFieldMarge+
+			float tHeight = tPopupdStyle.fixedHeight + tConnexion * (tLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
 				//tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
-				tMiniButtonStyle.fixedHeight+NWDConstants.kFieldMarge);
+			                tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+
+			// test if error in reference and add button height
+			if (Value != null && Value != "") {
+				if (ReferenceInError (new List<string> (Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0) {
+					tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+				}
+			}
+			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPosition, string sEntitled)
@@ -144,7 +161,7 @@ namespace NetWorkedData
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
-		    EditorGUI.BeginDisabledGroup (!tConnexion);
+			EditorGUI.BeginDisabledGroup (!tConnexion);
 			List<string> tReferenceList = new List<string> ();
 			List<string> tInternalNameList = new List<string> ();
 			tReferenceList.Add (NWDConstants.kFieldSeparatorA);
@@ -162,8 +179,8 @@ namespace NetWorkedData
 			int tIndex = tReferenceList.IndexOf (Value);
 			int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), sEntitled, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
 
-            if (tConnexion == false) {
-				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth+NWDConstants.kFieldMarge, tY+1, tWidth - EditorGUIUtility.labelWidth- NWDConstants.kFieldMarge*4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <"+Value+">", tLabelAssetStyle);
+			if (tConnexion == false) {
+				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <" + Value + ">", tLabelAssetStyle);
 
 			}	
 			
@@ -179,8 +196,8 @@ namespace NetWorkedData
 				tTemporary.Value = tNextValue;
 			}
 
-            tY = tY + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;
-            EditorGUI.EndDisabledGroup ();
+			tY = tY + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;
+			EditorGUI.EndDisabledGroup ();
 
 			if (tConnexion == false) {
 				tTemporary.Value = Value;

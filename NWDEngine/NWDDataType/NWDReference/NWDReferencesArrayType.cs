@@ -249,6 +249,15 @@ namespace NetWorkedData
 				tConnexion*(tLabelStyle.fixedHeight+NWDConstants.kFieldMarge+
 					//tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
 					tMiniButtonStyle.fixedHeight+NWDConstants.kFieldMarge);
+
+			// test if error in reference and add button height
+			if (Value != null && Value != "") 
+			{
+				if (ReferenceInError (new List<string> (Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0) {
+					tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+				}
+			}
+
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------

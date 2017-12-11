@@ -197,7 +197,7 @@ namespace NetWorkedData
 		public const string K_APP_BASIS_ASSET_DELETE = 				"Delete";
 		public const string K_APP_BASIS_REFERENCE_ERROR = 			"Reference error";
 		public const string K_APP_BASIS_REFERENCE_LIST_ERROR = 		"Reference(s) error";
-		public const string K_APP_BASIS_REFERENCE_QUANTITY_ERROR = 		"Reference(s) error";
+		public const string K_APP_BASIS_REFERENCE_QUANTITY_ERROR = 	"Reference(s) error";
 		public const string K_APP_BASIS_REFERENCE_CLEAN = 			"Clean";
 
 		public const string K_APP_BASIS_TRASH_ZONE = 				"TRASH ZONE";
