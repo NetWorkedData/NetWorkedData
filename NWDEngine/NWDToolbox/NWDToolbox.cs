@@ -235,7 +235,7 @@ namespace NetWorkedData
 			DirectoryInfo tDirectory = new DirectoryInfo (sFromFolder);
 			FileInfo[] tInfo = tDirectory.GetFiles ("*.*");
 			foreach (FileInfo tFile in tInfo) {
-				Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
+				//Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
 				string tNewPath = sToFolder + "/" + tFile.Name;
 				if (File.Exists (tNewPath)) {
 					File.Delete (tNewPath);

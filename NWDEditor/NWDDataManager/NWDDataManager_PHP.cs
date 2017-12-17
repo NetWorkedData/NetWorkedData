@@ -99,7 +99,8 @@ namespace NetWorkedData
 			NWDError.CreateGenericError ("account", "ACC87", "Account error", "Facebook multi-account", "alert");
 			NWDError.CreateGenericError ("account", "ACC88", "Account error", "Facebook singin error allready log with this account", "alert");
 			NWDError.CreateGenericError ("account", "ACC90", "Account error", "error in request select in Account", "alert");
-			NWDError.CreateGenericError ("account", "ACC91", "Account error", "error in request insert anonymous Account", "alert");
+            NWDError.CreateGenericError ("account", "ACC91", "Account error", "error in request insert anonymous Account", "alert");
+            NWDError.CreateGenericError ("account", "ACC92", "Account error", "unknow account but not temporary … it's not possible … maybe destroyed account", "alert");
 			NWDError.CreateGenericError ("account", "ACC95", "Account error", "user is multiple", "alert");
 			NWDError.CreateGenericError ("account", "ACC98", "Account error", "user is banned, no sign-in", "alert");
 			NWDError.CreateGenericError ("account", "ACC99", "Account error", "user is banned", "alert");
