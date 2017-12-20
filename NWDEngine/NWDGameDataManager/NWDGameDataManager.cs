@@ -34,7 +34,7 @@ namespace NetWorkedData
 		/// Of course it's a patch, but it's working!
 		/// </summary>
 		//-------------------------------------------------------------------------------------------------------------
-		[ExecuteInEditMode] // I do that to run this object in edit mode too (on scene)
+		//[ExecuteInEditMode] // I do that to run this object in edit mode too (on scene)
 		//-------------------------------------------------------------------------------------------------------------
 		private class SharedInstanceAsSingleton 
 		{

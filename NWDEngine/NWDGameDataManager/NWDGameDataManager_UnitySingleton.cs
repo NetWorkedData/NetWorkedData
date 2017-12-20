@@ -14,6 +14,10 @@ using UnityEngine.SocialPlatforms;
 
 using BasicToolBox;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -39,7 +43,7 @@ namespace NetWorkedData
 		[RuntimeInitializeOnLoadMethod]
 		static void OnRuntimeMethodLoad ()
 		{
-			//Debug.LogVerbose ("NWDGameDataManager OnRuntimeMethodLoad");
+			Debug.Log ("NWDGameDataManager OnRuntimeMethodLoad");
 			UnitySingleton ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -58,27 +62,83 @@ namespace NetWorkedData
 		/// <returns>The singleton.</returns>
 		public static NWDGameDataManager UnitySingleton ()
 		{
-			//Debug.LogVerbose ("NWDGameDataManager Singleton");
+            Debug.Log ("NWDGameDataManager UnitySingleton");
 			if (kUnitySingleton == null) {
-				// I need to create singleton
-				GameObject tObjToSpawn;
-				//spawn object
-				tObjToSpawn = new GameObject ("NWDGameDataManagerUnitySingleton");
-				//Add Components
-				tObjToSpawn.AddComponent<NWDGameDataManager> ();
-				// keep k_Singleton
-				kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager> ();
+				
 				// check real Singleton
 				NWDGameDataManager[] tOtherInstances = FindObjectsOfType<NWDGameDataManager> ();
-				foreach (NWDGameDataManager tOtherInstance in tOtherInstances) {
-					if (tOtherInstance.gameObject != tObjToSpawn) {
-						#if UNITY_EDITOR
-						DestroyImmediate (tOtherInstance.gameObject);
-						#else
-						Destroy (tOtherInstance.gameObject);
-						#endif
-					}
-				}
+
+                List<NWDGameDataManager> tOtherList = new List<NWDGameDataManager>();
+
+                foreach (NWDGameDataManager tOtherInstance in tOtherInstances)
+                {
+                    tOtherList.Add(tOtherInstance);
+                }
+                if (tOtherList.Count == 0)
+                {
+                    // I need to create singleton
+                    GameObject tObjToSpawn;
+                    //spawn object
+                    tObjToSpawn = new GameObject("NWDGameDataManagerUnitySingleton");
+                    //Add Components
+                    tObjToSpawn.AddComponent<NWDGameDataManager>();
+
+
+
+                    // keep k_Singleton
+                    kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
+                }
+                else  if (tOtherList.Count == 1)
+                {
+                    kUnitySingleton = tOtherList[0];
+                }
+                else
+                {
+                    while (tOtherList.Count > 0)
+                    {
+                        NWDGameDataManager tLast = tOtherList[0];
+                        tOtherList.Remove(tLast);
+#if UNITY_EDITOR
+                        if (EditorApplication.isPlaying == true)
+                        {
+                            Debug.Log("NWDGameDataManager A");
+                            Destroy(tLast.gameObject);
+                        }
+                        else
+                        {
+                            Debug.Log("NWDGameDataManager B");
+                            DestroyImmediate(tLast.gameObject);
+                        }
+#else
+                        Debug.Log("NWDGameDataManager C");
+                    Destroy (tLast.gameObject);
+#endif
+                    }
+
+                }
+
+
+				//foreach (NWDGameDataManager tOtherInstance in tOtherInstances) {
+				//	if (tOtherInstance.gameObject != tObjToSpawn) {
+    //                    #if UNITY_EDITOR
+    //                    if (EditorApplication.isPlaying == true)
+    //                    {
+    //                        Debug.Log("NWDGameDataManager A");
+    //                        //DestroyImmediate (tOtherInstance.gameObject); // change with unity 2017.2.1f1
+    //                        Destroy(tOtherInstance.gameObject);
+    //                    }
+    //                    else
+    //                    {
+    //                        Debug.Log("NWDGameDataManager B");
+    //                        DestroyImmediate(tOtherInstance.gameObject); // change with unity 2017.2.1f1
+    //                        //Destroy(tOtherInstance.gameObject);
+    //                    }
+    //                    #else
+    //                    Debug.Log("NWDGameDataManager C");
+				//		Destroy (tOtherInstance.gameObject);
+				//		#endif
+				//	}
+				//}
 			}
 			return kUnitySingleton;
 		}
