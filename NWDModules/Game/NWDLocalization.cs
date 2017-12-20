@@ -191,7 +191,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "")
         {
-            if (sText.gameObject != null)
+            if (sText != null)
             {
                 if (sDefault.Equals(""))
                 {
