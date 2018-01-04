@@ -38,12 +38,7 @@ namespace NetWorkedData
 //			string tPath = path; // Hum not good path ...
 			BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
 			switch (tBuildTarget) {
-			case BuildTarget.StandaloneOSXUniversal: 
-				{
-//					tPath = path + "/Data/Raw/NWDmage.prp";
-				}
-				break;
-			case BuildTarget.StandaloneOSXIntel: 
+                case BuildTarget.StandaloneOSX: 
 				{
 //					tPath = path + "/Data/Raw/NWDmage.prp";
 				}
