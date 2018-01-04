@@ -25,7 +25,6 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
 	/// NWDExampleConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
@@ -57,11 +56,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[NWDGroupStartAttribute("Informations",true, true, true)] // ok
-		public string KeysValues  { get; set; }
-//		[NWDGroupEndAttribute]
-//
-//		[NWDSeparatorAttribute]
-
+        public string Values { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
