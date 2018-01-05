@@ -78,7 +78,7 @@ namespace NetWorkedData
 			;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static Dictionary<string, Type> kClassType = new Dictionary<string, Type> ();
+		internal static Dictionary<string, Type> kClassType = new Dictionary<string, Type> ();
 		//-------------------------------------------------------------------------------------------------------------
 		public static Type ClassType ()
 		{

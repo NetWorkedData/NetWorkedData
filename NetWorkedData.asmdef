@@ -1,9 +1,0 @@
-{
-    "name": "NetWorkedData",
-    "references": [
-        "BasicToolBox",
-        "UnityMenuIdemobi"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": []
-}

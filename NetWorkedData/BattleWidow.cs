@@ -8,30 +8,36 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
-using BasicToolBox;
+#if UNITY_EDITOR
+using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
 	//-------------------------------------------------------------------------------------------------------------
-	public enum NWDNetworkState
-	{
-		Unknow,
-		OnLine,
-		OffLine,
-	}
+	[NWDTypeWindowParamAttribute("Battle Window",
+		"Battle Window",
+		"NWDIcons_02", // BattleWidow_ICON
+		new Type[] {typeof(NWDBattleRequest),
+		typeof(NWDBattleRepport),
+		/* Add NWDBasis here*/
+		}
+	)]
 	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWD game data manager.
-	/// Extends class to use as singleton in unity3D
-	/// </summary>
-	public partial class NWDGameDataManager : MonoBehaviour
+	public class BattleWidow : NWDBasisWindow <BattleWidow>
 	{
+		//-------------------------------------------------------------------------------------------------------------
+		[MenuItem (NWDConstants.K_MENU_BASE + "SOB/Battle Window" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2000)]
+		//-------------------------------------------------------------------------------------------------------------
+		public static void MenuMethod ()
+		{
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(BattleWidow));
+			tWindow.Show ();
+		}
+		//-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================
+#endif

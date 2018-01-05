@@ -174,9 +174,15 @@ namespace NetWorkedData
 			"//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
 			"}\n" +
 			"//=====================================================================================================================\n";
-			File.WriteAllText (tEngineRootFolder + "/NWDConfigurations.cs", tConstantsFile);
+			
+            // File.WriteAllText(tEngineRootFolder + "/NWDConfigurations.cs", tConstantsFile);
 			// force to import this file by Unity3D
-			AssetDatabase.ImportAsset (tEngineRootFolder + "/NWDConfigurations.cs");
+			// AssetDatabase.ImportAsset (tEngineRootFolder + "/NWDConfigurations.cs");
+
+            string tPath = NWDFindPackage.PathOfPackage("/NWDConfigurations.cs");
+            File.WriteAllText(tPath, tConstantsFile);
+            // force to import this file by Unity3D
+            AssetDatabase.ImportAsset(tPath);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
