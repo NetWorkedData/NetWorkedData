@@ -11,10 +11,6 @@ using System.Text.RegularExpressions;
 
 using UnityEngine;
 
-#if UNITY_MENU_IDEMOBI
-using UnityMenuIdemobi;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -75,11 +71,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Menu Strings
 
-		#if UNITY_MENU_IDEMOBI
-		public const string K_MENU_BASE = UMIConstants.K_MENU_IDEMOBI+"/NetWorkedDatas/";
-		#else
-		public const string K_MENU_BASE = "Window/NetWorkedDatas/";
-		#endif
+		public const string K_MENU_BASE = "NetWorkedDatas/";
 		public const string K_MENU_IDEMOBI = 						K_MENU_BASE+"Developed by ideMobi";
 		public const string K_MENU_EDITOR_PREFERENCES = 			K_MENU_BASE+"Editor preferences";
 		public const string K_MENU_EDITOR_NEWCLASS = 				K_MENU_BASE+"Create New NWDBasis Class";
