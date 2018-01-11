@@ -134,8 +134,8 @@ namespace NetWorkedData
 			float tWidth = sPosition.width;
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
-			float tY = sPosition.position.y;
-			float tLangWidth = NWDConstants.kLangWidth;
+            float tY = sPosition.position.y;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);

@@ -379,6 +379,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled)
         {
+            NWDConstants.LoadImages();
+            NWDConstants.LoadStyles();
             NWDReferencesQuantityType<K> tTemporary = new NWDReferencesQuantityType<K>();
             tTemporary.Value = Value;
             Type sFromType = typeof(K);
@@ -458,7 +460,7 @@ namespace NetWorkedData
                     int.TryParse(tLineValue[1], out tQ);
                 }
 
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - NWDConstants.kFieldMarge - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray(), tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray(), tPopupdStyle);
 
                 if (tValueListERROR.Contains(tV))
                 {
@@ -467,8 +469,11 @@ namespace NetWorkedData
 
                 if (tIndex > 0)
                 {
-                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - NWDConstants.kFieldMarge - tEditWidth, tY, tIntWidth, tPopupdStyle.fixedHeight), tQ);
-                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
+                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth -NWDConstants.kFieldMarge*2, tY, tIntWidth + NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tQ);
+
+                    //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
+                    GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tDeleteContent,NWDConstants.StyleMiniButton))
                     {
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(tIndex)), false);
                     }

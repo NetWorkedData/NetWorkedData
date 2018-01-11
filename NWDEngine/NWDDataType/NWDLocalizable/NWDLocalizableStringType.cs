@@ -132,9 +132,7 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 
-			//Rect tPosition = EditorGUI.PrefixLabel(sPosition, GUIUtility.GetControlID(FocusType.Passive),new GUIContent (" "));
-
-			float tLangWidth = NWDConstants.kLangWidth;
+            float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
 
 			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
 			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);

@@ -185,7 +185,10 @@ namespace NetWorkedData
 			}	
 			
 			if (tIndex >= 0) {
-				if (GUI.Button (new Rect (tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!")) {
+                //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
+                GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+                if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tDeleteContent, NWDConstants.StyleMiniButton))
+                {
 					NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (rIndex)), false);
 				}
 			}
