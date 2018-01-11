@@ -1,4 +1,4 @@
-//NWD Autogenerate File at 2018-01-05
+//NWD Autogenerate File at 2018-01-10
 //Copyright NetWorkedDatas ideMobi 2018
 //Created by Jean-François CONTART
 //-------------------- 
@@ -233,7 +233,7 @@ namespace NetWorkedData
 			this.ProdEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.AppName = "SpiritOfBottle";
-			this.ProdEnvironment.BuildTimestamp = 1515163309;
+			this.ProdEnvironment.BuildTimestamp = 1515608892;
 			this.ProdEnvironment.LoadPreferences ();
 			this.ProdEnvironment.FormatVerification ();
 			// Preprod environment
@@ -259,7 +259,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.AppName = "SpiritOfBottle";
-			this.PreprodEnvironment.BuildTimestamp = 1515163309;
+			this.PreprodEnvironment.BuildTimestamp = 1515608892;
 			this.PreprodEnvironment.LoadPreferences ();
 			this.PreprodEnvironment.FormatVerification ();
 #if UNITY_EDITOR
@@ -283,7 +283,7 @@ namespace NetWorkedData
 			this.DevEnvironment.AdminKey = "Uwx1e(5iOzFe_B-J";
 			this.DevEnvironment.AppName = "SpiritOfBottle";
 			this.DevEnvironment.RescueEmail = "no-reply@my-web-site.com";
-			this.DevEnvironment.BuildTimestamp = 1515163309;
+			this.DevEnvironment.BuildTimestamp = 1515608892;
 			this.DevEnvironment.TokenHistoric = 6;
 			this.DevEnvironment.LoadPreferences ();
 			this.DevEnvironment.FormatVerification ();
