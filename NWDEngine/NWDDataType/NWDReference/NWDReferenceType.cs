@@ -130,6 +130,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override object ControlField (Rect sPosition, string sEntitled)
 		{
+            NWDConstants.LoadImages();
+            NWDConstants.LoadStyles();
 			NWDReferenceType<K> tTemporary = new NWDReferenceType<K> ();
 			tTemporary.Value = Value;
 
