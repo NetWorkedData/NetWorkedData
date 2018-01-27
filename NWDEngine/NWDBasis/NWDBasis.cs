@@ -39,7 +39,17 @@ namespace NetWorkedData
 		[Indexed ("EditorIndex", 0)]
 		[Indexed ("AccountIndex", 0)]
 		[NWDNotEditable]
-		public string Reference { get; set; }
+        public string Reference { get; set; }
+        [Indexed("DefaultIndex", 0)]
+        [Indexed("EditorIndex", 0)]
+        [Indexed("AccountIndex", 0)]
+        [NWDNotEditable]
+        public NWDVersionType MinVersion { get; set; }
+        [Indexed("DefaultIndex", 0)]
+        [Indexed("EditorIndex", 0)]
+        [Indexed("AccountIndex", 0)]
+        [NWDNotEditable]
+        public string ReferenceVersionned { get; set; }
 
 		[Indexed ("InternalIndex", 0)]
 		[Indexed ("EditorIndex", 0)]

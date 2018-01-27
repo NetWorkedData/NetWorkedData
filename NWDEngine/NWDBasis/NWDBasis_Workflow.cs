@@ -27,6 +27,8 @@ using BasicToolBox;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
+    //TODO: Change for an editable Tag system
+
 	public enum NWDBasisTag {
 		NoTag = -1,
 		TagZero = 0,

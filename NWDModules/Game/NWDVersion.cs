@@ -34,6 +34,7 @@ namespace NetWorkedData
 	[NWDClassDescriptionAttribute ("Version of game descriptions Class")]
 	[NWDClassMenuNameAttribute ("Version")]
 	[NWDInternalKeyNotEditableAttribute]
+    [NWDNotVersionnableAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 //	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
@@ -50,7 +51,8 @@ namespace NetWorkedData
 		// Your properties
 		[NWDGroupStartAttribute ("Information", true, true, true)]
 		public NWDVersionType Version { get; set; }
-		public bool Buildable { get; set; }
+        public bool Buildable { get; set; }
+        public bool Editable { get; set; }
 		[NWDGroupEndAttribute]
 		[NWDSeparatorAttribute]
 		[NWDGroupStartAttribute ("Environment", true, true, true)]
