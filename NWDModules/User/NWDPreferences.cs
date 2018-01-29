@@ -76,7 +76,7 @@ namespace NetWorkedData
 		public static NWDPreferences GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sValue, string sInternalDescription = "")
 		{
 			Debug.Log ("GetPreferenceByInternalKeyOrCreate");
-			NWDPreferences rObject = NWDBasis<NWDPreferences>.GetObjectByInternalKey (sInternalKey) as NWDPreferences;
+			NWDPreferences rObject = GetObjectByInternalKey (sInternalKey) as NWDPreferences;
 			if (rObject == null) {
 				Debug.Log ("New object");
 				rObject = NWDBasis<NWDPreferences>.NewObject ();
@@ -102,7 +102,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static string GetString (string sKey, string sDefault = "")
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault);
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault);
 			return tObject.Value.ToString();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ namespace NetWorkedData
 		/// <param name="sValue">S value.</param>
 		public static void SetString (string sKey, string sValue)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue);
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue);
 			tObject.Value.SetString (sValue);
 			tObject.SaveModifications ();
 		}
@@ -126,7 +126,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static int GetInt (string sKey, int sDefault = 0)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
 			return tObject.Value.ToInt();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ namespace NetWorkedData
 		/// <param name="sValue">S value.</param>
 		public static void SetInt (string sKey, int sValue)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetInt (sValue);
 			tObject.SaveModifications ();
 		}
@@ -150,7 +150,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">If set to <c>true</c> default value.</param>
 		public static bool GetBool (string sKey, bool sDefault = false)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
 			return tObject.Value.ToBool();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ namespace NetWorkedData
 		/// <param name="sValue">If set to <c>true</c> s value.</param>
 		public static void SetBool (string sKey, bool sValue)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetBool (sValue);
 			tObject.SaveModifications ();
 		}
@@ -174,7 +174,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static float GetFloat (string sKey, float sDefault = 0.0F)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
 			return tObject.Value.ToFloat();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ namespace NetWorkedData
 		/// <param name="sValue">S value.</param>
 		public static void SetFloat (string sKey, float sValue)
 		{
-			NWDPreferences tObject = NWDPreferences.GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
+			NWDPreferences tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetFloat (sValue);
 			tObject.SaveModifications ();
 		}

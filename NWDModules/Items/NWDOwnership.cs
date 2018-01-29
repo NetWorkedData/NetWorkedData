@@ -72,17 +72,18 @@ namespace NetWorkedData
 		[Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> Account { get; set; }
 		public NWDReferenceType<NWDItem> Item { get; set; }
-		//[NWDIntSliderAttribute(0,250)]
 		public int Quantity { get; set; }
+        public string Name { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+        [NWDSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Extensions", true, true, true)]
-		public NWDReferencesQuantityType<NWDItem> ItemsContained{ get; set; }
+        public NWDReferencesArrayType<NWDOwnership> ItemsContained { get; set; }
 		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
 		[NWDGroupEndAttribute]
-		[NWDSeparatorAttribute]
+		
+        [NWDSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Development addons", true, true, true)]
 		public string JSON { get; set; }
@@ -115,7 +116,7 @@ namespace NetWorkedData
         public static NWDOwnership OwnershipForItemReference(string sItemReference)
         {
             NWDOwnership rOwnershipToUse = null;
-            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
+            foreach (NWDOwnership tOwnership in GetAllObjects())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -125,7 +126,7 @@ namespace NetWorkedData
             }
             if (rOwnershipToUse == null)
             {
-                rOwnershipToUse = NWDOwnership.NewObject();
+                rOwnershipToUse = NewObject();
                 rOwnershipToUse.Item.SetReference(sItemReference);
                 rOwnershipToUse.Quantity = 0;
                 rOwnershipToUse.SaveModifications();
@@ -160,7 +161,7 @@ namespace NetWorkedData
         public static NWDOwnership OwnershipForItem(NWDItem sItem)
         {
             NWDOwnership rOwnershipToUse = null;
-            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
+            foreach (NWDOwnership tOwnership in GetAllObjects())
             {
                 if (tOwnership.Item.GetObject() == sItem)
                 {
@@ -170,7 +171,7 @@ namespace NetWorkedData
             }
             if (rOwnershipToUse == null)
             {
-                rOwnershipToUse = NWDOwnership.NewObject();
+                rOwnershipToUse = NewObject();
 				//--------------
 				#if UNITY_EDITOR
 				//--------------
@@ -230,12 +231,19 @@ namespace NetWorkedData
         /// <returns>The item to ownership.</returns>
         /// <param name="sItem">S item.</param>
         /// <param name="sQuantity">S quantity.</param>
-        public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
+        public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
         {
-            NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            rOwnershipToUse.Quantity += sQuantity;
-            rOwnershipToUse.SaveModifications();
-            return rOwnershipToUse;
+            NWDOwnership rOwnership = OwnershipForItem(sItem);
+            if (sIsIncrement)
+            {
+                rOwnership.Quantity += sQuantity;
+            }
+            else
+            {
+                rOwnership.Quantity = sQuantity;
+            }
+            rOwnership.SaveModifications();
+            return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -246,10 +254,10 @@ namespace NetWorkedData
         /// <param name="sQuantity">S quantity.</param>
         public static NWDOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
         {
-            NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
-            rOwnershipToUse.Quantity -= sQuantity;
-            rOwnershipToUse.SaveModifications();
-            return rOwnershipToUse;
+            NWDOwnership rOwnership = OwnershipForItem(sItem);
+            rOwnership.Quantity -= sQuantity;
+            rOwnership.SaveModifications();
+            return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -391,7 +399,7 @@ namespace NetWorkedData
 		{
 			// do something when object will be remove from trash
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
