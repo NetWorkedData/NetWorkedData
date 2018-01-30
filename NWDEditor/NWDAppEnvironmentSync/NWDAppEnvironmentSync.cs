@@ -59,7 +59,7 @@ namespace NetWorkedData
 		// Icons for Sync
 		private Texture2D kImageRed;
 		private Texture2D kImageGreen;
-		private Texture2D kImageOrange;
+		//private Texture2D kImageOrange;
 		private Texture2D kImageForbidden;
 		private Texture2D kImageEmpty;
 		private Texture2D kImageWaiting;
@@ -80,7 +80,7 @@ namespace NetWorkedData
 
 			kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDRed.psd"));
 			kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
-			kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
+			//kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
 			kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
 			kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
 			kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
