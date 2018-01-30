@@ -104,7 +104,7 @@ namespace NetWorkedData
 		[NWDSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Extensions", true, true, true)]
-		public NWDReferencesQuantityType<NWDItem> ItemsContained{ get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsContained { get; set; }
 		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
 		[NWDGroupEndAttribute]
 
