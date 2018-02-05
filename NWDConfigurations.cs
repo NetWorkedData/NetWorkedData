@@ -1,4 +1,4 @@
-//NWD Autogenerate File at 2018-01-10
+//NWD Autogenerate File at 2018-02-04
 //Copyright NetWorkedDatas ideMobi 2018
 //Created by Jean-François CONTART
 //-------------------- 
@@ -208,8 +208,8 @@ namespace NetWorkedData
 			GenerateSaltDictionary["NWDBattleRequest_SaltValid"]="ok";
 //Environments restaure
 			this.ProdEnvironment.Selected = false;
-			this.PreprodEnvironment.Selected = true;
-			this.DevEnvironment.Selected = false;
+			this.PreprodEnvironment.Selected = false;
+			this.DevEnvironment.Selected = true;
 			// Prod environment
 			this.ProdEnvironment.Environment = "prod";
 			this.ProdEnvironment.DataSHAPassword = "UJb&[c8_owC,d%iN";
@@ -233,7 +233,7 @@ namespace NetWorkedData
 			this.ProdEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.AppName = "SpiritOfBottle";
-			this.ProdEnvironment.BuildTimestamp = 1515608892;
+			this.ProdEnvironment.BuildTimestamp = 1517784570;
 			this.ProdEnvironment.LoadPreferences ();
 			this.ProdEnvironment.FormatVerification ();
 			// Preprod environment
@@ -259,7 +259,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.AppName = "SpiritOfBottle";
-			this.PreprodEnvironment.BuildTimestamp = 1515608892;
+			this.PreprodEnvironment.BuildTimestamp = 1517784570;
 			this.PreprodEnvironment.LoadPreferences ();
 			this.PreprodEnvironment.FormatVerification ();
 #if UNITY_EDITOR
@@ -271,7 +271,7 @@ namespace NetWorkedData
 			this.DevEnvironment.SaltEnd = "i[SnsaSfP7!8,]K%";
 			this.DevEnvironment.SaltFrequency = 600;
 			this.DevEnvironment.ServerHTTPS = "http://192.168.0.69/SOB/";
-			this.DevEnvironment.ServerHost = "localhost";
+			this.DevEnvironment.ServerHost = "localhost:3307";
 			this.DevEnvironment.ServerUser = "root";
 			this.DevEnvironment.ServerPassword = "Maxime12";
 			this.DevEnvironment.ServerBase = "frelon_db";
@@ -283,7 +283,7 @@ namespace NetWorkedData
 			this.DevEnvironment.AdminKey = "Uwx1e(5iOzFe_B-J";
 			this.DevEnvironment.AppName = "SpiritOfBottle";
 			this.DevEnvironment.RescueEmail = "no-reply@my-web-site.com";
-			this.DevEnvironment.BuildTimestamp = 1515608892;
+			this.DevEnvironment.BuildTimestamp = 1517784570;
 			this.DevEnvironment.TokenHistoric = 6;
 			this.DevEnvironment.LoadPreferences ();
 			this.DevEnvironment.FormatVerification ();

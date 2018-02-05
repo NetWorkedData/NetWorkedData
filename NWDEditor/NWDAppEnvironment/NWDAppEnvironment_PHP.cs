@@ -67,9 +67,9 @@ namespace NetWorkedData
 					"\tini_set('display_errors', 1);\n" +
 					"\t$NWD_LOG = true;\n";
 			} else {
-				tConstantsFile += "\t$LOG = false;\n";
+                tConstantsFile += "\t$NWD_LOG = false;\n";
 			}
-			tConstantsFile += "\t$TimeIn = microtime();\n" +
+            tConstantsFile += "\t$NWD_TMA = microtime();\n" +
 				"\t\t//-------------------- \n" +
 				"\t\t// CONSTANT FOR SHA512\n" +
 				"\t$NWD_SHA_SEC = '" + DataSHAPassword.Replace ("'", "\'") + "';\n" +
