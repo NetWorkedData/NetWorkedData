@@ -31,7 +31,7 @@ namespace NetWorkedData
 		/// <param name="sEnvironment">S environment.</param>
 		public void GenerateCSharpFile (NWDAppEnvironment sEnvironment)
 		{
-			string tEngineRootFolder = "Assets";
+			//string tEngineRootFolder = "Assets";
 			DateTime tTime = DateTime.UtcNow;
 			string tDateTimeString = tTime.ToString ("yyyy-MM-dd");
 			string tYearString = tTime.ToString ("yyyy");
@@ -180,6 +180,7 @@ namespace NetWorkedData
 			// AssetDatabase.ImportAsset (tEngineRootFolder + "/NWDConfigurations.cs");
 
             string tPath = NWDFindPackage.PathOfPackage("/NWDConfigurations.cs");
+            //string tPath = "/Assets/NWDConfigurations.cs";
             File.WriteAllText(tPath, tConstantsFile);
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tPath);

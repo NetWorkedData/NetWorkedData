@@ -82,11 +82,11 @@ namespace NetWorkedData
 				{
 				}
 				break;
-			case BuildTarget.StandaloneOSXIntel64: 
-				{
-//					tPath = path + "/Data/Raw/NWDmage.prp";
-				}
-				break;
+			//case BuildTarget.StandaloneOSXIntel64: 
+            //	{
+            ////					tPath = path + "/Data/Raw/NWDmage.prp";
+			//  }
+			//  break;
 			case BuildTarget.Tizen: 
 				{
 				}
@@ -103,10 +103,10 @@ namespace NetWorkedData
 				{
 				}
 				break;
-			case BuildTarget.SamsungTV: 
-				{
-				}
-				break;
+			//case BuildTarget.SamsungTV: 
+				//{
+				//}
+				//break;
 			case BuildTarget.N3DS: 
 				{
 				}
