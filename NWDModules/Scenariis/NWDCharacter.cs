@@ -25,6 +25,12 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDCharacterEmotion : int
+    {
+        Normal = 0,
+    }
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
 	public class NWDCharacterConnexion : NWDConnexion <NWDCharacter> {}
@@ -60,6 +66,11 @@ namespace NetWorkedData
 		public NWDLocalizableStringType LastName { get; set; }
 
 		public NWDLocalizableStringType NickName { get; set; }
+
+        public NWDPrefabType NormalState
+        {
+            get; set;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

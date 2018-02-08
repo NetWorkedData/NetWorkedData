@@ -392,12 +392,12 @@ namespace NetWorkedData
 		/// </summary>
 		public static Dictionary<string, bool> kAccountDependent = new Dictionary<string, bool> ();
 		/// <summary>
-		/// The account dependent properties. If this class' object is connected to an user account by NWDReferencesListType 
+        /// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType 
 		/// with the properties informations
 		/// </summary>
 		public static Dictionary<string, PropertyInfo[]> kAccountDependentProperties = new Dictionary<string, PropertyInfo[]> ();
 		/// <summary>
-		/// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType
+        /// The account dependent properties. If this class' object is connected to an user account by NWDReferencesListType
 		///  NWDReferencesQuantityType or NWDReferenceHashType with the properties informations
 		/// </summary>
 		public static Dictionary<string, PropertyInfo[]> kAccountConnectedProperties = new Dictionary<string, PropertyInfo[]> ();

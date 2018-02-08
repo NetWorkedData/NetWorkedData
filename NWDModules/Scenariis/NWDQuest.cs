@@ -25,7 +25,14 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDQuestType : byte
+    {
+        Unique = 0,
+        CanRepeat = 1,
+    }
+    //-------------------------------------------------------------------------------------------------------------
 	[Serializable]
 	public class NWDQuestConnexion : NWDConnexion <NWDQuest> {}
 	//-------------------------------------------------------------------------------------------------------------
@@ -45,14 +52,35 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		[NWDGroupStartAttribute("Start Dialog",true, true, true)]
-		public NWDReferenceType<NWDDialog> DialogReference { get; set; }
-		public bool Finish { get; set; }
-		public bool Succeess { get; set; }
-		public bool Fail { get; set; }
-		public bool Unique { get; set; }
-		public bool Permanent { get; set; }
+        // Your properties
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDWorld> Worlds
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDCategory> Categories
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> Families
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> Keywords
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+        public  NWDQuestType Type { get; set; }
+        public NWDLocalizableStringType Title { get; set; }
+        public NWDLocalizableTextType Description { get; set;}
+        public NWDReferencesQuantityType<NWDItem> ListOfItemsRequired;
+        public NWDReferencesQuantityType<NWDItem> ListOfItemsAsked;
+		[NWDGroupStartAttribute("Normal Way",true, true, true)]
+        public NWDReferenceType<NWDDialog> DialogReference { get; set; }
+        public NWDReferenceType<NWDDialog> DialogAlternateReference { get; set; } // to start with ListOfItemsAsked
+        public NWDReferencesQuantityType<NWDItem> ListOfItemsRewards { get; set; }
+        public bool ItemsAskedMustBeRemoved { get; set; } // if quest is finish Item asked are remove from chest
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

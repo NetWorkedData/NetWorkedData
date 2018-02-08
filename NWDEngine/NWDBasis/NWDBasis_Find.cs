@@ -40,7 +40,30 @@ namespace NetWorkedData
 //		public static IEnumerable<K> GetAllBasisObjects ()
 //		{
 //			return NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ();
-//		}
+        //		}
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<K> FindObjectsInDataBaseByAccount(string sAccountReference)
+        {
+            List<K> rReturnObject = new List<K>();
+            if (AccountDependent())
+            {
+                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+                PropertyInfo[] tAccountProperties = kAccountDependentProperties[NWDBasis<K>.ClassName()];
+                string tWhere = "";
+                List<string> tWhereList = new List<string>();
+                foreach (PropertyInfo tProp in tAccountProperties)
+                {
+                    tWhereList.Add("( `" + tProp.Name + "` LIKE \'" + sAccountReference + "\')");
+                }
+                tWhere += string.Join(" OR ", tWhereList.ToArray());
+                //IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(tWhere);
+                //foreach (K tobject in tEnumerable)
+                //{
+                //    rReturnObject.Add(tobject);
+                //}
+            }
+            return rReturnObject;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		private static NWDBasis<K> FindObjectInDataBaseByReference (string sReference)
 		{

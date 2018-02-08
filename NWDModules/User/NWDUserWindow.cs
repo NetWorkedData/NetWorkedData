@@ -23,7 +23,8 @@ namespace NetWorkedData
 		new Type[] {
 			typeof(NWDAccount),
 			typeof(NWDPreferences),
-			typeof(NWDOwnership),
+            typeof (NWDRelationship),
+            typeof(NWDOwnership),
             typeof(NWDUsage),
 			/* Add NWDBasis here*/
 		}

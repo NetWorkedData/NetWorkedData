@@ -51,6 +51,15 @@ namespace NetWorkedData
 		/// <value>The login.</value>
 		public string SecretKey { get; set; }
 
+        /// <summary>
+        /// Gets or sets the Nickname.
+        /// </summary>
+        /// <value>The login is NOT the Nickname ... Nickname is use to friendly connect and matchmaking. If you need unique Nickname you must develop the fonction yourself</value>
+        [Indexed ("NicknameIndex",0)]
+        public string Nickname
+        {
+            get; set;
+        }
 		/// <summary>
 		/// Gets or sets the email.
 		/// </summary>
@@ -109,6 +118,11 @@ namespace NetWorkedData
         public static string GetCurrentAccountReference()
         {
             return NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccount GetCurrentAccount()
+        {
+            return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

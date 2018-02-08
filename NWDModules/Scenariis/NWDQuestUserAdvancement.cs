@@ -25,6 +25,17 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDQuestState : byte
+    {
+        NotStarted = 0, // not started, must 
+        Started = 1, // start (step 0)
+        StartedAlternate = 2, // start (alternal step (allready finsih the quest)
+        Step = 10, // step in progress
+        Stop = 20, // finishd
+    }
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
 	public class NWDQuestUserAdvancementConnexion : NWDConnexion <NWDQuestUserAdvancement> {}
@@ -47,8 +58,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		public  NWDReferenceType<NWDAccount> AccountReference { get; set; }
-		public  NWDReferenceType<NWDQuest> QuestReference { get; set; }
-		public  NWDReferenceType<NWDDialog> DialogReference { get; set; }
+        public  NWDReferenceType<NWDQuest> QuestReference { get; set; }
+        public NWDReferenceType<NWDDialog> DialogStepReference
+        {
+            get; set;
+        }
+        public NWDQuestState StateOfQuest;
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -56,7 +71,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDQuestUserAdvancement()
 		{
-			//Init your instance here
+            //Init your instance here
+            StateOfQuest = NWDQuestState.NotStarted;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

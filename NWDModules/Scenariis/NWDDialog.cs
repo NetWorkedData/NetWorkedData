@@ -25,153 +25,192 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
-	public class NWDDialogConnexion : NWDConnexion <NWDDialog> {}
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("DLG")]
-	[NWDClassDescriptionAttribute ("Dialog descriptions Class")]
-	[NWDClassMenuNameAttribute ("Dialog")]
-	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDDialog :NWDBasis <NWDDialog>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		[NWDGroupStartAttribute("Reply from preview dialog (optional)",true, true, true)]
-		public string Reply { get; set; }
-		public int ReplyType { get; set; } // default, cancel, ok ...
-		public NWDReferencesQuantityType<NWDItem> ItemsNecessary { get; set; }
-		public NWDReferencesListType<NWDQuest> QuestsNecessary { get; set; }
-		[NWDGroupEndAttribute]
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDDialogState : byte
+    {
+        Start,
+        Sequent,
+        Step,
+        Stop,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDDialogAnswerType : byte
+    {
+        None,
+        Default,
+        Cancel,
+        Validate,
+        Destructive,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public class NWDDialogConnexion : NWDConnexion<NWDDialog>
+    {
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("DLG")]
+    [NWDClassDescriptionAttribute("Dialog descriptions Class")]
+    [NWDClassMenuNameAttribute("Dialog")]
+    //-------------------------------------------------------------------------------------------------------------
+    public partial class NWDDialog : NWDBasis<NWDDialog>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+        //-------------------------------------------------------------------------------------------------------------
+        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        // Your properties
+        [NWDGroupStartAttribute("Reply from preview dialog (optional)", true, true, true)]
+        public NWDReferencesQuantityType<NWDItem> ListOfItemsRequired
+        {
+            get; set;
+        }
+        public NWDDialogAnswerType AnswerType
+        {
+            get; set;
+        } // default, cancel, ok ...
+        public NWDDialogState AnswerState
+        {
+            get; set;
+        } // sequent, step, finish
+        public NWDLocalizableStringType Answer
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
 
-		[NWDGroupStartAttribute("Character Dialog",true, true, true)]
-		public string CharacterReference { get; set; }
-		public string CharacterEmotion { get; set; }
+        [NWDGroupStartAttribute("Character Dialog", true, true, true)]
+        public NWDReferenceType<NWDCharacter> CharacterReference
+        {
+            get; set;
+        }
+        public NWDCharacterEmotion CharacterEmotion
+        {
+            get; set;
+        }
+        public NWDLocalizableTextType Dialog
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
 
-		public NWDPrefabType CharacterAnimation { get; set; }
+        [NWDGroupStartAttribute("List of next replies", true, true, true)]
+        public NWDReferencesListType<NWDDialog> ListOfAnswers
+        {
+            get; set;
+        }
 
-		public string Dialog { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDGroupStartAttribute("List of next replies",true, true, true)]
-		public NWDReferencesListType<NWDDialog> ListOfAnswer { get; set; }
-
-
-		public bool StepOfQuest { get; set; }
-		public bool EndOfQuest { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDDialog()
-		{
-			//Init your instance here
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
-		{
-			// do something when object will be inserted
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdateMe ()
-		{
-			// do something when object will be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe ()
-		{
-			// do something when object finish to be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDuplicateMe ()
-		{
-			// do something when object will be dupplicate
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonEnableMe ()
-		{
-			// do something when object will be enabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDisableMe ()
-		{
-			// do something when object will be disabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonTrashMe ()
-		{
-			// do something when object will be put in trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUnTrashMe ()
-		{
-			// do something when object will be remove from trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		//Addons for Edition
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
-		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
-			}
-			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditor (Rect sInRect)
-		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditorHeight ()
-		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDialog()
+        {
+            //Init your instance here
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MyClassMethod()
+        {
+            // do something with this class
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public void MyInstanceMethod()
+        {
+            // do something with this object
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region override of NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe()
+        {
+            // do something when object will be inserted
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            // do something when object will be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMe()
+        {
+            // do something when object finish to be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDuplicateMe()
+        {
+            // do something when object will be dupplicate
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonEnableMe()
+        {
+            // do something when object will be enabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDisableMe()
+        {
+            // do something when object will be disabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            // do something when object will be put in trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            // do something when object will be remove from trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        //Addons for Edition
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonEdited(bool sNeedBeUpdate)
+        {
+            if (sNeedBeUpdate == true)
+            {
+                // do something
+            }
+            return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditorHeight()
+        {
+            // Height calculate for the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================
