@@ -5,8 +5,8 @@
         //--------------------
         // AUTHENTIFICATION FUNCTIONS
         //--------------------
-        //	error_reporting(E_ALL);
-        //	error_reporting(-1);
+        //   error_reporting(E_ALL);
+        //   error_reporting(-1);
         //--------------------
     global $NWD_LOG;
     $NWD_LOG=true;
@@ -28,10 +28,27 @@
     $ereg_reference = '/^([A-Za-z0-9\-]{15,48})$/';
     $ereg_apasswordHash = '/^(.{12,64})$/';
     $ereg_PinCode = '/^([0-9]{6,18})$/';
+    $ereg_pinsize = '/^([0-9]{1,2})$/';
+    $ereg_pindelay = '/^([0-9]{1,2})$/';
         //--------------------
-    function PinCodeRandom ()
+    function PinCodeRandom (int $sSize)
     {
-    return rand (100000000 ,999999999);
+        if ($sSize>12)
+        {
+            $sSize = 12;
+        }
+        if ($sSize<4)
+        {
+            $sSize = 4;
+        }
+        $tPin = rand (1000 ,9999);
+        while ($sSize>4)
+        {
+            $sSize--;
+            $tPin = $tPin . rand (0,9);
+        }
+        return $tPin;
+        //return rand (100000000 ,999999999);
     }
         //--------------------
     if (!errorDetected())
@@ -113,12 +130,20 @@
             errorDeclaration('RLSw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
+            errorDeclaration('RLSw22', 'pincodeLength empty');
+            errorDeclaration('RLSw22', 'pincodeLength ereg');
+            if (paramValue ('pinsize', 'pinsize', $ereg_pinsize, 'RLSw22', 'RLSw22')) // I test pincodeLength
+                {
+                    errorDeclaration('RLSw23', 'pincodeLength empty');
+                    errorDeclaration('RLSw24', 'pincodeLength ereg');
+                    if (paramValue ('pindelay', 'pindelay', $ereg_pindelay, 'RLSw23', 'RLSw24')) // I test pincodeLength
+                        {
                 $tTested = false;
-                $tPinCode = PinCodeRandom();
+                $tPinCode = PinCodeRandom($pinsize);
                 myLog('test $tPinCode = '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
                 while ($tTested == false)
                     {
-                    $tTimeMax = time()-3600;
+                    $tTimeMax = time();
                     $tQuery = 'SELECT `PinCode` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$tPinCode.'\' AND `PinLimit` > '.$tTimeMax.' AND `RelationState` <3';
                     $tResult = $SQL_CON->query($tQuery);
                     if (!$tResult)
@@ -133,9 +158,10 @@
                             {
                             myLog('pincode is not used '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
                             $tTested = true;
+                            $tTimeLimit = time() + $pindelay + 10; // I add 10 seconds of marge
                                 // Ok I have a good PinCode I update
-                            $tTimeDm =$dico['NWDRelationship']['sync']+10;
-                            $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `DM` = `DM`+1, `PinCode` = \''.$tPinCode.'\', `RelationState` = 2 WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
+                            $tTimeDm =$dico['NWDRelationship']['sync']+1;
+                            $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `DM` = \''.$tTimeDm.'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
                             myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                             myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                             $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -163,6 +189,8 @@
                     }
                 }
             }
+            }
+            }
         if ($action == 'Waiting')
             {
                 // just return the update relationship object's
@@ -183,7 +211,7 @@
             if (paramValue ('pincode', 'pincode', $ereg_PinCode, 'RLSw80', 'RLSw81')) // I test PinCode
                 {
                 $tTime = time();
-                $tQuery = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$pincode.'\' AND `RelationState` = 2';// AND `PinLimit` > '.$tTime.'';
+                $tQuery = 'SELECT `Reference`, `MasterReference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$pincode.'\' AND `RelationState` = 2';// AND `PinLimit` > '.$tTime.'';
                 $tResult = $SQL_CON->query($tQuery);
                 if (!$tResult)
                     {
@@ -197,23 +225,48 @@
                         {
                         while($tRow = $tResult->fetch_array())
                             {
+                            $tMasterReference = $tRow['MasterReference'];
                             $tReference = $tRow['Reference'];
                             $tTimePlus = time();
-                            $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `PreprodSync` = '.$tTimePlus.', `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 3 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
-                            myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
-                            myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
-                            $tResultUpdate = $SQL_CON->query($tQueryUpdate);
-                            if (!$tResultUpdate)
+                            // recherche si une relation existe déjà
+                            $tQueryAllready = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `MasterReference` LIKE \''.$tMasterReference.'\' AND `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND `AC` = 1 AND `XX` = 0 ';// AND `PinLimit` > '.$tTime.'';
+                            $tResultAllready = $SQL_CON->query($tQueryAllready);
+                            if ($tResultAllready->num_rows > 0)
                                 {
-                                myLog('pincode NOT update', __FILE__, __FUNCTION__, __LINE__);
-                                myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
-                                errorDeclaration('RLSw99', 'error in updtae reference object with uuid and pincode');
-                                error('RLSw99');
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `DM` = '.$tTimePlus.', `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 7 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
+                                myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
+                                myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
+                                $tResultUpdate = $SQL_CON->query($tQueryUpdate);
+                                if (!$tResultUpdate)
+                                    {
+                                    errorDeclaration('RLSw99', 'error in update reference object with uuid and pincode');
+                                    error('RLSw99');
+                                    }
+                                else
+                                    {
+                                    IntegrityNWDRelationshipReevalue ($tReference);
+                                    }
+                                errorDeclaration('RLSw33', 'Allready relationship exists');
+                                error('RLSw33', false);
                                 }
                             else
                                 {
-                                myLog('pincode is OK i registered the slave user', __FILE__, __FUNCTION__, __LINE__);
-                                IntegrityNWDRelationshipReevalue ($tReference);
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `DM` = '.$tTimePlus.', `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 3 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
+                                myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
+                                myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
+                                $tResultUpdate = $SQL_CON->query($tQueryUpdate);
+                                if (!$tResultUpdate)
+                                    {
+                                    myLog('pincode NOT update', __FILE__, __FUNCTION__, __LINE__);
+                                    myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                                    errorDeclaration('RLSw99', 'error in update reference object with uuid and pincode');
+                                    error('RLSw99');
+                                    }
+                                else
+                                    {
+                                    myLog('pincode is OK i registered the slave user', __FILE__, __FUNCTION__, __LINE__);
+                                    IntegrityNWDRelationshipReevalue ($tReference);
+                                    }
                                 }
                             }
                         }
@@ -233,54 +286,6 @@
                 GetDatasNWDRelationship ($dico['NWDRelationship']['sync'], $uuid, $tPage, $tLimit);
                 }
             }
-        
-        
-        
-        
-        
-        /*
-         //--------------------
-         
-         
-         //--------------------
-         //--------------------
-         //--------------------
-         //--------------------
-         $tTimeStamp = $dico['NWDRelationship']['sync'];
-         
-         if ($action == 'SyncForce')
-         {
-         $tTimeStamp = 0;
-         $action = 'Sync';
-         }
-         
-         if ($action == 'Sync')
-         {
-         // if first sync I change the NWDRelationship from the SlaveRefeerence to 1
-         // else I use standard timestamp of Relationsship sync
-         
-         // pour chaque classes autoeisée :
-         /*
-         $ClassesShared  = split(',',ClassesSharedByMaster);
-         $ClassesAccepted  = split(',',ClassesAcceptedBySlave);
-         $Classes = array_intersect($ClassesShared, $ClassesAccepted);
-         foreach ($Classes as $ClassName)
-         {
-         include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/'.$ClassName.'/synchronization.php');
-         if ($isfirst==true)
-         {
-         $tTimeStamp = 0;
-         }
-         $tFunction = 'GetDatas'.$ClassName;
-         $tFunction($tTimeStamp, $SlaveReference, 0, 10000000);
-         }
-         *//*
-            }
-            //--------------------
-            //--------------------
-            //--------------------
-            //--------------------
-            */
         }
     }
     else

@@ -108,26 +108,19 @@ namespace NetWorkedData
         {
             get; set;
         }
-
-        [Indexed("PinIndex", 3)]
+        [Indexed("PinIndex", 0)]
+        [Indexed("RelationshipIndex", 1)]
         public NWDRelationshipPinState RelationState
         {
             get; set;
         }
-
-
-        [Indexed("PinIndex", 0)]
+        [Indexed("PinIndex", 1)]
         public string PinCode
         {
             get; set;
         }
         [Indexed("PinIndex", 2)]
         public int PinLimit
-        {
-            get; set;
-        }
-        [Indexed("PinIndex", 4)]
-        public int PinValidate
         {
             get; set;
         }
@@ -286,7 +279,7 @@ namespace NetWorkedData
                 BTBConsole.Clean();
                 DateTime tDateTime = DateTime.Now;
                 tDateTime.AddMinutes(1.5F);
-                this.AskPinCodeFromServer(tDateTime);
+                this.AskPinCodeFromServer();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
@@ -516,7 +509,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AskPinCodeFromServer(DateTime sDateTimeMax,
+        public void AskPinCodeFromServer(int sSeconds = 60,
                                          int sPinSize = 6,
 
                                                                        BTBOperationBlock sSuccessBlock = null,
@@ -527,12 +520,12 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             RelationState = NWDRelationshipPinState.CreatePin;
-            PinLimit = (int)BTBDateHelper.ConvertToTimestamp(sDateTimeMax);
-            SaveModificationsIfModified();
+             SaveModificationsIfModified();
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "CreatePinCode";
             sOperation.PinSize = sPinSize;
+            sOperation.PinDelay = sSeconds;
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }

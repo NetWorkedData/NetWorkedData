@@ -15,6 +15,7 @@ using System.Reflection;
 using UnityEngine;
 
 using BasicToolBox;
+using SQLite4Unity3d;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -69,6 +70,17 @@ namespace NetWorkedData
         public string Lastname { get; set; }
         public string Nickname { get; set; } // Nickname in game, not the nickname of account
 		public NWDTextureType Avatar {get; set;}
+
+
+        /// <summary>
+        /// Gets or sets the Nickname.
+        /// </summary>
+        /// <value>The login is NOT the Nickname ... Nickname is use to friendly connect and matchmaking. If you need unique Nickname you must develop the fonction yourself</value>
+        [Indexed("NicknameIndex", 0)]
+        public string UniqueNickname
+        {
+            get; set;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

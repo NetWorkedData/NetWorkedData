@@ -36,6 +36,7 @@ namespace NetWorkedData
         public string PinCode;
 		public bool ForceSync = false;
         public int PinSize = 6;
+        public int PinDelay = 60;
 		//public bool FlushTrash = false;
         //public bool Bilateral = false;
 		//-------------------------------------------------------------------------------------------------------------
@@ -105,7 +106,8 @@ namespace NetWorkedData
                 tData.Add("reference", Relationship.Reference);
             }
             tData.Add("pincode", PinCode);
-            tData.Add("pinsize", PinSize);
+            tData.Add("pinsize",PinSize);
+            tData.Add("pindelay", PinDelay);
             //tData.Add("bilateral", Bilateral);
 			Data = tData;
 		}

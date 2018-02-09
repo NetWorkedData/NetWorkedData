@@ -186,6 +186,9 @@
 			include_once ('finish.php');
 			exit;
 		}
+		else{
+			myLog('error without exit','','','');
+		}
 	}
 		//--------------------
 		// Use to insert error in JSON's respond
