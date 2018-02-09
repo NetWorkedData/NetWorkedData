@@ -123,7 +123,9 @@ namespace NetWorkedData
 				"//Created by Jean-François CONTART\n" +
 				"//--------------------\n" +
 				"// MANAGEMENT\n" +
-				"//--------------------\n" +
+                "//--------------------\n" +
+                "set_time_limit (600);\n" + // timeout override
+                "//--------------------\n" +
 				"// Determine the file tree path\n" +
 				"$PATH_BASE = dirname(dirname(__DIR__));\n" +
 				"// include all necessary files\n" +

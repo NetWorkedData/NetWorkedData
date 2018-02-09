@@ -234,15 +234,15 @@ namespace NetWorkedData
 
             float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
 
-            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Add object", tMiniButtonStyle))
-            {
-                BTBConsole.Clean();
-                new NWDRelationship();
-#if UNITY_EDITOR
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
-#endif
-            }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+//            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Add object", tMiniButtonStyle))
+//            {
+//                BTBConsole.Clean();
+//                new NWDRelationship();
+//#if UNITY_EDITOR
+//                NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+//#endif
+            //}
+            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "reset", tMiniButtonStyle))
             {
@@ -436,10 +436,88 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public NWDBasis[] ObjectsFromSlave(Type sClass  )
         //{
-            
+
         //}
         //-------------------------------------------------------------------------------------------------------------
+        public void AddClassesToMaster(Type sClass)
+        {
+            if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
+            {
+                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    // remove if exists
+                    ClassesSharedByMaster = "," + ClassesSharedByMaster + ",";
+                    ClassesSharedByMaster = ClassesSharedByMaster.Replace("," + tClassName + ",", ",");
+                    ClassesSharedByMaster = ClassesSharedByMaster.Trim(new char[] { ',' });
+                    // add
+                    ClassesSharedByMaster = ClassesSharedByMaster + "," + tClassName;
+                    ClassesSharedByMaster = ClassesSharedByMaster.Trim(new char[] { ',' });
+                    SaveModificationsIfModified();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RemoveClassesToMaster(Type sClass)
+        {
+            if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
+            {
+                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    // remove if exists
+                    ClassesSharedByMaster = "," +ClassesSharedByMaster +",";
+                    ClassesSharedByMaster = ClassesSharedByMaster.Replace(","+tClassName+",", ",");
+                    ClassesSharedByMaster = ClassesSharedByMaster.Trim(new char[] { ',' });
+                    // save modifications
+                    SaveModificationsIfModified();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddClassesToSlave(Type sClass)
+        {
+            if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
+            {
+                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    // remove if exists
+                    ClassesAcceptedBySlave = "," + ClassesAcceptedBySlave + ",";
+                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Replace("," + tClassName + ",", ",");
+                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Trim(new char[] { ',' });
+                    // add
+                    ClassesAcceptedBySlave = ClassesAcceptedBySlave + "," + tClassName;
+                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Trim(new char[] { ',' });
+                    // save modifications
+                    SaveModificationsIfModified();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void RemoveClassesToSlave(Type sClass)
+        {
+            if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
+            {
+                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    // remove if exists
+                    ClassesAcceptedBySlave = "," + ClassesAcceptedBySlave + ",";
+                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Replace("," + tClassName + ",", ",");
+                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Trim(new char[] { ',' });
+                    // save modifications
+                    SaveModificationsIfModified();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AskPinCodeFromServer(DateTime sDateTimeMax,
+                                         int sPinSize = 6,
 
                                                                        BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
@@ -454,6 +532,7 @@ namespace NetWorkedData
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "CreatePinCode";
+            sOperation.PinSize = sPinSize;
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }

@@ -1,4 +1,4 @@
-//NWD Autogenerate File at 2018-02-08
+//NWD Autogenerate File at 2018-02-09
 //Copyright NetWorkedDatas ideMobi 2018
 //Created by Jean-François CONTART
 //-------------------- 
@@ -251,7 +251,7 @@ namespace NetWorkedData
 			this.ProdEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.AppName = "SpiritOfBottle";
-			this.ProdEnvironment.BuildTimestamp = 1518118094;
+			this.ProdEnvironment.BuildTimestamp = 1518165289;
 			this.ProdEnvironment.LoadPreferences ();
 			this.ProdEnvironment.FormatVerification ();
 			// Preprod environment
@@ -277,7 +277,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.AppName = "SpiritOfBottle";
-			this.PreprodEnvironment.BuildTimestamp = 1518118094;
+			this.PreprodEnvironment.BuildTimestamp = 1518165289;
 			this.PreprodEnvironment.LoadPreferences ();
 			this.PreprodEnvironment.FormatVerification ();
 #if UNITY_EDITOR
@@ -288,10 +288,10 @@ namespace NetWorkedData
 			this.DevEnvironment.SaltStart = "rqxu!q_G%gq Wk-4";
 			this.DevEnvironment.SaltEnd = "i[SnsaSfP7!8,]K%";
 			this.DevEnvironment.SaltFrequency = 600;
-			this.DevEnvironment.ServerHTTPS = "http://192.168.0.69/SOB/";
-			this.DevEnvironment.ServerHost = "localhost:3307";
-			this.DevEnvironment.ServerUser = "root";
-			this.DevEnvironment.ServerPassword = "Maxime12";
+			this.DevEnvironment.ServerHTTPS = "https://ws.frelon.biz";
+			this.DevEnvironment.ServerHost = "localhost";
+			this.DevEnvironment.ServerUser = "frelon";
+			this.DevEnvironment.ServerPassword = "5tO3RQwBrshIoYkX";
 			this.DevEnvironment.ServerBase = "frelon_db";
 			this.DevEnvironment.FacebookAppID = "1008619349264323";
 			this.DevEnvironment.FacebookAppSecret = "513adc9058d81935d6ca388417f79a8e";
@@ -301,7 +301,7 @@ namespace NetWorkedData
 			this.DevEnvironment.AdminKey = "Uwx1e(5iOzFe_B-J";
 			this.DevEnvironment.AppName = "SpiritOfBottle";
 			this.DevEnvironment.RescueEmail = "no-reply@my-web-site.com";
-			this.DevEnvironment.BuildTimestamp = 1518118094;
+			this.DevEnvironment.BuildTimestamp = 1518165289;
 			this.DevEnvironment.TokenHistoric = 6;
 			this.DevEnvironment.LoadPreferences ();
 			this.DevEnvironment.FormatVerification ();
