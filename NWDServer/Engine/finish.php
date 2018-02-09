@@ -10,6 +10,10 @@
 		// add log
 	if ($NWD_LOG==true)
 	{
+        myLogLineReturn();
+        myLogLineReturn();
+        myLogLineReturn();
+    
 		respondAdd('log',$RRR_LOG);
 	}
 		//--------------------

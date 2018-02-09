@@ -91,6 +91,13 @@
 	$RRR_LOG = '';
 	$RRR_LOG_CNT = 0;
 		//--------------------
+    function myLogLineReturn()
+    {
+    global $RRR_LOG,$RRR_LOG_CNT;
+    $RRR_LOG_CNT++;
+    $RRR_LOG.='\r'.$RRR_LOG_CNT;
+    }
+        //--------------------
 	function myLog($sString, $sfile, $sfunction, $sline)
 	{
 		global $RRR_LOG,$RRR_LOG_CNT;

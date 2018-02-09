@@ -26,6 +26,7 @@ namespace NetWorkedData
             typeof (NWDRelationship),
             typeof(NWDOwnership),
             typeof(NWDUsage),
+            typeof(NWDUserStats),
 			/* Add NWDBasis here*/
 		}
 	)]

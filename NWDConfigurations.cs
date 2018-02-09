@@ -1,4 +1,4 @@
-//NWD Autogenerate File at 2018-02-06
+//NWD Autogenerate File at 2018-02-08
 //Copyright NetWorkedDatas ideMobi 2018
 //Created by Jean-François CONTART
 //-------------------- 
@@ -150,6 +150,10 @@ namespace NetWorkedData
 			IntegritySaltDictionary["NWDRelationShip_SaltB"]="JG0r[Ziy)R8aZ4B-slm6";
 			IntegritySaltDictionary["NWDRelationship_SaltA"]="tY8-anM46GNb6Qvob2T{Y]y";
 			IntegritySaltDictionary["NWDRelationship_SaltB"]="sUh5bxie) 448ysx1 XQLGw";
+			IntegritySaltDictionary["NWDUserStats_SaltA"]="!HWPKF082CJj";
+			IntegritySaltDictionary["NWDUserStats_SaltB"]="uWVnn9DVX8e[-X";
+			IntegritySaltDictionary["NWDUserConsolidatedStats_SaltA"]="XsaNJGJoa{k5wVZZFQA21";
+			IntegritySaltDictionary["NWDUserConsolidatedStats_SaltB"]="Ay2ApHB8Ik7V";
 //Salts Validity
 			GenerateSaltDictionary["NWDAccount_SaltValid"]="ok";
 			GenerateSaltDictionary["NWDAuthentification_SaltValid"]="ok";
@@ -218,10 +222,12 @@ namespace NetWorkedData
 			GenerateSaltDictionary["NWDPlayerInfos_SaltValid"]="ok";
 			GenerateSaltDictionary["NWDRelationShip_SaltValid"]="ok";
 			GenerateSaltDictionary["NWDRelationship_SaltValid"]="ok";
+			GenerateSaltDictionary["NWDUserStats_SaltValid"]="ok";
+			GenerateSaltDictionary["NWDUserConsolidatedStats_SaltValid"]="ok";
 //Environments restaure
 			this.ProdEnvironment.Selected = false;
-			this.PreprodEnvironment.Selected = false;
-			this.DevEnvironment.Selected = true;
+			this.PreprodEnvironment.Selected = true;
+			this.DevEnvironment.Selected = false;
 			// Prod environment
 			this.ProdEnvironment.Environment = "prod";
 			this.ProdEnvironment.DataSHAPassword = "UJb&[c8_owC,d%iN";
@@ -245,7 +251,7 @@ namespace NetWorkedData
 			this.ProdEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.AppName = "SpiritOfBottle";
-			this.ProdEnvironment.BuildTimestamp = 1517929008;
+			this.ProdEnvironment.BuildTimestamp = 1518118094;
 			this.ProdEnvironment.LoadPreferences ();
 			this.ProdEnvironment.FormatVerification ();
 			// Preprod environment
@@ -271,7 +277,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.AppName = "SpiritOfBottle";
-			this.PreprodEnvironment.BuildTimestamp = 1517929008;
+			this.PreprodEnvironment.BuildTimestamp = 1518118094;
 			this.PreprodEnvironment.LoadPreferences ();
 			this.PreprodEnvironment.FormatVerification ();
 #if UNITY_EDITOR
@@ -295,7 +301,7 @@ namespace NetWorkedData
 			this.DevEnvironment.AdminKey = "Uwx1e(5iOzFe_B-J";
 			this.DevEnvironment.AppName = "SpiritOfBottle";
 			this.DevEnvironment.RescueEmail = "no-reply@my-web-site.com";
-			this.DevEnvironment.BuildTimestamp = 1517929008;
+			this.DevEnvironment.BuildTimestamp = 1518118094;
 			this.DevEnvironment.TokenHistoric = 6;
 			this.DevEnvironment.LoadPreferences ();
 			this.DevEnvironment.FormatVerification ();

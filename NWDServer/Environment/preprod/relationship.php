@@ -13,7 +13,7 @@
 	include_once ($PATH_BASE.'/Engine/start.php');
 		// start the script
 		//--------------------
-	include_once ($PATH_BASE.'/Engine/relationship');
+	include_once ($PATH_BASE.'/Engine/relationship.php');
 		//--------------------
 		// finish the generic process
 	include_once ($PATH_BASE.'/Engine/finish.php');

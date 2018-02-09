@@ -35,8 +35,8 @@ namespace NetWorkedData
         public NWDRelationship Relationship;
         public string PinCode;
 		public bool ForceSync = false;
-		public bool FlushTrash = false;
-        public bool Bilateral = false;
+		//public bool FlushTrash = false;
+        //public bool Bilateral = false;
 		//-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebRelationship AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
@@ -46,7 +46,8 @@ namespace NetWorkedData
 		                                                           NWDAppEnvironment sEnvironment = null,
                                                                 bool sForceSync = false, 
                                                                 bool sPriority = false)
-		{
+        {
+            Debug.Log("NWDOperationWebRelationship AddOperation()");
             NWDOperationWebRelationship rReturn = NWDOperationWebRelationship.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sForceSync);
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
@@ -58,7 +59,8 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
 			NWDAppEnvironment sEnvironment = null,bool sForceSync = false)
-		{
+        {
+            Debug.Log("NWDOperationWebRelationship Create()");
             NWDOperationWebRelationship rReturn = null;
 			if (sName == null) {
 				sName = "UnNamed Web Operation Synchronisation";
@@ -87,25 +89,28 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
-		{
+        {
+            Debug.Log("NWDOperationWebRelationship ServerFile()");
 			return "relationship.php";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
-		{
-			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, FlushTrash);
+        {
+            Debug.Log("NWDOperationWebRelationship DataUploadPrepare()");
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
             if (Relationship != null)
             {
                 tData.Add("reference", Relationship.Reference);
             }
             tData.Add("pincode", PinCode);
-            tData.Add("bilateral", Bilateral);
+            //tData.Add("bilateral", Bilateral);
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
+            Debug.Log("NWDOperationWebRelationship DataDownloadedCompute()");
             NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
 		}
         //-------------------------------------------------------------------------------------------------------------

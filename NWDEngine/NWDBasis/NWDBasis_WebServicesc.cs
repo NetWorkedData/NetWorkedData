@@ -158,16 +158,16 @@ namespace NetWorkedData
 		/// <param name="sDataArray">S data array.</param>
 		public static NWDBasis<K> SynchronizationInsertInBase (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
-			//Debug.Log ("SynchronizationInsertInBase ");
+			Debug.Log ("SynchronizationInsertInBase ");
 			string tReference = GetReferenceValueFromCSV (sDataArray);
 			NWDBasis<K> tObject = InstanceByReference (tReference);
 			if (tObject == null) {
-				//Debug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
+				Debug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
 				tObject = NewInstanceFromCSV (sEnvironment, sDataArray);
 				AddObjectInListOfEdition (tObject);
 			} else {
 				// test if Modification is older than actual object
-				//Debug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
+				Debug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
 				if (tObject.DM <= GetDMValueFromCSV (sDataArray)) {
 					tObject.UpdateWithCSV (sEnvironment, sDataArray);
 				}
@@ -200,23 +200,29 @@ namespace NetWorkedData
 				AddObjectInListOfEdition (tFindObject);
 			}
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Synchronizations the try to use.
-		/// </summary>
-		/// <returns>The try to use.</returns>
-		/// <param name="sData">S data.</param>
-		/// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
-		public static NWDBasis<K> SynchronizationTryToUse (NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
-		{
-			//Debug.Log ("SynchronizationTryToUse ");
-			NWDBasis<K> rReturn = null;
-			string[] tDataArray = sData.Split (NWDConstants.kStandardSeparator.ToCharArray ());
-			for (int tI = 0; tI < tDataArray.Length; tI++) {
-				tDataArray [tI] = NWDToolbox.TextCSVUnprotect (tDataArray [tI]);
-			}
-			// I need to test the integrity of datas... 
-			if (TestIntegrityValueFromCSV (tDataArray) == true || sForceToUse == true) {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations the try to use.
+        /// </summary>
+        /// <returns>The try to use.</returns>
+        /// <param name="sData">S data.</param>
+        /// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
+        public static NWDBasis<K> SynchronizationTryToUse(NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
+        {
+            Debug.Log("SynchronizationTryToUse ");
+            NWDBasis<K> rReturn = null;
+            string[] tDataArray = sData.Split(NWDConstants.kStandardSeparator.ToCharArray());
+            for (int tI = 0; tI < tDataArray.Length; tI++)
+            {
+                tDataArray[tI] = NWDToolbox.TextCSVUnprotect(tDataArray[tI]);
+            }
+            // I need to test the integrity of datas... 
+            bool tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
+            if (tIntegrityTest == false )
+            {
+                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE");
+            }
+            if ( tIntegrityTest == true || sForceToUse == true) {
 				rReturn = SynchronizationInsertInBase (sEnvironment, tDataArray);
 			}
 			return rReturn;
@@ -236,7 +242,8 @@ namespace NetWorkedData
 				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
 			}
 
-			//Debug.Log ("SynchronizationPushData for table " + TableName ());
+			Debug.Log ("SynchronizationPushData for table " + TableName ());
+
 			// ok if sync will be ok this date will be the last sync for this table
 			SynchronizationSetInWaitingTimestamp (sEnvironment, NWDToolbox.Timestamp ());
 			// create respond object
@@ -280,7 +287,7 @@ namespace NetWorkedData
 			}
 			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
 			// return the data
-			//Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+			Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
 			return rSend;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -292,10 +299,13 @@ namespace NetWorkedData
 		{
 			string rReturn = "NO";
 
+            Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
+
 			// Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
             {
 				// error to show on Device
+                Debug.LogWarning("NWDBasis SynchronizationPullData() ERROR IN DATAS FOR" + ClassName());
 			}
             else
             {
@@ -321,6 +331,7 @@ namespace NetWorkedData
 
 					if (tListOfRows.Count > 0)
                     {
+                        Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
 						foreach (object tCsvValue in tListOfRows)
                         {
 							string tCsvValueString = tCsvValue as string;

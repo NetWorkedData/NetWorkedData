@@ -18,7 +18,7 @@
     // Ok I create a permanent account if temporary before
     AccountAnonymeGenerate();
     //--------------------
-	include_once ($PATH_BASE.'/Engine/relationship');
+	include_once ($PATH_BASE.'/Engine/relationship.php');
 		//--------------------
 		// finish the generic process
 	include_once ($PATH_BASE.'/Engine/finish.php');

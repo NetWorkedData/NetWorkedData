@@ -120,10 +120,10 @@ namespace NetWorkedData
             return NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccount GetCurrentAccount()
-        {
-            return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
-        }
+        //public static NWDAccount GetCurrentAccount() // not possible the object don't exist for real in the data
+        //{
+        //    return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

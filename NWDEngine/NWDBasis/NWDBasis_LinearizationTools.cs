@@ -287,6 +287,7 @@ namespace NetWorkedData
 		/// <param name="sDataArray">data array.</param>
 		public void UpdateWithCSV (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
+            Debug.Log("UpdateWithCSV ref " + Reference);
 			// get key order assembly of cvs
 			string[] tKey = CSVAssemblyOrderArray ();
 			// get values 
@@ -311,7 +312,14 @@ namespace NetWorkedData
 					Type tTypeOfThis = tPropertyInfo.PropertyType;
 					string tValueString = tValue [tI] as string;
 
-					if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
+                  if (tTypeOfThis.IsEnum)
+                    {
+                        // sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), data["sign"].ToString(), true);
+                        int tValueInsert = 0;
+                        int.TryParse(tValueString, out tValueInsert);
+                        tPropertyInfo.SetValue(this, tValueInsert, null);
+                    }
+                    else if (tTypeOfThis.IsSubclassOf (typeof(BTBDataType))) {
 //						var tObject = Activator.CreateInstance (tTypeOfThis);
 //						var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
 //						if (tMethodInfo != null) {
@@ -334,7 +342,7 @@ namespace NetWorkedData
 							tValueInsert = true;
 						}
 						tPropertyInfo.SetValue (this, tValueInsert, null);
-					} else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64)) {
+                    } else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64)) {
 						int tValueInsert = 0; 
 						int.TryParse (tValueString, out tValueInsert);
 						tPropertyInfo.SetValue (this, tValueInsert, null);
@@ -364,13 +372,22 @@ namespace NetWorkedData
 			foreach (string tPropertieName in tPropertiesList) {
 				PropertyInfo tProp = tType.GetProperty (tPropertieName);
 				Type tTypeOfThis = tProp.PropertyType;
+
+               // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
+
 				string tValueString = "";
 
 				object tValue = tProp.GetValue (this, null);
 				if (tValue == null) {
 					tValue = "";
 				}
-				tValueString = tValue.ToString ();
+                tValueString = tValue.ToString ();
+                if (tTypeOfThis.IsEnum)
+                {
+                    //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
+                    int tInt = (int)tValue;
+                    tValueString = tInt.ToString(); 
+                }
 				if (tTypeOfThis == typeof(bool)) {
 					//Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
 					if (tValueString == "False") {

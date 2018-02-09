@@ -176,6 +176,11 @@
 		$ERR_BOL = true;
 		$ERR_COD = $sCode;
 		$ERR_DSC = $ERR_LST[$sCode];
+    
+    myLogLineReturn();
+    myLog('error with code '.$sCode,'','','');
+    myLogLineReturn();
+    
 		if ($sExit==true)
 		{
 			include_once ('finish.php');

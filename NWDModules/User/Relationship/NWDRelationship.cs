@@ -27,17 +27,21 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public enum NWDRelationshipPinState : byte
+    public enum NWDRelationshipPinState
     {
         None = 0, // non usable
         CreatePin = 1, // send at 1 for creation of of pincode
         Waiting = 2, // return at 2 for waiting user (180 seconds but show 120 seconds)
         FriendProposal = 3, // friend entered your code you can see his nickname
         Accepted = 4, // validate and protected to delete 
-        Refused = 5, // validate and protected to delete 
+        Refused = 5, // validate and protected to delete  /// put in trash...
 
-        TimeOut = 6,
-        Error = 9,
+
+        TimeOut = 6, /// put in trash...
+        AllReadyFriends = 7, /// put in trash...
+        Error = 9, /// put in trash...
+
+        Banned = 99, // banned this user to my friends  
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
@@ -46,9 +50,9 @@ namespace NetWorkedData
     }
     //-------------------------------------------------------------------------------------------------------------
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("FRD")]
-    [NWDClassDescriptionAttribute("User Friend descriptions Class")]
-    [NWDClassMenuNameAttribute("User Friend")]
+    [NWDClassTrigrammeAttribute("RLS")]
+    [NWDClassDescriptionAttribute("Relationship  descriptions Class")]
+    [NWDClassMenuNameAttribute("Relationship")]
     //-------------------------------------------------------------------------------------------------------------
     //	[NWDTypeClassInPackageAttribute]
     //-------------------------------------------------------------------------------------------------------------
@@ -73,11 +77,24 @@ namespace NetWorkedData
         {
             get; set;
         } // user A as Master
-        [Indexed("RelationshipIndex", 1)]
+        //[Indexed("RelationshipIndex", 1)]
         public NWDReferenceType<NWDAccount> SlaveReference
         {
             get; set;
-        } // user B as Slave
+        }
+        public string SlaveNickname
+        {
+            get; set;
+        } 
+        public string MasterNickname
+        {
+            get; set;
+        } 
+        public NWDReferenceType<NWDRelationship> Reciprocity
+        {
+            get; set;
+        } 
+        // user B as Slave
         //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
         public string ClassesSharedByMaster
         {
@@ -105,12 +122,12 @@ namespace NetWorkedData
             get; set;
         }
         [Indexed("PinIndex", 2)]
-        public DateTime PinLimit
+        public int PinLimit
         {
             get; set;
         }
         [Indexed("PinIndex", 4)]
-        public DateTime PinValidate
+        public int PinValidate
         {
             get; set;
         }
@@ -196,7 +213,131 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tYadd = sInRect.y;
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
+            tYadd += NWDConstants.kFieldMarge * 2;
+
+            EditorGUI.LabelField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
+            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
+
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Add object", tMiniButtonStyle))
+            {
+                BTBConsole.Clean();
+                new NWDRelationship();
+#if UNITY_EDITOR
+                NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+#endif
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "reset", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                    
+             List<Type> tListClasses = new List<Type>();
+                tListClasses.Add(typeof(NWDPlayerInfos));
+                tListClasses.Add(typeof(NWDOwnership));
+                List<string> tList = new List<string>();
+                foreach (Type tClass in tListClasses.ToArray())
+                {
+                    if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
+                    {
+                        var tMethodInfo = tClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        if (tMethodInfo != null)
+                        {
+                            string tClassName = tMethodInfo.Invoke(null, null) as string;
+                            tList.Add(tClassName);
+                        }
+                    }
+                }
+                this.MasterReference.SetReference(NWDAccount.GetCurrentAccountReference());
+               // this.MasterReference.SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
+                this.SlaveReference.SetObject(null);
+                this.ClassesSharedByMaster = string.Join(",", tList.ToArray());
+                this.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
+                this.FirstSync = true;
+                this.RelationState = NWDRelationshipPinState.None;
+                this.UpdateMe();
+
+                this.AskWaitingFromServer();
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+            EditorGUI.BeginDisabledGroup(RelationState!= NWDRelationshipPinState.None);
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Ask pincode", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                DateTime tDateTime = DateTime.Now;
+                tDateTime.AddMinutes(1.5F);
+                this.AskPinCodeFromServer(tDateTime);
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            EditorGUI.EndDisabledGroup();
+
+
+            EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Waiting);
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "refresh", tMiniButtonStyle))
+            {
+                this.AskWaitingFromServer();
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            EditorGUI.EndDisabledGroup();
+
+
+            
+            EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Waiting);
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "auto send the pincode to me ", tMiniButtonStyle))
+            {
+                BTBConsole.Clean();
+                EnterPinToServer(PinCode);
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            EditorGUI.EndDisabledGroup();
+
+
+
+
+            EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.FriendProposal);
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Accept Friends", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                this.AcceptRelation(false);
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Accept Friends bilateral", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                this.AcceptRelation(true);
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Refuse Friends", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                this.RefuseRelation();
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            EditorGUI.EndDisabledGroup();
+
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -204,6 +345,28 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+
+            tYadd = NWDConstants.kFieldMarge;
+
+            tYadd += NWDConstants.kFieldMarge * 2;
+            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            tYadd += NWDConstants.kFieldMarge;
+
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -213,27 +376,61 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDRelationship CreateNewRelationshipDefault(string[] sClassNames)
+        public NWDRelationship CreateBilateralRelationship()
         {
-            List<string> tList = new List<string>(sClassNames);
-            if (tList.Contains(NWDPlayerInfos.ClassName()) == false)
+            NWDRelationship tReturn = NewObject();
+            tReturn.InsertMe();
+            tReturn.MasterReference.SetReference( this.SlaveReference.GetReference());
+            tReturn.SlaveReference.SetReference(this.MasterReference.GetReference());
+            tReturn.ClassesAcceptedBySlave = this.ClassesSharedByMaster;
+            tReturn.ClassesSharedByMaster = this.ClassesAcceptedBySlave;
+            tReturn.FirstSync = this.FirstSync;
+            tReturn.RelationState = this.RelationState;
+            tReturn.PinCode = "reciproque";
+            tReturn.UpdateMe();
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
+        {
+            List<Type> tList = new List<Type>(sClasses);
+            if (tList.Contains(typeof(NWDPlayerInfos)) == false)
             {
-                tList.Add(NWDPlayerInfos.ClassName());
+                tList.Add(typeof(NWDPlayerInfos));
             }
             NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
             return tRelation;
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDRelationship CreateNewRelationship(string[] sClassNames)
+        public static NWDRelationship CreateNewRelationship(Type[] sClasses)
         {
+
+            List<string> tList = new List<string>();
+            foreach (Type tClass in sClasses)
+            {
+                if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
+                {
+                    var tMethodInfo = tClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                        tList.Add(tClassName);
+                    }
+                }
+            }
             NWDRelationship tReturn = NewObject();
-            tReturn.MasterReference.SetObject(NWDAccount.GetCurrentAccount());
-            tReturn.ClassesSharedByMaster = string.Join(",", sClassNames);
-            tReturn.ClassesAcceptedBySlave = string.Join(",", sClassNames);
+            //tReturn.MasterReference.SetObject(NWDAccount.GetCurrentAccount());
+            tReturn.SlaveReference.SetObject(null);
+            tReturn.ClassesSharedByMaster = string.Join(",", tList.ToArray());
+            tReturn.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
             tReturn.FirstSync = true;
             tReturn.RelationState = NWDRelationshipPinState.None;
-            tReturn.SaveModificationsIfModified();
+            tReturn.InsertMe();
+
+#if UNITY_EDITOR
+            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+#endif
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -252,7 +449,7 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             RelationState = NWDRelationshipPinState.CreatePin;
-            PinLimit = sDateTimeMax;
+            PinLimit = (int)BTBDateHelper.ConvertToTimestamp(sDateTimeMax);
             SaveModificationsIfModified();
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
@@ -261,7 +458,8 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool AskWaitingFromServer(float sTimer, float sDateTimeMarge = 10.0F, // sTimer repeat every x seconds ..... sDateTimeMarge is marge about sDateTimeMax to cancel
+        public bool AskWaitingFromServer(
+            //float sTimer, float sDateTimeMarge = 10.0F, // sTimer repeat every x seconds ..... sDateTimeMarge is marge about sDateTimeMax to cancel
                                          BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
@@ -280,22 +478,30 @@ namespace NetWorkedData
                 rReturn = true;
                 // Next Step in development
             }
+
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Waiting", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "Waiting";
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public string EnterPinToServer(string sPinCode,
+        // TODO register the reference of pincode relationship found  object
+        //-------------------------------------------------------------------------------------------------------------
+        static public void EnterPinToServer(string sPinCode,
 
                                                                        BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
                                                                        BTBOperationBlock sProgressBlock = null,
                                                                        bool sPriority = true,
-                                                                         NWDAppEnvironment sEnvironment = null)
+                                                                       NWDAppEnvironment sEnvironment = null)
         {
             string tAccount = NWDAccount.GetCurrentAccountReference();
-            string tReference = "???";
             // TODO connect to server
-            return tReference;
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "EnterPinCode";
+            sOperation.PinCode = sPinCode;
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AcceptRelation(bool sBilateral,
@@ -308,11 +514,15 @@ namespace NetWorkedData
         {
             RelationState = NWDRelationshipPinState.Accepted;
             SaveModificationsIfModified();
+            if (sBilateral == true)
+            {
+                // create a new Relationship to send to server
+                CreateBilateralRelationship();
+            }
 
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "AcceptFriend";
             sOperation.Relationship = this;
-            sOperation.Bilateral = sBilateral;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -324,13 +534,12 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-            RelationState = NWDRelationshipPinState.Accepted;
-            SaveModificationsIfModified();
+            RelationState = NWDRelationshipPinState.Refused;
+            TrashMe();
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "RefuseFriend";
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
-
         }
 
         //-------------------------------------------------------------------------------------------------------------
@@ -364,7 +573,130 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-
+        static public List<NWDRelationship> GetMasters()
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.MasterReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public List<NWDRelationship> GetSlaves()
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.SlaveReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool YouAreMaster()
+        {
+            bool rReturn = false;
+            if (this.MasterReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+            {
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool YouAreSlave()
+        {
+            bool rReturn = false;
+            if (this.SlaveReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+            {
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<NWDRelationship> SlaveReciprocity()
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.SlaveReference.GetReference() == this.MasterReference.GetReference() 
+                    && tObject.MasterReference.GetReference() == this.SlaveReference.GetReference() 
+                    && tObject!=this)
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<NWDRelationship> MasterReciprocity()
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+                    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+                    && tObject != this)
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<NWDRelationship> SlaveReciprocityByState(NWDRelationshipPinState sNWDRelationState =NWDRelationshipPinState.Accepted)
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.RelationState == sNWDRelationState &&
+                    tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+                    && tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+                    && tObject != this)
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<NWDRelationship> MasterReciprocityByState(NWDRelationshipPinState sNWDRelationState = NWDRelationshipPinState.Accepted)
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.RelationState == sNWDRelationState &&
+                    tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+                    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+                    && tObject != this)
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool AllReadyFriendOrBanned()
+        {
+            bool rReturn = false;
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                // TODO : to prevent dupplicate 
+                //if (tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+                //    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+                //    && tObject != this)
+                //{
+                //    rList.Add(tObject);
+                //}
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------
 }

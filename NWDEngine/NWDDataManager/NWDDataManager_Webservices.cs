@@ -556,21 +556,28 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
-		{
+        {
+            Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
 			bool sUpdateData = false;
 			if (sTypeList != null)
             {
 				foreach (Type tType in sTypeList)
                 {
+                    Debug.Log("NWDDataManager SynchronizationPullClassesDatas() tType = " + tType.Name);
+
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null)
+                    if (tMethodInfo != null)
                     {
-						string tResult = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sData }) as string;
-						if (tResult == "YES")
+                        string tResult = tMethodInfo.Invoke(null, new object[] { sEnvironment, sData }) as string;
+                        if (tResult == "YES")
                         {
-							sUpdateData = true;
-						}
-					}
+                            sUpdateData = true;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("SynchronizationPullData not found for "+ tType.Name);
+                    }
 				}
 			}
 

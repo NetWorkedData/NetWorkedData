@@ -504,7 +504,7 @@ namespace NetWorkedData
 			"function Integrity" + tClassName + "Reevalue ($sReference)\n" +
 			"\t{\n" +
 			"\t\tglobal $SQL_CON;\n" +
-			"\t\tglobal $SQL_NWDAccount_SaltA, $SQL_NWDAccount_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
 			"\t\t$tQuery = 'SELECT * FROM `" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
 			"\t\t$tResult = $SQL_CON->query($tQuery);\n" +
 			"\t\tif (!$tResult)\n" +
@@ -523,9 +523,29 @@ namespace NetWorkedData
 				tSynchronizationFile += "" +
 				"\t\t\t\t\t\t$sDataString .= $tRow['" + tPropertyName + "'];\n";
 			}
-			tSynchronizationFile += "" +
-			"\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
-			"\t\t\t\t\t\t$tUpdate = 'UPDATE `" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\' WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            tSynchronizationFile += "" +
+            "\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t\t\t\t\t\t$tUpdate = 'UPDATE `" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\'";
+
+            if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            {
+                tSynchronizationFile += ", `DevSync`= \\''.time().'\\' ";
+            }
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            {
+                tSynchronizationFile += ", `PreprodSync`= \\''.time().'\\' ";
+            }
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            {
+                tSynchronizationFile += ", `ProdSync` = \\''.time().'\\' ";
+            }
+            else
+            {
+                tSynchronizationFile += ", `DM` = \\''.time().'\\' ";
+            }
+
+            tSynchronizationFile += "" +
+                                                                    " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
 			"\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
 			"\t\t\t\t\t\tif (!$tUpdateResult)\n" +
 			"\t\t\t\t\t\t\t{\n" +

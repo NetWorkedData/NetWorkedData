@@ -54,6 +54,9 @@ namespace NetWorkedData
 		{
 			NWDBasis<K> rReturnObject = null;
 			rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());
+
+            //rReturnObject.InitInstanceWithReference(sReference);
+
 			rReturnObject.InstanceInit ();
 			rReturnObject.AC = true;
 			rReturnObject.DM = NWDToolbox.Timestamp ();
@@ -75,8 +78,39 @@ namespace NetWorkedData
 				tPropInfo.SetValue (rReturnObject, tAtt, null);
 			}
 			rReturnObject.InsertMe ();
+
 			return rReturnObject;
 		}
+        //-------------------------------------------------------------------------------------------------------------
+        //public void InitInstanceWithReference(string sReference)
+        //{
+        //    this.InstanceInit();
+        //    this.AC = true;
+        //    this.DM = NWDToolbox.Timestamp();
+        //    this.DC = NWDToolbox.Timestamp();
+        //    this.DS = 0;
+        //    this.DD = 0;
+        //    this.DevSync = 0;
+        //    this.PreprodSync = 0;
+        //    this.ProdSync = 0;
+        //    if (sReference == null || sReference == "")
+        //    {
+        //        this.Reference = this.NewReference();
+        //    }
+        //    else
+        //    {
+        //        this.Reference = sReference;
+        //    }
+        //    foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+        //    {
+        //        Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
+        //        NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
+        //        tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+        //        tPropInfo.SetValue(this, tAtt, null);
+        //    }
+        //    this.InsertMe();
+        //}
+
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Init the instance if it's necessary (not used by default).
@@ -249,8 +283,14 @@ namespace NetWorkedData
 				AddObjectInListOfEdition (this);
 				rReturn = true;
 			} else {
-				// error this reference allready exist
+                // error this reference allready exist
+                // Update ?
+                UpdateMeIfModified();
 			}
+
+#if UNITY_EDITOR
+            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(K));
+#endif
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

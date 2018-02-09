@@ -153,7 +153,9 @@ namespace NetWorkedData
                 {
 					Debug.Log ("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
 					BTBNotificationManager.SharedInstance.PostNotification (new BTBNotification (NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
-				}
+
+                    Debug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+                }
 
 				if (Request.isNetworkError)
                 { 
@@ -193,7 +195,7 @@ namespace NetWorkedData
 					NWDOperationResult tInfosProgress = new NWDOperationResult ();
 					ProgressInvoke (1.0f, tInfosProgress);
 
-					Debug.Log ("NWDOperationWebUnity text : " + Request.downloadHandler.text);
+                    Debug.Log ("NWDOperationWebUnity text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r","\r\n"));
 
 					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OnLine);
 
