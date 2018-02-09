@@ -279,6 +279,53 @@
                     }
                 }
             }
+
+            $tForce = false;
+            if ($action == 'SyncForce')
+            {
+                $tForce = true;
+            }
+        if ($action == 'Sync')
+        {
+            // just return the update relationship object's
+                $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `SlaveReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND XX = \'0\'';
+                $tResult = $SQL_CON->query($tQuery);
+                if (!$tResult)
+                    {
+                    myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                    errorDeclaration('RLSw101', 'error in select relationship');
+                    error('RLSw101');
+                    }
+                else
+                    {
+                        while($tRow = $tResult->fetch_array())
+                            {
+                                myLog('Must add object from '.$tRow ['ClassesSharedByMaster']. ' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
+                                myLog('Must filter object by '.$tRow ['ClassesAcceptedBySlave']. ' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
+            
+                                $tArrayClassesMaster = explode(',',$tRow ['ClassesSharedByMaster']);
+                                $tArrayClassesSlave = explode(',',$tRow ['ClassesAcceptedBySlave']);
+                                $tArrayClasse = array_intersect($tArrayClassesMaster, $tArrayClassesSlave );
+                                foreach ($tArrayClasse as $sClass)
+                                    {                           
+                                    myLog('get objects '.$sClass.' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
+                                    include_once ( $PATH_BASE.'/Environment/prod/Engine/Database/'.$sClass.'/synchronization.php');
+                                    $tFunction = 'GetDatas'.$sClass;
+                                    if ($tForce==true)
+                                        {
+                                            $tFunction(0, $tRow ['MasterReference'], $tPage, $tLimit);
+                                        }
+                                    else
+                                        {
+                                            $tFunction($dico['NWDRelationship']['sync'], $tRow ['MasterReference'], $tPage, $tLimit);
+                                        }
+                                    }
+                            }
+                    }
+        }
+
+
+
         if (isset($dico['NWDRelationship']['sync']))
             {
             if (!errorDetected())

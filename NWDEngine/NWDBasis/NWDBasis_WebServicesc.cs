@@ -168,9 +168,15 @@ namespace NetWorkedData
 			} else {
 				// test if Modification is older than actual object
 				Debug.Log ("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
-				if (tObject.DM <= GetDMValueFromCSV (sDataArray)) {
-					tObject.UpdateWithCSV (sEnvironment, sDataArray);
-				}
+               // if (tObject.DM <= GetDMValueFromCSV(sDataArray))
+              //  {
+              //      Debug.Log("OBJECT IS OLDER THAN SYNC RECEIPT");
+                    tObject.UpdateWithCSV(sEnvironment, sDataArray);
+               // }
+               // else
+               // {
+               //     Debug.LogWarning("OBJECT IS MORE RECENT THAN SYNC RECEIPT!!!!!!!!!!!!!!");
+               // }
 			}
 			return tObject;
 		}

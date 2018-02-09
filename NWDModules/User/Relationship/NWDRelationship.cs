@@ -263,6 +263,8 @@ namespace NetWorkedData
                 this.SlaveReference.SetObject(null);
                 this.ClassesSharedByMaster = string.Join(",", tList.ToArray());
                 this.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
+                this.PinCode = "------";
+                this.PinLimit = 0;
                 this.FirstSync = true;
                 this.RelationState = NWDRelationshipPinState.None;
                 this.UpdateMe();
@@ -331,6 +333,24 @@ namespace NetWorkedData
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
 
+
+            EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Accepted);
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Sync", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                Sync();
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Sync Force", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                SyncForce();
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            EditorGUI.EndDisabledGroup();
+
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -352,6 +372,10 @@ namespace NetWorkedData
             tYadd += NWDConstants.kFieldMarge * 2;
             tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -626,6 +650,21 @@ namespace NetWorkedData
             
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "Sync";
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public void SyncForce(
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                         NWDAppEnvironment sEnvironment = null)
+        {
+
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "SyncForce";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
 
         }

@@ -91,6 +91,7 @@ namespace NetWorkedData
 		{
 			Statut = BTBOperationState.Start;
 
+            Debug.Log("NWDOperationWebUnity ExecuteAsync() THREAD ID " + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
 			//callback error
 			NWDOperationResult tInfos = new NWDOperationResult ();
 			ProgressInvoke (0.0f, tInfos);

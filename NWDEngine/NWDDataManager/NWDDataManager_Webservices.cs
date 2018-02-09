@@ -558,6 +558,7 @@ namespace NetWorkedData
         public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
         {
             Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
+            Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
 			bool sUpdateData = false;
 			if (sTypeList != null)
             {
