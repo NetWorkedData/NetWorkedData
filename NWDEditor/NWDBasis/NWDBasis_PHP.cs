@@ -591,7 +591,7 @@ namespace NetWorkedData
 			"\t\t\t\telse\n" +
 			"\t\t\t\t{\n" +
 			"\t\t\t\t$tReference = $sCsvList[0];\n" +
-			"\t\t\t\t$tDM = $sCsvList[1];\n" +
+			//"\t\t\t\t$tDM = $sCsvList[1];\n" +
 			"\t\t\t\t$tQuery = 'SELECT `Reference` FROM `" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
 			"\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
 			"\t\t\t\tif (!$tResult)\n" +
