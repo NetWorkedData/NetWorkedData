@@ -81,7 +81,7 @@
                     {
                     if (!errorDetected())
                         {
-                        UpdateDataNWDRelationship ($sCsvValue, $tDate, $uuid, false);
+                        UpdateDataNWDRelationship ($sCsvValue, $dico['NWDRelationship']['sync'], $uuid, false);
                         }
                     }
                 }

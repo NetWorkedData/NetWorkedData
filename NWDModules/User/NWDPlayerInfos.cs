@@ -38,9 +38,9 @@ namespace NetWorkedData
     public class NWDPlayerConnexion : NWDConnexion <NWDPlayerInfos> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("UFO")]
-	[NWDClassDescriptionAttribute ("General User Informations")]
-	[NWDClassMenuNameAttribute ("User Infos")]
+	[NWDClassTrigrammeAttribute ("PFO")]
+	[NWDClassDescriptionAttribute ("General Player Informations")]
+	[NWDClassMenuNameAttribute ("Player Infos")]
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//[NWDInternalKeyNotEditableAttribute]
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

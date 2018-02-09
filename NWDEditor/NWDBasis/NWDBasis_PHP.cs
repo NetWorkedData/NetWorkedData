@@ -618,13 +618,27 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t\t\t\t\t$tUpdate = 'UPDATE `" + tTableName + "` SET ";
 			tSynchronizationFile += string.Join (", ", tModify.ToArray ()) + " " +
 			"WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
-			"AND `DM` < \\''.$SQL_CON->real_escape_string($tDM).'\\' ';\n";
+			//"AND `DM` < \\''.$SQL_CON->real_escape_string($tDM).'\\'" +
+            "";
+            if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            {
+                tSynchronizationFile += "AND `DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            }
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            {
+                tSynchronizationFile += "AND `PreprodSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            }
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            {
+                tSynchronizationFile += "AND `ProdSync` <= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            }
+            tSynchronizationFile += "';\n";
 			if (tAccountReference.Count == 0) {
 				tSynchronizationFile += "$tUpdateRestriction = '';\n";
 			} else {
 				tSynchronizationFile += "$tUpdateRestriction = 'AND (" + string.Join (" OR ", tAccountReference.ToArray ()) + ") ';\n";
 			}
-			tSynchronizationFile += "" +
+            tSynchronizationFile += "" +
 			"\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t{\n" +
 			"\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction;\n" +
@@ -715,7 +729,7 @@ namespace NetWorkedData
 			"\t\t\t\t\t\t\t{\n" +
 			"\t\t\t\t\t\t\t\tif (!errorDetected())\n" +
 			"\t\t\t\t\t\t\t\t\t{\n" +
-			"\t\t\t\t\t\t\t\t\t\tUpdateData" + tClassName + " ($sCsvValue, $sTimeStamp, $sAccountReference, $sAdmin);\n" +
+                "\t\t\t\t\t\t\t\t\t\tUpdateData" + tClassName + " ($sCsvValue, $sJsonDico['" + tClassName + "']['sync'], $sAccountReference, $sAdmin);\n" +
 			"\t\t\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t}\n" +

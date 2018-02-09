@@ -163,6 +163,8 @@ namespace NetWorkedData
 			NWDBasis<K> tObject = InstanceByReference (tReference);
 			if (tObject == null) {
 				Debug.Log ("SynchronizationInsertInBase NEW OBJECT DETECTED");
+                // TODO : IS RELATIONSHIP OBJECT?
+                // IF NOT ... INSERT IN DATABASE
 				tObject = NewInstanceFromCSV (sEnvironment, sDataArray);
 				AddObjectInListOfEdition (tObject);
 			} else {
