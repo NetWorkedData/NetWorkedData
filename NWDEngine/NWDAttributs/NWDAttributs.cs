@@ -284,7 +284,16 @@ namespace NetWorkedData
 		{
 			this.mEnumString = sEnumString;
 		}
-	}
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    //public class NWDUniqueFromPropertyAttribute : Attribute
+    //{
+    //    public string mProperty;
+    //    public NWDUniqueFromPropertyAttribute(string sOriginalProperty)
+    //    {
+    //        this.mProperty = sOriginalProperty;
+    //    }
+    //}
 	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

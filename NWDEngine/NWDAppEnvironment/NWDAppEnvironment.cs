@@ -33,8 +33,11 @@ namespace NetWorkedData
 		public string DataSHAPassword = "";
 		public string DataSHAVector = "";
 		public string SaltStart = "";
-		public string SaltEnd = "";
-		public int SaltFrequency = 300;
+        public string SaltEnd = "";
+#if UNITY_EDITOR
+        public string SaltServer = "";
+#endif
+        public int SaltFrequency = 300;
 		public string ServerHTTPS = "https://www.my-web-site.com/";
 		public string ServerHost = "localhost";
 		public string ServerUser = "user";
@@ -49,7 +52,7 @@ namespace NetWorkedData
 		public int BuildTimestamp = 0;
 		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
-		public string RescueEmail = "no-reply@my-web-site.com";
+		//public string RescueEmail = "no-reply@my-web-site.com";
 		//		public string Version = "0.00.00";
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -88,7 +91,8 @@ namespace NetWorkedData
 			DataSHAPassword = NWDToolbox.SaltCleaner (DataSHAPassword);
 			DataSHAVector = NWDToolbox.SaltCleaner (DataSHAVector);
 			SaltStart = NWDToolbox.SaltCleaner (SaltStart);
-			SaltEnd = NWDToolbox.SaltCleaner (SaltEnd);
+            SaltEnd = NWDToolbox.SaltCleaner (SaltEnd);
+            SaltServer = NWDToolbox.SaltCleaner(SaltServer);
 			// ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
 			AdminKey = NWDToolbox.SaltCleaner (AdminKey);
 			//check salts are not mull
@@ -103,8 +107,14 @@ namespace NetWorkedData
 			}
 			if (SaltEnd == "") {
 				SaltEnd = NWDToolbox.RandomString (16);
-			}
-			if (SaltFrequency <= 400) {
+            }
+#if UNITY_EDITOR
+            if (SaltServer == "")
+            {
+                SaltServer = NWDToolbox.RandomString(16);
+            }
+#endif
+            if (SaltFrequency <= 400) {
 				SaltFrequency = UnityEngine.Random.Range (400, 800);
 			}
 			if (ServerPassword == "") {

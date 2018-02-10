@@ -17,7 +17,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Game",
+	[NWDTypeWindowParamAttribute("App",
 		"Project Edition, You can add, change, remove the item of your game here. " +
 		"Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
 		"NWDIcons_02",
@@ -25,19 +25,20 @@ namespace NetWorkedData
 			typeof(NWDVersion),
 			typeof(NWDConfiguration),
 			typeof(NWDLocalization),
-			typeof(NWDError),
+            typeof(NWDError),
+            typeof(NWDMessage),
 			/* Add NWDBasis here*/
 		}
 	)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDGameWindow : NWDBasisWindow <NWDGameWindow>
+	public class NWDAppWindow : NWDBasisWindow <NWDAppWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_GAME, false, 300)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDGameWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDAppWindow));
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

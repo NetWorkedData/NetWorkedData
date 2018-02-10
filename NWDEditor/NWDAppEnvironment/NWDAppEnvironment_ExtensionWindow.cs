@@ -46,8 +46,9 @@ namespace NetWorkedData
 			DataSHAPassword = EditorGUILayout.TextField ("SHA Password", DataSHAPassword);
 			DataSHAVector = EditorGUILayout.TextField ("SHA Vector", DataSHAVector);
 			EditorGUILayout.TextField ("Hash of Datas"+ Environment, EditorStyles.boldLabel);
-			SaltStart = EditorGUILayout.TextField ("Salt A", SaltStart);
-			SaltEnd = EditorGUILayout.TextField ("Salt B", SaltEnd);
+			SaltStart = EditorGUILayout.TextField ("Salt start", SaltStart);
+            SaltEnd = EditorGUILayout.TextField ("Salt end", SaltEnd);
+            SaltServer = EditorGUILayout.TextField("Salt server", SaltServer);
 			SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
 			EditorGUILayout.TextField ("Server Params for "+ Environment, EditorStyles.boldLabel);
 			ServerHTTPS = EditorGUILayout.TextField ("Server (https://…)", ServerHTTPS);
@@ -62,7 +63,7 @@ namespace NetWorkedData
 			UnityAppKey = EditorGUILayout.TextField ("UnityAppKey", UnityAppKey);
 			TwitterAppKey = EditorGUILayout.TextField ("TwitterAppKey", TwitterAppKey);
 			EditorGUILayout.TextField ("Email to send forgotten code "+ Environment, EditorStyles.boldLabel);
-			RescueEmail = EditorGUILayout.TextField ("RescueEmail", RescueEmail);
+			//RescueEmail = EditorGUILayout.TextField ("RescueEmail", RescueEmail);
 			EditorGUILayout.TextField ("Admin Key for "+ Environment, EditorStyles.boldLabel);
 			AdminKey = EditorGUILayout.TextField ("AdminKey", AdminKey);
 			EditorGUILayout.TextField ("Token Historic limit for "+ Environment, EditorStyles.boldLabel);

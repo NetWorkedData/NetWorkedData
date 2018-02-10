@@ -16,33 +16,36 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-----------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("User",
-		"User management … ",
-		"NWDIcons_02",
-		new Type[] {
-			typeof(NWDAccount),
-			typeof(NWDPreferences),
-            typeof (NWDRelationship),
+    //-----------------------------------------------------------------------------------------------------------------
+    [NWDTypeWindowParamAttribute("User",
+        "User management … ",
+        "NWDIcons_02",
+        new Type[] {
+            typeof(NWDAccount),
+            typeof(NWDUserInfos),
+            typeof(NWDPreferences),
+            typeof(NWDRelationship),
             typeof(NWDOwnership),
             typeof(NWDUsage),
             typeof(NWDUserStats),
+            typeof(NWDUserConsolidatedStats),
+            typeof(NWDUserMessage),
 			/* Add NWDBasis here*/
 		}
-	)]
-	//-----------------------------------------------------------------------------------------------------------------
-	public class NWDUserWindow : NWDBasisWindow <NWDUserWindow>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "User(s)" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 301)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = GetWindow (typeof(NWDUserWindow));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+    )]
+    //-----------------------------------------------------------------------------------------------------------------
+    public class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "User(s)" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 301)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = GetWindow(typeof(NWDUserWindow));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 }
 //=====================================================================================================================
 #endif

@@ -76,6 +76,10 @@ namespace NetWorkedData
 				"\t$NWD_SHA_VEC = '" + DataSHAVector.Replace ("'", "'") + "';\n" +
 				"\t$NWD_SLT_STR = '" + SaltStart.Replace ("'", "\'") + "';\n" +
 				"\t$NWD_SLT_END = '" + SaltEnd.Replace ("'", "\'") + "';\n" +
+                "\t$NWD_SLT_END = '" + SaltEnd.Replace ("'", "\'") + "';\n" +
+
+                "\t$NWD_SLT_SRV = '" + SaltServer.Replace("'", "\'") + "';\n" +
+
 				"\t\t//-------------------- \n" +
 				"\t\t// CONSTANT FOR TEMPORAL SALT\n" +
 				"\t$NWD_SLT_TMP = " + SaltFrequency.ToString () + ";\n" +
@@ -94,7 +98,7 @@ namespace NetWorkedData
 				"\t$NWD_ADM_KEY = '" + AdminKey.Replace ("'", "\'") + "';\n" +
 				"\t\t//-------------------- \n" +
 				"\t\t// RESCUE EMAIL\n" +
-				"\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
+				//"\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
 				"\t$NWD_APP_NAM = '" + AppName.Replace ("'", "\'") + "';\n" +
 				"\t\t//-------------------- \n" +
 				"\t\t// SOCIALS APP KEY AND SECRET KEY\n" +

@@ -27,7 +27,7 @@
     $ereg_auuidHash = '/^([A-Za-z0-9\-]{15,48})$/';
     $ereg_reference = '/^([A-Za-z0-9\-]{15,48})$/';
     $ereg_apasswordHash = '/^(.{12,64})$/';
-    $ereg_PinCode = '/^([0-9]{6,18})$/';
+    $ereg_pincode = '/^([0-9]{4,12})$/';
     $ereg_pinsize = '/^([0-9]{1,2})$/';
     $ereg_pindelay = '/^([0-9]{1,2})$/';
         //--------------------
@@ -183,7 +183,7 @@
                             }
                         else
                             {
-                            $tPinCode = PinCodeRandom();
+                                $tPinCode = PinCodeRandom($pinsize);
                             }
                         }
                     }
@@ -208,7 +208,7 @@
             myLog('EnterPinCode', __FILE__, __FUNCTION__, __LINE__);
             errorDeclaration('RLSw80', 'PinCode empty');
             errorDeclaration('RLSw81', 'PinCode ereg');
-            if (paramValue ('pincode', 'pincode', $ereg_PinCode, 'RLSw80', 'RLSw81')) // I test PinCode
+            if (paramValue ('pincode', 'pincode', $ereg_pincode, 'RLSw80', 'RLSw81')) // I test PinCode
                 {
                 $tTime = time();
                 $tQuery = 'SELECT `Reference`, `MasterReference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$pincode.'\' AND `RelationState` = 2';// AND `PinLimit` > '.$tTime.'';

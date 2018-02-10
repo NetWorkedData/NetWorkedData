@@ -431,7 +431,20 @@ namespace NetWorkedData
 				// need to reload this data now : to remove all tObjects from memory!
 				LoadTableEditor ();
 			}
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeThisClasse(bool sForce)
+        {
+            if (sForce == true)
+            {
+                NWDDataManager.SharedInstance.AddWebRequestSynchronization(new List<Type> { typeof(K) });
+            }
+            else
+            {
+                NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce(new List<Type> { typeof(K) });
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

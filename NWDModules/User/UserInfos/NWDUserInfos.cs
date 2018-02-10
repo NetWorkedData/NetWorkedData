@@ -15,7 +15,6 @@ using System.Reflection;
 using UnityEngine;
 
 using BasicToolBox;
-using SQLite4Unity3d;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,28 +25,28 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
-	/// NWDPlayerConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+	/// NWDUserInfosConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
 	/// Use like :
 	/// public class MyScriptInGame : MonoBehaviour
 	/// { 
 	/// [NWDConnexionAttribut (true, true, true, true)] // optional
-	/// public NWDPlayerConnexion MyNetWorkedData;
+	/// public NWDUserInfosConnexion MyNetWorkedData;
 	/// }
 	/// </summary>
 	[Serializable]
-    public class NWDPlayerConnexion : NWDConnexion <NWDPlayerInfos> {}
+	public class NWDUserInfosConnexion : NWDConnexion <NWDUserInfos> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("PFO")]
-	[NWDClassDescriptionAttribute ("General Player Informations")]
-	[NWDClassMenuNameAttribute ("Player Infos")]
+	[NWDClassTrigrammeAttribute ("UFO")]
+	[NWDClassDescriptionAttribute ("General User Informations")]
+	[NWDClassMenuNameAttribute ("User Infos")]
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//[NWDInternalKeyNotEditableAttribute]
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
 	/// NWD example class. This class is use for (complete description here)
 	/// </summary>
-    public partial class NWDPlayerInfos : NWDBasis<NWDPlayerInfos>
+	public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
 	{
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
@@ -66,27 +65,29 @@ namespace NetWorkedData
 		// Your properties
         [NWDHeader("Player Informations")]
 		public NWDReferenceType<NWDAccount> AccountReference {get; set;}
-        public string Fisrtname {get; set;}
-        public string Lastname { get; set; }
-        public string Nickname { get; set; } // Nickname in game, not the nickname of account
+        [NWDEnumString(new string[] {"Temporary","Anonymous","LoginPassword","Facebook","Google","Unknow"})]
+        public string AccountType { get; set; }
+        public string NickName {get; set;}
+        public string UniqueNickname {get; set;}
 		public NWDTextureType Avatar {get; set;}
-
-
-        /// <summary>
-        /// Gets or sets the Nickname.
-        /// </summary>
-        /// <value>The login is NOT the Nickname ... Nickname is use to friendly connect and matchmaking. If you need unique Nickname you must develop the fonction yourself</value>
-        [Indexed("NicknameIndex", 0)]
-        public string UniqueNickname
-        {
-            get; set;
-        }
+		public string FirstName {get; set;}
+        public string LastName {get; set;}
+        [NWDHeader("Game Options")]
+		public bool SFX {get; set;}
+		public float SFXVolume {get; set;}
+		public bool Music {get; set;}
+		public float MusicVolume {get; set;}
+        [NWDHeader("Last Game Informations")]
+        public NWDReferenceType<NWDSpot> LastSpotReference { get; set; }
+        public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
+        public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
+        public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-        public NWDPlayerInfos()
+		public NWDUserInfos()
 		{
 			//Init your instance here
 			// Example : this.MyProperty = true, 1 , "bidule", etc.
@@ -96,6 +97,46 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Get active user information
+		/// </summary>
+        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment env)
+		{
+            NWDUserInfos tUserInfos = null;
+            foreach (NWDUserInfos user in GetAllObjects())
+            {
+                if (user.AccountReference.GetReference().Equals(env.PlayerAccountReference))
+                {
+                    tUserInfos = user;
+                    break;
+                }
+            }
+
+            if (tUserInfos == null)
+            {
+                tUserInfos = NewObject();
+                tUserInfos.InternalKey = env.PlayerStatut.ToString();
+                tUserInfos.AccountReference.SetReference(env.PlayerAccountReference);
+                tUserInfos.AccountType = env.PlayerStatut.ToString();
+            }
+
+            return tUserInfos;
+		}
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get Account type of active user
+        /// </summary>
+        public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDUserInfos user)
+        {
+            NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
+            if (user != null)
+            {
+                Debug.Log("--GetUserStatut : " + user.AccountType);
+                rPlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), user.AccountType, true);
+            }
+
+            return rPlayerStatut;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -235,9 +276,39 @@ namespace NetWorkedData
 		/// <param name="sInRect">S in rect.</param>
 		public override float AddonEditor (Rect sInRect)
 		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
+            // Draw the interface addon for editor
+            // Draw the interface addon for editor
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tYadd = sInRect.y;
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
+            tYadd += NWDConstants.kFieldMarge * 2;
+
+            EditorGUI.LabelField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
+            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
+
+            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "validate nickname", tMiniButtonStyle))
+            {
+
+                BTBConsole.Clean();
+                this.AskPinCodeFromServer(NickName);
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+            return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -246,9 +317,36 @@ namespace NetWorkedData
 		/// <returns>The editor expected height.</returns>
 		public override float AddonEditorHeight ()
 		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
+            // Height calculate for the interface addon for editor
+            // Height calculate for the interface addon for editor
+            float tYadd = 0.0f;
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+
+            tYadd = NWDConstants.kFieldMarge;
+
+            tYadd += NWDConstants.kFieldMarge * 2;
+            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            tYadd += NWDConstants.kFieldMarge;
+
+            return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
@@ -256,18 +354,35 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public void AskPinCodeFromServer(string sNickname,
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                       NWDAppEnvironment sEnvironment = null)
+        {
+            SaveModificationsIfModified();
+            // Start webrequest
+            NWDOperationWebUserInfos sOperation = NWDOperationWebUserInfos.Create("Nickname with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "nickname";
+            sOperation.Nickname = sNickname;
+            sOperation.UserInfosReference = this;
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+        }
+        //-------------------------------------------------------------------------------------------------------------
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
-    #region Connexion NWDPlayerInfos with Unity MonoBehavior
+	#region Connexion NWDUserInfos with Unity MonoBehavior
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWDPlayer connexion.
+	/// NWDUserInfos connexion.
 	/// In your MonoBehaviour Script connect object with :
 	/// <code>
 	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDPlayerConnexion MyNWDPlayerObject;
+	/// public NWDUserInfosConnexion MyNWDUserInfosObject;
 	/// </code>
 	/// </summary>
 	//-------------------------------------------------------------------------------------------------------------
@@ -277,7 +392,7 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 
 	//-------------------------------------------------------------------------------------------------------------
-	//public class NWDPlayerMonoBehaviour: NWDMonoBehaviour<NWDPlayerMonoBehaviour> {}
+	//public class NWDUserInfosMonoBehaviour: NWDMonoBehaviour<NWDUserInfosMonoBehaviour> {}
 	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }

@@ -138,6 +138,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        static NWDRelationship()
+        {
+            NWDMessage.CreateGenericMessage("TEST DOMAIN", "CODE", "TITLE", "DESCRIPTION");
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -243,7 +247,7 @@ namespace NetWorkedData
                 BTBConsole.Clean();
                     
              List<Type> tListClasses = new List<Type>();
-                tListClasses.Add(typeof(NWDPlayerInfos));
+                tListClasses.Add(typeof(NWDUserInfos));
                 tListClasses.Add(typeof(NWDOwnership));
                 List<string> tList = new List<string>();
                 foreach (Type tClass in tListClasses.ToArray())
@@ -411,9 +415,9 @@ namespace NetWorkedData
         public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
         {
             List<Type> tList = new List<Type>(sClasses);
-            if (tList.Contains(typeof(NWDPlayerInfos)) == false)
+            if (tList.Contains(typeof(NWDUserInfos)) == false)
             {
-                tList.Add(typeof(NWDPlayerInfos));
+                tList.Add(typeof(NWDUserInfos));
             }
             NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
             return tRelation;
