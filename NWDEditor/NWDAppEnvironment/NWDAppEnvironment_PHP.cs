@@ -216,7 +216,7 @@ namespace NetWorkedData
 				"if (!errorDetected())\n" +
                 "\t{\n";
 			//tWebServices += "\n" +
-				////"$tPage = 0;\n" +
+            ////"   ;;                                         $tPage = 0;\n" +
 				////"if (isset($dico['page'])) { $tPage = $dico['page'];};\n" +
 				////"$tLimit = 100000;\n" +
 				////"if (isset($dico['limit'])) { $tLimit = $dico['limit'];};\n" +
