@@ -29,24 +29,9 @@
     $ereg_apasswordHash = '/^(.{12,64})$/';
     $ereg_nickname = '/^([.]{3,48})$/';
         //--------------------
-    function PinCodeRandom (int $sSize)
+    function PinCodeRandom ()
     {
-        if ($sSize>12)
-        {
-            $sSize = 12;
-        }
-        if ($sSize<4)
-        {
-            $sSize = 4;
-        }
-        $tPin = rand (1000 ,9999);
-        while ($sSize>4)
-        {
-            $sSize--;
-            $tPin = $tPin . rand (0,9);
-        }
-        return $tPin;
-        //return rand (100000000 ,999999999);
+        rand (100000 ,999999);
     }
         //--------------------
     if (!errorDetected())
@@ -101,26 +86,25 @@
             if (paramValue ('nickname', 'nickname', $ereg_nickname, 'USFw22', 'USFw22')) // I test nickname
                 {
                 $tTested = false;
-                $tPinCode = PinCodeRandom($pinsize);
+                $tPinCode = PinCodeRandom();
                 myLog('test $tPinCode = '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
                 while ($tTested == false)
                     {
                     $tTimeMax = time();
-                    $tQuery = 'SELECT `PinCode` FROM `'.$ENV.'_NWDUserInfos` WHERE `PinCode` LIKE \''.$tPinCode.'\' AND `PinLimit` > '.$tTimeMax.' AND `RelationState` <3';
+                    $tQuery = 'SELECT `UniqueNickname` FROM `'.$ENV.'_NWDUserInfos` WHERE `UniqueNickname` LIKE \''.$SQL_CON->real_escape_string($nickname).'#'.$tPinCode.'\' WHERE `Reference` != \''.$SQL_CON->real_escape_string($reference).'\' ';
                     $tResult = $SQL_CON->query($tQuery);
                     if (!$tResult)
                         {
                         myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
-                        errorDeclaration('USFw92', 'error in select other pincode allready install');
+                        errorDeclaration('USFw92', 'error in select other UniqueNickname allready install');
                         error('USFw92');
                         }
                     else
                         {
                         if ($tResult->num_rows == 0)
                             {
-                            myLog('pincode is not used '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
+                            myLog('UniqueNickname is not used '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
                             $tTested = true;
-                            $tTimeLimit = time() + $pindelay + 10; // I add 10 seconds of marge
                                 // Ok I have a good PinCode I update
                             $tTimeDm =$dico['NWDUserInfos']['sync']+1;
                             $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDUserInfos` SET `DM` = \''.$tTimeDm.'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
@@ -137,9 +121,6 @@
                             else
                                 {
                                 myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);
-                                    // I can add another test to certified the unique pincode here!
-                                    // TODO :
-                                    // Ok I reevaluate the integrity test
                                 IntegrityNWDUserInfosReevalue ($reference);
                                 }
                             }

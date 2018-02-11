@@ -67,12 +67,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public static K[] GetAllObjects()
+        public static K[] GetAllObjects(string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			foreach (K tObject in NWDBasis<K>.ObjectsList)
 			{
-				if (tObject.IsReacheableByAccount())
+                if (tObject.IsReacheableByAccount(sAccountReference))
 				{
 					rReturn.Add(tObject);
 				}
@@ -80,24 +80,24 @@ namespace NetWorkedData
 			return rReturn.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static K GetObjectByReference(string sReference)
+        public static K GetObjectByReference(string sReference,string sAccountReference = null)
 		{
 			K rReturn = null;
 			int tIndex = ObjectsByReferenceList.IndexOf(sReference);
 			if (tIndex >= 0) {
 				K tObject = ObjectsList.ElementAt (tIndex) as K;
-				if (tObject.IsReacheableByAccount ()) {
+                if (tObject.IsReacheableByAccount (sAccountReference)) {
 					rReturn = tObject;
 				}
 			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static K[] GetObjectsByReferences(string[] sReferences)
+        public static K[] GetObjectsByReferences(string[] sReferences, string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			foreach (string tReference in sReferences) {
-				K tObject = GetObjectByReference(tReference);
+                K tObject = GetObjectByReference(tReference, sAccountReference);
 				if (tObject!=null)
 				{
 					rReturn.Add(tObject);
@@ -106,60 +106,61 @@ namespace NetWorkedData
 			return rReturn.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static K GetObjectByInternalKey(string sInternalKey)
+        public static K GetObjectByInternalKey(string sInternalKey,string sAccountReference = null)
 		{
 			K rReturn = null;
 			int tIndex = ObjectsByKeyList.IndexOf(sInternalKey);
 			if (tIndex >= 0) {
 				K tObject = ObjectsList.ElementAt (tIndex) as K;
-				if (tObject.IsReacheableByAccount ()) {
+                if (tObject.IsReacheableByAccount (sAccountReference)) {
 					rReturn = tObject;
 				}
 			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static K[] GetAllObjectsByInternalKey(string sInternalKey)
+        public static K[] GetAllObjectsByInternalKey(string sInternalKey,string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			int[] tIndexes = ObjectsByKeyList.Select((b,i) => b == sInternalKey ? i : -1).Where(i => i != -1).ToArray();
 			foreach(int tIndex in tIndexes)
 			{
 				K tObject = ObjectsList.ElementAt (tIndex) as K;
-				if (tObject.IsReacheableByAccount ()) {
+                if (tObject.IsReacheableByAccount (sAccountReference)) {
 					rReturn.Add(tObject);
 				}
 			}
 			return rReturn.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "")
+        public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "",string sAccountReference = null)
 		{
 			K rReturn = null;
 			int tIndex = ObjectsByKeyList.IndexOf(sInternalKey);
 			if (tIndex >= 0) {
 				K tObject = ObjectsList.ElementAt (tIndex) as K;
-				if (tObject.IsReacheableByAccount ()) {
+                if (tObject.IsReacheableByAccount (sAccountReference)) {
 					rReturn = tObject;
 				}
 			}
-			if (rReturn == null) {
+            // don't create for another account (only for user account)
+            if (rReturn == null && sAccountReference==null) {
 				rReturn = NWDBasis<K>.NewInstance () as K;
 				RemoveObjectInListOfEdition (rReturn);
 				rReturn.InternalKey = sInternalKey;
 				rReturn.InternalDescription = sInternalDescription;
-				// TODO : add Internal reference of account dependent
+				 //TODO : add Internal reference of account dependent
 				rReturn.UpdateMe ();
 				AddObjectInListOfEdition (rReturn);
 			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static K[] GetObjectsByInternalKeys(string[] sInternalKeys)
+        public static K[] GetObjectsByInternalKeys(string[] sInternalKeys,string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			foreach (string tInternalKey in sInternalKeys) {
-				K tObject = GetObjectByInternalKey(tInternalKey);
+                K tObject = GetObjectByInternalKey(tInternalKey,sAccountReference);
 				if (tObject!=null)
 				{
 					rReturn.Add(tObject);
@@ -170,11 +171,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//TODO : GetAllObjectByInternalKeys(string[] sInternalKey)
 		//-------------------------------------------------------------------------------------------------------------
-		public static K[] GetObjectsByInternalKeysOrCreate(string[] sInternalKeys, string sInternalDescription = "")
+        public static K[] GetObjectsByInternalKeysOrCreate(string[] sInternalKeys, string sInternalDescription = "",string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			foreach (string tInternalKey in sInternalKeys) {
-				K tObject = GetObjectByInternalKeyOrCreate(tInternalKey, sInternalDescription);
+                K tObject = GetObjectByInternalKeyOrCreate(tInternalKey, sInternalDescription,sAccountReference);
 				if (tObject!=null)
 				{
 					rReturn.Add(tObject);
@@ -184,7 +185,7 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// TODO: must be tested
-		public static K[] Where (Expression<Func<K, bool>> predExpr)
+        public static K[] Where (Expression<Func<K, bool>> predExpr,string sAccountReference = null)
 		{
 			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
 			if (AccountDependent ())
@@ -196,7 +197,7 @@ namespace NetWorkedData
 			foreach (K tItem in tEnumerable) {
 				int tIndex = ObjectsByReferenceList.IndexOf(tItem.Reference);
 				K tObject = ObjectsList.ElementAt (tIndex) as K;
-				if (tObject.IsReacheableByAccount ()) {
+                if (tObject.IsReacheableByAccount (sAccountReference)) {
 					tAllReferences.Add (tObject);
 				}
 			}

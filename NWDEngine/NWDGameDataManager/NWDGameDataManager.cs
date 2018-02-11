@@ -285,7 +285,7 @@ namespace NetWorkedData
         /// <returns>The singleton.</returns>
         public static NWDGameDataManager UnitySingleton()
         {
-            Debug.Log("NWDGameDataManager UnitySingleton");
+            //Debug.Log("NWDGameDataManager UnitySingleton");
             if (kUnitySingleton == null)
             {
 

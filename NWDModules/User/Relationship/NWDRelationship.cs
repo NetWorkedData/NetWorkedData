@@ -25,7 +25,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDRelationshipPinState
     {
@@ -41,9 +41,10 @@ namespace NetWorkedData
         AllReadyFriends = 7, /// put in trash...
         Error = 9, /// put in trash...
 
-        Banned = 99, // banned this user to my friends  
+        Banned = 98, // banned this user to my friends  
+        HashInvalid = 99, // ALERT ! HACKER!  
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public class NWDFriendConnexion : NWDConnexion<NWDRelationship>
     {
@@ -93,7 +94,7 @@ namespace NetWorkedData
         public NWDReferenceType<NWDRelationship> Reciprocity
         {
             get; set;
-        } 
+        }
         // user B as Slave
         //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
         public string ClassesSharedByMaster
@@ -104,13 +105,19 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public bool FirstSync
-        {
-            get; set;
-        }
         [Indexed("PinIndex", 0)]
         [Indexed("RelationshipIndex", 1)]
         public NWDRelationshipPinState RelationState
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        public string HashSecurity // hash MasterReference + SlaveReference + SlaveNickname + MasterNickname + ClassesSharedByMaster + ClassesAcceptedBySlave  + RelationState + Server Salt 
+        // MUST BE TEST BEFORE SYNC FROM RELATIONSHIP WEB SERVICE
+        {
+            get; set;
+        }
+        public bool FirstSync
         {
             get; set;
         }
@@ -142,6 +149,137 @@ namespace NetWorkedData
         {
             NWDMessage.CreateGenericMessage("TEST DOMAIN", "CODE", "TITLE", "DESCRIPTION");
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
+        {
+            List<Type> tList = new List<Type>(sClasses);
+            if (tList.Contains(typeof(NWDUserInfos)) == false)
+            {
+                tList.Add(typeof(NWDUserInfos));
+            }
+            NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
+            return tRelation;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDRelationship CreateNewRelationship(Type[] sClasses)
+        {
+
+            List<string> tList = new List<string>();
+            foreach (Type tClass in sClasses)
+            {
+                if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
+                {
+                    var tMethodInfo = tClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                        tList.Add(tClassName);
+                    }
+                }
+            }
+            NWDRelationship tReturn = NewObject();
+            //tReturn.MasterReference.SetObject(NWDAccount.GetCurrentAccount());
+            tReturn.SlaveReference.SetObject(null);
+            tReturn.ClassesSharedByMaster = string.Join(",", tList.ToArray());
+            tReturn.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
+            tReturn.FirstSync = true;
+            tReturn.RelationState = NWDRelationshipPinState.None;
+            tReturn.InsertMe();
+
+#if UNITY_EDITOR
+            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+#endif
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public void EnterPinToServer(string sPinCode,
+
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                       NWDAppEnvironment sEnvironment = null)
+        {
+            string tAccount = NWDAccount.GetCurrentAccountReference();
+            // TODO connect to server
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "EnterPinCode";
+            sOperation.PinCode = sPinCode;
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public void SynchronizeSlaveDatas(
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                         NWDAppEnvironment sEnvironment = null)
+        {
+
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "Sync";
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public void SynchronizeForceSlaveDatas (
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                         NWDAppEnvironment sEnvironment = null)
+        {
+
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "SyncForce";
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public List<NWDRelationship> GetMasters()
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.MasterReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public List<NWDRelationship> GetSlaves()
+        {
+            List<NWDRelationship> rList = new List<NWDRelationship>();
+            foreach (NWDRelationship tObject in GetAllObjects())
+            {
+                if (tObject.SlaveReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tObject);
+                }
+            }
+            return rList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //static public bool AcceptedByMaster(string sReference, float sTimer, float sDateTimeMarge = 10.0F)
+        //{
+        //    bool rReturn = false;
+        //    // TODO connect to server sync
+        //    if (NWDRelationship.GetObjectByReference(sReference) != null)
+        //    {
+        //        NWDRelationship tObject = NWDRelationship.GetObjectByReference(sReference);
+        //        if (tObject.RelationState == NWDRelationshipPinState.Accepted)
+        //        {
+        //            rReturn = true;
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -272,6 +410,7 @@ namespace NetWorkedData
                 this.FirstSync = true;
                 this.RelationState = NWDRelationshipPinState.None;
                 this.UpdateMe();
+                this.SaveModifications();
 
                 this.AskWaitingFromServer();
             }
@@ -343,14 +482,14 @@ namespace NetWorkedData
             {
 
                 BTBConsole.Clean();
-                Sync();
+                SynchronizeSlaveDatas();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Sync Force", tMiniButtonStyle))
             {
 
                 BTBConsole.Clean();
-                SyncForce();
+                SynchronizeForceSlaveDatas();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
@@ -397,68 +536,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
-        public NWDRelationship CreateBilateralRelationship()
-        {
-            NWDRelationship tReturn = NewObject();
-            tReturn.InsertMe();
-            tReturn.MasterReference.SetReference( this.SlaveReference.GetReference());
-            tReturn.SlaveReference.SetReference(this.MasterReference.GetReference());
-            tReturn.ClassesAcceptedBySlave = this.ClassesSharedByMaster;
-            tReturn.ClassesSharedByMaster = this.ClassesAcceptedBySlave;
-            tReturn.FirstSync = this.FirstSync;
-            tReturn.RelationState = this.RelationState;
-            tReturn.PinCode = "reciproque";
-            tReturn.UpdateMe();
-            return tReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
-        {
-            List<Type> tList = new List<Type>(sClasses);
-            if (tList.Contains(typeof(NWDUserInfos)) == false)
-            {
-                tList.Add(typeof(NWDUserInfos));
-            }
-            NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
-            return tRelation;
-        }
-
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDRelationship CreateNewRelationship(Type[] sClasses)
-        {
-
-            List<string> tList = new List<string>();
-            foreach (Type tClass in sClasses)
-            {
-                if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
-                {
-                    var tMethodInfo = tClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
-                        tList.Add(tClassName);
-                    }
-                }
-            }
-            NWDRelationship tReturn = NewObject();
-            //tReturn.MasterReference.SetObject(NWDAccount.GetCurrentAccount());
-            tReturn.SlaveReference.SetObject(null);
-            tReturn.ClassesSharedByMaster = string.Join(",", tList.ToArray());
-            tReturn.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
-            tReturn.FirstSync = true;
-            tReturn.RelationState = NWDRelationshipPinState.None;
-            tReturn.InsertMe();
-
-#if UNITY_EDITOR
-            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
-#endif
-            return tReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public NWDBasis[] ObjectsFromSlave(Type sClass  )
+        //public NWDRelationship CreateBilateralRelationship()
         //{
-
+        //    NWDRelationship tReturn = NewObject();
+        //    tReturn.InsertMe();
+        //    tReturn.MasterReference.SetReference( this.SlaveReference.GetReference());
+        //    tReturn.SlaveReference.SetReference(this.MasterReference.GetReference());
+        //    tReturn.ClassesAcceptedBySlave = this.ClassesSharedByMaster;
+        //    tReturn.ClassesSharedByMaster = this.ClassesAcceptedBySlave;
+        //    tReturn.FirstSync = this.FirstSync;
+        //    tReturn.RelationState = this.RelationState;
+        //    tReturn.PinCode = "reciproque";
+        //    tReturn.UpdateMe();
+        //    return tReturn;
         //}
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] ObjectsFromSlave<K>() where K : NWDBasis<K>, new()
+        {
+            return NWDBasis<K>.GetAllObjects(SlaveReference.GetReference());
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void AddClassesToMaster(Type sClass)
         {
@@ -537,6 +633,8 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+#region WebServices
+        //-------------------------------------------------------------------------------------------------------------
         public void AskPinCodeFromServer(int sSeconds = 60,
                                          int sPinSize = 6,
 
@@ -585,25 +683,6 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        // TODO register the reference of pincode relationship found  object
-        //-------------------------------------------------------------------------------------------------------------
-        static public void EnterPinToServer(string sPinCode,
-
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
-                                                                       NWDAppEnvironment sEnvironment = null)
-        {
-            string tAccount = NWDAccount.GetCurrentAccountReference();
-            // TODO connect to server
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "EnterPinCode";
-            sOperation.PinCode = sPinCode;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void AcceptRelation(bool sBilateral,
             BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
@@ -614,15 +693,11 @@ namespace NetWorkedData
         {
             RelationState = NWDRelationshipPinState.Accepted;
             SaveModificationsIfModified();
-            if (sBilateral == true)
-            {
-                // create a new Relationship to send to server
-                CreateBilateralRelationship();
-            }
 
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "AcceptFriend";
             sOperation.Relationship = this;
+            sOperation.Bilateral = sBilateral;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -641,9 +716,8 @@ namespace NetWorkedData
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
-
         //-------------------------------------------------------------------------------------------------------------
-        static public void Sync(
+        public void BannedRelation(
                                                                        BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
@@ -651,68 +725,45 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-            
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "Sync";
+            RelationState = NWDRelationshipPinState.Refused;
+            TrashMe();
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship BannedRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "BannedFriend";
+            sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
-
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void SyncForce(
-                                                                       BTBOperationBlock sSuccessBlock = null,
+        public void ChangeClassByMaster(BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
                                                                        BTBOperationBlock sProgressBlock = null,
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "SyncForce";
+           // TODO
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByMaster", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "ChangeClassByMaster";
+            sOperation.Classes = ClassesSharedByMaster;
+            sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
-
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public bool AcceptedByMaster(string sReference, float sTimer, float sDateTimeMarge = 10.0F)
+        public void ChangeClassBySlave(BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                         NWDAppEnvironment sEnvironment = null)
         {
-            bool rReturn = false;
-            // TODO connect to server sync
-            if (NWDRelationship.GetObjectByReference(sReference) != null)
-            {
-                NWDRelationship tObject = NWDRelationship.GetObjectByReference(sReference);
-                if (tObject.RelationState == NWDRelationshipPinState.Accepted)
-                {
-                    rReturn = true;
-                }
-            }
-            return rReturn;
+            // TODO
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassBySlave", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "ChangeClassBySlave";
+            sOperation.Classes = ClassesAcceptedBySlave;
+            sOperation.Relationship = this;
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDRelationship> GetMasters()
-        {
-            List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
-            {
-                if (tObject.MasterReference.GetReference() == NWDAccount.GetCurrentAccountReference())
-                {
-                    rList.Add(tObject);
-                }
-            }
-            return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDRelationship> GetSlaves()
-        {
-            List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
-            {
-                if (tObject.SlaveReference.GetReference() == NWDAccount.GetCurrentAccountReference())
-                {
-                    rList.Add(tObject);
-                }
-            }
-            return rList;
-        }
+#endregion
         //-------------------------------------------------------------------------------------------------------------
         public bool YouAreMaster()
         {
@@ -763,56 +814,95 @@ namespace NetWorkedData
             }
             return rList;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public List<NWDRelationship> SlaveReciprocityByState(NWDRelationshipPinState sNWDRelationState =NWDRelationshipPinState.Accepted)
-        {
-            List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
-            {
-                if (tObject.RelationState == sNWDRelationState &&
-                    tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
-                    && tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
-                    && tObject != this)
-                {
-                    rList.Add(tObject);
-                }
-            }
-            return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public List<NWDRelationship> MasterReciprocityByState(NWDRelationshipPinState sNWDRelationState = NWDRelationshipPinState.Accepted)
-        {
-            List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
-            {
-                if (tObject.RelationState == sNWDRelationState &&
-                    tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
-                    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
-                    && tObject != this)
-                {
-                    rList.Add(tObject);
-                }
-            }
-            return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool AllReadyFriendOrBanned()
-        {
-            bool rReturn = false;
-            foreach (NWDRelationship tObject in GetAllObjects())
-            {
-                // TODO : to prevent dupplicate 
-                //if (tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
-                //    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
-                //    && tObject != this)
-                //{
-                //    rList.Add(tObject);
-                //}
-            }
-            return rReturn;
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public List<NWDRelationship> SlaveReciprocityByState(NWDRelationshipPinState sNWDRelationState =NWDRelationshipPinState.Accepted)
+        //{
+        //    List<NWDRelationship> rList = new List<NWDRelationship>();
+        //    foreach (NWDRelationship tObject in GetAllObjects())
+        //    {
+        //        if (tObject.RelationState == sNWDRelationState &&
+        //            tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+        //            && tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+        //            && tObject != this)
+        //        {
+        //            rList.Add(tObject);
+        //        }
+        //    }
+        //    return rList;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public List<NWDRelationship> MasterReciprocityByState(NWDRelationshipPinState sNWDRelationState = NWDRelationshipPinState.Accepted)
+        //{
+        //    List<NWDRelationship> rList = new List<NWDRelationship>();
+        //    foreach (NWDRelationship tObject in GetAllObjects())
+        //    {
+        //        if (tObject.RelationState == sNWDRelationState &&
+        //            tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+        //            && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+        //            && tObject != this)
+        //        {
+        //            rList.Add(tObject);
+        //        }
+        //    }
+        //    return rList;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool AllReadyFriendOrBanned()
+        //{
+        //    bool rReturn = false;
+        //    foreach (NWDRelationship tObject in GetAllObjects())
+        //    {
+        //        // TODO : to prevent dupplicate 
+        //        //if (tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
+        //        //    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+        //        //    && tObject != this)
+        //        //{
+        //        //    rList.Add(tObject);
+        //        //}
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasis<K> where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class Methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship)
+        {
+            return GetAllObjects(sRelationship.SlaveReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship)
+        {
+            return GetObjectByReference(sReference, sRelationship.SlaveReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship)
+        {
+            return GetObjectsByReferences(sReferences, sRelationship.SlaveReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
+        {
+            return GetObjectByInternalKey(sInternalKey, sRelationship.SlaveReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
+        {
+            return GetAllObjectsByInternalKey(sInternalKey, sRelationship.SlaveReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship)
+        {
+            return GetObjectsByInternalKeys(sInternalKeys, sRelationship.SlaveReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endregion
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

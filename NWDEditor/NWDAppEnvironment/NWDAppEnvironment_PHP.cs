@@ -70,45 +70,58 @@ namespace NetWorkedData
                 tConstantsFile += "\t$NWD_LOG = false;\n";
 			}
             tConstantsFile += "\t$NWD_TMA = microtime();\n" +
-				"\t\t//-------------------- \n" +
-				"\t\t// CONSTANT FOR SHA512\n" +
-				"\t$NWD_SHA_SEC = '" + DataSHAPassword.Replace ("'", "\'") + "';\n" +
-				"\t$NWD_SHA_VEC = '" + DataSHAVector.Replace ("'", "'") + "';\n" +
-				"\t$NWD_SLT_STR = '" + SaltStart.Replace ("'", "\'") + "';\n" +
-				"\t$NWD_SLT_END = '" + SaltEnd.Replace ("'", "\'") + "';\n" +
-                "\t$NWD_SLT_END = '" + SaltEnd.Replace ("'", "\'") + "';\n" +
+                "\t\t//-------------------- \n" +
+                "\t\t// CONSTANT FOR SHA512\n" +
+                "\t$NWD_SHA_SEC = '" + DataSHAPassword.Replace("'", "\'") + "';\n" +
+                "\t$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';\n" +
+                "\t$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';\n" +
+                "\t$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';\n" +
+                "\t$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';\n" +
 
                 "\t$NWD_SLT_SRV = '" + SaltServer.Replace("'", "\'") + "';\n" +
 
-				"\t\t//-------------------- \n" +
-				"\t\t// CONSTANT FOR TEMPORAL SALT\n" +
-				"\t$NWD_SLT_TMP = " + SaltFrequency.ToString () + ";\n" +
-				"\t\t//-------------------- \n" +
-				"\t\t// CONSTANT TO CONNECT TO SQL DATABASE\n" +
-				"\t$SQL_HOT = '" + ServerHost.Replace ("'", "\'") + "';\n" +
-				"\t$SQL_USR = '" + ServerUser.Replace ("'", "\'") + "';\n" +
-				"\t$SQL_PSW = '" + ServerPassword.Replace ("'", "\'") + "';\n" +
-				"\t$SQL_BSE = '" + ServerBase.Replace ("'", "\'") + "';\n" +
-				"\t\t//connexion to mysql socket\n" +
-				"\t$SQL_CON = '';\n" +
-				"\t$SQL_CONDB = '';\n" +
-				"\t$SQL_MNG = false;\n" +
-				"\t\t//-------------------- \n" +
-				"\t\t// ADMIN SECRET KEY\n" +
-				"\t$NWD_ADM_KEY = '" + AdminKey.Replace ("'", "\'") + "';\n" +
-				"\t\t//-------------------- \n" +
-				"\t\t// RESCUE EMAIL\n" +
-				//"\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
-				"\t$NWD_APP_NAM = '" + AppName.Replace ("'", "\'") + "';\n" +
-				"\t\t//-------------------- \n" +
-				"\t\t// SOCIALS APP KEY AND SECRET KEY\n" +
-				"\t\t// -- facebook\n" +
-				"\t$NWD_FCB_AID = '" + FacebookAppID.Replace ("'", "\'") + "'; // for " + Environment + "\n" +
-				"\t$NWD_FCB_SRT = '" + FacebookAppSecret.Replace ("'", "\'") + "'; // for " + Environment + "\n" +
-				"\t\t// -- google\n" +
-				"\t$NWD_GGO_AID = '" + GoogleAppKey.Replace ("'", "\'") + "';\n" +
-				"\t\t//-------------------- \n" +
-				"\t$ENV = '" + Environment + "';\n" +
+                "\t\t//-------------------- \n" +
+                "\t\t// CONSTANT FOR TEMPORAL SALT\n" +
+                "\t$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";\n" +
+                "\t\t//-------------------- \n" +
+                "\t\t// CONSTANT TO CONNECT TO SQL DATABASE\n" +
+                "\t$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';\n" +
+                "\t$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';\n" +
+                "\t$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';\n" +
+                "\t$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';\n" +
+                "\t\t//connexion to mysql socket\n" +
+                "\t$SQL_CON = '';\n" +
+                "\t$SQL_CONDB = '';\n" +
+                "\t$SQL_MNG = false;\n" +
+                "\t\t//-------------------- \n" +
+                "\t\t// ADMIN SECRET KEY\n" +
+                "\t$NWD_ADM_KEY = '" + AdminKey.Replace("'", "\'") + "';\n" +
+                "\t\t//-------------------- \n" +
+                "\t\t// RESCUE EMAIL\n" +
+                //"\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
+                "\t$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';\n" +
+                "\t\t//-------------------- \n" +
+                "\t\t// SOCIALS APP KEY AND SECRET KEY\n" +
+                "\t\t// -- facebook\n" +
+                "\t$NWD_FCB_AID = '" + FacebookAppID.Replace("'", "\'") + "'; // for " + Environment + "\n" +
+                "\t$NWD_FCB_SRT = '" + FacebookAppSecret.Replace("'", "\'") + "'; // for " + Environment + "\n" +
+                "\t\t// -- google\n" +
+                "\t$NWD_GGO_AID = '" + GoogleAppKey.Replace("'", "\'") + "';\n" +
+                "\t\t//-------------------- \n" +
+                "\t$ENV = '" + Environment + "';\n";
+            if (this == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            {
+                tConstantsFile += "\t\t$ENVSYNC = 'DevSync';\n";
+            }
+            else if (this == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            {
+                tConstantsFile += "\t\t$ENVSYNC = 'PreprodSync';\n";
+            }
+                else if (this == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            {
+                tConstantsFile += "\t\t$ENVSYNC = 'ProdSync';\n";
+            }
+            tConstantsFile += "" +
 				"\t\t//-------------------- \n" +
 				"\t$RTH = " + TokenHistoric.ToString () + ";\n" +
 				"\t\t//-------------------- \n" +

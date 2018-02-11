@@ -27,18 +27,20 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDOperationWebRelationship : NWDOperationWebUnity
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public List<Type> TypeList = new List<Type>();
         public string Action;
+        public string Classes;
         public NWDRelationship Relationship;
         public string PinCode;
 		public bool ForceSync = false;
         public int PinSize = 6;
         public int PinDelay = 60;
 		//public bool FlushTrash = false;
-        //public bool Bilateral = false;
+        public bool Bilateral = false;
 		//-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebRelationship AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
@@ -62,7 +64,7 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sProgressBlock = null,
 			NWDAppEnvironment sEnvironment = null,bool sForceSync = false)
         {
-            Debug.Log("NWDOperationWebRelationship Create()");
+            //Debug.Log("NWDOperationWebRelationship Create()");
             NWDOperationWebRelationship rReturn = null;
 			if (sName == null) {
 				sName = "UnNamed Web Operation Synchronisation";
@@ -92,13 +94,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
         {
-            Debug.Log("NWDOperationWebRelationship ServerFile()");
+            //Debug.Log("NWDOperationWebRelationship ServerFile()");
 			return "relationship.php";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
         {
-            Debug.Log("NWDOperationWebRelationship DataUploadPrepare()");
+            //Debug.Log("NWDOperationWebRelationship DataUploadPrepare()");
             Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
             if (Relationship != null)
@@ -108,16 +110,18 @@ namespace NetWorkedData
             tData.Add("pincode", PinCode);
             tData.Add("pinsize",PinSize);
             tData.Add("pindelay", PinDelay);
-            //tData.Add("bilateral", Bilateral);
+            tData.Add("classes", Classes);
+            tData.Add("bilateral", Bilateral);
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-            Debug.Log("NWDOperationWebRelationship DataDownloadedCompute()");
+            //Debug.Log("NWDOperationWebRelationship DataDownloadedCompute()");
             NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
 		}
         //-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

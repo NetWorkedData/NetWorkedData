@@ -287,7 +287,7 @@ namespace NetWorkedData
 		/// <param name="sDataArray">data array.</param>
 		public void UpdateWithCSV (NWDAppEnvironment sEnvironment, string[] sDataArray)
 		{
-            Debug.Log("UpdateWithCSV ref " + Reference);
+            //Debug.Log("UpdateWithCSV ref " + Reference);
 			// get key order assembly of cvs
 			string[] tKey = CSVAssemblyOrderArray ();
 			// get values 
