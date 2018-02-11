@@ -672,12 +672,12 @@ namespace NetWorkedData
 			"\t\t\t}\n" +
 			"}" +
 			"//-------------------- \n" +
-			"function GetDatas" + tClassName + " ($sTimeStamp, $sAccountReference, $sPage, $sLimit)\n" +
+			"function GetDatas" + tClassName + " ($sTimeStamp, $sAccountReference)\n" +
 			"\t{\n" +
 			"\t\tglobal $SQL_CON;\n" +
 			"\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
 			"\t\tglobal $REP;\n" +
-			"\t\t$tPage = $sPage*$sLimit;\n" +
+			//"\t\t$tPage = $sPage*$sLimit;\n" +
 			"\t\t$tQuery = 'SELECT " + SLQAssemblyOrder () + " FROM `" + tTableName + "` WHERE ";
 			if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment) {
 				tSynchronizationFile += "`DevSync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
@@ -711,7 +711,7 @@ namespace NetWorkedData
 			"\t\t\t}\n" +
 			"\t}\n" +
 			"//-------------------- \n" +
-			"function Synchronize" + tClassName + " ($sJsonDico, $sTimeStamp, $sAccountReference, $sAdmin, $sPage, $sLimit) " +
+			"function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +
 			"\t{\n";
 			if (tINeedAdminAccount == true) {
 				tSynchronizationFile += "\t\tif ($sAdmin == true){\n";
@@ -750,7 +750,7 @@ namespace NetWorkedData
 			"\t\t\t\t\t{\n" +
 			"\t\t\t\t\t\tif (!errorDetected())\n" +
 			"\t\t\t\t\t\t\t{\n" +
-			"\t\t\t\t\t\t\t\tGetDatas" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference, $sPage, $sLimit);\n" +
+			"\t\t\t\t\t\t\t\tGetDatas" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);\n" +
 			"\t\t\t\t\t\t\t}\n" +
 			"\t\t\t\t\t}\n" +
 			"\t\t\t}\n" +

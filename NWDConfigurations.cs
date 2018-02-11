@@ -238,7 +238,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.Selected = false;
 			this.DevEnvironment.Selected = true;
 			// Prod environment
-			this.ProdEnvironment.Environment = "prod";
+			this.ProdEnvironment.Environment = "Prod";
 			this.ProdEnvironment.DataSHAPassword = "UJb&[c8_owC,d%iN";
 			this.ProdEnvironment.DataSHAVector = "g75Qie?:wE_hOWj4";
 			this.ProdEnvironment.SaltStart = "_il;E6Aop3Sy.sN4";
@@ -265,7 +265,7 @@ namespace NetWorkedData
 			this.ProdEnvironment.LoadPreferences ();
 			this.ProdEnvironment.FormatVerification ();
 			// Preprod environment
-			this.PreprodEnvironment.Environment = "preprod";
+			this.PreprodEnvironment.Environment = "Preprod";
 			this.PreprodEnvironment.DataSHAPassword = "lddIclhLn}F9oNZ?";
 			this.PreprodEnvironment.DataSHAVector = "KcYQmAO;axNe&Yf)";
 			this.PreprodEnvironment.SaltStart = "8Up?9 ._,H,p%v{C";
@@ -293,7 +293,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.FormatVerification ();
 #if UNITY_EDITOR
 			// Dev environment
-			this.DevEnvironment.Environment = "dev";
+			this.DevEnvironment.Environment = "Dev";
 			this.DevEnvironment.DataSHAPassword = "&a-lh,?):1Fm7M1X";
 			this.DevEnvironment.DataSHAVector = "-,A09b.R7MD&xdNG";
 			this.DevEnvironment.SaltStart = "rqxu!q_G%gq Wk-4";

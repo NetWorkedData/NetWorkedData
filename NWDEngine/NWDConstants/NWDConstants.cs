@@ -29,9 +29,9 @@ namespace NetWorkedData
         public static string K_PREPRODUCTION = "PreProduction";
         public static string K_PRODUCTION = "Production";
         //-------------------------------------------------------------------------------------------------------------
-        public static string K_DEVELOPMENT_NAME = "dev";
-        public static string K_PREPRODUCTION_NAME = "preprod";
-        public static string K_PRODUCTION_NAME = "prod";
+        public static string K_DEVELOPMENT_NAME = "Dev";
+        public static string K_PREPRODUCTION_NAME = "Preprod";
+        public static string K_PRODUCTION_NAME = "Prod";
         //-------------------------------------------------------------------------------------------------------------
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Environment chooser";

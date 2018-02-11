@@ -108,20 +108,8 @@ namespace NetWorkedData
                 "\t\t// -- google\n" +
                 "\t$NWD_GGO_AID = '" + GoogleAppKey.Replace("'", "\'") + "';\n" +
                 "\t\t//-------------------- \n" +
-                "\t$ENV = '" + Environment + "';\n";
-            if (this == NWDAppConfiguration.SharedInstance.DevEnvironment)
-            {
-                tConstantsFile += "\t\t$ENVSYNC = 'DevSync';\n";
-            }
-            else if (this == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
-            {
-                tConstantsFile += "\t\t$ENVSYNC = 'PreprodSync';\n";
-            }
-                else if (this == NWDAppConfiguration.SharedInstance.ProdEnvironment)
-            {
-                tConstantsFile += "\t\t$ENVSYNC = 'ProdSync';\n";
-            }
-            tConstantsFile += "" +
+                "\t$ENV = '" + Environment + "';\n" +
+                "\t$ENVSYNC = '" + Environment + "Sync';\n" +
 				"\t\t//-------------------- \n" +
 				"\t$RTH = " + TokenHistoric.ToString () + ";\n" +
 				"\t\t//-------------------- \n" +
@@ -223,48 +211,50 @@ namespace NetWorkedData
 				"if ($ban == true)\n" +
 				"\t{\n" +
 				"\t\terror('ACC99');\n" +
-				"\t}\n" +
+                "\t}\n" +
+                "//--------------------\n" +
 				"if (!errorDetected())\n" +
-				"{\n";
-			tWebServices += "\n" +
-				"$tPage = 0;\n" +
-				"if (isset($dico['page'])) { $tPage = $dico['page'];};\n" +
-				"$tLimit = 100000;\n" +
-				"if (isset($dico['limit'])) { $tLimit = $dico['limit'];};\n" +
-				"$tDate = time()-36000000; // check just one hour by default\n" +
-				"$tDate = 0; // check just one hour by default\n" +
-				"if (isset($dico['date'])) { $tDate = $dico['date'];};\n";
+                "\t{\n";
+			//tWebServices += "\n" +
+				////"$tPage = 0;\n" +
+				////"if (isset($dico['page'])) { $tPage = $dico['page'];};\n" +
+				////"$tLimit = 100000;\n" +
+				////"if (isset($dico['limit'])) { $tLimit = $dico['limit'];};\n" +
+				////"$tDate = time()-36000000; // check just one hour by default\n" +
+				////"$tDate = 0; // check just one hour by default\n" +
+				////"if (isset($dico['date'])) { $tDate = $dico['date'];};\n" +
+                //"";
 
 			// I need include ALL tables management files to manage ALL tables
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					string tClassName = tMethodInfo.Invoke (null, null) as string;
-					tWebServices += "if (isset($dico['"+tClassName+"'])){\n";
-					tWebServices += "include_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
-					tWebServices += "Synchronize" + tClassName + " ($dico, $tDate, $uuid, $admin, $tPage, $tLimit);\n";
-					tWebServices += "}\n";
+                    tWebServices += "\tif (isset($dico['"+tClassName+"']))\n\t\t{\n";
+                    tWebServices += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                    tWebServices += "\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
+                    tWebServices += "\t\t}\n";
 				}
 			}
 			// I need to prevent Non synchronized class from editor
 			if (this == NWDAppConfiguration.SharedInstance.DevEnvironment || this == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
 
-				tWebServices += "if ($admin == true)\n{\n";
+                tWebServices += "\tif ($admin == true)\n\t\t{\n";
 				foreach (Type tType in NWDDataManager.SharedInstance.mTypeUnSynchronizedList) {
 					var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
 						string tClassName = tMethodInfo.Invoke (null, null) as string;
-						tWebServices += "if (isset($dico['"+tClassName+"'])){\n";
-						tWebServices += "include_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
-						tWebServices += "Synchronize" + tClassName + " ($dico, $tDate, $uuid, $admin, $tPage, $tLimit);\n";
-						tWebServices += "}\n";
+                        tWebServices += "\t\tif (isset($dico['"+tClassName+"']))\n\t\t{\n";
+                        tWebServices += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                        tWebServices += "\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
+                        tWebServices += "\t\t\t}\n";
 					}
-				}
-				tWebServices += "}\n";
-			}
-			tWebServices += "//--------------------\n" +
-				"// script is finished\n" +
-				"}\n" +
+                }
+                tWebServices += "\t\t}\n";
+            }
+			tWebServices += "// script is finished\n" +
+                "\t}\n" +
+                "//--------------------\n" +
 				"// finish the generic process\n" +
 				"include_once ($PATH_BASE.'/Engine/finish.php');\n" +
 				"//-------------------- \n" +
@@ -305,7 +295,7 @@ namespace NetWorkedData
 					string tClassName = tMethodInfo.Invoke (null, null) as string;
 					tAccountServices += "\t\t\t\t\t\t$dico['"+ tClassName +"']['sync'] = true;\n";
 					tAccountServices += "\t\t\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
-					tAccountServices += "\t\t\t\t\t\tSynchronize" + tClassName + " ($dico, 0, $uuid, false, 0, 100000);\n";
+					tAccountServices += "\t\t\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, false);\n";
 					tAccountServices += "\t\t\t\t\t\t\n";
 				}
 			}
