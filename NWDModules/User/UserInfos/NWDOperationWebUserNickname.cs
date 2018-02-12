@@ -31,7 +31,7 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public List<Type> TypeList = new List<Type>();
-        public NWDUserInfos UserInfosReference;
+        public NWDUserNickname UserNicknameReference;
         public string Nickname;
         public string Action;
         public bool ForceSync = false;
@@ -89,7 +89,7 @@ namespace NetWorkedData
 		public override string ServerFile ()
         {
             Debug.Log("NWDOperationWebUserInfos ServerFile()");
-            return "userinfos.php";
+            return "usernickname.php";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
@@ -98,9 +98,9 @@ namespace NetWorkedData
             Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
             tData.Add("nickname", Nickname);
-            if (UserInfosReference != null)
+            if (UserNicknameReference != null)
             {
-                tData.Add("reference", UserInfosReference.Reference);
+                tData.Add("reference", UserNicknameReference.Reference);
             }
             //tData.Add("bilateral", Bilateral);
 			Data = tData;
