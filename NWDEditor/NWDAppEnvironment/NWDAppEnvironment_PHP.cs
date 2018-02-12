@@ -76,7 +76,6 @@ namespace NetWorkedData
                 "\t$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';\n" +
                 "\t$NWD_SLT_STR = '" + SaltStart.Replace("'", "\'") + "';\n" +
                 "\t$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';\n" +
-                "\t$NWD_SLT_END = '" + SaltEnd.Replace("'", "\'") + "';\n" +
 
                 "\t$NWD_SLT_SRV = '" + SaltServer.Replace("'", "\'") + "';\n" +
 

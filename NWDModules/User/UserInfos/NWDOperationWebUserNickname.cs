@@ -27,7 +27,7 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public class NWDOperationWebUserInfos : NWDOperationWebUnity
+    public class NWDOperationWebUserNickname : NWDOperationWebUnity
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public List<Type> TypeList = new List<Type>();
@@ -36,7 +36,7 @@ namespace NetWorkedData
         public string Action;
         public bool ForceSync = false;
 		//-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebUserInfos AddOperation (string sName,
+        static public NWDOperationWebUserNickname AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
 		                                                           BTBOperationBlock sFailBlock = null, 
 		                                                           BTBOperationBlock sCancelBlock = null,
@@ -46,20 +46,20 @@ namespace NetWorkedData
                                                                 bool sPriority = false)
         {
             Debug.Log("NWDOperationWebUserInfos AddOperation()");
-            NWDOperationWebUserInfos rReturn = NWDOperationWebUserInfos.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sForceSync);
+            NWDOperationWebUserNickname rReturn = NWDOperationWebUserNickname.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sForceSync);
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebUserInfos Create (string sName,
+        static public NWDOperationWebUserNickname Create (string sName,
 		                                                     BTBOperationBlock sSuccessBlock = null, 
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
 			NWDAppEnvironment sEnvironment = null,bool sForceSync = false)
         {
-            Debug.Log("NWDOperationWebUserInfos Create()");
-            NWDOperationWebUserInfos rReturn = null;
+            Debug.Log("NWDOperationWebUserNickname Create()");
+            NWDOperationWebUserNickname rReturn = null;
 			if (sName == null) {
 				sName = "UnNamed Web Operation Synchronisation";
 			}
@@ -69,12 +69,12 @@ namespace NetWorkedData
 
 			// IF BTBOperationUnity
 			GameObject tGameObjectToSpawn = new GameObject (sName);
-            rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUserInfos> ();
+            rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUserNickname> ();
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
-            rReturn.TypeList.Add(NWDRelationship.ClassType());
+            rReturn.TypeList.Add(NWDUserNickname.ClassType());
 			rReturn.ForceSync = sForceSync;
 			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
 
@@ -88,13 +88,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
         {
-            Debug.Log("NWDOperationWebUserInfos ServerFile()");
+            Debug.Log("NWDOperationWebUserNickname ServerFile()");
             return "usernickname.php";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
         {
-            Debug.Log("NWDOperationWebUserInfos DataUploadPrepare()");
+            Debug.Log("NWDOperationWebUserNickname DataUploadPrepare()");
             Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
             tData.Add("nickname", Nickname);
@@ -102,13 +102,12 @@ namespace NetWorkedData
             {
                 tData.Add("reference", UserNicknameReference.Reference);
             }
-            //tData.Add("bilateral", Bilateral);
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-            Debug.Log("NWDOperationWebUserInfos DataDownloadedCompute()");
+            Debug.Log("NWDOperationWebUserNickname DataDownloadedCompute()");
             NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
 		}
         //-------------------------------------------------------------------------------------------------------------

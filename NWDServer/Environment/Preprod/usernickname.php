@@ -8,7 +8,7 @@
 		// Determine the file tree path
 	$PATH_BASE = dirname(dirname(__DIR__));
 		// include all necessary files
-	include_once ($PATH_BASE.'/Environment/preprod/Engine/constants.php');
+	include_once ($PATH_BASE.'/Environment/Preprod/Engine/constants.php');
 		// start the generic process
 	include_once ($PATH_BASE.'/Engine/start.php');
 		// start the script
@@ -18,7 +18,7 @@
     // Ok I create a permanent account if temporary before
     AccountAnonymeGenerate();
     //--------------------
-	include_once ($PATH_BASE.'/Engine/relationship.php');
+	include_once ($PATH_BASE.'/Engine/usernickname.php');
 		//--------------------
 		// finish the generic process
 	include_once ($PATH_BASE.'/Engine/finish.php');

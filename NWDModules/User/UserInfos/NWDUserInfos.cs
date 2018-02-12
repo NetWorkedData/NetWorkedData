@@ -67,8 +67,6 @@ namespace NetWorkedData
 		public NWDReferenceType<NWDAccount> AccountReference {get; set;}
         [NWDEnumString(new string[] {"Temporary","Anonymous","LoginPassword","Facebook","Google","Unknow"})]
         public string AccountType { get; set; }
-        public string NickName {get; set;}
-        public string UniqueNickname {get; set;}
 		public NWDTextureType Avatar {get; set;}
 		public string FirstName {get; set;}
         public string LastName {get; set;}
@@ -277,37 +275,7 @@ namespace NetWorkedData
 		public override float AddonEditor (Rect sInRect)
 		{
             // Draw the interface addon for editor
-            // Draw the interface addon for editor
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tYadd = sInRect.y;
-
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
-
-            EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
-            tYadd += NWDConstants.kFieldMarge * 2;
-
-            EditorGUI.LabelField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
-            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
-
-            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "validate nickname", tMiniButtonStyle))
-            {
-
-                BTBConsole.Clean();
-                this.AskPinCodeFromServer(NickName);
-            }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-
+            float tYadd = 0.0f;
             return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -320,32 +288,6 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
-
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
-
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
-
-            tYadd = NWDConstants.kFieldMarge;
-
-            tYadd += NWDConstants.kFieldMarge * 2;
-            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            tYadd += NWDConstants.kFieldMarge;
-
             return tYadd;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -354,23 +296,6 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
-        //-------------------------------------------------------------------------------------------------------------
-        public void AskPinCodeFromServer(string sNickname,
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
-                                                                       NWDAppEnvironment sEnvironment = null)
-        {
-            SaveModificationsIfModified();
-            // Start webrequest
-            NWDOperationWebUserInfos sOperation = NWDOperationWebUserInfos.Create("Nickname with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "nickname";
-            sOperation.Nickname = sNickname;
-            sOperation.UserInfosReference = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
-        }
         //-------------------------------------------------------------------------------------------------------------
 	}
 

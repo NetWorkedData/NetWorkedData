@@ -174,16 +174,19 @@ namespace NetWorkedData
 				tEnvironement.CreatePHP ();
 			}
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        static private int kCounterExport=0;
+        //-------------------------------------------------------------------------------------------------------------
 		public void ExportWebSites ()
 		{
 			string tPath = EditorUtility.SaveFolderPanel ("Export WebSite(s)", "", "NetWorkedDataServer");
+            kCounterExport++;
 			if (tPath != null) {
-				if (Directory.Exists (tPath + "/NetWorkedDataServer") == false) {
-					Directory.CreateDirectory (tPath + "/NetWorkedDataServer");
+                if (Directory.Exists (tPath + "/NetWorkedDataServer_"+kCounterExport.ToString("0000")) == false) {
+                    Directory.CreateDirectory (tPath + "/NetWorkedDataServer_"+ kCounterExport.ToString("0000"));
 				}
-				if (Directory.Exists (tPath + "/NetWorkedDataServer") == true) {
-					NWDToolbox.ExportCopyFolderFiles ("Assets/NetWorkedDataServer", tPath + "/NetWorkedDataServer");
+                if (Directory.Exists (tPath + "/NetWorkedDataServer_"+ kCounterExport.ToString("0000")) == true) {
+                    NWDToolbox.ExportCopyFolderFiles ("Assets/NetWorkedDataServer", tPath + "/NetWorkedDataServer_"+ kCounterExport.ToString("0000"));
 				}
 			}
 		}

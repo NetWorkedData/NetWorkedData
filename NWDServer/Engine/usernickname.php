@@ -44,12 +44,6 @@
     errorDeclaration('USFw11', 'action ereg');
     if (paramValue ('action', 'action', $ereg_action, 'USFw01', 'USFw11')) // test if action is valid
         {
-        $tPage = 0;
-        if (isset($dico['page'])) { $tPage = $dico['page'];};
-        $tLimit = 100000;
-        if (isset($dico['limit'])) { $tLimit = $dico['limit'];};
-        $tDate = time()-36000000; // check just one hour by default
-        $tDate = 0; // check just one hour by default
         if (isset($dico['date'])) { $tDate = $dico['date'];};
         
             //--------------------
@@ -140,7 +134,7 @@
             {
             if (!errorDetected())
                 {
-                GetDatasNWDUserInfos ($dico['NWDUserInfos']['sync'], $uuid, $tPage, $tLimit);
+                GetDatasNWDUserInfos ($dico['NWDUserInfos']['sync'], $uuid,);
                 }
             }
         }

@@ -101,23 +101,12 @@ function HashSecurityReevalue ($sReference)
         //--------------------
     if (!errorDetected())
     {
-    
     errorDeclaration('RLS99', 'generic error relation ship');
-    
     myLog('no error at start', __FILE__, __FUNCTION__, __LINE__);
     errorDeclaration('RLSw01', 'action empty');
     errorDeclaration('RLSw11', 'action ereg');
     if (paramValue ('action', 'action', $ereg_action, 'RLSw01', 'RLSw11')) // test if action is valid
         {
-        $tPage = 0;
-        if (isset($dico['page'])) { $tPage = $dico['page'];};
-        $tLimit = 100000;
-        if (isset($dico['limit'])) { $tLimit = $dico['limit'];};
-        $tDate = time()-36000000; // check just one hour by default
-        $tDate = 0; // check just one hour by default
-        if (isset($dico['date'])) { $tDate = $dico['date'];};
-        
-        
             //--------------------
         include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/NWDRelationship/synchronization.php');
             //--------------------
@@ -415,11 +404,11 @@ function HashSecurityReevalue ($sReference)
                             $tFunction = 'GetDatas'.$sClass;
                             if ($tForce==true)
                                 {
-                                $tFunction(0, $tRow ['MasterReference'], $tPage, $tLimit);
+                                $tFunction(0, $tRow ['MasterReference']);
                                 }
                             else
                                 {
-                                $tFunction($dico['NWDRelationship']['sync'], $tRow ['MasterReference'], $tPage, $tLimit);
+                                $tFunction($dico['NWDRelationship']['sync'], $tRow ['MasterReference']);
                                 }
                         }
                         }
@@ -435,7 +424,7 @@ function HashSecurityReevalue ($sReference)
             {
             if (!errorDetected())
                 {
-                GetDatasNWDRelationship ($dico['NWDRelationship']['sync'], $uuid, $tPage, $tLimit);
+                GetDatasNWDRelationship ($dico['NWDRelationship']['sync'], $uuid);
                 }
             }
         }

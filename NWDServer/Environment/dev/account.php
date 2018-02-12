@@ -8,14 +8,14 @@
 		// Determine the file tree path
 	$PATH_BASE = dirname(dirname(__DIR__));
 		// include all necessary files
-	include_once ($PATH_BASE.'/Environment/dev/Engine/constants.php');
+	include_once ($PATH_BASE.'/Environment/Dev/Engine/constants.php');
 		// start the generic process
 	include_once ($PATH_BASE.'/Engine/start.php');
 		// start the script
 		//--------------------
 	include_once ($PATH_BASE.'/Engine/account.php');
 		//--------------------
-	include_once ($PATH_BASE.'/Environment/dev/accountservices.php');
+	include_once ($PATH_BASE.'/Environment/Dev/accountservices.php');
 		//--------------------
 		// finish the generic process
 	include_once ($PATH_BASE.'/Engine/finish.php');

@@ -1,4 +1,4 @@
-//NWD Autogenerate File at 2018-02-10
+//NWD Autogenerate File at 2018-02-11
 //Copyright NetWorkedDatas ideMobi 2018
 //Created by Jean-François CONTART
 //-------------------- 
@@ -160,6 +160,8 @@ namespace NetWorkedData
 			IntegritySaltDictionary["NWDUserNotification_SaltB"]="34bR0;ZvS(kR";
 			IntegritySaltDictionary["NWDUserMessage_SaltA"]="lb;lTLjR;Q4)J";
 			IntegritySaltDictionary["NWDUserMessage_SaltB"]="b-;m} 7tzB m7";
+			IntegritySaltDictionary["NWDUserNickname_SaltA"]="0bGKG;amrQGEtPC";
+			IntegritySaltDictionary["NWDUserNickname_SaltB"]=";{jkZglx}ZZ3FxL;(I9!i]k";
 //Salts Validity
 			GenerateSaltDictionary["NWDAccount_SaltValid"]="ok";
 			GenerateSaltDictionary["NWDAuthentification_SaltValid"]="ok";
@@ -233,6 +235,7 @@ namespace NetWorkedData
 			GenerateSaltDictionary["NWDMessage_SaltValid"]="ok";
 			GenerateSaltDictionary["NWDUserNotification_SaltValid"]="ok";
 			GenerateSaltDictionary["NWDUserMessage_SaltValid"]="ok";
+			GenerateSaltDictionary["NWDUserNickname_SaltValid"]="ok";
 //Environments restaure
 			this.ProdEnvironment.Selected = false;
 			this.PreprodEnvironment.Selected = false;
@@ -252,7 +255,6 @@ namespace NetWorkedData
 			this.ProdEnvironment.ServerPassword = "5tO3RQwBrshIoYkX";
 			this.ProdEnvironment.ServerBase = "frelon_db";
 			this.ProdEnvironment.AdminKey = ",!D.Q(c!??:acEJK";
-			//this.ProdEnvironment.RescueEmail = "no-reply@my-web-site.com";
 			this.ProdEnvironment.TokenHistoric = 6;
 			#endif
 			this.ProdEnvironment.FacebookAppID = "1008619349264323";
@@ -261,7 +263,7 @@ namespace NetWorkedData
 			this.ProdEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.ProdEnvironment.AppName = "SpiritOfBottle";
-			this.ProdEnvironment.BuildTimestamp = 1518278334;
+			this.ProdEnvironment.BuildTimestamp = 1518380736;
 			this.ProdEnvironment.LoadPreferences ();
 			this.ProdEnvironment.FormatVerification ();
 			// Preprod environment
@@ -279,7 +281,6 @@ namespace NetWorkedData
 			this.PreprodEnvironment.ServerPassword = "5tO3RQwBrshIoYkX";
 			this.PreprodEnvironment.ServerBase = "frelon_db";
 			this.PreprodEnvironment.AdminKey = "5d!&k.TYf2xgN]&o";
-			//this.PreprodEnvironment.RescueEmail = "no-reply@my-web-site.com";
 			this.PreprodEnvironment.TokenHistoric = 6;
 			#endif
 			this.PreprodEnvironment.FacebookAppID = "1008619349264323";
@@ -288,7 +289,7 @@ namespace NetWorkedData
 			this.PreprodEnvironment.UnityAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.PreprodEnvironment.AppName = "SpiritOfBottle";
-			this.PreprodEnvironment.BuildTimestamp = 1518278334;
+			this.PreprodEnvironment.BuildTimestamp = 1518380736;
 			this.PreprodEnvironment.LoadPreferences ();
 			this.PreprodEnvironment.FormatVerification ();
 #if UNITY_EDITOR
@@ -312,8 +313,7 @@ namespace NetWorkedData
 			this.DevEnvironment.TwitterAppKey = "rezy78ik5klj";
 			this.DevEnvironment.AdminKey = "Uwx1e(5iOzFe_B-J";
 			this.DevEnvironment.AppName = "SpiritOfBottle";
-			//this.DevEnvironment.RescueEmail = "no-reply@my-web-site.com";
-			this.DevEnvironment.BuildTimestamp = 1518278334;
+			this.DevEnvironment.BuildTimestamp = 1518380736;
 			this.DevEnvironment.TokenHistoric = 6;
 			this.DevEnvironment.LoadPreferences ();
 			this.DevEnvironment.FormatVerification ();

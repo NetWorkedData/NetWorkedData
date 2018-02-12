@@ -395,6 +395,7 @@ namespace NetWorkedData
         static public float BoxMarge = 18.0F;
         static public float ElementMarge = 6.0F;
         static public Color GUIBackgroundColor;
+        static public int kMaxTabInbasisWindow = 16;
         //= GUI.backgroundColor;
         static public Color GUIContentColor;
         // = GUI.contentColor;

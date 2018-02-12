@@ -249,7 +249,7 @@ namespace NetWorkedData
 				Rect tRect = GUILayoutUtility.GetLastRect ();
 				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y, tWidthUsed, 35.0f), new Color (0.6f, 0.6f, 0.6f, 1.0f));
 				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y + 35.0f, tWidthUsed, 1.0f), new Color (0.5f, 0.5f, 0.5f, 1.0f));
-				if (mTabList.Length < 10) {
+                if (mTabList.Length < NWDConstants.kMaxTabInbasisWindow) {
 					tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
 				} else {
 					tTabSelected = EditorGUILayout.Popup (mTabSelected, mTabList);

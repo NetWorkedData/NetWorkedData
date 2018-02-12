@@ -111,12 +111,6 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDNotEditable]
-        public string HashSecurity // hash MasterReference + SlaveReference + SlaveNickname + MasterNickname + ClassesSharedByMaster + ClassesAcceptedBySlave  + RelationState + Server Salt 
-        // MUST BE TEST BEFORE SYNC FROM RELATIONSHIP WEB SERVICE
-        {
-            get; set;
-        }
         public bool FirstSync
         {
             get; set;

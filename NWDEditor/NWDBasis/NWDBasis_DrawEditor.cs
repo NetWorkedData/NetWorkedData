@@ -195,7 +195,7 @@ namespace NetWorkedData
                 if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
                     tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
                     && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
-                    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync" && tProp.Name != "Tag")
+                    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync" && tProp.Name != "Tag" && tProp.Name != "ServerHash")
                 {
 
                     foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
@@ -439,7 +439,7 @@ namespace NetWorkedData
                 if (tProp.Name != "ID" && tProp.Name != "Reference" && tProp.Name != "DC" && tProp.Name != "DM" &&
                     tProp.Name != "DD" && tProp.Name != "DS" && tProp.Name != "AC" && tProp.Name != "XX"
                     && tProp.Name != "Integrity" && tProp.Name != "InternalKey" && tProp.Name != "InternalDescription" && tProp.Name != "Preview"
-                    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync" && tProp.Name != "Tag")
+                    && tProp.Name != "DevSync" && tProp.Name != "PreprodSync" && tProp.Name != "ProdSync" && tProp.Name != "Tag" && tProp.Name != "ServerHash")
                 {
 
                     foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))

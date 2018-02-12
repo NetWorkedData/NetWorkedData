@@ -545,10 +545,92 @@ namespace NetWorkedData
             //			"\t\t$sCsvList[] = $tIntegrity;\n" +
             "\t\treturn $sCsvList;\n" +
             "\t}\n" +
-            "//-------------------- \n" +
-            "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
+            "//-------------------- \n";
+            
+            tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $ENV;\n" +
+                "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+            "\t\tif (!$tResult)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\terror('" + tTrigramme + "x31');\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t}\n" +
+            "\t\telse\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\tif ($tResult->num_rows == 1)\n" +
+            "\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
+            "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
+            "\t\t\t\t\t\t$sDataString ='';\n" +
+            "\t\t\t\t\t\t$sDataServerString ='';\n";
+            foreach (string tPropertyName in SLQIntegrityOrder())
+            {
+                tSynchronizationFile += "" +
+                "\t\t\t\t\t\t$sDataString .= $tRow['" + tPropertyName + "'];\n";
+            }
+            foreach (string tPropertyName in SLQIntegrityServerOrder())
+            {
+                tSynchronizationFile += "" +
+                "\t\t\t\t\t\t$sDataServerString .= $tRow['" + tPropertyName + "'];\n";
+            }
+            tSynchronizationFile += "" +
+            "\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t\t\t\t\t\t$tCalculateServer = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'";
+            tSynchronizationFile += ", `'.$ENV.'Sync` = \\''.time().'\\' ";
+            tSynchronizationFile += " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
+            "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
+            "\t\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\t\terror('" + tTrigramme + "x91');\n" +
+            "\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t\t}\n" +
+            "\t\t\t\t\t}\n" +
+            "\t\t\t}\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+            tSynchronizationFile += "function IntegrityServer" + tClassName + "Validate ($sReference)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+            "\t\tif (!$tResult)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\terror('" + tTrigramme + "x31');\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t}\n" +
+            "\t\telse\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\tif ($tResult->num_rows == 1)\n" +
+            "\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
+            "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
+            "\t\t\t\t\t\t$sDataServerString ='';\n";
+            foreach (string tPropertyName in SLQIntegrityServerOrder())
+            {
+                tSynchronizationFile += "" +
+                "\t\t\t\t\t\t$sDataServerString .= $tRow['" + tPropertyName + "'];\n";
+            }
+            tSynchronizationFile += "" +
+                "\t\t\t\t\t\t$tCalculateServer = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t\t\t\t\t\tif ($tCalculateServer == $tRow['ServerHash'])\n" +
+            "\t\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\t\treturn true;\n" +
+            "\t\t\t\t\t\t\t}\n" +
+            "\t\t\t\t\t}\n" +
+            "\t\t\t}\n" +
+            "\t\treturn false;\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+            tSynchronizationFile += "function Integrity" + tClassName + "Validate ($sReference)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
@@ -571,33 +653,17 @@ namespace NetWorkedData
             }
             tSynchronizationFile += "" +
             "\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
-            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\'";
-
-            //if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
-            //{
-            //    tSynchronizationFile += ", `DevSync`= \\''.time().'\\' ";
-            //}
-            //else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
-            //{
-            //    tSynchronizationFile += ", `PreprodSync`= \\''.time().'\\' ";
-            //}
-            //else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
-            //{
-            //    tSynchronizationFile += ", `ProdSync` = \\''.time().'\\' ";
-            //}
-            tSynchronizationFile += ", `'.$ENV.'Sync` = \\''.time().'\\' ";
-
-            tSynchronizationFile += " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
-            "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
-            "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
+            "\t\t\t\t\t\tif ($tCalculate == $tRow['Integrity'])\n" +
             "\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\terror('" + tTrigramme + "x91');\n" +
-            "\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t\t\treturn true;\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t}\n" +
             "\t\t\t}\n" +
+            "\t\treturn false;\n" +
             "\t}\n" +
             "//-------------------- \n";
+
+
             List<string> tModify = new List<string>();
             List<string> tColumnNameList = new List<string>();
             List<string> tColumnValueList = new List<string>();

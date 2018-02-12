@@ -8,7 +8,7 @@
 		// Determine the file tree path
 	$PATH_BASE = dirname(dirname(__DIR__));
 		// include all necessary files
-	include_once ($PATH_BASE.'/Environment/preprod/Engine/constants.php');
+	include_once ($PATH_BASE.'/Environment/Preprod/Engine/constants.php');
 		// start the generic process
 	include_once ($PATH_BASE.'/Engine/start.php');
 		// start the script

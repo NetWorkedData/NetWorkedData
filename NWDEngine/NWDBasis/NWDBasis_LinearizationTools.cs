@@ -121,7 +121,8 @@ namespace NetWorkedData
 				rReturn.Remove ("Reference");
 				rReturn.Remove ("ID");
 				rReturn.Remove ("DM");
-				rReturn.Remove ("DS");
+                rReturn.Remove ("DS");
+                rReturn.Remove ("ServerHash");
 				rReturn.Remove ("DevSync");
 				rReturn.Remove ("PreprodSync");
 				rReturn.Remove ("ProdSync");
@@ -153,7 +154,8 @@ namespace NetWorkedData
 				rReturn.Remove ("Reference");
 				rReturn.Remove ("ID");
 				rReturn.Remove ("DM");
-				rReturn.Remove ("DS");
+                rReturn.Remove ("DS");
+                rReturn.Remove ("ServerHash");
 				rReturn.Remove ("DevSync");
 				rReturn.Remove ("PreprodSync");
 				rReturn.Remove ("ProdSync");
@@ -184,7 +186,8 @@ namespace NetWorkedData
 				rReturn.Remove ("Reference");
 				rReturn.Remove ("ID");
 				rReturn.Remove ("DM");
-				rReturn.Remove ("DS");
+                rReturn.Remove ("DS");
+                rReturn.Remove ("ServerHash");
 				rReturn.Remove ("DevSync");
 				rReturn.Remove ("PreprodSync");
 				rReturn.Remove ("ProdSync");
@@ -217,10 +220,12 @@ namespace NetWorkedData
 				rReturn.Remove ("Reference");
 				rReturn.Remove ("ID");
 				rReturn.Remove ("DM");
-				rReturn.Remove ("DS");
+                rReturn.Remove ("DS");
+                rReturn.Remove ("ServerHash");
 				rReturn.Remove ("DevSync");
 				rReturn.Remove ("PreprodSync");
-				rReturn.Remove ("ProdSync");
+                rReturn.Remove ("ProdSync");
+                rReturn.Sort((tA, tB) => tA.CompareTo(tB));
 				// add the good order for this element
 				rReturn.Insert (0, "Reference");
 				rReturn.Insert (1, "DM");
@@ -229,6 +234,46 @@ namespace NetWorkedData
 			return kSLQIntegrityOrder [ClassID ()];
 		}
 
+        //-------------------------------------------------------------------------------------------------------------
+        public static Dictionary<string, List<string>> kSLQIntegrityServerOrder = new Dictionary<string, List<string>>();
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// SLQs the assembly order.
+        /// </summary>
+        /// <returns>The assembly order.</returns>
+        public static List<string> SLQIntegrityServerOrder()
+        {
+            if (kSLQIntegrityServerOrder.ContainsKey(ClassID()) == false)
+            {
+                List<string> rReturn = new List<string>();
+                rReturn.AddRange(PropertiesOrderArray());
+                rReturn.Remove("Integrity");
+                rReturn.Remove("Reference");
+                rReturn.Remove("ID");
+                rReturn.Remove("DS");
+                rReturn.Remove("ServerHash");
+                rReturn.Remove("DevSync");
+                rReturn.Remove("PreprodSync");
+                rReturn.Remove("ProdSync");
+
+                // I remove this to be able to trash and untrash object without break server integrity (perhaps bad solution ?)
+                rReturn.Remove("DM");
+                rReturn.Remove("AC");
+                rReturn.Remove("DC");
+                rReturn.Remove("DD");
+                // add the good order for this element
+                rReturn.Sort((tA, tB) => tB.CompareTo(tA));
+                // add the good order for this element
+                rReturn.Insert(2, "Reference");
+                // add another order for these element (perhaps bad solution ?)
+                rReturn.Add("AC");
+                rReturn.Add("DD");
+                rReturn.Add("DC");
+                rReturn.Add("DM");
+                kSLQIntegrityServerOrder[ClassID()] = rReturn;
+            }
+            return kSLQIntegrityServerOrder[ClassID()];
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public static Dictionary<string, List<string>> kDataAssemblyPropertiesList = new Dictionary<string, List<string>> ();
 		//-------------------------------------------------------------------------------------------------------------
@@ -245,7 +290,8 @@ namespace NetWorkedData
 				rReturn.Remove ("Reference");
 				rReturn.Remove ("ID");
 				rReturn.Remove ("DM");
-				rReturn.Remove ("DS");// not include in integrity
+                rReturn.Remove ("DS");// not include in integrity
+                rReturn.Remove ("ServerHash");// not include in integrity
 				rReturn.Remove ("DevSync");// not include in integrity
 				rReturn.Remove ("PreprodSync");// not include in integrity
 				rReturn.Remove ("ProdSync");// not include in integrity

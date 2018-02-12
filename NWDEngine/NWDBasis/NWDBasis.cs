@@ -71,36 +71,30 @@ namespace NetWorkedData
 		[Indexed ("AccountIndex", 0)]
 		[NWDNotEditable]
 		public int DM { get; set; }
-
-		// timestamp of modification
 		[NWDNotEditable]
 		public int DD { get; set; }
-
 		[NWDNotEditable]
 		public int XX { get; set; }
-
 		[NWDNotEditable]
 		public string Integrity { get; set; }
-
 		[NWDNotEditable]
 		public int DS { get; set; }
-
 		[NWDNotEditable]
 		public int DevSync { get; set; }
-
-		//[NWDNotEditable]
-		//public string DevHash { get; set; }
-
 		[NWDNotEditable]
 		public int PreprodSync { get; set; }
-
-		//[NWDNotEditable]
-		//public string PreprodHash { get; set; }
-
 		[NWDNotEditable]
 		public int ProdSync { get; set; }
 
 		public int Tag { get; set; } // TODO : Selected TAG
+
+
+        [NWDNotEditable]
+        public string ServerHash
+        {
+            get; set;
+        }
+
 
 		//[NWDNotEditable]
 		//public string ProdHash { get; set; }
