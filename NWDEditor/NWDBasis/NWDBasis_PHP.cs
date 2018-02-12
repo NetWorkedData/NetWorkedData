@@ -739,6 +739,13 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +
+            "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n\n\n";
+            if (tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true).Length > 0)
+            {
+                NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
+                tSynchronizationFile += tScriptNameAttribut.Script;
+            }
+            tSynchronizationFile +="\n\n\n"+
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\telse\n" +
             "\t\t\t\t\t\t\t{\n" +

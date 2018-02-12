@@ -275,7 +275,8 @@ namespace NetWorkedData
 //					this.DS = 0;
 					this.DevSync = 0;
 					this.PreprodSync = 0;
-					this.ProdSync = 0;
+                    this.ProdSync = 0;
+                    this.ServerHash = "";
 					this.AddonInsertMe ();
 				}
 				this.UpdateIntegrity ();
@@ -347,6 +348,7 @@ namespace NetWorkedData
 			this.DevSync = 0;
 			this.PreprodSync = 0;
 			this.ProdSync = 0;
+            this.ServerHash = "";
 			this.UpdateIntegrity ();
 			NWDDataManager.SharedInstance.UpdateObject (this, AccountDependent ());
 			// object was updated

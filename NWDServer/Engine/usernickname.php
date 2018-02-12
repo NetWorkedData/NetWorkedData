@@ -27,11 +27,18 @@
     $ereg_auuidHash = '/^([A-Za-z0-9\-]{15,48})$/';
     $ereg_reference = '/^([A-Za-z0-9\-]{15,48})$/';
     $ereg_apasswordHash = '/^(.{12,64})$/';
-    $ereg_nickname = '/^([.]{3,48})$/';
+    $ereg_nickname = '/^([A-Za-z0-9\-]{3,48})$/';
         //--------------------
-    function PinCodeRandom ()
+    function CodeRandom (int $sSize)
     {
-        rand (100000 ,999999);
+        $tMin = 10;
+        while ($sSize>1)
+        {
+            $tMin = $tMin*10;
+            $sSize--;
+        }
+        $tMax = ($tMin*10)-1;
+        return rand ($tMin ,$tMax );
     }
         //--------------------
     if (!errorDetected())
@@ -47,24 +54,21 @@
         if (isset($dico['date'])) { $tDate = $dico['date'];};
         
             //--------------------
-        include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/NWDUserInfos/synchronization.php');
+        include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/NWDUserNickname/synchronization.php');
             //--------------------
-        if (isset($dico['NWDUserInfos']))
+        if (isset($dico['NWDUserNickname']))
             {
-            if (isset($dico['NWDUserInfos']['data']))
+            if (isset($dico['NWDUserNickname']['data']))
                 {
-                foreach ($dico['NWDUserInfos']['data'] as $sCsvValue)
+                foreach ($dico['NWDUserNickname']['data'] as $sCsvValue)
                     {
                     if (!errorDetected())
                         {
-                        UpdateDataNWDUserInfos ($sCsvValue, $dico['NWDUserInfos']['sync'], $uuid, false);
+                        UpdateDataNWDUserNickname ($sCsvValue, $dico['NWDUserNickname']['sync'], $uuid, false);
                         }
                     }
                 }
             }
-        
-            //--------------------
-            //--------------------
             //--------------------
         if ($action == 'nickname')
             {
@@ -75,17 +79,12 @@
             errorDeclaration('USFw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'USFw02', 'USFw12')) // I test Reference
                 {
-            errorDeclaration('USFw22', 'nickname empty');
-            errorDeclaration('USFw22', 'nickname ereg');
-            if (paramValue ('nickname', 'nickname', $ereg_nickname, 'USFw22', 'USFw22')) // I test nickname
-                {
-                $tTested = false;
-                $tPinCode = PinCodeRandom();
-                myLog('test $tPinCode = '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
-                while ($tTested == false)
+                errorDeclaration('USFw22', 'nickname empty');
+                errorDeclaration('USFw23', 'nickname ereg');
+                if (paramValue ('nickname', 'nickname', $ereg_nickname, 'USFw22', 'USFw23')) // I test nickname
                     {
-                    $tTimeMax = time();
-                    $tQuery = 'SELECT `UniqueNickname` FROM `'.$ENV.'_NWDUserInfos` WHERE `UniqueNickname` LIKE \''.$SQL_CON->real_escape_string($nickname).'#'.$tPinCode.'\' WHERE `Reference` != \''.$SQL_CON->real_escape_string($reference).'\' ';
+                        // I search if nickname is the same
+                    $tQuery = 'SELECT `UniqueNickname`, `Nickname`, `Reference` FROM `'.$ENV.'_NWDUserNickname` WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `AccountReference` = \''.$SQL_CON->real_escape_string($uuid).'\'';
                     $tResult = $SQL_CON->query($tQuery);
                     if (!$tResult)
                         {
@@ -95,46 +94,108 @@
                         }
                     else
                         {
-                        if ($tResult->num_rows == 0)
+                        if ($tResult->num_rows == 1)
                             {
-                            myLog('UniqueNickname is not used '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
-                            $tTested = true;
-                                // Ok I have a good PinCode I update
-                            $tTimeDm =$dico['NWDUserInfos']['sync']+1;
-                            $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDUserInfos` SET `DM` = \''.$tTimeDm.'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
-                            myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
-                            myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
-                            $tResultUpdate = $SQL_CON->query($tQueryUpdate);
-                            if (!$tResultUpdate)
+                            while($tRow = $tResult->fetch_array())
                                 {
-                                myLog('pincode NOT update', __FILE__, __FUNCTION__, __LINE__);
-                                myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
-                                errorDeclaration('USFw93', 'error in updtae reference object  pincode');
-                                error('USFw93');
-                                }
-                            else
-                                {
-                                myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);
-                                IntegrityNWDUserInfosReevalue ($reference);
+                                    // if (isset($tRow['Nickname']) == false)
+                                    // {
+                                    //     $tRow['Nickname'] = '';
+                                    // }
+                                    myLog($tRow['Nickname'].' == '.$nickname, __FILE__, __FUNCTION__, __LINE__);
+                                    $tNick = explode('#',$tRow['UniqueNickname'])[0];
+
+                                    $tTested = false;
+                                    $tSize = 2;
+
+                                if ($tRow['Nickname'] == $nickname && $tNick == $nickname)
+                                    {
+                                        // Nothing to do ? perhaps ... I test
+                                        $tQuery = 'SELECT `UniqueNickname` FROM `'.$ENV.'_NWDUserNickname` WHERE `UniqueNickname` LIKE \''.$SQL_CON->real_escape_string($tRow['UniqueNickname']).'\'';
+                                        $tResult = $SQL_CON->query($tQuery);
+                                        if (!$tResult)
+                                            {
+                                            myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                                            errorDeclaration('USFw92', 'error in select other UniqueNickname allready install');
+                                            error('USFw92');
+                                            }
+                                        else
+                                            {
+                                            if ($tResult->num_rows == 1)
+                                                {
+                                                    $tTested = true;
+                                                }
+                                            }
+                                    }
+
+
+
+                                if ($tTested == false)
+                                    {
+                                        // I need change for an unique nickname
+                                    while ($tTested == false)
+                                        {
+                                        $tPinCode = CodeRandom($tSize++);
+
+                                        $tTimeMax = time();
+                                        $tQuery = 'SELECT `UniqueNickname` FROM `'.$ENV.'_NWDUserNickname` WHERE `UniqueNickname` LIKE \''.$SQL_CON->real_escape_string($nickname).'#'.$tPinCode.'\' AND `AccountReference` != \''.$SQL_CON->real_escape_string($uuid).'\'';
+                                        $tResult = $SQL_CON->query($tQuery);
+                                        if (!$tResult)
+                                            {
+                                            myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                                            errorDeclaration('USFw92', 'error in select other UniqueNickname allready install');
+                                            error('USFw92');
+                                            }
+                                        else
+                                            {
+                                            if ($tResult->num_rows == 0)
+                                                {
+                                                $tTested = true;
+                                                    // Ok I have a good PinCode I update
+                                                $tTimeDm =$dico['NWDUserNickname']['sync']+1;
+                                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDUserNickname` SET `DM` = \''.$tTimeDm.'\', `UniqueNickname` = \''.$SQL_CON->real_escape_string($nickname).'#'.$tPinCode.'\', `Nickname` = \''.$nickname.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `AccountReference` = \''.$SQL_CON->real_escape_string($uuid).'\'';
+                                                myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
+                                                myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
+                                                $tResultUpdate = $SQL_CON->query($tQueryUpdate);
+                                                if (!$tResultUpdate)
+                                                    {
+                                                    myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                                                    errorDeclaration('USFw93', 'error in updtae reference object pincode');
+                                                    error('USFw93');
+                                                    }
+                                                else
+                                                    {
+                                                    myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);
+                                                    IntegrityNWDUserNicknameReevalue ($reference);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    $tPinCode = CodeRandom($tSize++); 
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         else
                             {
-                            $tPinCode = PinCodeRandom();
+                            errorDeclaration('USFw94', 'error in select multiple reference or no reference (!=1)');
+                            error('USFw94');
                             }
                         }
+                    $tTested = false;
+                    }
                 }
             }
-            }
-            }
             //--------------------
             //--------------------
             //--------------------
-        if (isset($dico['NWDUserInfos']['sync']))
+        if (isset($dico['NWDUserNickname']['sync']))
             {
             if (!errorDetected())
                 {
-                GetDatasNWDUserInfos ($dico['NWDUserInfos']['sync'], $uuid,);
+                GetDatasNWDUserNickname ($dico['NWDUserNickname']['sync'], $uuid);
                 }
             }
         }

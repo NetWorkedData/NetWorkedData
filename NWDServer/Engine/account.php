@@ -232,7 +232,7 @@
 													{
 														$tInternalKey = '';
 														$tInternalDescription = '';
-														if ($ENV == 'dev')
+														if ($ENV == 'Dev')
 														{
 															$tInternalKey = ''.$email.'';
 															$tInternalDescription = 'dev account';
@@ -344,7 +344,7 @@
 													{
 														$tInternalKey = '';
 														$tInternalDescription = '';
-														if ($ENV == 'dev')
+														if ($ENV == 'Dev')
 														{
 															$tInternalKey = ''.$email.'';
 															$tInternalDescription = 'dev account';
@@ -428,7 +428,7 @@
 									// Ok no facebookID in my Database
 								$tInternalKey = '';
 								$tInternalDescription = '';
-								if ($ENV == 'dev')
+								if ($ENV == 'Dev')
 								{
 									$tInternalKey = 'facebook ID';
 									$tInternalDescription = 'dev account';
@@ -528,7 +528,7 @@
 									// Ok no $tGoogleID in my Database
 								$tInternalKey = '';
 								$tInternalDescription = '';
-								if ($ENV == 'dev')
+								if ($ENV == 'Dev')
 								{
 									$tInternalKey = 'Google ID';
 									$tInternalDescription = 'dev account';

@@ -39,7 +39,8 @@ namespace NetWorkedData
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("NWDExample_Tri")]
 	[NWDClassDescriptionAttribute ("NWDExample_Description")]
-	[NWDClassMenuNameAttribute ("NWDExample_MenuName")]
+    [NWDClassMenuNameAttribute ("NWDExample_MenuName")]
+    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//[NWDInternalKeyNotEditableAttribute]
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

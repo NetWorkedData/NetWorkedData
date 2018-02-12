@@ -25,15 +25,15 @@
 		$return = true;
 		$tTested = false;
 			//mylog('test version ' . $sVersion, __FILE__, __FUNCTION__, __LINE__);
-		if ($ENV=='dev')
+		if ($ENV=='Dev')
 		{
 			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `BuildActive` = 1 AND `ActiveDev` = 1 AND `XX`= 0 AND `AC`= 1;';
 		}
-		else if ($ENV=='preprod')
+		else if ($ENV=='Preprod')
 		{
 			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `BuildActive` = 1 AND `ActivePreprod` = 1 AND `XX`= 0 AND `AC`= 1;';
 		}
-		else if ($ENV=='prod')
+		else if ($ENV=='Prod')
 		{
 			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `BuildActive` = 1 AND `ActiveProd` = 1 AND `XX`= 0 AND `AC`= 1;';
 		}
@@ -229,7 +229,7 @@
 			
 			$tInternalKey = '';
 			$tInternalDescription = '';
-			if ($ENV == 'dev')
+			if ($ENV == 'Dev')
 			{
 				$tInternalKey = 'Anonymous';
 				$tInternalDescription = 'dev account';
@@ -263,6 +263,117 @@
 			}
 		}
 		return $rReturn;
+	}
+	//--------------------
+function CodeRandomSizable (int $sSize)
+	{
+		$tMin = 10;
+		while ($sSize>1)
+		{
+			$tMin = $tMin*10;
+			$sSize--;
+		}
+		$tMax = ($tMin*10)-1;
+		return rand ($tMin ,$tMax );
+	}
+	//--------------------
+function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference)
+	{
+		global $SQL_CON;
+		$rModified = false;
+		$tQuery = 'SELECT `'.$sColumnOrign.'`, `'.$sColumUniqueResult.'`, `Reference` FROM `'.$sTable.'` WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
+		$tResult = $SQL_CON->query($tQuery);
+		if (!$tResult)
+			{
+				myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+				errorDeclaration('UPVFV00', 'error in select other UniqueNickname allready install');
+				error('UPVFV00');
+			}
+		else
+			{
+				if ($tResult->num_rows == 1)
+					{
+						while($tRow = $tResult->fetch_array())
+							{
+								$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);
+								$tOrigin = str_replace(' ','-',$tOrigin);
+								myLog(json_encode($tRow), __FILE__, __FUNCTION__, __LINE__);
+								$tNickArray = explode('#',$tRow[$sColumUniqueResult]);
+								$tNick = $tOrigin.'   ';
+								if (count($tNickArray)>0)
+								{
+									$tNick = $tNickArray[0];
+								}
+								$tTested = false;
+								$tSize = 2;
+								if ($tOrigin == $tNick)
+									{
+										myLog('la donne est de meme nickname ', __FILE__, __FUNCTION__, __LINE__);
+										// Nothing to do ? perhaps ... I test
+										$tQueryTest = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \''.$SQL_CON->real_escape_string($tRow[$sColumUniqueResult]).'\'';
+										$tResultTest = $SQL_CON->query($tQueryTest);
+										if (!$tResultTest)
+											{
+												errorDeclaration('UPVFV01', 'error in select other UniqueNickname allready install');
+												error('UPVFV01');
+											}
+										else
+											{
+												if ($tResultTest->num_rows == 1)
+													{
+														$tTested = true;
+												}
+											}
+									}
+								if ($tTested == false)
+									{
+										// I need change for an unique nickname
+										while ($tTested == false)
+											{
+												$tPinCode = CodeRandomSizable($tSize++);
+												$tTimeMax = time();
+												$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\'';
+												$tResultTestUnique = $SQL_CON->query($tQueryTestUnique);
+												if (!$tResultTestUnique)
+													{
+														myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+														errorDeclaration('UPVFV02', 'error in select other UniqueNickname allready install');
+														error('UPVFV02');
+													}
+												else
+													{
+														if ($tResultTestUnique->num_rows == 0)
+															{
+																$tTested = true;
+																$rModified = true;
+																// Ok I have a good PinCode I update
+																$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \''.$tTimeMax.'\', `'.$sColumUniqueResult.'` = \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
+																myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
+																myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
+																$tResultUpdate = $SQL_CON->query($tQueryUpdate);
+																if (!$tResultUpdate)
+																	{
+																		myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+																		errorDeclaration('UPVFV03', 'error in updtae reference object pincode');
+																		error('UPVFV03');
+																	}
+																else
+																	{
+																	myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);
+																	}
+															}
+													}
+											}
+									}
+							}
+					}
+				else
+					{
+					errorDeclaration('UPVFV04', 'error in select multiple reference or no reference (!=1)');
+					error('UPVFV04');
+					}
+			}
+		return $rModified;
 	}
 		//--------------------
 	?>

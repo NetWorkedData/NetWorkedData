@@ -42,6 +42,14 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
+    [NWDClassMenuNameAttribute("User Nickname")]
+    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
+                                       "\n "+
+                                       "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n"+
+                                       "\t{\n"+
+                                       "\t\tmyLog('YES YESY YESY YEESSSSSSS', __FILE__, __FUNCTION__, __LINE__);\n"+
+                                       "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n"+
+                                       "\t}\n")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -70,7 +78,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public string NickName
+        public string Nickname
         {
             get; set;
         }
@@ -210,8 +218,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        //Addons for Edition
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons in edition state of object.
         /// </summary>
@@ -268,7 +274,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidth, tMiniButtonStyle.fixedHeight), "ReValidate", tMiniButtonStyle))
             {
                 BTBConsole.Clean();
-                this.AskValidationOfNickname(NickName);
+                this.AskValidationOfNickname(Nickname);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             return tYadd;
