@@ -75,6 +75,12 @@ namespace NetWorkedData
 		public static bool m_ShowTrashed = true;
 		public static bool m_ShowIntegrityError = true;
 
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RepaintTableEditor()
+        {
+        NWDDataManager.SharedInstance.RepaintWindowsInManager(ClassType());
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		public static void DrawPagesTab ()
 		{
 			float tWidth = EditorGUIUtility.currentViewWidth;

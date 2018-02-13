@@ -1023,6 +1023,8 @@ namespace NetWorkedData
             return tFinalRect;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool kSyncAndMoreInformations = false;
+        //-------------------------------------------------------------------------------------------------------------
         public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
 
@@ -1038,6 +1040,10 @@ namespace NetWorkedData
 
             GUIStyle tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
             tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+
+            GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), tWidth);
 
             GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
@@ -1209,17 +1215,31 @@ namespace NetWorkedData
             GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
             tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            //			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + NWDToolbox.TimeStampToDateTime (DevSync).ToString ("yyyy MM dd")
-            //				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString ("yyyy MM dd")+")" , tMiniLabelStyle);
-            //			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            //
-            //			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + NWDToolbox.TimeStampToDateTime (PreprodSync).ToString ("yyyy MM dd")
-            //				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString ("yyyy MM dd")+")" , tMiniLabelStyle);
-            //			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            //
-            //			GUI.Label (new Rect (tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime (ProdSync).ToString ("yyyy MM dd")
-            //				+ " (last sync request " +NWDToolbox.TimeStampToDateTime (SynchronizationGetLastTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString ("yyyy MM dd")+")" , tMiniLabelStyle);
-            //			tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+
+
+            kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight),kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_Sync + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), tFoldoutStyle);
+            tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (kSyncAndMoreInformations)
+            {
+                tX = NWDConstants.kFieldMarge;
+                tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_Sync + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DevSync + NWDToolbox.TimeStampToDateTime(DevSync).ToString("yyyy/MM/dd HH:mm:ss")
+                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PreprodSync + NWDToolbox.TimeStampToDateTime(PreprodSync).ToString("yyyy/MM/dd HH:mm:ss")
+                           + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime(ProdSync).ToString("yyyy/MM/dd HH:mm:s")
+                            + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            }
 
 
             /*

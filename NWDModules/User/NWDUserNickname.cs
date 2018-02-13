@@ -240,43 +240,44 @@ namespace NetWorkedData
         /// <param name="sInRect">S in rect.</param>
         public override float AddonEditor(Rect sInRect)
         {
+            float tYadd = 0.0f;
             // Draw the interface addon for editor
-            float tWidth = sInRect.width;
-            float tX = sInRect.x;
-            float tYadd = sInRect.y;
+            //float tWidth = sInRect.width;
+            //float tX = sInRect.x;
+            //tYadd = sInRect.y;
 
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
 
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
 
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
 
-            EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
-            tYadd += NWDConstants.kFieldMarge * 2;
+            //EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
+            //tYadd += NWDConstants.kFieldMarge * 2;
 
-            EditorGUI.LabelField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
-            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //EditorGUI.LabelField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
+            //tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            kNickNameToTest = EditorGUI.TextField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Nickname to test", kNickNameToTest, tTextFieldStyle);
-            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //kNickNameToTest = EditorGUI.TextField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Nickname to test", kNickNameToTest, tTextFieldStyle);
+            //tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(kNickNameToTest) || kNickNameToTest.Length < 4);
-            if (GUI.Button(new Rect(tX, tYadd, tWidth, tMiniButtonStyle.fixedHeight), "Validate nickname", tMiniButtonStyle))
-            {
-                BTBConsole.Clean();
-                this.AskValidationOfNickname(kNickNameToTest);
-            }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            EditorGUI.EndDisabledGroup();
-            if (GUI.Button(new Rect(tX, tYadd, tWidth, tMiniButtonStyle.fixedHeight), "ReValidate", tMiniButtonStyle))
-            {
-                BTBConsole.Clean();
-                this.AskValidationOfNickname(Nickname);
-            }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(kNickNameToTest) || kNickNameToTest.Length < 4);
+            //if (GUI.Button(new Rect(tX, tYadd, tWidth, tMiniButtonStyle.fixedHeight), "Validate nickname", tMiniButtonStyle))
+            //{
+            //    BTBConsole.Clean();
+            //    this.AskValidationOfNickname(kNickNameToTest);
+            //}
+            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //EditorGUI.EndDisabledGroup();
+            //if (GUI.Button(new Rect(tX, tYadd, tWidth, tMiniButtonStyle.fixedHeight), "ReValidate", tMiniButtonStyle))
+            //{
+            //    BTBConsole.Clean();
+            //    this.AskValidationOfNickname(Nickname);
+            //}
+            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -289,25 +290,25 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
-            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
 
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
 
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
 
-            tYadd = NWDConstants.kFieldMarge;
+            //tYadd = NWDConstants.kFieldMarge;
 
-            tYadd += NWDConstants.kFieldMarge * 2;
-            tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += NWDConstants.kFieldMarge * 2;
+            //tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            tYadd += NWDConstants.kFieldMarge;
+            //tYadd += NWDConstants.kFieldMarge;
 
             return tYadd;
         }
@@ -318,24 +319,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
-        public void AskValidationOfNickname(string sNickname,
-                                            BTBOperationBlock sSuccessBlock = null,
-                                            BTBOperationBlock sErrorBlock = null,
-                                            BTBOperationBlock sCancelBlock = null,
-                                            BTBOperationBlock sProgressBlock = null,
-                                            bool sPriority = true,
-                                            NWDAppEnvironment sEnvironment = null)
-        {
-            SaveModificationsIfModified();
-            // Start webrequest
-            NWDOperationWebUserNickname sOperation = NWDOperationWebUserNickname.Create("Nickname with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            // Enter the informations
-            sOperation.Action = "nickname";
-            sOperation.Nickname = sNickname;
-            sOperation.UserNicknameReference = this;
-            // add request!
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
-        }
+        //public void AskValidationOfNickname(string sNickname,
+        //                                    BTBOperationBlock sSuccessBlock = null,
+        //                                    BTBOperationBlock sErrorBlock = null,
+        //                                    BTBOperationBlock sCancelBlock = null,
+        //                                    BTBOperationBlock sProgressBlock = null,
+        //                                    bool sPriority = true,
+        //                                    NWDAppEnvironment sEnvironment = null)
+        //{
+        //    SaveModificationsIfModified();
+        //    // Start webrequest
+        //    NWDOperationWebUserNickname sOperation = NWDOperationWebUserNickname.Create("Nickname with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+        //    // Enter the informations
+        //    sOperation.Action = "nickname";
+        //    sOperation.Nickname = sNickname;
+        //    sOperation.UserNicknameReference = this;
+        //    // add request!
+        //    NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
 

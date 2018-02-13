@@ -401,6 +401,7 @@ namespace NetWorkedData
 
 #if UNITY_EDITOR
 						FilterTableEditor();
+                        RepaintTableEditor();
 #endif
 					}
 				}

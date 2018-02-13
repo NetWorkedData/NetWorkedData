@@ -176,7 +176,8 @@ namespace NetWorkedData
         public const string K_APP_BASIS_REFERENCE = "";
         public const string K_APP_BASIS_DC = "Created ";
         public const string K_APP_BASIS_DM = "Modified ";
-        public const string K_APP_BASIS_DevSync = "Sync dev ";
+        public const string K_APP_BASIS_Sync = "Sync ";
+        public const string K_APP_BASIS_DevSync = "Sync Dev ";
         public const string K_APP_BASIS_PreprodSync = "Sync Preprod ";
         public const string K_APP_BASIS_ProdSync = "Sync Prod ";
         public const string K_APP_BASIS_DUPPLICATE = "Dupplicate";

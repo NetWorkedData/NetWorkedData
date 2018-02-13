@@ -285,7 +285,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 		$tResult = $SQL_CON->query($tQuery);
 		if (!$tResult)
 			{
-				myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+				//myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
 				errorDeclaration('UPVFV00', 'error in select other UniqueNickname allready install');
 				error('UPVFV00');
 			}
@@ -297,7 +297,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 							{
 								$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);
 								$tOrigin = str_replace(' ','-',$tOrigin);
-								myLog(json_encode($tRow), __FILE__, __FUNCTION__, __LINE__);
+								//myLog(json_encode($tRow), __FILE__, __FUNCTION__, __LINE__);
 								$tNickArray = explode('#',$tRow[$sColumUniqueResult]);
 								$tNick = $tOrigin.'   ';
 								if (count($tNickArray)>0)
@@ -308,7 +308,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 								$tSize = 2;
 								if ($tOrigin == $tNick)
 									{
-										myLog('la donne est de meme nickname ', __FILE__, __FUNCTION__, __LINE__);
+										//myLog('la donne est de meme nickname ', __FILE__, __FUNCTION__, __LINE__);
 										// Nothing to do ? perhaps ... I test
 										$tQueryTest = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \''.$SQL_CON->real_escape_string($tRow[$sColumUniqueResult]).'\'';
 										$tResultTest = $SQL_CON->query($tQueryTest);
@@ -336,7 +336,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 												$tResultTestUnique = $SQL_CON->query($tQueryTestUnique);
 												if (!$tResultTestUnique)
 													{
-														myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+														//myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
 														errorDeclaration('UPVFV02', 'error in select other UniqueNickname allready install');
 														error('UPVFV02');
 													}
@@ -348,18 +348,18 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 																$rModified = true;
 																// Ok I have a good PinCode I update
 																$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \''.$tTimeMax.'\', `'.$sColumUniqueResult.'` = \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
-																myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
-																myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
+																//myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
+																//myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
 																$tResultUpdate = $SQL_CON->query($tQueryUpdate);
 																if (!$tResultUpdate)
 																	{
-																		myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+																		//myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
 																		errorDeclaration('UPVFV03', 'error in updtae reference object pincode');
 																		error('UPVFV03');
 																	}
 																else
 																	{
-																	myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);
+																	//myLog('pincode is update', __FILE__, __FUNCTION__, __LINE__);
 																	}
 															}
 													}
