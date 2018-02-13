@@ -76,7 +76,7 @@ namespace NetWorkedData
 		public bool Music {get; set;}
 		public float MusicVolume {get; set;}
         [NWDHeader("Last Game Informations")]
-        public NWDReferenceType<NWDSpot> LastSpotReference { get; set; }
+        //public NWDReferenceType<NWDSpot> LastSpotReference { get; set; }
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
         public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
         public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
