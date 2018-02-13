@@ -546,7 +546,9 @@ namespace NetWorkedData
             "\t\treturn $sCsvList;\n" +
             "\t}\n" +
             "//-------------------- \n";
-            
+
+            // TODO refactor to be more easy to generate
+
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
                 "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
@@ -593,6 +595,8 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n";
 
+            // TODO refactor to be more easy to generate
+
             tSynchronizationFile += "function IntegrityServer" + tClassName + "Validate ($sReference)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
@@ -628,6 +632,49 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n";
 
+
+
+            // TODO refactor to be more easy to generate
+
+            tSynchronizationFile += "function IntegrityServer" + tClassName + "ValidateByRow ($sRow)\n" +
+            "\t{\n" +
+            "\t\tglobal $NWD_SLT_SRV;\n" +
+            "\t\t$sDataServerString ='';\n";
+            foreach (string tPropertyName in SLQIntegrityServerOrder())
+            {
+                tSynchronizationFile += "" +
+                "\t\t$sDataServerString .= $sRow['" + tPropertyName + "'];\n";
+            }
+            tSynchronizationFile += "" +
+            "\t\t$tCalculateServer = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t\tif ($tCalculateServer == $sRow['ServerHash'])\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\treturn true;\n" +
+            "\t\t\t}\n" +
+            "\t\treturn false;\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+
+            // TODO refactor to be more easy to generate
+
+            tSynchronizationFile += "function IntegrityServer" + tClassName + "Generate ($sRow)\n" +
+            "\t{\n" +
+            "\t\tglobal $NWD_SLT_SRV;\n" +
+            "\t\t$sDataServerString =''";
+            foreach (string tPropertyName in SLQIntegrityServerOrder())
+            {
+                tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
+            }
+            tSynchronizationFile += ";\n" +
+            "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+            // TODO refactor to be more easy to generate
+
+
+
             tSynchronizationFile += "function Integrity" + tClassName + "Validate ($sReference)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
@@ -660,6 +707,45 @@ namespace NetWorkedData
             "\t\t\t\t\t}\n" +
             "\t\t\t}\n" +
             "\t\treturn false;\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+
+
+            // TODO refactor to be more easy to generate
+
+            tSynchronizationFile += "function Integrity" + tClassName + "ValidateByRow ($sRow)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\t$sDataString ='';\n";
+            foreach (string tPropertyName in SLQIntegrityOrder())
+            {
+                tSynchronizationFile += "" +
+                "\t\t\t\t\t\t$sDataString .= $sRow['" + tPropertyName + "'];\n";
+            }
+            tSynchronizationFile += "" +
+            "\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t\tif ($tCalculate == $sRow['Integrity'])\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\treturn true;\n" +
+            "\t\t\t}\n" +
+            "\t\treturn false;\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+
+            tSynchronizationFile += "function Integrity" + tClassName + "Generate ($sRow)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\t$sDataString =''";
+            foreach (string tPropertyName in SLQIntegrityOrder())
+            {
+                tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
+            }
+            tSynchronizationFile += ";\n" +
+            "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
             "\t}\n" +
             "//-------------------- \n";
 

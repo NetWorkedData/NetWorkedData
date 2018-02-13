@@ -35,7 +35,7 @@ namespace NetWorkedData
         {
             // Use the Assert class to test conditions.
             NWDRelationship tCreated = NWDRelationship.CreateNewRelationshipDefault(new Type[] { typeof(NWDOwnership) });
-            tCreated.AskPinCodeFromServer();
+            tCreated.AskPinCodeFromServer("auto nick test");
             Assert.IsNotNull(tCreated);
         }
         //-------------------------------------------------------------------------------------------------------------

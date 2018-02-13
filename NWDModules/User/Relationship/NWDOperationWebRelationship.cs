@@ -36,6 +36,8 @@ namespace NetWorkedData
         public string Classes;
         public NWDRelationship Relationship;
         public string PinCode;
+        public string Nickname;
+        public string NicknameID;
 		public bool ForceSync = false;
         public int PinSize = 6;
         public int PinDelay = 60;
@@ -108,10 +110,12 @@ namespace NetWorkedData
                 tData.Add("reference", Relationship.Reference);
             }
             tData.Add("pincode", PinCode);
+            tData.Add("nickname", Nickname);
+            tData.Add("nicknameid", NicknameID);
             tData.Add("pinsize",PinSize);
             tData.Add("pindelay", PinDelay);
             tData.Add("classes", Classes);
-            tData.Add("bilateral", Bilateral);
+            tData.Add("bilateral", Bilateral.ToString());
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------

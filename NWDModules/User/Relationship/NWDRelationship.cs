@@ -37,12 +37,12 @@ namespace NetWorkedData
         Refused = 5, // validate and protected to delete  /// put in trash...
 
 
-        TimeOut = 6, /// put in trash...
-        AllReadyFriends = 7, /// put in trash...
-        Error = 9, /// put in trash...
+        TimeOut = 6, // put in trash...
+        AllReadyFriends = 7, // put in trash...
+        Error = 9, // put in trash...  TODO
 
-        Banned = 98, // banned this user to my friends  
-        HashInvalid = 99, // ALERT ! HACKER!  
+        Banned = 98, // banned this user to my friends TODO
+        HashInvalid = 99, // ALERT ! HACKER!  TODO
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
@@ -187,7 +187,7 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void EnterPinToServer(string sPinCode,
+        static public void EnterPinToServer(string sNickname, string sPinCode,
 
                                                                        BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
@@ -200,6 +200,7 @@ namespace NetWorkedData
             // TODO connect to server
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "EnterPinCode";
+            sOperation.Nickname = sNickname;
             sOperation.PinCode = sPinCode;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
@@ -399,7 +400,10 @@ namespace NetWorkedData
                 this.SlaveReference.SetObject(null);
                 this.ClassesSharedByMaster = string.Join(",", tList.ToArray());
                 this.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
-                this.PinCode = "------";
+                this.MasterNickname = "";
+                this.SlaveNickname = "";
+                this.Reciprocity.SetReference(null);
+                this.PinCode = "";
                 this.PinLimit = 0;
                 this.FirstSync = true;
                 this.RelationState = NWDRelationshipPinState.None;
@@ -418,7 +422,7 @@ namespace NetWorkedData
                 BTBConsole.Clean();
                 DateTime tDateTime = DateTime.Now;
                 tDateTime.AddMinutes(1.5F);
-                this.AskPinCodeFromServer();
+                this.AskPinCodeFromServer("Dev user test");
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
@@ -438,13 +442,10 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "auto send the pincode to me ", tMiniButtonStyle))
             {
                 BTBConsole.Clean();
-                EnterPinToServer(PinCode);
+                EnterPinToServer("DevUserForTest",PinCode);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
-
-
-
 
             EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.FriendProposal);
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Accept Friends", tMiniButtonStyle))
@@ -629,7 +630,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #region WebServices
         //-------------------------------------------------------------------------------------------------------------
-        public void AskPinCodeFromServer(int sSeconds = 60,
+        public void AskPinCodeFromServer(string sNickname, int sSeconds = 60,
                                          int sPinSize = 6,
 
                                                                        BTBOperationBlock sSuccessBlock = null,
@@ -640,12 +641,13 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             RelationState = NWDRelationshipPinState.CreatePin;
-             SaveModificationsIfModified();
+            SaveModificationsIfModified();
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "CreatePinCode";
             sOperation.PinSize = sPinSize;
             sOperation.PinDelay = sSeconds;
+            sOperation.Nickname= sNickname;
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
@@ -685,13 +687,32 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-            RelationState = NWDRelationshipPinState.Accepted;
-            SaveModificationsIfModified();
+            //RelationState = NWDRelationshipPinState.Accepted;
+            //SaveModificationsIfModified();
 
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "AcceptFriend";
             sOperation.Relationship = this;
             sOperation.Bilateral = sBilateral;
+            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void EnterNicknameIDToServer(string sNickname, string sNicknameID,
+
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                       NWDAppEnvironment sEnvironment = null)
+        {
+            string tAccount = NWDAccount.GetCurrentAccountReference();
+            // TODO connect to server
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "EnterNicknameID";
+            sOperation.Nickname = sNickname;
+            sOperation.NicknameID = sNicknameID;
+            sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -703,8 +724,8 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-            RelationState = NWDRelationshipPinState.Refused;
-            TrashMe();
+            //RelationState = NWDRelationshipPinState.Refused;
+            //TrashMe();
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "RefuseFriend";
             sOperation.Relationship = this;
@@ -719,8 +740,8 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-            RelationState = NWDRelationshipPinState.Refused;
-            TrashMe();
+            //RelationState = NWDRelationshipPinState.Refused;
+            //TrashMe();
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship BannedRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "BannedFriend";
             sOperation.Relationship = this;
