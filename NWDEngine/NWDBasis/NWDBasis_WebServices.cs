@@ -35,6 +35,18 @@ namespace NetWorkedData
         public static string SynchronizeKeyLastTimestamp = "last";
         public static string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
+        public bool IsSynchronized()
+        {
+            if (DS > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the prefs key.
         /// </summary>
@@ -402,6 +414,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
 						FilterTableEditor();
                         RepaintTableEditor();
+                        NWDDataInspector.ShareInstance().Repaint();
 #endif
 					}
 				}
