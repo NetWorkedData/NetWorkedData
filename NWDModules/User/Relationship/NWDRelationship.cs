@@ -630,7 +630,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #region WebServices
         //-------------------------------------------------------------------------------------------------------------
-        public void AskPinCodeFromServer(string sNickname, int sSeconds = 60,
+        public void AskPinCodeFromServer(string sNickname="no nickname", int sSeconds = 60,
                                          int sPinSize = 6,
 
                                                                        BTBOperationBlock sSuccessBlock = null,

@@ -30,7 +30,7 @@
     $ereg_pincode = '/^([0-9]{4,12})$/';
     $ereg_pinsize = '/^([0-9]{1,2})$/';
     $ereg_pindelay = '/^([0-9]{1,2})$/';
-    $ereg_nickname = '/^(.{3,48})$/';
+    $ereg_nickname = '/^(.{0,48})$/';
     $ereg_nicknameID = '/^(.{3,48})$/';
         //--------------------
     function PinCodeRandom (int $sSize)
