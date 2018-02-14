@@ -70,7 +70,12 @@ namespace NetWorkedData
 		public K GetObject ()
 		{
 			return NWDBasis <K>.GetObjectByReference (Value) as K;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] GetObjects()
+        {
+            return new K[] { NWDBasis<K>.GetObjectByReference(Value) as K };
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)
 		{

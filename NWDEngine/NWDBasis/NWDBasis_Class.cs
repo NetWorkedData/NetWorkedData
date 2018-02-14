@@ -449,7 +449,8 @@ namespace NetWorkedData
 								rLockedObject = false;
 							}
 						} else if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-						         || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)) {
+                                   || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesArrayType<>)
+                                 || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)) {
 							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
 							if (tSubType == typeof(NWDAccount)) {
 								// it's not directly a NWDAccount a dependency ....

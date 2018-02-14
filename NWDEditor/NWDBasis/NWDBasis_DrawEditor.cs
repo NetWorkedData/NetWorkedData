@@ -1202,6 +1202,17 @@ namespace NetWorkedData
                 EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY + tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth), tTexture2D);
             }
 
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "TEST NODE MODE"))
+            {
+                NWDNodeEditor tNodeEditor = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+                tNodeEditor.Show();
+                //tNodeEditor.ShowUtility();
+                tNodeEditor.Focus();
+                tNodeEditor.SetSelection(this);
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
             //			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), ClassNamePHP() + "'s Object", tBoldLabelStyle);
             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1214,8 +1225,6 @@ namespace NetWorkedData
 
             GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
             tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-
 
 
 
