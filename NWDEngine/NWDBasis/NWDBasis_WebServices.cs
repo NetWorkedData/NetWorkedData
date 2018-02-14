@@ -37,7 +37,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool IsSynchronized()
         {
-            if (DS > 0)
+            int tD = 0;
+            if (NWDAppConfiguration.SharedInstance.IsDevEnvironement())
+            {
+                tD = DevSync;
+            }
+            else if (NWDAppConfiguration.SharedInstance.IsPreprodEnvironement())
+            {
+                tD = PreprodSync;
+            }
+            else  if (NWDAppConfiguration.SharedInstance.IsProdEnvironement())
+            {
+                tD = ProdSync;
+            }
+            if (tD > 0)
             {
                 return true;
             }

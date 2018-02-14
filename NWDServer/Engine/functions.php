@@ -267,7 +267,7 @@
 	//--------------------
 function CodeRandomSizable (int $sSize)
 	{
-		$tMin = 10;
+		$tMin = 1;
 		while ($sSize>1)
 		{
 			$tMin = $tMin*10;
@@ -277,7 +277,18 @@ function CodeRandomSizable (int $sSize)
 		return rand ($tMin ,$tMax );
 	}
 	//--------------------
-function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference)
+function RandomString($sLength = 10) {
+		$tCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$tCharactersLength = strlen($tCharacters);
+		$tRandomString = '';
+		for ($i = 0; $i < $sLength; $i++) {
+			$tRandomString .= $tCharacters[rand(0, $tCharactersLength - 1)];
+		}
+		myLog('tRandomString = '.$tRandomString, __FILE__, __FUNCTION__, __LINE__);
+		return $tRandomString;
+	}
+	//--------------------
+function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)
 	{
 		global $SQL_CON;
 		$rModified = false;
@@ -295,17 +306,29 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 					{
 						while($tRow = $tResult->fetch_array())
 							{
+								//myLog(json_encode($tRow), __FILE__, __FUNCTION__, __LINE__);
+								if ($tRow[$sColumnOrign] == '' && $sNeverEmpty == true)
+								{
+									$tRow[$sColumnOrign] = RandomString(10);
+								}
 								$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);
 								$tOrigin = str_replace(' ','-',$tOrigin);
-								//myLog(json_encode($tRow), __FILE__, __FUNCTION__, __LINE__);
+								$tNick = $tOrigin;
 								$tNickArray = explode('#',$tRow[$sColumUniqueResult]);
-								$tNick = $tOrigin.'   ';
-								if (count($tNickArray)>0)
+								if (count($tNickArray)==2)
 								{
-									$tNick = $tNickArray[0];
+									$tCodeAc = $tNickArray[1];
+									if (preg_match ('/^([0-9]{1,12})$/', $tCodeAc))
+									{
+										$tNick = $tNickArray[0];
+									}
+								}
+								else
+								{
+									// error 
 								}
 								$tTested = false;
-								$tSize = 2;
+								$tSize = 3;
 								if ($tOrigin == $tNick)
 									{
 										//myLog('la donne est de meme nickname ', __FILE__, __FUNCTION__, __LINE__);
@@ -322,7 +345,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 												if ($tResultTest->num_rows == 1)
 													{
 														$tTested = true;
-												}
+													}
 											}
 									}
 								if ($tTested == false)
@@ -347,7 +370,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 																$tTested = true;
 																$rModified = true;
 																// Ok I have a good PinCode I update
-																$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \''.$tTimeMax.'\', `'.$sColumUniqueResult.'` = \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
+																$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \''.$tTimeMax.'\', `'.$sColumnOrign.'` = \''.$SQL_CON->real_escape_string($tOrigin).'\', `'.$sColumUniqueResult.'` = \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
 																//myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
 																//myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
 																$tResultUpdate = $SQL_CON->query($tQueryUpdate);
