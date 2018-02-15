@@ -18,19 +18,29 @@ namespace NetWorkedData
     public class NWDNodeConnexion {
         //-------------------------------------------------------------------------------------------------------------
         public NWDNodeCard Parent;
-        public PropertyInfo Property;
-        public List<NWDNodeCard> ChildrenList;
+        public string PropertyName;
+        public List<NWDNodeCard> ChildrenList = new List<NWDNodeCard>();
         public Vector2 Position;
-        public bool ConnexionToPreviewCard = false;
+        public Vector2 PositionTangent;
+        //public bool ConnexionToPreviewCard = false;
         //-------------------------------------------------------------------------------------------------------------
         public void DrawLine()
         {
-            
+            //Debug.Log("NWDNodeConnexion DrawLine()");
+            foreach (NWDNodeCard tCard in ChildrenList)
+            {
+                if (tCard != null)
+                {
+                    //Handles.color = Color.red;
+                    //Handles.DrawLine(Position, tCard.Position);
+                    Handles.DrawBezier(Position, tCard.Position,PositionTangent,tCard.PositionTangent,Color.black,null, 4.0f);
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPlot()
         {
-            
+           // Debug.Log("NWDNodeConnexion DrawPlot()");
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
