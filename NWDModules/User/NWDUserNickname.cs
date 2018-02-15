@@ -74,18 +74,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         [NWDHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> AccountReference
-        {
-            get; set;
-        }
-        public string Nickname
-        {
-            get; set;
-        }
-        public string UniqueNickname
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> AccountReference {get; set;}
+        public string Nickname {get; set;}
+        public string UniqueNickname {get; set;}
+        //-------------------------------------------------------------------------------------------------------------
+        public delegate void SyncNickNameBlock(bool error, NWDOperationResult result = null);
+        public SyncNickNameBlock SyncNickNameBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -101,18 +95,47 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-
+        public static NWDUserNickname NewNickName(string name)
+        {
+            NWDUserNickname rNickName = NewObject();
+            rNickName.InternalKey = name;
+            rNickName.InternalDescription = "";
+            rNickName.Nickname = name;
+            rNickName.SaveModifications();
+            return rNickName;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Exampel of implement for instance method.
+        /// Sync NickName if needed
         /// </summary>
-        public void MyInstanceMethod()
+        public void SyncNickName()
         {
-            // do something with this object
+            // Sync with the server
+            List<Type> tList = new List<Type>
+            {
+                typeof(NWDUserNickname)
+            };
+
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (SyncNickNameBlockDelegate != null)
+                {
+                    SyncNickNameBlockDelegate(false);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                NWDOperationResult tInfos = bInfos as NWDOperationResult;
+                if (SyncNickNameBlockDelegate != null)
+                {
+                    SyncNickNameBlockDelegate(true, tInfos);
+                }
+            };
+            NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         #region override of NetWorkedData addons methods
@@ -123,96 +146,6 @@ namespace NetWorkedData
         public override void AddonLoadedMe()
         {
             // do something when object was loaded
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before unload from memory.
-        /// </summary>
-        public override void AddonUnloadMe()
-        {
-            // do something when object will be unload
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before insert.
-        /// </summary>
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before update.
-        /// </summary>
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated.
-        /// </summary>
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated me from Web.
-        /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before dupplicate.
-        /// </summary>
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before enable.
-        /// </summary>
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before disable.
-        /// </summary>
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before put in trash.
-        /// </summary>
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-            // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method just before remove from trash.
-        /// </summary>
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
