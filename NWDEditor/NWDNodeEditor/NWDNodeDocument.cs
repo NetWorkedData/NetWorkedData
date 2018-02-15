@@ -14,49 +14,56 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDNodeCard
+    public class NWDNodeDocument
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass Data;
-        public List<NWDNodeConnexion> ConnexionList = new List<NWDNodeConnexion>();
-        public Vector2 Position;
-        public float Width = 100.0F;
-        public float Height = 100.0F;
-        public float Margin = 40.0F;
-        public float Line=0;
-        public float Column=0;
+        private NWDNodeCard OriginalData;
+        private List<NWDNodeCard> AllCards = new List<NWDNodeCard>();
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetData(NWDTypeClass sObject)
+        {
+            OriginalData = new NWDNodeCard();
+            OriginalData.Line = 0;
+            OriginalData.Column = 0;
+            OriginalData.Position = new Vector2(0, 0);
+            OriginalData.Data = sObject;
+            Analyze();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Analyze() {
+            AllCards = new List<NWDNodeCard>();
+            AllCards.Add(OriginalData);
+            // TODO analyze object and add the connexion!
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Draw()
+        {
+            DrawCard();
+            DrawLine();
+            DrawPlot();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawLine()
         {
-            foreach (NWDNodeConnexion tConnexion in ConnexionList)
+            foreach (NWDNodeCard tCard in AllCards)
             {
-                tConnexion.DrawLine();
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddPropertyResult(PropertyInfo sProperty , NWDTypeClass[] sObjectsArray)
-        {
-            NWDNodeConnexion tNewConnexion = new NWDNodeConnexion();
-            tNewConnexion.Property = sProperty;
-            tNewConnexion.Parent = this;
-            foreach (NWDTypeClass tObject in sObjectsArray)
-            {
-                NWDNodeCard tCard = new NWDNodeCard();
-
-                //tNewConnexion.ChildrenList.Add();
+                tCard.DrawLine();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawCard()
         {
-            GUI.Box(new Rect(Margin+Line*(Width+Margin),Margin+Column*(Height+Margin), Width, Height ),Data.GetType().AssemblyQualifiedName);
+            foreach (NWDNodeCard tCard in AllCards)
+            {
+                tCard.DrawCard();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPlot()
         {
-            foreach (NWDNodeConnexion tConnexion in ConnexionList)
+            foreach (NWDNodeCard tCard in AllCards)
             {
-                tConnexion.DrawPlot();
+                tCard.DrawPlot();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

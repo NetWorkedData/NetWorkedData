@@ -32,8 +32,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public void GetAllDependByLevel(int sActual, Dictionary<int, List<object>> sReturn, List<object> sReturnObjects)
+        public void NodeCardAnalyze(NWDNodeCard sCard, List<NWDNodeCard> sAllCards)
         {
+            bool tDataAllReadyShow = false;
+            foreach (NWDNodeCard tCard in sAllCards)
+            {
+                if (tCard.Data == sCard.Data)
+                {
+                    tDataAllReadyShow = true;
+                }
+            }
+            if (tDataAllReadyShow == false)
+            {
+                
+            }
+            /*
             if (sReturn.ContainsKey(sActual))
             {
                 sReturn.Remove(sActual);
@@ -57,14 +70,48 @@ namespace NetWorkedData
                 var tMethodInfo = tTypeOfThis.GetMethod("GetAllDependByLevel", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
-                    tMethodInfo.Invoke(tObject, new object[] { sActual, sReturn, sReturnObjects});
+                    tMethodInfo.Invoke(tObject, new object[] { sActual, sReturn, sReturnObjects });
                 }
             }
+            */
+        }
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void GetAllDependByLevel(int sActual, Dictionary<int, List<object>> sReturn, List<object> sReturnObjects)
+        {
+            if (sReturn.ContainsKey(sActual))
+            {
+                sReturn.Remove(sActual);
+            }
+           /* List<object> tObjects = GetAllDepend();
+            sReturn.Add(sActual, tObjects);
+            List<object> tNextLevel = new List<object>();
+            foreach (object tObject in tObjects)
+            {
+                if (sReturnObjects.Contains(tObject) == false)
+                {
+                    tNextLevel.Add(tObject);
+                    sReturnObjects.Add(tObject);
+                }
+            }
+            // I need to insert now the level afetr this 
+            sActual++;
+            foreach (object tObject in tNextLevel)
+            {
+                Type tTypeOfThis = tObject.GetType();
+                var tMethodInfo = tTypeOfThis.GetMethod("GetAllDependByLevel", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(tObject, new object[] { sActual, sReturn, sReturnObjects});
+                }
+            }*/
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<object> GetAllDepend()
+        public Dictionary<string, List<object>> GetAllDepend()
         {
-            List<object> rReturn = new List<object>();
+            Dictionary < string, List < object >> rReturn = new Dictionary<string, List<object>>();
             Type tType = ClassType();
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -87,7 +134,11 @@ namespace NetWorkedData
                                 {
                                     if (tObject != null)
                                     {
-                                        rReturn.Add(tObject);
+                                        if (rReturn.ContainsKey(tProp.Name) == false)
+                                        {
+                                            rReturn.Add(tProp.Name, new List<object>());
+                                        }
+                                        rReturn[tProp.Name].Add(tObject);
                                     }
                                 }
                             }

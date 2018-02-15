@@ -1248,6 +1248,12 @@ namespace NetWorkedData
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ProdSync + NWDToolbox.TimeStampToDateTime(ProdSync).ToString("yyyy/MM/dd HH:mm:s")
                             + " (last sync request " + NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss") + ")", tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_xx + XX.ToString(), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ac + AC.ToString(), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
 
 

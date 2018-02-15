@@ -160,6 +160,53 @@ namespace NetWorkedData
 					PrefSave ();
 					RecalculateAllIntegrities ();
 				}
+
+                //GUILayout.BeginHorizontal();
+                //if (GUILayout.Button("dev force push", EditorStyles.miniButton))
+                //{
+                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance.DevEnvironment), 0);
+                //    foreach (K tObject in ObjectsList)
+                //    {
+                //        if (tObject.IntegrityValue() == tObject.Integrity)
+                //        {
+                //            tObject.DevSync = 0;
+                //            tObject.PreprodSync = 0;
+                //            tObject.ProdSync = 0;
+                //            //tObject.UpdateMe();
+                //        }
+                //    }
+                //}
+                //if (GUILayout.Button("preprod force push", EditorStyles.miniButton))
+                //{
+                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance.PreprodEnvironment), 0);
+                //    foreach (K tObject in ObjectsList)
+                //    {
+                //        if (tObject.IntegrityValue() == tObject.Integrity)
+                //        {
+                //            tObject.DevSync = 0;
+                //            tObject.PreprodSync = 0;
+                //            tObject.ProdSync = 0;
+                //            //tObject.UpdateMe();
+                //        }
+                //    }
+                //}
+                //if (GUILayout.Button("prod force push", EditorStyles.miniButton))
+                //{
+                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance.ProdEnvironment), 0);
+                //    foreach (K tObject in ObjectsList)
+                //    {
+                //        if (tObject.IntegrityValue() == tObject.Integrity)
+                //        {
+                //            tObject.DevSync = 0;
+                //            tObject.PreprodSync = 0;
+                //            tObject.ProdSync = 0;
+                //            //tObject.UpdateMe();
+                //        }
+                //    }
+                //}
+                //GUILayout.EndHorizontal();
+
+
 				GUILayout.Space (10.0f);
 				// -------------------------------------------
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_PHP_GENERATE+" '" + MenuName () + "'", EditorStyles.miniButton))

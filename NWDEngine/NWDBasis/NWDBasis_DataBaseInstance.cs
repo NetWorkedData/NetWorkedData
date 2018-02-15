@@ -299,7 +299,7 @@ namespace NetWorkedData
 		/// Determine whether this instance is modified.
 		/// </summary>
 		/// <returns><c>true</c> if this instance is modified; otherwise, <c>false</c>.</returns>
-		public bool IsModified ()
+		public bool IsModifiedButNotUpdated ()
 		{
 			return (this.Integrity != this.IntegrityValue ());
 		}

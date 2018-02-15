@@ -20,7 +20,7 @@
     $ereg_unity = '/^(.*)$/';
     $ereg_twitter = '/^(.*)$/';
     $ereg_bilateral = '/^(True|False)$/';
-    $ereg_action = '/^(CreatePinCode|EnterPinCode|Waiting|AcceptFriend|RefuseFriend|BannedFriend|ChangeClassByMaster|ChangeClassBySlave|Sync|SyncForce|Clean)$/';
+    $ereg_action = '/^(CreatePinCode|EnterPinCode|Waiting|AcceptFriend|RefuseFriend|BannedFriend|ChangeClassByPublisher|ChangeClassByReader|Sync|SyncForce|Clean)$/';
     $ereg_email = '/^([A-Z0-9a-z\.\_\%\+\-]+@[A-Z0-9a-z\.\_\%\+\-]+\.[A-Za-z]{2,6})$/';
     $ereg_password = '/^(.{24,64})$/';
     $ereg_emailHash = '/^(.{24,64})$/';
@@ -56,7 +56,7 @@
     // function HasRowValue ($sRow)
     // {
     //     Global $NWD_SLT_SRV;
-    // return md5($sRow['MasterReference'].$NWD_SLT_SRV.$sRow['SlaveReference'].$sRow['RelationState'].$sRow['ClassesSharedByMaster'].$sRow['ClassesAcceptedBySlave']);
+    // return md5($sRow['PublisherReference'].$NWD_SLT_SRV.$sRow['ReaderReference'].$sRow['RelationState'].$sRow['PublisherClassesShared'].$sRow['ReaderClassesAccepted']);
     // }
         //--------------------
     // function HashTest ($sRow)
@@ -179,7 +179,7 @@
                                     $tTimeLimit = time() + $pindelay + 10; // I add 10 seconds of marge
                                                                            // Ok I have a good PinCode I update
                                     $tTimeSync = time(); //$dico['NWDRelationship']['sync'];
-                                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `MasterNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `HashSecurity`= \'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
+                                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `PublisherNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `HashSecurity`= \'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
                                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -209,6 +209,7 @@
                     }
                     }
                 }
+                $action = 'Sync';
             }
         if ($action == 'Waiting')
             {
@@ -218,6 +219,7 @@
             // if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
             //     {
             //     }
+            $action = 'Sync';
             }
         if ($action == 'RefuseFriend')
             {
@@ -228,7 +230,7 @@
                 {
                     $tTimeSync = time();
                     $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'5\' ';
-                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
+                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -242,6 +244,7 @@
                         IntegrityNWDRelationshipReevalue ($reference);
                         }
                 }
+                $action = 'Sync';
             }
         if ($action == 'AcceptFriend')
             {
@@ -262,7 +265,7 @@
                             {
                                 // TODO : I create a bilateral data
 
-                                $tQuerySelect = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
+                                $tQuerySelect = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                                 $tResultSelect = $SQL_CON->query($tQuerySelect);
 
                                 if (!$tResultSelect)
@@ -287,15 +290,15 @@
                                 $tInsert.= '`PreprodSync`, ';
                                 $tInsert.= '`ProdSync`, ';
                                 $tInsert.= '`AC`, ';
-                                $tInsert.= '`ClassesAcceptedBySlave`,';
-                                $tInsert.= '`ClassesSharedByMaster`,';
+                                $tInsert.= '`ReaderClassesAccepted`,';
+                                $tInsert.= '`PublisherClassesShared`,';
                                 $tInsert.= '`DC`,';
                                 $tInsert.= '`DD`,  ';
                                 $tInsert.= '`FirstSync`, ';
                                 $tInsert.= '`InternalDescription`, ';
                                 $tInsert.= '`InternalKey`, ';
-                                $tInsert.= '`MasterNickname`, ';
-                                $tInsert.= '`MasterReference`,';
+                                $tInsert.= '`PublisherNickname`, ';
+                                $tInsert.= '`PublisherReference`,';
                                 $tInsert.= '`MinVersion`, ';
                                 $tInsert.= '`PinCode`, ';
                                 $tInsert.= '`PinLimit`, ';
@@ -303,8 +306,8 @@
                                 $tInsert.= '`Reciprocity`,';
                                 $tInsert.= '`ReferenceVersionned`, ';
                                 $tInsert.= '`RelationState`, ';
-                                $tInsert.= '`SlaveNickname`, ';
-                                $tInsert.= '`SlaveReference`, ';
+                                $tInsert.= '`ReaderNickname`, ';
+                                $tInsert.= '`ReaderReference`, ';
                                 $tInsert.= '`Tag`, ';
                                 $tInsert.= '`XX`, ';
                                 $tInsert.= '`Integrity`) ';
@@ -316,15 +319,15 @@
                                 $tInsert.= ' \''.time().'\',';
                                 $tInsert.= ' \''.time().'\',';
                                 $tInsert.= ' \'1\', ';
-                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ClassesSharedByMaster']).'\',';
-                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ClassesAcceptedBySlave']).'\', ';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherClassesShared']).'\',';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ReaderClassesAccepted']).'\', ';
                                 $tInsert.= ' \''.time().'\',';
                                 $tInsert.= ' \'0\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['FirstSync']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['InternalDescription']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['InternalKey']).'\',';
-                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['SlaveNickname']).'\',';
-                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['SlaveReference']).'\',';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ReaderNickname']).'\',';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ReaderReference']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['MinVersion']).'\',';
                                 $tInsert.= ' \'\',';
                                 $tInsert.= ' \'\',';
@@ -332,8 +335,8 @@
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['Reference']).'\',';
                                 $tInsert.= ' \'\',';
                                 $tInsert.= ' \'4\',';
-                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['MasterNickname']).'\',';
-                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['MasterReference']).'\',';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherNickname']).'\',';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherReference']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['Tag']).'\',';
                                 $tInsert.= ' \'0\',';
                                 $tInsert.= ' \'\'';
@@ -352,7 +355,7 @@
 
                     $tTimeSync = time();
                     $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'4\', `Reciprocity` = \''.$SQL_CON->real_escape_string($tReferenceBilateral).'\'';
-                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
+                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -378,6 +381,7 @@
 
                     }
                 }
+                $action = 'Sync';
             }
         if ($action == 'BannedFriend')
             {
@@ -388,7 +392,7 @@
                 {
                     $tTimeSync = time();
                     $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'98\' ';
-                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
+                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -402,6 +406,7 @@
                         IntegrityNWDRelationshipReevalue ($reference);
                     }
                 }
+                $action = 'Sync';
             }
         if ($action == 'ChangeClassByMaster')
             {
@@ -413,6 +418,7 @@
                 
                     IntegrityNWDRelationshipReevalue ($reference);
                 }
+                $action = 'Sync';
             }
         if ($action == 'ChangeClassBySlave')
             {
@@ -424,6 +430,7 @@
                 
                     IntegrityNWDRelationshipReevalue ($reference);
                 }
+                $action = 'Sync';
             }
         if ($action == 'EnterPinCode')
             {
@@ -439,7 +446,7 @@
                         {
 
                 $tTime = time();
-                $tQuery = 'SELECT `Reference`, `MasterReference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$pincode.'\' AND `RelationState` = 2';// AND `PinLimit` > '.$tTime.'';
+                $tQuery = 'SELECT `Reference`, `PublisherReference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$pincode.'\' AND `RelationState` = 2';// AND `PinLimit` > '.$tTime.'';
                 $tResult = $SQL_CON->query($tQuery);
                 if (!$tResult)
                     {
@@ -453,15 +460,15 @@
                         {
                         while($tRow = $tResult->fetch_array())
                             {
-                            $tMasterReference = $tRow['MasterReference'];
+                            $tPublisherReference = $tRow['PublisherReference'];
                             $tReference = $tRow['Reference'];
                             $tTimeSync = time();
                                 // recherche si une relation existe déjà
-                            $tQueryAllready = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `MasterReference` LIKE \''.$tMasterReference.'\' AND `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND `AC` = 1 AND `XX` = 0 ';// AND `PinLimit` > '.$tTime.'';
+                            $tQueryAllready = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PublisherReference` LIKE \''.$tPublisherReference.'\' AND `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND `AC` = 1 AND `XX` = 0 ';// AND `PinLimit` > '.$tTime.'';
                             $tResultAllready = $SQL_CON->query($tQueryAllready);
                             if ($tResultAllready->num_rows > 0)
                                 {
-                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$tTimeSync.', `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 7 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$tTimeSync.', `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 7 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
                                 myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                 myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                 $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -479,7 +486,7 @@
                                 }
                             else
                                 {
-                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$tTimeSync.', `SlaveNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `SlaveReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 3 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$tTimeSync.', `ReaderNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 3 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
                                 myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                 myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                 $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -514,7 +521,7 @@
         if ($action == 'Clean')
             {
                 /*
-                 $tQuery = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinLimit`<'.time().' AND `RelationState` <4 AND `MasterReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\'';
+                 $tQuery = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinLimit`<'.time().' AND `RelationState` <4 AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\'';
                  $tResult = $SQL_CON->query($tQuery);
                  if (!$tResult)
                  {
@@ -539,6 +546,7 @@
                  mysqli_free_result($tResult);
                  }
                  */
+            $action = 'Sync';
             }
 
 
@@ -546,17 +554,16 @@
         $tForce = false;
         if ($action == 'SyncForce')
             {
-            // $action == 'Sync';
+            $action = 'Sync';
             $tForce = true;
             }
 
         // Anyway I Force the sync!
-        $action = 'Sync';
 
         if ($action == 'Sync')
             {
                 // just return the update relationship object's
-            $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `SlaveReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND XX = \'0\'';
+            $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `ReaderReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND XX = \'0\'';
             $tResult = $SQL_CON->query($tQuery);
             if (!$tResult)
                 {
@@ -568,13 +575,12 @@
                 {
                 while($tRow = $tResult->fetch_array())
                     {
-                        
                     if (IntegrityServerNWDRelationshipValidateByRow ($tRow) ==true)
                         {
-                        myLog('Must add object from '.$tRow ['ClassesSharedByMaster']. ' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
-                        myLog('Must filter object by '.$tRow ['ClassesAcceptedBySlave']. ' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
-                        $tArrayClassesMaster = explode(',',$tRow ['ClassesSharedByMaster']);
-                        $tArrayClassesSlave = explode(',',$tRow ['ClassesAcceptedBySlave']);
+                        myLog('Must add object from '.$tRow ['PublisherClassesShared']. ' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
+                        myLog('Must filter object by '.$tRow ['ReaderClassesAccepted']. ' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
+                        $tArrayClassesMaster = explode(',',$tRow ['PublisherClassesShared']);
+                        $tArrayClassesSlave = explode(',',$tRow ['ReaderClassesAccepted']);
                         $tArrayClasse = array_intersect($tArrayClassesMaster, $tArrayClassesSlave );
                         foreach ($tArrayClasse as $sClass)
                         {
@@ -582,13 +588,13 @@
                             $tFunction = 'GetDatas'.$sClass;
                             if ($tForce==true)
                                 { 
-                                    myLog('get FORCE ALL objects '.$sClass.' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
-                                    $tFunction(0, $tRow ['MasterReference']);
+                                    myLog('get FORCE ALL objects '.$sClass.' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
+                                    $tFunction(0, $tRow ['PublisherReference']);
                                 }
                             else
                                 {
-                                    myLog('get objects '.$sClass.' from '.$tRow ['MasterReference'], __FILE__, __FUNCTION__, __LINE__);
-                                    $tFunction($dico['NWDRelationship']['sync'], $tRow ['MasterReference']);
+                                    myLog('get objects '.$sClass.' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
+                                    $tFunction($dico['NWDRelationship']['sync'], $tRow ['PublisherReference']);
                                 }
                         }
                         }
@@ -622,3 +628,4 @@
     myLogLineReturn();
         //--------------------
     ?>
+ 

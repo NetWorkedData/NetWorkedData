@@ -74,34 +74,35 @@ namespace NetWorkedData
         /// </summary>
         /// <value>The account reference.</value>
         [Indexed("RelationshipIndex", 0)]
-        public NWDReferenceType<NWDAccount> MasterReference
+        public NWDReferenceType<NWDAccount> PublisherReference
         {
             get; set;
-        } // user A as Master
-        //[Indexed("RelationshipIndex", 1)]
-        public NWDReferenceType<NWDAccount> SlaveReference
+        } 
+        public string PublisherNickname
         {
             get; set;
         }
-        public string SlaveNickname
+        public string PublisherClassesShared
         {
             get; set;
-        } 
-        public string MasterNickname
-        {
-            get; set;
-        } 
+        }
+
         public NWDReferenceType<NWDRelationship> Reciprocity
         {
             get; set;
         }
-        // user B as Slave
-        //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
-        public string ClassesSharedByMaster
+
+        //[Indexed("RelationshipIndex", 1)]
+        public NWDReferenceType<NWDAccount> ReaderReference
         {
             get; set;
         }
-        public string ClassesAcceptedBySlave
+        public string ReaderNickname
+        {
+            get; set;
+        }
+        //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
+        public string ReaderClassesAccepted
         {
             get; set;
         }
@@ -174,9 +175,9 @@ namespace NetWorkedData
             }
             NWDRelationship tReturn = NewObject();
             //tReturn.MasterReference.SetObject(NWDAccount.GetCurrentAccount());
-            tReturn.SlaveReference.SetObject(null);
-            tReturn.ClassesSharedByMaster = string.Join(",", tList.ToArray());
-            tReturn.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
+            tReturn.ReaderReference.SetObject(null);
+            tReturn.PublisherClassesShared = string.Join(",", tList.ToArray());
+            tReturn.ReaderClassesAccepted = string.Join(",", tList.ToArray());
             tReturn.FirstSync = true;
             tReturn.RelationState = NWDRelationshipPinState.None;
             tReturn.InsertMe();
@@ -240,7 +241,7 @@ namespace NetWorkedData
             List<NWDRelationship> rList = new List<NWDRelationship>();
             foreach (NWDRelationship tObject in GetAllObjects())
             {
-                if (tObject.MasterReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+                if (tObject.PublisherReference.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
                     rList.Add(tObject);
                 }
@@ -253,7 +254,7 @@ namespace NetWorkedData
             List<NWDRelationship> rList = new List<NWDRelationship>();
             foreach (NWDRelationship tObject in GetAllObjects())
             {
-                if (tObject.SlaveReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+                if (tObject.ReaderReference.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
                     rList.Add(tObject);
                 }
@@ -395,13 +396,13 @@ namespace NetWorkedData
                         }
                     }
                 }
-                this.MasterReference.SetReference(NWDAccount.GetCurrentAccountReference());
+                this.PublisherReference.SetReference(NWDAccount.GetCurrentAccountReference());
                // this.MasterReference.SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
-                this.SlaveReference.SetObject(null);
-                this.ClassesSharedByMaster = string.Join(",", tList.ToArray());
-                this.ClassesAcceptedBySlave = string.Join(",", tList.ToArray());
-                this.MasterNickname = "";
-                this.SlaveNickname = "";
+                this.ReaderReference.SetObject(null);
+                this.PublisherClassesShared = string.Join(",", tList.ToArray());
+                this.ReaderClassesAccepted = string.Join(",", tList.ToArray());
+                this.PublisherNickname = "";
+                this.ReaderNickname = "";
                 this.Reciprocity.SetReference(null);
                 this.PinCode = "";
                 this.PinLimit = 0;
@@ -546,12 +547,12 @@ namespace NetWorkedData
         //    return tReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public K[] ObjectsFromSlave<K>() where K : NWDBasis<K>, new()
+        public K[] ObjectsFromPublisher<K>() where K : NWDBasis<K>, new()
         {
-            return NWDBasis<K>.GetAllObjects(SlaveReference.GetReference());
+            return NWDBasis<K>.GetAllObjects(PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddClassesToMaster(Type sClass)
+        public void AddClassesToPublisher(Type sClass)
         {
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
@@ -560,18 +561,18 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    ClassesSharedByMaster = "," + ClassesSharedByMaster + ",";
-                    ClassesSharedByMaster = ClassesSharedByMaster.Replace("," + tClassName + ",", ",");
-                    ClassesSharedByMaster = ClassesSharedByMaster.Trim(new char[] { ',' });
+                    PublisherClassesShared = "," + PublisherClassesShared + ",";
+                    PublisherClassesShared = PublisherClassesShared.Replace("," + tClassName + ",", ",");
+                    PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
                     // add
-                    ClassesSharedByMaster = ClassesSharedByMaster + "," + tClassName;
-                    ClassesSharedByMaster = ClassesSharedByMaster.Trim(new char[] { ',' });
+                    PublisherClassesShared = PublisherClassesShared + "," + tClassName;
+                    PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
                     SaveModificationsIfModified();
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveClassesToMaster(Type sClass)
+        public void RemoveClassesToPublisher(Type sClass)
         {
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
@@ -580,16 +581,16 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    ClassesSharedByMaster = "," +ClassesSharedByMaster +",";
-                    ClassesSharedByMaster = ClassesSharedByMaster.Replace(","+tClassName+",", ",");
-                    ClassesSharedByMaster = ClassesSharedByMaster.Trim(new char[] { ',' });
+                    PublisherClassesShared = "," +PublisherClassesShared +",";
+                    PublisherClassesShared = PublisherClassesShared.Replace(","+tClassName+",", ",");
+                    PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
                     // save modifications
                     SaveModificationsIfModified();
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddClassesToSlave(Type sClass)
+        public void AddClassesToReader(Type sClass)
         {
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
@@ -598,19 +599,19 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    ClassesAcceptedBySlave = "," + ClassesAcceptedBySlave + ",";
-                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Replace("," + tClassName + ",", ",");
-                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Trim(new char[] { ',' });
+                    ReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
+                    ReaderClassesAccepted = ReaderClassesAccepted.Replace("," + tClassName + ",", ",");
+                    ReaderClassesAccepted = ReaderClassesAccepted.Trim(new char[] { ',' });
                     // add
-                    ClassesAcceptedBySlave = ClassesAcceptedBySlave + "," + tClassName;
-                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Trim(new char[] { ',' });
+                    ReaderClassesAccepted = ReaderClassesAccepted + "," + tClassName;
+                    ReaderClassesAccepted = ReaderClassesAccepted.Trim(new char[] { ',' });
                     // save modifications
                     SaveModificationsIfModified();
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveClassesToSlave(Type sClass)
+        public void RemoveClassesToReader(Type sClass)
         {
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
@@ -619,9 +620,9 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    ClassesAcceptedBySlave = "," + ClassesAcceptedBySlave + ",";
-                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Replace("," + tClassName + ",", ",");
-                    ClassesAcceptedBySlave = ClassesAcceptedBySlave.Trim(new char[] { ',' });
+                    ReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
+                    ReaderClassesAccepted = ReaderClassesAccepted.Replace("," + tClassName + ",", ",");
+                    ReaderClassesAccepted = ReaderClassesAccepted.Trim(new char[] { ',' });
                     // save modifications
                     SaveModificationsIfModified();
                 }
@@ -748,7 +749,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeClassByMaster(BTBOperationBlock sSuccessBlock = null,
+        public void ChangeClassByPublisher(BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
                                                                        BTBOperationBlock sProgressBlock = null,
@@ -756,14 +757,14 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
            // TODO
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByMaster", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "ChangeClassByMaster";
-            sOperation.Classes = ClassesSharedByMaster;
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByPublisher", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "ChangeClassByPublisher";
+            sOperation.Classes = PublisherClassesShared;
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ChangeClassBySlave(BTBOperationBlock sSuccessBlock = null,
+        public void ChangeClassByReader(BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
                                                                        BTBOperationBlock sProgressBlock = null,
@@ -771,42 +772,42 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             // TODO
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassBySlave", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-            sOperation.Action = "ChangeClassBySlave";
-            sOperation.Classes = ClassesAcceptedBySlave;
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByReader", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "ChangeClassByReader";
+            sOperation.Classes = ReaderClassesAccepted;
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
 #endregion
         //-------------------------------------------------------------------------------------------------------------
-        public bool YouAreMaster()
+        public bool YouArePublisher()
         {
             bool rReturn = false;
-            if (this.MasterReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+            if (this.PublisherReference.GetReference() == NWDAccount.GetCurrentAccountReference())
             {
                 rReturn = true;
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool YouAreSlave()
+        public bool YouAreReader()
         {
             bool rReturn = false;
-            if (this.SlaveReference.GetReference() == NWDAccount.GetCurrentAccountReference())
+            if (this.ReaderReference.GetReference() == NWDAccount.GetCurrentAccountReference())
             {
                 rReturn = true;
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDRelationship> SlaveReciprocity()
+        public List<NWDRelationship> ReaderReciprocity()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
             foreach (NWDRelationship tObject in GetAllObjects())
             {
-                if (tObject.SlaveReference.GetReference() == this.MasterReference.GetReference() 
-                    && tObject.MasterReference.GetReference() == this.SlaveReference.GetReference() 
+                if (tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference() 
+                    && tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference() 
                     && tObject!=this)
                 {
                     rList.Add(tObject);
@@ -815,13 +816,13 @@ namespace NetWorkedData
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDRelationship> MasterReciprocity()
+        public List<NWDRelationship> PublisherReciprocity()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
             foreach (NWDRelationship tObject in GetAllObjects())
             {
-                if (tObject.MasterReference.GetReference() == this.SlaveReference.GetReference()
-                    && tObject.SlaveReference.GetReference() == this.MasterReference.GetReference()
+                if (tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference()
+                    && tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference()
                     && tObject != this)
                 {
                     rList.Add(tObject);
@@ -887,32 +888,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship)
         {
-            return GetAllObjects(sRelationship.SlaveReference.GetReference());
+            return GetAllObjects(sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship)
         {
-            return GetObjectByReference(sReference, sRelationship.SlaveReference.GetReference());
+            return GetObjectByReference(sReference, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship)
         {
-            return GetObjectsByReferences(sReferences, sRelationship.SlaveReference.GetReference());
+            return GetObjectsByReferences(sReferences, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
         {
-            return GetObjectByInternalKey(sInternalKey, sRelationship.SlaveReference.GetReference());
+            return GetObjectByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
         {
-            return GetAllObjectsByInternalKey(sInternalKey, sRelationship.SlaveReference.GetReference());
+            return GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship)
         {
-            return GetObjectsByInternalKeys(sInternalKeys, sRelationship.SlaveReference.GetReference());
+            return GetObjectsByInternalKeys(sInternalKeys, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
 #endregion

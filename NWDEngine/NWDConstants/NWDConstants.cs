@@ -180,6 +180,8 @@ namespace NetWorkedData
         public const string K_APP_BASIS_DevSync = "Sync Dev ";
         public const string K_APP_BASIS_PreprodSync = "Sync Preprod ";
         public const string K_APP_BASIS_ProdSync = "Sync Prod ";
+        public const string K_APP_BASIS_xx = "trashed? ";
+        public const string K_APP_BASIS_ac = "actived? ";
         public const string K_APP_BASIS_DUPPLICATE = "Dupplicate";
         public const string K_APP_BASIS_UPDATE = "Update";
 

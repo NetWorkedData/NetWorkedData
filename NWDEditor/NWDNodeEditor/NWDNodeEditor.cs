@@ -20,6 +20,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
 	/// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
 	/// </summary>
@@ -27,10 +28,11 @@ namespace NetWorkedData
 	{
         //-------------------------------------------------------------------------------------------------------------
         private NWDTypeClass Selection;
+        private NWDNodeDocument Document = new NWDNodeDocument();
         //-------------------------------------------------------------------------------------------------------------
         public void SetSelection(NWDTypeClass sSelection)
         {
-            Selection = sSelection;
+            Document.SetData(sSelection);
             Repaint();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -51,6 +53,8 @@ namespace NetWorkedData
 		{
 
             m_NodeEditorScrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height),m_NodeEditorScrollPosition, new Rect(0, 0, 1024,1024));
+
+            Document.Draw();
 
             titleContent = new GUIContent ("NWDNodeEditor");
             if (Selection != null)
@@ -85,7 +89,8 @@ namespace NetWorkedData
             GUI.EndScrollView();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif
