@@ -73,6 +73,7 @@ namespace NetWorkedData
         /// Get or set the account reference.
         /// </summary>
         /// <value>The account reference.</value>
+        [NWDGroupStart("Publisher of datas")]
         [Indexed("RelationshipIndex", 0)]
         public NWDReferenceType<NWDAccount> PublisherReference
         {
@@ -86,12 +87,26 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDGroupEnd()]
 
+        [NWDSeparator]
+
+        [NWDGroupStart("Relation")]
         public NWDReferenceType<NWDRelationship> Reciprocity
         {
             get; set;
         }
+        [Indexed("PinIndex", 0)]
+        [Indexed("RelationshipIndex", 1)]
+        public NWDRelationshipPinState RelationState
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
 
+        [NWDSeparator]
+
+        [NWDGroupStart("Reader of datas")]
         //[Indexed("RelationshipIndex", 1)]
         public NWDReferenceType<NWDAccount> ReaderReference
         {
@@ -106,16 +121,20 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [Indexed("PinIndex", 0)]
-        [Indexed("RelationshipIndex", 1)]
-        public NWDRelationshipPinState RelationState
-        {
-            get; set;
-        }
+        [NWDGroupEnd()]
+
+        [NWDSeparator]
+
+        [NWDGroupStart("Sync datas")]
         public bool FirstSync
         {
             get; set;
         }
+        [NWDGroupEnd()]
+
+        [NWDSeparator]
+
+        [NWDGroupStart("PinCode informations")]
         [Indexed("PinIndex", 1)]
         public string PinCode
         {
