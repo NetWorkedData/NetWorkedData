@@ -41,6 +41,11 @@ namespace NetWorkedData
         public void ReEvaluateLayout()
         {
             Height = HeightInformations + HeightProperty * PropertyMax;
+
+            foreach (NWDNodeCard tCard in AllCards)
+            {
+                tCard.ReEvaluateLayout();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ColumnMaxCount(int sCount)
@@ -113,16 +118,15 @@ namespace NetWorkedData
                 OriginalData.Analyze(this);
             }
             Debug.Log(AllCards.Count+" Cards found");
+            ReEvaluateLayout();
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Draw()
         {
-            ReEvaluateLayout();
             DrawCard();
-            Handles.BeginGUI();
             DrawLine();
             DrawPlot();
-            Handles.EndGUI();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawLine()

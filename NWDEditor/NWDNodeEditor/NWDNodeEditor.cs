@@ -29,6 +29,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private NWDNodeDocument Document = new NWDNodeDocument();
         //-------------------------------------------------------------------------------------------------------------
+        public NWDNodeEditor()
+        {
+            this.autoRepaintOnSceneChange = false;
+            this.wantsMouseEnterLeaveWindow = false;
+            this.wantsMouseMove = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetSelection(NWDTypeClass sSelection)
         {
             Document.SetData(sSelection);

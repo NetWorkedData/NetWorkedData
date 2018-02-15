@@ -53,7 +53,7 @@ namespace NetWorkedData
                             {
                                 //Handles.color = Color.red;
                                 //Handles.DrawLine(Position, tCard.Position);
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 4.0f);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 10.0f);
                             }
                             break;
                         case NWDNodeConnexionType.Broken:
@@ -64,7 +64,7 @@ namespace NetWorkedData
                             break;
                         case NWDNodeConnexionType.OldCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 4.0f);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 10.0f);
                             }
                             break;
                         case NWDNodeConnexionType.None:
@@ -89,34 +89,39 @@ namespace NetWorkedData
              
             foreach (NWDNodeConnexionLine tCardLine in ChildrenList)
             {
-                switch (tCardLine.Style)
+                NWDNodeCard tCard = tCardLine.Child;
+                if (tCard != null)
                 {
-                    case NWDNodeConnexionType.Valid:
-                        {
-                        }
-                        break;
-                    case NWDNodeConnexionType.Broken:
-                        {
-                            Vector2 tBroken = new Vector2(CirclePosition.x + 20, CirclePosition.y);
-                            Handles.color = Color.black;
-                            Handles.DrawSolidDisc(tBroken, Vector3.forward, 7.0f);
-                            Handles.color = Color.red;
-                            Handles.DrawSolidDisc(tBroken, Vector3.forward, 5.0f);
-                        }
-                        break;
-                    case NWDNodeConnexionType.OldCard:
-                        {
-                            //Vector2 tOld = new Vector2(CirclePosition.x + 20, CirclePosition.y);
-                            //Handles.color = Color.black;
-                            //Handles.DrawSolidDisc(tOld, Vector3.forward, 7.0f);
-                            //Handles.color = Color.gray;
-                            //Handles.DrawSolidDisc(tOld, Vector3.forward, 5.0f);
-                        }
-                        break;
-                    case NWDNodeConnexionType.None:
-                        {
-                        }
-                        break;
+                    switch (tCardLine.Style)
+                    {
+                        case NWDNodeConnexionType.Valid:
+                            {
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 4.0f);
+                            }
+                            break;
+                        case NWDNodeConnexionType.Broken:
+                            {
+                                Vector2 tBroken = new Vector2(CirclePosition.x + 20, CirclePosition.y);
+                                Handles.color = Color.black;
+                                Handles.DrawSolidDisc(tBroken, Vector3.forward, 7.0f);
+                                Handles.color = Color.red;
+                                Handles.DrawSolidDisc(tBroken, Vector3.forward, 5.0f);
+                            }
+                            break;
+                        case NWDNodeConnexionType.OldCard:
+                            {
+                                //Vector2 tOld = new Vector2(CirclePosition.x + 20, CirclePosition.y);
+                                //Handles.color = Color.black;
+                                //Handles.DrawSolidDisc(tOld, Vector3.forward, 7.0f);
+                                //Handles.color = Color.gray;
+                                //Handles.DrawSolidDisc(tOld, Vector3.forward, 5.0f);
+                            }
+                            break;
+                        case NWDNodeConnexionType.None:
+                            {
+                            }
+                            break;
+                    }
                 }
             }
         }
