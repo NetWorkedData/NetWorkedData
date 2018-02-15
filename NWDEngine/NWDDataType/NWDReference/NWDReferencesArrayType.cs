@@ -205,7 +205,21 @@ namespace NetWorkedData
 			RemoveReferences (tList.ToArray ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] EditorGetObjects()
+        {
+            List<K> rReturn = new List<K>();
+            foreach (string tReference in GetReferences())
+            {
+                K tObj = NWDBasis<K>.InstanceByReference(tReference) as K;
+                if (tObj != null)
+                {
+                    rReturn.Add(tObj);
+                }
+            }
+            return rReturn.ToArray();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public List<string> ReferenceInError( List<string> sReferencesList) {
 			List<string> rReturn = new List<string> ();

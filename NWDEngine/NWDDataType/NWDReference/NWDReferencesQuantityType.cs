@@ -197,13 +197,13 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects()
+        public K[] GetObjects(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef) as K;
+                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -268,7 +268,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantity()
+        public Dictionary<K, int> GetObjectAndQuantity(string sAccountReference = null)
         {
             Dictionary<K, int> tValueDico = new Dictionary<K, int>();
             if (Value != null && Value != "")
@@ -281,7 +281,7 @@ namespace NetWorkedData
                     {
                         int tQ = 0;
                         int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
                             tValueDico.Add(tObject, tQ);
@@ -319,7 +319,21 @@ namespace NetWorkedData
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] EditorGetObjects()
+        {
+            List<K> rReturn = new List<K>();
+            foreach (string tReference in GetReferences())
+            {
+                K tObj = NWDBasis<K>.InstanceByReference(tReference) as K;
+                if (tObj != null)
+                {
+                    rReturn.Add(tObj);
+                }
+            }
+            return rReturn.ToArray();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {

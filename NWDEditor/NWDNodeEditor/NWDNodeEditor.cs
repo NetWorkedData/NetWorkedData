@@ -50,7 +50,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
-
+            Debug.Log("NWDNodeEditor OnGUI");
             mScrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height),mScrollPosition,Document.Dimension());
             Document.Draw();
             GUI.EndScrollView();

@@ -20,6 +20,7 @@ namespace NetWorkedData
         public NWDTypeClass Data;
         public List<NWDNodeConnexion> ConnexionList = new List<NWDNodeConnexion>();
         public Vector2 Position;
+        public Vector2 CirclePosition;
         public Vector2 PositionTangent;
         public int Line=0;
         public int Column=0;
@@ -75,12 +76,14 @@ namespace NetWorkedData
                 {
                     bool tDataAllReadyShow = false;
                     NWDNodeCard tCard = null;
+                    NWDNodeConnexionLine tCardLine = new NWDNodeConnexionLine();
                     foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                     {
                         if (tOldCard.Data == tObject)
                         {
                             tDataAllReadyShow = true;
                             tCard = tOldCard;
+                            tCardLine.Style = NWDNodeConnexionType.OldCard;
                             break;
                         }
                     }
@@ -92,7 +95,8 @@ namespace NetWorkedData
                         tCard.Data = tObject;
                         rResult.Add(tCard);
                     }
-                    tNewConnexion.ChildrenList.Add(tCard);
+                    tCardLine.Child = tCard;
+                    tNewConnexion.ChildrenList.Add(tCardLine);
                 }
             }
             ParentDocument.PropertyCount(ConnexionList.Count);
@@ -138,16 +142,23 @@ namespace NetWorkedData
             {
                 NWDDataInspector.InspectNetWorkedData(Data, true, true);
             }
+            if (GUI.Button(new Rect(tX + tWidth - 48, tY + 4, 20, 20), "jump"))
+            {
+                NWDDataInspector.InspectNetWorkedData(Data, true, true);
+                ParentDocument.SetData(Data);
+            }
 
-            Position = new Vector2(tX + 2, tY + 2);
-            PositionTangent = new Vector2(Position.x - ParentDocument.Margin, Position.y);
+            Position = new Vector2(tX, tY);
+            CirclePosition = new Vector2(tX + 10, tY + 10);
+            PositionTangent = new Vector2(Position.x+10 - ParentDocument.Margin, Position.y);
             int tPropertyCounter = 0;
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
                 //Debug.Log("NWDNodeCard DrawCard() draw connexion");
-                GUI.Box(new Rect(tX +2, tY+ParentDocument.HeightInformations + ParentDocument.HeightProperty*tPropertyCounter-2, tWidth-4, ParentDocument.HeightProperty-2),
+                GUI.Box(new Rect(tX +2, tY+ParentDocument.HeightInformations+1 + ParentDocument.HeightProperty*tPropertyCounter-2, tWidth-4, ParentDocument.HeightProperty-2),
                         tConnexion.PropertyName);
-                tConnexion.Position = new Vector2(tX - 4 + tWidth, tY + ParentDocument.HeightInformations + ParentDocument.HeightProperty * (tPropertyCounter + 0.5F));
+                tConnexion.Position = new Vector2(tX - 10 + tWidth, tY + ParentDocument.HeightInformations + ParentDocument.HeightProperty * (tPropertyCounter + 0.5F));
+                tConnexion.CirclePosition = new Vector2(tConnexion.Position.x, tConnexion.Position.y);
                 tConnexion.PositionTangent = new Vector2(tConnexion.Position.x+ParentDocument.Margin, tConnexion.Position.y);
                 tPropertyCounter++;
             }
@@ -155,18 +166,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawPlot()
         {
-            //            Debug.Log("NWDNodeCard DrawPlot()");
-            // Draw my plot
-
-            //float tWidth = ParentDocument.Width;
-            //float tHeight = ParentDocument.Height;
-            //float tMargin = ParentDocument.Margin;
-            //float tX = tMargin + Column * (tWidth + tMargin);
-            //float tY = tMargin + Line * (tHeight + tMargin);
+            //Debug.Log("NWDNodeCard DrawPlot()");
             Handles.color = Color.black;
-            Handles.DrawSolidDisc(Position,Vector3.forward,10.0f);
+            Handles.DrawSolidDisc(CirclePosition,Vector3.forward,8.0f);
             Handles.color = Color.gray;
-            Handles.DrawSolidDisc(Position, Vector3.forward, 8.0f);
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, 6.0f);
             // Draw plot of my connexions 
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {

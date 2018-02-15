@@ -78,8 +78,12 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccount> PublisherReference
         {
             get; set;
-        } 
+        }
         public string PublisherNickname
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDUserNickname> PublisherNicknameReference
         {
             get; set;
         }
@@ -113,6 +117,10 @@ namespace NetWorkedData
             get; set;
         }
         public string ReaderNickname
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDUserNickname> ReaderNicknameReference
         {
             get; set;
         }
@@ -240,7 +248,7 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void SynchronizeForceSlaveDatas (
+        static public void SynchronizeForceSlaveDatas(
                                                                        BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
@@ -384,13 +392,13 @@ namespace NetWorkedData
 
             float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
 
-//            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Add object", tMiniButtonStyle))
-//            {
-//                BTBConsole.Clean();
-//                new NWDRelationship();
-//#if UNITY_EDITOR
-//                NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
-//#endif
+            //            if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Add object", tMiniButtonStyle))
+            //            {
+            //                BTBConsole.Clean();
+            //                new NWDRelationship();
+            //#if UNITY_EDITOR
+            //                NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+            //#endif
             //}
             //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
@@ -398,8 +406,8 @@ namespace NetWorkedData
             {
 
                 BTBConsole.Clear();
-                    
-             List<Type> tListClasses = new List<Type>();
+
+                List<Type> tListClasses = new List<Type>();
                 tListClasses.Add(typeof(NWDUserInfos));
                 tListClasses.Add(typeof(NWDOwnership));
                 List<string> tList = new List<string>();
@@ -416,7 +424,7 @@ namespace NetWorkedData
                     }
                 }
                 this.PublisherReference.SetReference(NWDAccount.GetCurrentAccountReference());
-               // this.MasterReference.SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
+                // this.MasterReference.SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
                 this.ReaderReference.SetObject(null);
                 this.PublisherClassesShared = string.Join(",", tList.ToArray());
                 this.ReaderClassesAccepted = string.Join(",", tList.ToArray());
@@ -435,7 +443,7 @@ namespace NetWorkedData
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
-            EditorGUI.BeginDisabledGroup(RelationState!= NWDRelationshipPinState.None);
+            EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.None);
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Ask pincode", tMiniButtonStyle))
             {
 
@@ -457,12 +465,12 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
 
 
-            
+
             EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Waiting);
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "auto send the pincode to me ", tMiniButtonStyle))
             {
                 BTBConsole.Clear();
-                EnterPinToServer("DevUserForTest",PinCode);
+                EnterPinToServer("DevUserForTest", PinCode);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
@@ -600,8 +608,8 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    PublisherClassesShared = "," +PublisherClassesShared +",";
-                    PublisherClassesShared = PublisherClassesShared.Replace(","+tClassName+",", ",");
+                    PublisherClassesShared = "," + PublisherClassesShared + ",";
+                    PublisherClassesShared = PublisherClassesShared.Replace("," + tClassName + ",", ",");
                     PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
                     // save modifications
                     SaveModificationsIfModified();
@@ -648,9 +656,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-#region WebServices
+        #region WebServices
         //-------------------------------------------------------------------------------------------------------------
-        public void AskPinCodeFromServer(string sNickname="no nickname", int sSeconds = 60,
+        public void AskPinCodeFromServer(string sNickname = "no nickname", int sSeconds = 60,
                                          int sPinSize = 6,
 
                                                                        BTBOperationBlock sSuccessBlock = null,
@@ -667,13 +675,13 @@ namespace NetWorkedData
             sOperation.Action = "CreatePinCode";
             sOperation.PinSize = sPinSize;
             sOperation.PinDelay = sSeconds;
-            sOperation.Nickname= sNickname;
+            sOperation.Nickname = sNickname;
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AskWaitingFromServer(
-            //float sTimer, float sDateTimeMarge = 10.0F, // sTimer repeat every x seconds ..... sDateTimeMarge is marge about sDateTimeMax to cancel
+                                         //float sTimer, float sDateTimeMarge = 10.0F, // sTimer repeat every x seconds ..... sDateTimeMarge is marge about sDateTimeMax to cancel
                                          BTBOperationBlock sSuccessBlock = null,
                                                                        BTBOperationBlock sErrorBlock = null,
                                                                        BTBOperationBlock sCancelBlock = null,
@@ -775,7 +783,7 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                          NWDAppEnvironment sEnvironment = null)
         {
-           // TODO
+            // TODO
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByPublisher", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "ChangeClassByPublisher";
             sOperation.Classes = PublisherClassesShared;
@@ -798,7 +806,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
         public bool YouArePublisher()
         {
@@ -825,9 +833,9 @@ namespace NetWorkedData
             List<NWDRelationship> rList = new List<NWDRelationship>();
             foreach (NWDRelationship tObject in GetAllObjects())
             {
-                if (tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference() 
-                    && tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference() 
-                    && tObject!=this)
+                if (tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference()
+                    && tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference()
+                    && tObject != this)
                 {
                     rList.Add(tObject);
                 }
@@ -935,7 +943,7 @@ namespace NetWorkedData
             return GetObjectsByInternalKeys(sInternalKeys, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

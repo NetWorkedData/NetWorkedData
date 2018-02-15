@@ -67,14 +67,14 @@ namespace NetWorkedData
 			return Value.Contains (sObject.Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public K GetObject ()
+        public K GetObject (string sAccountReference = null)
 		{
-			return NWDBasis <K>.GetObjectByReference (Value) as K;
+            return NWDBasis <K>.GetObjectByReference (Value,sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects()
+        public K[] GetObjects(string sAccountReference = null)
         {
-            return new K[] { NWDBasis<K>.GetObjectByReference(Value) as K };
+            return new K[] { NWDBasis<K>.GetObjectByReference(Value,sAccountReference) as K };
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)
@@ -96,7 +96,12 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] EditorGetObjects()
+        {
+            return new K[] { NWDBasis<K>.InstanceByReference(Value) as K };
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{

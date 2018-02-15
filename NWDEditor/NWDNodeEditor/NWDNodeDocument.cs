@@ -78,7 +78,8 @@ namespace NetWorkedData
             int rResult = 0;
             if (LineListMax.ContainsKey(sCard.Column))
             {
-                rResult = LineListMax[sCard.Column]++;
+                LineListMax[sCard.Column]++;
+                rResult = LineListMax[sCard.Column];
             }
             else
             {

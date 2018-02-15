@@ -62,14 +62,18 @@ namespace NetWorkedData
                                 || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
                                 || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
                             {
-                                var tMethodInfo = tTypeOfThis.GetMethod("GetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                                 if (tMethodInfo != null)
                                 {
-                                    object[] tObjects = tMethodInfo.Invoke(tProp.GetValue(this, null), null) as object[];
-                                    List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects);
-                                    foreach (NWDNodeCard tNewCard in tNewCards)
+                                    var tVar = tProp.GetValue(this, null);
+                                    if (tVar != null)
                                     {
-                                        tNewCard.Analyze(sCard.ParentDocument);
+                                        object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
+                                        List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects);
+                                        foreach (NWDNodeCard tNewCard in tNewCards)
+                                        {
+                                            tNewCard.Analyze(sCard.ParentDocument);
+                                        }
                                     }
                                 }
                             }

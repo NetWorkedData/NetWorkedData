@@ -97,12 +97,12 @@ namespace NetWorkedData
 			return Value.Contains (sObject.Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public K[] GetObjects ()
+        public K[] GetObjects (string sAccountReference = null)
 		{
 			List<K> tList = new List<K>();
 			string [] tArray = GetReferences ();
 			foreach (string tRef in tArray) {
-				K tObject = NWDBasis<K>.GetObjectByReference (tRef) as K;
+                K tObject = NWDBasis<K>.GetObjectByReference (tRef, sAccountReference) as K;
 				if (tObject != null) {
 					tList.Add (tObject);
 				}
@@ -110,12 +110,12 @@ namespace NetWorkedData
 			return tList.ToArray ();
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsList()
+        public List<K> GetObjectsList(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray) {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef) as K;
+                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
                 if (tObject != null) {
                     tList.Add(tObject);
                 }
@@ -158,6 +158,20 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] EditorGetObjects()
+        {
+            List<K> rReturn = new List<K>();
+            foreach (string tReference in GetReferences())
+            {
+                K tObj = NWDBasis<K>.InstanceByReference(tReference) as K;
+                if (tObj != null)
+                {
+                    rReturn.Add(tObj);
+                }
+            }
+            return rReturn.ToArray();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public List<string> ReferenceInError( List<string> sReferencesList) {
 			List<string> rReturn = new List<string> ();
