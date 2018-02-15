@@ -154,6 +154,9 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public delegate void SyncRemoveBlock(bool error, NWDOperationResult result = null);
+        public SyncRemoveBlock SyncRemoveBlockDelegate;
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
@@ -308,9 +311,36 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod()
+        /// <summary>
+        /// remove a  Relationship and synchronize to server
+        /// </summary>
+        public void RemoveRelationship()
         {
-            // do something with this object
+            // Trash relationship
+            TrashMe();
+
+            // Sync with the server
+            List<Type> tList = new List<Type>
+            {
+                typeof(NWDRelationship)
+            };
+
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (SyncRemoveBlockDelegate != null)
+                {
+                    SyncRemoveBlockDelegate(false);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                NWDOperationResult tInfos = bInfos as NWDOperationResult;
+                if (SyncRemoveBlockDelegate != null)
+                {
+                    SyncRemoveBlockDelegate(true, tInfos);
+                }
+            };
+            NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         #region override of NetWorkedData addons methods
@@ -318,41 +348,6 @@ namespace NetWorkedData
         public override void AddonInsertMe()
         {
             // do something when object will be inserted
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

@@ -139,12 +139,14 @@ namespace NetWorkedData
         public void BuyPack(NWDRack sRack, NWDPack sPack, NWDTransaction.TransactionType sType)
         {
             // Sync with the server
-            List<Type> tList = new List<Type>();
-            tList.Add(typeof(NWDOwnership));
-            tList.Add(typeof(NWDItem));
-            tList.Add(typeof(NWDItemPack));
-            tList.Add(typeof(NWDPack));
-            tList.Add(typeof(NWDTransaction));
+            List<Type> tList = new List<Type>
+            {
+                typeof(NWDOwnership),
+                typeof(NWDItem),
+                typeof(NWDItemPack),
+                typeof(NWDPack),
+                typeof(NWDTransaction)
+            };
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
