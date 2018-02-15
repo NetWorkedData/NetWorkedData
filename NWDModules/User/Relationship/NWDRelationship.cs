@@ -392,7 +392,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "reset", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                     
              List<Type> tListClasses = new List<Type>();
                 tListClasses.Add(typeof(NWDUserInfos));
@@ -434,7 +434,7 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Ask pincode", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 DateTime tDateTime = DateTime.Now;
                 tDateTime.AddMinutes(1.5F);
                 this.AskPinCodeFromServer("Dev user test");
@@ -456,7 +456,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Waiting);
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "auto send the pincode to me ", tMiniButtonStyle))
             {
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 EnterPinToServer("DevUserForTest",PinCode);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -466,21 +466,21 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Accept Friends", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 this.AcceptRelation(false);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Accept Friends bilateral", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 this.AcceptRelation(true);
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Refuse Friends", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 this.RefuseRelation();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -491,14 +491,14 @@ namespace NetWorkedData
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Sync", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 SynchronizeSlaveDatas();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Sync Force", tMiniButtonStyle))
             {
 
-                BTBConsole.Clean();
+                BTBConsole.Clear();
                 SynchronizeForceSlaveDatas();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;

@@ -209,7 +209,7 @@
                     }
                     }
                 }
-                $action = 'Sync';
+                //$action = 'Sync';
             }
         if ($action == 'Waiting')
             {
@@ -219,7 +219,7 @@
             // if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
             //     {
             //     }
-            $action = 'Sync';
+            //$action = 'Sync';
             }
         if ($action == 'RefuseFriend')
             {
@@ -229,8 +229,8 @@
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
                     $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'5\' ';
-                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.time().'\ ';
+                    $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' ';//AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -244,7 +244,7 @@
                         IntegrityNWDRelationshipReevalue ($reference);
                         }
                 }
-                $action = 'Sync';
+                //$action = 'Sync';
             }
         if ($action == 'AcceptFriend')
             {
@@ -381,7 +381,7 @@
 
                     }
                 }
-                $action = 'Sync';
+                //$action = 'Sync';
             }
         if ($action == 'BannedFriend')
             {
@@ -406,7 +406,7 @@
                         IntegrityNWDRelationshipReevalue ($reference);
                     }
                 }
-                $action = 'Sync';
+                //$action = 'Sync';
             }
         if ($action == 'ChangeClassByMaster')
             {
@@ -418,7 +418,7 @@
                 
                     IntegrityNWDRelationshipReevalue ($reference);
                 }
-                $action = 'Sync';
+                //$action = 'Sync';
             }
         if ($action == 'ChangeClassBySlave')
             {
@@ -430,7 +430,7 @@
                 
                     IntegrityNWDRelationshipReevalue ($reference);
                 }
-                $action = 'Sync';
+                //$action = 'Sync';
             }
         if ($action == 'EnterPinCode')
             {
@@ -584,6 +584,8 @@
                         $tArrayClasse = array_intersect($tArrayClassesMaster, $tArrayClassesSlave );
                         foreach ($tArrayClasse as $sClass)
                         {
+                            if ($sClass!='')
+                            {
                             include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/'.$sClass.'/synchronization.php');
                             $tFunction = 'GetDatas'.$sClass;
                             if ($tForce==true)
@@ -596,6 +598,7 @@
                                     myLog('get objects '.$sClass.' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
                                     $tFunction($dico['NWDRelationship']['sync'], $tRow ['PublisherReference']);
                                 }
+                            }
                         }
                         }
                     else
