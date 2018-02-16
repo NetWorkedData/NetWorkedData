@@ -34,6 +34,8 @@ namespace NetWorkedData
 
         private float InformationsHeight;
 
+        public bool ForceOrthoCards = false;
+
         //-------------------------------------------------------------------------------------------------------------
         public Rect Dimension()
         {
@@ -45,6 +47,13 @@ namespace NetWorkedData
             Height = NWDConstants.kFieldMarge + (HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (HeightProperty + NWDConstants.kFieldMarge)  * PropertyMax;
             foreach (NWDNodeCard tCard in AllCards)
             {
+                tCard.ReEvaluateHeightWidth();
+                // Force OrthoCard
+                if (ForceOrthoCards == true)
+                {
+                    tCard.Height = Height;
+                    tCard.Width = Width;
+                }
                 tCard.ReEvaluateLayout();
             }
         }

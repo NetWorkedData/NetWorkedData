@@ -25,7 +25,25 @@ namespace NetWorkedData
         public int Line=0;
         public int Column=0;
         public NWDNodeDocument ParentDocument;
+        //-------------------------------------------------------------------------------------------------------------
+        float tX;
+        float tY;
+        float Margin;
+        public float Width;
+        public float Height;
         public float InformationsHeight;
+        string Infos = "";
+        string InfosCard = "";
+        string InfosCardCustom;
+        Rect CardRect;
+        Rect CardTypeRect;
+        Rect CardReferenceRect;
+        Rect CardInternalKeyRect;
+        Rect InfoRect;
+        Rect InfoUsableRect;
+        public string TypeString;
+        public string ReferenceString;
+        public string InternalKeyString;
         //public string Informations;
         //-------------------------------------------------------------------------------------------------------------
         public void Analyze (NWDNodeDocument sDocument)
@@ -112,44 +130,28 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        string tInfos = "";
-        string tInfosCard = "";
-        string tInfosCardCustom;
-        float tWidth;
-        float tHeight;
-        float tMargin;
-        float tX;
-        float tY;
-        Rect CardRect;
-        Rect CardTypeRect;
-        Rect CardReferenceRect;
-        Rect CardInternalKeyRect;
-        Rect InfoRect;
-        Rect InfoUsableRect;
-        public string TypeString;
-        public string ReferenceString;
-        public string InternalKeyString;
+        public void ReEvaluateHeightWidth()
+        {
+            Margin = ParentDocument.Margin;
+            tX = Margin + Column * (ParentDocument.GetWidth() + Margin);
+            tY = Margin + Line * (ParentDocument.Height + Margin);
+            Height = NWDConstants.kFieldMarge + (ParentDocument.HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (ParentDocument.HeightProperty + NWDConstants.kFieldMarge) * ConnexionList.Count;  
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
         {
-            tInfos = "";//Data.GetType().AssemblyQualifiedName;
-            tInfosCard = " " + Column + " x " + Line + "\n";
-            tInfosCardCustom = "";
+            Infos = "";//Data.GetType().AssemblyQualifiedName;
+            InfosCard = " " + Column + " x " + Line + "\n";
+            InfosCardCustom = "";
 
-            tWidth = ParentDocument.GetWidth();
-            tHeight = ParentDocument.Height;
-            tMargin = ParentDocument.Margin;
-            tX = tMargin + Column * (tWidth + tMargin);
-            tY = tMargin + Line * (tHeight + tMargin);
-
-            CardRect = new Rect(tX, tY, tWidth, tHeight);
+            CardRect = new Rect(tX, tY, Width, Height);
 
 
-            CardTypeRect = new Rect(tX+NWDConstants.kFieldMarge, tY+NWDConstants.kFieldMarge, tWidth-NWDConstants.kEditWidth*2 - NWDConstants.kFieldMarge*4, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX+NWDConstants.kFieldMarge, tY+ParentDocument.HeightLabel+ NWDConstants.kFieldMarge*2, tWidth - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX+NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel*2 + NWDConstants.kFieldMarge * 3, tWidth - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardTypeRect = new Rect(tX+NWDConstants.kFieldMarge, tY+NWDConstants.kFieldMarge, Width-NWDConstants.kEditWidth*2 - NWDConstants.kFieldMarge*4, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX+NWDConstants.kFieldMarge, tY+ParentDocument.HeightLabel+ NWDConstants.kFieldMarge*2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX+NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel*2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
 
-            InfoRect = new Rect(tX+ NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, tWidth-+NWDConstants.kFieldMarge*2, ParentDocument.GetInformationsHeight());
+            InfoRect = new Rect(tX+ NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, Width-+NWDConstants.kFieldMarge*2, InformationsHeight);
             InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge*2, InfoRect.height - NWDConstants.kFieldMarge*2);
                 
             Position = new Vector2(tX, tY);
@@ -161,16 +163,16 @@ namespace NetWorkedData
             {
                 //Debug.Log("NWDNodeCard DrawCard() draw connexion");
                 tConnexion.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
-                                                tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + ParentDocument.GetInformationsHeight() + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                tWidth - NWDConstants.kFieldMarge*2, 
+                                                tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + InformationsHeight + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
+                                                Width - NWDConstants.kFieldMarge*2, 
                                                 ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnexion.PropertyName);
-                tConnexion.Position = new Vector2(tX + tWidth - NWDConstants.kFieldMarge,
+                tConnexion.Position = new Vector2(tX + Width - NWDConstants.kFieldMarge,
                                                   tConnexion.Rectangle.y + ParentDocument.HeightProperty/2.0F);
 
 
-                tConnexion.CirclePosition = new Vector2(tX + tWidth - NWDConstants.kFieldMarge,
+                tConnexion.CirclePosition = new Vector2(tX + Width - NWDConstants.kFieldMarge,
                                                   tConnexion.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
                 tConnexion.PositionTangent = new Vector2(tConnexion.CirclePosition.x + ParentDocument.Margin, tConnexion.CirclePosition.y);
                 tPropertyCounter++;
@@ -194,13 +196,13 @@ namespace NetWorkedData
             GUI.Box(InfoRect, " ", EditorStyles.helpBox);
             // add button to edit data
             GUIContent tButtonContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-            if (GUI.Button(new Rect(tX + tWidth - NWDConstants.kEditWidth-NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
+            if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth-NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
             {
                 NWDDataInspector.InspectNetWorkedData(Data, true, true);
             }
             // add button to center node on this data
             GUIContent tNodeContent = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
-            if (GUI.Button(new Rect(tX + tWidth - NWDConstants.kEditWidth*2 - NWDConstants.kFieldMarge*2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
+            if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth*2 - NWDConstants.kFieldMarge*2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
             {
                 NWDDataInspector.InspectNetWorkedData(Data, true, true);
                 ParentDocument.SetData(Data);

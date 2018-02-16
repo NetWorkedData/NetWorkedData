@@ -40,7 +40,10 @@ namespace NetWorkedData
             sCard.TypeString = ClassNamePHP();
             sCard.InternalKeyString = InternalKey;
             sCard.InformationsHeight = AddOnNodeDrawHeight();
+            sCard.InformationsHeight = AddOnNodeDrawHeight();
             sCard.ParentDocument.SetInformationsHeight(sCard.InformationsHeight);
+
+            sCard.Width = AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth());
             sCard.ParentDocument.SetWidth(AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth()));
             // data must be analyzed
             // data is in a preview card?
@@ -96,8 +99,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawWidth(float sDocumentWidth)
         {
-            //return 400.0f;
-            return sDocumentWidth;
+            return 250.0f;
+            //return sDocumentWidth;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddOnNodeDrawHeight()

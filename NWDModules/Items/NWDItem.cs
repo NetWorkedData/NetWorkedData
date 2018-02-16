@@ -255,7 +255,22 @@ namespace NetWorkedData
 			// Height calculate for the interface addon for editor
 			float tYadd = 0.0f;
 			return tYadd;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        {
+            return 200.0f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawHeight()
+        {
+            return 50.0f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodeDraw(Rect sRect)
+        {
+            GUI.Label(sRect, InternalDescription);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
