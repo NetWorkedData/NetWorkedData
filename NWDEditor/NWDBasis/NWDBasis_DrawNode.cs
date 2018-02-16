@@ -35,6 +35,23 @@ namespace NetWorkedData
         public void NodeCardAnalyze(NWDNodeCard sCard)
         {
             Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
+
+            sCard.ReferenceString = Reference;
+            sCard.TypeString = ClassNamePHP();
+            sCard.InternalKeyString = InternalKey;
+
+            //    var tMethodInfo = tType.GetMethod("NodeDescription", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodInfo != null)
+            //{
+            //    sCard.tInfosCard += tMethodInfo.Invoke(Data, null);
+            //}
+            //var tMethodDescription = tType.GetMethod("AddOnNodeDescription", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodDescription != null)
+            //{
+            //    tInfosCardCustom += tMethodDescription.Invoke(Data, null);
+            //}
+
+
             bool tDataAllReadyShow = false;
             foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCards)
             {
@@ -167,52 +184,52 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawNodeInformation(Vector2 sStart)
-        {
-            Debug.Log("NWDBasis<K> DrawNodeInformation()");
-            GUI.Label(new Rect(sStart.x, sStart.y, 100, 100), ClassNamePHP());
-            GUI.Label(new Rect(sStart.x, sStart.y+10, 100, 100), Reference);
-            GUI.Label(new Rect(sStart.x, sStart.y + 20, 100, 100), InternalKey);
-            GUI.Label(new Rect(sStart.x, sStart.y + 30, 100, 100), InternalDescription);
+        //public void DrawNodeInformation(Vector2 sStart)
+        //{
+        //    Debug.Log("NWDBasis<K> DrawNodeInformation()");
+        //    GUI.Label(new Rect(sStart.x, sStart.y, 100, 100), ClassNamePHP());
+        //    GUI.Label(new Rect(sStart.x, sStart.y+10, 100, 100), Reference);
+        //    GUI.Label(new Rect(sStart.x, sStart.y + 20, 100, 100), InternalKey);
+        //    GUI.Label(new Rect(sStart.x, sStart.y + 30, 100, 100), InternalDescription);
 
-            //GUI.Label(new Rect(sStart.x, sStart.y+30, 200, 200), "Level = " + tLevels.Count.ToString("0000"));
-            //GUI.Label(new Rect(sStart.x, sStart.y+40, 200, 200), "connexion = " + tReturnObjects.Count.ToString("0000"));
-        }
+        //    //GUI.Label(new Rect(sStart.x, sStart.y+30, 200, 200), "Level = " + tLevels.Count.ToString("0000"));
+        //    //GUI.Label(new Rect(sStart.x, sStart.y+40, 200, 200), "connexion = " + tReturnObjects.Count.ToString("0000"));
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawNode()
-        {
-            Debug.Log("NWDBasis<K> DrawNode()");
-            //Dictionary<object, Rect> kObjectsAndRect = new Dictionary<object, Rect>();
-            //Dictionary<object, int> kObjectsAndLevel = new Dictionary<object, int>();
-            //List<object> kObjects = new List<object>();
-            Dictionary<int, List<object>> tLevels = new Dictionary<int, List<object>>();
-            List<object> tReturnObjects = new List<object>();
+        //public void DrawNode()
+        //{
+        //    Debug.Log("NWDBasis<K> DrawNode()");
+        //    //Dictionary<object, Rect> kObjectsAndRect = new Dictionary<object, Rect>();
+        //    //Dictionary<object, int> kObjectsAndLevel = new Dictionary<object, int>();
+        //    //List<object> kObjects = new List<object>();
+        //    Dictionary<int, List<object>> tLevels = new Dictionary<int, List<object>>();
+        //    List<object> tReturnObjects = new List<object>();
 
-            List<object> tInitial = new List<object>();
-            tInitial.Add(this);
-            tLevels.Add(0,tInitial);
+        //    List<object> tInitial = new List<object>();
+        //    tInitial.Add(this);
+        //    tLevels.Add(0,tInitial);
 
-            //GetAllDependByLevel(1, tLevels, tReturnObjects);
-            //float tWidth = 150.0F;
-            //float tHeight = 150.0F;
-            //foreach (KeyValuePair<int, List<object>> tEntry in tLevels)
-            //{
-            //    int tX = tEntry.Key+1;
-            //    int tY = 1;
-            //    foreach (object tObject in tEntry.Value)
-            //    {
-            //        tY++;
-            //        Type tTypeOfThis = tObject.GetType();
-            //        var tMethodInfo = tTypeOfThis.GetMethod("DrawNodeInformation", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            //        if (tMethodInfo != null)
-            //        {
-            //            float tXa = tX * tWidth;
-            //            float tYa = tY * tHeight;
-            //            tMethodInfo.Invoke(tObject, new object[] { new Vector2(tXa,tYa) });
-            //        }
-            //    }
-            //}
-        }
+        //    //GetAllDependByLevel(1, tLevels, tReturnObjects);
+        //    //float tWidth = 150.0F;
+        //    //float tHeight = 150.0F;
+        //    //foreach (KeyValuePair<int, List<object>> tEntry in tLevels)
+        //    //{
+        //    //    int tX = tEntry.Key+1;
+        //    //    int tY = 1;
+        //    //    foreach (object tObject in tEntry.Value)
+        //    //    {
+        //    //        tY++;
+        //    //        Type tTypeOfThis = tObject.GetType();
+        //    //        var tMethodInfo = tTypeOfThis.GetMethod("DrawNodeInformation", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+        //    //        if (tMethodInfo != null)
+        //    //        {
+        //    //            float tXa = tX * tWidth;
+        //    //            float tYa = tY * tHeight;
+        //    //            tMethodInfo.Invoke(tObject, new object[] { new Vector2(tXa,tYa) });
+        //    //        }
+        //    //    }
+        //    //}
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------

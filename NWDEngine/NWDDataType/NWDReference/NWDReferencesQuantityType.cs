@@ -319,7 +319,7 @@ namespace NetWorkedData
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public K[] EditorGetObjects()
         {
@@ -329,7 +329,10 @@ namespace NetWorkedData
                 K tObj = NWDBasis<K>.InstanceByReference(tReference) as K;
                 if (tObj != null)
                 {
-                    rReturn.Add(tObj);
+                    if (rReturn.Contains(tObj) == false)
+                    {
+                        rReturn.Add(tObj);
+                    }
                 }
             }
             return rReturn.ToArray();
@@ -380,13 +383,14 @@ namespace NetWorkedData
                     //tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
                     tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
-			// test if error in reference and add button height
-			if (Value != null && Value != "") 
-			{
-				if (ReferenceInError (new List<string> (Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0) {
-					tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-				}
-			}
+            // test if error in reference and add button height
+            if (Value != null && Value != "")
+            {
+                if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
+                {
+                    tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                }
+            }
 
             return tHeight;
         }
@@ -483,11 +487,11 @@ namespace NetWorkedData
 
                 if (tIndex > 0)
                 {
-                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth -NWDConstants.kFieldMarge*2, tY, tIntWidth + NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tQ);
+                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge * 2, tY, tIntWidth + NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tQ);
 
                     //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
                     GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tDeleteContent,NWDConstants.StyleMiniButton))
+                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tDeleteContent, NWDConstants.StyleMiniButton))
                     {
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(tIndex)), false);
                     }

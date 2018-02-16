@@ -125,15 +125,15 @@ namespace NetWorkedData
         public void Draw()
         {
             DrawCard();
-            DrawLine();
-            DrawPlot();
+            DrawBackgroundPlot();
+            DrawForwardPlot();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawLine()
+        public void DrawBackgroundPlot()
         {
             foreach (NWDNodeCard tCard in AllCards)
             {
-                tCard.DrawLine();
+                tCard.DrawBackgroundPlot();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -145,11 +145,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawPlot()
+        public void DrawForwardPlot()
         {
             foreach (NWDNodeCard tCard in AllCards)
             {
-                tCard.DrawPlot();
+                tCard.DrawForwardPlot();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

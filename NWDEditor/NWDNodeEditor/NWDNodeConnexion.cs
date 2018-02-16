@@ -37,11 +37,17 @@ namespace NetWorkedData
         public Vector2 Position;
         public Vector2 CirclePosition;
         public Vector2 PositionTangent;
+        public Rect Rectangle;
         //public bool ConnexionToPreviewCard = false;
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawLine()
+        public void DrawBackgroundPlot()
         {
             //Debug.Log("NWDNodeConnexion DrawLine()");
+            if (ChildrenList.Count > 0)
+            {
+                Handles.color = Color.black;
+                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, 7.0f);
+            }
             foreach (NWDNodeConnexionLine tCardLine in ChildrenList)
             {
                 NWDNodeCard tCard = tCardLine.Child;
@@ -53,7 +59,7 @@ namespace NetWorkedData
                             {
                                 //Handles.color = Color.red;
                                 //Handles.DrawLine(Position, tCard.Position);
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 10.0f);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 6.0f);
                             }
                             break;
                         case NWDNodeConnexionType.Broken:
@@ -64,7 +70,7 @@ namespace NetWorkedData
                             break;
                         case NWDNodeConnexionType.OldCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 10.0f);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 6.0f);
                             }
                             break;
                         case NWDNodeConnexionType.None:
@@ -76,13 +82,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawPlot()
+        public void DrawForwardPlot()
         {
             // Debug.Log("NWDNodeConnexion DrawPlot()");
             if (ChildrenList.Count > 0)
             {
-                Handles.color = Color.black;
-                Handles.DrawSolidDisc(CirclePosition, Vector3.forward, 7.0f);
                 Handles.color = Color.gray;
                 Handles.DrawSolidDisc(CirclePosition, Vector3.forward, 5.0f);
             }
@@ -96,7 +100,7 @@ namespace NetWorkedData
                     {
                         case NWDNodeConnexionType.Valid:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 4.0f);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.gray, null, 2.0f);
                             }
                             break;
                         case NWDNodeConnexionType.Broken:

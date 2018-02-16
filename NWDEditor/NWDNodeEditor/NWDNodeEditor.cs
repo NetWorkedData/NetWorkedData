@@ -51,6 +51,7 @@ namespace NetWorkedData
 		}
         //-------------------------------------------------------------------------------------------------------------
         public static Vector2 mScrollPosition = Vector2.zero;
+        Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Raises the OnGUI event. Create the interface to enter a new class.
@@ -58,9 +59,41 @@ namespace NetWorkedData
 		public void OnGUI ()
 		{
             Debug.Log("NWDNodeEditor OnGUI");
-            mScrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height),mScrollPosition,Document.Dimension());
+            Rect scrollViewRect = new Rect(0, 0, position.width, position.height);
+
+            mScrollPosition = GUI.BeginScrollView(scrollViewRect,mScrollPosition,Document.Dimension());
             Document.Draw();
             GUI.EndScrollView();
+
+
+            // Check if the mouse is above our scrollview.
+            if (scrollViewRect.Contains(Event.current.mousePosition))
+            {
+                //Debug.Log("NWDNodeEditor event in rect");
+                // Only move if we are hold down mouse button, and the mouse is moving.
+                if (Event.current.type == EventType.MouseDrag)
+                {
+                    //Debug.Log("NWDNodeEditor MouseDrag");
+                    // Current position
+                    Vector2 currPos = Event.current.mousePosition;
+
+                    // Only move if the distance between the last mouse position and the current is less than 50.
+                    // Without this it jumps during the drag.
+                    if (Vector2.Distance(currPos, mLastMousePosition) < 50)
+                    {
+                        // Calculate the delta x and y.
+                        float x = mLastMousePosition.x - currPos.x;
+                        float y = mLastMousePosition.y - currPos.y;
+
+                        // Add the delta moves to the scroll position.
+                        mScrollPosition.x += x;
+                        mScrollPosition.y += y;
+                        Event.current.Use();
+                    }
+                    // Set the last mouse position to the current mouse position.
+                    mLastMousePosition = currPos;
+                }
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
     }
