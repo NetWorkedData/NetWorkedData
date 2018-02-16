@@ -63,30 +63,45 @@ namespace NetWorkedData
                 sCard.ParentDocument.AllCards.Add(sCard);
                 // I analyze this card and its properties (only the reference properties)
                 Type tType = ClassType();
-                foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+
+
+                if (sCard.ParentDocument.AnalyzeTheseClasses[tType.Name] == true)
                 {
-                    Type tTypeOfThis = tProp.PropertyType;
-                    if (tTypeOfThis != null)
+                    foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                     {
-                        if (tTypeOfThis.IsGenericType)
+                        Type tTypeOfThis = tProp.PropertyType;
+                        if (tTypeOfThis != null)
                         {
-                            if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
-                                || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                                || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                                || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
+                            if (tTypeOfThis.IsGenericType)
                             {
-                                var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                                if (tMethodInfo != null)
+                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
                                 {
-                                    var tVar = tProp.GetValue(this, null);
-                                    if (tVar != null)
+
+                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
+                                    if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
                                     {
-                                        object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
-                                        List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects);
-                                        foreach (NWDNodeCard tNewCard in tNewCards)
+
+                                        var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                        if (tMethodInfo != null)
                                         {
-                                            tNewCard.Analyze(sCard.ParentDocument);
+                                            var tVar = tProp.GetValue(this, null);
+                                            if (tVar != null)
+                                            {
+                                                object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
+                                                List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects);
+                                                foreach (NWDNodeCard tNewCard in tNewCards)
+                                                {
+                                                    tNewCard.Analyze(sCard.ParentDocument);
+                                                }
+                                            }
                                         }
+                                    }
+                                    else
+                                    {
+                                        // don't analyze this classes NWDBasis ...
                                     }
                                 }
                             }

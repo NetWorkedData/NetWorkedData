@@ -68,21 +68,28 @@ namespace NetWorkedData
             Debug.Log("NWDNodeEditor UpdateNodeWindow");
             if (kNodeEditorSharedInstance != null)
             {
-                bool tNeedBeUpadte = false;
-                foreach (NWDNodeCard tCard in kNodeEditorSharedInstance.Document.AllCards)
-                {
-                    if (tCard.Data == sSelection)
-                    {
-                        tNeedBeUpadte =true;
-                    }
-                    break;
-                }
-                if (tNeedBeUpadte == true)
-                {
+                // error in equal analyze
+                //bool tNeedBeUpadte = false;
+                //foreach (NWDNodeCard tCard in kNodeEditorSharedInstance.Document.AllCards)
+                //{
+                //    if (tCard.Data == sSelection)
+                //    {
+                //        tNeedBeUpadte = true;
+                //    }
+                //    break;
+                //}
+                //if (tNeedBeUpadte == true)
+                //{
+                //    Debug.Log("NWDNodeEditor UpdateNodeWindow update in working");
+                //    kNodeEditorSharedInstance.Document.ReAnalyze();
+                //    kNodeEditorSharedInstance.Repaint();
+                //}
+
+
                     kNodeEditorSharedInstance.Document.ReAnalyze();
-                    kNodeEditorSharedInstance.Repaint();
-                }
+                kNodeEditorSharedInstance.Repaint();
             }
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetSelection(NWDTypeClass sSelection)

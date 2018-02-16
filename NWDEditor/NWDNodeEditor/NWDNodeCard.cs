@@ -182,15 +182,27 @@ namespace NetWorkedData
         public void DrawCard()
         {
             // Debug.Log("NWDNodeCard DrawCard()");
+
+                GUI.Box(CardRect, " ", EditorStyles.helpBox);
+
             /// if selected redraw twice or three time this card background
             if (NWDDataInspector.ObjectInEdition() == Data)
             {
-                EditorGUI.DrawRect(CardRect, Color.blue);
+                //var tTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
+                //tTexture.SetPixel(0, 0, new Color(1.0F, 1.0F, 1.0F, 0.5F));
+                //GUIStyle tStyle = new GUIStyle(EditorStyles.helpBox);
+                //tStyle.normal.background = tTexture;
+
+                Color tOldColor = GUI.backgroundColor;
+                GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
+                GUI.Box(CardRect, "", EditorStyles.helpBox);
+                GUI.backgroundColor = tOldColor;
             }
-
-            // draw background
-            GUI.Box(CardRect, " ", EditorStyles.helpBox);
-
+            //else
+            //{
+            //    // draw background
+            //    GUI.Box(CardRect, " ", EditorStyles.helpBox);
+            //}
 
             //EditorGUI.DrawRect(new Rect(CardRect.x + 1, CardRect.y + 1, CardRect.width-2, CardRect.height-2), Color.gray);
 

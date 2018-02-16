@@ -36,6 +36,66 @@ namespace NetWorkedData
 
         public bool ForceOrthoCards = false;
 
+        public Dictionary<string, bool> AnalyzeTheseClasses = new Dictionary<string, bool>();
+
+        public Dictionary<string, bool> ShowTheseClasses = new Dictionary<string, bool>();
+
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDNodeDocument()
+        {
+            // TODO AnalyzeTheseTypes compelet by default from Class analyze
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SavePreferences()
+        {
+            // TODO 
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void LoadPreferences()
+        {
+            // TODO 
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPreferences()
+        {
+            // TODO on gui
+            bool tChanged = false;
+
+            // to show
+            int tCounter = 0;
+            Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
+            foreach (KeyValuePair<string,bool> tKeyValue in tShowTheseClassesCopy)
+            {
+                // TODO on gui
+                tCounter++;
+                bool tNew = EditorGUI.ToggleLeft(new Rect(0, HeightProperty * tCounter, 200, HeightProperty), tKeyValue.Key, tKeyValue.Value);
+                if (ShowTheseClasses[tKeyValue.Key] != tNew)
+                {
+                    tChanged = true;
+                }
+                ShowTheseClasses[tKeyValue.Key] = tNew;
+            }
+
+            // to analyze...
+            tCounter = 0;
+            Dictionary<string, bool> tAnalyzeTheseClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
+            foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
+            {
+                // TODO on gui
+                tCounter++;
+                bool tNew= EditorGUI.ToggleLeft(new Rect(250, HeightProperty * tCounter, 200, HeightProperty), tKeyValue.Key, tKeyValue.Value);
+                if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
+                {
+                    tChanged = true;
+                }
+                AnalyzeTheseClasses[tKeyValue.Key] = tNew;
+            }
+            if (tChanged == true)
+            {
+                SavePreferences();
+                ReAnalyze();
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public Rect Dimension()
         {
@@ -124,8 +184,20 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetData(NWDTypeClass sObject)
+        public void SetData(NWDTypeClass sObject, bool tReset = true)
         {
+            if (tReset == true)
+            {
+                ShowTheseClasses = new Dictionary<string, bool>();
+                AnalyzeTheseClasses = new Dictionary<string, bool>();
+                foreach (Type tType in NWDDataManager.SharedInstance.mTypeList.ToArray())
+                {
+                    ShowTheseClasses.Add(tType.Name, true);
+                    AnalyzeTheseClasses.Add(tType.Name, true);
+                }
+                // TODO load preference 
+                LoadPreferences();
+            }
 
             AllCards = new List<NWDNodeCard>();
             PropertyMax = 0;
@@ -153,7 +225,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReAnalyze()
         {
-            SetData(OriginalData.Data);
+            SetData(OriginalData.Data, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Analyze()
@@ -176,6 +248,7 @@ namespace NetWorkedData
             DrawCard();
             DrawBackgroundPlot();
             DrawForwardPlot();
+            DrawPreferences();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawCanvas(Rect sViewRect)
