@@ -25,6 +25,8 @@ namespace NetWorkedData
         public int Line=0;
         public int Column=0;
         public NWDNodeDocument ParentDocument;
+        public float InformationsHeight;
+        //public string Informations;
         //-------------------------------------------------------------------------------------------------------------
         public void Analyze (NWDNodeDocument sDocument)
         {
@@ -122,6 +124,8 @@ namespace NetWorkedData
         Rect CardTypeRect;
         Rect CardReferenceRect;
         Rect CardInternalKeyRect;
+        Rect InfoRect;
+        Rect InfoUsableRect;
         public string TypeString;
         public string ReferenceString;
         public string InternalKeyString;
@@ -131,59 +135,44 @@ namespace NetWorkedData
             tInfos = "";//Data.GetType().AssemblyQualifiedName;
             tInfosCard = " " + Column + " x " + Line + "\n";
             tInfosCardCustom = "";
-            if (Data != null)
-            {
-                Type tType = Data.GetType();
-                //var tMethodType = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.FlattenHierarchy);
-                //if (tMethodType != null)
-                //{
-                //    TypeString = tMethodType.Invoke(null, null) as string;
-                //}
 
-                //var tMemberReference = tType.GetMember("Reference");
-                //if (tMethodReference != null)
-                //{
-                //    ReferenceString = tMethodType.Invoke(null, null) as string;
-                //}
-
-
-                //var tMethodInfo = tType.GetMethod("NodeDescription", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                //if (tMethodInfo != null)
-                //{
-                //    tInfosCard += tMethodInfo.Invoke(Data, null);
-                //}
-                //var tMethodDescription = tType.GetMethod("AddOnNodeDescription", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                //if (tMethodDescription != null)
-                //{
-                //    tInfosCardCustom += tMethodDescription.Invoke(Data, null);
-                //}
-            }
-            tWidth = ParentDocument.Width;
+            tWidth = ParentDocument.GetWidth();
             tHeight = ParentDocument.Height;
             tMargin = ParentDocument.Margin;
             tX = tMargin + Column * (tWidth + tMargin);
             tY = tMargin + Line * (tHeight + tMargin);
 
             CardRect = new Rect(tX, tY, tWidth, tHeight);
-            CardTypeRect = new Rect(tX, tY, tWidth+2, 18);
-            CardReferenceRect = new Rect(tX, tY+22, tWidth, 18);
-            CardInternalKeyRect = new Rect(tX, tY+42, tWidth, 18);
 
 
+            CardTypeRect = new Rect(tX+NWDConstants.kFieldMarge, tY+NWDConstants.kFieldMarge, tWidth-NWDConstants.kEditWidth*2 - NWDConstants.kFieldMarge*4, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX+NWDConstants.kFieldMarge, tY+ParentDocument.HeightLabel+ NWDConstants.kFieldMarge*2, tWidth - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX+NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel*2 + NWDConstants.kFieldMarge * 3, tWidth - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+
+            InfoRect = new Rect(tX+ NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, tWidth-+NWDConstants.kFieldMarge*2, ParentDocument.GetInformationsHeight());
+            InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge*2, InfoRect.height - NWDConstants.kFieldMarge*2);
+                
             Position = new Vector2(tX, tY);
-            CirclePosition = new Vector2(tX + 0, tY + 30);
-            PositionTangent = new Vector2(Position.x + 10 - ParentDocument.Margin, Position.y);
+            CirclePosition = new Vector2(tX + 0, tY + ParentDocument.HeightLabel*1.5F + NWDConstants.kFieldMarge  );
+            PositionTangent = new Vector2(CirclePosition.x - ParentDocument.Margin, CirclePosition.y);
 
             int tPropertyCounter = 0;
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
                 //Debug.Log("NWDNodeCard DrawCard() draw connexion");
-                tConnexion.Rectangle = new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2);
+                tConnexion.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
+                                                tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + ParentDocument.GetInformationsHeight() + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
+                                                tWidth - NWDConstants.kFieldMarge*2, 
+                                                ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnexion.PropertyName);
-                tConnexion.Position = new Vector2(tX - 10 + tWidth, tY + ParentDocument.HeightInformations + ParentDocument.HeightProperty * (tPropertyCounter + 0.5F));
-                tConnexion.CirclePosition = new Vector2(tConnexion.Position.x, tConnexion.Position.y);
-                tConnexion.PositionTangent = new Vector2(tConnexion.Position.x + ParentDocument.Margin, tConnexion.Position.y);
+                tConnexion.Position = new Vector2(tX + tWidth - NWDConstants.kFieldMarge,
+                                                  tConnexion.Rectangle.y + ParentDocument.HeightProperty/2.0F);
+
+
+                tConnexion.CirclePosition = new Vector2(tX + tWidth - NWDConstants.kFieldMarge,
+                                                  tConnexion.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
+                tConnexion.PositionTangent = new Vector2(tConnexion.CirclePosition.x + ParentDocument.Margin, tConnexion.CirclePosition.y);
                 tPropertyCounter++;
             }
         }
@@ -191,35 +180,42 @@ namespace NetWorkedData
         public void DrawCard()
         {
             // Debug.Log("NWDNodeCard DrawCard()");
-            GUI.Box(CardRect,TypeString, EditorStyles.helpBox);
+            GUI.Box(CardRect, " ", EditorStyles.helpBox);
 
             //EditorGUI.DrawRect(CardRect, Color.black);
             //EditorGUI.DrawRect(new Rect(CardRect.x + 1, CardRect.y + 1, CardRect.width-2, CardRect.height-2), Color.gray);
 
-            GUI.Label(CardTypeRect, TypeString);
+            GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
             GUI.Label(CardReferenceRect, ReferenceString);
             GUI.Label(CardInternalKeyRect, InternalKeyString);
 
-            if (GUI.Button(new Rect(tX + tWidth - 24, tY + 4, 20 , 20) , "Edit"))
+
+
+            GUI.Box(InfoRect, " ", EditorStyles.helpBox);
+            // add button to edit data
+            GUIContent tButtonContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
+            if (GUI.Button(new Rect(tX + tWidth - NWDConstants.kEditWidth-NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
             {
                 NWDDataInspector.InspectNetWorkedData(Data, true, true);
             }
-            if (GUI.Button(new Rect(tX + tWidth - 48, tY + 4, 20, 20), "Jump"))
+            // add button to center node on this data
+            GUIContent tNodeContent = new GUIContent(NWDConstants.kImageSelectionUpdate, "node");
+            if (GUI.Button(new Rect(tX + tWidth - NWDConstants.kEditWidth*2 - NWDConstants.kFieldMarge*2, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
             {
                 NWDDataInspector.InspectNetWorkedData(Data, true, true);
                 ParentDocument.SetData(Data);
             }
-            //int tPropertyCounter = 0;
+            // add custom draw in information rect
+            Type tType = Data.GetType();
+            var tMethodInfo = tType.GetMethod("AddOnNodeDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            if (tMethodInfo != null)
+            {
+                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect });
+            }
+            // add connexion
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
-                //Debug.Log("NWDNodeCard DrawCard() draw connexion");
-                GUI.Box(tConnexion.Rectangle,tConnexion.PropertyName);
-
-                ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnexion.PropertyName);
-                //tConnexion.Position = new Vector2(tX - 0 + tWidth, tY + ParentDocument.HeightInformations + ParentDocument.HeightProperty * (tPropertyCounter + 0.5F)-2.0F);
-                //tConnexion.CirclePosition = new Vector2(tConnexion.Position.x, tConnexion.Position.y);
-                //tConnexion.PositionTangent = new Vector2(tConnexion.Position.x+ParentDocument.Margin, tConnexion.Position.y);
-                //tPropertyCounter++;
+                GUI.Box(tConnexion.Rectangle, tConnexion.PropertyName);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -21,16 +21,18 @@ namespace NetWorkedData
         public List<NWDNodeCard> AllCards = new List<NWDNodeCard>();
         private int PropertyMax = 0;
 
-        public float Width = 200.0F;
+        private float Width = 200.0F;
         public float Height = 100.0F;      
         public float Margin = 100.0F; 
-        public float HeightProperty = 20.0F;
-        public float HeightInformations = 100.0F;
+        public float HeightLabel = 16.0F;
+        public float HeightProperty = 18.0F;
 
         private Dictionary<int,int> LineListMax = new Dictionary<int, int>();
 
         private int ColumnMax = 0;
         private int LineMax = 0;
+
+        private float InformationsHeight;
 
         //-------------------------------------------------------------------------------------------------------------
         public Rect Dimension()
@@ -40,12 +42,31 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
         {
-            Height = HeightInformations + HeightProperty * PropertyMax;
-
+            Height = NWDConstants.kFieldMarge + (HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (HeightProperty + NWDConstants.kFieldMarge)  * PropertyMax;
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.ReEvaluateLayout();
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetInformationsHeight(float sInformationsHeight)
+        {
+            InformationsHeight = Mathf.Max(InformationsHeight, sInformationsHeight);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float GetInformationsHeight()
+        {
+            return InformationsHeight;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetWidth(float sWidth)
+        {
+            Width = Mathf.Max(Width, sWidth);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float GetWidth()
+        {
+            return Width;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ColumnMaxCount(int sCount)

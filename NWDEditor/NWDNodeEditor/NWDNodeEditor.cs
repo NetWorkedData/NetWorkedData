@@ -59,15 +59,16 @@ namespace NetWorkedData
 		public void OnGUI ()
 		{
             Debug.Log("NWDNodeEditor OnGUI");
-            Rect scrollViewRect = new Rect(0, 0, position.width, position.height);
 
-            mScrollPosition = GUI.BeginScrollView(scrollViewRect,mScrollPosition,Document.Dimension());
+            Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
+            //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
+            mScrollPosition = GUI.BeginScrollView(tScrollViewRect,mScrollPosition,Document.Dimension());
             Document.Draw();
             GUI.EndScrollView();
 
 
             // Check if the mouse is above our scrollview.
-            if (scrollViewRect.Contains(Event.current.mousePosition))
+            if (tScrollViewRect.Contains(Event.current.mousePosition))
             {
                 //Debug.Log("NWDNodeEditor event in rect");
                 // Only move if we are hold down mouse button, and the mouse is moving.
