@@ -29,11 +29,60 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private NWDNodeDocument Document = new NWDNodeDocument();
         //-------------------------------------------------------------------------------------------------------------
+
+        //-------------------------------------------------------------------------------------------------------------
         public NWDNodeEditor()
         {
             this.autoRepaintOnSceneChange = false;
             this.wantsMouseEnterLeaveWindow = false;
             this.wantsMouseMove = false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDNodeEditor kNodeEditorSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
+        {
+            kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+            kNodeEditorSharedInstance.Show();
+            //tNodeEditor.ShowUtility();
+            kNodeEditorSharedInstance.Focus();
+            kNodeEditorSharedInstance.SetSelection(sSelection);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ReDraw()
+        {
+            if (kNodeEditorSharedInstance != null)
+            {
+                kNodeEditorSharedInstance.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnDestroy()
+        {
+            Debug.Log("Destroyed...");
+            kNodeEditorSharedInstance = null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void UpdateNodeWindow(NWDTypeClass sSelection)
+        {
+            Debug.Log("NWDNodeEditor UpdateNodeWindow");
+            if (kNodeEditorSharedInstance != null)
+            {
+                bool tNeedBeUpadte = false;
+                foreach (NWDNodeCard tCard in kNodeEditorSharedInstance.Document.AllCards)
+                {
+                    if (tCard.Data == sSelection)
+                    {
+                        tNeedBeUpadte =true;
+                    }
+                    break;
+                }
+                if (tNeedBeUpadte == true)
+                {
+                    kNodeEditorSharedInstance.Document.ReAnalyze();
+                    kNodeEditorSharedInstance.Repaint();
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetSelection(NWDTypeClass sSelection)
@@ -63,7 +112,7 @@ namespace NetWorkedData
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
             mScrollPosition = GUI.BeginScrollView(tScrollViewRect,mScrollPosition,Document.Dimension());
-            Document.Draw();
+            Document.Draw(tScrollViewRect);
             GUI.EndScrollView();
 
 
@@ -95,8 +144,8 @@ namespace NetWorkedData
                     mLastMousePosition = currPos;
                 }
             }
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

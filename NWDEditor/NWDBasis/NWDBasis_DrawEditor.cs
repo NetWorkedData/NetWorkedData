@@ -1015,6 +1015,7 @@ namespace NetWorkedData
                         DM = NWDToolbox.Timestamp();
                         UpdateIntegrity();
                         UpdateMeLater();
+                        NWDNodeEditor.UpdateNodeWindow(this);
                     }
                 }
             }
@@ -1205,11 +1206,7 @@ namespace NetWorkedData
 
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "TEST NODE MODE"))
             {
-                NWDNodeEditor tNodeEditor = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-                tNodeEditor.Show();
-                //tNodeEditor.ShowUtility();
-                tNodeEditor.Focus();
-                tNodeEditor.SetSelection(this);
+                NWDNodeEditor.SetObjectInNodeWindow(this);
             }
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 

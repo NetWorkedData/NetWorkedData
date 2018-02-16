@@ -22,29 +22,29 @@ namespace NetWorkedData
         private int PropertyMax = 0;
 
         private float Width = 200.0F;
-        public float Height = 100.0F;      
-        public float Margin = 100.0F; 
+        public float Height = 100.0F;
+        public float Margin = 100.0F;
         public float HeightLabel = 16.0F;
         public float HeightProperty = 18.0F;
 
-        private Dictionary<int,int> LineListMax = new Dictionary<int, int>();
+        private Dictionary<int, int> LineListMax = new Dictionary<int, int>();
 
         private int ColumnMax = 0;
         private int LineMax = 0;
 
-        private float InformationsHeight;
+        private float InformationsHeight = 50.0F;
 
         public bool ForceOrthoCards = false;
 
         //-------------------------------------------------------------------------------------------------------------
         public Rect Dimension()
         {
-            return new Rect(0,0, (GetColumnMax()+1)*(Width+Margin)+Margin, (GetLineMax() + 1) * (Height + Margin) + Margin);
+            return new Rect(0, 0, (GetColumnMax() + 1) * (Width + Margin) + Margin, (GetLineMax() + 1) * (Height + Margin) + Margin);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
         {
-            Height = NWDConstants.kFieldMarge + (HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (HeightProperty + NWDConstants.kFieldMarge)  * PropertyMax;
+            Height = NWDConstants.kFieldMarge + (HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (HeightProperty + NWDConstants.kFieldMarge) * PropertyMax;
             foreach (NWDNodeCard tCard in AllCards)
             {
                 tCard.ReEvaluateHeightWidth();
@@ -126,10 +126,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetData(NWDTypeClass sObject)
         {
+
+            AllCards = new List<NWDNodeCard>();
             PropertyMax = 0;
-       ColumnMax = 0;
-       LineMax = 0;
+
+            Width = 200.0F;
+            Height = 100.0F;
+            Margin = 100.0F;
+            HeightLabel = 16.0F;
+            HeightProperty = 18.0F;
+
             LineListMax = new Dictionary<int, int>();
+
+            ColumnMax = 0;
+            LineMax = 0;
+
+            InformationsHeight = 50.0F;
 
             OriginalData = new NWDNodeCard();
             OriginalData.Line = 0;
@@ -139,7 +151,13 @@ namespace NetWorkedData
             Analyze();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Analyze() {
+        public void ReAnalyze()
+        {
+            SetData(OriginalData.Data);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Analyze()
+        {
             BTBConsole.Clear();
             Debug.Log("NWDNodeDocument Analyze()");
             AllCards = new List<NWDNodeCard>();
@@ -147,16 +165,54 @@ namespace NetWorkedData
             {
                 OriginalData.Analyze(this);
             }
-            Debug.Log(AllCards.Count+" Cards found");
+            Debug.Log(AllCards.Count + " Cards found");
             ReEvaluateLayout();
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Draw()
+        public void Draw(Rect sViewRect)
         {
+            DrawCanvas(sViewRect);
             DrawCard();
             DrawBackgroundPlot();
             DrawForwardPlot();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawCanvas(Rect sViewRect)
+        {
+            int tFraction = 20;
+            Rect sDocumentRect = Dimension();
+            float tW = Mathf.Max(sDocumentRect.width, sViewRect.width);
+            float tH = Mathf.Max(sDocumentRect.height, sViewRect.height);
+
+            float tColumnMax = 1 + tW / (Width + Margin);
+            float tLineMax = 1 + tH / (Height + Margin);
+
+            float tWidMar = Width + Margin;
+            float tWidMarDec = tWidMar / tFraction;
+
+            float tHeiMar = Height + Margin;
+            float tHeiMarDec = tHeiMar / tFraction;
+
+            Handles.color = new Color(0.4F,0.4F,0.4F,0.3F);
+            for (int i = -tFraction; i <= (tColumnMax +2 )*tFraction; i++)
+            {
+                Handles.DrawLine(new Vector2(Margin / 2.0F + i * tWidMarDec, 0), new Vector2(Margin / 2.0F + i * tWidMarDec, tLineMax * tHeiMar));
+            }
+            for (int i = -tFraction; i <= (tLineMax+ 2)*tFraction; i++)
+            {
+                Handles.DrawLine(new Vector2(0, Margin / 2.0F + i * tHeiMarDec), new Vector2(tColumnMax * tWidMar, Margin / 2.0F + i * tHeiMarDec));
+            }
+
+            Handles.color = new Color(0.5F, 0.5F, 0.5F, 0.7F);
+            for (int i = 0; i <= tColumnMax + 2; i++)
+            {
+                Handles.DrawLine(new Vector2(Margin / 2.0F + i * tWidMar, 0), new Vector2(Margin / 2.0F + i * tWidMar, tLineMax * tHeiMar));
+            }
+            for (int i = 0; i <= tLineMax + 2; i++)
+            {
+                Handles.DrawLine(new Vector2(0, Margin / 2.0F + i * tHeiMar), new Vector2(tColumnMax * tWidMar, Margin / 2.0F + i * tHeiMar));
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawBackgroundPlot()

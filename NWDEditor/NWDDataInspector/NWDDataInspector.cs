@@ -126,6 +126,7 @@ namespace NetWorkedData
 			if (sFocus == true) {
 				Focus ();
 			}
+            NWDNodeEditor.ReDraw();
 //			GUI.FocusControl (NWDConstants.K_CLASS_FOCUS_ID);
 		}
 		//-------------------------------------------------------------------------------------------------------------
