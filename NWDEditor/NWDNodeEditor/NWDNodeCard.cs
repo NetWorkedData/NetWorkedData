@@ -133,7 +133,7 @@ namespace NetWorkedData
         public void ReEvaluateHeightWidth()
         {
             Margin = ParentDocument.Margin;
-            tX = Margin + Column * (ParentDocument.GetWidth() + Margin);
+            tX = ParentDocument.MargeWidth + Margin + Column * (ParentDocument.GetWidth() + Margin);
             tY = Margin + Line * (ParentDocument.Height + Margin);
             Height = NWDConstants.kFieldMarge + (ParentDocument.HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (ParentDocument.HeightProperty + NWDConstants.kFieldMarge) * ConnexionList.Count;  
         }
