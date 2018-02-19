@@ -75,7 +75,6 @@ namespace NetWorkedData
         /// <value>The account reference.</value>
         [NWDGroupStart("Publisher of datas")]
         [Indexed("RelationshipIndex", 0)]
-<<<<<<< HEAD
         public NWDReferenceType<NWDAccount> PublisherReference
         {
             get; set;
@@ -84,20 +83,10 @@ namespace NetWorkedData
         {
             get; set;
         }
-        //public NWDReferenceType<NWDUserNickname> PublisherNicknameReference
-        //{
-        //    get; set;
-        //}
         public string PublisherClassesShared
         {
             get; set;
         }
-=======
-        public NWDReferenceType<NWDAccount> PublisherReference { get; set; }
-        public string PublisherNickname { get; set; }
-        public NWDReferenceType<NWDUserNickname> PublisherNicknameReference { get; set; }
-        public string PublisherClassesShared { get; set; }
->>>>>>> c34eabf600d45810ec000946ef54ea86d107d70b
         [NWDGroupEnd()]
 
         [NWDSeparator]
@@ -113,7 +102,6 @@ namespace NetWorkedData
 
         [NWDGroupStart("Reader of datas")]
         //[Indexed("RelationshipIndex", 1)]
-<<<<<<< HEAD
         public NWDReferenceType<NWDAccount> ReaderReference
         {
             get; set;
@@ -122,16 +110,6 @@ namespace NetWorkedData
         {
             get; set;
         }
-        //public NWDReferenceType<NWDUserNickname> ReaderNicknameReference
-        //{
-        //    get; set;
-        //}
-=======
-        public NWDReferenceType<NWDAccount> ReaderReference { get; set; }
-        public string ReaderNickname { get; set; }
-        public NWDReferenceType<NWDUserNickname> ReaderNicknameReference { get; set; }
->>>>>>> c34eabf600d45810ec000946ef54ea86d107d70b
-        //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
         public string ReaderClassesAccepted { get; set; }
         [NWDGroupEnd()]
 
