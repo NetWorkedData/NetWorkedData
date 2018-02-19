@@ -36,9 +36,17 @@ namespace NetWorkedData
             this.autoRepaintOnSceneChange = false;
             this.wantsMouseEnterLeaveWindow = false;
             this.wantsMouseMove = false;
+            //Document.SetData(null, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDNodeEditor kNodeEditorSharedInstance;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SharedInstance()
+        {
+            kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+            kNodeEditorSharedInstance.Show();
+            kNodeEditorSharedInstance.Focus();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
@@ -114,7 +122,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
-            Debug.Log("NWDNodeEditor OnGUI");
+           // Debug.Log("NWDNodeEditor OnGUI");
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));

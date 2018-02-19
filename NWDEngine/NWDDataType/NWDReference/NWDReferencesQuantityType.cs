@@ -338,6 +338,13 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void EditorAddNewObject()
+        {
+            K tNewObject = NWDBasis<K>.NewObject();
+            this.AddObjectQuantity(tNewObject,1);
+            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {
             List<string> rReturn = new List<string>();
@@ -458,6 +465,7 @@ namespace NetWorkedData
 
 
             tValueList.Add("");
+            string tNewReferenceQuantity = "";
             for (int i = 0; i < tValueList.Count; i++)
             {
                 string tFieldName = sEntitled;
@@ -496,6 +504,17 @@ namespace NetWorkedData
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(tIndex)), false);
                     }
                 }
+                else
+                {
+                    GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
+                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tNewContent, NWDConstants.StyleMiniButton))
+                    {
+                        NWDBasis<K> tNewObject = NWDBasis<K>.NewObject();
+                        tNewReferenceQuantity = NWDConstants.kFieldSeparatorA+ tNewObject.Reference + NWDConstants.kFieldSeparatorB + "1";
+                        NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+                    }
+                }
+
                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 
                 if (tIndex > 0 && tIndex < tReferenceList.Count)
@@ -513,7 +532,7 @@ namespace NetWorkedData
                 }
             }
             string[] tNextValueArray = tValueList.Distinct().ToArray();
-            string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
+            string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray) + tNewReferenceQuantity;
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
             tTemporary.Value = tNextValue;
 

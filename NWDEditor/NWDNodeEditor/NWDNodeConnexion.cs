@@ -33,6 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDNodeCard Parent;
         public string PropertyName;
+        public PropertyInfo Property;
         public List<NWDNodeConnexionLine> ChildrenList = new List<NWDNodeConnexionLine>();
         public Vector2 Position;
         public Vector2 CirclePosition;

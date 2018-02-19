@@ -61,8 +61,16 @@ namespace NetWorkedData
 			}
 			kNWDEditorPreferences.ShowUtility ();
 			kNWDEditorPreferences.Focus ();
-		}
-
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// TheNWD editor by node.
+        /// </summary>
+        [MenuItem(NWDConstants.K_MENU_EDITOR_NODAL, false, 20)]
+        public static void EditorNodeShow()
+        {
+            NWDNodeEditor.SharedInstance();
+        }
 
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

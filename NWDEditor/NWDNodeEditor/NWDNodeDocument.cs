@@ -166,6 +166,22 @@ namespace NetWorkedData
                     tChanged = true;
                 }
                 AnalyzeTheseClasses[tKeyValue.Key] = tNew;
+
+
+                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
+                if (GUI.Button(new Rect(MargeWidth, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                {
+
+                    //TODO  CREATE A NEW OBJECT FOR THIS CLASS 
+
+                    //var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tDataTypeUpdate != null)
+                    //{
+                    //    Debug.Log("UpdateMe is Ok ");
+                    //    tDataTypeUpdate.Invoke(Data, new object[] { true });
+                    //    ParentDocument.ReAnalyze();
+                    //}
+                }
             }
 
             if (tChanged == true)
@@ -178,7 +194,7 @@ namespace NetWorkedData
         public Rect Dimension()
         {
             float tHeight = Mathf.Max((GetLineMax() + 1) * (Height + Margin) + Margin, MargeHeight+(AnalyzeTheseClasses.Count + 3) * HeightProperty);
-            return new Rect(0, 0, (GetColumnMax() + 1) * (Width + Margin) + Margin, tHeight);
+            return new Rect(0, 0, MargeWidth + (GetColumnMax() + 1) * (Width + Margin) + Margin, tHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
@@ -270,7 +286,7 @@ namespace NetWorkedData
                 ShowTheseClasses = new Dictionary<string, bool>();
                 AnalyzeTheseClasses = new Dictionary<string, bool>();
                 List<Type> tTypeList = NWDDataManager.SharedInstance.mTypeList;
-                tTypeList.Sort((tA, tB) => tA.Name.CompareTo(tB.Name));
+                tTypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
                 foreach (Type tType in tTypeList)
                 {
                     ShowTheseClasses.Add(tType.Name, true);

@@ -82,6 +82,7 @@ namespace NetWorkedData
         public const string K_MENU_BASE = "NetWorkedDatas/";
         public const string K_MENU_IDEMOBI = K_MENU_BASE + "Developed by ideMobi";
         public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Editor preferences";
+        public const string K_MENU_EDITOR_NODAL = K_MENU_BASE + "Editor Nodal";
         public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Create New NWDBasis Class";
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Create New Window NWD management";
 
@@ -381,6 +382,7 @@ namespace NetWorkedData
         static public Texture2D kImagePerspective = null;
         static public Texture2D kImageTwoDimension = null;
         static public Texture2D kImageEdit = null;
+        static public Texture2D kImageNew = null;
         static public Texture2D kImageTabOptions = null;
         static public Texture2D kImageTabCreate = null;
         static public Texture2D kImageTabEdit = null;
@@ -523,6 +525,10 @@ namespace NetWorkedData
                 if (kImageEdit == null)
                 {
                     kImageEdit = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceEdit.psd"));
+                }
+                if (kImageNew == null)
+                {
+                    kImageNew = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceNew.psd"));
                 }
                 if (kImageTabOptions == null)
                 {

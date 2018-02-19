@@ -102,6 +102,13 @@ namespace NetWorkedData
         {
             return new K[] { NWDBasis<K>.InstanceByReference(Value) as K };
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public void EditorAddNewObject()
+        {
+            K tNewObject = NWDBasis<K>.NewObject();
+            this.SetObject(tNewObject);
+            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
@@ -194,16 +201,27 @@ namespace NetWorkedData
 			if (tConnexion == false) {
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <" + Value + ">", tLabelAssetStyle);
 
-			}	
-			
-			if (tIndex >= 0) {
+			}
+
+            if (tIndex >= 0)
+            {
                 //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
                 GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
                 if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tDeleteContent, NWDConstants.StyleMiniButton))
                 {
-					NWDBasis<K>.SetObjectInEdition (NWDBasis<K>.InstanceByReference (tReferenceList.ElementAt (rIndex)), false);
-				}
-			}
+                    NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(rIndex)), false);
+                }
+            }
+            else
+            {
+                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
+                if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tNewContent, NWDConstants.StyleMiniButton))
+                {
+                    NWDBasis<K> tNewObject = NWDBasis<K>.NewObject();
+                    tTemporary.Value = tNewObject.Reference;
+                    NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+                }
+            }
 
 			if (rIndex != tIndex) {
 				string tNextValue = tReferenceList.ElementAt (rIndex);

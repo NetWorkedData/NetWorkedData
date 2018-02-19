@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public enum NWDDialogState : byte
+    public enum NWDDialogState : int
     {
         Start,
         Sequent,
@@ -36,7 +36,7 @@ namespace NetWorkedData
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public enum NWDDialogAnswerType : byte
+    public enum NWDDialogAnswerType : int
     {
         None,
         Default,
@@ -202,6 +202,26 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             return tYadd;
+        }
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        {
+            return 350.0f;
+            //return sDocumentWidth;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawHeight()
+        {
+            return 200f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodeDraw(Rect sRect)
+        {
+            //GUI.Button(sRect, "knkjkjhg");
+            GUI.Label(sRect, Dialog.GetLocalString());
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

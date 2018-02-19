@@ -115,26 +115,41 @@ namespace NetWorkedData
 		/// <param name="sCraftBook">S craft book.</param>
 		private static void AddCraftBookInHashDictionary (NWDCraftBook sCraftBook)
 		{
-			//HashByCraftDictionary
-			if (HashByCraftDictionary.ContainsValue (sCraftBook)) {
-				string tKey = HashByCraftDictionary.FirstOrDefault (x => x.Value == sCraftBook).Key;
-				HashByCraftDictionary.Remove (tKey);
-			} 
-			if (HashByCraftDictionary.ContainsKey (sCraftBook.RecipeHash) == true) {
-			} else {
-				HashByCraftDictionary.Add (sCraftBook.RecipeHash, sCraftBook);
-			}
-			// ItemByCraftDictionary
-			if (sCraftBook.ItemToDescribe.Value != "") {
-				if (ItemByCraftDictionary.ContainsValue (sCraftBook)) {
-					string tKey = ItemByCraftDictionary.FirstOrDefault (x => x.Value == sCraftBook).Key;
-					ItemByCraftDictionary.Remove (tKey);
-				} 
-				if (ItemByCraftDictionary.ContainsKey (sCraftBook.ItemToDescribe.Value) == true) {
-				} else {
-					ItemByCraftDictionary.Add (sCraftBook.ItemToDescribe.Value, sCraftBook);
-				}
-			}
+            if (HashByCraftDictionary != null)
+            {
+                if (sCraftBook.RecipeHash != null)
+                {
+                    //HashByCraftDictionary
+                    if (HashByCraftDictionary.ContainsValue(sCraftBook))
+                    {
+                        string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+                        HashByCraftDictionary.Remove(tKey);
+                    }
+                    if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+                    {
+                    }
+                    else
+                    {
+                        HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
+                    }
+                    // ItemByCraftDictionary
+                    if (sCraftBook.ItemToDescribe.Value != "")
+                    {
+                        if (ItemByCraftDictionary.ContainsValue(sCraftBook))
+                        {
+                            string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+                            ItemByCraftDictionary.Remove(tKey);
+                        }
+                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.ItemToDescribe.Value) == true)
+                        {
+                        }
+                        else
+                        {
+                            ItemByCraftDictionary.Add(sCraftBook.ItemToDescribe.Value, sCraftBook);
+                        }
+                    }
+                }
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

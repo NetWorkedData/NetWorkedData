@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public enum NWDQuestType : byte
+    public enum NWDQuestType : int
     {
         Unique = 0,
         CanRepeat = 1,
@@ -71,11 +71,11 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        public  NWDQuestType Type { get; set; }
+        public NWDQuestType Type { get; set; }
         public NWDLocalizableStringType Title { get; set; }
         public NWDLocalizableTextType Description { get; set;}
-        public NWDReferencesQuantityType<NWDItem> ListOfItemsRequired;
-        public NWDReferencesQuantityType<NWDItem> ListOfItemsAsked;
+        public NWDReferencesQuantityType<NWDItem> ListOfItemsRequired { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ListOfItemsAsked { get; set; }
 		[NWDGroupStartAttribute("Normal Way",true, true, true)]
         public NWDReferenceType<NWDDialog> DialogReference { get; set; }
         public NWDReferenceType<NWDDialog> DialogAlternateReference { get; set; } // to start with ListOfItemsAsked

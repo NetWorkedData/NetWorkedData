@@ -87,6 +87,7 @@ namespace NetWorkedData
                 ConnexionList.Add(tNewConnexion);
                 tNewConnexion.Parent = this;
             }
+            tNewConnexion.Property = sProperty;
             int tLine = 0;
             foreach (NWDTypeClass tObject in sObjectsArray)
             {
@@ -237,6 +238,33 @@ namespace NetWorkedData
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
                 GUI.Box(tConnexion.Rectangle, tConnexion.PropertyName);
+                GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
+                if (GUI.Button(new Rect(tConnexion.Rectangle.x, tConnexion.Rectangle.y, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                {
+                    Debug.Log("ADD REFERENCE FROM NODE EDITOR");
+                    // call the method EditorAddNewObject();
+
+                    Type tTypeProperty = tConnexion.Property.GetValue(Data, null).GetType();
+                    Debug.Log("tTypeProperty = " + tTypeProperty.Name);
+                    var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    if (tMethodProperty != null)
+                    {
+                        tMethodProperty.Invoke(tConnexion.Property.GetValue(Data, null), null);
+                        // Ok I update the data
+                        Type tDataType = Data.GetType();
+                        var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                        if (tDataTypeUpdate != null)
+                        {
+                            Debug.Log("UpdateMe is Ok ");
+                            tDataTypeUpdate.Invoke(Data, new object[] { true });
+                            ParentDocument.ReAnalyze();
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("NO tMethodProperty ");
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
