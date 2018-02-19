@@ -21,14 +21,19 @@ namespace NetWorkedData
 	/// </summary>
 	public class NWDAppEnvironmentChooser : EditorWindow
 	{
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentChooser SharedInstance()
+        {
+            return NWDEditorMenu.kNWDAppEnvironmentChooser;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Raises the OnGUI event.
 		/// </summary>
 		public void OnGUI ()
 		{
-			this.minSize = new Vector2 (300, 72);
-			this.maxSize = new Vector2 (300, 72);
+			this.minSize = new Vector2 (300, 60);
+			this.maxSize = new Vector2 (300, 120);
 			// set title of window
 			titleContent = new GUIContent (NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE);
 			// show helpbox
@@ -79,6 +84,10 @@ namespace NetWorkedData
 					break;
 				}
 				NWDVersion.UpdateVersionBundle ();
+                if (NWDEditorMenu.kNWDAppEnvironmentSync != null)
+                {
+                    NWDEditorMenu.kNWDAppEnvironmentSync.Repaint();
+                }
 			}
 			// Show version selected
             EditorGUILayout.LabelField ("Version bundle", PlayerSettings.bundleVersion, EditorStyles.label);

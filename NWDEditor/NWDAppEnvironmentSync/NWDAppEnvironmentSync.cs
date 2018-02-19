@@ -63,6 +63,12 @@ namespace NetWorkedData
 		private Texture2D kImageForbidden;
 		private Texture2D kImageEmpty;
 		private Texture2D kImageWaiting;
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironmentSync SharedInstance()
+        {
+            return NWDEditorMenu.kNWDAppEnvironmentSync;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void Start ()
 		{
@@ -204,8 +210,8 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
-			this.minSize = new Vector2 (300, 92);
-			this.maxSize = new Vector2 (300, 300);
+			this.minSize = new Vector2 (300, 330);
+			this.maxSize = new Vector2 (300, 380);
 			// set title of window
 			titleContent = new GUIContent (NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE);
 			// show helpbox
