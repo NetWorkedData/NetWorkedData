@@ -1015,7 +1015,8 @@ namespace NetWorkedData
                         DM = NWDToolbox.Timestamp();
                         UpdateIntegrity();
                         UpdateMeLater();
-                        NWDNodeEditor.UpdateNodeWindow(this);
+                        // TODO Imagine an timer to refresh if modified
+                        //NWDNodeEditor.UpdateNodeWindow(this);
                     }
                 }
             }
@@ -1204,7 +1205,7 @@ namespace NetWorkedData
             }
 
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "TEST NODE MODE"))
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL))
             {
                 NWDNodeEditor.SetObjectInNodeWindow(this);
             }
