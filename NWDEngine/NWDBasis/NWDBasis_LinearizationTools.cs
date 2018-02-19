@@ -267,9 +267,9 @@ namespace NetWorkedData
                 rReturn.Insert(2, "Reference");
                 // add another order for these element (perhaps bad solution ?)
                 rReturn.Add("AC");
-                rReturn.Add("DD");
+                //rReturn.Add("DD");
                 rReturn.Add("DC");
-                rReturn.Add("DM");
+                //rReturn.Add("DM");
                 kSLQIntegrityServerOrder[ClassID()] = rReturn;
             }
             return kSLQIntegrityServerOrder[ClassID()];

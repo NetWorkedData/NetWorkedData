@@ -83,10 +83,10 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDUserNickname> PublisherNicknameReference
-        {
-            get; set;
-        }
+        //public NWDReferenceType<NWDUserNickname> PublisherNicknameReference
+        //{
+        //    get; set;
+        //}
         public string PublisherClassesShared
         {
             get; set;
@@ -120,10 +120,10 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDUserNickname> ReaderNicknameReference
-        {
-            get; set;
-        }
+        //public NWDReferenceType<NWDUserNickname> ReaderNicknameReference
+        //{
+        //    get; set;
+        //}
         //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
         public string ReaderClassesAccepted
         {
