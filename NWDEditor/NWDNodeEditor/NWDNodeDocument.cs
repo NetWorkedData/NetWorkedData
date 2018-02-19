@@ -17,40 +17,92 @@ namespace NetWorkedData
     public class NWDNodeDocument
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The original data.
+        /// </summary>
         private NWDNodeCard OriginalData;
+        /// <summary>
+        /// All cards. Used to prevent dupplicated card
+        /// </summary>
         public List<NWDNodeCard> AllCards = new List<NWDNodeCard>();
+        /// <summary>
+        /// The properties counter max found.
+        /// </summary>
         private int PropertyMax = 0;
-
+        /// <summary>
+        /// The height of the marge.
+        /// </summary>
         public float MargeHeight = 200.0F;
+        /// <summary>
+        /// The width of the marge.
+        /// </summary>
         public float MargeWidth = 200.0F;
+        /// <summary>
+        /// The width of card (default). auto reevaluate.
+        /// </summary>
         private float Width = 200.0F;
+        /// <summary>
+        /// The height of card (default). auto reevaluate.
+        /// </summary>
         public float Height = 100.0F;
+        /// <summary>
+        /// The margin cettween two card area.
+        /// </summary>
         public float Margin = 100.0F;
+        /// <summary>
+        /// The height of label.
+        /// </summary>
         public float HeightLabel = 16.0F;
-        public float HeightProperty = 18.0F;
-
+        /// <summary>
+        /// The height of property
+        /// </summary>
+        public float HeightProperty = 20.0F;
+        /// <summary>
+        /// The list of max line by columns.
+        /// </summary>
         private Dictionary<int, int> LineListMax = new Dictionary<int, int>();
-
+        /// <summary>
+        /// The column max.
+        /// </summary>
         private int ColumnMax = 0;
+        /// <summary>
+        /// The line max.
+        /// </summary>
         private int LineMax = 0;
-
+        /// <summary>
+        /// The height of the informations area.
+        /// </summary>
         private float InformationsHeight = 50.0F;
-
+        /// <summary>
+        /// The force ortho cards. Cards have allways the same size
+        /// </summary>
         public bool ForceOrthoCards = false;
-
+        /// <summary>
+        /// The type list.
+        /// </summary>
+        public List<Type> TypeList;
+        /// <summary>
+        /// The classes analyzed.
+        /// </summary>
         public Dictionary<string, bool> AnalyzeTheseClasses = new Dictionary<string, bool>();
-
+        /// <summary>
+        /// The classes show.
+        /// </summary>
         public Dictionary<string, bool> ShowTheseClasses = new Dictionary<string, bool>();
-
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeDocument"/> class.
+        /// </summary>
         public NWDNodeDocument()
         {
             // TODO AnalyzeTheseTypes compelet by default from Class analyze
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Saves the preferences.
+        /// </summary>
         public void SavePreferences()
         {
-            // TODO 
             Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
             foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
             {
@@ -59,9 +111,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Loads the preferences.
+        /// </summary>
         public void LoadPreferences()
         {
-            // TODO 
             Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
             foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
             {
@@ -70,9 +124,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Draws the preferences.
+        /// </summary>
         public void DrawPreferences()
         {
-            // TODO on gui
             bool tChanged = false;
             float tY = NWDConstants.kFieldMarge;
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
@@ -142,7 +198,6 @@ namespace NetWorkedData
             Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
             foreach (KeyValuePair<string, bool> tKeyValue in tShowTheseClassesCopy)
             {
-                // TODO on gui
                 tCounter++;
                 //Debug.Log("tWidthA loop = " + tWidthA.ToString());
                 bool tNew = EditorGUI.Toggle(new Rect(tXA, MargeHeight+NWDConstants.kFieldMarge+ HeightProperty * tCounter, tWidthA , HeightProperty), tKeyValue.Key, tKeyValue.Value);
@@ -158,7 +213,6 @@ namespace NetWorkedData
             Dictionary<string, bool> tAnalyzeTheseClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
             foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
             {
-                // TODO on gui
                 tCounter++;
                 bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight+NWDConstants.kFieldMarge+ HeightProperty * tCounter, tWidthB, HeightProperty), "", tKeyValue.Value);
                 if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
@@ -166,23 +220,34 @@ namespace NetWorkedData
                     tChanged = true;
                 }
                 AnalyzeTheseClasses[tKeyValue.Key] = tNew;
-
-
+            }
+            // to add new...
+            tCounter = 0;
+            Type tTypeToCreate = null;
+            foreach (Type tType in TypeList)
+            {
+                tCounter++;
                 GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
                 if (GUI.Button(new Rect(MargeWidth, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
                 {
-
-                    //TODO  CREATE A NEW OBJECT FOR THIS CLASS 
-
-                    //var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    //if (tDataTypeUpdate != null)
-                    //{
-                    //    Debug.Log("UpdateMe is Ok ");
-                    //    tDataTypeUpdate.Invoke(Data, new object[] { true });
-                    //    ParentDocument.ReAnalyze();
-                    //}
+                    tTypeToCreate = tType;
                 }
             }
+            // I must creat new object (prevent collection modified)
+            if (tTypeToCreate != null)
+            {
+                Debug.Log("try NewObject " + tTypeToCreate.Name);
+                var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tDataTypeNewObject != null)
+                {
+                    Debug.Log("NewObject is Ok ");
+                    object tObject = tDataTypeNewObject.Invoke(null, null);
+                    NWDDataInspector.InspectNetWorkedData(tObject);
+                    this.SetData(tObject as NWDTypeClass, true);
+                    ReAnalyze();
+                }
+            }
+
 
             if (tChanged == true)
             {
@@ -191,12 +256,19 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Dimension this instance.
+        /// </summary>
+        /// <returns>The dimension.</returns>
         public Rect Dimension()
         {
             float tHeight = Mathf.Max((GetLineMax() + 1) * (Height + Margin) + Margin, MargeHeight+(AnalyzeTheseClasses.Count + 3) * HeightProperty);
             return new Rect(0, 0, MargeWidth + (GetColumnMax() + 1) * (Width + Margin) + Margin, tHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reevaluate layout.
+        /// </summary>
         public void ReEvaluateLayout()
         {
             Height = NWDConstants.kFieldMarge + (HeightLabel + NWDConstants.kFieldMarge) * 3 + InformationsHeight + NWDConstants.kFieldMarge + (HeightProperty + NWDConstants.kFieldMarge) * PropertyMax;
@@ -213,56 +285,101 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the height of the informations area.
+        /// </summary>
+        /// <param name="sInformationsHeight">S informations height.</param>
         public void SetInformationsHeight(float sInformationsHeight)
         {
             InformationsHeight = Mathf.Max(InformationsHeight, sInformationsHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the height of the informations.
+        /// </summary>
+        /// <returns>The informations height.</returns>
         public float GetInformationsHeight()
         {
             return InformationsHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the width.
+        /// </summary>
+        /// <param name="sWidth">S width.</param>
         public void SetWidth(float sWidth)
         {
             Width = Mathf.Max(Width, sWidth);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the width.
+        /// </summary>
+        /// <returns>The width.</returns>
         public float GetWidth()
         {
             return Width;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Columns the max count.
+        /// </summary>
+        /// <param name="sCount">S count.</param>
         public void ColumnMaxCount(int sCount)
         {
             ColumnMax = Math.Max(ColumnMax, sCount);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the column max.
+        /// </summary>
+        /// <returns>The column max.</returns>
         public int GetColumnMax()
         {
             return ColumnMax;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Lines the max count.
+        /// </summary>
+        /// <param name="sCount">S count.</param>
         public void LineMaxCount(int sCount)
         {
             LineMax = Math.Max(LineMax, sCount);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the line max.
+        /// </summary>
+        /// <returns>The line max.</returns>
         public int GetLineMax()
         {
             return LineMax;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Properties the count.
+        /// </summary>
+        /// <param name="sCount">S count.</param>
         public void PropertyCount(int sCount)
         {
             PropertyMax = Math.Max(PropertyMax, sCount);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the property max.
+        /// </summary>
+        /// <returns>The property max.</returns>
         public int GetPropertyMax()
         {
             return PropertyMax;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the next line.
+        /// </summary>
+        /// <returns>The next line.</returns>
+        /// <param name="sCard">S card.</param>
         public int GetNextLine(NWDNodeCard sCard)
         {
             int rResult = 0;
@@ -279,21 +396,33 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Loads the classes.
+        /// </summary>
+        public void LoadClasses()
+        {
+            ShowTheseClasses = new Dictionary<string, bool>();
+            AnalyzeTheseClasses = new Dictionary<string, bool>();
+            TypeList = NWDDataManager.SharedInstance.mTypeList;
+            TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
+            foreach (Type tType in TypeList)
+            {
+                ShowTheseClasses.Add(tType.Name, true);
+                AnalyzeTheseClasses.Add(tType.Name, true);
+            }
+            LoadPreferences();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the data.
+        /// </summary>
+        /// <param name="sObject">S object.</param>
+        /// <param name="tReset">If set to <c>true</c> t reset.</param>
         public void SetData(NWDTypeClass sObject, bool tReset = true)
         {
             if (tReset == true)
             {
-                ShowTheseClasses = new Dictionary<string, bool>();
-                AnalyzeTheseClasses = new Dictionary<string, bool>();
-                List<Type> tTypeList = NWDDataManager.SharedInstance.mTypeList;
-                tTypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
-                foreach (Type tType in tTypeList)
-                {
-                    ShowTheseClasses.Add(tType.Name, true);
-                    AnalyzeTheseClasses.Add(tType.Name, true);
-                }
-                // TODO load preference 
-                LoadPreferences();
+                LoadClasses();
             }
 
             AllCards = new List<NWDNodeCard>();
@@ -320,11 +449,20 @@ namespace NetWorkedData
             Analyze();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Res the analyze.
+        /// </summary>
         public void ReAnalyze()
         {
-            SetData(OriginalData.Data, false);
+            if (OriginalData != null)
+            {
+                SetData(OriginalData.Data, false);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Analyze this instance.
+        /// </summary>
         public void Analyze()
         {
             BTBConsole.Clear();
@@ -339,6 +477,11 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Draw the specified sViewRect.
+        /// </summary>
+        /// <returns>The draw.</returns>
+        /// <param name="sViewRect">S view rect.</param>
         public void Draw(Rect sViewRect)
         {
             DrawCanvas(sViewRect);
@@ -348,6 +491,10 @@ namespace NetWorkedData
             DrawPreferences();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Draws the canvas.
+        /// </summary>
+        /// <param name="sViewRect">S view rect.</param>
         public void DrawCanvas(Rect sViewRect)
         {
             int tFraction = 20;
@@ -390,6 +537,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Draws the background plot.
+        /// </summary>
         public void DrawBackgroundPlot()
         {
             foreach (NWDNodeCard tCard in AllCards)
@@ -398,6 +548,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Draws the card.
+        /// </summary>
         public void DrawCard()
         {
             foreach (NWDNodeCard tCard in AllCards)
@@ -406,6 +559,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Draws the forward plot.
+        /// </summary>
         public void DrawForwardPlot()
         {
             foreach (NWDNodeCard tCard in AllCards)

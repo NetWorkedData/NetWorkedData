@@ -25,7 +25,7 @@
     $ereg_password = '/^(.{24,64})$/';
     $ereg_emailHash = '/^(.{24,64})$/';
     $ereg_auuidHash = '/^([A-Za-z0-9\-]{15,48})$/';
-    $ereg_reference = '/^([A-Za-z0-9\-]{15,48})$/';
+    $ereg_reference = '/^([A-Za-z0-9\-]{15,96})$/';
     $ereg_apasswordHash = '/^(.{12,64})$/';
     $ereg_pincode = '/^([0-9]{4,12})$/';
     $ereg_pinsize = '/^([0-9]{1,2})$/';
@@ -62,7 +62,7 @@
     // function HashTest ($sRow)
     // {
     // $rReturn = false;
-    // if ( HasRowValue ($sRow) == $sRow['HashSecurity'])
+    // if ( HasRowValue ($sRow) == $sRow['ServerHash'])
     //     {
     //     $rReturn = true;
     //     }
@@ -71,7 +71,7 @@
 
 
 //-------------------- 
-// function HashSecurityReevalue ($sReference)
+// function ServerHashReevalue ($sReference)
 // {
 //     global $SQL_CON;
 //     global $SQL_NWDRelationship_SaltA, $SQL_NWDRelationship_SaltB;
@@ -87,7 +87,7 @@
 //             if ($tResult->num_rows == 1)
 //                 {
 //                     // I calculate the integrity and reinject the good value
-//                     $tUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `HashSecurity` = \''.$SQL_CON->real_escape_string($tCalculate).'\', `ProdSync` = \''.time().'\'  WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\';';
+//                     $tUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `ServerHash` = \''.$SQL_CON->real_escape_string($tCalculate).'\', `ProdSync` = \''.time().'\'  WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\';';
 //                     $tUpdateResult = $SQL_CON->query($tUpdate);
 //                     if (!$tUpdateResult)
 //                         {
@@ -179,7 +179,7 @@
                                     $tTimeLimit = time() + $pindelay + 10; // I add 10 seconds of marge
                                                                            // Ok I have a good PinCode I update
                                     $tTimeSync = time(); //$dico['NWDRelationship']['sync'];
-                                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `PublisherNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `HashSecurity`= \'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
+                                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `PublisherNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `ServerHash`= \'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
                                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -229,7 +229,7 @@
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
                     $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.time().'\ ';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `ServerHash`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.time().'\ ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' ';//AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -354,7 +354,7 @@
                             }
 
                     $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'4\', `Reciprocity` = \''.$SQL_CON->real_escape_string($tReferenceBilateral).'\'';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `ServerHash`= \'\', `RelationState` = \'4\', `Reciprocity` = \''.$SQL_CON->real_escape_string($tReferenceBilateral).'\' ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -366,17 +366,8 @@
                         }
                     else
                         {
-                        IntegrityNWDRelationshipReevalue ($reference);
-
-                        if ($bilateral=='True')
-                        {
-                            // TODO : I create a bilateral data
-                            $tReferenceBilateral = referenceGenerate ('RLS', $ENV.'_NWDRelationship', 'Reference');
-                             myLog('tReferenceBilateral='.$tReferenceBilateral, __FILE__, __FUNCTION__, __LINE__);
-                            // I will insert reciprocity
-
-
-                        }
+                            IntegrityNWDRelationshipReevalue ($reference);
+                            IntegrityServerNWDRelationshipValidate ($reference);
                         }
 
                     }
@@ -391,7 +382,7 @@
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
                     $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `HashSecurity`= \'\', `RelationState` = \'98\' ';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `ServerHash`= \'\', `RelationState` = \'98\' ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -546,7 +537,7 @@
                  mysqli_free_result($tResult);
                  }
                  */
-            $action = 'Sync';
+            //$action = 'Sync';
             }
 
 
@@ -575,7 +566,10 @@
                 {
                 while($tRow = $tResult->fetch_array())
                     {
-                    if (IntegrityServerNWDRelationshipValidateByRow ($tRow) ==true)
+                        IntegrityServerNWDRelationshipValidate($tRow['Reference']);
+                    if (IntegrityServerNWDRelationshipValidateByRow ($tRow) == true)
+                    // IntegrityServerNWDRelationshipValidateByRow ($tRow);
+                    // if (true)
                         {
                         myLog('Must add object from '.$tRow ['PublisherClassesShared']. ' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
                         myLog('Must filter object by '.$tRow ['ReaderClassesAccepted']. ' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
@@ -603,6 +597,7 @@
                         }
                     else
                         {
+                        myLog('ERRRO FOR RLS  '.$tRow ['Reference'], __FILE__, __FUNCTION__, __LINE__);
                         errorDeclaration('RLSw999', 'error in sync security relationship');
                         error('RLSw999');
                         }

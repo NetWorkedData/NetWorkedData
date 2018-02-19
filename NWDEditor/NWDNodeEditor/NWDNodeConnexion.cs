@@ -39,6 +39,7 @@ namespace NetWorkedData
         public Vector2 CirclePosition;
         public Vector2 PositionTangent;
         public Rect Rectangle;
+        public bool AddButton = true;
         //public bool ConnexionToPreviewCard = false;
         //-------------------------------------------------------------------------------------------------------------
         public void DrawBackgroundPlot()

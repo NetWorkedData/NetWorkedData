@@ -45,6 +45,7 @@ namespace NetWorkedData
 
             sCard.Width = AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth());
             sCard.ParentDocument.SetWidth(AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth()));
+            sCard.InformationsColor = AddOnNodeColor();
             // data must be analyzed
             // data is in a preview card?
             bool tDataAllReadyShow = false;
@@ -91,7 +92,20 @@ namespace NetWorkedData
                                             if (tVar != null)
                                             {
                                                 object[] tObjects = tMethodInfo.Invoke(tVar, null) as object[];
-                                                List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects);
+                                                bool tButtonAdd = true;
+                                                int tObjectCounter = 0;
+                                                foreach (object tObj in tObjects)
+                                                {
+                                                    if (tObj != null)
+                                                    {
+                                                        tObjectCounter++;
+                                                    }
+                                                }
+                                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) && tObjectCounter > 0 )
+                                                {
+                                                    tButtonAdd = false;
+                                                }
+                                                List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects, tButtonAdd);
                                                 foreach (NWDNodeCard tNewCard in tNewCards)
                                                 {
                                                     tNewCard.Analyze(sCard.ParentDocument);
@@ -127,6 +141,11 @@ namespace NetWorkedData
         {
             //GUI.Button(sRect, "knkjkjhg");
             GUI.Label(sRect, InternalDescription);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual Color AddOnNodeColor()
+        {
+            return Color.gray;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

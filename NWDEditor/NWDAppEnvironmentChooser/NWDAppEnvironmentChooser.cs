@@ -33,7 +33,7 @@ namespace NetWorkedData
 		public void OnGUI ()
 		{
 			this.minSize = new Vector2 (300, 60);
-			this.maxSize = new Vector2 (300, 120);
+			this.maxSize = new Vector2 (300, 150);
 			// set title of window
 			titleContent = new GUIContent (NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE);
 			// show helpbox
@@ -91,13 +91,7 @@ namespace NetWorkedData
 			}
 			// Show version selected
             EditorGUILayout.LabelField ("Version bundle", PlayerSettings.bundleVersion, EditorStyles.label);
-            string tAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
-            NWDAccount tAccount = null;
-            int tObjectIndex = NWDAccount.ObjectsByReferenceList.IndexOf(tAccountReference);
-            if (NWDAccount.ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-            {
-                tAccount = NWDAccount.ObjectsList[tObjectIndex] as NWDAccount;
-            }
+            NWDAccount tAccount = NWDAccount.ActualAccount();
             if (tAccount != null)
             {
                 EditorGUILayout.LabelField("Account Reference", tAccount.Reference);

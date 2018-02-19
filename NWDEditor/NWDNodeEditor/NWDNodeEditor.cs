@@ -21,16 +21,22 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWD editor new class. Can create a new classes based on NWDExample automatically from the form generated in this editor window.
-	/// </summary>
+    /// <summary>
+    /// NWD Node Editor. This editor can edit data as nodal card.
+    /// </summary>
     public class NWDNodeEditor : EditorWindow
 	{
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The document of deck.
+        /// </summary>
         private NWDNodeDocument Document = new NWDNodeDocument();
         //-------------------------------------------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeEditor"/> class.
+        /// </summary>
         public NWDNodeEditor()
         {
             this.autoRepaintOnSceneChange = false;
@@ -39,8 +45,14 @@ namespace NetWorkedData
             //Document.SetData(null, true);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The k node editor shared instance.
+        /// </summary>
         public static NWDNodeEditor kNodeEditorSharedInstance;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Shared instance.
+        /// </summary>
         public static void SharedInstance()
         {
             kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
@@ -48,6 +60,10 @@ namespace NetWorkedData
             kNodeEditorSharedInstance.Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the object in node window.
+        /// </summary>
+        /// <param name="sSelection">S selection.</param>
         public static void SetObjectInNodeWindow(NWDTypeClass sSelection)
         {
             kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
@@ -57,6 +73,9 @@ namespace NetWorkedData
             kNodeEditorSharedInstance.SetSelection(sSelection);
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Redraw.
+        /// </summary>
         public static void ReDraw()
         {
             if (kNodeEditorSharedInstance != null)
@@ -65,41 +84,34 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On destroy.
+        /// </summary>
         void OnDestroy()
         {
             Debug.Log("Destroyed...");
             kNodeEditorSharedInstance = null;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Updates the node window but prevent.
+        /// </summary>
+        /// <param name="sSelection">S selection.</param>
         public static void UpdateNodeWindow(NWDTypeClass sSelection)
         {
             Debug.Log("NWDNodeEditor UpdateNodeWindow");
             if (kNodeEditorSharedInstance != null)
             {
-                // error in equal analyze
-                //bool tNeedBeUpadte = false;
-                //foreach (NWDNodeCard tCard in kNodeEditorSharedInstance.Document.AllCards)
-                //{
-                //    if (tCard.Data == sSelection)
-                //    {
-                //        tNeedBeUpadte = true;
-                //    }
-                //    break;
-                //}
-                //if (tNeedBeUpadte == true)
-                //{
-                //    Debug.Log("NWDNodeEditor UpdateNodeWindow update in working");
-                //    kNodeEditorSharedInstance.Document.ReAnalyze();
-                //    kNodeEditorSharedInstance.Repaint();
-                //}
-
-
-                    kNodeEditorSharedInstance.Document.ReAnalyze();
+                kNodeEditorSharedInstance.Document.ReAnalyze();
                 kNodeEditorSharedInstance.Repaint();
             }
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set selection.
+        /// </summary>
+        /// <param name="sSelection">S selection.</param>
         public void SetSelection(NWDTypeClass sSelection)
         {
             Document.SetData(sSelection);
@@ -112,9 +124,17 @@ namespace NetWorkedData
 		public void OnEnable ()
 		{
             titleContent = new GUIContent ("NWDNodeEditor");
+            Document.LoadClasses();
+            Repaint();
 		}
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The m scroll position.
+        /// </summary>
         public static Vector2 mScrollPosition = Vector2.zero;
+        /// <summary>
+        /// The m last mouse position.
+        /// </summary>
         Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -122,7 +142,9 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
-           // Debug.Log("NWDNodeEditor OnGUI");
+            // Debug.Log("NWDNodeEditor OnGUI");
+            NWDConstants.LoadImages();
+            NWDConstants.LoadStyles();
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));

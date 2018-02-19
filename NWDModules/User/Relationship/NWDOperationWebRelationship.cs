@@ -122,7 +122,8 @@ namespace NetWorkedData
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
             //Debug.Log("NWDOperationWebRelationship DataDownloadedCompute()");
-            NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
+            // I put null for pull typeList to analyze all NWDClass
+            NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, null);
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

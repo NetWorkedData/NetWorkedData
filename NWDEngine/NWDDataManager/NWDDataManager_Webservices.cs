@@ -559,7 +559,15 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
-			bool sUpdateData = false;
+
+            // I must autoanalyze the Type of data?
+            if (sTypeList == null)
+            {
+                List<Type> tTypeList = NWDDataManager.SharedInstance.mTypeList;
+                sTypeList = tTypeList;
+            }
+
+            bool sUpdateData = false;
 			if (sTypeList != null)
             {
 				foreach (Type tType in sTypeList)

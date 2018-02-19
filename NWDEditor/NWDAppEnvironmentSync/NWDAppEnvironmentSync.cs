@@ -369,13 +369,7 @@ namespace NetWorkedData
 
             // Show version selected
             EditorGUILayout.LabelField("Version bundle", PlayerSettings.bundleVersion, EditorStyles.label);
-            string tAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
-            NWDAccount tAccount = null;
-            int tObjectIndex = NWDAccount.ObjectsByReferenceList.IndexOf(tAccountReference);
-            if (NWDAccount.ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-            {
-                tAccount = NWDAccount.ObjectsList[tObjectIndex] as NWDAccount;
-            }
+            NWDAccount tAccount = NWDAccount.ActualAccount();
             if (tAccount != null)
             {
                 EditorGUILayout.LabelField("Account Reference", tAccount.Reference);

@@ -166,8 +166,20 @@ namespace NetWorkedData
 		{
 			// do something when object will be remove from trash
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccount ActualAccount()
+        {
+            NWDAccount rAccount = null;
+            string tAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+            int tObjectIndex = NWDAccount.ObjectsByReferenceList.IndexOf(tAccountReference);
+            if (NWDAccount.ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+            {
+                rAccount = NWDAccount.ObjectsList[tObjectIndex] as NWDAccount;
+            }
+            return rAccount;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition
 		//-------------------------------------------------------------------------------------------------------------

@@ -25,6 +25,7 @@ namespace NetWorkedData
         public int Line=0;
         public int Column=0;
         public NWDNodeDocument ParentDocument;
+        public Color InformationsColor = Color.white;
         //-------------------------------------------------------------------------------------------------------------
         float tX;
         float tY;
@@ -67,7 +68,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty , object[] sObjectsArray)
+        public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty , object[] sObjectsArray, bool sButtonAdd)
         {
             Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
@@ -88,6 +89,7 @@ namespace NetWorkedData
                 tNewConnexion.Parent = this;
             }
             tNewConnexion.Property = sProperty;
+            tNewConnexion.AddButton = sButtonAdd;
             int tLine = 0;
             foreach (NWDTypeClass tObject in sObjectsArray)
             {
@@ -211,9 +213,11 @@ namespace NetWorkedData
             GUI.Label(CardReferenceRect, ReferenceString);
             GUI.Label(CardInternalKeyRect, InternalKeyString);
 
-
-
+            // Draw informations box with the color of informations
+            Color tOldBackgroundColor = GUI.backgroundColor;
+            GUI.backgroundColor = InformationsColor;
             GUI.Box(InfoRect, " ", EditorStyles.helpBox);
+            GUI.backgroundColor = tOldBackgroundColor;
             // add button to edit data
             GUIContent tButtonContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
             if (GUI.Button(new Rect(tX + Width - NWDConstants.kEditWidth-NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
@@ -238,31 +242,34 @@ namespace NetWorkedData
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
                 GUI.Box(tConnexion.Rectangle, tConnexion.PropertyName);
+                Type tTypeProperty = tConnexion.Property.GetValue(Data, null).GetType();
                 GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-                if (GUI.Button(new Rect(tConnexion.Rectangle.x, tConnexion.Rectangle.y, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                if (tConnexion.AddButton == true)
                 {
-                    Debug.Log("ADD REFERENCE FROM NODE EDITOR");
-                    // call the method EditorAddNewObject();
+                    if (GUI.Button(new Rect(tConnexion.Rectangle.x, tConnexion.Rectangle.y, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                    {
+                        Debug.Log("ADD REFERENCE FROM NODE EDITOR");
+                        // call the method EditorAddNewObject();
 
-                    Type tTypeProperty = tConnexion.Property.GetValue(Data, null).GetType();
-                    Debug.Log("tTypeProperty = " + tTypeProperty.Name);
-                    var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodProperty != null)
-                    {
-                        tMethodProperty.Invoke(tConnexion.Property.GetValue(Data, null), null);
-                        // Ok I update the data
-                        Type tDataType = Data.GetType();
-                        var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                        if (tDataTypeUpdate != null)
+                        Debug.Log("tTypeProperty = " + tTypeProperty.Name);
+                        var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                        if (tMethodProperty != null)
                         {
-                            Debug.Log("UpdateMe is Ok ");
-                            tDataTypeUpdate.Invoke(Data, new object[] { true });
-                            ParentDocument.ReAnalyze();
+                            tMethodProperty.Invoke(tConnexion.Property.GetValue(Data, null), null);
+                            // Ok I update the data
+                            Type tDataType = Data.GetType();
+                            var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                            if (tDataTypeUpdate != null)
+                            {
+                                Debug.Log("UpdateMe is Ok ");
+                                tDataTypeUpdate.Invoke(Data, new object[] { true });
+                                ParentDocument.ReAnalyze();
+                            }
                         }
-                    }
-                    else
-                    {
-                        Debug.Log("NO tMethodProperty ");
+                        else
+                        {
+                            Debug.Log("NO tMethodProperty ");
+                        }
                     }
                 }
             }
