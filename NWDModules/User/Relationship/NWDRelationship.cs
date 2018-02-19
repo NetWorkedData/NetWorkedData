@@ -75,6 +75,7 @@ namespace NetWorkedData
         /// <value>The account reference.</value>
         [NWDGroupStart("Publisher of datas")]
         [Indexed("RelationshipIndex", 0)]
+<<<<<<< HEAD
         public NWDReferenceType<NWDAccount> PublisherReference
         {
             get; set;
@@ -91,27 +92,28 @@ namespace NetWorkedData
         {
             get; set;
         }
+=======
+        public NWDReferenceType<NWDAccount> PublisherReference { get; set; }
+        public string PublisherNickname { get; set; }
+        public NWDReferenceType<NWDUserNickname> PublisherNicknameReference { get; set; }
+        public string PublisherClassesShared { get; set; }
+>>>>>>> c34eabf600d45810ec000946ef54ea86d107d70b
         [NWDGroupEnd()]
 
         [NWDSeparator]
 
         [NWDGroupStart("Relation")]
-        public NWDReferenceType<NWDRelationship> Reciprocity
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDRelationship> Reciprocity { get; set; }
         [Indexed("PinIndex", 0)]
         [Indexed("RelationshipIndex", 1)]
-        public NWDRelationshipPinState RelationState
-        {
-            get; set;
-        }
+        public NWDRelationshipPinState RelationState { get; set; }
         [NWDGroupEnd()]
 
         [NWDSeparator]
 
         [NWDGroupStart("Reader of datas")]
         //[Indexed("RelationshipIndex", 1)]
+<<<<<<< HEAD
         public NWDReferenceType<NWDAccount> ReaderReference
         {
             get; set;
@@ -124,35 +126,28 @@ namespace NetWorkedData
         //{
         //    get; set;
         //}
+=======
+        public NWDReferenceType<NWDAccount> ReaderReference { get; set; }
+        public string ReaderNickname { get; set; }
+        public NWDReferenceType<NWDUserNickname> ReaderNicknameReference { get; set; }
+>>>>>>> c34eabf600d45810ec000946ef54ea86d107d70b
         //public string SlaveUniqueNickname { get; set;  } // user B as Slave ID (unique Nickname shorter than reference)
-        public string ReaderClassesAccepted
-        {
-            get; set;
-        }
+        public string ReaderClassesAccepted { get; set; }
         [NWDGroupEnd()]
 
         [NWDSeparator]
 
         [NWDGroupStart("Sync datas")]
-        public bool FirstSync
-        {
-            get; set;
-        }
+        public bool FirstSync { get; set; }
         [NWDGroupEnd()]
 
         [NWDSeparator]
 
         [NWDGroupStart("PinCode informations")]
         [Indexed("PinIndex", 1)]
-        public string PinCode
-        {
-            get; set;
-        }
+        public string PinCode { get; set; }
         [Indexed("PinIndex", 2)]
-        public int PinLimit
-        {
-            get; set;
-        }
+        public int PinLimit { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         public delegate void SyncRemoveBlock(bool error, NWDOperationResult result = null);
         public SyncRemoveBlock SyncRemoveBlockDelegate;
@@ -185,11 +180,9 @@ namespace NetWorkedData
             NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
             return tRelation;
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public static NWDRelationship CreateNewRelationship(Type[] sClasses)
         {
-
             List<string> tList = new List<string>();
             foreach (Type tClass in sClasses)
             {
@@ -203,8 +196,8 @@ namespace NetWorkedData
                     }
                 }
             }
+
             NWDRelationship tReturn = NewObject();
-            //tReturn.MasterReference.SetObject(NWDAccount.GetCurrentAccount());
             tReturn.ReaderReference.SetObject(null);
             tReturn.PublisherClassesShared = string.Join(",", tList.ToArray());
             tReturn.ReaderClassesAccepted = string.Join(",", tList.ToArray());
@@ -219,16 +212,15 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void EnterPinToServer(string sNickname, string sPinCode,
-
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
-                                                                       NWDAppEnvironment sEnvironment = null)
+                                            BTBOperationBlock sSuccessBlock = null,
+                                            BTBOperationBlock sErrorBlock = null,
+                                            BTBOperationBlock sCancelBlock = null,
+                                            BTBOperationBlock sProgressBlock = null,
+                                            bool sPriority = true,
+                                            NWDAppEnvironment sEnvironment = null)
         {
             string tAccount = NWDAccount.GetCurrentAccountReference();
-            // TODO connect to server
+
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "EnterPinCode";
             sOperation.Nickname = sNickname;
@@ -236,30 +228,26 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void SynchronizeSlaveDatas(
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
-                                                                         NWDAppEnvironment sEnvironment = null)
+        static public void SynchronizeSlaveDatas(BTBOperationBlock sSuccessBlock = null,
+                                                 BTBOperationBlock sErrorBlock = null,
+                                                 BTBOperationBlock sCancelBlock = null,
+                                                 BTBOperationBlock sProgressBlock = null,
+                                                 bool sPriority = true,
+                                                 NWDAppEnvironment sEnvironment = null)
         {
-
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "Sync";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public void SynchronizeForceSlaveDatas(
-                                                                       BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
-                                                                         NWDAppEnvironment sEnvironment = null)
+        static public void SynchronizeForceSlaveDatas(BTBOperationBlock sSuccessBlock = null,
+                                                      BTBOperationBlock sErrorBlock = null,
+                                                      BTBOperationBlock sCancelBlock = null,
+                                                      BTBOperationBlock sProgressBlock = null,
+                                                      bool sPriority = true,
+                                                      NWDAppEnvironment sEnvironment = null)
         {
-
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
             sOperation.Action = "SyncForce";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
@@ -332,6 +320,7 @@ namespace NetWorkedData
                     SyncRemoveBlockDelegate(false);
                 }
             };
+
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 NWDOperationResult tInfos = bInfos as NWDOperationResult;
