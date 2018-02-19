@@ -462,7 +462,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
 
 
-            EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Accepted);
+            //EditorGUI.BeginDisabledGroup(RelationState != NWDRelationshipPinState.Accepted);
             if (GUI.Button(new Rect(tX, tYadd, tWidthTiers, tMiniButtonStyle.fixedHeight), "Sync", tMiniButtonStyle))
             {
 
@@ -477,7 +477,7 @@ namespace NetWorkedData
                 SynchronizeForceSlaveDatas();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            EditorGUI.EndDisabledGroup();
+            //EditorGUI.EndDisabledGroup();
 
             return tYadd;
         }
