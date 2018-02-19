@@ -87,9 +87,9 @@ namespace NetWorkedData
 			NWDLocalization rReturn = NewObject ();
 			rReturn.InternalKey = sKey;
 			if (sDefault != "") {
-				rReturn.TextValue.AddBaseString (sKey);
+                rReturn.TextValue.AddBaseString (sDefault);
 			} else {
-				rReturn.TextValue.AddBaseString (sDefault);
+                rReturn.TextValue.AddBaseString (sKey);
 			}
 			rReturn.SaveModifications ();
 			return rReturn;
