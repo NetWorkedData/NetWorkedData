@@ -358,6 +358,27 @@ namespace NetWorkedData
 				}
 			}
 			GUI.backgroundColor = tOldColor;
+
+
+
+            // Show version selected
+            EditorGUILayout.LabelField("Version bundle", PlayerSettings.bundleVersion, EditorStyles.label);
+            string tAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+            NWDAccount tAccount = null;
+            int tObjectIndex = NWDAccount.ObjectsByReferenceList.IndexOf(tAccountReference);
+            if (NWDAccount.ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+            {
+                tAccount = NWDAccount.ObjectsList[tObjectIndex] as NWDAccount;
+            }
+            if (tAccount != null)
+            {
+                EditorGUILayout.LabelField("Account Reference", tAccount.Reference);
+                EditorGUILayout.LabelField("Account InternalKey", tAccount.InternalKey);
+                if (GUILayout.Button("Account Select"))
+                {
+                    NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
+                }
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreateTable (NWDAppEnvironment sEnvironment)

@@ -249,19 +249,32 @@ namespace NetWorkedData
 			EditorGUI.EndDisabledGroup ();
 
 
+
+            BTBOperationBlock tSuccessOrFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (NWDEditorMenu.kNWDAppEnvironmentChooser != null)
+                {
+                    NWDEditorMenu.kNWDAppEnvironmentChooser.Repaint();
+                };
+                if (NWDEditorMenu.kNWDAppEnvironmentSync != null)
+                {
+                    NWDEditorMenu.kNWDAppEnvironmentSync.Repaint();
+                };
+            };
+
 			EditorGUI.BeginDisabledGroup (kInternalLogin == "" || kInternalLogin == null);
 
 			if (GUI.Button (new Rect (tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue dev", tMiniButtonStyle)) {
 				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance.DevEnvironment;
-				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", null, null, null, null, tEnvironmentDev);
+                NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", tSuccessOrFailed, null, null, null, tEnvironmentDev);
 				sOperation.Action = "rescue";
 				sOperation.EmailRescue = kInternalLogin;
 				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
 			}
 
-			if (GUI.Button (new Rect (tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp preprod", tMiniButtonStyle)) {
+			if (GUI.Button (new Rect (tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue preprod", tMiniButtonStyle)) {
 				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance.PreprodEnvironment;
-				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", null, null, null, null, tEnvironmentPreprod);
+                NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", tSuccessOrFailed, null, null, null, tEnvironmentPreprod);
 				sOperation.Action = "rescue";
 				sOperation.EmailRescue = kInternalLogin;
 				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
@@ -278,21 +291,27 @@ namespace NetWorkedData
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			EditorGUI.EndDisabledGroup ();
 
+
+
+
 			EditorGUI.BeginDisabledGroup (Email == "" || Password == "");
 			if (GUI.Button (new Rect (tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn dev", tMiniButtonStyle)) {
 				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance.DevEnvironment;
 
-				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", null, null, null, null, tEnvironmentDev);
+                NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", tSuccessOrFailed, tSuccessOrFailed, null, null, tEnvironmentDev);
 				sOperation.Action = "signin";
 				sOperation.EmailHash = Email;
 				sOperation.PasswordHash = Password;
 				NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (sOperation, true);
+
+               
+
 			}
 
 			if (GUI.Button (new Rect (tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn preprod", tMiniButtonStyle)) {
 				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance.PreprodEnvironment;
 
-				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", null, null, null, null, tEnvironmentPreprod);
+                NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", tSuccessOrFailed, tSuccessOrFailed, null, null, tEnvironmentPreprod);
 				sOperation.Action = "signin";
 				sOperation.EmailHash = Email;
 				sOperation.PasswordHash = Password;

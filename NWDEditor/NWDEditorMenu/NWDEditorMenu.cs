@@ -122,7 +122,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// TheNWD app configuration window.
 		/// </summary>
-		static NWDAppEnvironmentChooser kNWDAppEnvironmentChooser;
+		public static NWDAppEnvironmentChooser kNWDAppEnvironmentChooser;
 		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT, false, 61)]
 		public static void EnvironementChooserShow()
 		{
