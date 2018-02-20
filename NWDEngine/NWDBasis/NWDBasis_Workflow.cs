@@ -132,6 +132,32 @@ namespace NetWorkedData
 			}
 			return rReturn.ToArray();
 		}
+
+
+        //public static NWDPreferences GetPreferenceByInternalKeyOrCreate(string sInternalKey, string sValue, string sInternalDescription = "")
+        //{
+        //    Debug.Log("GetPreferenceByInternalKeyOrCreate");
+        //    NWDPreferences rObject = GetObjectByInternalKey(sInternalKey) as NWDPreferences;
+        //    if (rObject == null)
+        //    {
+        //        Debug.Log("New object");
+        //        rObject = NWDBasis<NWDPreferences>.NewObject();
+        //        RemoveObjectInListOfEdition(rObject);
+        //        rObject.InternalKey = sInternalKey;
+        //        NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
+        //        tAccountReference.SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
+        //        rObject.AccountReference = tAccountReference;
+        //        NWDMultiType tValue = new NWDMultiType(sValue);
+        //        rObject.Value = tValue;
+        //        rObject.InternalDescription = sInternalDescription;
+        //        rObject.UpdateMe();
+        //        AddObjectInListOfEdition(rObject);
+        //    }
+        //    return rObject;
+        //}
+
+
+
 		//-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "",string sAccountReference = null)
 		{
@@ -144,15 +170,23 @@ namespace NetWorkedData
 				}
 			}
             // don't create for another account (only for user account)
-            if (rReturn == null && sAccountReference==null) {
-				rReturn = NWDBasis<K>.NewInstance () as K;
-				RemoveObjectInListOfEdition (rReturn);
-				rReturn.InternalKey = sInternalKey;
-				rReturn.InternalDescription = sInternalDescription;
-				 //TODO : add Internal reference of account dependent
-				rReturn.UpdateMe ();
-				AddObjectInListOfEdition (rReturn);
-			}
+   //         if (rReturn == null && sAccountReference==null) {
+			//	rReturn = NWDBasis<K>.NewInstance () as K;
+			//	RemoveObjectInListOfEdition (rReturn);
+			//	rReturn.InternalKey = sInternalKey;
+			//	rReturn.InternalDescription = sInternalDescription;
+			//	 //TODO : add Internal reference of account dependent
+			//	rReturn.UpdateMe ();
+			//	AddObjectInListOfEdition (rReturn);
+			//}
+            if (rReturn == null)
+            {
+                rReturn = NWDBasis<K>.NewObject();
+                rReturn.InternalKey = sInternalKey;
+                rReturn.InternalDescription = sInternalDescription;
+                rReturn.UpdateMe ();
+                AddObjectInListOfEdition(rReturn);
+            }
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
