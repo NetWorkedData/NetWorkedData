@@ -89,7 +89,7 @@ namespace NetWorkedData
         /// </summary>
         void OnDestroy()
         {
-            Debug.Log("Destroyed...");
+            //Debug.Log("Destroyed...");
             kNodeEditorSharedInstance = null;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ namespace NetWorkedData
         /// <param name="sSelection">S selection.</param>
         public static void UpdateNodeWindow(NWDTypeClass sSelection)
         {
-            Debug.Log("NWDNodeEditor UpdateNodeWindow");
+           // Debug.Log("NWDNodeEditor UpdateNodeWindow");
             if (kNodeEditorSharedInstance != null)
             {
                 kNodeEditorSharedInstance.Document.ReAnalyze();

@@ -34,7 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NodeCardAnalyze(NWDNodeCard sCard)
         {
-            Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
+            //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
             // insert informations
             sCard.ReferenceString = Reference;
             sCard.TypeString = ClassNamePHP();

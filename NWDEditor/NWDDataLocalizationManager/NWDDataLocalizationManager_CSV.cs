@@ -47,7 +47,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ExportToCSV ()
 		{
-			Debug.Log ("ExportToCSV");
+			//Debug.Log ("ExportToCSV");
 			// apply the pending modification : prevent lost modification
 			NWDDataManager.SharedInstance.UpdateQueueExecute ();
 			// ask for final file path
@@ -77,7 +77,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ImportFromCSV ()
 		{
-			Debug.Log ("ImportFromCSV");
+			//Debug.Log ("ImportFromCSV");
 			string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", "", "csv");
 			// more complexe 
 

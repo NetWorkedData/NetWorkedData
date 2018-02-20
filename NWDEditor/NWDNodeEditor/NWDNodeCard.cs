@@ -49,7 +49,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Analyze(NWDNodeDocument sDocument)
         {
-            Debug.Log("NWDNodeCard Analyze()");
+            //Debug.Log("NWDNodeCard Analyze()");
             ParentDocument = sDocument;
             sDocument.ColumnMaxCount(Column);
             // I analyze the properties of data.
@@ -64,13 +64,13 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.Log("NWDNodeCard Analyze() NO DATA (null)");
+                //Debug.Log("NWDNodeCard Analyze() NO DATA (null)");
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty, object[] sObjectsArray, bool sButtonAdd)
         {
-            Debug.Log("NWDNodeCard AddPropertyResult()");
+           // Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
             NWDNodeConnexion tNewConnexion = null;
             foreach (NWDNodeConnexion tConnexion in ConnexionList)

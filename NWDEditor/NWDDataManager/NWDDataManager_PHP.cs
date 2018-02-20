@@ -194,7 +194,7 @@ namespace NetWorkedData
 		public void CopyEnginePHP ()
 		{
 			string tFolder = NWDFindPackage.SharedInstance ().ScriptFolderFromAssets + "/NWDServer";
-			Debug.Log ("tFolder = " + tFolder);
+			//Debug.Log ("tFolder = " + tFolder);
 			if (AssetDatabase.IsValidFolder ("Assets/NetWorkedDataServer") == false) {
 				AssetDatabase.CreateFolder ("Assets", "NetWorkedDataServer");
 			}

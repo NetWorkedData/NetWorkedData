@@ -42,7 +42,6 @@ namespace NetWorkedData
         public void SavePreferences(NWDOperationResult sData)
         {
             SavePreferences();
-
             //TODO : save usefull information from webservice data result
         }
 		//-------------------------------------------------------------------------------------------------------------
@@ -76,14 +75,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetSession ()
 		{
-			Debug.Log ("ResetSession in " + Environment);
+			//Debug.Log ("ResetSession in " + Environment);
 			ResetPlayerSession ();
 			ResetAnonymousSession ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetPlayerSession ()
 		{
-			Debug.Log ("ResetPlayerSession in " + Environment);
+			//Debug.Log ("ResetPlayerSession in " + Environment);
 			PlayerAccountReference = NWDToolbox.GenerateUniqueID();
 			RequesToken = "";
 			PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
@@ -92,7 +91,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetAnonymousSession ()
 		{
-			Debug.Log ("ResetAnonymousSession in " + Environment);
+			//Debug.Log ("ResetAnonymousSession in " + Environment);
 			AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
 			AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
 			SavePreferences ();
@@ -100,7 +99,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void RestaureAnonymousSession ()
 		{
-			Debug.Log ("RestaureAnonymousSession in " + Environment);
+			//Debug.Log ("RestaureAnonymousSession in " + Environment);
 			PlayerAccountReference = AnonymousPlayerAccountReference;
 			RequesToken = "";
 			PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;

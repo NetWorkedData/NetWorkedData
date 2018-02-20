@@ -61,7 +61,7 @@ namespace NetWorkedData
 
 		public void RepaintWindowsInManager (Type sType)
 		{
-            Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
+            //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
 			if (mTypeWindowDico.ContainsKey (sType))
 			{
 				foreach (NWDTypeWindow tWindow in mTypeWindowDico [sType])

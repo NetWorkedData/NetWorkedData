@@ -90,13 +90,13 @@ namespace NetWorkedData
                 }
 			}
 			// Show version selected
-            EditorGUILayout.LabelField ("Version bundle", PlayerSettings.bundleVersion, EditorStyles.label);
+            EditorGUILayout.LabelField (NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
             NWDAccount tAccount = NWDAccount.ActualAccount();
             if (tAccount != null)
             {
-                EditorGUILayout.LabelField("Account Reference", tAccount.Reference);
-                EditorGUILayout.LabelField("Account InternalKey", tAccount.InternalKey);
-                if (GUILayout.Button("Account Select"))
+                EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE, tAccount.Reference);
+                EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY, tAccount.InternalKey);
+                if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT))
                 {
                     NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
                 }

@@ -25,7 +25,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void OnPreprocessBuild(BuildTarget target, string path)
 		{
-			Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
+			//Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
 			bool tProd = false;
 			if (EditorUtility.DisplayDialog("Choose your environment to build", "Be sure to choose the good environment before build your app", "Production", "PreProduction"))
 			{
@@ -33,7 +33,7 @@ namespace NetWorkedData
 			}
 			if (tProd == true)
 			{
-				Debug.Log("NWDBuildPreProcess !!! PRODUCTION BUILD");
+				//Debug.Log("NWDBuildPreProcess !!! PRODUCTION BUILD");
 				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.ProdEnvironment);
 				NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = true;
 				NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = false;
@@ -41,7 +41,7 @@ namespace NetWorkedData
 			}
 			else
 			{
-				Debug.Log("NWDBuildPreProcess PRE PRODUCTION BUILD");
+				//Debug.Log("NWDBuildPreProcess PRE PRODUCTION BUILD");
 				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 				NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = false;
 				NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = true;

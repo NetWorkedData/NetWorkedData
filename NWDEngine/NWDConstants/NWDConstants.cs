@@ -134,6 +134,13 @@ namespace NetWorkedData
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 
+
+
+        public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Reference";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account InternalKey";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT = "Account Select";
+
         //-------------------------------------------------------------------------------------------------------------
         // App Configurations Strings
         public const string K_APP_CONFIGURATION_HELPBOX = "Project configuration for connexion with server";
