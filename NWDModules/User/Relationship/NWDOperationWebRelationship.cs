@@ -48,13 +48,14 @@ namespace NetWorkedData
 		                                                           BTBOperationBlock sSuccessBlock = null, 
 		                                                           BTBOperationBlock sFailBlock = null, 
 		                                                           BTBOperationBlock sCancelBlock = null,
-		                                                           BTBOperationBlock sProgressBlock = null, 
-		                                                           NWDAppEnvironment sEnvironment = null,
+                                                                BTBOperationBlock sProgressBlock = null, 
+                                                 List<Type> sAdditionalTypes = null,
+                                                                NWDAppEnvironment sEnvironment = null,
                                                                 bool sForceSync = false, 
                                                                 bool sPriority = false)
         {
             Debug.Log("NWDOperationWebRelationship AddOperation()");
-            NWDOperationWebRelationship rReturn = NWDOperationWebRelationship.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sForceSync);
+            NWDOperationWebRelationship rReturn = NWDOperationWebRelationship.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sAdditionalTypes, sEnvironment, sForceSync);
 			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
@@ -63,7 +64,8 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sSuccessBlock = null, 
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
-		                                                     BTBOperationBlock sProgressBlock = null,
+                                                          BTBOperationBlock sProgressBlock = null,
+                                                 List<Type> sAdditionalTypes = null,
 			NWDAppEnvironment sEnvironment = null,bool sForceSync = false)
         {
             //Debug.Log("NWDOperationWebRelationship Create()");
@@ -83,6 +85,10 @@ namespace NetWorkedData
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
             rReturn.TypeList.Add(NWDRelationship.ClassType());
+            if (sAdditionalTypes != null)
+            {
+                rReturn.TypeList.AddRange(sAdditionalTypes);
+            }
 			rReturn.ForceSync = sForceSync;
 			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
 

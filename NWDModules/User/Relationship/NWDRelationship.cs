@@ -199,7 +199,7 @@ namespace NetWorkedData
         {
             string tAccount = NWDAccount.GetCurrentAccountReference();
 
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,null, sEnvironment);
             sOperation.Action = "EnterPinCode";
             sOperation.Nickname = sNickname;
             sOperation.PinCode = sPinCode;
@@ -210,10 +210,11 @@ namespace NetWorkedData
                                                  BTBOperationBlock sErrorBlock = null,
                                                  BTBOperationBlock sCancelBlock = null,
                                                  BTBOperationBlock sProgressBlock = null,
-                                                 bool sPriority = true,
-                                                 NWDAppEnvironment sEnvironment = null)
+                                                 List<Type> sAdditionalTypes = null,
+                                                 NWDAppEnvironment sEnvironment = null,
+                                                 bool sPriority = true)
         {
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,sAdditionalTypes, sEnvironment);
             sOperation.Action = "Sync";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
 
@@ -223,10 +224,11 @@ namespace NetWorkedData
                                                       BTBOperationBlock sErrorBlock = null,
                                                       BTBOperationBlock sCancelBlock = null,
                                                       BTBOperationBlock sProgressBlock = null,
-                                                      bool sPriority = true,
-                                                      NWDAppEnvironment sEnvironment = null)
+                                                      List<Type> sAdditionalTypes = null,
+                                                      NWDAppEnvironment sEnvironment = null,
+                                                      bool sPriority = true)
         {
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,sAdditionalTypes, sEnvironment);
             sOperation.Action = "SyncForce";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
 
@@ -633,7 +635,7 @@ namespace NetWorkedData
             RelationState = NWDRelationshipPinState.CreatePin;
             SaveModificationsIfModified();
             // Start webrequest
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "CreatePinCode";
             sOperation.PinSize = sPinSize;
             sOperation.PinDelay = sSeconds;
@@ -663,7 +665,7 @@ namespace NetWorkedData
                 // Next Step in development
             }
 
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Waiting", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Waiting", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "Waiting";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
             return rReturn;
@@ -680,7 +682,7 @@ namespace NetWorkedData
             //RelationState = NWDRelationshipPinState.Accepted;
             //SaveModificationsIfModified();
 
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "AcceptFriend";
             sOperation.Relationship = this;
             sOperation.Bilateral = sBilateral;
@@ -698,7 +700,7 @@ namespace NetWorkedData
         {
             string tAccount = NWDAccount.GetCurrentAccountReference();
             // TODO connect to server
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "EnterNicknameID";
             sOperation.Nickname = sNickname;
             sOperation.NicknameID = sNicknameID;
@@ -716,7 +718,7 @@ namespace NetWorkedData
         {
             //RelationState = NWDRelationshipPinState.Refused;
             //TrashMe();
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "RefuseFriend";
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
@@ -732,7 +734,7 @@ namespace NetWorkedData
         {
             //RelationState = NWDRelationshipPinState.Refused;
             //TrashMe();
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship BannedRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship BannedRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "BannedFriend";
             sOperation.Relationship = this;
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
@@ -746,7 +748,7 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             // TODO
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByPublisher", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByPublisher", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "ChangeClassByPublisher";
             sOperation.Classes = PublisherClassesShared;
             sOperation.Relationship = this;
@@ -761,7 +763,7 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             // TODO
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByReader", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship ChangeClassByReader", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "ChangeClassByReader";
             sOperation.Classes = ReaderClassesAccepted;
             sOperation.Relationship = this;
