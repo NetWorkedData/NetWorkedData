@@ -303,6 +303,11 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SHOW_TOOLS = "Show tools";
         public const string K_APP_TABLE_ADD_ZONE = "New object";
         public const string K_APP_TABLE_ADD_ROW = "Add new object";
+
+        public const string K_APP_TABLE_SHOW_ENABLE_DATAS = "Show enable datas";
+        public const string K_APP_TABLE_SHOW_DISABLE_DATAS = "Show disable datas";
+        public const string K_APP_TABLE_SHOW_TRASHED_DATAS = "Show trashed datas";
+        public const string K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS = "Show corrupted datas";
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_HEADER_SELECT = " ";
         public const string K_APP_TABLE_HEADER_ID = "ID";
