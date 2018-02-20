@@ -201,22 +201,22 @@ namespace NetWorkedData
 
 			GUILayout.BeginVertical (GUILayout.Width (300));
 			// |||||||||||||||||||||||||||||||||||||||||||
-			bool t_ShowEnable = EditorGUILayout.ToggleLeft ("Show Enable", m_ShowEnable, GUILayout.Width (200));
+            bool t_ShowEnable = EditorGUILayout.ToggleLeft (NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, m_ShowEnable, GUILayout.Width (200));
 			if (m_ShowEnable != t_ShowEnable) {
 				m_ShowEnable = t_ShowEnable;
 				FilterTableEditor ();
 			}
-			bool t_ShowDisable = EditorGUILayout.ToggleLeft ("Show Disable", m_ShowDisable, GUILayout.Width (200));
+            bool t_ShowDisable = EditorGUILayout.ToggleLeft (NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, m_ShowDisable, GUILayout.Width (200));
 			if (m_ShowDisable != t_ShowDisable) {
 				m_ShowDisable = t_ShowDisable;
 				FilterTableEditor ();
 			}
-			bool t_ShowTrashed = EditorGUILayout.ToggleLeft ("Show Trashed", m_ShowTrashed, GUILayout.Width (200));
+            bool t_ShowTrashed = EditorGUILayout.ToggleLeft (NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, m_ShowTrashed, GUILayout.Width (200));
 			if (m_ShowTrashed != t_ShowTrashed) {
 				m_ShowTrashed = t_ShowTrashed;
 				FilterTableEditor ();
 			}
-			bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft ("Show Integrity error", m_ShowIntegrityError, GUILayout.Width (200));
+            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft (NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, m_ShowIntegrityError, GUILayout.Width (200));
 			if (m_ShowIntegrityError != t_ShowIntegrityError) {
 				m_ShowIntegrityError = t_ShowIntegrityError;
 				FilterTableEditor ();
@@ -649,27 +649,37 @@ namespace NetWorkedData
 
 			GUILayout.Label (NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
 
+
+
+            var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
+            tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(NWDConstants.K_DEVELOPMENT_NAME, tStyleBoldCenter);
+            GUILayout.Label(NWDConstants.K_PREPRODUCTION_NAME, tStyleBoldCenter);
+            GUILayout.Label(NWDConstants.K_PRODUCTION_NAME, EditorStyles.boldLabel);
+            GUILayout.EndHorizontal();
+
+
 			// SYNCHRO TIMESTAMP
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.DevEnvironment).ToString());
-            GUILayout.Label(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.PreprodEnvironment).ToString());
-            GUILayout.Label(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.ProdEnvironment).ToString());
+            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
             GUILayout.EndHorizontal();
-
-            // SYNCHRO NORMAL
 
 
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME, EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
 				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
 
-			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME, EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
 				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
-			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME, EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
 //				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
@@ -683,14 +693,14 @@ namespace NetWorkedData
 
 			// FORCE SYNCHRO
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " force", EditorStyles.miniButton)) {
+			if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
 				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
-			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " force", EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
 				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
-			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " force", EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
 //				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
@@ -706,14 +716,14 @@ namespace NetWorkedData
 			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 			// FORCE SYNCHRO And Clean
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button (NWDConstants.K_DEVELOPMENT_NAME + " clean", EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
 				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.DevEnvironment);
 			}
-			if (GUILayout.Button (NWDConstants.K_PREPRODUCTION_NAME + " clean", EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
 				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
-			if (GUILayout.Button (NWDConstants.K_PRODUCTION_NAME + " clean", EditorStyles.miniButton)) {
+            if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
 				//				if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 				//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 				//					    NWDConstants.K_SYNC_ALERT_OK,
@@ -724,7 +734,7 @@ namespace NetWorkedData
 			EditorGUI.EndDisabledGroup ();
 			GUILayout.EndHorizontal ();
 
-			if (GUILayout.Button ("local base clean", EditorStyles.miniButton)) {
+			if (GUILayout.Button ("Clean local table", EditorStyles.miniButton)) {
 
 				if (EditorUtility.DisplayDialog (NWDConstants.K_CLEAN_ALERT_TITLE,
 					        NWDConstants.K_CLEAN_ALERT_MESSAGE,

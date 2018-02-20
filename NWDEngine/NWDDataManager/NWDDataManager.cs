@@ -29,7 +29,7 @@ namespace NetWorkedData
         private bool kConnectedToDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
 		public string PlayerLanguage = "en";
-		//public SQLiteConnection SQLiteConnection;
+		// Memebes properties for editor data
 		public SQLiteConnection SQLiteConnectionEditor;
 		public string DatabasePathEditor = "Assets/StreamingAssets";
 		public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
