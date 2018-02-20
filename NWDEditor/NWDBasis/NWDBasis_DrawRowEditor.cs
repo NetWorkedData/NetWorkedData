@@ -107,7 +107,10 @@ namespace NetWorkedData
 		{ 
 			// prepare text
 			Rect rRectColored = new Rect (sRect.x-5, sRect.y, sRect.width+10, sRect.height);
-			string tString = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i>";
+            string tString = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
+            // to check the versioning active this line
+            //tString+= "minversion = '" + MinVersion.ToString()+"'";
+
 			tString = tString.Replace ("()", "");
 			string tStringReference = "<" + Reference + ">";
 			// prepare prefab 

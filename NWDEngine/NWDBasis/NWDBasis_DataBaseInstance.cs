@@ -269,17 +269,21 @@ namespace NetWorkedData
 		{
 			bool rReturn = false;
 			if (NWDBasis<K>.FindObjectInDataBaseByReference (this.Reference) == null) {
+
+                NWDVersionType tVersion = new NWDVersionType();
+                tVersion.SetString("0.00.00");
+                this.MinVersion = tVersion;
+                this.DevSync = 0;
+                this.PreprodSync = 0;
+                this.ProdSync = 0;
+                this.ServerHash = "";
+                this.ServerLog = "";
 				if (sAutoDate == true) {
 					this.DC = NWDToolbox.Timestamp ();
 					this.DM = NWDToolbox.Timestamp ();
 //					this.DS = 0;
-					this.DevSync = 0;
-					this.PreprodSync = 0;
-                    this.ProdSync = 0;
-                    this.ServerHash = "";
-                    this.ServerLog = "";
-					this.AddonInsertMe ();
-				}
+                }
+                this.AddonInsertMe();
 				this.UpdateIntegrity ();
 				NWDDataManager.SharedInstance.InsertObject (this, AccountDependent ());
 				AddObjectInListOfEdition (this);
