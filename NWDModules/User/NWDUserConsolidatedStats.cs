@@ -353,6 +353,30 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, int sAddInt)
+        {
+            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.IntValue+= sAddInt;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, float sAddFloat)
+        {
+            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.FloatValue+= sAddFloat;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, string sAddString)
+        {
+            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.StringValue+= sAddString;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------
 }
