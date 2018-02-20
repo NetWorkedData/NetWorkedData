@@ -36,6 +36,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
             // insert informations
+            sCard.ClassTexture = TextureOfClass();
             sCard.ReferenceString = Reference;
             sCard.TypeString = ClassNamePHP();
             sCard.InternalKeyString = InternalKey;

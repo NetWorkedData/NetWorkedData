@@ -26,6 +26,8 @@ namespace NetWorkedData
         public int Column = 0;
         public NWDNodeDocument ParentDocument;
         public Color InformationsColor = Color.white;
+
+        public Texture2D ClassTexture;
         //-------------------------------------------------------------------------------------------------------------
         float tX;
         float tY;
@@ -41,6 +43,7 @@ namespace NetWorkedData
         Rect CardReferenceRect;
         Rect CardInternalKeyRect;
         Rect InfoRect;
+        Rect IconRect;
         Rect InfoUsableRect;
         public string TypeString;
         public string ReferenceString;
@@ -70,7 +73,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty, object[] sObjectsArray, bool sButtonAdd)
         {
-           // Debug.Log("NWDNodeCard AddPropertyResult()");
+            // Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
             NWDNodeConnexion tNewConnexion = null;
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
@@ -149,10 +152,11 @@ namespace NetWorkedData
 
             CardRect = new Rect(tX, tY, Width, Height);
 
+            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge, CardRect.y + NWDConstants.kFieldMarge, 32, 32);
 
-            CardTypeRect = new Rect(tX + NWDConstants.kFieldMarge, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardTypeRect = new Rect(tX + 32 + NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX + 32 + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX + 32 + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
 
             InfoRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, Width - +NWDConstants.kFieldMarge * 2, InformationsHeight);
             InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge * 2, InfoRect.height - NWDConstants.kFieldMarge * 2);
@@ -167,7 +171,7 @@ namespace NetWorkedData
                 //Debug.Log("NWDNodeCard DrawCard() draw connexion");
                 tConnexion.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
                                                 tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + InformationsHeight + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                Width - NWDConstants.kFieldMarge * 2,
+                                                Width - NWDConstants.kEditWidth - NWDConstants.kFieldMarge * 2,
                                                 ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnexion.PropertyName);
@@ -208,6 +212,10 @@ namespace NetWorkedData
             //}
 
             //EditorGUI.DrawRect(new Rect(CardRect.x + 1, CardRect.y + 1, CardRect.width-2, CardRect.height-2), Color.gray);
+            if (ClassTexture != null)
+            {
+                EditorGUI.DrawPreviewTexture(IconRect, ClassTexture);
+            }
 
             GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
             GUI.Label(CardReferenceRect, ReferenceString);
