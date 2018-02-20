@@ -33,9 +33,9 @@ namespace NetWorkedData
         public float Width;
         public float Height;
         public float InformationsHeight;
-        string Infos = "";
-        string InfosCard = "";
-        string InfosCardCustom;
+        //string Infos = "";
+        //string InfosCard = "";
+        //string InfosCardCustom;
         Rect CardRect;
         Rect CardTypeRect;
         Rect CardReferenceRect;
@@ -90,7 +90,7 @@ namespace NetWorkedData
             }
             tNewConnexion.Property = sProperty;
             tNewConnexion.AddButton = sButtonAdd;
-            int tLine = 0;
+            //int tLine = 0;
             foreach (NWDTypeClass tObject in sObjectsArray)
             {
                 // Card exist?
@@ -143,9 +143,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvaluateLayout()
         {
-            Infos = "";//Data.GetType().AssemblyQualifiedName;
-            InfosCard = " " + Column + " x " + Line + "\n";
-            InfosCardCustom = "";
+            //Infos = "";//Data.GetType().AssemblyQualifiedName;
+            //InfosCard = " " + Column + " x " + Line + "\n";
+            //InfosCardCustom = "";
 
             CardRect = new Rect(tX, tY, Width, Height);
 

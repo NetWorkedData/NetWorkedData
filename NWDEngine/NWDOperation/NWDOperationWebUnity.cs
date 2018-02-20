@@ -486,7 +486,10 @@ namespace NetWorkedData
 			tBodyData.AddField (tDigestKey, tDigestValue);
 
 #if UNITY_EDITOR
-		    NWDEditorMenu.EnvironementSync ().SendOctects = tParamValue.Length + tDigestValue.Length;
+            if (Application.isPlaying == false)
+            {
+                NWDEditorMenu.EnvironementSync().SendOctects = tParamValue.Length + tDigestValue.Length;
+            }
 #endif
 			return tBodyData;
 		}

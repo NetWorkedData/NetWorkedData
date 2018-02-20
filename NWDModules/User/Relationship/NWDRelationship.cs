@@ -197,7 +197,7 @@ namespace NetWorkedData
                                             bool sPriority = true,
                                             NWDAppEnvironment sEnvironment = null)
         {
-            string tAccount = NWDAccount.GetCurrentAccountReference();
+            //string tAccount = NWDAccount.GetCurrentAccountReference();
 
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,null, sEnvironment);
             sOperation.Action = "EnterPinCode";
@@ -698,7 +698,7 @@ namespace NetWorkedData
                                                                        bool sPriority = true,
                                                                        NWDAppEnvironment sEnvironment = null)
         {
-            string tAccount = NWDAccount.GetCurrentAccountReference();
+            //string tAccount = NWDAccount.GetCurrentAccountReference();
             // TODO connect to server
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "EnterNicknameID";

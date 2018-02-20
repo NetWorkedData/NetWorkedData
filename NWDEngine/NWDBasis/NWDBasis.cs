@@ -232,7 +232,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void FilterTableEditor ()
 		{
-            Debug.Log("FilterTableEditor()");
+            //Debug.Log("FilterTableEditor()");
 //			Debug.Log ("m_SearchInternalName = " + m_SearchInternalName);
 			// change filter, remove selection
 			ObjectsInEditorTableSelectionList.ForEach (delegate(bool tSelection) {

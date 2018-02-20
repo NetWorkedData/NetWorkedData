@@ -444,7 +444,14 @@ namespace NetWorkedData
 		{
 			bool rReturn = false;
 #if UNITY_EDITOR
-				NWDEditorMenu.EnvironementSync ().SynchronizationForce (new List<Type>{ ClassType () }, sEnvironment);
+            if (Application.isPlaying == true)
+            {
+                NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce(new List<Type> { ClassType() }, true, sEnvironment);
+            }
+            else
+            {
+                NWDEditorMenu.EnvironementSync().SynchronizationForce(new List<Type> { ClassType() }, sEnvironment);
+            }
 #else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
@@ -460,7 +467,14 @@ namespace NetWorkedData
 		{
 			bool rReturn = false;
 #if UNITY_EDITOR
-				NWDEditorMenu.EnvironementSync ().Synchronization (new List<Type>{ ClassType () }, sEnvironment);
+            if (Application.isPlaying == true)
+            {
+                NWDDataManager.SharedInstance.AddWebRequestSynchronization(new List<Type> { ClassType() }, true, sEnvironment);
+            }
+            else
+            {
+                NWDEditorMenu.EnvironementSync().Synchronization(new List<Type> { ClassType() }, sEnvironment);
+            }
 #else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
@@ -476,7 +490,14 @@ namespace NetWorkedData
 		{
 			bool rReturn = false;
 #if UNITY_EDITOR
-			NWDEditorMenu.EnvironementSync ().SynchronizationClean (new List<Type>{ ClassType () }, sEnvironment);
+            if (Application.isPlaying == true)
+            {
+                NWDEditorMenu.EnvironementSync().SynchronizationClean(new List<Type> { ClassType() }, sEnvironment);
+            }
+            else
+            {
+                NWDDataManager.SharedInstance.AddWebRequestSynchronizationClean(new List<Type> { ClassType() }, true, sEnvironment);
+            }
 #else
 			NWDDataManager.SharedInstance.AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif

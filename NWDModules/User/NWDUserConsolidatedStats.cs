@@ -50,7 +50,7 @@ namespace NetWorkedData
     /// </summary>
     public partial class NWDUserConsolidatedStats : NWDBasis<NWDUserConsolidatedStats>
     {
-#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+    //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
         //-------------------------------------------------------------------------------------------------------------
         // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
         // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER

@@ -47,7 +47,7 @@ namespace NetWorkedData
             List<K> rReturnObject = new List<K>();
             if (AccountDependent())
             {
-                SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+                //SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
                 PropertyInfo[] tAccountProperties = kAccountDependentProperties[NWDBasis<K>.ClassName()];
                 string tWhere = "";
                 List<string> tWhereList = new List<string>();

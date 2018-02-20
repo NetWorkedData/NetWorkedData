@@ -31,8 +31,8 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("MES")]
-    [NWDClassDescriptionAttribute ("User Message descriptions Class :  as notification")]
+	[NWDClassTrigrammeAttribute ("UMS")]
+    [NWDClassDescriptionAttribute ("User Message descriptions Class : as notification")]
 	[NWDClassMenuNameAttribute ("User Messages")]
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDInternalKeyNotEditableAttribute]

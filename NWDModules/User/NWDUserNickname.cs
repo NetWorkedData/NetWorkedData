@@ -164,7 +164,7 @@ namespace NetWorkedData
             }
             return sNeedBeUpdate;
         }
-        private static string kNickNameToTest = "";
+        //private static string kNickNameToTest = "";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor interface.
