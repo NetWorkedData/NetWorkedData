@@ -277,6 +277,7 @@ namespace NetWorkedData
 					this.PreprodSync = 0;
                     this.ProdSync = 0;
                     this.ServerHash = "";
+                    this.ServerLog = "";
 					this.AddonInsertMe ();
 				}
 				this.UpdateIntegrity ();

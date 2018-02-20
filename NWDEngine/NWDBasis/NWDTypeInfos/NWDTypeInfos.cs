@@ -206,6 +206,7 @@ namespace NetWorkedData
 			rReturn.Remove ("DM");
             rReturn.Remove ("DS");
             rReturn.Remove("ServerHash");
+            rReturn.Remove("ServerLog");
 			rReturn.Remove ("DevSync");
 			rReturn.Remove ("PreprodSync");
 			rReturn.Remove ("ProdSync");
@@ -236,6 +237,7 @@ namespace NetWorkedData
 			rReturn.Remove ("DM");
             rReturn.Remove ("DS");
             rReturn.Remove("ServerHash");
+            rReturn.Remove("ServerLog");
 			rReturn.Remove ("DevSync");
 			rReturn.Remove ("PreprodSync");
 			rReturn.Remove ("ProdSync");
@@ -265,6 +267,7 @@ namespace NetWorkedData
 			rReturn.Remove ("DM");
             rReturn.Remove ("DS");
             rReturn.Remove("ServerHash");
+            rReturn.Remove("ServerLog");
 			rReturn.Remove ("DevSync");
 			rReturn.Remove ("PreprodSync");
 			rReturn.Remove ("ProdSync");
@@ -295,6 +298,7 @@ namespace NetWorkedData
 			rReturn.Remove ("DM");
             rReturn.Remove ("DS");
             rReturn.Remove("ServerHash");
+            rReturn.Remove("ServerLog");
 			rReturn.Remove ("DevSync");
 			rReturn.Remove ("PreprodSync");
 			rReturn.Remove ("ProdSync");
@@ -320,6 +324,7 @@ namespace NetWorkedData
 			rReturn.Remove ("DM");
             rReturn.Remove ("DS");// not include in integrity
             rReturn.Remove("ServerHash");// not include in integrity
+            rReturn.Remove("ServerLog");// not include in integrity
 			rReturn.Remove ("DevSync");// not include in integrity
 			rReturn.Remove ("PreprodSync");// not include in integrity
 			rReturn.Remove ("ProdSync");// not include in integrity

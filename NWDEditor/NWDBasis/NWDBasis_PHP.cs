@@ -139,6 +139,7 @@ namespace NetWorkedData
             //			tConstantsFile += "//-------------------- \n";
             //			// }
 
+            // Create error in local data base
             NWDError.CreateGenericError(tClassName, tTrigramme + "x01", "Error in" + tClassName, "error in request creation in " + tClassName + "");
             NWDError.CreateGenericError(tClassName, tTrigramme + "x02", "Error in" + tClassName, "error in request creation add primary key in " + tClassName + "");
             NWDError.CreateGenericError(tClassName, tTrigramme + "x03", "Error in" + tClassName, "error in request creation add autoincrement modify in " + tClassName + "");
@@ -157,7 +158,10 @@ namespace NetWorkedData
             NWDError.CreateGenericError(tClassName, tTrigramme + "x91", "Error in" + tClassName, "error update integrity in " + tClassName + " (update table?)");
             NWDError.CreateGenericError(tClassName, tTrigramme + "x99", "Error in" + tClassName, "error columns number in " + tClassName + " (update table?)");
             NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in" + tClassName, "integrity of one datas is false, break in " + tClassName + "");
+            NWDError.CreateGenericError(tClassName, tTrigramme + "x77", "Error in" + tClassName, "error update log in " + tClassName + " (update table?)");
 
+
+            // craete constants of erro in php
             tConstantsFile += "" +
             "errorDeclaration('" + tTrigramme + "x01', 'error in request creation in " + tClassName + "');\n" +
             "errorDeclaration('" + tTrigramme + "x02', 'error in request creation add primary key in " + tClassName + "');\n" +
@@ -174,9 +178,10 @@ namespace NetWorkedData
             "errorDeclaration('" + tTrigramme + "x33', 'error in request select updatable datas in " + tClassName + "');\n" +
             "errorDeclaration('" + tTrigramme + "x38', 'error in request update datas in " + tClassName + "');\n" +
             "errorDeclaration('" + tTrigramme + "x39', 'error too much datas for this reference in  " + tClassName + "');\n" +
-                "errorDeclaration('" + tTrigramme + "x88', 'integrity of one datas is false, break in " + tClassName + "');\n" +
-                "errorDeclaration('" + tTrigramme + "x91', 'error update integrity in " + tClassName + "');\n" +
-                "errorDeclaration('" + tTrigramme + "x99', 'error columns number in " + tClassName + "');\n" +
+            "errorDeclaration('" + tTrigramme + "x88', 'integrity of one datas is false, break in " + tClassName + "');\n" +
+            "errorDeclaration('" + tTrigramme + "x91', 'error update integrity in " + tClassName + "');\n" +
+            "errorDeclaration('" + tTrigramme + "x99', 'error columns number in " + tClassName + "');\n" +
+            "errorDeclaration('" + tTrigramme + "x77', 'error update log in " + tClassName + "');\n" +
             "\n" +
                 "//-------------------- \n";
             tConstantsFile += "?>\n";
@@ -547,6 +552,54 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n";
 
+            // Add Log in server database
+            tSynchronizationFile += "function Log" + tClassName + " ($sReference, $sLog)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $ENV;\n" +
+            "\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `ServerLog` = CONCAT(`ServerLog`, \\' ; '.$SQL_CON->real_escape_string($sLog).'\\') WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
+            "\t\tif (!$tUpdateResult)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\terror('" + tTrigramme + "x77');\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t}\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+
+
+
+            // SERVER Integrity generate
+            tSynchronizationFile += "function IntegrityServer" + tClassName + "Generate ($sRow)\n" +
+            "\t{\n" +
+            "\t\tglobal $NWD_SLT_SRV;\n" +
+            "\t\t$sDataServerString =''";
+            foreach (string tPropertyName in SLQIntegrityServerOrder())
+            {
+                tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
+            }
+            tSynchronizationFile += ";\n" +
+            "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+            // DATA Integrity generate
+            tSynchronizationFile += "function Integrity" + tClassName + "Generate ($sRow)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\t$sDataString =''";
+            foreach (string tPropertyName in SLQIntegrityOrder())
+            {
+                tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
+            }
+            tSynchronizationFile += ";\n" +
+            "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t}\n" +
+            "//-------------------- \n";
+
+
+
             // TODO refactor to be more easy to generate
 
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
@@ -566,24 +619,11 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
             "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
-            "\t\t\t\t\t\t$sDataString ='';\n" +
-            "\t\t\t\t\t\t$sDataServerString ='';\n";
-            foreach (string tPropertyName in SLQIntegrityOrder())
-            {
-                tSynchronizationFile += "" +
-                "\t\t\t\t\t\t$sDataString .= $tRow['" + tPropertyName + "'];\n";
-            }
-            foreach (string tPropertyName in SLQIntegrityServerOrder())
-            {
-                tSynchronizationFile += "" +
-                "\t\t\t\t\t\t$sDataServerString .= $tRow['" + tPropertyName + "'];\n";
-            }
-            tSynchronizationFile += "" +
-            "\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
-            "\t\t\t\t\t\t$tCalculateServer = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
-            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'";
-            tSynchronizationFile += ", `'.$ENV.'Sync` = \\''.time().'\\' ";
-            tSynchronizationFile += " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
+            "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
+            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'"+
+            ", `'.$ENV.'Sync` = \\''.time().'\\' "+
+            " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
             "\t\t\t\t\t\t\t{\n" +
@@ -594,6 +634,9 @@ namespace NetWorkedData
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n";
+
+
+
 
             // TODO refactor to be more easy to generate
 
@@ -614,14 +657,7 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
             "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
-            "\t\t\t\t\t\t$sDataServerString ='';\n";
-            foreach (string tPropertyName in SLQIntegrityServerOrder())
-            {
-                tSynchronizationFile += "" +
-                "\t\t\t\t\t\t$sDataServerString .= $tRow['" + tPropertyName + "'];\n";
-            }
-            tSynchronizationFile += "" +
-                "\t\t\t\t\t\t$tCalculateServer = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t\t\t\t\t\t$tCalculateServer =IntegrityServer" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\tif ($tCalculateServer == $tRow['ServerHash'])\n" +
             "\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\treturn true;\n" +
@@ -639,35 +675,12 @@ namespace NetWorkedData
             tSynchronizationFile += "function IntegrityServer" + tClassName + "ValidateByRow ($sRow)\n" +
             "\t{\n" +
             "\t\tglobal $NWD_SLT_SRV;\n" +
-            "\t\t$sDataServerString ='';\n";
-            foreach (string tPropertyName in SLQIntegrityServerOrder())
-            {
-                tSynchronizationFile += "" +
-                "\t\t$sDataServerString .= $sRow['" + tPropertyName + "'];\n";
-            }
-            tSynchronizationFile += "" +
-            "\t\t$tCalculateServer = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
+            "\t\t$tCalculateServer =IntegrityServer" + tClassName + "Generate ($sRow);\n" +
             "\t\tif ($tCalculateServer == $sRow['ServerHash'])\n" +
             "\t\t\t{\n" +
             "\t\t\t\treturn true;\n" +
             "\t\t\t}\n" +
             "\t\treturn false;\n" +
-            "\t}\n" +
-            "//-------------------- \n";
-
-
-            // TODO refactor to be more easy to generate
-
-            tSynchronizationFile += "function IntegrityServer" + tClassName + "Generate ($sRow)\n" +
-            "\t{\n" +
-            "\t\tglobal $NWD_SLT_SRV;\n" +
-            "\t\t$sDataServerString =''";
-            foreach (string tPropertyName in SLQIntegrityServerOrder())
-            {
-                tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
-            }
-            tSynchronizationFile += ";\n" +
-            "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($NWD_SLT_SRV.$sDataServerString.$NWD_SLT_SRV));\n" +
             "\t}\n" +
             "//-------------------- \n";
 
@@ -692,14 +705,7 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
             "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
-            "\t\t\t\t\t\t$sDataString ='';\n";
-            foreach (string tPropertyName in SLQIntegrityOrder())
-            {
-                tSynchronizationFile += "" +
-                "\t\t\t\t\t\t$sDataString .= $tRow['" + tPropertyName + "'];\n";
-            }
-            tSynchronizationFile += "" +
-            "\t\t\t\t\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t\t\t\t\t\t$tCalculate =Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\tif ($tCalculate == $tRow['Integrity'])\n" +
             "\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\treturn true;\n" +
@@ -718,14 +724,7 @@ namespace NetWorkedData
             "\t{\n" +
             "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
-            "\t\t$sDataString ='';\n";
-            foreach (string tPropertyName in SLQIntegrityOrder())
-            {
-                tSynchronizationFile += "" +
-                "\t\t\t\t\t\t$sDataString .= $sRow['" + tPropertyName + "'];\n";
-            }
-            tSynchronizationFile += "" +
-            "\t\t$tCalculate = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t\t$tCalculate =Integrity" + tClassName + "Generate ($sRow);\n" +
             "\t\tif ($tCalculate == $sRow['Integrity'])\n" +
             "\t\t\t{\n" +
             "\t\t\t\treturn true;\n" +
@@ -734,20 +733,6 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n";
 
-
-            tSynchronizationFile += "function Integrity" + tClassName + "Generate ($sRow)\n" +
-            "\t{\n" +
-            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
-            "\t\t$sDataString =''";
-            foreach (string tPropertyName in SLQIntegrityOrder())
-            {
-                tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
-            }
-            tSynchronizationFile += ";\n" +
-            "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
-            "\t}\n" +
-            "//-------------------- \n";
 
 
             List<string> tModify = new List<string>();
@@ -831,7 +816,7 @@ namespace NetWorkedData
                 NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
                 tSynchronizationFile += tScriptNameAttribut.Script;
             }
-            tSynchronizationFile +="\n\n\n"+
+            tSynchronizationFile += "\n\n\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\telse\n" +
             "\t\t\t\t\t\t\t{\n" +
@@ -939,22 +924,24 @@ namespace NetWorkedData
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
 
+
+            /*
             //========= WEBSERVICE FILE
-			string tWebService = "" +
-			"<?php\n" +
-			"//NWD Autogenerate File at " + tDateTimeString + "\n" +
-			"//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
-			"//Created by Jean-François CONTART\n" +
-			"//--------------------\n" +
-			"// WEBSERVICES FUNCTIONS\n" +
-			"//--------------------\n" +
-			"// Determine the file tree path\n" +
-			"$PATH_BASE = dirname(dirname(__DIR__));\n" +
-			"// include all necessary files\n" +
-			"include_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/constants.php');\n" +
-			"// start the generic process\n" +
-			"include_once ($PATH_BASE.'/Engine/start.php');\n" +
-			"// start the script\n" +
+            string tWebService = "" +
+            "<?php\n" +
+            "//NWD Autogenerate File at " + tDateTimeString + "\n" +
+            "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
+            "//Created by Jean-François CONTART\n" +
+            "//--------------------\n" +
+            "// WEBSERVICES FUNCTIONS\n" +
+            "//--------------------\n" +
+            "// Determine the file tree path\n" +
+            "$PATH_BASE = dirname(dirname(__DIR__));\n" +
+            "// include all necessary files\n" +
+            "include_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/constants.php');\n" +
+            "// start the generic process\n" +
+            "include_once ($PATH_BASE.'/Engine/start.php');\n" +
+            "// start the script\n" +
             "//--------------------\n" +
             "global $dico, $uuid;\n" +
             "//--------------------\n" +
@@ -965,23 +952,23 @@ namespace NetWorkedData
             "\t{\n" +
             "\t\terror('ACC99');\n" +
             "\t}\n" +
-			"//--------------------\n" +
-			"if (!errorDetected())\n" +
-			"\t{\n" +
-			"\t\tinclude_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n" +
-			"\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n" +
-			"\t}\n" +
-			"//--------------------\n" +
-			"// script is finished\n" +
-			"// finish the generic process\n" +
-			"include_once ($PATH_BASE.'/Engine/finish.php');\n" +
-			"\n" +
-			"?>";
-            File.WriteAllText (tServerRootFolder + "/" + tClassName + "Webservice.php", tWebService);
-			// force to import this file by Unity3D
-			AssetDatabase.ImportAsset (tServerRootFolder + "/" + tClassName + "Webservice.php");
+            "//--------------------\n" +
+            "if (!errorDetected())\n" +
+            "\t{\n" +
+            "\t\tinclude_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n" +
+            "\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n" +
+            "\t}\n" +
+            "//--------------------\n" +
+            "// script is finished\n" +
+            "// finish the generic process\n" +
+            "include_once ($PATH_BASE.'/Engine/finish.php');\n" +
+            "\n" +
+            "?>";
+            File.WriteAllText(tServerRootFolder + "/" + tClassName + "Webservice.php", tWebService);
+            // force to import this file by Unity3D
+            AssetDatabase.ImportAsset(tServerRootFolder + "/" + tClassName + "Webservice.php");
             // try to create special file for the special operation in PHP
-
+            */
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

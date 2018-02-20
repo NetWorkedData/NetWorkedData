@@ -85,19 +85,11 @@ namespace NetWorkedData
 		public int PreprodSync { get; set; }
 		[NWDNotEditable]
 		public int ProdSync { get; set; }
-
-		public int Tag { get; set; } // TODO : Selected TAG
-
-
+		public int Tag { get; set; }
         [NWDNotEditable]
-        public string ServerHash
-        {
-            get; set;
-        }
-
-
-		//[NWDNotEditable]
-		//public string ProdHash { get; set; }
+        public string ServerHash {get; set; }
+        [NWDNotEditable]
+        public string ServerLog { get; set; }
 
 		//-------------------------------------------------------------------------------------------------------------
 		public static string m_SearchInternalName = "";

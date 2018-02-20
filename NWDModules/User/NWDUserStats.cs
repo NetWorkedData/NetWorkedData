@@ -65,7 +65,7 @@ namespace NetWorkedData
 		// Your properties
 		//PROPERTIES
 		public NWDReferenceType<NWDAccount> AccountReference {get; set;}
-		public string TextValue {get; set;}
+        public string StringValue {get; set;}
 		public bool BoolValue {get; set;}
 		public int IntValue {get; set;}
 		public float FloatValue {get; set;}
@@ -253,28 +253,93 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats NewIntStat(string sInternalKey, int sInt)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.IntValue = sInt;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats NewFloatStat(string sInternalKey, float sFloat)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.FloatValue = sFloat;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats NewBoolStat(string sInternalKey, bool sBool)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.BoolValue = sBool;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats NewStringStat(string sInternalKey, string sString)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.StringValue = sString;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats GetStatByInternalKey(string sInternalKey)
+        {
+            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKey(sInternalKey);
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats GetStatByInternalKeyOrCreate(string sInternalKey)
+        {
+            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats ModifyStat(string sInternalKey, int sInt)
+        {
+            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.IntValue = sInt;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats ModifyStat(string sInternalKey, float sFloat)
+        {
+            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.FloatValue = sFloat;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats ModifyStat(string sInternalKey, bool sBool)
+        {
+            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.BoolValue = sBool;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserStats ModifyStat(string sInternalKey, string sString)
+        {
+            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            rReturn.StringValue = sString;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 	}
-
-	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDUserStats with Unity MonoBehavior
-	//-------------------------------------------------------------------------------------------------------------
-	/// <summary>
-	/// NWDUserStats connexion.
-	/// In your MonoBehaviour Script connect object with :
-	/// <code>
-	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDUserStatsConnexion MyNWDUserStatsObject;
-	/// </code>
-	/// </summary>
-	//-------------------------------------------------------------------------------------------------------------
-	// CONNEXION STRUCTURE METHODS
-	//-------------------------------------------------------------------------------------------------------------
-
-	//-------------------------------------------------------------------------------------------------------------
-
-	//-------------------------------------------------------------------------------------------------------------
-	//public class NWDUserStatsMonoBehaviour: NWDMonoBehaviour<NWDUserStatsMonoBehaviour> {}
-	#endregion
 	//-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

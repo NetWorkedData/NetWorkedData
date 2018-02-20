@@ -430,9 +430,9 @@ namespace NetWorkedData
 
             Width = 200.0F;
             Height = 100.0F;
-            Margin = 100.0F;
-            HeightLabel = 16.0F;
-            HeightProperty = 18.0F;
+            //Margin = 100.0F;
+            //HeightLabel = 16.0F;
+            //HeightProperty = 20.0F;
 
             LineListMax = new Dictionary<int, int>();
 
