@@ -313,7 +313,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 								}
 								$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);
 								$tOrigin = str_replace(' ','-',$tOrigin);
-								$tNick = $tOrigin;
+								$tNick = $tOrigin.'#???';;
 								$tNickArray = explode('#',$tRow[$sColumUniqueResult]);
 								if (count($tNickArray)==2)
 								{
