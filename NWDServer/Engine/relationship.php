@@ -110,21 +110,21 @@
     if (paramValue ('action', 'action', $ereg_action, 'RLSw01', 'RLSw11')) // test if action is valid
         {
             //--------------------
-        include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/NWDRelationship/synchronization.php');
-            //--------------------
-        if (isset($dico['NWDRelationship']))
-            {
-            if (isset($dico['NWDRelationship']['data']))
-                {
-                foreach ($dico['NWDRelationship']['data'] as $sCsvValue)
-                    {
-                    if (!errorDetected())
-                        {
-                        UpdateDataNWDRelationship ($sCsvValue, $dico['NWDRelationship']['sync'], $uuid, false);
-                        }
-                    }
-                }
-            }
+        // include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/NWDRelationship/synchronization.php');
+        //     //--------------------
+        // if (isset($dico['NWDRelationship']))
+        //     {
+        //     if (isset($dico['NWDRelationship']['data']))
+        //         {
+        //         foreach ($dico['NWDRelationship']['data'] as $sCsvValue)
+        //             {
+        //             if (!errorDetected())
+        //                 {
+        //                 UpdateDataNWDRelationship ($sCsvValue, $dico['NWDRelationship']['sync'], $uuid, false);
+        //                 }
+        //             }
+        //         }
+        //     }
         
             //--------------------
         

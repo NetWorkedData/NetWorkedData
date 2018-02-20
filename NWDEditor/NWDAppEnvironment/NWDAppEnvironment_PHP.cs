@@ -214,16 +214,6 @@ namespace NetWorkedData
                 "//--------------------\n" +
 				"if (!errorDetected())\n" +
                 "\t{\n";
-			//tWebServices += "\n" +
-            ////"   ;;                                         $tPage = 0;\n" +
-				////"if (isset($dico['page'])) { $tPage = $dico['page'];};\n" +
-				////"$tLimit = 100000;\n" +
-				////"if (isset($dico['limit'])) { $tLimit = $dico['limit'];};\n" +
-				////"$tDate = time()-36000000; // check just one hour by default\n" +
-				////"$tDate = 0; // check just one hour by default\n" +
-				////"if (isset($dico['date'])) { $tDate = $dico['date'];};\n" +
-                //"";
-
 			// I need include ALL tables management files to manage ALL tables
 			foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -264,8 +254,38 @@ namespace NetWorkedData
 
 
 
+            //========= WEBSERVICE FILE AS ANNEXE OF ANOTHER FILE
 
 
+            string tWebServicesAnnexe = "";
+            tWebServicesAnnexe += "<?php\n" +
+                "//NWD Autogenerate File at " + tDateTimeString + "\n" +
+                "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
+                "//Created by Jean-François CONTART\n" +
+                "//--------------------\n" +
+                "// WEBSERVICES FUNCTIONS FOR INSIDE INCLUDING\n" +
+                "//--------------------\n" +
+                "if (!errorDetected())\n" +
+                "\t{\n";
+            // I need include ALL tables management files to manage ALL tables
+            foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList)
+            {
+                var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    tWebServicesAnnexe += "\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
+                    tWebServicesAnnexe += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                    tWebServicesAnnexe += "\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
+                    tWebServicesAnnexe += "\t\t}\n";
+                }
+            }
+            tWebServicesAnnexe += "// script is finished\n" +
+                "\t}\n" +
+                "//-------------------- \n" +
+                "?>\n";
+            File.WriteAllText(tServerRootFolder + "/webservices_inside.php", tWebServicesAnnexe);
+            AssetDatabase.ImportAsset(tServerRootFolder + "/webservices_inside.php");
 			//========= WEBSERVICE FILE WHEN ACCOUNT IS SIGN-IN SUCCESSED
 
 			string tAccountServices = "";

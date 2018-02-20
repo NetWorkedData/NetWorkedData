@@ -13,11 +13,8 @@
 	include_once ($PATH_BASE.'/Engine/start.php');
 		// start the script
 		//--------------------
-    global $dico, $uuid;
-    //--------------------
-    // Ok I create a permanent account if temporary before
-    AccountAnonymeGenerate();
-    //--------------------
+	include_once ($PATH_BASE.'/Environment/Dev/webservices_inside.php');
+	//--------------------
 	include_once ($PATH_BASE.'/Engine/relationship.php');
 		//--------------------
 		// finish the generic process
