@@ -184,7 +184,7 @@ namespace NetWorkedData
 			IntegritySelection ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static IEnumerable<K> SelectForEditionObjects (string sInternalKey, string sInternalDescription, NWDBasisTag sTag )
+        public static IEnumerable<K> SelectForEditionObjects (string sInternalKey, string sInternalDescription, NWDBasisTag sTag )
 		{
 			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
 			if (AccountDependent ())

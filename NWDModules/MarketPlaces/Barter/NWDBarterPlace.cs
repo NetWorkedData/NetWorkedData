@@ -83,9 +83,27 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterPlace()
-		{
-			//Init your instance here
-		}
+        {
+            Debug.Log("NWDBarterPlace Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBarterPlace(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

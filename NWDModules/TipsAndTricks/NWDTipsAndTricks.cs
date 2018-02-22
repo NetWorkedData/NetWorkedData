@@ -75,13 +75,31 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTipsAndTricks()
-		{
-			//Init your instance here
+        {
+            Debug.Log("NWDTipsAndTricks Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
 			Weighting = 1;
 			Title = new NWDLocalizableStringType ();
 			SubTitle = new NWDLocalizableStringType ();
 			Message = new NWDLocalizableTextType ();
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTipsAndTricks(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDTipsAndTricks Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

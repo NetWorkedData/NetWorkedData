@@ -763,6 +763,16 @@ namespace NetWorkedData
 				NWDDataManager.SharedInstance.RepaintWindowsInManager (ClassType ());
 			}
 
+
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
+            {
+                K tNewObject = new K();
+                m_PageSelected = m_MaxPage * 3;
+                SetObjectInEdition(tNewObject);
+                NWDDataManager.SharedInstance.RepaintWindowsInManager(ClassType());
+            }
+
+
 			// |||||||||||||||||||||||||||||||||||||||||||
 			GUILayout.EndVertical ();
 			// -------------------------------------------

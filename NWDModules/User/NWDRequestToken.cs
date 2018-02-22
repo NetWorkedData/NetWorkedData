@@ -58,9 +58,27 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRequestToken()
-		{
-			//Init your instance here
-		}
+        {
+            Debug.Log("NWDRequestToken Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDRequestToken(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDRequestToken Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

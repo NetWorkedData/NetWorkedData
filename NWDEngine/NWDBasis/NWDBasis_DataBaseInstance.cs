@@ -34,26 +34,64 @@ namespace NetWorkedData
 		//		protected static object CreateTypeInstance<D> () where D : new()
 		//		{
 		//			return (object)new D ();
-		//		}
-		//-------------------------------------------------------------------------------------------------------------
+        //		}
+        //-------------------------------------------------------------------------------------------------------------
+        public void NewNetWorkedData()
+        {
+            Debug.Log("NWDBasis <K> NewNetWorkedData()");
+           this.InstanceInit();
+            this.AC = true;
+            this.DM = NWDToolbox.Timestamp();
+            this.DC = NWDToolbox.Timestamp();
+            this.DS = 0;
+            this.DD = 0;
+            this.DevSync = 0;
+            this.PreprodSync = 0;
+            this.ProdSync = 0;
+            this.Reference = this.NewReference();
+            foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+            {
+                Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
+                NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
+                tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+                tPropInfo.SetValue(this, tAtt, null);
+            }
+            this.InsertMe();
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// New instance.
 		/// </summary>
 		/// <returns>The instance.</returns>
 		private static NWDBasis<K> NewInstance ()
-		{
+        {
+            Debug.Log("NWDBasis <K> NewInstance()");
 			return NewInstanceWithReference (null);
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBasis()
+        {
+            Debug.Log("NWDBasis Constructor");
+        }
 		//-------------------------------------------------------------------------------------------------------------
+        public NWDBasis (bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
 		/// <summary>
 		/// New instance with reference.
 		/// </summary>
 		/// <returns>The instance with reference.</returns>
 		/// <param name="sReference">S reference.</param>
 		private static NWDBasis<K> NewInstanceWithReference (string sReference)
-		{
+        {
+            Debug.Log("NWDBasis <K> NewInstanceWithReference()");
 			NWDBasis<K> rReturnObject = null;
-			rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());
+            //rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());
+            rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
+           // rReturnObject = new NWDBasis<K> (false);
 
             //rReturnObject.InitInstanceWithReference(sReference);
 
@@ -116,7 +154,8 @@ namespace NetWorkedData
 		/// Init the instance if it's necessary (not used by default).
 		/// </summary>
 		public void InstanceInit ()
-		{
+        {
+            Debug.Log("NWDBasis <K> InstanceInit()");
 			Type tType = ClassType ();
 			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tPropertyInfo.PropertyType;

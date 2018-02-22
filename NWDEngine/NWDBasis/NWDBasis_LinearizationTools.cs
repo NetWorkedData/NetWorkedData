@@ -327,7 +327,8 @@ namespace NetWorkedData
         private static NWDBasis<K> NewInstanceFromCSV(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
             NWDBasis<K> rReturnObject = null;
-            rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType());
+            //rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType());
+            rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
             rReturnObject.InstanceInit();
             rReturnObject.UpdateWithCSV(sEnvironment, sDataArray);
             NWDDataManager.SharedInstance.InsertObject(rReturnObject, AccountDependent());

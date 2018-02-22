@@ -76,9 +76,27 @@ namespace NetWorkedData
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDShop()
-		{
-			//Init your instance here
-		}
+        {
+            Debug.Log("NWDShop Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDShop(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDShop Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

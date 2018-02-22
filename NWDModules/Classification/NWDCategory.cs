@@ -60,9 +60,27 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDCategory()
-		{
-			//Init your instance here
-		}
+        {
+            Debug.Log("NWDCategory Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCategory(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDCategory Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

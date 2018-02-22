@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -65,9 +65,27 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPreferences()
-		{
-			//Init your instance here
-		}
+        {
+            Debug.Log("NWDPreferences Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDPreferences(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDPreferences Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

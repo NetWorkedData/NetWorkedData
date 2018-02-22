@@ -56,10 +56,28 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTipsAndTricksOwnership()
-		{
-			//Init your instance here
+        {
+            Debug.Log("NWDTipsAndTricksOwnership Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
 			IsActive = true;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDTipsAndTricksOwnership(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDTipsAndTricksOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

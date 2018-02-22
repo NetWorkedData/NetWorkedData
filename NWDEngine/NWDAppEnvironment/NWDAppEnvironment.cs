@@ -92,9 +92,12 @@ namespace NetWorkedData
 			DataSHAVector = NWDToolbox.SaltCleaner (DataSHAVector);
 			SaltStart = NWDToolbox.SaltCleaner (SaltStart);
             SaltEnd = NWDToolbox.SaltCleaner (SaltEnd);
+
+#if UNITY_EDITOR
             SaltServer = NWDToolbox.SaltCleaner(SaltServer);
-			// ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
-			AdminKey = NWDToolbox.SaltCleaner (AdminKey);
+#endif
+            // ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
+            AdminKey = NWDToolbox.SaltCleaner (AdminKey);
 			//check salts are not mull
 			if (DataSHAPassword == "") {
 				DataSHAPassword = NWDToolbox.RandomString (16);

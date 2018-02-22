@@ -53,6 +53,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static K NewObject()
 		{
+            Debug.Log("NWDBasis <K> NewObject()");
 			K rReturn = NWDBasis <K>.NewInstance () as K;
 			return rReturn;
 		}

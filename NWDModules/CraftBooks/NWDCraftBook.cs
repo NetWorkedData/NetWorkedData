@@ -91,10 +91,28 @@ namespace NetWorkedData
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDCraftBook"/> class.
 		/// </summary>
 		public NWDCraftBook ()
-		{
-			//Init your instance here
+        {
+            Debug.Log("NWDCraftBook Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
 			OrderIsImportant = true;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCraftBook(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDCraftBook Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

@@ -128,7 +128,10 @@ namespace NetWorkedData
 				InsertHeaderInRequest ();
 
 				// I send the data
-				Request.Send();
+                //TODO : update method
+				//Request.Send();
+
+                Request.SendWebRequest();
 				Debug.Log ("Request URL " + Request.url);
 
 				while (!Request.isDone)

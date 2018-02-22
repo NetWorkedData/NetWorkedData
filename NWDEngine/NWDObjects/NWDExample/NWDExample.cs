@@ -71,10 +71,28 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDExample()
-		{
-			//Init your instance here
+        {
+            Debug.Log("NWDExample Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
 			// Example : this.MyProperty = true, 1 , "bidule", etc.
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDExample(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDExample Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

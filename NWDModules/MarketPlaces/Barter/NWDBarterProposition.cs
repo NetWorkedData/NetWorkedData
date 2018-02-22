@@ -60,10 +60,28 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterProposition()
-		{
-			//Init your instance here
+        {
+            Debug.Log("NWDBarterProposition Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
 			//DiscoverItYourSelf = true;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBarterProposition(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDBarterProposition Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

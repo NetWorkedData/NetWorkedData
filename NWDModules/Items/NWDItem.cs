@@ -151,10 +151,28 @@ namespace NetWorkedData
 
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItem ()
-		{
-			//Init your instance here
+        {
+            Debug.Log("NWDItem Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
+            //Init your instance here
 			//DiscoverItYourSelf = true;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDItem(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion

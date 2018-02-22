@@ -70,10 +70,28 @@ namespace NetWorkedData
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDQuestUserAdvancement()
-		{
+        {
+            Debug.Log("NWDQuestUserAdvancement Constructor");
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
             //Init your instance here
             StateOfQuest = NWDQuestState.NotStarted;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDQuestUserAdvancement(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDQuestUserAdvancement Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
