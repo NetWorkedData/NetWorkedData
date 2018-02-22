@@ -158,7 +158,7 @@ namespace NetWorkedData
         // Basis Interface Strings
         public const string K_APP_BASIS_xxx = "";
 
-        public const string K_APP_BASIS_NO_OBJECT = "no object\n";
+        public const string K_APP_BASIS_NO_OBJECT = "no object";
 
         public const string K_APP_BASIS_ONE_OBJECT = "object";
 

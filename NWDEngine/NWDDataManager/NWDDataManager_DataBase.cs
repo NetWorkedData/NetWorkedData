@@ -20,6 +20,7 @@ using UnityEditor;
 using SQLite4Unity3d;
 
 using BasicToolBox;
+using ColoredAdvancedDebug;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -41,8 +42,9 @@ namespace NetWorkedData
 					AssetDatabase.CreateFolder ("Assets", "StreamingAssets");
 				}
 				// path for base editor
-				var tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
-				var tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
+                string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
+                string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
+
 #else
 				// Get saved App version from pref
 				int tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp;
@@ -57,10 +59,19 @@ namespace NetWorkedData
 				}
 
 				// check if file exists in Application.persistentDataPath
-				var tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
-				var tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
+				string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+				string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
 
-				if (!File.Exists (tPathEditor) || tForceCopy)
+                //Debug.Log("tPathEditor = " + tPathEditor);
+                //Debug.Log("tPathAccount = " + tPathAccount);
+
+                // if must be update by build version : delete old editor data!
+                if (tForceCopy == true)
+                {
+                    File.Delete(tPathEditor);
+                }
+                // Write editor database
+				if (!File.Exists (tPathEditor))
                 {
 					// if it doesn't ->
 					// open StreamingAssets directory and load the db ->
@@ -81,8 +92,12 @@ namespace NetWorkedData
 				    var loadDb = Application.dataPath + "/Resources/" + DatabaseNameEditor;
 				    // then save to Application.persistentDataPath
 				    File.Copy(loadDb, tPathEditor);
+#elif UNITY_STANDALONE_OSX
+                    var loadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseNameEditor;
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
 #else
-				    var loadDb = Application.dataPath + "/Resources/" + DatabaseNameEditor;
+                    var loadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseNameEditor;
 				    // then save to Application.persistentDataPath
 				    File.Copy(loadDb, tPathEditor);
 #endif
@@ -90,8 +105,11 @@ namespace NetWorkedData
 					BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
 				}
 
-				var tDatabasePathEditor = tPathEditor;
-				var tDatabasePathAccount = tPathAccount;
+				string tDatabasePathEditor = tPathEditor;
+                string tDatabasePathAccount = tPathAccount;
+                //Debug.Log("Application.dataPath = "+Application.dataPath);
+                //Debug.Log("tDatabasePathEditor = " + tDatabasePathEditor);
+                //Debug.Log("tPathAccount = " + tPathAccount);
 #endif
                 SQLiteConnectionEditor = new SQLiteConnection (tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 				SQLiteConnectionAccount = new SQLiteConnection (tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
