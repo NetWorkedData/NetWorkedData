@@ -61,7 +61,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDCategory()
         {
-            Debug.Log("NWDCategory Constructor");
+            //Debug.Log("NWDCategory Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -69,7 +69,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDCategory(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDCategory Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDCategory Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

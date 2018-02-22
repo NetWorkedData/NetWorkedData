@@ -73,7 +73,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDError ()
         {
-            Debug.Log("NWDError Constructor");
+            //Debug.Log("NWDError Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -82,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDError(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDError Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDError Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

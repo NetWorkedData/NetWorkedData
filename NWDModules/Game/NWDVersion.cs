@@ -80,7 +80,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDVersion()
         {
-            Debug.Log("NWDVersion Constructor");
+           // Debug.Log("NWDVersion Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -89,7 +89,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDVersion(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDVersion Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+           // Debug.Log("NWDVersion Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

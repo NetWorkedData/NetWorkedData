@@ -72,7 +72,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDMessage ()
         {
-            Debug.Log("NWDMessage Constructor");
+            //Debug.Log("NWDMessage Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -81,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDMessage(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

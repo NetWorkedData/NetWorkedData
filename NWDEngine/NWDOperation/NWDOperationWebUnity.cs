@@ -449,10 +449,14 @@ namespace NetWorkedData
             Debug.Log("Header : " + tDebug);
 #else
             // insert dico of header in request header
+            string tDebug = "";
             foreach (KeyValuePair<string, object> tEntry in tHeaderParams)
             {
-                Request.SetRequestHeader (tEntry.Key, tEntry.Value.ToString ());
+                 Request.SetRequestHeader (tEntry.Key, tEntry.Value.ToString ());
+                tDebug += tEntry.Key + " = '" + tEntry.Value.ToString() + "' , ";
             }
+
+            Debug.Log("Header : " + tDebug);
 #endif
 		}
 		//-------------------------------------------------------------------------------------------------------------

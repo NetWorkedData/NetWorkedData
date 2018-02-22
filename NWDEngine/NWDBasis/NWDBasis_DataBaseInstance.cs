@@ -65,18 +65,18 @@ namespace NetWorkedData
 		/// <returns>The instance.</returns>
 		private static NWDBasis<K> NewInstance ()
         {
-            Debug.Log("NWDBasis <K> NewInstance()");
+            //Debug.Log("NWDBasis <K> NewInstance()");
 			return NewInstanceWithReference (null);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasis()
         {
-            Debug.Log("NWDBasis Constructor");
+            //Debug.Log("NWDBasis Constructor");
         }
 		//-------------------------------------------------------------------------------------------------------------
         public NWDBasis (bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
 

@@ -68,7 +68,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBattleProperty()
         {
-            Debug.Log("NWDBattleProperty Constructor");
+            //Debug.Log("NWDBattleProperty Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -76,7 +76,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDBattleProperty(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDBattleProperty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDBattleProperty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

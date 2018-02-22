@@ -88,7 +88,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDConfiguration ()
         {
-            Debug.Log("NWDConfiguration Constructor");
+           // Debug.Log("NWDConfiguration Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -97,7 +97,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDConfiguration(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+           // Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

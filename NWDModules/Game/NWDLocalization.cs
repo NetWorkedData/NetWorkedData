@@ -68,7 +68,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLocalization ()
         {
-            Debug.Log("NWDLocalization Constructor");
+            //Debug.Log("NWDLocalization Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -77,7 +77,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalization(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDLocalization Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDLocalization Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

@@ -90,7 +90,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDistrict()
         {
-            Debug.Log("NWDDistrict Constructor");
+            //Debug.Log("NWDDistrict Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -98,7 +98,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDDistrict(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDDistrict Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDDistrict Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

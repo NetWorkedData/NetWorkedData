@@ -98,7 +98,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRecipientGroup()
         {
-            Debug.Log("NWDRecipientGroup Constructor");
+            //Debug.Log("NWDRecipientGroup Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -108,7 +108,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDRecipientGroup(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDRecipientGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDRecipientGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

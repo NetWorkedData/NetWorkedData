@@ -62,7 +62,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDKeyword()
         {
-            Debug.Log("NWDKeyword Constructor");
+            //Debug.Log("NWDKeyword Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
@@ -70,7 +70,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDKeyword(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDKeyword Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDKeyword Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

@@ -27,19 +27,20 @@
 			//mylog('test version ' . $sVersion, __FILE__, __FUNCTION__, __LINE__);
 		if ($ENV=='Dev')
 		{
-			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `BuildActive` = 1 AND `ActiveDev` = 1 AND `XX`= 0 AND `AC`= 1;';
+			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `Buildable` = 1 AND `ActiveDev` = 1 AND `XX`= 0 AND `AC`= 1;';
 		}
 		else if ($ENV=='Preprod')
 		{
-			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `BuildActive` = 1 AND `ActivePreprod` = 1 AND `XX`= 0 AND `AC`= 1;';
+			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `Buildable` = 1 AND `ActivePreprod` = 1 AND `XX`= 0 AND `AC`= 1;';
 		}
 		else if ($ENV=='Prod')
 		{
-			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `BuildActive` = 1 AND `ActiveProd` = 1 AND `XX`= 0 AND `AC`= 1;';
+			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDVersion` WHERE `Version` = \''.$SQL_CON->real_escape_string($sVersion).'\' AND `Buildable` = 1 AND `ActiveProd` = 1 AND `XX`= 0 AND `AC`= 1;';
 		}
 		$tResult = $SQL_CON->query($tQuery);
 		if (!$tResult)
 		{
+			myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);
 			error('GVA00');
 		}
 		else
@@ -56,7 +57,7 @@
 						error('GVA99');
 						$return = false;
 					}
-					if ($tRow['ForceApplicationUpdate'] == 1)
+					if ($tRow['BlockApplication'] == 1)
 					{
 							//						mylog('BUT FORCE UPDATE APP' . $sVersion, __FILE__, __FUNCTION__, __LINE__);
 						error('GVA01');
@@ -313,7 +314,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 								}
 								$tOrigin = str_replace('#','',$tRow[$sColumnOrign]);
 								$tOrigin = str_replace(' ','-',$tOrigin);
-								$tNick = $tOrigin.'#???';;
+								$tNick = $tOrigin.'#???';
 								$tNickArray = explode('#',$tRow[$sColumUniqueResult]);
 								if (count($tNickArray)==2)
 								{
