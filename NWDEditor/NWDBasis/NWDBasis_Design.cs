@@ -43,27 +43,37 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
         static Dictionary<string, Texture2D> kTextureOfClass = new Dictionary<string, Texture2D>();
+        //static Dictionary<string, bool> kTextureOfClassLoaded = new Dictionary<string, bool>();
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D TextureOfClass()
         {
-            Texture2D rTexture = null;
-            if (kTextureOfClass.ContainsKey(ClassNamePHP()) == false)
-            {
-                string[] sGUIDs = AssetDatabase.FindAssets(ClassNamePHP() + " t:texture2D");
-                foreach (string tGUID in sGUIDs)
+            string tName = ClassNamePHP();
+            //if (kTextureOfClassLoaded.ContainsKey(tName) == false)
+            //{
+                Texture2D rTexture = null;
+                if (kTextureOfClass.ContainsKey(tName) == false)
                 {
-                    Debug.Log("TextureOfClass GUID " + tGUID);
-                    string tPath = AssetDatabase.GUIDToAssetPath(tGUID);
-                    Debug.Log("TextureOfClass " + tPath);
-                    rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
+                    kTextureOfClass[tName] = null;
+                    string[] sGUIDs = AssetDatabase.FindAssets(tName + " t:texture2D");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        Debug.Log("TextureOfClass GUID " + tGUID);
+                        string tPath = AssetDatabase.GUIDToAssetPath(tGUID);
+                        Debug.Log("TextureOfClass " + tPath);
+                        rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
+                    }
+                    kTextureOfClass[tName] = rTexture;
                 }
-                kTextureOfClass[ClassNamePHP()] = rTexture;
-            }
-            else
-            {
-                rTexture = kTextureOfClass[ClassNamePHP()];
-            }
-            return rTexture;
+                else
+                {
+                    rTexture = kTextureOfClass[tName];
+                }
+                return rTexture;
+            //}
+            //else
+            //{
+
+            //}
         }
 		//-------------------------------------------------------------------------------------------------------------
 	}

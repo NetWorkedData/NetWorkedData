@@ -466,13 +466,13 @@ namespace NetWorkedData
         public void Analyze()
         {
             BTBConsole.Clear();
-            Debug.Log("NWDNodeDocument Analyze()");
+            //Debug.Log("NWDNodeDocument Analyze()");
             AllCards = new List<NWDNodeCard>();
             if (OriginalData != null)
             {
                 OriginalData.Analyze(this);
             }
-            Debug.Log(AllCards.Count + " Cards found");
+//            Debug.Log(AllCards.Count + " Cards found");
             ReEvaluateLayout();
 
         }

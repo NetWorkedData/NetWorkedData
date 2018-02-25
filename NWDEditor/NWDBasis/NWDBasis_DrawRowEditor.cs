@@ -105,6 +105,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void RowInformation (Rect sRect)
 		{ 
+
+            // Draw internal informations
+            var tStyleLeft = new GUIStyle(EditorStyles.label);
+            tStyleLeft.alignment = TextAnchor.MiddleLeft;
+            var tStyleCenter = new GUIStyle(EditorStyles.label);
+            tStyleCenter.alignment = TextAnchor.MiddleCenter;
+            var tStyleRight = new GUIStyle(EditorStyles.label);
+            tStyleRight.alignment = TextAnchor.MiddleRight;
+
 			// prepare text
 			Rect rRectColored = new Rect (sRect.x-5, sRect.y, sRect.width+10, sRect.height);
             string tString = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
@@ -127,6 +136,17 @@ namespace NetWorkedData
 			int tIndex = ObjectsByReferenceList.IndexOf (Reference);
 			// test Integrity, trash, etc. to draw the good color of row
 			// and draw the toogle to select this row
+
+
+            // TOO LONG TOO LAG ?
+            //Texture2D tTextureOfClass = TextureOfClass();
+            //if (tTextureOfClass != null)
+            //{
+            //    //GUILayout.Label(tTextureOfClass, tStyleCenter, GUILayout.Width(kPreprodSyncWidth), GUILayout.Height(kRowHeightImage));
+            //    //GUILayout.DrawTexture(new Rect(tX + tWidth / 2.0F - 16, tY, 32, 32), tTextureOfClass);
+            //}
+
+
 			if (TestIntegrity () == false) {
 				EditorGUI.DrawRect (rRectColored, kRowColorError);
 				ObjectsInEditorTableSelectionList [tIndex] = false;
@@ -148,13 +168,6 @@ namespace NetWorkedData
 				}
 				ObjectsInEditorTableSelectionList [tIndex] = EditorGUILayout.ToggleLeft ("", ObjectsInEditorTableSelectionList [tIndex], GUILayout.Width(kSelectWidth));
 			}
-			// Draw internal informations
-			var tStyleLeft = new GUIStyle (EditorStyles.label);
-			tStyleLeft.alignment = TextAnchor.MiddleLeft;
-			var tStyleCenter = new GUIStyle (EditorStyles.label);
-			tStyleCenter.alignment = TextAnchor.MiddleCenter;
-			var tStyleRight = new GUIStyle (EditorStyles.label);
-			tStyleRight.alignment = TextAnchor.MiddleRight;
 
 			GUILayout.Label (ID.ToString (), GUILayout.Width(kIDWidth));
 			GUILayout.Label (" ", GUILayout.Width(kPrefabWidth));

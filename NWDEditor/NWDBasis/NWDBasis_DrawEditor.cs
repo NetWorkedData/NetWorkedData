@@ -1087,19 +1087,27 @@ namespace NetWorkedData
             // add button to navigate next / preview
             if (NWDDataInspector.InspectNetWorkedPreview())
             {
-                if (GUI.Button(new Rect(tX, tY, 20, 20), "<"))
+                if (GUI.Button(new Rect(tX, tY+10, 20, 20), "<"))
                 {
                     NWDDataInspector.InspectNetWorkedDataPreview();
                 }
             }
+
+            Texture2D tTextureOfClass = TextureOfClass();
+            if (tTextureOfClass != null)
+            {
+                GUI.DrawTexture(new Rect(tX + tWidth/2.0F - 16, tY, 32, 32), tTextureOfClass);
+            }
+
             if (NWDDataInspector.InspectNetWorkedNext())
             {
-                if (GUI.Button(new Rect(tX + tWidth - 20, tY, 20, 20), ">"))
+                if (GUI.Button(new Rect(tX + tWidth - 20, tY+10, 20, 20), ">"))
                 {
                     NWDDataInspector.InspectNetWorkedDataNext();
                 }
             }
-            tY += tTitleLabelStyle.fixedHeight + NWDConstants.kFieldMarge * 2;
+            //tY += tTitleLabelStyle.fixedHeight + NWDConstants.kFieldMarge * 2;
+            tY += 32 + NWDConstants.kFieldMarge * 2;
 
 
             //			EditorGUI.BeginDisabledGroup (true);
