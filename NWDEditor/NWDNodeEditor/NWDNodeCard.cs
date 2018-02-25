@@ -152,17 +152,17 @@ namespace NetWorkedData
 
             CardRect = new Rect(tX, tY, Width, Height);
 
-            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge, CardRect.y + NWDConstants.kFieldMarge, 32, 32);
+            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge + NWDConstants.kEditWidthHalf , CardRect.y + NWDConstants.kFieldMarge, NWDConstants.kIconWidth, NWDConstants.kIconWidth);
 
-            CardTypeRect = new Rect(tX + 32 + NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX + 32 + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX + 32 + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardTypeRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf+ NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf+ NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf+ NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
 
             InfoRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, Width - +NWDConstants.kFieldMarge * 2, InformationsHeight);
             InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge * 2, InfoRect.height - NWDConstants.kFieldMarge * 2);
 
             Position = new Vector2(tX, tY);
-            CirclePosition = new Vector2(tX + 0, tY + ParentDocument.HeightLabel * 1.5F + NWDConstants.kFieldMarge);
+            CirclePosition = new Vector2(tX + 0, tY + NWDConstants.kIconWidth/2.0F+ NWDConstants.kFieldMarge);
             PositionTangent = new Vector2(CirclePosition.x - ParentDocument.Margin, CirclePosition.y);
 
             int tPropertyCounter = 0;
@@ -171,7 +171,7 @@ namespace NetWorkedData
                 //Debug.Log("NWDNodeCard DrawCard() draw connexion");
                 tConnexion.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
                                                 tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + InformationsHeight + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                Width - NWDConstants.kEditWidth - NWDConstants.kFieldMarge * 2,
+                                                Width - NWDConstants.kFieldMarge * 2 - NWDConstants.kEditWidthMini/2.0F,
                                                 ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnexion.PropertyName);
@@ -179,7 +179,9 @@ namespace NetWorkedData
                                                   tConnexion.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
 
 
-                tConnexion.CirclePosition = new Vector2(tX + Width - NWDConstants.kFieldMarge,
+                tConnexion.CirclePosition = new Vector2(
+                    tX + Width,
+                              //                      tX + Width - NWDConstants.kFieldMarge - NWDConstants.kEditWidth/2.0F,
                                                   tConnexion.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
                 tConnexion.PositionTangent = new Vector2(tConnexion.CirclePosition.x + ParentDocument.Margin, tConnexion.CirclePosition.y);
                 tPropertyCounter++;
@@ -191,6 +193,7 @@ namespace NetWorkedData
             // Debug.Log("NWDNodeCard DrawCard()");
 
             GUI.Box(CardRect, " ", EditorStyles.helpBox);
+            //GUI.DrawTexture(CardRect, NWDConstants.kImageNodalCard);
 
             /// if selected redraw twice or three time this card background
             if (NWDDataInspector.ObjectInEdition() == Data)
@@ -214,7 +217,8 @@ namespace NetWorkedData
             //EditorGUI.DrawRect(new Rect(CardRect.x + 1, CardRect.y + 1, CardRect.width-2, CardRect.height-2), Color.gray);
             if (ClassTexture != null)
             {
-                EditorGUI.DrawPreviewTexture(IconRect, ClassTexture);
+                //EditorGUI.DrawPreviewTexture(IconRect, ClassTexture);
+                GUI.DrawTexture(IconRect, ClassTexture);
             }
 
             GUI.Label(CardTypeRect, TypeString, EditorStyles.boldLabel);
@@ -286,8 +290,8 @@ namespace NetWorkedData
         public void DrawBackgroundPlot()
         {
             // Debug.Log("NWDNodeCard DrawLine()");
-            Handles.color = Color.black;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, 8.0f);
+            Handles.color = NWDConstants.kNodeLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf);
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
                 tConnexion.DrawBackgroundPlot();
@@ -297,8 +301,8 @@ namespace NetWorkedData
         public void DrawForwardPlot()
         {
             //Debug.Log("NWDNodeCard DrawPlot()");
-            Handles.color = Color.gray;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, 6.0f);
+            Handles.color = NWDConstants.kNodeOverLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf - 1.0f);
             // Draw plot of my connexions 
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {

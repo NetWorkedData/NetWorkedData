@@ -53,7 +53,11 @@ namespace NetWorkedData
         public static float kFieldMarge = 5.0f;
         public static float kPrefabSize = 80.0f;
         public static float kIntWidth = 36.0f;
+        public static float kIconWidth = 36.0f;
         public static float kEditWidth = 16.0f;
+        public static float kEditWidthHalf = 8.0f;
+        public static float kEditWidthMini = 12.0f;
+        public static float kEditWidthMiniHalf = 6.0f;
         public static float kLangWidth = 50.0f;
         public static float kConnexionIndent = 10.0f;
         //-------------------------------------------------------------------------------------------------------------
@@ -400,6 +404,11 @@ namespace NetWorkedData
         static public Texture2D kImageTabCreate = null;
         static public Texture2D kImageTabEdit = null;
         static public Texture2D kImageTabReduce = null;
+
+        static public Texture2D kImageNodalCard = null;
+
+
+        static public Texture2D kImageBezierTexture = null;
         //-------------------------------------------------------------------------------------------------------------
         // Styles and dimensions for GUI
         static public GUIStyle StyleButton;
@@ -420,6 +429,13 @@ namespace NetWorkedData
 
         static private bool StyleLoaded = false;
         static private bool ImageLoaded = false;
+
+
+        static public Color kNodeLineColor;
+        static public Color kNodeOverLineColor;
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -454,13 +470,17 @@ namespace NetWorkedData
                 HeightMiniButton = HeightButton;
 
                 SizeSlider = Mathf.Min(HeightButton, HeightMiniButton);
+
+
             }
+            kNodeLineColor = new Color(0.4F,0.4F,0.4F,1.0F);
+            kNodeOverLineColor = new Color(0.7F, 0.7F, 0.7F, 1.0F);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadImages()
         {
             //Debug.Log("STATIC STEConstants LoadImages()");
-            if (ImageLoaded == false)
+           if (ImageLoaded == false)
             {
                 ImageLoaded = true;
                 if (kImageSelectionUpdate == null)
@@ -558,6 +578,14 @@ namespace NetWorkedData
                 if (kImageTabReduce == null)
                 {
                     kImageTabReduce = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceTabReduce.psd"));
+                }
+                if (kImageNodalCard == null)
+                {
+                    kImageNodalCard = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDCardBack.psd"));
+                }
+                if (kImageBezierTexture == null)
+                {
+                    kImageBezierTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDBezierTexture.psd"));
                 }
             }
         }

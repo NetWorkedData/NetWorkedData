@@ -36,7 +36,7 @@ namespace NetWorkedData
         /// <summary>
         /// The width of the marge.
         /// </summary>
-        public float MargeWidth = 200.0F;
+        public float MargeWidth = 220.0F;
         /// <summary>
         /// The width of card (default). auto reevaluate.
         /// </summary>
@@ -133,7 +133,7 @@ namespace NetWorkedData
             float tY = NWDConstants.kFieldMarge;
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
 
-            if ( GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, HeightProperty), "Show all", EditorStyles.miniButton))
+            if ( GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Show all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -143,7 +143,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf+ NWDConstants.kFieldMarge*2, tY, tWHalf, HeightProperty), "Mask all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf+ NWDConstants.kFieldMarge*2, tY, tWHalf, NWDConstants.kEditWidth), "Mask all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -157,7 +157,7 @@ namespace NetWorkedData
             tY += HeightProperty + NWDConstants.kFieldMarge;
 
 
-            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, HeightProperty), "Analyze all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Analyze all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -167,7 +167,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge*2, tY, tWHalf, HeightProperty), "No Analyze all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge*2, tY, tWHalf, NWDConstants.kEditWidth), "No Analyze all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -183,7 +183,7 @@ namespace NetWorkedData
 
             float tXA = NWDConstants.kFieldMarge;
             float tWidthB = 20.0F;
-            float tWidthA = MargeWidth - tWidthB - NWDConstants.kFieldMarge*3;
+            float tWidthA = MargeWidth - NWDConstants.kEditWidth - tWidthB - NWDConstants.kFieldMarge*4;
             float tXB = tWidthA + NWDConstants.kFieldMarge*2;
             //Debug.Log("MargeWidth = " + MargeWidth.ToString());
             //Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
@@ -228,7 +228,7 @@ namespace NetWorkedData
             {
                 tCounter++;
                 GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
-                if (GUI.Button(new Rect(MargeWidth, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
+                if (GUI.Button(new Rect(MargeWidth - NWDConstants.kEditWidth - NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
                 {
                     tTypeToCreate = tType;
                 }
