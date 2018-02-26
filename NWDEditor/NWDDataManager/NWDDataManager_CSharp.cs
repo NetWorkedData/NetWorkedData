@@ -32,7 +32,7 @@ namespace NetWorkedData
 			float tOperation = 1;
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create NWDAppConfiguration", tOperation/tCountClass);
 			tOperation++;
-			NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+			NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 			foreach( Type tType in mTypeList)
 			{
 				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create "+tType.Name+" files", tOperation/tCountClass);

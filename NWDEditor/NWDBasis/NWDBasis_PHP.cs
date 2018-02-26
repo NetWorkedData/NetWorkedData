@@ -41,7 +41,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP()
         {
-            foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance.AllEnvironements())
+            foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
             {
                 CreatePHP(tEnvironement);
             }
@@ -531,15 +531,15 @@ namespace NetWorkedData
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
             "\t\t$sCsvList[2] = time();// change DS\n";
-            if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
                 tSynchronizationFile += "\t\t$sCsvList[3] = time();// change DevSync\n";
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
                 tSynchronizationFile += "\t\t$sCsvList[4] = time();// change PreprodSync\n";
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 tSynchronizationFile += "\t\t$sCsvList[5] = time();// change ProdSync\n";
             }

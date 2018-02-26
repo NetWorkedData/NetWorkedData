@@ -36,10 +36,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		private static readonly NWDAppConfiguration kSharedInstance = new NWDAppConfiguration ();
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDAppConfiguration SharedInstance {
-			get {
-				return kSharedInstance; 
-			}
+        public static NWDAppConfiguration SharedInstance () {
+			return kSharedInstance; 
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

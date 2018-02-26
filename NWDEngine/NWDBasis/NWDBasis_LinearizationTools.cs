@@ -356,17 +356,17 @@ namespace NetWorkedData
             string[] tValue = sDataArray;
             // Short circuit the sync date
             // not replace the date from the other environment
-            if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
                 tValue[4] = PreprodSync.ToString();
                 tValue[5] = ProdSync.ToString();
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
                 tValue[3] = DevSync.ToString();
                 tValue[5] = ProdSync.ToString();
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 tValue[3] = DevSync.ToString();
                 tValue[4] = PreprodSync.ToString();

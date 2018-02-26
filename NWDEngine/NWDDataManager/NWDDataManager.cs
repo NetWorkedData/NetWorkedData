@@ -53,7 +53,7 @@ namespace NetWorkedData
 		private NWDDataManager ()
 		{
             //Debug.Log("NWDDataManager private Constructor");
-			NotificationCenter = BTBNotificationManager.SharedInstance;
+			NotificationCenter = BTBNotificationManager.SharedInstance();
 			SystemLanguage tLocalLanguage = Application.systemLanguage;
 			switch (tLocalLanguage) {
     			case SystemLanguage.Afrikaans:
@@ -73,7 +73,7 @@ namespace NetWorkedData
     				break;
 			}
 
-			LoadPreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+			LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		~NWDDataManager ()
@@ -163,7 +163,7 @@ namespace NetWorkedData
 			if (rReturn == false) {
 				// do reccord and recompile
 				#if UNITY_EDITOR
-				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 				#else
 				// no... ALERT USER ERROR IN APP DISTRIBUTION
 				#endif

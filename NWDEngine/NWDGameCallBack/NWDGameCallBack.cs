@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -212,7 +212,7 @@ namespace NetWorkedData
 				if (sDicoInformations == null) {
 					sDicoInformations = new Dictionary<string,object> ();
 				}
-				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerStatut;
+				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerStatut;
 				AccountRequestStart.Invoke (sDicoInformations, tPlayerStatut);
 			}
 		}
@@ -234,7 +234,7 @@ namespace NetWorkedData
 				}
 				//TODO : implement the error from data synchronize
 				NWDError sError = new NWDError();
-				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerStatut;
+				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerStatut;
 				AccountRequestError.Invoke (sDicoInformations, tPlayerStatut, sError);
 			}
 		}
@@ -254,7 +254,7 @@ namespace NetWorkedData
 				if (sDicoInformations == null) {
 					sDicoInformations = new Dictionary<string,object> ();
 				}
-				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerStatut;
+				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerStatut;
 				AccountRequestSuccess.Invoke (sDicoInformations, tPlayerStatut);
 			}
 		}

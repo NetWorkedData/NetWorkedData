@@ -34,18 +34,18 @@ namespace NetWorkedData
 			if (tProd == true)
 			{
 				//Debug.Log("NWDBuildPreProcess !!! PRODUCTION BUILD");
-				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.ProdEnvironment);
-				NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = true;
-				NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = false;
-				NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = false;
+				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+				NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = true;
+				NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
+				NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
 			}
 			else
 			{
 				//Debug.Log("NWDBuildPreProcess PRE PRODUCTION BUILD");
-				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
-				NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = false;
-				NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = true;
-				NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = false;
+				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+				NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
+				NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = true;
+				NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
 			}
 
 			NWDVersion.UpdateVersionBundle ();

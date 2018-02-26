@@ -47,7 +47,7 @@ namespace NetWorkedData
 
 #else
 				// Get saved App version from pref
-				int tBuildTimeStamp = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp;
+				int tBuildTimeStamp = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().BuildTimestamp;
 				int tBuildTimeStampActual = BTBPrefsManager.ShareInstance ().getInt ("APP_VERSION");
 
 				// Check build version

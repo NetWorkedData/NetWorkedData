@@ -53,7 +53,7 @@ namespace NetWorkedData
             {
                 Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+                tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                 tPropInfo.SetValue(this, tAtt, null);
             }
             this.InsertMe();
@@ -116,7 +116,7 @@ namespace NetWorkedData
                 {
                     Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
                     NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                    tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+                    tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     tPropInfo.SetValue(rReturnObject, tAtt, null);
                 }
                 rReturnObject.InsertMe();
@@ -151,7 +151,7 @@ namespace NetWorkedData
         //    {
         //        Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
         //        NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-        //        tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+        //        tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         //        tPropInfo.SetValue(this, tAtt, null);
         //    }
         //    this.InsertMe();

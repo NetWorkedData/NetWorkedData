@@ -50,7 +50,7 @@ namespace NetWorkedData
 				sName = "UnNamed Web Operation Management";
 			}
 			if (sEnvironment == null) {
-				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
+				sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 			}
 
 			// IF BTBOperationUnity

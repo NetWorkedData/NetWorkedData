@@ -190,19 +190,19 @@ namespace NetWorkedData
 		void Start ()
 		{
 			Debug.Log("START NWDAccountPanel");
-			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification) {
+			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification) {
 				if (TextNetworkResult!=null)
 				{
 				TextNetworkResult.text = "ON LINE";
 				}
 			});
-			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, delegate (BTBNotification sNotification) {
+			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, delegate (BTBNotification sNotification) {
 				if (TextNetworkResult!=null)
 				{
 				TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
 				}
 			});
-			BTBNotificationManager.SharedInstance.AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, delegate (BTBNotification sNotification) {
+			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, delegate (BTBNotification sNotification) {
 				if (TextNetworkResult!=null)
 				{
 					TextNetworkResult.text = "<color=orange><b>????</b></color>";
@@ -213,16 +213,16 @@ namespace NetWorkedData
 		// Use this for destroy
 		void OnDestroy ()
 		{
-			BTBNotificationManager.SharedInstance.RemoveObserverEveryWhere (this);
+			BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere (this);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// Update is called once per frame
 		void Update ()
 		{
-			TextEnvironment.text = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().Environment;
-			TextAccount.text = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
-			TextToken.text = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().RequesToken;
-			TextAnonymousAccount.text = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().AnonymousPlayerAccountReference;
+			TextEnvironment.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().Environment;
+			TextAccount.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference;
+			TextToken.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().RequesToken;
+			TextAnonymousAccount.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().AnonymousPlayerAccountReference;
 			TextAnonymousToken.text = "????";
 		}
         //-------------------------------------------------------------------------------------------------------------

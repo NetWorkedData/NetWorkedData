@@ -59,7 +59,7 @@ namespace NetWorkedData
 				sName = "UnNamed Web Operation Synchronisation";
 			}
 			if (sEnvironment == null) {
-				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
+				sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 			}
 
 			// IF BTBOperationUnity

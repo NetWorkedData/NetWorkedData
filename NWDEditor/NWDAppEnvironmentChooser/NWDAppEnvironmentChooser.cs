@@ -41,13 +41,13 @@ namespace NetWorkedData
 
 			// prepare tab to select
 			int tTabSelected = -1;
-			if (NWDAppConfiguration.SharedInstance.DevEnvironment.Selected == true) {
+			if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true) {
 				tTabSelected = 0;
 			}
-			if (NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected == true) {
+			if (NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected == true) {
 				tTabSelected = 1;
 			}
-			if (NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected == true) {
+			if (NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected == true) {
 				tTabSelected = 2;
 			}
 			string[] tTabList = new string[3] {
@@ -63,23 +63,23 @@ namespace NetWorkedData
 				switch (tTabSelect) {
 				case 0:
 					{
-						NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = true;
-						NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = false;
-						NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = false;
+						NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
+						NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
+						NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
 					}
 					break;
 				case 1:
 					{
-						NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = false;
-						NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = true;
-						NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = false;
+						NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
+						NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = true;
+						NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = false;
 					}
 					break;
 				case 2:
 					{
-						NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = false;
-						NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected = false;
-						NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected = true;
+						NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
+						NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = false;
+						NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected = true;
 					}
 					break;
 				}

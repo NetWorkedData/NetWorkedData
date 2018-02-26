@@ -308,8 +308,8 @@ namespace NetWorkedData
 							if (tSubType == typeof(NWDAccount)) {
 								//Debug.LogVerbose ("tAccountAnalzeList ADDDDDDD");
 								tAccountReferenceList.Add (tProp.Name);
-								tAccountAnalzeANDList.Add ("tObject." + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
-								tAccountAnalzeList.Add ("" + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference");
+								tAccountAnalzeANDList.Add ("tObject." + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference");
+								tAccountAnalzeList.Add ("" + tProp.Name + ".Value == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference");
 								tAccountConnected = "true";
 								tAccountUsed = true;
 								tLockedObject = "false";
@@ -481,7 +481,7 @@ namespace NetWorkedData
 //				"\t\tpublic override string NewReference ()\n" +
 //				"\t\t{\n";
 //			if (tAccountUsed == true) {
-//				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);\n";
+//				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);\n";
 //			} else {
 //				tWorkFlowFile += "\t\t\treturn NewReferenceFromUUID(\"\");\n";
 //			}
@@ -503,10 +503,10 @@ namespace NetWorkedData
 //			if (tAccountUsed == true) {
 //				tWorkFlowFile += "" +
 //					"\t\t\tNWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount> ();\n" +
-//					"\t\t\ttAccountReference.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);\n" +
+//					"\t\t\ttAccountReference.SetReference (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference);\n" +
 //					"\t\t\trReturn."+tAccountPropertyName+" = tAccountReference;\n" +
 //					"\t\t\trReturn.UpdateMeLater ();" +
-////					"\t\t\trReturn."+tAccountPropertyName+".SetReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);\n" +
+////					"\t\t\trReturn."+tAccountPropertyName+".SetReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference);\n" +
 ////					"\t\t\trReturn.UpdateMe();\n" +
 //					"";
 //			}

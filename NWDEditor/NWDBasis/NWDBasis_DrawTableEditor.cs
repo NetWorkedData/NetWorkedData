@@ -664,19 +664,19 @@ namespace NetWorkedData
 			// SYNCHRO TIMESTAMP
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance.ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
             GUILayout.EndHorizontal();
 
 
 			GUILayout.BeginHorizontal ();
             if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
-				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.DevEnvironment);
+				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance().DevEnvironment);
 			}
 
             if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
-				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
             if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
@@ -684,7 +684,7 @@ namespace NetWorkedData
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
 //					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				SynchronizationFromWebService (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 //				}
 			}
 			EditorGUI.EndDisabledGroup ();
@@ -694,10 +694,10 @@ namespace NetWorkedData
 			// FORCE SYNCHRO
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
-				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.DevEnvironment);
+				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance().DevEnvironment);
 			}
             if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
-				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
             if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
@@ -705,7 +705,7 @@ namespace NetWorkedData
 //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 //					    NWDConstants.K_SYNC_ALERT_OK,
 //					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				SynchronizationFromWebServiceForce (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 //				}
 			}
 			EditorGUI.EndDisabledGroup ();
@@ -717,10 +717,10 @@ namespace NetWorkedData
 			// FORCE SYNCHRO And Clean
 			GUILayout.BeginHorizontal ();
             if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
-				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.DevEnvironment);
+				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance().DevEnvironment);
 			}
             if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
-				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
+				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
 			}
 			EditorGUI.BeginDisabledGroup (tDisableProd);
             if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
@@ -728,7 +728,7 @@ namespace NetWorkedData
 				//					    NWDConstants.K_SYNC_ALERT_MESSAGE,
 				//					    NWDConstants.K_SYNC_ALERT_OK,
 				//					    NWDConstants.K_SYNC_ALERT_CANCEL)) {
-				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				SynchronizationFromWebServiceClean (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 				//				}
 			}
 			EditorGUI.EndDisabledGroup ();

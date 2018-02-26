@@ -122,16 +122,8 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
 		//-------------------------------------------------------------------------------------------------------------
-        public static K GetObjectByInternalKey(string sInternalKey,string sAccountReference = null)
+        public static K GetObjectByInternalKey(string sInternalKey, bool sFlushOlderDupplicate = false, string sAccountReference = null)
 		{
-			//K rReturn = null;
-			//int tIndex = ObjectsByKeyList.IndexOf(sInternalKey);
-			//if (tIndex >= 0) {
-			//	K tObject = ObjectsList.ElementAt (tIndex) as K;
-   //             if (tObject.IsReacheableByAccount (sAccountReference)) {
-			//		rReturn = tObject;
-			//	}
-			//}
             K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
             K rReturn = null;
             if (rReturnArray.Length > 0)
@@ -141,11 +133,27 @@ namespace NetWorkedData
             if (rReturnArray.Length > 1)
             {
                 Debug.LogWarning("The InternalKey " + sInternalKey + " for " + ClassNamePHP() + " is not unique!");
+                if (sFlushOlderDupplicate == true)
+                {
+                    List<K> tList = new List<K>();
+                    foreach (K tObject in rReturnArray)
+                    {
+                        if (tObject.IsTrashed() == false)
+                        {
+                            tList.Add(tObject);
+                        }
+                    }
+                    tList.Sort((x, y) => y.DM.CompareTo(x.DM));
+                    for (int i = 1; i < tList.Count; i++)
+                    {
+                        tList[i].TrashMe();
+                    }
+                }
             }
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "",string sAccountReference = null)
+        public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "", bool sFlushOlderDupplicate = false, string sAccountReference = null)
 		{
             K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
             K rReturn = null;
@@ -156,6 +164,23 @@ namespace NetWorkedData
             if (rReturnArray.Length > 1)
             {
                 Debug.LogWarning("The InternalKey "+sInternalKey+" for "+ClassNamePHP()+" is not unique!");
+                if (sFlushOlderDupplicate == true)
+                {
+                    List<K> tList = new List<K>();
+                    foreach (K tObject in rReturnArray)
+                    {
+                        if (tObject.IsTrashed() == false)
+                        {
+                            tList.Add(tObject);
+                        }
+                    }
+                    tList.Sort((x, y) => y.DM.CompareTo(x.DM));
+                    for (int i = 1; i < tList.Count; i++)
+                    {
+                        tList[i].TrashMe();
+                    }
+                    rReturn = tList[0];
+                }
             }
             if (rReturn == null)
             {
@@ -168,11 +193,11 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public static K[] GetObjectsByInternalKeys(string[] sInternalKeys,string sAccountReference = null)
+        public static K[] GetObjectsByInternalKeys(string[] sInternalKeys, bool sFlushOlderDupplicate = false,string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			foreach (string tInternalKey in sInternalKeys) {
-                K tObject = GetObjectByInternalKey(tInternalKey,sAccountReference);
+                K tObject = GetObjectByInternalKey(tInternalKey,sFlushOlderDupplicate,sAccountReference);
 				if (tObject!=null)
 				{
 					rReturn.Add(tObject);
@@ -183,11 +208,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		//TODO : GetAllObjectByInternalKeys(string[] sInternalKey)
 		//-------------------------------------------------------------------------------------------------------------
-        public static K[] GetObjectsByInternalKeysOrCreate(string[] sInternalKeys, string sInternalDescription = "",string sAccountReference = null)
+        public static K[] GetObjectsByInternalKeysOrCreate(string[] sInternalKeys, string sInternalDescription = "", bool sFlushOlderDupplicate = false,string sAccountReference = null)
 		{
 			List<K> rReturn = new List<K>();
 			foreach (string tInternalKey in sInternalKeys) {
-                K tObject = GetObjectByInternalKeyOrCreate(tInternalKey, sInternalDescription,sAccountReference);
+                K tObject = GetObjectByInternalKeyOrCreate(tInternalKey, sInternalDescription,sFlushOlderDupplicate,sAccountReference);
 				if (tObject!=null)
 				{
 					rReturn.Add(tObject);
