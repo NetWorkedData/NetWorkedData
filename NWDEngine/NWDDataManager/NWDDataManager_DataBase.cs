@@ -25,23 +25,23 @@ using ColoredAdvancedDebug;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public partial class NWDDataManager
-	{
+    public partial class NWDDataManager
+    {
         //-------------------------------------------------------------------------------------------------------------
         public static List<object> kObjectToUpdateQueue = new List<object>();
         //-------------------------------------------------------------------------------------------------------------
-		public void ConnectToDatabase ()
-		{
-			if (kConnectedToDatabase == false)
+        public void ConnectToDatabase()
+        {
+            if (kConnectedToDatabase == false)
             {
-				kConnectedToDatabase = true;
+                kConnectedToDatabase = true;
 #if UNITY_EDITOR
-				// create the good folder
-				if (AssetDatabase.IsValidFolder (DatabasePathEditor) == false) 
+                // create the good folder
+                if (AssetDatabase.IsValidFolder(DatabasePathEditor) == false)
                 {
-					AssetDatabase.CreateFolder ("Assets", "StreamingAssets");
-				}
-				// path for base editor
+                    AssetDatabase.CreateFolder("Assets", "StreamingAssets");
+                }
+                // path for base editor
                 string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
                 string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
 
@@ -83,17 +83,33 @@ namespace NetWorkedData
 #elif UNITY_IOS
 					var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
 					// then save to Application.persistentDataPath
-					File.Copy (loadDb, tPathEditor);
+                    File.Copy (loadDb, tPathEditor);
+#elif UNITY_TVOS
+                    var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
+                    // then save to Application.persistentDataPath
+                    File.Copy (loadDb, tPathEditor);
+#elif UNITY_STANDALONE_OSX
+                    var loadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseNameEditor;
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
 #elif UNITY_WP8
-				    var loadDb = Application.dataPath + "/Resources/" + DatabaseNameEditor;
+                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
 				    // then save to Application.persistentDataPath
 				    File.Copy(loadDb, tPathEditor);
 #elif UNITY_WINRT
-				    var loadDb = Application.dataPath + "/Resources/" + DatabaseNameEditor;
+                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
 				    // then save to Application.persistentDataPath
 				    File.Copy(loadDb, tPathEditor);
-#elif UNITY_STANDALONE_OSX
-                    var loadDb = Application.dataPath + "/Resources/Data/StreamingAssets/" + DatabaseNameEditor;
+#elif UNITY_WSA_10_0
+                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
+#elif UNITY_STANDALONE_WIN
+                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
+#elif UNITY_STANDALONE_LINUX
+                    var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
                     // then save to Application.persistentDataPath
                     File.Copy(loadDb, tPathEditor);
 #else
@@ -111,136 +127,152 @@ namespace NetWorkedData
                 //Debug.Log("tDatabasePathEditor = " + tDatabasePathEditor);
                 //Debug.Log("tPathAccount = " + tPathAccount);
 #endif
-                SQLiteConnectionEditor = new SQLiteConnection (tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-				SQLiteConnectionAccount = new SQLiteConnection (tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-			}
-		}
+                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void InsertObject (object sObject, bool sAccountConnected)
-		{
-			if (sAccountConnected)
+        public void InsertObject(object sObject, bool sAccountConnected)
+        {
+            if (sAccountConnected)
             {
-				SQLiteConnectionAccount.Insert (sObject);
-			}
+                SQLiteConnectionAccount.Insert(sObject);
+            }
             else
             {
-				SQLiteConnectionEditor.Insert (sObject);
-			}
-		}
+                SQLiteConnectionEditor.Insert(sObject);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void UpdateObject (object sObject, bool sAccountConnected)
-		{
-			if (sAccountConnected) {
-				SQLiteConnectionAccount.Update (sObject);
-			} else {
-				SQLiteConnectionEditor.Update (sObject);
-			}
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void DeleteObject (object sObject, bool sAccountConnected)
-		{
-			//  update disable with date to delete
-			if (sAccountConnected) {
-				SQLiteConnectionAccount.Delete (sObject);
-			} else {
-				SQLiteConnectionEditor.Delete (sObject);
-			}
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void AddObjectToUpdateQueue (object sObject)
-		{
-			if (kObjectToUpdateQueue.Contains (sObject) == false) {
-				kObjectToUpdateQueue.Add (sObject);
-			}
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void UpdateQueueExecute ()
-		{
-			foreach (object tObject in kObjectToUpdateQueue) {
-				Type tType = tObject.GetType ();
-				var tMethodInfo = tType.GetMethod ("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (tObject, new object[]{ true });
-				}
-			}
-			kObjectToUpdateQueue = new List<object> ();
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		// Table management
-		public void CreateAllTablesLocal ()
-		{
-			foreach (Type tType in mTypeList) {
-				var tMethodInfo = tType.GetMethod ("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, null);
-				}
-			}
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void CleanAllTablesLocal ()
-		{
-		    foreach (Type tType in mTypeList) {
-		        var tMethodInfo = tType.GetMethod ("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-		        if (tMethodInfo != null) {
-		            tMethodInfo.Invoke (null, null);
-		        }
-		    }
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		public void CreateAllTablesServer (NWDAppEnvironment sEnvironment)
-		{
-			NWDOperationWebManagement.AddOperation ("Create table on server", null, null, null, null, sEnvironment, true);
-		}
-		#endif
-        //-------------------------------------------------------------------------------------------------------------
-		public void CreateTable (Type sType, bool sAccountConnected)
-		{
-			ConnectToDatabase ();
-
-			if (sAccountConnected) {
-				SQLiteConnectionAccount.CreateTableByType (sType);
-			} else {
-				SQLiteConnectionEditor.CreateTableByType (sType);
-			}
-
-			PopulateTable (sType, sAccountConnected);
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void PopulateTable (Type sType, bool sAccountConnected)
-		{
-            //TODO implement code
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void EmptyTable (Type sType, bool sAccountConnected)
-		{
-            //TODO implement code
-		}
-        //-------------------------------------------------------------------------------------------------------------
-		public void DropTable (Type sType, bool sAccountConnected)
-		{
-			if (sAccountConnected)
+        public void UpdateObject(object sObject, bool sAccountConnected)
+        {
+            if (sAccountConnected)
             {
-				SQLiteConnectionAccount.DropTableByType (sType);
-			}
+                SQLiteConnectionAccount.Update(sObject);
+            }
             else
             {
-				SQLiteConnectionEditor.DropTableByType (sType);
-			}
-		}
+                SQLiteConnectionEditor.Update(sObject);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void ReInitializeTable (Type sType, bool sAccountConnected)
-		{
-			EmptyTable (sType, sAccountConnected);
-			PopulateTable (sType, sAccountConnected);
-		}
+        public void DeleteObject(object sObject, bool sAccountConnected)
+        {
+            //  update disable with date to delete
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.Delete(sObject);
+            }
+            else
+            {
+                SQLiteConnectionEditor.Delete(sObject);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-		public void ResetTable (Type sType, bool sAccountConnected)
-		{
-			DropTable (sType, sAccountConnected);
-			CreateTable (sType, sAccountConnected);
-		}
+        public void AddObjectToUpdateQueue(object sObject)
+        {
+            if (kObjectToUpdateQueue.Contains(sObject) == false)
+            {
+                kObjectToUpdateQueue.Add(sObject);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
-	}
+        public void UpdateQueueExecute()
+        {
+            foreach (object tObject in kObjectToUpdateQueue)
+            {
+                Type tType = tObject.GetType();
+                var tMethodInfo = tType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(tObject, new object[] { true });
+                }
+            }
+            kObjectToUpdateQueue = new List<object>();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Table management
+        public void CreateAllTablesLocal()
+        {
+            foreach (Type tType in mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, null);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CleanAllTablesLocal()
+        {
+            foreach (Type tType in mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, null);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        public void CreateAllTablesServer(NWDAppEnvironment sEnvironment)
+        {
+            NWDOperationWebManagement.AddOperation("Create table on server", null, null, null, null, sEnvironment, true);
+        }
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        public void CreateTable(Type sType, bool sAccountConnected)
+        {
+            ConnectToDatabase();
+
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.CreateTableByType(sType);
+            }
+            else
+            {
+                SQLiteConnectionEditor.CreateTableByType(sType);
+            }
+
+            PopulateTable(sType, sAccountConnected);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void PopulateTable(Type sType, bool sAccountConnected)
+        {
+            //TODO implement code
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void EmptyTable(Type sType, bool sAccountConnected)
+        {
+            //TODO implement code
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DropTable(Type sType, bool sAccountConnected)
+        {
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.DropTableByType(sType);
+            }
+            else
+            {
+                SQLiteConnectionEditor.DropTableByType(sType);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ReInitializeTable(Type sType, bool sAccountConnected)
+        {
+            EmptyTable(sType, sAccountConnected);
+            PopulateTable(sType, sAccountConnected);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetTable(Type sType, bool sAccountConnected)
+        {
+            DropTable(sType, sAccountConnected);
+            CreateTable(sType, sAccountConnected);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 }
 //=====================================================================================================================
