@@ -572,7 +572,7 @@ namespace NetWorkedData
             {
 				foreach (Type tType in sTypeList)
                 {
-                    Debug.Log("NWDDataManager SynchronizationPullClassesDatas() tType = " + tType.Name);
+                    //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() tType = " + tType.Name);
 
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
