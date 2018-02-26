@@ -30,17 +30,10 @@ namespace NetWorkedData
 		public void OnPostprocessBuild(BuildTarget target, string path)
 		{
 			Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
-
-            // TODO : find ALL TARGET PATH
-//            bool tNeedPatchDatabase = false;
-
-			// must find the good database 
-//			string tPath = path; // Hum not good path ...
 			BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
 			switch (tBuildTarget) {
                 case BuildTarget.StandaloneOSX: 
 				{
-//					tPath = path + "/Data/Raw/NWDmage.prp";
 				}
 				break;
 			case BuildTarget.StandaloneWindows: 
@@ -49,13 +42,10 @@ namespace NetWorkedData
 				break;
 			case BuildTarget.iOS: 
 				{
-//                    tNeedPatchDatabase = true;
-//                    tPath = path + "/Data/Raw/NWDmage.prp";
 				}
 				break;
 			case BuildTarget.Android: 
 				{
-                    //Can't modify BDD, APK = zip file
                 }
 				break;
 			case BuildTarget.StandaloneLinux: 
@@ -82,11 +72,6 @@ namespace NetWorkedData
 				{
 				}
 				break;
-			//case BuildTarget.StandaloneOSXIntel64: 
-            //	{
-            ////					tPath = path + "/Data/Raw/NWDmage.prp";
-			//  }
-			//  break;
 			case BuildTarget.Tizen: 
 				{
 				}
@@ -103,10 +88,6 @@ namespace NetWorkedData
 				{
 				}
 				break;
-			//case BuildTarget.SamsungTV: 
-				//{
-				//}
-				//break;
 			case BuildTarget.N3DS: 
 				{
 				}
@@ -124,47 +105,6 @@ namespace NetWorkedData
 				}
 				break;
 			}
-			/*
-            if (tNeedPatchDatabase == true)
-            {
-                // connect to database 
-                SQLiteConnection tSQLiteConnection = new SQLiteConnection(tPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-                // Remove datas from unsync tables
-                foreach (Type tType in NWDDataManager.SharedInstance.mTypeUnSynchronizedList)
-                {
-                    tSQLiteConnection.DropTableByType(tType);
-                    tSQLiteConnection.CreateTableByType(tType);
-                }
-                // Remove datas from sync tables with account reference
-                foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList)
-                {
-                    bool tAccountConnected = false;
-                    foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-                    {
-                        Type tTypeOfThis = tProp.PropertyType;
-                        if (tTypeOfThis != null)
-                        {
-                            if (tTypeOfThis.IsGenericType)
-                            {
-                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
-                                {
-                                    Type tSubType = tTypeOfThis.GetGenericArguments()[0];
-                                    if (tSubType == typeof(NWDAccount))
-                                    {
-                                        tAccountConnected = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (tAccountConnected == true)
-                    {
-                        tSQLiteConnection.DropTableByType(tType);
-                        tSQLiteConnection.CreateTableByType(tType);
-                    }
-                }
-            }
-            */
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
