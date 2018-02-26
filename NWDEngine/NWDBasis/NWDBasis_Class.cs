@@ -25,18 +25,18 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
+    public partial class NWDBasis<K> where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
 		public static void ClassDeclare (bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription)
 		{
 			Type tType = MethodBase.GetCurrentMethod ().DeclaringType;
 			//Debug.Log ("tType : " + tType.Name);
 			//Debug.Log ("K : " + typeof(K).Name);
 			NWDTypeInfos.Declare (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
-//			NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+            //NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
 			redefineClassToUse (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 

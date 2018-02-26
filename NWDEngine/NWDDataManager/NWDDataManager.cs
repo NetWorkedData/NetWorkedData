@@ -39,9 +39,20 @@ namespace NetWorkedData
 		public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
 		public BTBNotificationManager NotificationCenter;
 		public bool NeedCopy = false;
+        public bool IsLoaded = false;
+        //-------------------------------------------------------------------------------------------------------------
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool StartNetWorkedData()
+        {
+            //Debug.Log("NWDDataManager StartNetWorkedData()");
+            // just to init the class
+            return NWDTypeLauncher.IsLaunched;
+        }
         //-------------------------------------------------------------------------------------------------------------
 		private NWDDataManager ()
 		{
+            //Debug.Log("NWDDataManager private Constructor");
 			NotificationCenter = BTBNotificationManager.SharedInstance;
 			SystemLanguage tLocalLanguage = Application.systemLanguage;
 			switch (tLocalLanguage) {
@@ -123,18 +134,19 @@ namespace NetWorkedData
 //			}
 //		}
 		//-------------------------------------------------------------------------------------------------------------
-		void ReLoadAllClass ()
-		{
-			foreach (Type tType in mTypeList) {
-				if (mTypeLoadedList.Contains (tType) == false) {
-					var tMethodInfo = tType.GetMethod ("ClassLoad", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null) {
-						tMethodInfo.Invoke (null, null);
-					}
-					mTypeLoadedList.Add (tType);
-				}
-			}
-		}
+		//void ReLoadAllClass ()
+		//{
+		//	foreach (Type tType in mTypeList) {
+		//		if (mTypeLoadedList.Contains (tType) == false) {
+		//			var tMethodInfo = tType.GetMethod ("ClassLoad", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+		//			if (tMethodInfo != null) {
+		//				tMethodInfo.Invoke (null, null);
+		//			}
+		//			mTypeLoadedList.Add (tType);
+		//		}
+		//	}
+  //          //IsLoaded = true;
+		//}
 		//-------------------------------------------------------------------------------------------------------------
 		public bool TestSaltMemorizationForAllClass ()
 		{
@@ -153,7 +165,7 @@ namespace NetWorkedData
 				#if UNITY_EDITOR
 				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
 				#else
-				//TODO: ALERT USER ERROR IN APP DISTRIBUTION
+				// no... ALERT USER ERROR IN APP DISTRIBUTION
 				#endif
 			}
 			return rReturn;
@@ -163,11 +175,6 @@ namespace NetWorkedData
 			get {
 				return kSharedInstance; 
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void LoadedClass(Type sType, int sNumberOfClasses, int sIndexOfActualClass)
-		{
-			//Debug.Log (sType.Name + " loaded ("+ (sIndexOfActualClass) +" / "+ sNumberOfClasses +")");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

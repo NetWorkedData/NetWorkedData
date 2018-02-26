@@ -90,33 +90,41 @@ namespace NetWorkedData
             Debug.Log("NWDBasis <K> NewInstanceWithReference()");
 			NWDBasis<K> rReturnObject = null;
             //rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());
-            rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
-           // rReturnObject = new NWDBasis<K> (false);
-
-            //rReturnObject.InitInstanceWithReference(sReference);
-
-			rReturnObject.InstanceInit ();
-			rReturnObject.AC = true;
-			rReturnObject.DM = NWDToolbox.Timestamp ();
-			rReturnObject.DC = NWDToolbox.Timestamp ();
-			rReturnObject.DS = 0;
-			rReturnObject.DD = 0;
-			rReturnObject.DevSync = 0;
-			rReturnObject.PreprodSync = 0;
-			rReturnObject.ProdSync = 0;
-			if (sReference == null || sReference == "") {
-				rReturnObject.Reference = rReturnObject.NewReference ();
-			} else {
-				rReturnObject.Reference = sReference;
-			}
-			foreach (PropertyInfo tPropInfo in PropertiesAccountDependent()) {
-				Debug.Log ("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
-				NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount> ();
-				tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
-				tPropInfo.SetValue (rReturnObject, tAtt, null);
-			}
-			rReturnObject.InsertMe ();
-
+            if (ClassType() != null)
+            {
+                rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
+                // rReturnObject = new NWDBasis<K> (false);
+                //rReturnObject.InitInstanceWithReference(sReference);
+                rReturnObject.InstanceInit();
+                rReturnObject.AC = true;
+                rReturnObject.DM = NWDToolbox.Timestamp();
+                rReturnObject.DC = NWDToolbox.Timestamp();
+                rReturnObject.DS = 0;
+                rReturnObject.DD = 0;
+                rReturnObject.DevSync = 0;
+                rReturnObject.PreprodSync = 0;
+                rReturnObject.ProdSync = 0;
+                if (sReference == null || sReference == "")
+                {
+                    rReturnObject.Reference = rReturnObject.NewReference();
+                }
+                else
+                {
+                    rReturnObject.Reference = sReference;
+                }
+                foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+                {
+                    Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
+                    NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
+                    tAtt.Value = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+                    tPropInfo.SetValue(rReturnObject, tAtt, null);
+                }
+                rReturnObject.InsertMe();
+            }
+            else
+            {
+                Debug.Log("ClassType() is null for "+ ClassNamePHP());
+            }
 			return rReturnObject;
 		}
         //-------------------------------------------------------------------------------------------------------------

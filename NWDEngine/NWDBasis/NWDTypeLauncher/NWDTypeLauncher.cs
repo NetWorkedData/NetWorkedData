@@ -26,27 +26,32 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	#if UNITY_EDITOR
 	[InitializeOnLoad]
-	#endif
+    #endif
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDTypeLauncher
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		static bool IsLaunched = false;// to protect dupplicate launch editor/player
-		//-------------------------------------------------------------------------------------------------------------
-		static NWDTypeLauncher ()
+        private static NWDTypeLauncher InitialLaucher = new NWDTypeLauncher();
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool IsLaunching = false;// to protect dupplicate launch editor/player
+		public static bool IsLaunched = false;// to protect dupplicate launch editor/player
+        //-------------------------------------------------------------------------------------------------------------
+        static NWDTypeLauncher()
+        {
+            //Debug.Log("#### NWDTypeLauncher Class Constructor");
+            Launcher();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+		public NWDTypeLauncher ()
 		{
-			#if UNITY_EDITOR
-			Launcher (); // for unity editor
-			#endif
+            //Debug.Log ("#### NWDTypeLauncher Instance Constructor");
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		[RuntimeInitializeOnLoadMethod] // for unity player
 		public static void Launcher ()
 		{
-			//Debug.Log ("#### NWDTypeLauncher Launcher");
-			//Debug.Log ("NWDTypeLauncher Launcher", DebugResult.Success);
-			if (IsLaunched == false) {
-				IsLaunched = true;
+            
+			//Debug.Log ("#### NWDTypeLauncher Launcher start");
+            if (IsLaunched == false && IsLaunching==false) {
+                IsLaunching = true;
 				// Get ShareInstance
 				NWDDataManager tShareInstance = NWDDataManager.SharedInstance;
 				// connect to database;
@@ -106,32 +111,13 @@ namespace NetWorkedData
 //						}
 						/* DEBUG */
 					}
-					tShareInstance.LoadedClass(tType, tNumberOfClasses, tIndexOfActualClass);
 					tIndexOfActualClass++;
 				}
+                IsLaunched = true;
 			}
-
-
-			if (NWDDataManager.SharedInstance.NeedCopy == true) {
-
-//				Debug.Log ("Close original copy from bundle database");
-//				// Close original copy from bundle database
-//				NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy.Close ();
-//				// Remove temporary database
-//				Debug.Log ("DELETE original copy from bundle database");
-//				File.Delete (NWDDataManager.SharedInstance.PathDatabaseFromBundleCopy);
-//				Debug.Log ("NeedCopy FALSE.....");
-//				NWDDataManager.SharedInstance.NeedCopy = false;
-
-				//Debug.Log ("SAVE TIMESTAMP OF BUID IN PREFS");
-				// Save App version in pref
-//				NWDPreferences.SetString("APP_VERSION", Application.version);
-//				BTBPrefsManager.ShareInstance ().set("APP_VERSION", NWDAppConfiguration.SharedInstance.SelectedEnvironment ().BuildTimestamp);
-
-				//Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-			}
+            //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
 		}
 		//-------------------------------------------------------------------------------------------------------------
-	}
+    }
 }
 //=====================================================================================================================
