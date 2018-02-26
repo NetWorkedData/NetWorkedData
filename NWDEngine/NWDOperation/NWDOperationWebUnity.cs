@@ -199,8 +199,6 @@ namespace NetWorkedData
 					NWDOperationResult tInfosProgress = new NWDOperationResult ();
 					ProgressInvoke (1.0f, tInfosProgress);
 
-                    Debug.Log ("NWDOperationWebUnity text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r","\r\n"));
-
 					NWDGameDataManager.UnitySingleton().NetworkStatutChange (NWDNetworkState.OnLine);
 
 					Dictionary<string, object> tData = new Dictionary<string, object> ();
