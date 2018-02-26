@@ -53,36 +53,36 @@ namespace NetWorkedData
 //			EditorGUI.indentLevel++;
 			EditorGUILayout.HelpBox (ClassDescription (), MessageType.Info);
 //			EditorGUI.indentLevel--;
-			if (NWDAppConfiguration.SharedInstance.DevEnvironment.Selected == true) {
+			if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true) {
 				EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_DEV, EditorStyles.boldLabel);
 			}
-			if (NWDAppConfiguration.SharedInstance.PreprodEnvironment.Selected == true) {
+			if (NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected == true) {
 				EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_PREPROD, EditorStyles.boldLabel);
 			}
-			if (NWDAppConfiguration.SharedInstance.ProdEnvironment.Selected == true) {
+			if (NWDAppConfiguration.SharedInstance().ProdEnvironment.Selected == true) {
 				EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_PROD, EditorStyles.boldLabel);
 			}
 //			EditorGUI.indentLevel++;
 //			mForceSynchronization = GUILayout.Toggle (mForceSynchronization, NWDConstants.K_APP_BASIS_CLASS_SYNC_FORCE);
 //			if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_SYNC + MenuName () + NWDConstants.K_APP_BASIS_CLASS_DATAS)) {
 //
-//				if (NWDAppConfiguration.SharedInstance.IsProdEnvironement () == true) {
+//				if (NWDAppConfiguration.SharedInstance().IsProdEnvironement () == true) {
 //					if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 //						NWDConstants.K_SYNC_ALERT_MESSAGE,
 //						NWDConstants.K_SYNC_ALERT_OK,
 //						NWDConstants.K_SYNC_ALERT_CANCEL)) {
-//						SynchronizationFromWebService (mForceSynchronization, NWDAppConfiguration.SharedInstance.SelectedEnvironment());
+//						SynchronizationFromWebService (mForceSynchronization, NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 //					}
 //
 //				} else {
-//					SynchronizationFromWebService (mForceSynchronization, NWDAppConfiguration.SharedInstance.SelectedEnvironment());
+//					SynchronizationFromWebService (mForceSynchronization, NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 //				}
 //			}
 //
-//			NWDAppEnvironment sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
+//			NWDAppEnvironment sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 //			if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_SYNC_ALL_DATAS)) {
 //
-//				if (NWDAppConfiguration.SharedInstance.IsProdEnvironement () == true) {
+//				if (NWDAppConfiguration.SharedInstance().IsProdEnvironement () == true) {
 //					if (EditorUtility.DisplayDialog (NWDConstants.K_SYNC_ALERT_TITLE,
 //						NWDConstants.K_SYNC_ALERT_MESSAGE,
 //						NWDConstants.K_SYNC_ALERT_OK,
@@ -164,7 +164,7 @@ namespace NetWorkedData
                 //GUILayout.BeginHorizontal();
                 //if (GUILayout.Button("dev force push", EditorStyles.miniButton))
                 //{
-                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance.DevEnvironment), 0);
+                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
                 //    foreach (K tObject in ObjectsList)
                 //    {
                 //        if (tObject.IntegrityValue() == tObject.Integrity)
@@ -178,7 +178,7 @@ namespace NetWorkedData
                 //}
                 //if (GUILayout.Button("preprod force push", EditorStyles.miniButton))
                 //{
-                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance.PreprodEnvironment), 0);
+                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
                 //    foreach (K tObject in ObjectsList)
                 //    {
                 //        if (tObject.IntegrityValue() == tObject.Integrity)
@@ -192,7 +192,7 @@ namespace NetWorkedData
                 //}
                 //if (GUILayout.Button("prod force push", EditorStyles.miniButton))
                 //{
-                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance.ProdEnvironment), 0);
+                //    EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
                 //    foreach (K tObject in ObjectsList)
                 //    {
                 //        if (tObject.IntegrityValue() == tObject.Integrity)

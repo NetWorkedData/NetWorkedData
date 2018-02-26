@@ -68,21 +68,21 @@ namespace NetWorkedData
             }
             tConstantsFile += "//Environments restaure\n";
             // Select the build environnement
-            if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
                 tConstantsFile += "" +
                 "\t\t\tthis.ProdEnvironment.Selected = false;\n" +
                 "\t\t\tthis.PreprodEnvironment.Selected = false;\n" +
                 "\t\t\tthis.DevEnvironment.Selected = true;\n";
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
                 tConstantsFile += "" +
                     "\t\t\tthis.ProdEnvironment.Selected = false;\n" +
                     "\t\t\tthis.PreprodEnvironment.Selected = true;\n" +
                     "\t\t\tthis.DevEnvironment.Selected = false;\n";
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 tConstantsFile += "" +
                     "\t\t\tthis.ProdEnvironment.Selected = true;\n" +

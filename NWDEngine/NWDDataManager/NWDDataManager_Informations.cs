@@ -24,7 +24,7 @@ namespace NetWorkedData
 		public void InformationsUpdate ()
 		{
 			//			Debug.Log ("NWDDataManager Informations");
-			NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
+			NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 			string tInformations = "Environment : "+tEnvironment.Environment+" account "+tEnvironment.PlayerAccountReference+"\n_______________\n";
 			foreach (Type tType in mTypeLoadedList) 
 			{

@@ -126,12 +126,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetCurrentAccountReference()
         {
-            return NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static NWDAccount GetCurrentAccount() // not possible the object don't exist for real in the data
         //{
-        //    return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference);
+        //    return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
         //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -190,7 +190,7 @@ namespace NetWorkedData
         public static NWDAccount ActualAccount()
         {
             NWDAccount rAccount = null;
-            string tAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment().PlayerAccountReference;
+            string tAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
             int tObjectIndex = NWDAccount.ObjectsByReferenceList.IndexOf(tAccountReference);
             if (NWDAccount.ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
             {
@@ -246,7 +246,7 @@ namespace NetWorkedData
 			EditorGUI.BeginDisabledGroup (kInternalLogin == "" || kInternalPassword == "" || kInternalLogin == null || kInternalPassword == null);
 
 			if (GUI.Button (new Rect (tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp dev", tMiniButtonStyle)) {
-				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance.DevEnvironment;
+				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
 				this.Email = BTBSecurityTools.GenerateSha (kInternalLogin + tEnvironmentDev.SaltStart, BTBSecurityShaTypeEnum.Sha1);
 				this.Password = BTBSecurityTools.GenerateSha(kInternalPassword + tEnvironmentDev.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
 				this.InternalDescription = "Account for Dev test (" + kInternalLogin + " / " + kInternalPassword + ")";
@@ -256,7 +256,7 @@ namespace NetWorkedData
 			}
 
 			if (GUI.Button (new Rect (tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp preprod", tMiniButtonStyle)) {
-				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance.PreprodEnvironment;
+				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
 				this.Email = BTBSecurityTools.GenerateSha(kInternalLogin + tEnvironmentPreprod.SaltStart, BTBSecurityShaTypeEnum.Sha1);
 				this.Password = BTBSecurityTools.GenerateSha(kInternalPassword + tEnvironmentPreprod.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
 				this.InternalDescription = "Account for Preprod test (" + kInternalLogin + " / " + kInternalPassword + ")";
@@ -266,7 +266,7 @@ namespace NetWorkedData
 			}
 
 			//			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
-			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
+			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
 			//				this.Email = BTBSecurityTools.generateSha (kInternalLogin + tEnvironmentProd.SaltStart, BTBSecurityShaTypeEnum.Sha1);
 			//				this.Password = BTBSecurityTools.generateSha (kInternalPassword + tEnvironmentProd.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
 			//				this.InternalDescription = "Account for Prod test (" + kInternalLogin + " / " + kInternalPassword + ")";
@@ -295,7 +295,7 @@ namespace NetWorkedData
 			EditorGUI.BeginDisabledGroup (kInternalLogin == "" || kInternalLogin == null);
 
 			if (GUI.Button (new Rect (tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue dev", tMiniButtonStyle)) {
-				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance.DevEnvironment;
+				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
                 NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", tSuccessOrFailed, null, null, null, tEnvironmentDev);
 				sOperation.Action = "rescue";
 				sOperation.EmailRescue = kInternalLogin;
@@ -303,7 +303,7 @@ namespace NetWorkedData
 			}
 
 			if (GUI.Button (new Rect (tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue preprod", tMiniButtonStyle)) {
-				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance.PreprodEnvironment;
+				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", tSuccessOrFailed, null, null, null, tEnvironmentPreprod);
 				sOperation.Action = "rescue";
 				sOperation.EmailRescue = kInternalLogin;
@@ -311,7 +311,7 @@ namespace NetWorkedData
 			}
 
 			//			if (GUI.Button (new Rect (tX + (tWidthTiers + NWDConstants.kFieldMarge) * 2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {
-			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
+			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
 			//				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Rescue", null, null, null, null, tEnvironmentProd);
 			//				sOperation.Action = "rescue";
 			//				sOperation.Email = Email;
@@ -326,7 +326,7 @@ namespace NetWorkedData
 
 			EditorGUI.BeginDisabledGroup (Email == "" || Password == "");
 			if (GUI.Button (new Rect (tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn dev", tMiniButtonStyle)) {
-				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance.DevEnvironment;
+				NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
 
                 NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", tSuccessOrFailed, tSuccessOrFailed, null, null, tEnvironmentDev);
 				sOperation.Action = "signin";
@@ -339,7 +339,7 @@ namespace NetWorkedData
 			}
 
 			if (GUI.Button (new Rect (tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn preprod", tMiniButtonStyle)) {
-				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance.PreprodEnvironment;
+				NWDAppEnvironment tEnvironmentPreprod = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
 
                 NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", tSuccessOrFailed, tSuccessOrFailed, null, null, tEnvironmentPreprod);
 				sOperation.Action = "signin";
@@ -349,7 +349,7 @@ namespace NetWorkedData
 			}
 
 			//			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn prod", tMiniButtonStyle)) {
-			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance.ProdEnvironment;
+			//				NWDAppEnvironment tEnvironmentProd = NWDAppConfiguration.SharedInstance().ProdEnvironment;
 			//
 			//				NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Editor Account Sign-in", null, null, null, null, tEnvironmentProd);
 			//				sOperation.Action = "signin";

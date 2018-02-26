@@ -62,7 +62,7 @@ namespace NetWorkedData
 				"\t\t//-------------------- \n" +
 				"\t\t// CONSTANTS \n" +
 				"\t\t//-------------------- \n";
-			if (NWDAppConfiguration.SharedInstance.DevEnvironment == this) {
+			if (NWDAppConfiguration.SharedInstance().DevEnvironment == this) {
 				tConstantsFile += "\terror_reporting(E_ALL);\n" +
 					"\tini_set('display_errors', 1);\n" +
 					"\t$NWD_LOG = true;\n";
@@ -223,7 +223,7 @@ namespace NetWorkedData
 				}
 			}
 			// I need to prevent Non synchronized class from editor
-			if (this == NWDAppConfiguration.SharedInstance.DevEnvironment || this == NWDAppConfiguration.SharedInstance.PreprodEnvironment) {
+			if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment) {
 
                 tWebServices += "\tif ($admin == true)\n\t\t{\n";
 				foreach (Type tType in NWDDataManager.SharedInstance.mTypeUnSynchronizedList) {

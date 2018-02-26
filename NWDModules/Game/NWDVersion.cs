@@ -119,9 +119,9 @@ namespace NetWorkedData
 			{
 				if (tVersionObject.TestIntegrity () == true  && tVersionObject.AC == true && tVersionObject.Buildable == true) 
 				{
-					if ((NWDAppConfiguration.SharedInstance.DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) || 
-						(NWDAppConfiguration.SharedInstance.PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
-						(NWDAppConfiguration.SharedInstance.ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
+					if ((NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) || 
+						(NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
+						(NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
 					{
 						int tVersionInteger = 0;
 						int.TryParse (tVersionObject.Version.ToString ().Replace (".", ""), out tVersionInteger);
@@ -138,12 +138,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void UpdateVersionBundle ()
 		{
-			if (NWDAppConfiguration.SharedInstance.IsDevEnvironement () == false &&
-				NWDAppConfiguration.SharedInstance.IsPreprodEnvironement () == false &&
-			    NWDAppConfiguration.SharedInstance.IsProdEnvironement () ==false
+			if (NWDAppConfiguration.SharedInstance().IsDevEnvironement () == false &&
+				NWDAppConfiguration.SharedInstance().IsPreprodEnvironement () == false &&
+			    NWDAppConfiguration.SharedInstance().IsProdEnvironement () ==false
 			) {
 				// error no environnment selected 
-				NWDAppConfiguration.SharedInstance.DevEnvironment.Selected = true;
+				NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
 			}
 			// I will change th last version of my App
 			string tVersionString = "0.00.00";
@@ -154,9 +154,9 @@ namespace NetWorkedData
 			{
 				if (tVersionObject.TestIntegrity () == true  && tVersionObject.AC == true && tVersionObject.Buildable == true) 
 				{
-					if ((NWDAppConfiguration.SharedInstance.IsDevEnvironement () && tVersionObject.ActiveDev == true) || 
-						(NWDAppConfiguration.SharedInstance.IsPreprodEnvironement () && tVersionObject.ActivePreprod == true) ||
-						(NWDAppConfiguration.SharedInstance.IsProdEnvironement () && tVersionObject.ActiveProd == true))
+					if ((NWDAppConfiguration.SharedInstance().IsDevEnvironement () && tVersionObject.ActiveDev == true) || 
+						(NWDAppConfiguration.SharedInstance().IsPreprodEnvironement () && tVersionObject.ActivePreprod == true) ||
+						(NWDAppConfiguration.SharedInstance().IsProdEnvironement () && tVersionObject.ActiveProd == true))
 					{
 						int tVersionInteger = 0;
 						int.TryParse (tVersionObject.Version.ToString ().Replace (".", ""), out tVersionInteger);
@@ -276,7 +276,7 @@ namespace NetWorkedData
 			GUI.Label(new Rect (tX, tY+tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environement selected to build", EditorStyles.boldLabel);
 			tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-			EditorGUI.LabelField (new Rect (tX, tY+tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environment", NWDAppConfiguration.SharedInstance.SelectedEnvironment ().Environment);
+			EditorGUI.LabelField (new Rect (tX, tY+tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environment", NWDAppConfiguration.SharedInstance().SelectedEnvironment ().Environment);
 			tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 			EditorGUI.LabelField (new Rect (tX, tY+tYadd, tWidth, tTextFieldStyle.fixedHeight), "Version", PlayerSettings.bundleVersion);

@@ -39,9 +39,9 @@ namespace NetWorkedData
 			#else
 			if (AccountDependent () == false) {
 				// reset sync timestamp
-				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.DevEnvironment);
-				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.PreprodEnvironment);
-				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance.ProdEnvironment);
+				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance().DevEnvironment);
+				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+				SynchronizationResetTimestamp (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 				// flush object in memory and drop table of document 
 //				ResetTable ();
 //				// load data from BundleSQLiteConnection

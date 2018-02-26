@@ -140,7 +140,7 @@ namespace NetWorkedData
 			List<string> tLocalizationList = new List<string> ();
 			tLocalizationList.Add ("-");
 
-			string tLanguage = NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString;
+			string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
 			string[] tLanguageArray = tLanguage.Split (new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);
 
 			tLocalizationList.AddRange (tLanguageArray);

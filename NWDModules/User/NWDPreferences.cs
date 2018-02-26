@@ -101,7 +101,7 @@ namespace NetWorkedData
 				RemoveObjectInListOfEdition (rObject);
 				rObject.InternalKey = sInternalKey;
 				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
-				tAccountReference.SetReference (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference);
+				tAccountReference.SetReference (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference);
 				rObject.AccountReference = tAccountReference;
 				NWDMultiType tValue = new NWDMultiType (sValue);
 				rObject.Value = tValue;

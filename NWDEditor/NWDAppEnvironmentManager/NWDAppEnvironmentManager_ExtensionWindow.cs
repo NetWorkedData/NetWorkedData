@@ -75,17 +75,17 @@ namespace NetWorkedData
 			switch (tTabSelect) {
 			case 0:
 				{
-					NWDAppConfiguration.SharedInstance.DevEnvironment.DrawInEditor ( sEditorWindow,  sAutoSelect);
+					NWDAppConfiguration.SharedInstance().DevEnvironment.DrawInEditor ( sEditorWindow,  sAutoSelect);
 				}
 				break;
 			case 1:
 				{
-					NWDAppConfiguration.SharedInstance.PreprodEnvironment.DrawInEditor (sEditorWindow,  sAutoSelect);
+					NWDAppConfiguration.SharedInstance().PreprodEnvironment.DrawInEditor (sEditorWindow,  sAutoSelect);
 				}
 				break;
 			case 2:
 				{
-					NWDAppConfiguration.SharedInstance.ProdEnvironment.DrawInEditor (sEditorWindow,  sAutoSelect);
+					NWDAppConfiguration.SharedInstance().ProdEnvironment.DrawInEditor (sEditorWindow,  sAutoSelect);
 				}
 				break;
 			}
@@ -93,7 +93,7 @@ namespace NetWorkedData
 
 			GUILayout.Space (8.0f);
 			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) {
-				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 			}
 			GUILayout.Space (8.0f);
 		}

@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -98,8 +98,8 @@ namespace NetWorkedData
 				if (Initialized == false) {
 					// memorize the shared instance
 					DataManager = NWDDataManager.SharedInstance;
-					AppConfiguration = NWDAppConfiguration.SharedInstance;
-					NotificationCenter = BTBNotificationManager.SharedInstance;
+					AppConfiguration = NWDAppConfiguration.SharedInstance();
+					NotificationCenter = BTBNotificationManager.SharedInstance();
 					// ready to launch database
 					DataManager.ConnectToDatabase ();
 					// finish init
@@ -229,15 +229,15 @@ namespace NetWorkedData
                 NetworkStatut = sNewNetWorkStatut;
                 if (NetworkStatut == NWDNetworkState.OffLine)
                 {
-                    BTBNotificationManager.SharedInstance.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, null));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, null));
                 }
                 else if (NetworkStatut == NWDNetworkState.OnLine)
                 {
-                    BTBNotificationManager.SharedInstance.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, null));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, null));
                 }
                 else
                 {
-                    BTBNotificationManager.SharedInstance.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, null));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, null));
                 }
             }
         }

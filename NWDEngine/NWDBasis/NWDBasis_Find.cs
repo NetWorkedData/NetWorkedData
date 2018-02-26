@@ -91,7 +91,7 @@ namespace NetWorkedData
 //		{
 //			bool rReturn = false;
 //			if (sAccountReference == null || sAccountReference == "") {
-//				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
+//				sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference;
 //			}
 //			if (AccountDependent ()) {
 //				foreach (PropertyInfo tProp in PropertiesAccountDependent()) {
@@ -114,7 +114,7 @@ namespace NetWorkedData
 			bool rReturn = false;
 			if (AccountDependent ()) {
 			if (sAccountReference == null || sAccountReference == "") {
-				sAccountReference = NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference;
+				sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference;
 			}
 				foreach (PropertyInfo tProp in PropertiesAccountConnect()) {
 					var tValue = tProp.GetValue (this, null);
@@ -158,7 +158,7 @@ namespace NetWorkedData
 //			NWDBasis<K> rObject = null;
 //			foreach (NWDBasis<K> tObject in ObjectsList) {
 //				if (tObject.InternalKey == sInternalKey) {
-//					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference)) {
+//					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference)) {
 //						rObject = tObject;
 //						break;
 //					}

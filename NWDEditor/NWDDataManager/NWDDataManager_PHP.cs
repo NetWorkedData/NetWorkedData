@@ -170,7 +170,7 @@ namespace NetWorkedData
 		public void CreateAllPHP ()
 		{
 			CopyEnginePHP ();
-			foreach (NWDAppEnvironment tEnvironement in  NWDAppConfiguration.SharedInstance.AllEnvironements()) {
+			foreach (NWDAppEnvironment tEnvironement in  NWDAppConfiguration.SharedInstance().AllEnvironements()) {
 				tEnvironement.CreatePHP ();
 			}
 		}

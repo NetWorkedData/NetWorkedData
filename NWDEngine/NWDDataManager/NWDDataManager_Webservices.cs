@@ -40,7 +40,7 @@ namespace NetWorkedData
 	//		[MenuItem ("NWDWEB/reset", false, 20)]
 	//		public static void AccountReset ()
 	//		{
-	//			NWDAppConfiguration.SharedInstance.SelectedEnvironment ().ResetSession ();
+	//			NWDAppConfiguration.SharedInstance().SelectedEnvironment ().ResetSession ();
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
 	//		[MenuItem ("NWDWEB/session test", false, 20)]
@@ -54,7 +54,7 @@ namespace NetWorkedData
 	//				Debug.Log("####### Error");
 	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
 	//				Debug.Log("####### Cancel");
-	//			},false,NWDAppConfiguration.SharedInstance.SelectedEnvironment ()
+	//			},false,NWDAppConfiguration.SharedInstance().SelectedEnvironment ()
 	//			);
 	//		}
 	//		//-------------------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ namespace NetWorkedData
 	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
 	//			KPassword = NWDToolbox.RandomString (18);
 	//			KPassword = "1234";
-	//			Debug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
+	//			Debug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
 	//
 	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
 	//		}
@@ -116,7 +116,7 @@ namespace NetWorkedData
 	//		[MenuItem ("NWDWEB/AccountSequence A", false, 100)]
 	//		public static void AccountSequence ()
 	//		{
-	//			NWDAppConfiguration.SharedInstance.SelectedEnvironment ().ResetSession ();
+	//			NWDAppConfiguration.SharedInstance().SelectedEnvironment ().ResetSession ();
 	//
 	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
 	//			KPassword = NWDToolbox.RandomString (18);
@@ -503,7 +503,7 @@ namespace NetWorkedData
 		{
 			Debug.Log ("WebRequestFlush");
 			if (sEnvironment == null) {
-				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
+				sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 			}
 			WebOperationQueue.Flush (sEnvironment.Environment);
 		}
@@ -512,7 +512,7 @@ namespace NetWorkedData
 		{
 			Debug.Log ("WebRequestInfos");
 			if (sEnvironment == null) {
-				sEnvironment = NWDAppConfiguration.SharedInstance.SelectedEnvironment ();
+				sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 			}
 			WebOperationQueue.Infos (sEnvironment.Environment);
 		}
@@ -552,7 +552,7 @@ namespace NetWorkedData
 			NWDBasis<NWDAccount>.NewObjectWithReference (sEnvironment.PlayerAccountReference);
 			#endif
 
-			SavePreferences (NWDAppConfiguration.SharedInstance.SelectedEnvironment());
+			SavePreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)

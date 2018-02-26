@@ -54,10 +54,10 @@ namespace NetWorkedData
 //			#if UNITY_EDITOR
 //			//Debug.Log ("PrefSave");
 //			// reccord data to user's preferences
-//			NWDAppConfiguration.SharedInstance.SetSalt(PrefBaseKey,kPrefSaltAKey, SaltA);
-//			NWDAppConfiguration.SharedInstance.SetSalt(PrefBaseKey,kPrefSaltBKey, SaltB);
-//			NWDAppConfiguration.SharedInstance.SetSaltValid(PrefBaseKey,kPrefSaltValidKey, "ok");
-//			//NWDAppConfiguration.SharedInstance.SaveNewCSharpFile ();
+//			NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey,kPrefSaltAKey, SaltA);
+//			NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey,kPrefSaltBKey, SaltB);
+//			NWDAppConfiguration.SharedInstance().SetSaltValid(PrefBaseKey,kPrefSaltValidKey, "ok");
+//			//NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
 //			#endif
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
@@ -65,9 +65,9 @@ namespace NetWorkedData
 //		{
 //			//Debug.Log ("PrefLoad");
 //			// load data from user's preferences
-//			SetPrefSaltA (NWDAppConfiguration.SharedInstance.GetSalt(PrefBaseKey,kPrefSaltAKey, kPrefSaltValidKey));
-//			SetPrefSaltB (NWDAppConfiguration.SharedInstance.GetSalt(PrefBaseKey,kPrefSaltBKey, kPrefSaltValidKey));
-//			SetPrefSalt (NWDAppConfiguration.SharedInstance.GetSaltValid(PrefBaseKey,kPrefSaltValidKey));
+//			SetPrefSaltA (NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey,kPrefSaltAKey, kPrefSaltValidKey));
+//			SetPrefSaltB (NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey,kPrefSaltBKey, kPrefSaltValidKey));
+//			SetPrefSalt (NWDAppConfiguration.SharedInstance().GetSaltValid(PrefBaseKey,kPrefSaltValidKey));
 //		}
 //
 

@@ -38,15 +38,15 @@ namespace NetWorkedData
         public bool IsSynchronized()
         {
             int tD = 0;
-            if (NWDAppConfiguration.SharedInstance.IsDevEnvironement())
+            if (NWDAppConfiguration.SharedInstance().IsDevEnvironement())
             {
                 tD = DevSync;
             }
-            else if (NWDAppConfiguration.SharedInstance.IsPreprodEnvironement())
+            else if (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement())
             {
                 tD = PreprodSync;
             }
-            else  if (NWDAppConfiguration.SharedInstance.IsProdEnvironement())
+            else  if (NWDAppConfiguration.SharedInstance().IsProdEnvironement())
             {
                 tD = ProdSync;
             }
@@ -316,15 +316,15 @@ namespace NetWorkedData
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
                 tResults = tSQLiteConnection.Table<K>().Where(x => x.DM >= tLastSynchronization);
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.DevEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
                 tResults = tSQLiteConnection.Table<K>().Where(x => x.DevSync == 0);
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.PreprodEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
                 tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
             }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance.ProdEnvironment)
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 tResults = tSQLiteConnection.Table<K>().Where(x => x.ProdSync == 0);
             }
@@ -512,7 +512,7 @@ namespace NetWorkedData
 				SynchronizationSetNewTimestamp (sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
 				// delete all datas for this user
 				foreach (NWDBasis<K> tObject in ObjectsList) {
-					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance.SelectedEnvironment ().PlayerAccountReference)) {
+					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference)) {
 						tObject.DeleteMe ();
 					}
 				}

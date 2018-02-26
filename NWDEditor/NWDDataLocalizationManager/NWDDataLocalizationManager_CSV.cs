@@ -59,7 +59,7 @@ namespace NetWorkedData
 			if (tPath != null) {
 				// prepare header
 				string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" +
-				                 NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString.Replace (";", "\";\"") + "\"\n";
+				                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace (";", "\";\"") + "\"\n";
 				// start to create file
 				string tFile = tHeaders;
 				// populate file by class result
@@ -82,7 +82,7 @@ namespace NetWorkedData
 			// more complexe 
 
 			if (tPath != null) {
-				string tLanguage = NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString;
+				string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
 				string[] tLanguageArray = tLanguage.Split (new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);
 
 				string tFile = File.ReadAllText (tPath);

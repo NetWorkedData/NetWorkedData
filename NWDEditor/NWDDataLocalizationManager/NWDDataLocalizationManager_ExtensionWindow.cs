@@ -39,7 +39,7 @@ namespace NetWorkedData
 		public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw interface for language chooser
-			Dictionary<string,string> tLanguageDico = NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguageDico;
+			Dictionary<string,string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
 
 			GUILayout.Label (NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, EditorStyles.boldLabel);
 
@@ -60,7 +60,7 @@ namespace NetWorkedData
 					GUILayout.BeginHorizontal ();
 				}
 				tColunm++;
-				bool tContains = NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString.Contains (tKeyValue.Value);
+				bool tContains = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Contains (tKeyValue.Value);
 				tContains = EditorGUILayout.ToggleLeft (tKeyValue.Key, tContains, GUILayout.Width (tToggleWidth));
 				if (tContains == true) {
 					tResult.Add (tKeyValue.Value);
@@ -69,18 +69,18 @@ namespace NetWorkedData
 			GUILayout.EndHorizontal ();
 			tResult.Sort ();
 			string tNewLanguages = NWDDataLocalizationManager.kBaseDev + ";" + string.Join (";", tResult.ToArray ());
-			if (NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString != tNewLanguages) {
-				NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString = tNewLanguages;
+			if (NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString != tNewLanguages) {
+				NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString = tNewLanguages;
 				NWDDataInspector.ActiveRepaint ();
 			}
 			GUILayout.EndScrollView ();
 			GUILayout.Space (8.0f);
 			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) {
-				NWDAppConfiguration.SharedInstance.GenerateCSharpFile (NWDAppConfiguration.SharedInstance.SelectedEnvironment ());
+				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 			}
 			GUILayout.Space (8.0f);
 			// show for debug
-			//GUILayout.Label (NWDAppConfiguration.SharedInstance.DataLocalizationManager.LanguagesString, EditorStyles.label);
+			//GUILayout.Label (NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString, EditorStyles.label);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
