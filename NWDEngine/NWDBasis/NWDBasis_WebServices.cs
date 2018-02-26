@@ -294,7 +294,7 @@ namespace NetWorkedData
                 tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
             }
 
-            Debug.Log("SynchronizationPushData for table " + TableName());
+            //Debug.Log("SynchronizationPushData for table " + TableName());
 
             // ok if sync will be ok this date will be the last sync for this table
             SynchronizationSetInWaitingTimestamp(sEnvironment, NWDToolbox.Timestamp());
@@ -360,7 +360,7 @@ namespace NetWorkedData
 			}
 			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
 			// return the data
-			Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+			//Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
 			return rSend;
 		}
 		//-------------------------------------------------------------------------------------------------------------

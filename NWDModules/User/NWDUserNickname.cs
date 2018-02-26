@@ -96,7 +96,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDUserNickname Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDUserNickname Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

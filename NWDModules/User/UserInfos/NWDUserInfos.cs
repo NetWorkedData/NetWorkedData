@@ -96,7 +96,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos (bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDUserInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDUserInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

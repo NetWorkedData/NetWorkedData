@@ -107,7 +107,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccount(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDAccount Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDAccount Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 

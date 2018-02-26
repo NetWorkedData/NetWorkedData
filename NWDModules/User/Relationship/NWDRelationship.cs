@@ -144,7 +144,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDRelationship(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDRelationship Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDRelationship Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 
