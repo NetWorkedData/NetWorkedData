@@ -107,6 +107,7 @@ namespace NetWorkedData
 		public static void InspectNetWorkedData (object sTarget, bool sResetStack = true, bool sFocus=true)
 		{
 			ShareInstance ().Data (sTarget, sResetStack,sFocus);
+            NWDDataManager.SharedInstance.RepaintWindowsInManager(sTarget.GetType());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void Data (object sTarget, bool sResetStack = true, bool sFocus=true)
