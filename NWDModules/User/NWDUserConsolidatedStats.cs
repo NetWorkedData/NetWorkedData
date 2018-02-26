@@ -103,7 +103,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserConsolidatedStats(bool sInsertInNetWorkedData)
         {
-            Debug.Log("NWDUserConsolidatedStats Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDUserConsolidatedStats Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
             if (sInsertInNetWorkedData == false)
             {
                 // do nothing 
