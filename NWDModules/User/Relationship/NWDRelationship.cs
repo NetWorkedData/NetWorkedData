@@ -912,7 +912,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
         {
-            return GetObjectByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
+            return GetObjectByInternalKey(sInternalKey, false, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
@@ -922,7 +922,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship)
         {
-            return GetObjectsByInternalKeys(sInternalKeys, sRelationship.PublisherReference.GetReference());
+            return GetObjectsByInternalKeys(sInternalKeys, false, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
