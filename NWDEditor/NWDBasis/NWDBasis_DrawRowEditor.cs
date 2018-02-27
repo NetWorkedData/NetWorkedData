@@ -25,7 +25,7 @@ using SQLite4Unity3d;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR

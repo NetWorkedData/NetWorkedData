@@ -118,6 +118,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDDialog(bool sInsertInNetWorkedData)
@@ -132,12 +133,18 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()
         {

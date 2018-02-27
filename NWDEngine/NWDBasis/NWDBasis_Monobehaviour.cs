@@ -25,32 +25,33 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDBasis <K> : NWDTypeClass where K : NWDBasis <K>, new()
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public void AddNetWorkedDataToObject (GameObject sGameObject)
-		{
-			SetNetWorkedDataObject (sGameObject, this);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static void SetNetWorkedDataObject (GameObject sGameObject, NWDBasis <K> sObject)
-		{
-			NWDMonoBehaviour tNWDMonoBehaviour = NWDMonoBehaviour.SetNetWorkedDataObject (sGameObject, sObject);
-			tNWDMonoBehaviour.Type = sObject.GetType ().ToString();
-			tNWDMonoBehaviour.Reference = sObject.Reference;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDBasis <K> GetNetWorkedDataObject (GameObject sGameObject)
-		{
-			object rReturn = NWDMonoBehaviour.GetNetWorkedDataObject (sGameObject);
-			if (rReturn.GetType () != typeof(K)) {
-				rReturn = null;
-			}
-			return rReturn as NWDBasis <K>;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public void AddNetWorkedDataToObject(GameObject sGameObject)
+        {
+            SetNetWorkedDataObject(sGameObject, this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetNetWorkedDataObject(GameObject sGameObject, NWDBasis<K> sObject)
+        {
+            NWDMonoBehaviour tNWDMonoBehaviour = NWDMonoBehaviour.SetNetWorkedDataObject(sGameObject, sObject);
+            tNWDMonoBehaviour.Type = sObject.GetType().ToString();
+            tNWDMonoBehaviour.Reference = sObject.Reference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDBasis<K> GetNetWorkedDataObject(GameObject sGameObject)
+        {
+            object rReturn = NWDMonoBehaviour.GetNetWorkedDataObject(sGameObject);
+            if (rReturn.GetType() != typeof(K))
+            {
+                rReturn = null;
+            }
+            return rReturn as NWDBasis<K>;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

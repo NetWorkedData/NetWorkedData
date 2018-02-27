@@ -102,8 +102,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
-			CraftOnlyMax = true;
-			CraftUnUsedElements = true;
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDRecipientGroup(bool sInsertInNetWorkedData)
@@ -118,6 +117,8 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------
@@ -132,7 +133,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            CraftOnlyMax = true;
+            CraftUnUsedElements = true;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{

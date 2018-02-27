@@ -26,7 +26,7 @@ using BasicToolBox;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class Methods
@@ -35,6 +35,21 @@ namespace NetWorkedData
 		//		{
 		//			return (object)new D ();
         //		}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBasis()
+        {
+            Debug.Log("NWDBasis <K> NWDBasis Constructor inserted = " + NWDInserted.ToString());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBasis(bool sInsertInNetWorkedData)
+        {
+            Debug.Log("NWDBasis <K> NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + " inserted = " + NWDInserted.ToString());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void Initialization()
+        {
+            Debug.Log("NWDBasis <K> virtual NWDBasis Initialization() inserted = " + NWDInserted.ToString());
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void NewNetWorkedData()
         {
@@ -65,18 +80,8 @@ namespace NetWorkedData
 		/// <returns>The instance.</returns>
 		private static NWDBasis<K> NewInstance ()
         {
-            //Debug.Log("NWDBasis <K> NewInstance()");
+            Debug.Log("NWDBasis <K> NewInstance()");
 			return NewInstanceWithReference (null);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDBasis()
-        {
-            //Debug.Log("NWDBasis Constructor");
-        }
-		//-------------------------------------------------------------------------------------------------------------
-        public NWDBasis (bool sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
 
@@ -93,6 +98,7 @@ namespace NetWorkedData
             if (ClassType() != null)
             {
                 rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
+                //rReturnObject = Activator.CreateInstance<K>();
                 // rReturnObject = new NWDBasis<K> (false);
                 //rReturnObject.InitInstanceWithReference(sReference);
                 rReturnObject.InstanceInit();
@@ -119,6 +125,7 @@ namespace NetWorkedData
                     tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     tPropInfo.SetValue(rReturnObject, tAtt, null);
                 }
+                rReturnObject.Initialization();
                 rReturnObject.InsertMe();
             }
             else
@@ -163,7 +170,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void InstanceInit ()
         {
-            Debug.Log("NWDBasis <K> InstanceInit()");
+            Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
 			Type tType = ClassType ();
 			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tPropertyInfo.PropertyType;

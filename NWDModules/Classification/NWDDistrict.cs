@@ -94,6 +94,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDDistrict(bool sInsertInNetWorkedData)
@@ -108,12 +109,14 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
+        #region Class methods
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()
 		{
@@ -122,7 +125,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{

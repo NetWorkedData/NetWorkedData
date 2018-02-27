@@ -25,7 +25,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public partial class NWDBasis<K> where K : NWDBasis<K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string SynchronizeKeyData = "data";
@@ -46,7 +46,7 @@ namespace NetWorkedData
             {
                 tD = PreprodSync;
             }
-            else  if (NWDAppConfiguration.SharedInstance().IsProdEnvironement())
+            else if (NWDAppConfiguration.SharedInstance().IsProdEnvironement())
             {
                 tD = ProdSync;
             }
@@ -192,12 +192,12 @@ namespace NetWorkedData
         /// <param name="sDataArray">S data array.</param>
         public static NWDBasis<K> SynchronizationInsertInBase(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
-           // Debug.Log("SynchronizationInsertInBase ");
+            // Debug.Log("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV(sDataArray);
             NWDBasis<K> tObject = InstanceByReference(tReference);
             if (tObject == null)
             {
-              //  Debug.Log("SynchronizationInsertInBase NEW OBJECT DETECTED");
+                //  Debug.Log("SynchronizationInsertInBase NEW OBJECT DETECTED");
                 // TODO : IS RELATIONSHIP OBJECT?
                 // IF NOT ... INSERT IN DATABASE
                 tObject = NewInstanceFromCSV(sEnvironment, sDataArray);
@@ -206,7 +206,7 @@ namespace NetWorkedData
             else
             {
                 // test if Modification is older than actual object
-              //  Debug.Log("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
+                //  Debug.Log("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
                 // if (tObject.DM <= GetDMValueFromCSV(sDataArray))
                 //  {
                 //      Debug.Log("OBJECT IS OLDER THAN SYNC RECEIPT");
@@ -347,102 +347,103 @@ namespace NetWorkedData
                         }
 #endif 
                     }
-				}
-				// But I insert the datas only if I had one object or more to insert/update on the server
-				if (tDatas.Count > 0) {
-					rSendDatas.Add (SynchronizeKeyDataCount, tDatas.Count);
-					rSendDatas.Add (SynchronizeKeyData, tDatas);
-				}
-			}
-			if (sClean == true)
-			{
-				rSendDatas.Add (SynchronizeKeyClean,sClean.ToString());
-			}
-			rSendDatas.Add (SynchronizeKeyTimestamp, tLastSynchronization);
-			// return the data
-			//Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
-			return rSend;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Synchronizations the pull data.
-		/// </summary>
-		/// <param name="sData">S data.</param>
+                }
+                // But I insert the datas only if I had one object or more to insert/update on the server
+                if (tDatas.Count > 0)
+                {
+                    rSendDatas.Add(SynchronizeKeyDataCount, tDatas.Count);
+                    rSendDatas.Add(SynchronizeKeyData, tDatas);
+                }
+            }
+            if (sClean == true)
+            {
+                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString());
+            }
+            rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
+            // return the data
+            //Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+            return rSend;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations the pull data.
+        /// </summary>
+        /// <param name="sData">S data.</param>
         public static string SynchronizationPullData(NWDAppEnvironment sEnvironment, NWDOperationResult sData)
-		{
-			string rReturn = "NO";
+        {
+            string rReturn = "NO";
 
-           // Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
+            // Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
 
-			// Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
+            // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
             {
-				// error to show on Device
-               // Debug.LogWarning("NWDBasis SynchronizationPullData() ERROR IN DATAS FOR" + ClassName());
-			}
+                // error to show on Device
+                // Debug.LogWarning("NWDBasis SynchronizationPullData() ERROR IN DATAS FOR" + ClassName());
+            }
             else
             {
-				int tTimestampServer = NWDToolbox.Timestamp();
+                int tTimestampServer = NWDToolbox.Timestamp();
                 if (sData.timestamp >= 0)
                 {
                     tTimestampServer = sData.timestamp;
-				}
+                }
                 else
                 {
                     Debug.Log("--SynchronizationPullData : BIG ERROR NO TIMESTAMP");
-				}
+                }
 
-				SynchronizationTimestampValidate(sEnvironment, tTimestampServer);
+                SynchronizationTimestampValidate(sEnvironment, tTimestampServer);
 
-				// now i need get only datas for this class tablename
-				string tTableName = TableName();
+                // now i need get only datas for this class tablename
+                string tTableName = TableName();
 
-				// Ok I need to compute all datas for this Class tablename
+                // Ok I need to compute all datas for this Class tablename
                 if (sData.param.ContainsKey(tTableName))
                 {
                     List<object> tListOfRows = sData.param[tTableName] as List<object>;
 
-					if (tListOfRows.Count > 0)
+                    if (tListOfRows.Count > 0)
                     {
                         //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
-						foreach (object tCsvValue in tListOfRows)
+                        foreach (object tCsvValue in tListOfRows)
                         {
-							string tCsvValueString = tCsvValue as string;
-							
-							// I try to use this data to ... insert/update/delete/... ?
-							bool tForceToUse = false;
+                            string tCsvValueString = tCsvValue as string;
+
+                            // I try to use this data to ... insert/update/delete/... ?
+                            bool tForceToUse = false;
 
 #if UNITY_EDITOR
-							tForceToUse = true;
+                            tForceToUse = true;
 #endif
 
-							NWDBasis<K> tObject = SynchronizationTryToUse (sEnvironment, tCsvValueString, tForceToUse);
+                            NWDBasis<K> tObject = SynchronizationTryToUse(sEnvironment, tCsvValueString, tForceToUse);
 
-							// trash this object ?
-							FlushTrash (tObject);
-						}
+                            // trash this object ?
+                            FlushTrash(tObject);
+                        }
 
-						rReturn = "YES";
+                        rReturn = "YES";
 
 #if UNITY_EDITOR
-						FilterTableEditor();
+                        FilterTableEditor();
                         RepaintTableEditor();
                         NWDDataInspector.ShareInstance().Repaint();
 #endif
-					}
-				}
-			}
+                    }
+                }
+            }
 
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Synchronizations from web service.
-		/// </summary>
-		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static bool SynchronizationFromWebServiceForce ( NWDAppEnvironment sEnvironment)
-		{
-			bool rReturn = false;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        public static bool SynchronizationFromWebServiceForce(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
 #if UNITY_EDITOR
             if (Application.isPlaying == true)
             {
@@ -455,17 +456,17 @@ namespace NetWorkedData
 #else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
-			rReturn = true;
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Synchronizations from web service.
-		/// </summary>
-		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static bool SynchronizationFromWebService ( NWDAppEnvironment sEnvironment)
-		{
-			bool rReturn = false;
+            rReturn = true;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        public static bool SynchronizationFromWebService(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
 #if UNITY_EDITOR
             if (Application.isPlaying == true)
             {
@@ -478,17 +479,17 @@ namespace NetWorkedData
 #else
 				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
-			rReturn = true;
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Synchronizations from web service.
-		/// </summary>
-		/// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-		public static bool SynchronizationFromWebServiceClean ( NWDAppEnvironment sEnvironment)
-		{
-			bool rReturn = false;
+            rReturn = true;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        public static bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
 #if UNITY_EDITOR
             if (Application.isPlaying == true)
             {
@@ -501,24 +502,27 @@ namespace NetWorkedData
 #else
 			NWDDataManager.SharedInstance.AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
-			rReturn = true;
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static void DeleteUser (NWDAppEnvironment sEnvironment)
-		{
-			if (AccountDependent () == true) {
-				// reset last sync to zero
-				SynchronizationSetNewTimestamp (sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
-				// delete all datas for this user
-				foreach (NWDBasis<K> tObject in ObjectsList) {
-					if (tObject.IsReacheableByAccount (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference)) {
-						tObject.DeleteMe ();
-					}
-				}
-				// need to reload this data now : to remove all tObjects from memory!
-				LoadTableEditor ();
-			}
+            rReturn = true;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DeleteUser(NWDAppEnvironment sEnvironment)
+        {
+            if (AccountDependent() == true)
+            {
+                // reset last sync to zero
+                SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
+                                                                 // delete all datas for this user
+                foreach (NWDBasis<K> tObject in ObjectsList)
+                {
+                    if (tObject.IsReacheableByAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference))
+                    {
+                        tObject.DeleteMe();
+                    }
+                }
+                // need to reload this data now : to remove all tObjects from memory!
+                LoadTableEditor();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizeThisClasse(bool sForce)
@@ -533,6 +537,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-	}
+    }
 }
 //=====================================================================================================================

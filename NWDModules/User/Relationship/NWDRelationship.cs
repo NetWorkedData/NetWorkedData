@@ -92,10 +92,16 @@ namespace NetWorkedData
         [NWDSeparator]
 
         [NWDGroupStart("Relation")]
-        public NWDReferenceType<NWDRelationship> Reciprocity { get; set; }
+        public NWDReferenceType<NWDRelationship> Reciprocity
+        {
+            get; set;
+        }
         [Indexed("PinIndex", 0)]
         [Indexed("RelationshipIndex", 1)]
-        public NWDRelationshipPinState RelationState { get; set; }
+        public NWDRelationshipPinState RelationState
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
 
         [NWDSeparator]
@@ -110,22 +116,34 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public string ReaderClassesAccepted { get; set; }
+        public string ReaderClassesAccepted
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
 
         [NWDSeparator]
 
         [NWDGroupStart("Sync datas")]
-        public bool FirstSync { get; set; }
+        public bool FirstSync
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
 
         [NWDSeparator]
 
         [NWDGroupStart("PinCode informations")]
         [Indexed("PinIndex", 1)]
-        public string PinCode { get; set; }
+        public string PinCode
+        {
+            get; set;
+        }
         [Indexed("PinIndex", 2)]
-        public int PinLimit { get; set; }
+        public int PinLimit
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public delegate void SyncRemoveBlock(bool error, NWDOperationResult result = null);
         public SyncRemoveBlock SyncRemoveBlockDelegate;
@@ -140,6 +158,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDRelationship(bool sInsertInNetWorkedData)
@@ -154,6 +173,8 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -217,7 +238,7 @@ namespace NetWorkedData
         {
             //string tAccount = NWDAccount.GetCurrentAccountReference();
 
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,null, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship EnterPinCode", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "EnterPinCode";
             sOperation.Nickname = sNickname;
             sOperation.PinCode = sPinCode;
@@ -232,7 +253,7 @@ namespace NetWorkedData
                                                  NWDAppEnvironment sEnvironment = null,
                                                  bool sPriority = true)
         {
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,sAdditionalTypes, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sAdditionalTypes, sEnvironment);
             sOperation.Action = "Sync";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
 
@@ -246,7 +267,7 @@ namespace NetWorkedData
                                                       NWDAppEnvironment sEnvironment = null,
                                                       bool sPriority = true)
         {
-            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock,sAdditionalTypes, sEnvironment);
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sAdditionalTypes, sEnvironment);
             sOperation.Action = "SyncForce";
             NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
 
@@ -296,6 +317,10 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// remove a  Relationship and synchronize to server
@@ -890,7 +915,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> where K : NWDBasis<K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods

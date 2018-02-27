@@ -27,7 +27,7 @@ using System.IO;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> where K : NWDBasis<K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -102,7 +102,7 @@ namespace NetWorkedData
                                                         tObjectCounter++;
                                                     }
                                                 }
-                                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) && tObjectCounter > 0 )
+                                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) && tObjectCounter > 0)
                                                 {
                                                     tButtonAdd = false;
                                                 }

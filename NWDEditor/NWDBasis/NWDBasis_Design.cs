@@ -24,10 +24,10 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
-	{
-		//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
         //public static Sprite SpriteOfClass()
         //{
         //    Sprite rSprite = null;
@@ -50,34 +50,34 @@ namespace NetWorkedData
             string tName = ClassNamePHP();
             //if (kTextureOfClassLoaded.ContainsKey(tName) == false)
             //{
-                Texture2D rTexture = null;
-                if (kTextureOfClass.ContainsKey(tName) == false)
+            Texture2D rTexture = null;
+            if (kTextureOfClass.ContainsKey(tName) == false)
+            {
+                kTextureOfClass.Add(tName, null);
+                string[] sGUIDs = AssetDatabase.FindAssets(tName + " t:texture2D");
+                foreach (string tGUID in sGUIDs)
                 {
-                    kTextureOfClass[tName] = null;
-                    string[] sGUIDs = AssetDatabase.FindAssets(tName + " t:texture2D");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        Debug.Log("TextureOfClass GUID " + tGUID);
-                        string tPath = AssetDatabase.GUIDToAssetPath(tGUID);
-                        Debug.Log("TextureOfClass " + tPath);
-                        rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
-                    }
-                    kTextureOfClass[tName] = rTexture;
+                    Debug.Log("TextureOfClass GUID " + tGUID);
+                    string tPath = AssetDatabase.GUIDToAssetPath(tGUID);
+                    Debug.Log("TextureOfClass " + tPath);
+                    rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
                 }
-                else
-                {
-                    rTexture = kTextureOfClass[tName];
-                }
-                return rTexture;
+                kTextureOfClass[tName] = rTexture;
+            }
+            else
+            {
+                rTexture = kTextureOfClass[tName];
+            }
+            return rTexture;
             //}
             //else
             //{
 
             //}
         }
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

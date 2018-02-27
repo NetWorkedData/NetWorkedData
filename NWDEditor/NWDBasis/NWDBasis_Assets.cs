@@ -24,60 +24,69 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDBasis <K> where K : NWDBasis <K>, new()
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Change the asset path in all object of this class.
-		/// </summary>
-		/// <param name="sOldPath">old path.</param>
-		/// <param name="sNewPath">new path.</param>
-		public static void ChangeAssetPath (string sOldPath, string sNewPath) {
-			//Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
-			if (AssetDependent() == true)
-			{
-				foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList) {
-					tObject.ChangeAssetPathMe (sOldPath, sNewPath);
-				}
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Change the asset path in this object.
-		/// </summary>
-		/// <param name="sOldPath">old path.</param>
-		/// <param name="sNewPath">new path.</param>
-		public virtual void ChangeAssetPathMe (string sOldPath, string sNewPath)
-		{
-			//Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
-			if (TestIntegrity () == true) {
-				// TODO: must protect asset path by a symbol start and symbol end!
-				bool tUpdate = false;
-				if (Preview != null) {
-					if (Preview.Contains (sOldPath)) {
-						Preview = Preview.Replace (sOldPath, sNewPath);
-						tUpdate = true;
-						//Debug.Log ("Preview ChangeAssetPath YES I DID", DebugResult.Success);
-					}
-				}
-				foreach (var tProp in PropertiesAssetDependent()) {
-					Type tTypeOfThis = tProp.PropertyType;
-					NWDAssetType tValueStruct = (NWDAssetType)tProp.GetValue (this, null);
-						if (tValueStruct != null) {
-							if (tValueStruct.ChangeAssetPath (sOldPath, sNewPath)) {
-								tUpdate = true;
-							}
-						}
-				}
-				if (tUpdate == true) {
-					UpdateMeLater ();
-				}
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Change the asset path in all object of this class.
+        /// </summary>
+        /// <param name="sOldPath">old path.</param>
+        /// <param name="sNewPath">new path.</param>
+        public static void ChangeAssetPath(string sOldPath, string sNewPath)
+        {
+            //Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
+            if (AssetDependent() == true)
+            {
+                foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList)
+                {
+                    tObject.ChangeAssetPathMe(sOldPath, sNewPath);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Change the asset path in this object.
+        /// </summary>
+        /// <param name="sOldPath">old path.</param>
+        /// <param name="sNewPath">new path.</param>
+        public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
+        {
+            //Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
+            if (TestIntegrity() == true)
+            {
+                // TODO: must protect asset path by a symbol start and symbol end!
+                bool tUpdate = false;
+                if (Preview != null)
+                {
+                    if (Preview.Contains(sOldPath))
+                    {
+                        Preview = Preview.Replace(sOldPath, sNewPath);
+                        tUpdate = true;
+                        //Debug.Log ("Preview ChangeAssetPath YES I DID", DebugResult.Success);
+                    }
+                }
+                foreach (var tProp in PropertiesAssetDependent())
+                {
+                    Type tTypeOfThis = tProp.PropertyType;
+                    NWDAssetType tValueStruct = (NWDAssetType)tProp.GetValue(this, null);
+                    if (tValueStruct != null)
+                    {
+                        if (tValueStruct.ChangeAssetPath(sOldPath, sNewPath))
+                        {
+                            tUpdate = true;
+                        }
+                    }
+                }
+                if (tUpdate == true)
+                {
+                    UpdateMeLater();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

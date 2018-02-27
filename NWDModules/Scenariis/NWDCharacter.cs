@@ -67,21 +67,50 @@ namespace NetWorkedData
 
 		public NWDLocalizableStringType NickName { get; set; }
 
+        [NWDGroupStartAttribute("Dialog tempo", true, true, true)]
+
+        public float SentenceGeneralSpeed
+        {
+            get; set;
+        }
+        public float PonctuationDotLatence
+        {
+            get; set;
+        }
+        public float PonctuationDotCommaLatence
+        {
+            get; set;
+        }
+        public float PonctuationCommaLatence
+        {
+            get; set;
+        }
+        public float PonctuationExclamationLatence
+        {
+            get; set;
+        }
+        public float PonctuationInterrogationLatence
+        {
+            get; set;
+        }
+
+
         public NWDPrefabType NormalState
         {
             get; set;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
 		public NWDCharacter()
         {
             Debug.Log("NWDCharacter Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDCharacter(bool sInsertInNetWorkedData)
@@ -96,6 +125,8 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------
@@ -110,7 +141,18 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            SentenceGeneralSpeed = 1.0F;
+            PonctuationDotLatence = 0.15F;
+            PonctuationDotCommaLatence = 0.15F;
+            PonctuationCommaLatence = 0.15F;
+            PonctuationExclamationLatence = 0.15F;
+            PonctuationInterrogationLatence = 0.15F;
+            UpdateMe();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{

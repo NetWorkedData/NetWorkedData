@@ -59,6 +59,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradeNotification(bool sInsertInNetWorkedData)
@@ -73,12 +74,18 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()
 		{

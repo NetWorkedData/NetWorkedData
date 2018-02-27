@@ -59,8 +59,8 @@ namespace NetWorkedData
             Debug.Log("NWDSpent Constructor");
             //Insert in NetWorkedData;
             NewNetWorkedData();
-            //Init your instance here
-			//Init your instance here
+                //Init your instance here
+                Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDSpent (bool sInsertInNetWorkedData)
@@ -75,6 +75,8 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------

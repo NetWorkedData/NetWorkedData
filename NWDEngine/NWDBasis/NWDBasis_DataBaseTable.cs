@@ -25,7 +25,7 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public partial  class NWDBasis <K> where K : NWDBasis <K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class Methods

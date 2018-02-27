@@ -75,6 +75,9 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
+            //Init your instance here
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTransaction(bool sInsertInNetWorkedData)
@@ -120,6 +123,10 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
         //-------------------------------------------------------------------------------------------------------------
         #region override of NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------

@@ -80,6 +80,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
+            Initialization();
 			Weighting = 1;
 			Title = new NWDLocalizableStringType ();
 			SubTitle = new NWDLocalizableStringType ();
@@ -98,12 +99,18 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		static List<NWDTipsAndTricks> ListForRandom;
 		//-------------------------------------------------------------------------------------------------------------

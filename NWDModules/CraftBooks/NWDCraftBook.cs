@@ -96,7 +96,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
-			OrderIsImportant = true;
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDCraftBook(bool sInsertInNetWorkedData)
@@ -111,12 +111,14 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
+        #region Class methods
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Count the craft book in dictionary of hash.
@@ -481,7 +483,12 @@ namespace NetWorkedData
 
 		//-------------------------------------------------------------------------------------------------------------
 
-		#region Instance methods
+        #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            OrderIsImportant = true;
+        }
 
 		//-------------------------------------------------------------------------------------------------------------
 		public void GetItemsRequired ()

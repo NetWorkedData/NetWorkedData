@@ -27,7 +27,7 @@ using System.IO;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDBasis<K> where K : NWDBasis<K>, new()
+    public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -1087,7 +1087,7 @@ namespace NetWorkedData
             // add button to navigate next / preview
             if (NWDDataInspector.InspectNetWorkedPreview())
             {
-                if (GUI.Button(new Rect(tX, tY+10, 20, 20), "<"))
+                if (GUI.Button(new Rect(tX, tY + 10, 20, 20), "<"))
                 {
                     NWDDataInspector.InspectNetWorkedDataPreview();
                 }
@@ -1095,7 +1095,7 @@ namespace NetWorkedData
 
             if (NWDDataInspector.InspectNetWorkedNext())
             {
-                if (GUI.Button(new Rect(tX + tWidth - 20, tY+10, 20, 20), ">"))
+                if (GUI.Button(new Rect(tX + tWidth - 20, tY + 10, 20, 20), ">"))
                 {
                     NWDDataInspector.InspectNetWorkedDataNext();
                 }
@@ -1234,7 +1234,7 @@ namespace NetWorkedData
 
 
 
-            kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight),kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_Sync + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), tFoldoutStyle);
+            kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_Sync + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), tFoldoutStyle);
             tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
             if (kSyncAndMoreInformations)
             {

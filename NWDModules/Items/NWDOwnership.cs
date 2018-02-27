@@ -100,7 +100,7 @@ namespace NetWorkedData
             //Insert in NetWorkedData;
             NewNetWorkedData();
             //Init your instance here
-			FirstAcquisition = true;
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOwnership(bool sInsertInNetWorkedData)
@@ -115,6 +115,8 @@ namespace NetWorkedData
             {
                 //Insert in NetWorkedData;
                 NewNetWorkedData();
+                //Init your instance here
+                Initialization();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -356,6 +358,11 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            FirstAcquisition = true;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public bool CheckOwnershipAndItemValidity()
         {
