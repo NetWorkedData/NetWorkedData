@@ -57,9 +57,9 @@ namespace NetWorkedData
                 string[] sGUIDs = AssetDatabase.FindAssets(tName + " t:texture2D");
                 foreach (string tGUID in sGUIDs)
                 {
-                    Debug.Log("TextureOfClass GUID " + tGUID);
+                    //Debug.Log("TextureOfClass GUID " + tGUID);
                     string tPath = AssetDatabase.GUIDToAssetPath(tGUID);
-                    Debug.Log("TextureOfClass " + tPath);
+                    //Debug.Log("TextureOfClass " + tPath);
                     rTexture = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
                 }
                 kTextureOfClass[tName] = rTexture;

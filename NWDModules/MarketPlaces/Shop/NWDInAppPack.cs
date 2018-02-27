@@ -65,27 +65,11 @@ namespace NetWorkedData
 		public NWDInAppPack()
         {
             Debug.Log("NWDInAppPack Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDInAppPack(bool sInsertInNetWorkedData)
+        public NWDInAppPack(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             Debug.Log("NWDInAppPack Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -119,7 +103,7 @@ namespace NetWorkedData
             return "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{

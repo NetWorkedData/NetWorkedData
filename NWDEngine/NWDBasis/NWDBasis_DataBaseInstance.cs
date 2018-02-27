@@ -38,17 +38,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDBasis()
         {
-            Debug.Log("NWDBasis <K> NWDBasis Constructor inserted = " + NWDInserted.ToString());
+            //Debug.Log("NWDBasis <K> NWDBasis Constructor inserted = " + NWDInserted.ToString());
+            //Init your instance here
+            this.InitConstructor();
+            //Insert in NetWorkedData;
+            NewNetWorkedData();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDBasis(bool sInsertInNetWorkedData)
+        public NWDBasis(bool sInsertInNetWorkedData=false)
         {
-            Debug.Log("NWDBasis <K> NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + " inserted = " + NWDInserted.ToString());
+           //Debug.Log("NWDBasis <K> NWDBasis Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + " inserted = " + NWDInserted.ToString());
+            if (sInsertInNetWorkedData == false)
+            {
+                // do nothing 
+                // perhaps the data came from database and is allready in NetWorkedData;
+            }
+            else
+            {
+                //Init your instance here
+                this.InitConstructor();
+                //Insert in NetWorkedData;
+                NewNetWorkedData();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void InitConstructor()
+        {
+            //Debug.Log("NWDBasis <K> InitConstructor() inserted = " + NWDInserted.ToString());
+            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void Initialization()
         {
-            Debug.Log("NWDBasis <K> virtual NWDBasis Initialization() inserted = " + NWDInserted.ToString());
+            //Debug.Log("NWDBasis <K> virtual NWDBasis Initialization() inserted = " + NWDInserted.ToString());
         }
         //-------------------------------------------------------------------------------------------------------------
         public void NewNetWorkedData()
@@ -170,7 +192,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void InstanceInit ()
         {
-            Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
+            //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
 			Type tType = ClassType ();
 			foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
 				Type tTypeOfThis = tPropertyInfo.PropertyType;

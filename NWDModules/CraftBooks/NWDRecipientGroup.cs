@@ -26,24 +26,14 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWDExampleConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-	/// Use like :
-	/// public class MyScriptInGame : MonoBehaviour
-	/// { 
-	/// [NWDConnexionAttribut (true, true, true, true)] // optional
-	/// public NWDExampleConnexion MyNetWorkedData;
-	/// }
-	/// </summary>
 	[Serializable]
-	public class NWDRecipientGroupConnexion : NWDConnexion <NWDRecipientGroup> {}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//-------------------------------------------------------------------------------------------------------------
+    public class NWDRecipientGroupConnexion : NWDConnexion <NWDRecipientGroup> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("RCP")]
 	[NWDClassDescriptionAttribute ("Recipient descriptions Class")]
-	[NWDClassMenuNameAttribute ("Recipient")]
-	//-------------------------------------------------------------------------------------------------------------
+    [NWDClassMenuNameAttribute ("Recipient")]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDRecipientGroup :NWDBasis <NWDRecipientGroup>
 	{
 		//-------------------------------------------------------------------------------------------------------------
@@ -94,32 +84,22 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
+        #region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRecipientGroup()
         {
-            //Debug.Log("NWDRecipientGroup Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
+            Debug.Log("NWDRecipientGroup Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDRecipientGroup(bool sInsertInNetWorkedData)
+        public NWDRecipientGroup(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDRecipientGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+            Debug.Log("NWDRecipientGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            CraftOnlyMax = true;
+            CraftUnUsedElements = true;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -134,19 +114,15 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-            CraftOnlyMax = true;
-            CraftUnUsedElements = true;
-        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{
@@ -201,7 +177,9 @@ namespace NetWorkedData
 		public override void AddonUnTrashMe ()
 		{
 			// do something when object will be remove from trash
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -231,26 +209,10 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-
-//		public static List<NWDRecipientGroup> GetItemGroupForItem (NWDItem sItem)
-//		{
-//			List<NWDRecipientGroup> rReturn = new List<NWDRecipientGroup> ();
-//			foreach (NWDRecipientGroup tGroup in GetAllObjects()) {
-//				if (tGroup.ItemList.ContainsObject (sItem)) {
-//					rReturn.Add (tGroup);
-//				}
-//			}
-//			return rReturn;
-//		}
 
 		//-------------------------------------------------------------------------------------------------------------
 
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

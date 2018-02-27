@@ -32,7 +32,7 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public bool NWDInserted = false;
+        //public bool NWDInserted = false;
         [PrimaryKey, AutoIncrement, NWDNotEditable]
         public int ID
         {

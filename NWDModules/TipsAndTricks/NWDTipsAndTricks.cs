@@ -77,31 +77,11 @@ namespace NetWorkedData
 		public NWDTipsAndTricks()
         {
             Debug.Log("NWDTipsAndTricks Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
-			Weighting = 1;
-			Title = new NWDLocalizableStringType ();
-			SubTitle = new NWDLocalizableStringType ();
-			Message = new NWDLocalizableTextType ();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTipsAndTricks(bool sInsertInNetWorkedData)
+        public NWDTipsAndTricks(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             Debug.Log("NWDTipsAndTricks Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -110,6 +90,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            Weighting = 1;
+            Title = new NWDLocalizableStringType();
+            SubTitle = new NWDLocalizableStringType();
+            Message = new NWDLocalizableTextType();
         }
 		//-------------------------------------------------------------------------------------------------------------
 		static List<NWDTipsAndTricks> ListForRandom;
@@ -159,7 +143,7 @@ namespace NetWorkedData
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{

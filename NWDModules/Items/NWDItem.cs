@@ -152,29 +152,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItem ()
         {
-            //Debug.Log("NWDItem Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
-			//DiscoverItYourSelf = true;
+            Debug.Log("NWDItem Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDItem(bool sInsertInNetWorkedData)
+        public NWDItem(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+            Debug.Log("NWDItem Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 
@@ -208,7 +191,7 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()

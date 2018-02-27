@@ -83,34 +83,20 @@ namespace NetWorkedData
 
 		//-------------------------------------------------------------------------------------------------------------
 
-		#region Constructors
-
+        #region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDConfiguration ()
         {
-           // Debug.Log("NWDConfiguration Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
-			//DiscoverItYourSelf = true;
+           Debug.Log("NWDConfiguration Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDConfiguration(bool sInsertInNetWorkedData)
+        public NWDConfiguration(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-           // Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+           Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
         }
 		//-------------------------------------------------------------------------------------------------------------
 
@@ -191,19 +177,19 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
 
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
-		}
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
@@ -244,7 +230,10 @@ namespace NetWorkedData
 		public override void AddonUnTrashMe ()
 		{
 			// do something when object will be remove from trash
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -273,13 +262,6 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
-		//-------------------------------------------------------------------------------------------------------------
-
-		#endregion
-
-		//-------------------------------------------------------------------------------------------------------------
-
-		#endregion
 
 		//-------------------------------------------------------------------------------------------------------------
 	}

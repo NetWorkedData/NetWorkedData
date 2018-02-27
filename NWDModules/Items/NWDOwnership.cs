@@ -97,27 +97,11 @@ namespace NetWorkedData
 		public NWDOwnership()
         {
             Debug.Log("NWDOwnership Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOwnership(bool sInsertInNetWorkedData)
+        public NWDOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             Debug.Log("NWDOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -383,7 +367,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
+        #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe ()
 		{

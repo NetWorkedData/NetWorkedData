@@ -88,28 +88,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDQuest()
         {
-            Debug.Log("NWDQuest Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
+            //Debug.Log("NWDQuest Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDQuest(bool sInsertInNetWorkedData)
+        public NWDQuest(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDQuest Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+            //Debug.Log("NWDQuest Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -134,7 +118,7 @@ namespace NetWorkedData
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{

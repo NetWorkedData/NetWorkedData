@@ -94,29 +94,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserConsolidatedStats()
         {
-            Debug.Log("NWDUserConsolidatedStats Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
-            // Example : this.MyProperty = true, 1 , "bidule", etc.
+            //Debug.Log("NWDUserConsolidatedStats Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserConsolidatedStats(bool sInsertInNetWorkedData)
+        public NWDUserConsolidatedStats(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDUserConsolidatedStats Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -147,7 +130,7 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
+        #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just after loaded from database.

@@ -154,28 +154,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDRelationship()
         {
-            Debug.Log("NWDRelationship Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
+            //Debug.Log("NWDRelationship Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDRelationship(bool sInsertInNetWorkedData)
+        public NWDRelationship(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDRelationship Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -355,7 +339,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region override of NetWorkedData addons methods
+        #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {

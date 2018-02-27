@@ -25,93 +25,97 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-	public class NWDDistrictConnexion : NWDConnexion <NWDDistrict> {}
-	//-------------------------------------------------------------------------------------------------------------
+    public class NWDDistrictConnexion : NWDConnexion <NWDDistrict> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("DIS")]
     [NWDClassDescriptionAttribute ("District descriptions Class")]
     [NWDClassMenuNameAttribute ("District")]
-	//-------------------------------------------------------------------------------------------------------------
-//	[NWDTypeClassInPackageAttribute]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDistrict : NWDBasis<NWDDistrict>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//public bool DiscoverItYourSelf { get; set; }
-		[NWDGroupStartAttribute ("Informations", true, true, true)]
-		public NWDLocalizableStringType Name { get; set; }
-		public NWDLocalizableStringType SubName { get; set; }
-		public NWDLocalizableStringType Description { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute ("Desription", true, true, true)]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute("Classification",true,true,true)]
-		//public string Kind { get; set; }
-        public NWDReferencesListType<NWDWorld> World { get; set; }
-        public NWDReferencesListType<NWDDistrict> District { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-		[NWDGroupEndAttribute]
-
-		[NWDSeparatorAttribute]
-
-		[NWDGroupStartAttribute("Assets",true,true,true)]
-		public NWDColorType PrimaryColor { get; set; }
-
-		public NWDColorType SecondaryColor { get; set; }
-	
-		public NWDColorType TertiaryColor { get; set; }
-		//[NWDGroupEndAttribute]
-		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		//PROPERTIES
+        [NWDGroupStartAttribute("Informations", true, true, true)]
+        public NWDLocalizableStringType Name
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType SubName
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType Description
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+        [NWDSeparatorAttribute]
+        [NWDGroupStartAttribute("Desription", true, true, true)]
+        public NWDReferenceType<NWDItem> ItemToDescribe
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+        [NWDSeparatorAttribute]
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        //public string Kind { get; set; }
+        public NWDReferencesListType<NWDWorld> World
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDDistrict> District
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDCategory> Categories
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> Families
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> Keywords
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+        [NWDSeparatorAttribute]
+        [NWDGroupStartAttribute("Assets", true, true, true)]
+        public NWDColorType PrimaryColor
+        {
+            get; set;
+        }
+        public NWDColorType SecondaryColor
+        {
+            get; set;
+        }
+        public NWDColorType TertiaryColor
+        {
+            get; set;
+        }
+        //[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
+        #region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDistrict()
         {
             //Debug.Log("NWDDistrict Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDistrict(bool sInsertInNetWorkedData)
+        public NWDDistrict(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDDistrict Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -126,15 +130,13 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
@@ -176,7 +178,9 @@ namespace NetWorkedData
 		public override void AddonUnTrashMe ()
 		{
 			// do something when object will be remove from trash
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -207,11 +211,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

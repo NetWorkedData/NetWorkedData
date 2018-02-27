@@ -58,28 +58,11 @@ namespace NetWorkedData
 		public NWDTipsAndTricksOwnership()
         {
             Debug.Log("NWDTipsAndTricksOwnership Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
-			IsActive = true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTipsAndTricksOwnership(bool sInsertInNetWorkedData)
+        public NWDTipsAndTricksOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             Debug.Log("NWDTipsAndTricksOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -97,6 +80,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+        IsActive = true;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
@@ -104,7 +88,7 @@ namespace NetWorkedData
 			// do something with this object
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonInsertMe ()
 		{

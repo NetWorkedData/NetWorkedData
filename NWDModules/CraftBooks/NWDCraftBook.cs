@@ -25,6 +25,11 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public class NWDCraftBookConnexion : NWDConnexion<NWDCraftBook>
+    {
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("CBK")]
@@ -34,18 +39,8 @@ namespace NetWorkedData
 	public partial class NWDCraftBook :NWDBasis <NWDCraftBook>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
 		#region Class Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your static properties
-		/// <summary>
-		/// The dictionary to associate the hash of one craft with this craft.
-		/// </summary>
 		private static Dictionary<string,NWDCraftBook> HashByCraftDictionary = new Dictionary<string,NWDCraftBook> ();
 		private static Dictionary<string,NWDCraftBook> ItemByCraftDictionary = new Dictionary<string,NWDCraftBook> ();
 		//-------------------------------------------------------------------------------------------------------------
@@ -53,7 +48,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Instance Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
 		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 		[NWDGroupEndAttribute]
@@ -85,35 +79,24 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
+        #region Constructors
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDCraftBook"/> class.
 		/// </summary>
 		public NWDCraftBook ()
         {
-            //Debug.Log("NWDCraftBook Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
+            Debug.Log("NWDCraftBook Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCraftBook(bool sInsertInNetWorkedData)
+        public NWDCraftBook(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDCraftBook Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+            Debug.Log("NWDCraftBook Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+            OrderIsImportant = true;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -484,20 +467,19 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-            OrderIsImportant = true;
-        }
 
 		//-------------------------------------------------------------------------------------------------------------
 		public void GetItemsRequired ()
 		{
 			//ItemsOne
-		}
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 
-		#region override of NetWorkedData addons methods
+		#region NetWorkedData addons methods
 
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -629,7 +611,10 @@ namespace NetWorkedData
 		{
 			// do something when object will be remove from trash
 			NWDCraftBook.AddCraftBookInHashDictionary (this);
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -672,13 +657,6 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
-		//-------------------------------------------------------------------------------------------------------------
-
-		#endregion
-
-		//-------------------------------------------------------------------------------------------------------------
-
-		#endregion
 
 		//-------------------------------------------------------------------------------------------------------------
 	}

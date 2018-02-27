@@ -25,36 +25,27 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-	public class NWDFamilyConnexion : NWDConnexion <NWDFamily> {}
-	//-------------------------------------------------------------------------------------------------------------
+    public class NWDFamilyConnexion : NWDConnexion <NWDFamily> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("FAM")]
 	[NWDClassDescriptionAttribute ("Families descriptions Class")]
-	[NWDClassMenuNameAttribute ("Families")]
-	//-------------------------------------------------------------------------------------------------------------
+    [NWDClassMenuNameAttribute ("Families")]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDFamily : NWDBasis<NWDFamily>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
 		[NWDGroupStartAttribute ("Informations", true, true, true)]
 		public NWDLocalizableStringType Name { get; set; }
 		[NWDGroupEndAttribute]
 		[NWDSeparatorAttribute]
 		[NWDGroupStartAttribute ("Description", true, true, true)]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
-
 		[NWDGroupStartAttribute("Classification",true,true,true)]
-		//public string Kind { get; set; }
 		public NWDReferencesListType<NWDWorld> World { get; set; }
 		public NWDReferencesListType<NWDCategory> Categories { get; set; }
 		public NWDReferencesListType<NWDFamily> Families { get; set; }
@@ -68,27 +59,15 @@ namespace NetWorkedData
 		public NWDFamily()
         {
             //Debug.Log("NWDFamily Constructor");
-            //Insert in NetWorkedData;
-            NewNetWorkedData();
-            //Init your instance here
-            Initialization();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDFamily(bool sInsertInNetWorkedData)
+        public NWDFamily(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDFamily Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-            if (sInsertInNetWorkedData == false)
-            {
-                // do nothing 
-                // perhaps the data came from database and is allready in NetWorkedData;
-            }
-            else
-            {
-                //Insert in NetWorkedData;
-                NewNetWorkedData();
-                //Init your instance here
-                Initialization();
-            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -103,15 +82,13 @@ namespace NetWorkedData
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()
 		{
 			// do something with this object
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#region override of NetWorkedData addons methods
 		//-------------------------------------------------------------------------------------------------------------
@@ -153,7 +130,9 @@ namespace NetWorkedData
 		public override void AddonUnTrashMe ()
 		{
 			// do something when object will be remove from trash
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -184,11 +163,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
