@@ -25,10 +25,10 @@ using System.IO;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDSelector
-    {
-        public static string NWDBasis_DRAW_IN_EDITOR_SELECTOR = "DrawInEditor";
-    }
+    //public partial class NWDSelector
+    //{
+    //    public static string NWDBasis_DRAW_IN_EDITOR_SELECTOR = "DrawInEditor";
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {

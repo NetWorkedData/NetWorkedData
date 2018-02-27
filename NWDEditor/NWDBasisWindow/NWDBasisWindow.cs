@@ -277,8 +277,9 @@ namespace NetWorkedData
 				}
 				mTabSelected = tTabSelected;
 				GUILayout.Space (5.0f);
-				var tMethodInfo = tType.GetMethod (NWDSelector.NWDBasis_DRAW_IN_EDITOR_SELECTOR, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
+				//var tMethodInfo = tType.GetMethod (NWDSelector.NWDBasis_DRAW_IN_EDITOR_SELECTOR, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                var tMethodInfo = tType.GetMethod("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null) {
 					//Debug.Log ("I AM FINDING THE DRAWING METHOD");
 					tMethodInfo.Invoke (null, new object[]{ this, tAutoselect });
 //				tMethodInfo.Invoke(null,null);
