@@ -274,7 +274,28 @@ namespace NetWorkedData
                 tCharacterName = tCharacter.FirstName.GetBaseString() + " " + tCharacter.LastName.GetBaseString();
             }
             string tDialog = Dialog.GetBaseString();
-            tText += "<b>" + tCharacterName + "</b> says [" + tCharacterEmotion + "]: \n\n \"<i>" + tDialog + "</i>\"\n";
+            tText += "<b>" + tCharacterName + "</b> says [" + tCharacterEmotion + "]: \n\n \"<i>" + tDialog + "</i>\"\n\n";
+
+            // check answer
+            NWDDialog[] tDialogs = NextDialogs.GetObjects();
+            int tI = tDialogs.Length;
+            foreach (NWDDialog tAnswerDialog in tDialogs)
+            {
+                //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
+                Color tBackgroundColor = GUI.backgroundColor;
+                if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+                {
+                    GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                }
+                if (GUI.Button(new Rect(sRect.x, sRect.y + sRect.height - tI*(NWDConstants.HeightButton + NWDConstants.kFieldMarge), sRect.width, NWDConstants.HeightButton),tAnswerDialog.Answer.GetBaseString()))
+                {
+                    NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
+                }
+                tI--;
+                GUI.backgroundColor = tBackgroundColor;
+            }
+
+
             // draw resume
             GUI.Label(sRect, tText, tStyle);
         }
