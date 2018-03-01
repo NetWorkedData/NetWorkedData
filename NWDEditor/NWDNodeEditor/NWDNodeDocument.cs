@@ -89,6 +89,11 @@ namespace NetWorkedData
         /// The classes show.
         /// </summary>
         public Dictionary<string, bool> ShowTheseClasses = new Dictionary<string, bool>();
+        /// <summary>
+        /// The regroup properties in document.
+        /// </summary>
+        public bool ReGroupProperties = false;
+        public bool UsedOnlyProperties = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeDocument"/> class.
@@ -109,6 +114,8 @@ namespace NetWorkedData
                 EditorPrefs.SetBool("NWDEditorShow_" + tKeyValue.Key, ShowTheseClasses[tKeyValue.Key]);
                 EditorPrefs.SetBool("NWDEditorAnalyze_" + tKeyValue.Key, AnalyzeTheseClasses[tKeyValue.Key]);
             }
+            EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
+            EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -122,6 +129,9 @@ namespace NetWorkedData
                 ShowTheseClasses[tKeyValue.Key] = EditorPrefs.GetBool("NWDEditorShow_" + tKeyValue.Key, true);
                 AnalyzeTheseClasses[tKeyValue.Key] = EditorPrefs.GetBool("NWDEditorAnalyze_" + tKeyValue.Key, true);
             }
+
+            ReGroupProperties = EditorPrefs.GetBool("NWDEditorGroup");
+            UsedOnlyProperties = EditorPrefs.GetBool("NWDEditorusedOnly");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -132,6 +142,7 @@ namespace NetWorkedData
             bool tChanged = false;
             float tY = NWDConstants.kFieldMarge;
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
+            float tW = (MargeWidth - NWDConstants.kFieldMarge * 2);
 
             if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Show all", EditorStyles.miniButton))
             {
@@ -179,6 +190,23 @@ namespace NetWorkedData
             }
             tY += HeightProperty + NWDConstants.kFieldMarge;
 
+            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), ReGroupProperties, "Group properties");
+            if (tReGroupProperties != ReGroupProperties)
+            {
+                ReGroupProperties = tReGroupProperties;
+                EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
+                ReAnalyze();
+            }
+            tY += HeightProperty + NWDConstants.kFieldMarge;
+
+            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), UsedOnlyProperties, "Only used properties");
+            if (tUsedOnlyProperties != UsedOnlyProperties)
+            {
+                UsedOnlyProperties = tUsedOnlyProperties;
+                EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
+                ReAnalyze();
+            }
+            tY += HeightProperty + NWDConstants.kFieldMarge;
 
 
             float tXA = NWDConstants.kFieldMarge;
@@ -454,6 +482,7 @@ namespace NetWorkedData
         /// </summary>
         public void ReAnalyze()
         {
+            Debug.Log("ReAnalyze()");
             if (OriginalData != null)
             {
                 SetData(OriginalData.Data, false);
@@ -488,7 +517,7 @@ namespace NetWorkedData
         /// </summary>
         public void Analyze()
         {
-            BTBConsole.Clear();
+            //BTBConsole.Clear();
             //Debug.Log("NWDNodeDocument Analyze()");
             AllCards = new List<NWDNodeCard>();
             if (OriginalData != null)

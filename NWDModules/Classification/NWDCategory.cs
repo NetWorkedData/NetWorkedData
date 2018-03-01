@@ -242,7 +242,7 @@ namespace NetWorkedData
             return 130.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
 
         }

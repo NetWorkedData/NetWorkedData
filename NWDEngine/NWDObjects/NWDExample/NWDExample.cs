@@ -34,7 +34,7 @@ namespace NetWorkedData
     /// }
     /// </summary>
     [Serializable]
-    public class NWDExampleConnexion : NWDConnexion<NWDExample>
+    public class NWDExampleConnection : NWDConnexion<NWDExample>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -280,7 +280,7 @@ namespace NetWorkedData
         /// Adds node draw.
         /// </summary>
         /// <param name="sRect">S rect.</param>
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
 
         }

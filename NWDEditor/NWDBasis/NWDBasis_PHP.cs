@@ -27,13 +27,26 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static Dictionary<string, string> kTableNameList = new Dictionary<string, string>();
         //-------------------------------------------------------------------------------------------------------------
         public static string ClassNamePHP()
         {
-            Type tType = ClassType();
-            TableMapping tTableMapping = new TableMapping(tType);
-            string rClassName = tTableMapping.TableName;
-            return rClassName;
+            string rReturn = "";
+            if (kTableNameList.ContainsKey(ClassID()))
+            {
+                rReturn = kTableNameList[ClassID()];
+            }
+            else
+            {
+                Type tType = ClassType();
+                TableMapping tTableMapping = new TableMapping(tType);
+                string rClassName = tTableMapping.TableName;
+                rReturn = rClassName;
+                kTableNameList.Add(ClassID(), rClassName);
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR

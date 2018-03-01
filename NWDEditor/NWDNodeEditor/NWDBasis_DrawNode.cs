@@ -138,9 +138,20 @@ namespace NetWorkedData
             return 130.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void AddOnNodeDraw(Rect sRect)
+        public virtual void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
             GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
+        {
+            GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+            tBox.alignment = TextAnchor.MiddleLeft;
+            GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
+
+            //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
+            //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual Color AddOnNodeColor()

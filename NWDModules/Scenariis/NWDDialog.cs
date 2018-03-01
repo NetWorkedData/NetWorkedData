@@ -247,7 +247,7 @@ namespace NetWorkedData
             return 200f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect)
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
             GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
 
@@ -276,28 +276,52 @@ namespace NetWorkedData
             string tDialog = Dialog.GetBaseString();
             tText += "<b>" + tCharacterName + "</b> says [" + tCharacterEmotion + "]: \n\n \"<i>" + tDialog + "</i>\"\n\n";
 
-            // check answer
-            NWDDialog[] tDialogs = NextDialogs.GetObjects();
-            int tI = tDialogs.Length;
-            foreach (NWDDialog tAnswerDialog in tDialogs)
+            if (sPropertysGroup == true)
             {
-                //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
-                Color tBackgroundColor = GUI.backgroundColor;
-                if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+                // check answer
+                NWDDialog[] tDialogs = NextDialogs.GetObjects();
+                int tI = tDialogs.Length;
+                foreach (NWDDialog tAnswerDialog in tDialogs)
                 {
-                    GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                    //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
+                    Color tBackgroundColor = GUI.backgroundColor;
+                    if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+                    {
+                        GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                    }
+                    if (GUI.Button(new Rect(sRect.x, sRect.y + sRect.height - tI * (NWDConstants.HeightButton + NWDConstants.kFieldMarge), sRect.width, NWDConstants.HeightButton), tAnswerDialog.Answer.GetBaseString()))
+                    {
+                        NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
+                    }
+                    tI--;
+                    GUI.backgroundColor = tBackgroundColor;
                 }
-                if (GUI.Button(new Rect(sRect.x, sRect.y + sRect.height - tI*(NWDConstants.HeightButton + NWDConstants.kFieldMarge), sRect.width, NWDConstants.HeightButton),tAnswerDialog.Answer.GetBaseString()))
-                {
-                    NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
-                }
-                tI--;
-                GUI.backgroundColor = tBackgroundColor;
             }
-
 
             // draw resume
             GUI.Label(sRect, tText, tStyle);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
+        {
+            GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+            tBox.alignment = TextAnchor.MiddleLeft;
+            GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
+            //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
+            //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
+
+            float tButtonWidth = 150.0F;
+
+            Color tBackgroundColor = GUI.backgroundColor;
+            if (AnswerState == NWDDialogState.Stop)
+            {
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            }
+            if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth, sRect.y , tButtonWidth, NWDConstants.HeightButton), Answer.GetBaseString()))
+            {
+                NWDDataInspector.InspectNetWorkedData(this, false, false);
+            }
+            GUI.backgroundColor = tBackgroundColor;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Color AddOnNodeColor()

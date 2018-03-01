@@ -76,63 +76,80 @@ namespace NetWorkedData
             // Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
             NWDNodeConnexion tNewConnexion = null;
-            foreach (NWDNodeConnexion tConnexion in ConnexionList)
+            if (ParentDocument.UsedOnlyProperties == true && sObjectsArray.Length == 0)
             {
-                if (tConnexion.PropertyName == sProperty.Name)
-                {
-                    tNewConnexion = tConnexion;
-                    break;
-                }
             }
-            if (tNewConnexion == null)
+            else
             {
-                tNewConnexion = new NWDNodeConnexion();
-                tNewConnexion.PropertyName = sProperty.Name;
-                ConnexionList.Add(tNewConnexion);
-                tNewConnexion.Parent = this;
-            }
-            tNewConnexion.Property = sProperty;
-            tNewConnexion.AddButton = sButtonAdd;
-            //int tLine = 0;
-            foreach (NWDTypeClass tObject in sObjectsArray)
-            {
-                // Card exist?
-
-                if (tObject != null)
+                if (ParentDocument.ReGroupProperties == true || (ParentDocument.UsedOnlyProperties == false && sObjectsArray.Length == 0))
                 {
-                    bool tDataAllReadyShow = false;
-                    NWDNodeCard tCard = null;
-                    NWDNodeConnexionLine tCardLine = new NWDNodeConnexionLine();
-                    foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
+                    //foreach (NWDNodeConnexion tConnexion in ConnexionList)
+                    //{
+                    //    if (tConnexion.PropertyName == sProperty.Name)
+                    //    {
+                    //        tNewConnexion = tConnexion;
+                    //        break;
+                    //    }
+                    //}
+                    if (tNewConnexion == null)
                     {
-                        if (tOldCard.Data == tObject)
+                        tNewConnexion = new NWDNodeConnexion();
+                        tNewConnexion.PropertyName = sProperty.Name;
+                        ConnexionList.Add(tNewConnexion);
+                        tNewConnexion.Parent = this;
+                    }
+                    tNewConnexion.Property = sProperty;
+                    tNewConnexion.AddButton = sButtonAdd;
+                    //int tLine = 0;
+                }
+                foreach (NWDTypeClass tObject in sObjectsArray)
+                {
+                    if (ParentDocument.ReGroupProperties == false)
+                    {
+                        tNewConnexion = new NWDNodeConnexion();
+                        tNewConnexion.PropertyName = sProperty.Name;
+                        tNewConnexion.Parent = this;
+                        tNewConnexion.Property = sProperty;
+                        tNewConnexion.AddButton = sButtonAdd;
+                        ConnexionList.Add(tNewConnexion);
+                    }
+                    // Card exist?
+                    if (tObject != null)
+                    {
+                        bool tDataAllReadyShow = false;
+                        NWDNodeCard tCard = null;
+                        NWDNodeConnexionLine tCardLine = new NWDNodeConnexionLine();
+                        foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                         {
-                            tDataAllReadyShow = true;
-                            tCard = tOldCard;
-                            if (tCard.Column < Column)
+                            if (tOldCard.Data == tObject)
                             {
-                                tCardLine.Style = NWDNodeConnexionType.OldCard;
+                                tDataAllReadyShow = true;
+                                tCard = tOldCard;
+                                if (tCard.Column < Column)
+                                {
+                                    tCardLine.Style = NWDNodeConnexionType.OldCard;
+                                }
+                                else
+                                {
+                                    tCardLine.Style = NWDNodeConnexionType.Valid;
+                                }
+                                break;
                             }
-                            else
-                            {
-                                tCardLine.Style = NWDNodeConnexionType.Valid;
-                            }
-                            break;
                         }
+                        if (tDataAllReadyShow == false)
+                        {
+                            tCard = new NWDNodeCard();
+                            tCard.Column = Column + 1;
+                            tCard.Line = ParentDocument.GetNextLine(tCard);
+                            tCard.Data = tObject;
+                            rResult.Add(tCard);
+                        }
+                        tCardLine.Child = tCard;
+                        tNewConnexion.ChildrenList.Add(tCardLine);
                     }
-                    if (tDataAllReadyShow == false)
-                    {
-                        tCard = new NWDNodeCard();
-                        tCard.Column = Column + 1;
-                        tCard.Line = ParentDocument.GetNextLine(tCard);
-                        tCard.Data = tObject;
-                        rResult.Add(tCard);
-                    }
-                    tCardLine.Child = tCard;
-                    tNewConnexion.ChildrenList.Add(tCardLine);
                 }
+                ParentDocument.PropertyCount(ConnexionList.Count);
             }
-            ParentDocument.PropertyCount(ConnexionList.Count);
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -152,17 +169,17 @@ namespace NetWorkedData
 
             CardRect = new Rect(tX, tY, Width, Height);
 
-            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge + NWDConstants.kEditWidthHalf , CardRect.y + NWDConstants.kFieldMarge, NWDConstants.kIconWidth, NWDConstants.kIconWidth);
+            IconRect = new Rect(CardRect.x + NWDConstants.kFieldMarge + NWDConstants.kEditWidthHalf, CardRect.y + NWDConstants.kFieldMarge, NWDConstants.kIconWidth, NWDConstants.kIconWidth);
 
-            CardTypeRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf+ NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4, ParentDocument.HeightLabel);
-            CardReferenceRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf+ NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
-            CardInternalKeyRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf+ NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardTypeRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + NWDConstants.kFieldMarge, Width - NWDConstants.kEditWidth * 2 - NWDConstants.kFieldMarge * 4, ParentDocument.HeightLabel);
+            CardReferenceRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel + NWDConstants.kFieldMarge * 2, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
+            CardInternalKeyRect = new Rect(tX + NWDConstants.kIconWidth + NWDConstants.kEditWidthHalf + NWDConstants.kFieldMarge * 2, tY + ParentDocument.HeightLabel * 2 + NWDConstants.kFieldMarge * 3, Width - NWDConstants.kEditWidth * 2, ParentDocument.HeightLabel);
 
             InfoRect = new Rect(tX + NWDConstants.kFieldMarge, tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 4, Width - +NWDConstants.kFieldMarge * 2, InformationsHeight);
             InfoUsableRect = new Rect(InfoRect.x + NWDConstants.kFieldMarge, InfoRect.y + NWDConstants.kFieldMarge, InfoRect.width - NWDConstants.kFieldMarge * 2, InfoRect.height - NWDConstants.kFieldMarge * 2);
 
             Position = new Vector2(tX, tY);
-            CirclePosition = new Vector2(tX + 0, tY + NWDConstants.kIconWidth/2.0F+ NWDConstants.kFieldMarge);
+            CirclePosition = new Vector2(tX + 0, tY + NWDConstants.kIconWidth / 2.0F + NWDConstants.kFieldMarge);
             PositionTangent = new Vector2(CirclePosition.x - ParentDocument.Margin, CirclePosition.y);
 
             int tPropertyCounter = 0;
@@ -171,7 +188,7 @@ namespace NetWorkedData
                 //Debug.Log("NWDNodeCard DrawCard() draw connexion");
                 tConnexion.Rectangle = new Rect(tX + NWDConstants.kFieldMarge,
                                                 tY + ParentDocument.HeightLabel * 3 + NWDConstants.kFieldMarge * 5 + InformationsHeight + (NWDConstants.kFieldMarge + ParentDocument.HeightProperty) * tPropertyCounter,
-                                                Width - NWDConstants.kFieldMarge * 2 - NWDConstants.kEditWidthMini/2.0F,
+                                                Width - NWDConstants.kFieldMarge * 2 - NWDConstants.kEditWidthMini / 2.0F,
                                                 ParentDocument.HeightProperty);
 
                 ////GUI.Label(new Rect(tX + 2, tY + ParentDocument.HeightInformations + 1 + ParentDocument.HeightProperty * tPropertyCounter - 2, tWidth - 4, ParentDocument.HeightProperty - 2), tConnexion.PropertyName);
@@ -181,7 +198,7 @@ namespace NetWorkedData
 
                 tConnexion.CirclePosition = new Vector2(
                     tX + Width,
-                              //                      tX + Width - NWDConstants.kFieldMarge - NWDConstants.kEditWidth/2.0F,
+                                                  //                      tX + Width - NWDConstants.kFieldMarge - NWDConstants.kEditWidth/2.0F,
                                                   tConnexion.Rectangle.y + ParentDocument.HeightProperty / 2.0F);
                 tConnexion.PositionTangent = new Vector2(tConnexion.CirclePosition.x + ParentDocument.Margin, tConnexion.CirclePosition.y);
                 tPropertyCounter++;
@@ -249,16 +266,49 @@ namespace NetWorkedData
             var tMethodInfo = tType.GetMethod("AddOnNodeDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
-                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect });
+                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect , ParentDocument.ReGroupProperties});
             }
             // add connexion
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
-                GUI.Box(tConnexion.Rectangle, tConnexion.PropertyName);
+                GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+                tBox.alignment = TextAnchor.MiddleLeft;
                 Type tTypeProperty = tConnexion.Property.GetValue(Data, null).GetType();
                 GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
+
+                if (ParentDocument.ReGroupProperties == false && tConnexion.ChildrenList.Count > 0)
+                {
+                    // draw properties distinct
+                    GUI.Box(tConnexion.Rectangle, "", tBox);
+                    // add special infos in this property draw
+                    NWDTypeClass tSubData = tConnexion.ChildrenList[0].Child.Data;
+                    Type tSubType = tSubData.GetType();
+                    var tSubMethodInfo = tSubType.GetMethod("AddOnNodePropertyDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    if (tSubMethodInfo != null)
+                    {
+                        tSubMethodInfo.Invoke(tSubData, new object[] { tConnexion.PropertyName, new Rect(tConnexion.Rectangle.x, tConnexion.Rectangle.y + 2, tConnexion.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnexion.Rectangle.height) });
+                    }
+                    // Add button to edit this data
+                    if (GUI.Button(new Rect(tConnexion.Rectangle.x + tConnexion.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 2 - 2, tConnexion.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
+                    {
+                        NWDDataInspector.InspectNetWorkedData(tConnexion.ChildrenList[0].Child.Data, true, true);
+                    }
+                    // add button to center node on this data
+                    if (GUI.Button(new Rect(tConnexion.Rectangle.x + tConnexion.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3 - 2, tConnexion.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
+                    {
+                        NWDDataInspector.InspectNetWorkedData(tConnexion.ChildrenList[0].Child.Data, true, true);
+                        ParentDocument.SetData(tConnexion.ChildrenList[0].Child.Data);
+                    }
+                }
+                else
+                {
+                    // draw properties group
+                    GUI.Box(tConnexion.Rectangle, tConnexion.PropertyName, tBox);
+                }
+
                 if (tConnexion.AddButton == true)
                 {
+
                     if (GUI.Button(new Rect(tConnexion.Rectangle.x + tConnexion.Rectangle.width - NWDConstants.kEditWidth - 2, tConnexion.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
                     {
                         Debug.Log("ADD REFERENCE FROM NODE EDITOR");
