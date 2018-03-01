@@ -129,6 +129,7 @@ namespace NetWorkedData
 					NWDBasis<K>.ResetTable ();
 //					UpdateReferencesList ();
 					LoadTableEditor ();
+                    RepaintTableEditor();
 				}
 				// -------------------------------------------
 				GUILayout.BeginHorizontal ();
@@ -207,12 +208,12 @@ namespace NetWorkedData
                 //GUILayout.EndHorizontal();
 
 
-				GUILayout.Space (10.0f);
-				// -------------------------------------------
-				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_PHP_GENERATE+" '" + MenuName () + "'", EditorStyles.miniButton))
-				{
-					CreateAllPHP ();
-				}
+				//GUILayout.Space (10.0f);
+				//// -------------------------------------------
+				//if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_PHP_GENERATE+" '" + MenuName () + "'", EditorStyles.miniButton))
+				//{
+				//	CreateAllPHP ();
+				//}
 //				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_CSHARP_GENERATE+" '" + MenuName () + "'", EditorStyles.miniButton))
 //				{
 //					CreateCSharp ();
