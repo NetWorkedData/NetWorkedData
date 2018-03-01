@@ -288,20 +288,20 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawBackgroundPlot()
+        public void DrawBackgroundLine()
         {
             // Debug.Log("NWDNodeCard DrawLine()");
-            Handles.color = NWDConstants.kNodeLineColor;
-            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf);
             foreach (NWDNodeConnexion tConnexion in ConnexionList)
             {
-                tConnexion.DrawBackgroundPlot();
+                tConnexion.DrawBackgroundLine();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DrawForwardPlot()
         {
             //Debug.Log("NWDNodeCard DrawPlot()");
+            Handles.color = NWDConstants.kNodeLineColor;
+            Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf);
             Handles.color = NWDConstants.kNodeOverLineColor;
             Handles.DrawSolidDisc(CirclePosition, Vector3.forward, NWDConstants.kEditWidthHalf - 1.0f);
             // Draw plot of my connexions 

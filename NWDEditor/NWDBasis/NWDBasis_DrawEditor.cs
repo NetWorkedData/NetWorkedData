@@ -728,6 +728,8 @@ namespace NetWorkedData
                                     {
                                         tProp.SetValue(this, tBTBDataTypeNext, null);
                                         rNeedBeUpdate = true;
+
+                                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
                                     }
                                     float tHeight = tBTBDataType.ControlFieldHeight();
                                     tY += tHeight + NWDConstants.kFieldMarge;

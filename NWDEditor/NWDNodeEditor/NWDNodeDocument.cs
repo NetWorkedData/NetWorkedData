@@ -133,7 +133,7 @@ namespace NetWorkedData
             float tY = NWDConstants.kFieldMarge;
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
 
-            if ( GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Show all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Show all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -143,7 +143,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf+ NWDConstants.kFieldMarge*2, tY, tWHalf, NWDConstants.kEditWidth), "Mask all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), "Mask all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -167,7 +167,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge*2, tY, tWHalf, NWDConstants.kEditWidth), "No Analyze all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), "No Analyze all", EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -177,14 +177,14 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            tY+= HeightProperty+NWDConstants.kFieldMarge;
+            tY += HeightProperty + NWDConstants.kFieldMarge;
 
 
 
             float tXA = NWDConstants.kFieldMarge;
             float tWidthB = 20.0F;
-            float tWidthA = MargeWidth - NWDConstants.kEditWidth - tWidthB - NWDConstants.kFieldMarge*4;
-            float tXB = tWidthA + NWDConstants.kFieldMarge*2;
+            float tWidthA = MargeWidth - NWDConstants.kEditWidth - tWidthB - NWDConstants.kFieldMarge * 4;
+            float tXB = tWidthA + NWDConstants.kFieldMarge * 2;
             //Debug.Log("MargeWidth = " + MargeWidth.ToString());
             //Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
             //Debug.Log("tXA = " + tXA.ToString());
@@ -192,7 +192,7 @@ namespace NetWorkedData
             //Debug.Log("tXB = " + tXB.ToString());
             //Debug.Log("tWidthB = " + tWidthB.ToString());
 
-            GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight+NWDConstants.kFieldMarge, MargeWidth, HeightProperty), "Show / Analyze",EditorStyles.boldLabel);
+            GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), "Show / Analyze", EditorStyles.boldLabel);
             // to show
             int tCounter = 0;
             Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
@@ -200,7 +200,7 @@ namespace NetWorkedData
             {
                 tCounter++;
                 //Debug.Log("tWidthA loop = " + tWidthA.ToString());
-                bool tNew = EditorGUI.Toggle(new Rect(tXA, MargeHeight+NWDConstants.kFieldMarge+ HeightProperty * tCounter, tWidthA , HeightProperty), tKeyValue.Key, tKeyValue.Value);
+                bool tNew = EditorGUI.Toggle(new Rect(tXA, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthA, HeightProperty), tKeyValue.Key, tKeyValue.Value);
                 if (ShowTheseClasses[tKeyValue.Key] != tNew)
                 {
                     tChanged = true;
@@ -214,7 +214,7 @@ namespace NetWorkedData
             foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
             {
                 tCounter++;
-                bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight+NWDConstants.kFieldMarge+ HeightProperty * tCounter, tWidthB, HeightProperty), "", tKeyValue.Value);
+                bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), "", tKeyValue.Value);
                 if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
                 {
                     tChanged = true;
@@ -262,7 +262,7 @@ namespace NetWorkedData
         /// <returns>The dimension.</returns>
         public Rect Dimension()
         {
-            float tHeight = Mathf.Max((GetLineMax() + 1) * (Height + Margin) + Margin, MargeHeight+(AnalyzeTheseClasses.Count + 3) * HeightProperty);
+            float tHeight = Mathf.Max((GetLineMax() + 1) * (Height + Margin) + Margin, MargeHeight + (AnalyzeTheseClasses.Count + 3) * HeightProperty);
             return new Rect(0, 0, MargeWidth + (GetColumnMax() + 1) * (Width + Margin) + Margin, tHeight);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -461,6 +461,29 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// Re the analyze.
+        /// </summary>
+        public void ReAnalyzeIfNecessary(object sObjectModified)
+        {
+            if (OriginalData != null)
+            {
+                bool tNeedBeReAnalyze = false;
+                foreach (NWDNodeCard tCard in AllCards)
+                {
+                    if (sObjectModified == tCard.Data)
+                    {
+                        tNeedBeReAnalyze = true;
+                        break;
+                    }
+                }
+                if (tNeedBeReAnalyze == true)
+                {
+                    SetData(OriginalData.Data, false);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// Analyze this instance.
         /// </summary>
         public void Analyze()
@@ -472,7 +495,7 @@ namespace NetWorkedData
             {
                 OriginalData.Analyze(this);
             }
-//            Debug.Log(AllCards.Count + " Cards found");
+            //            Debug.Log(AllCards.Count + " Cards found");
             ReEvaluateLayout();
 
         }
@@ -485,7 +508,7 @@ namespace NetWorkedData
         public void Draw(Rect sViewRect)
         {
             DrawCanvas(sViewRect);
-            DrawBackgroundPlot();
+            DrawBackgroundLine();
             DrawCard();
             DrawForwardPlot();
             DrawPreferences();
@@ -512,9 +535,9 @@ namespace NetWorkedData
             float tHeiMarDec = tHeiMar / tFraction;
 
             Handles.color = new Color(0.3F, 0.3F, 0.3F, 1F);
-            Handles.DrawLine(new Vector2(MargeWidth, 0), new Vector2(MargeWidth , tLineMax * tHeiMar));
+            Handles.DrawLine(new Vector2(MargeWidth, 0), new Vector2(MargeWidth, tLineMax * tHeiMar));
             Handles.color = new Color(0.9F, 0.9F, 0.9F, 1F);
-            Handles.DrawLine(new Vector2(MargeWidth-1, 0), new Vector2(MargeWidth-1, tLineMax * tHeiMar));
+            Handles.DrawLine(new Vector2(MargeWidth - 1, 0), new Vector2(MargeWidth - 1, tLineMax * tHeiMar));
 
             Handles.color = new Color(0.4F, 0.4F, 0.4F, 0.3F);
             for (int i = -0; i <= (tColumnMax + 2) * tFraction; i++)
@@ -540,11 +563,11 @@ namespace NetWorkedData
         /// <summary>
         /// Draws the background plot.
         /// </summary>
-        public void DrawBackgroundPlot()
+        public void DrawBackgroundLine()
         {
             foreach (NWDNodeCard tCard in AllCards)
             {
-                tCard.DrawBackgroundPlot();
+                tCard.DrawBackgroundLine();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

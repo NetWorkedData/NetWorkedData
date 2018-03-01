@@ -85,6 +85,18 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// Redraw.
+        /// </summary>
+        public static void ReAnalyzeIfNecessary(object sObjectModified)
+        {
+            if (kNodeEditorSharedInstance != null)
+            {
+                kNodeEditorSharedInstance.Document.ReAnalyzeIfNecessary(sObjectModified);
+                kNodeEditorSharedInstance.Repaint();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// On destroy.
         /// </summary>
         void OnDestroy()

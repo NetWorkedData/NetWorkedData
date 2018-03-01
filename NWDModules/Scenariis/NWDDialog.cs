@@ -139,7 +139,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDDialog(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDDialog Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            Debug.Log("NWDDialog Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -250,6 +250,33 @@ namespace NetWorkedData
         public override void AddOnNodeDraw(Rect sRect)
         {
             GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
+
+            GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
+            tStyle.richText = true;
+            string tText = "";
+            // if answer
+            string tAnswer = Answer.GetBaseString();
+            if (tAnswer != "")
+            {
+                tText += "For the answer : \"" + tAnswer + "\"…\n";
+            }
+            // quest change
+            if (QuestStep != NWDQuestState.None)
+            {
+                tText += "The Quest change to state : " + QuestStep.ToString() + ".\n";
+            }
+            // dialog
+            NWDCharacter tCharacter = CharacterReference.GetObject();
+            string tCharacterName = "unknow";
+            string tCharacterEmotion = CharacterEmotion.ToString();
+            if (tCharacter != null)
+            {
+                tCharacterName = tCharacter.FirstName.GetBaseString() + " " + tCharacter.LastName.GetBaseString();
+            }
+            string tDialog = Dialog.GetBaseString();
+            tText += "<b>" + tCharacterName + "</b> says [" + tCharacterEmotion + "]: \n\n \"<i>" + tDialog + "</i>\"\n";
+            // draw resume
+            GUI.Label(sRect, tText, tStyle);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Color AddOnNodeColor()

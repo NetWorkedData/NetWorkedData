@@ -27,35 +27,20 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public enum NWDQuestType : int
-    {
-        Unique = 0,
-        Multiple = 1,
-        Infiny = 9,
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    [Serializable]
-    public class NWDQuestConnexion : NWDConnexion<NWDQuest>
+    public class NWDSetOfQuestsConnexion : NWDConnexion<NWDSetOfQuests>
     {
     }
     //-------------------------------------------------------------------------------------------------------------
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("QST")]
-    [NWDClassDescriptionAttribute("Quest descriptions Class")]
-    [NWDClassMenuNameAttribute("Quest")]
+    [NWDClassTrigrammeAttribute("SOQ")]
+    [NWDClassDescriptionAttribute("Set of Quests Class")]
+    [NWDClassMenuNameAttribute("Set of Quests")]
     //-------------------------------------------------------------------------------------------------------------
-    public partial class NWDQuest : NWDBasis<NWDQuest>
+    public partial class NWDSetOfQuests : NWDBasis<NWDSetOfQuests>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds
         {
@@ -75,91 +60,29 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
         [NWDSeparator]
-        [NWDGroupStartAttribute("Type of quest", true, true, true)]
-        [NWDEntitled("Type of quest", "Determine if quest is replayable or not")]
-        public NWDQuestType Type
+        [NWDGroupStartAttribute("Character and all quests", true, true, true)]
+        public NWDReferenceType<NWDCharacter> CharacterReference
         {
             get; set;
         }
-        [NWDIf("Type",1)]
-        public int Number
+        public NWDReferencesListType<NWDQuest> QuestsList
         {
             get; set;
         }
-        [NWDGroupEndAttribute]
-        [NWDSeparator]
-        [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
-        [NWDEntitled("Title of quest", "Title of the quest in the description")]
-        public NWDLocalizableStringType Title
-        {
-            get; set;
-        }
-        public NWDLocalizableTextType Description
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-        [NWDSeparator]
-        [NWDGroupStartAttribute("Start Way", true, true, true)]
-        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsRequired
-        {
-            get; set;
-        }
-        [NWDEntitled("Normal Dialog")]
-        public NWDReferenceType<NWDDialog> DialogReference
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-        [NWDSeparator]
-        [NWDGroupStartAttribute("Alternate Way", true, true, true)]
-
-        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsWanted
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsWanted
-        {
-            get; set;
-        }
-        [NWDEntitled("Alternate Dialog")]
-        public NWDReferenceType<NWDDialog> AlternateDialogReference
-        {
-            get; set;
-        } // to start with ListOfItemsAsked
-
-        [NWDGroupEndAttribute]
-        [NWDSeparator]
-        [NWDGroupStartAttribute("Quest reward", true, true, true)]
-        public NWDReferencesQuantityType<NWDPack> PackRewards
-        {
-            get; set;
-        }
-        public int NumberOfRewards
-        {
-            get; set;
-        }
-        public bool ItemsAskedRemove
-        {
-            get; set;
-        } // if quest is finish Item asked are remove from chest
+        // if quest is finish Item asked are remove from chest
           //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDQuest()
+        public NWDSetOfQuests()
         {
-            //Debug.Log("NWDQuest Constructor");
+            //Debug.Log("NWDSetOfQuests Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDQuest(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDSetOfQuests(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDQuest Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDSetOfQuests Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -226,7 +149,7 @@ namespace NetWorkedData
             // do something when object will be remove from trash
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -267,10 +190,7 @@ namespace NetWorkedData
         public override void AddOnNodeDraw(Rect sRect)
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
-            tStyle.richText = true;
-            string tQuestTitle = Title.GetBaseString();
-            string tQuestDescription = Description.GetBaseString();
-            string tText = "" + InternalDescription + "\n\n<b>Title : </b>\n" + tQuestTitle + "\n\n<b>Description : </b>\n"+ tQuestDescription+"\n";
+            string tText = InternalDescription ;
             GUI.Label(sRect, tText, tStyle);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -279,7 +199,7 @@ namespace NetWorkedData
             return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+        #endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

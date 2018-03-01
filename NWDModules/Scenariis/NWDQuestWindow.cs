@@ -17,10 +17,11 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Story",
-		"Story window description",
+	[NWDTypeWindowParamAttribute("Quest",
+		"Quest window description",
 		"NWDIcons_02",
-		new Type[] {
+            new Type[] {
+            typeof(NWDSetOfQuests),
 			typeof(NWDQuest),
 			typeof(NWDDialog),
 			typeof(NWDCharacter),
@@ -29,14 +30,14 @@ namespace NetWorkedData
 		}
 	)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDStoryWindow : NWDBasisWindow <NWDStoryWindow>
+	public class NWDQuestWindow : NWDBasisWindow <NWDQuestWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+"Story"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+		[MenuItem (NWDConstants.K_MENU_BASE+"Quest"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDStoryWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDQuestWindow));
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
