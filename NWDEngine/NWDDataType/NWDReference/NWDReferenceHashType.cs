@@ -72,9 +72,10 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDReferenceHashType<K> tTemporary = new NWDReferenceHashType<K> ();
+            NWDReferenceHashType<K> tTemporary = new NWDReferenceHashType<K> ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			tTemporary.Value = Value;
 			Type sFromType = typeof(K);
 			float tWidth = sPosition.width;
@@ -95,8 +96,14 @@ namespace NetWorkedData
 			if (tInternalNameListInfo != null) {
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}
+
+            List<GUIContent> tContentFuturList = new List<GUIContent>();
+            foreach (string tS in tInternalNameList.ToArray())
+            {
+                tContentFuturList.Add(new GUIContent(tS));
+            }
 			int tIndex = tReferenceList.IndexOf (Value);
-			int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupdStyle.fixedHeight), sEntitled, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+            int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), tPopupdStyle);
 			if (rIndex != tIndex) 
 			{
 				string tNextValue = tReferenceList.ElementAt (rIndex);

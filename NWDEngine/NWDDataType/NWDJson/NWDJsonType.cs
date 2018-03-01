@@ -70,9 +70,10 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDJsonType tTemporary = new NWDJsonType ();
+            NWDJsonType tTemporary = new NWDJsonType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

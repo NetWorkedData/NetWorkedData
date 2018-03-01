@@ -100,9 +100,10 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDPrefabType tTemporary = new NWDPrefabType ();
+            NWDPrefabType tTemporary = new NWDPrefabType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
 			tTemporary.Value = Value;
 
@@ -142,7 +143,7 @@ namespace NetWorkedData
 			}
 
 			EditorGUI.BeginDisabledGroup (!tRessource);
-			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, (UnityEngine.Object)tObject, typeof(GameObject), false);
+            UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, (UnityEngine.Object)tObject, typeof(GameObject), false);
 			tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
 				if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) {

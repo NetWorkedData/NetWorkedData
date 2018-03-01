@@ -485,8 +485,8 @@ namespace NetWorkedData
         public void Draw(Rect sViewRect)
         {
             DrawCanvas(sViewRect);
-            DrawCard();
             DrawBackgroundPlot();
+            DrawCard();
             DrawForwardPlot();
             DrawPreferences();
         }

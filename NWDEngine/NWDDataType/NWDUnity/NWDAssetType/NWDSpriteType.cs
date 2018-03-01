@@ -83,9 +83,10 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDSpriteType tTemporary = new NWDSpriteType ();
+            NWDSpriteType tTemporary = new NWDSpriteType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
 			tTemporary.Value = Value;
 
@@ -125,7 +126,7 @@ namespace NetWorkedData
 				}
 			}
 			EditorGUI.BeginDisabledGroup (!tRessource);
-			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Sprite), false);
+            UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Sprite), false);
 			tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
 				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;

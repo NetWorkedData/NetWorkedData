@@ -189,9 +189,10 @@ namespace NetWorkedData
 		/// <param name="sPosition">S position.</param>
 		/// <param name="sEntitled">S entitled.</param>
 		/// <param name="sPos">S position.</param>
-		public override object ControlField (Rect sPos, string sEntitled)
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
-			NWDDateTimeRangeType tTemporary = new NWDDateTimeRangeType ();
+            NWDDateTimeRangeType tTemporary = new NWDDateTimeRangeType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
 
 			GUIStyle tSeparatorStyle = new GUIStyle (EditorStyles.label);
@@ -217,7 +218,7 @@ namespace NetWorkedData
 			float tWidthYear = tTiersWidthB + 10;
 			float tWidthMonth = tTiersWidthB - 5;
 			float tWidthDay = tTiersWidthB - 5;
-			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
+            GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
 
 			GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Start", tLabelStyle);
 			tHeightAdd += tHeightTitle;

@@ -402,11 +402,12 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled)
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
         {
             NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
             NWDReferencesQuantityType<K> tTemporary = new NWDReferencesQuantityType<K>();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
             Type sFromType = typeof(K);
             float tWidth = sPosition.width;
@@ -447,6 +448,13 @@ namespace NetWorkedData
             {
                 tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
             }
+
+            List<GUIContent> tContentFuturList = new List<GUIContent>();
+            foreach (string tS in tInternalNameList.ToArray())
+            {
+                tContentFuturList.Add(new GUIContent(tS));
+            }
+
             List<string> tValueList = new List<string>();
             List<string> tValueListReferenceAllReady = new List<string>();
             if (Value != null && Value != "")
@@ -486,7 +494,7 @@ namespace NetWorkedData
                     int.TryParse(tLineValue[1], out tQ);
                 }
 
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray(), tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tEditWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), tPopupdStyle);
 
                 if (tValueListERROR.Contains(tV))
                 {

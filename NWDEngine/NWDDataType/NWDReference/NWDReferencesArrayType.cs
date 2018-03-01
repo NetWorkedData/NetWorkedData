@@ -301,11 +301,12 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled)
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
         {
             NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
             NWDReferencesArrayType<K> tTemporary = new NWDReferencesArrayType<K>();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
             Type sFromType = typeof(K);
 

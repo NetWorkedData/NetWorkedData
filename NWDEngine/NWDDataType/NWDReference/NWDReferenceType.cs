@@ -145,11 +145,12 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
             NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
-			NWDReferenceType<K> tTemporary = new NWDReferenceType<K> ();
+            NWDReferenceType<K> tTemporary = new NWDReferenceType<K> ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			tTemporary.Value = Value;
 
 			Type sFromType = typeof(K);
@@ -195,8 +196,14 @@ namespace NetWorkedData
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}
 
+            List<GUIContent> tContentFuturList = new List<GUIContent>();
+            foreach (string tS in tInternalNameList.ToArray())
+            {
+                tContentFuturList.Add(new GUIContent(tS));
+            }
+
 			int tIndex = tReferenceList.IndexOf (Value);
-			int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), sEntitled, tIndex, tInternalNameList.ToArray (), tPopupdStyle);
+            int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), tPopupdStyle);
 
 			if (tConnexion == false) {
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <" + Value + ">", tLabelAssetStyle);

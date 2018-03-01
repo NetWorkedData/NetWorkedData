@@ -108,15 +108,16 @@ namespace NetWorkedData
 		/// <param name="sPosition">S position.</param>
 		/// <param name="sEntitled">S entitled.</param>
 		/// <param name="sPos">S position.</param>
-		public override object ControlField (Rect sPos, string sEntitled)
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
-			NWDGeolocType tTemporary = new NWDGeolocType ();
+            NWDGeolocType tTemporary = new NWDGeolocType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			GUIStyle tTextFieldStyle = new GUIStyle (EditorStyles.textField);
 			float tHeight = tTextFieldStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
+            GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
 
 			Vector2 tLatitudeLongitude = LatitudeLongitude ();
 

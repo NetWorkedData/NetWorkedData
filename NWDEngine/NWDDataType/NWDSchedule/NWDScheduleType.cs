@@ -77,9 +77,10 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDScheduleType tTemporary = new NWDScheduleType ();
+            NWDScheduleType tTemporary = new NWDScheduleType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

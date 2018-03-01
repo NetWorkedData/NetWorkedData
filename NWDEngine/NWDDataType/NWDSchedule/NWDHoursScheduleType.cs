@@ -67,11 +67,12 @@ namespace NetWorkedData
 			return tHeight * 8 + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDHoursScheduleType tTemporary = new NWDHoursScheduleType ();
+            NWDHoursScheduleType tTemporary = new NWDHoursScheduleType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
-			GUI.Label (new Rect (sPosition.x, sPosition.y, sPosition.width, sPosition.height), sEntitled);
+            GUI.Label (new Rect (sPosition.x, sPosition.y, sPosition.width, sPosition.height), tContent);
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);

@@ -180,9 +180,10 @@ namespace NetWorkedData
 		/// <param name="sPosition">S position.</param>
 		/// <param name="sEntitled">S entitled.</param>
 		/// <param name="sPos">S position.</param>
-		public override object ControlField (Rect sPos, string sEntitled)
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
-			NWDTimeRangeType tTemporary = new NWDTimeRangeType ();
+            NWDTimeRangeType tTemporary = new NWDTimeRangeType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
 
 			GUIStyle tSeparatorStyle = new GUIStyle (EditorStyles.label);

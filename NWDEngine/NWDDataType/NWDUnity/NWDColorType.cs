@@ -64,11 +64,12 @@ namespace NetWorkedData
 			GUIStyle tColorFieldStyle = new GUIStyle (EditorStyles.colorField);
 			return tColorFieldStyle.CalcHeight (new GUIContent ("A"), 100);
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        //-------------------------------------------------------------------------------------------------------------
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
 		{
 			NWDColorType tTemporary = new NWDColorType ();
-			tTemporary.SetColor (EditorGUI.ColorField (sPosition, sEntitled, GetColor ()));
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
+            tTemporary.SetColor (EditorGUI.ColorField (sPosition, tContent, GetColor ()));
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -71,9 +71,10 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDGameObjectType tTemporary = new NWDGameObjectType ();
+            NWDGameObjectType tTemporary = new NWDGameObjectType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			float tWidth = sPosition.width;
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
@@ -84,7 +85,7 @@ namespace NetWorkedData
 			if (Value != null && Value != "") {
 				tObject = AssetDatabase.LoadAssetAtPath (Value, typeof(GameObject)) as GameObject;
 			}
-			UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled, tObject, typeof(Texture2D), false);
+            UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Texture2D), false);
 			if (pObj != null) {
 				tTemporary.Value = AssetDatabase.GetAssetPath (pObj);
 			} else {

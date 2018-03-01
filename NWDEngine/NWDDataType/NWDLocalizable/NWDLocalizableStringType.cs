@@ -123,9 +123,10 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDLocalizableStringType tTemporary = new NWDLocalizableStringType ();
+            NWDLocalizableStringType tTemporary = new NWDLocalizableStringType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
 			float tWidth = sPosition.width;
 			float tHeight = sPosition.height;
@@ -170,7 +171,8 @@ namespace NetWorkedData
 			for (int i = 0; i < tValueList.Count; i++) {
 				string tFieldName = sEntitled;
 				if (i > 0) {
-					tFieldName = "   ";
+                    tFieldName = "   ";
+                    tContent = new GUIContent("   ");
 				}
 				string tLangague = "";
 				string tText = "";
@@ -187,11 +189,17 @@ namespace NetWorkedData
 				tValueFuturList.AddRange (tLangageArray);
 				tValueFuturList.Add (tLangague);
 				tValueFuturList.Sort ();
-				string[] tLangageFuturArray = tValueFuturList.ToArray ();
+                string[] tLangageFuturArray = tValueFuturList.ToArray ();
+                List<GUIContent> tContentFuturList = new List<GUIContent>();
+                foreach (string tS in tLangageFuturArray)
+                {
+                    tContentFuturList.Add(new GUIContent(tS));
+                }
 				//Debug.Log (" tLangageFuturArray =  " + string.Join(":",tLangageFuturArray));
 
 				int tIndex = tValueFuturList.IndexOf (tLangague);
-				tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
+                //tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), tPopupdStyle);
 				if (tIndex < 0 || tIndex >= tValueFuturList.Count) {
 					tIndex = 0;
 				}

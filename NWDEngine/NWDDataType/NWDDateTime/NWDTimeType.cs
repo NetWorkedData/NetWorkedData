@@ -94,9 +94,10 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPos, string sEntitled)
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
-			NWDTimeType tTemporary = new NWDTimeType ();
+            NWDTimeType tTemporary = new NWDTimeType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 //			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
 
 			GUIStyle tSeparatorStyle = new GUIStyle (EditorStyles.label);
@@ -137,7 +138,7 @@ namespace NetWorkedData
 //			float tWidthYear = tTiersWidthB + 10;
 //			float tWidthMonth = tTiersWidthB -5;
 //			float tWidthDay = tTiersWidthB -5;
-			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
+            GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
 
 			GUI.Label (new Rect (tX , sPos.y+tHeightAdd,tTiersWidthB*2+NWDConstants.kFieldMarge-2, sPos.height), ":",tSeparatorStyle);
 			GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y+tHeightAdd, tTiersWidthB*2+NWDConstants.kFieldMarge-2, sPos.height), ":",tSeparatorStyle);

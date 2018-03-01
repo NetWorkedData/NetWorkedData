@@ -124,10 +124,11 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDMultiType tTemporary = new NWDMultiType ();
-			string tNextValue = EditorGUI.TextField (sPosition , sEntitled+"*", Value);
+            NWDMultiType tTemporary = new NWDMultiType ();
+            GUIContent tContent = new GUIContent(sEntitled+ "*", sTooltips);
+            string tNextValue = EditorGUI.TextField (sPosition , tContent, Value);
 			tTemporary.Value = tNextValue;
 			return tTemporary;
 		}

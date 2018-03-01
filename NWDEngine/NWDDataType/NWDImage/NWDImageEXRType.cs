@@ -115,9 +115,10 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public override object ControlField (Rect sPosition, string sEntitled)
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
-			NWDImageEXRType tTemporary = new NWDImageEXRType ();
+            NWDImageEXRType tTemporary = new NWDImageEXRType ();
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
 			tTemporary.Value = Value;
 
@@ -143,7 +144,7 @@ namespace NetWorkedData
 
 			Texture2D tTexture = tTemporary.ToTexture ();
 			if (Value != null && Value != "" && tTexture == null) {
-				EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), sEntitled);
+                EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent);
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {

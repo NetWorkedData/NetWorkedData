@@ -540,12 +540,12 @@ namespace NetWorkedData
 
                         // get entitled and toolstips
                         string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
-                        //string tToolsTips = "";
+                        string tToolsTips = "";
                         if (tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true).Length > 0)
                         {
                             NWDEntitledAttribute tReference = (NWDEntitledAttribute)tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true)[0];
                             tEntitled = tReference.Entitled;
-                            //tToolsTips = tReference.ToolsTips;
+                            tToolsTips = tReference.ToolsTips;
                         }
 
 
@@ -574,97 +574,7 @@ namespace NetWorkedData
                         }
                         EditorGUI.BeginDisabledGroup(tDisabled);
                         //else 
-
-
                         {
-
-
-                            // Special attribut
-
-                            //							if (tProp.GetCustomAttributes (typeof(NWDReferenceAttribute), true).Length > 0) {
-                            ////								NWDReferenceAttribute tReference = (NWDReferenceAttribute)tProp.GetCustomAttributes (typeof(NWDReferenceAttribute), true) [0];
-                            ////								float tH = ReferenceFieldHeight ();
-                            ////								if (ReferenceField (new Rect (tX,tY,tWidth,tH), tEntitled, tProp.Name, tReference.mClass, tToolsTips) == true) {
-                            ////									rNeedBeUpdate = true;
-                            ////								}
-                            ////								tY+=tH + NWDConstants.kFieldMarge;
-                            //
-                            //							} else
-
-                            //								if (tProp.GetCustomAttributes (typeof(NWDReferencesListAttribute), true).Length > 0) {
-                            //								NWDReferencesListAttribute tReference = (NWDReferencesListAttribute)tProp.GetCustomAttributes (typeof(NWDReferencesListAttribute), true) [0];
-                            //								float tH = ReferencesListFieldHeight (tProp.Name);
-                            //								if (ReferencesListField (new Rect (tX, tY, tWidth, tH), tEntitled, tProp.Name, tReference.mClass, tToolsTips) == true) {
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //								tY += tH + NWDConstants.kFieldMarge;
-                            //
-                            //							} else
-                            //								if (tProp.GetCustomAttributes (typeof(NWDReferencesQuantityAttribute), true).Length > 0) {
-                            //								NWDReferencesQuantityAttribute tReference = (NWDReferencesQuantityAttribute)tProp.GetCustomAttributes (typeof(NWDReferencesQuantityAttribute), true) [0];
-                            //								float tH = ReferencesQuantityFieldHeight (tProp.Name);
-                            //								if (ReferencesQuantityField (new Rect (tX, tY, tWidth, tH), tEntitled, tProp.Name, tReference.mClass, tToolsTips) == true) {
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //								tY += tH + NWDConstants.kFieldMarge;
-                            ////							} else if (tProp.GetCustomAttributes (typeof(NWDLocalizableStringAttribute), true).Length > 0) {
-                            ////								float tH = LocalizableStringFieldHeight (tProp.Name);
-                            ////								if (LocalizableStringField (new Rect (tX,tY,tWidth,tH), tEntitled, tProp.Name, tToolsTips) == true) {
-                            ////									rNeedBeUpdate = true;
-                            ////								}
-                            ////								tY+=tH + NWDConstants.kFieldMarge;
-                            //							} else
-
-                            //								if (tProp.GetCustomAttributes (typeof(NWDPrefabAttribute), true).Length > 0) {
-                            //								string tValue = (string)tProp.GetValue (this, null);
-                            //								float tH = PrefabFieldHeight (tProp.Name);
-                            //								string tValueNext = DrawPrefabSelector (new Rect (tX, tY, tWidth, tH), tEntitled, tValue, "");
-                            //								if (tValueNext != tValue) {
-                            //									tProp.SetValue (this, tValueNext, null);
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //								tY += tH + NWDConstants.kFieldMarge;
-                            //							} else
-                            //								if (tProp.GetCustomAttributes (typeof(NWDTextureAttribute), true).Length > 0) {
-                            //								string tValue = (string)tProp.GetValue (this, null);
-                            //								float tH = TextureFieldHeight (tProp.Name);
-                            //								string tValueNext = DrawTextureSelector (new Rect (tX, tY, tWidth, tH), tEntitled, tValue, "");
-                            //								if (tValueNext != tValue) {
-                            //									tProp.SetValue (this, tValueNext, null);
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //								tY += tH + NWDConstants.kFieldMarge;
-                            //
-                            //
-                            //
-
-
-                            //							} else if (tProp.GetCustomAttributes (typeof(NWDTextAttribute), true).Length > 0) {
-                            //								string tValue = tProp.GetValue (this, null) as string;
-                            //								string tValueNext = EditorGUI.TextField (new Rect (tX,tY,tWidth,tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
-                            //								tY+=tTextFieldStyle.fixedHeight + tMarge;
-                            //
-                            //								if (tValueNext != tValue) {
-                            //									tProp.SetValue (this, tValueNext, null);
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //							} else if (tProp.GetCustomAttributes (typeof(NWDIntAttribute), true).Length > 0) {
-                            //								int tValue = (int)tProp.GetValue (this, null);
-                            //								int tValueNext = EditorGUI.IntField (new Rect (tX,tY,tWidth,tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
-                            //								tY+=tTextFieldStyle.fixedHeight + tMarge;
-                            //								if (tValueNext != tValue) {
-                            //									tProp.SetValue (this, tValueNext, null);
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //							} else if (tProp.GetCustomAttributes (typeof(NWDFloatAttribute), true).Length > 0) {
-                            //								float tValue = (float)tProp.GetValue (this, null);
-                            //								float tValueNext = EditorGUI.FloatField (new Rect (tX,tY,tWidth,tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
-                            //								tY+=tTextFieldStyle.fixedHeight + tMarge;
-                            //								if (tValueNext != tValue) {
-                            //									tProp.SetValue (this, tValueNext, null);
-                            //									rNeedBeUpdate = true;
-                            //								}
-                            //							} else
 
                             if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
                             {
@@ -689,26 +599,6 @@ namespace NetWorkedData
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
-                                //							} else if (tProp.GetCustomAttributes (typeof(NWDColorAttribute), true).Length > 0) {
-                                //								string tValue = (string)tProp.GetValue (this, null);
-                                //								Color tColor = new Color ();
-                                //								ColorUtility.TryParseHtmlString ("#" + tValue, out tColor);
-                                //								Color tColorNext = EditorGUI.ColorField (new Rect (tX,tY,tWidth,tColorFieldStyle.fixedHeight), tEntitled, tColor);
-                                //								tY+=tColorFieldStyle.fixedHeight + tMarge;
-                                //								string tValueNext = ColorUtility.ToHtmlStringRGBA (tColorNext);
-                                //								//Debug.Log (" tValueNext  = " + tValueNext);
-                                //								if (tValueNext != tValue) {
-                                //									tProp.SetValue (this, tValueNext, null);
-                                //									rNeedBeUpdate = true;
-                                //								}
-                                //							} else if (tProp.GetCustomAttributes (typeof(NWDBoolAttribute), true).Length > 0) {
-                                //								bool tValue = (bool)tProp.GetValue (this, null);
-                                //								bool tValueNext = EditorGUI.Toggle (new Rect (tX,tY,tWidth,tBoldLabelStyle.fixedHeight), tEntitled, tValue);
-                                //								tY+=tTextFieldStyle.fixedHeight + tMarge;
-                                //								if (tValueNext != tValue) {
-                                //									tProp.SetValue (this, tValueNext, null);
-                                //									rNeedBeUpdate = true;
-                                //								}
                             }
                             else if (tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
                             {
@@ -754,14 +644,11 @@ namespace NetWorkedData
                                 Type tTypeOfThis = tProp.PropertyType;
                                 //Debug.Log (tTypeOfThis.Name);
 
+                                GUIContent tContent = new GUIContent(tEntitled, tToolsTips);
                                 if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                                 {
                                     string tValue = tProp.GetValue(this, null) as string;
-                                    string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
-
-                                    //									string tValueNext = EditorGUI.TextField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, NWDConstants.TextCSVUnprotect (tValue), tTextFieldStyle);
-                                    //									tValueNext = NWDConstants.TextCSVProtect (tValueNext);
-
+                                    string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
@@ -772,7 +659,7 @@ namespace NetWorkedData
                                 else if (tTypeOfThis.IsEnum)
                                 {
                                     Enum tValue = tProp.GetValue(this, null) as Enum;
-                                    Enum tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tEntitled, tValue, tPopupdStyle);
+                                    Enum tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
                                     tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
@@ -783,7 +670,7 @@ namespace NetWorkedData
                                 else if (tTypeOfThis == typeof(bool))
                                 {
                                     bool tValue = (bool)tProp.GetValue(this, null);
-                                    bool tValueNext = EditorGUI.Toggle(new Rect(tX, tY, tWidth, tToggleStyle.fixedHeight), tEntitled, tValue, tToggleStyle);
+                                    bool tValueNext = EditorGUI.Toggle(new Rect(tX, tY, tWidth, tToggleStyle.fixedHeight), tContent, tValue, tToggleStyle);
                                     tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
@@ -794,7 +681,7 @@ namespace NetWorkedData
                                 else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64))
                                 {
                                     int tValue = (int)tProp.GetValue(this, null);
-                                    int tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
+                                    int tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
@@ -805,9 +692,10 @@ namespace NetWorkedData
                                 else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Decimal))
                                 {
                                     float tValue = (float)tProp.GetValue(this, null);
-                                    float tValueNext = EditorGUI.FloatField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
+                                    float tValueNext = EditorGUI.FloatField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
+                                    float EPSILON = 0;
+                                    if (Math.Abs(tValueNext - tValue) > EPSILON)
                                     {
                                         tProp.SetValue(this, tValueNext, null);
                                         rNeedBeUpdate = true;
@@ -816,23 +704,15 @@ namespace NetWorkedData
                                 else if (tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Double))
                                 {
                                     double tValue = (double)tProp.GetValue(this, null);
-                                    double tValueNext = EditorGUI.DoubleField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tTextFieldStyle);
+                                    double tValueNext = EditorGUI.DoubleField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                    if (tValueNext != tValue)
+                                    float EPSILON = 0;
+                                    if (Math.Abs(tValueNext - tValue) > EPSILON)
                                     {
                                         tProp.SetValue(this, tValueNext, null);
                                         rNeedBeUpdate = true;
                                     }
                                 }
-
-
-                                //TO-DO : (FUTUR ADDS) Insert new NWDxxxxType
-
-
-
-
-
-
                                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                                 {
                                     var tValue = tProp.GetValue(this, null);
@@ -842,141 +722,17 @@ namespace NetWorkedData
                                     }
                                     BTBDataType tBTBDataType = tValue as BTBDataType;
                                     BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                                                       tEntitled) as BTBDataType;
+                                                                                             tEntitled, tToolsTips) as BTBDataType;
 
                                     if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                                     {
                                         tProp.SetValue(this, tBTBDataTypeNext, null);
                                         rNeedBeUpdate = true;
                                     }
-
                                     float tHeight = tBTBDataType.ControlFieldHeight();
                                     tY += tHeight + NWDConstants.kFieldMarge;
 
-
-                                    //									var tValueNext = tValue;
-                                    //									var tMethodInfo = tTypeOfThis.GetMethod ("ControlField", BindingFlags.Public | BindingFlags.Instance);
-                                    //									if (tMethodInfo != null) {
-                                    //										tValueNext = tMethodInfo.Invoke (tValue, new object[] {
-                                    //											new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                    //											tEntitled
-                                    //										});
-                                    //									}
-                                    //									if (!tValue.Equals (tValueNext)) {
-                                    //										tProp.SetValue (this, tValueNext, null);
-                                    //										rNeedBeUpdate = true;
-                                    //									}
-
-
-                                    //									float tHeight = 0.0f;
-                                    //									var tMethodInfoHeight = tTypeOfThis.GetMethod ("ControlFieldHeight", BindingFlags.Public | BindingFlags.Instance);
-                                    //									if (tMethodInfoHeight != null) {
-                                    //										string tHeightString = tMethodInfoHeight.Invoke (tValue, null) as string;
-                                    //										float.TryParse (tHeightString, out tHeight);
-                                    //									}
-                                    //									tY += tHeight + NWDConstants.kFieldMarge;
                                 }
-
-
-                                //
-                                //
-                                //
-                                //								else if (tTypeOfThis == typeof(NWDColorType)) {
-                                //									NWDColorType tValue = (NWDColorType)tProp.GetValue (this, null);
-                                //									NWDColorType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								}
-                                //								else if (tTypeOfThis == typeof(NWDVersionType)) {
-                                //									NWDVersionType tValue = (NWDVersionType)tProp.GetValue (this, null);
-                                //									NWDVersionType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								}
-                                //
-                                //								else if (tTypeOfThis == typeof(NWDLocalizableStringType)) {
-                                //									NWDLocalizableStringType tValue = (NWDLocalizableStringType)tProp.GetValue (this, null);
-                                //									NWDLocalizableStringType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								} else if (tTypeOfThis == typeof(NWDLocalizablePrefabType)) {
-                                //									NWDLocalizablePrefabType tValue = (NWDLocalizablePrefabType)tProp.GetValue (this, null);
-                                //									NWDLocalizablePrefabType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								} else if (tTypeOfThis == typeof(NWDLocalizableTextType)) {
-                                //									NWDLocalizableTextType tValue = (NWDLocalizableTextType)tProp.GetValue (this, null);
-                                //									NWDLocalizableTextType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								} else if (tTypeOfThis == typeof(NWDPrefabType)) {
-                                //									NWDPrefabType tValue = (NWDPrefabType)tProp.GetValue (this, null);
-                                //									NWDPrefabType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								} else if (tTypeOfThis == typeof(NWDTextureType)) {
-                                //									NWDTextureType tValue = (NWDTextureType)tProp.GetValue (this, null);
-                                //									NWDTextureType tValueNext = tValue.ControlField (new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled);
-                                //									tY += tValue.ControlFieldHeight () + NWDConstants.kFieldMarge;
-                                //									if (tValue.Value != tValueNext.Value) {
-                                //										tProp.SetValue (this, tValueNext, null);
-                                //										rNeedBeUpdate = true;
-                                //									}
-                                //
-                                //								} else if (tTypeOfThis.IsGenericType) {
-                                ////									Debug.Log ("tTypeOfThis "+tTypeOfThis.Name+" HasGenericTypeDefinition ");
-                                //									if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)
-                                //									    || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>)
-                                //									    || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>)
-                                //									    || tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)) {
-                                //										var tValue = tProp.GetValue (this, null);
-                                //										var tValueNext = tValue;
-                                //										var tMethodInfo = tTypeOfThis.GetMethod ("ReferenceField", BindingFlags.Public | BindingFlags.Instance);
-                                //										if (tMethodInfo != null) {
-                                //											tValueNext = tMethodInfo.Invoke (tValue, new object[] {
-                                //												new Rect (tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                //												tEntitled
-                                //											});
-                                //										}
-                                //										if (!tValue.Equals (tValueNext)) {
-                                //											tProp.SetValue (this, tValueNext, null);
-                                //											rNeedBeUpdate = true;
-                                //										}
-                                //
-                                //										float tHeight = 0.0f;
-                                //										var tMethodInfoHeight = tTypeOfThis.GetMethod ("ReferenceFieldHeight", BindingFlags.Public | BindingFlags.Instance);
-                                //										if (tMethodInfoHeight != null) {
-                                //											string tHeightString = tMethodInfoHeight.Invoke (tValue, null) as string;
-                                //											float.TryParse (tHeightString, out tHeight);
-                                //										}
-                                //										tY += tHeight + NWDConstants.kFieldMarge;
-                                //									} 
-                                //								} 
-
                                 else
                                 {
                                     string tValue = tProp.GetValue(this, null) as string;
