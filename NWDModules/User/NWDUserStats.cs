@@ -25,16 +25,16 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
-	/// NWDUserStatsConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+	/// NWDUserStatsConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
 	/// Use like :
 	/// public class MyScriptInGame : MonoBehaviour
 	/// { 
-	/// [NWDConnexionAttribut (true, true, true, true)] // optional
-	/// public NWDUserStatsConnexion MyNetWorkedData;
+	/// [NWDConnectionAttribut (true, true, true, true)] // optional
+	/// public NWDUserStatsConnection MyNetWorkedData;
 	/// }
 	/// </summary>
 	[Serializable]
-	public class NWDUserStatsConnexion : NWDConnexion <NWDUserStats> {}
+	public class NWDUserStatsConnection : NWDConnection <NWDUserStats> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("UST")]

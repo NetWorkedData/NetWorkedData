@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDPackConnexion : NWDConnexion <NWDPack> {}
+	public class NWDPackConnection : NWDConnection <NWDPack> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("PCK")]

@@ -114,10 +114,10 @@ namespace NetWorkedData
 		{
 //			Debug.Log ("Je suis dans l'invocation de hauteur");
 
-			int tConnexion = 0;
+			int tConnection = 0;
 			if (Value != null && Value != "") {
 				if (NWDBasis<K>.InstanceByReference (Value) == null) {
-					tConnexion = 1;
+					tConnection = 1;
 				}
 			}
 			float tWidth = 100.0F;
@@ -132,7 +132,7 @@ namespace NetWorkedData
 			tLabelAssetStyle.normal.textColor = Color.gray;
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
-			float tHeight = tPopupdStyle.fixedHeight + tConnexion * (tLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
+			float tHeight = tPopupdStyle.fixedHeight + tConnection * (tLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
 				//tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
 			                tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
@@ -162,10 +162,10 @@ namespace NetWorkedData
 			float tEditWidth = NWDConstants.kEditWidth;
 
 
-			bool tConnexion = true;
+			bool tConnection = true;
 			if (Value != null && Value != "") {
 				if (NWDBasis<K>.InstanceByReference (Value) == null) {
-					tConnexion = false;
+					tConnection = false;
 				}
 			}
 
@@ -181,7 +181,7 @@ namespace NetWorkedData
 			GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
 			tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
-			EditorGUI.BeginDisabledGroup (!tConnexion);
+			EditorGUI.BeginDisabledGroup (!tConnection);
 			List<string> tReferenceList = new List<string> ();
 			List<string> tInternalNameList = new List<string> ();
 			tReferenceList.Add (NWDConstants.kFieldSeparatorA);
@@ -205,7 +205,7 @@ namespace NetWorkedData
 			int tIndex = tReferenceList.IndexOf (Value);
             int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), tPopupdStyle);
 
-			if (tConnexion == false) {
+			if (tConnection == false) {
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <" + Value + ">", tLabelAssetStyle);
 
 			}
@@ -239,7 +239,7 @@ namespace NetWorkedData
 			tY = tY + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;
 			EditorGUI.EndDisabledGroup ();
 
-			if (tConnexion == false) {
+			if (tConnection == false) {
 				tTemporary.Value = Value;
 
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, tLabelStyle);

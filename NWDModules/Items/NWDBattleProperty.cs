@@ -27,16 +27,16 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
-	/// NWDExampleConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+	/// NWDExampleConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
 	/// Use like :
 	/// public class MyScriptInGame : MonoBehaviour
 	/// { 
-	/// [NWDConnexionAttribut (true, true, true, true)] // optional
-	/// public NWDExampleConnexion MyNetWorkedData;
+	/// [NWDConnectionAttribut (true, true, true, true)] // optional
+	/// public NWDExampleConnection MyNetWorkedData;
 	/// }
 	/// </summary>
 	[Serializable]
-	public class NWDBattlePropertyConnexion : NWDConnexion <NWDBattleProperty> {}
+	public class NWDBattlePropertyConnection : NWDConnection <NWDBattleProperty> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("BTP")]

@@ -19,7 +19,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDShopConnexion : NWDConnexion <NWDShop> {}
+	public class NWDShopConnection : NWDConnection <NWDShop> {}
     //-----------------------------------------------------------------------------------------------------------------
     public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughPackToBuy, EnoughPackToBuy, CanBuy, Failed }
     //-----------------------------------------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ namespace NetWorkedData
 			// TODO use NWDConstants for these strings
 			// TODO use GUI without layout
 			EditorGUILayout.BeginVertical (GUILayout.Width(300.0f));
-			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connexion with server", MessageType.None);
+			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connection with server", MessageType.None);
 			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
 			AppName = EditorGUILayout.TextField ("AppName", AppName);
 			EditorGUILayout.TextField ("Security of Datas"+ Environment, EditorStyles.boldLabel);

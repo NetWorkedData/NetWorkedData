@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDRequestTokenConnexion : NWDConnexion <NWDRequestToken> {}
+	public class NWDRequestTokenConnection : NWDConnection <NWDRequestToken> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (false)]
 	[NWDClassTrigrammeAttribute ("RQT")]

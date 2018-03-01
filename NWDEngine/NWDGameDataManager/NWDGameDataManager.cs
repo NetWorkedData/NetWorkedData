@@ -25,7 +25,7 @@ namespace NetWorkedData
 {
 	/// <summary>
 	/// NWD game data manager.
-	/// The GameObject monobehaviour connexion
+	/// The GameObject monobehaviour connection
 	/// Use in game to acces to specific method and create a simulate singleton instance 
 	/// The sigleton instance was connect to :
 	/// Data Manager
@@ -221,7 +221,7 @@ namespace NetWorkedData
 
         public NWDNetworkState NetworkStatut = NWDNetworkState.Unknow;
         //-------------------------------------------------------------------------------------------------------------
-        // Test network connexion
+        // Test network connection
         public void NetworkStatutChange(NWDNetworkState sNewNetWorkStatut)
         {
             if (sNewNetWorkStatut != NetworkStatut)

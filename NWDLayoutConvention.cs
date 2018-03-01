@@ -209,8 +209,8 @@ namespace NetWorkedData
 		// Insert instance methods here
 		// [CONVENTION] all public before private
 
-		// [CONVENTION] method suffix by Interface Connexion
-		// [CONVENTION] xxxxxAction if is use as interface connexion action
+		// [CONVENTION] method suffix by Interface Connection
+		// [CONVENTION] xxxxxAction if is use as interface connection action
 
 		//-------------------------------------------------------------------------------------------------------------
 		// [CONVENTION] HeaderDoc for methods is compulsory indication

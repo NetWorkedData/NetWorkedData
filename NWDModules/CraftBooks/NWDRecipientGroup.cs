@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-    public class NWDRecipientGroupConnexion : NWDConnexion <NWDRecipientGroup> {}
+    public class NWDRecipientGroupConnection : NWDConnection <NWDRecipientGroup> {}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("RCP")]

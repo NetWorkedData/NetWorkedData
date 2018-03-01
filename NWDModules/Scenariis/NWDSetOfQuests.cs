@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public class NWDSetOfQuestsConnexion : NWDConnexion<NWDSetOfQuests>
+    public class NWDSetOfQuestsConnection : NWDConnection<NWDSetOfQuests>
     {
     }
     //-------------------------------------------------------------------------------------------------------------

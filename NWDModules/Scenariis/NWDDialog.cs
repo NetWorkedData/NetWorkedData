@@ -58,7 +58,7 @@ namespace NetWorkedData
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public class NWDDialogConnexion : NWDConnexion<NWDDialog>
+    public class NWDDialogConnection : NWDConnection<NWDDialog>
     {
     }
     //-------------------------------------------------------------------------------------------------------------

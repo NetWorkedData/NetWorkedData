@@ -240,7 +240,7 @@ namespace NetWorkedData
 							NWDOperationResult tInfosResult = new NWDOperationResult (tData);
 							tInfosResult.Octects = Request.downloadHandler.text.Length;
 
-							// memorize the token for next connexion
+							// memorize the token for next connection
 							if (!tInfosResult.token.Equals (""))
                             {
 								Environment.RequesToken = tInfosResult.token;

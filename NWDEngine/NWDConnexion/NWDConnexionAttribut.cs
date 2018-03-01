@@ -21,7 +21,7 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public class NWDConnexionAttribut : PropertyAttribute
+	public class NWDConnectionAttribut : PropertyAttribute
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public bool ShowInspector = false;
@@ -29,11 +29,11 @@ namespace NetWorkedData
 		public bool EditButton = true;
 		public bool NewButton = true;
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDConnexionAttribut ()
+		public NWDConnectionAttribut ()
 		{
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDConnexionAttribut (bool sShowInspector, bool sEditable = false, bool sEditButton = true, bool sNewButton = true)
+		public NWDConnectionAttribut (bool sShowInspector, bool sEditable = false, bool sEditButton = true, bool sNewButton = true)
 		{
 			ShowInspector = sShowInspector;
 			Editable = sEditable;

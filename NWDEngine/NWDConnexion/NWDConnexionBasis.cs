@@ -23,7 +23,7 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-	public abstract class NWDConnexionBasis
+	public abstract class NWDConnectionBasis
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[SerializeField]

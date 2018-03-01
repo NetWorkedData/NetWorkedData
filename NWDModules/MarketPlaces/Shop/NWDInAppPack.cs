@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDInAppPackConnexion : NWDConnexion <NWDInAppPack> {}
+	public class NWDInAppPackConnection : NWDConnection <NWDInAppPack> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("IAP")]

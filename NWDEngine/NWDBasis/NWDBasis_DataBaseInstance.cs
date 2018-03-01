@@ -88,7 +88,7 @@ namespace NetWorkedData
             this.Reference = this.NewReference();
             foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
             {
-                Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
+                Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
                 tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                 tPropInfo.SetValue(this, tAtt, null);
@@ -142,7 +142,7 @@ namespace NetWorkedData
                 }
                 foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
                 {
-                    Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
+                    Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                     NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
                     tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     tPropInfo.SetValue(rReturnObject, tAtt, null);
@@ -178,7 +178,7 @@ namespace NetWorkedData
         //    }
         //    foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
         //    {
-        //        Debug.Log("try to insert automatically the account reference in the NWDAccount connexion property : " + tPropInfo.Name);
+        //        Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
         //        NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
         //        tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         //        tPropInfo.SetValue(this, tAtt, null);

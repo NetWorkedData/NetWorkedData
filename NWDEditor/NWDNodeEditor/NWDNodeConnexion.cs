@@ -14,7 +14,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDNodeConnexionType : byte
+    public enum NWDNodeConnectionType : byte
     {
         None,
         Valid,
@@ -22,37 +22,37 @@ namespace NetWorkedData
         OldCard,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDNodeConnexionLine
+    public class NWDNodeConnectionLine
     {
-        public NWDNodeConnexionType Style = NWDNodeConnexionType.Valid;
+        public NWDNodeConnectionType Style = NWDNodeConnectionType.Valid;
         public NWDNodeCard Child;
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDNodeConnexion
+    public class NWDNodeConnection
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDNodeCard Parent;
         public string PropertyName;
         public PropertyInfo Property;
-        public List<NWDNodeConnexionLine> ChildrenList = new List<NWDNodeConnexionLine>();
+        public List<NWDNodeConnectionLine> ChildrenList = new List<NWDNodeConnectionLine>();
         public Vector2 Position;
         public Vector2 CirclePosition;
         public Vector2 PositionTangent;
         public Rect Rectangle;
         public bool AddButton = true;
-        //public bool ConnexionToPreviewCard = false;
+        //public bool ConnectionToPreviewCard = false;
         //-------------------------------------------------------------------------------------------------------------
         public void DrawBackgroundLine()
         {
-            //Debug.Log("NWDNodeConnexion DrawLine()");
-            foreach (NWDNodeConnexionLine tCardLine in ChildrenList)
+            //Debug.Log("NWDNodeConnection DrawLine()");
+            foreach (NWDNodeConnectionLine tCardLine in ChildrenList)
             {
                 NWDNodeCard tCard = tCardLine.Child;
                 if (tCard != null)
                 {
                     switch (tCardLine.Style)
                     {
-                        case NWDNodeConnexionType.Valid:
+                        case NWDNodeConnectionType.Valid:
                             {
                                 //Handles.color = Color.red;
                                 //Handles.DrawLine(Position, tCard.Position);
@@ -62,18 +62,18 @@ namespace NetWorkedData
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 2.0F);
                             }
                             break;
-                        case NWDNodeConnexionType.Broken:
+                        case NWDNodeConnectionType.Broken:
                             {
                                 Handles.color = Color.red;
                                 Handles.DrawLine(Position, tCard.Position);
                             }
                             break;
-                        case NWDNodeConnexionType.OldCard:
+                        case NWDNodeConnectionType.OldCard:
                             {
                                 Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, NWDConstants.kNodeLineColor, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
-                        case NWDNodeConnexionType.None:
+                        case NWDNodeConnectionType.None:
                             {
                             }
                             break;
@@ -84,7 +84,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DrawForwardPlot()
         {
-            // Debug.Log("NWDNodeConnexion DrawPlot()");
+            // Debug.Log("NWDNodeConnection DrawPlot()");
             if (ChildrenList.Count > 0)
             {
                 Handles.color = NWDConstants.kNodeLineColor;

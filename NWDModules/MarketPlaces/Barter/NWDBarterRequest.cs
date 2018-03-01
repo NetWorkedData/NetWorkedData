@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDBarterRequestConnexion : NWDConnexion <NWDBarterRequest> {}
+	public class NWDBarterRequestConnection : NWDConnection <NWDBarterRequest> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("BRR")]

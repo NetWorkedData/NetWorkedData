@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -25,16 +25,16 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
-	/// NWDUserInfosConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+	/// NWDUserInfosConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
 	/// Use like :
 	/// public class MyScriptInGame : MonoBehaviour
 	/// { 
-	/// [NWDConnexionAttribut (true, true, true, true)] // optional
-	/// public NWDUserInfosConnexion MyNetWorkedData;
+	/// [NWDConnectionAttribut (true, true, true, true)] // optional
+	/// public NWDUserInfosConnection MyNetWorkedData;
 	/// }
 	/// </summary>
 	[Serializable]
-	public class NWDUserInfosConnexion : NWDConnexion <NWDUserInfos> {}
+	public class NWDUserInfosConnection : NWDConnection <NWDUserInfos> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("UFO")]
@@ -308,14 +308,14 @@ namespace NetWorkedData
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
-	#region Connexion NWDUserInfos with Unity MonoBehavior
+	#region Connection NWDUserInfos with Unity MonoBehavior
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
-	/// NWDUserInfos connexion.
+	/// NWDUserInfos connection.
 	/// In your MonoBehaviour Script connect object with :
 	/// <code>
-	///	[NWDConnexionAttribut(true,true, true, true)]
-	/// public NWDUserInfosConnexion MyNWDUserInfosObject;
+	///	[NWDConnectionAttribut(true,true, true, true)]
+	/// public NWDUserInfosConnection MyNWDUserInfosObject;
 	/// </code>
 	/// </summary>
 	//-------------------------------------------------------------------------------------------------------------

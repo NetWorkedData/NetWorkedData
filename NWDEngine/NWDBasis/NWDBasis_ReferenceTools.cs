@@ -193,7 +193,7 @@ namespace NetWorkedData
 						if (
 							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceHashType<>) ||
 							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>) ||
-//							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDConnexionType<>) ||
+//							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDConnectionType<>) ||
 							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesListType<>) ||
 							tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferencesQuantityType<>)) {
 

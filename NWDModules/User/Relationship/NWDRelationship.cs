@@ -46,7 +46,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
-    public class NWDFriendConnexion : NWDConnexion<NWDRelationship>
+    public class NWDFriendConnection : NWDConnection<NWDRelationship>
     {
     }
     //-------------------------------------------------------------------------------------------------------------

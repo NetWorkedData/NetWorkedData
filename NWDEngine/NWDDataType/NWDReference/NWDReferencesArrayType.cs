@@ -259,7 +259,7 @@ namespace NetWorkedData
         {
             int tRow = 1;
 
-            int tConnexion = 0;
+            int tConnection = 0;
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -267,7 +267,7 @@ namespace NetWorkedData
                 List<string> tValueListERROR = ReferenceInError(new List<string>(tValueArray));
                 if (tValueListERROR.Count > 0)
                 {
-                    tConnexion = 1;
+                    tConnection = 1;
                 }
             }
 
@@ -285,7 +285,7 @@ namespace NetWorkedData
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
 
             float tHeight = (tPopupdStyle.CalcHeight(new GUIContent("A"), 100.0f) + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge +
-                tConnexion * (tLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
+                tConnection * (tLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
                     //tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
                     tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
@@ -328,7 +328,7 @@ namespace NetWorkedData
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
             tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
 
-            bool tConnexion = true;
+            bool tConnection = true;
 
 
             List<string> tReferenceList = new List<string>();
@@ -363,10 +363,10 @@ namespace NetWorkedData
             List<string> tValueListERROR = ReferenceInError(tValueList);
             if (tValueListERROR.Count > 0)
             {
-                tConnexion = false;
+                tConnection = false;
             }
 
-            EditorGUI.BeginDisabledGroup(!tConnexion);
+            EditorGUI.BeginDisabledGroup(!tConnection);
 
             tValueList.Add("");
             string tNewReference = "";
@@ -422,7 +422,7 @@ namespace NetWorkedData
 
             EditorGUI.EndDisabledGroup();
 
-            if (tConnexion == false)
+            if (tConnection == false)
             {
                 tTemporary.Value = Value;
 

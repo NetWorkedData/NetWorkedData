@@ -86,7 +86,7 @@ namespace NetWorkedData
                 "\t$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';\n" +
                 "\t$SQL_PSW = '" + ServerPassword.Replace("'", "\'") + "';\n" +
                 "\t$SQL_BSE = '" + ServerBase.Replace("'", "\'") + "';\n" +
-                "\t\t//connexion to mysql socket\n" +
+                "\t\t//connection to mysql socket\n" +
                 "\t$SQL_CON = '';\n" +
                 "\t$SQL_CONDB = '';\n" +
                 "\t$SQL_MNG = false;\n" +

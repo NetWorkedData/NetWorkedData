@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDPreferencesConnexion : NWDConnexion <NWDPreferences> {}
+	public class NWDPreferencesConnection : NWDConnection <NWDPreferences> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("PRF")]

@@ -25,16 +25,16 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDUserNicknameConnexion can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+    /// NWDUserNicknameConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
     /// Use like :
     /// public class MyScriptInGame : MonoBehaviour
     /// { 
-    /// [NWDConnexionAttribut (true, true, true, true)] // optional
-    /// public NWDUserNicknameConnexion MyNetWorkedData;
+    /// [NWDConnectionAttribut (true, true, true, true)] // optional
+    /// public NWDUserNicknameConnection MyNetWorkedData;
     /// }
     /// </summary>
     [Serializable]
-    public class NWDUserNicknameConnexion : NWDConnexion<NWDUserNickname>
+    public class NWDUserNicknameConnection : NWDConnection<NWDUserNickname>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -282,14 +282,14 @@ namespace NetWorkedData
     }
 
     //-------------------------------------------------------------------------------------------------------------
-    #region Connexion NWDUserNickname with Unity MonoBehavior
+    #region Connection NWDUserNickname with Unity MonoBehavior
     //-------------------------------------------------------------------------------------------------------------
     /// <summary>
-    /// NWDUserNickname connexion.
+    /// NWDUserNickname connection.
     /// In your MonoBehaviour Script connect object with :
     /// <code>
-    ///	[NWDConnexionAttribut(true,true, true, true)]
-    /// public NWDUserNicknameConnexion MyNWDUserNicknameObject;
+    ///	[NWDConnectionAttribut(true,true, true, true)]
+    /// public NWDUserNicknameConnection MyNWDUserNicknameObject;
     /// </code>
     /// </summary>
     //-------------------------------------------------------------------------------------------------------------

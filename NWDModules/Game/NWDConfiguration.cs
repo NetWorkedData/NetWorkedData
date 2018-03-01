@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDConfigurationConnexion : NWDConnexion <NWDConfiguration> {}
+	public class NWDConfigurationConnection : NWDConnection <NWDConfiguration> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("CNF")]

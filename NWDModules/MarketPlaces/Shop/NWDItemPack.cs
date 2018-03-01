@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDItemPackConnexion : NWDConnexion <NWDItemPack> {}
+	public class NWDItemPackConnection : NWDConnection <NWDItemPack> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("ITP")]

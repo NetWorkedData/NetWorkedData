@@ -61,7 +61,7 @@ namespace NetWorkedData
     }
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDCharacterConnexion : NWDConnexion <NWDCharacter> {}
+	public class NWDCharacterConnection : NWDConnection <NWDCharacter> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("CHR")]

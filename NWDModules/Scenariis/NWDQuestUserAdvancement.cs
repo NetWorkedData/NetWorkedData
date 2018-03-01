@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public class NWDQuestUserAdvancementConnexion : NWDConnexion<NWDQuestUserAdvancement>
+    public class NWDQuestUserAdvancementConnection : NWDConnection<NWDQuestUserAdvancement>
     {
     }
     //-------------------------------------------------------------------------------------------------------------

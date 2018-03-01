@@ -35,7 +35,7 @@ namespace NetWorkedData
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public class NWDQuestConnexion : NWDConnexion<NWDQuest>
+    public class NWDQuestConnection : NWDConnection<NWDQuest>
     {
     }
     //-------------------------------------------------------------------------------------------------------------

@@ -731,7 +731,7 @@ namespace NetWorkedData
 		//				request.send ();
 		//			} else {
 		//				//SynchronizeRepeat = true;
-		//				// Not necessairy to repeat, the first connexion is in pogress by another task :-)
+		//				// Not necessairy to repeat, the first connection is in pogress by another task :-)
 		//
 		//				Debug.Log ("webservice all ready in progress");
 		//			}

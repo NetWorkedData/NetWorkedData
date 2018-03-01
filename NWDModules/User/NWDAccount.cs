@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-----------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDAccountConnexion : NWDConnexion <NWDAccount> {}
+	public class NWDAccountConnection : NWDConnection <NWDAccount> {}
 	//-----------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (false)]
 	[NWDClassTrigrammeAttribute ("ACC")]

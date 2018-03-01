@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDTipsAndTricksConnexion : NWDConnexion <NWDTipsAndTricks> {}
+	public class NWDTipsAndTricksConnection : NWDConnection <NWDTipsAndTricks> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("TAT")]

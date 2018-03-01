@@ -26,19 +26,19 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	// TODO: create class to anaylze the connexion between class
-//	public class NWDTypeConnexions {
+	// TODO: create class to anaylze the connection between class
+//	public class NWDTypeConnections {
 //		//-------------------------------------------------------------------------------------------------------------
-//		private static readonly  NWDTypeConnexions kSharedInstance = new NWDTypeConnexions ();
+//		private static readonly  NWDTypeConnections kSharedInstance = new NWDTypeConnections ();
 //		//-------------------------------------------------------------------------------------------------------------
-//		public static NWDTypeConnexions SharedInstance {
+//		public static NWDTypeConnections SharedInstance {
 //			get {
 //				//Debug.Log ("Singleton");
 //				return kSharedInstance; 
 //			}
 //		}
 //		//-------------------------------------------------------------------------------------------------------------
-//		public static void ReccordConnexion (Type sTypeClass, Type sToTypeClass, PropertyInfo sProperty)
+//		public static void ReccordConnection (Type sTypeClass, Type sToTypeClass, PropertyInfo sProperty)
 //		{
 //			
 //		}

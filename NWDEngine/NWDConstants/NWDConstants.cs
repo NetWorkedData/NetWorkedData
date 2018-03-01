@@ -59,7 +59,7 @@ namespace NetWorkedData
         public static float kEditWidthMini = 12.0f;
         public static float kEditWidthMiniHalf = 6.0f;
         public static float kLangWidth = 50.0f;
-        public static float kConnexionIndent = 10.0f;
+        public static float kConnectionIndent = 10.0f;
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
         public const string K_SYNC_ALERT_TITLE = "ALERT PRODUCTION";
@@ -118,19 +118,19 @@ namespace NetWorkedData
         public const string K_MENU_DEV_CREATE_TABLES = K_MENU_BASE + K_MENU_DEV + "/Update all server's tables";
         public const string K_MENU_DEV_SYNCHRONIZE_DATAS = K_MENU_BASE + K_MENU_DEV + "/Synchronize datas on server";
         public const string K_MENU_DEV_FORCE_SYNCHRONIZE = K_MENU_BASE + K_MENU_DEV + "/Force synchronization on server";
-        public const string K_MENU_DEV_RESET_CONNEXION = K_MENU_BASE + K_MENU_DEV + "/Reset connexion with server";
+        public const string K_MENU_DEV_RESET_CONNEXION = K_MENU_BASE + K_MENU_DEV + "/Reset connection with server";
         public const string K_MENU_DEV_FLUSH_CONNEXION = K_MENU_BASE + K_MENU_DEV + "/Flush Web queue";
 
         public const string K_MENU_PREPROD_CREATE_TABLES = K_MENU_BASE + K_MENU_PREPROD + "/Update all server's tables";
         public const string K_MENU_PREPROD_SYNCHRONIZE_DATAS = K_MENU_BASE + K_MENU_PREPROD + "/Synchronize datas on server";
         public const string K_MENU_PREPROD_FORCE_SYNCHRONIZE = K_MENU_BASE + K_MENU_PREPROD + "/Force synchronization on server";
-        public const string K_MENU_PREPROD_RESET_CONNEXION = K_MENU_BASE + K_MENU_PREPROD + "/Reset connexion with server";
+        public const string K_MENU_PREPROD_RESET_CONNEXION = K_MENU_BASE + K_MENU_PREPROD + "/Reset connection with server";
         public const string K_MENU_PREPROD_FLUSH_CONNEXION = K_MENU_BASE + K_MENU_PREPROD + "/Flush Web queue";
 
         public const string K_MENU_PROD_CREATE_TABLES = K_MENU_BASE + K_MENU_PROD + "/Update all server's tables";
         public const string K_MENU_PROD_SYNCHRONIZE_DATAS = K_MENU_BASE + K_MENU_PROD + "/Synchronize datas on server";
         public const string K_MENU_PROD_FORCE_SYNCHRONIZE = K_MENU_BASE + K_MENU_PROD + "/Force synchronization on server";
-        public const string K_MENU_PROD_RESET_CONNEXION = K_MENU_BASE + K_MENU_PROD + "/Reset connexion with server";
+        public const string K_MENU_PROD_RESET_CONNEXION = K_MENU_BASE + K_MENU_PROD + "/Reset connection with server";
         public const string K_MENU_PROD_FLUSH_CONNEXION = K_MENU_BASE + K_MENU_PROD + "/Flush Web queue";
 
         public const string K_MENU_LOCAL_CREATE_TABLES = K_MENU_BASE + K_MENU_LOCAL + "/Create all tables on local";
@@ -147,7 +147,7 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         // App Configurations Strings
-        public const string K_APP_CONFIGURATION_HELPBOX = "Project configuration for connexion with server";
+        public const string K_APP_CONFIGURATION_HELPBOX = "Project configuration for connection with server";
         public const string K_APP_CONFIGURATION_MENU_NAME = "Environments configurations";
         public const string K_APP_CONFIGURATION_DEV = "Development";
         public const string K_APP_CONFIGURATION_PREPROD = "PreProduction";

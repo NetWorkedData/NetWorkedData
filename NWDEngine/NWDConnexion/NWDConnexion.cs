@@ -28,7 +28,7 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-	public class NWDConnexion <K> : NWDConnexionBasis where K : NWDBasis <K>, new()
+	public class NWDConnection <K> : NWDConnectionBasis where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public K GetObject ()

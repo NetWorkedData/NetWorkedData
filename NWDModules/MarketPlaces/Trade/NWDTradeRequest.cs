@@ -27,7 +27,7 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDTradeRequestConnexion : NWDConnexion <NWDTradeRequest> {}
+	public class NWDTradeRequestConnection : NWDConnection <NWDTradeRequest> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("TRR")]

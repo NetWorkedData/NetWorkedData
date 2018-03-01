@@ -32,7 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public static string ReferenceConnexionHeight(string sValue, bool sShowInspector)
+        public static string ReferenceConnectionHeight(string sValue, bool sShowInspector)
         {
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
@@ -71,7 +71,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         const float tBorder = 1.0f;
         //-------------------------------------------------------------------------------------------------------------
-        public static string ReferenceConnexionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
+        public static string ReferenceConnectionField(Rect sPosition, string sEntitled, string sValue, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         {
             float tX = sPosition.x;
             float tY = sPosition.y;
@@ -195,7 +195,7 @@ namespace NetWorkedData
             return tValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static float ReferenceConnexionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
+        public static float ReferenceConnectionHeightSerialized(SerializedProperty sProperty, bool sShowInspector)
         {
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
@@ -243,15 +243,15 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string ReferenceConnexionHeightSerializedString(SerializedProperty sProperty, bool sShowInspector)
+        public static string ReferenceConnectionHeightSerializedString(SerializedProperty sProperty, bool sShowInspector)
         {
-            return ReferenceConnexionHeightSerialized(sProperty, sShowInspector).ToString();
+            return ReferenceConnectionHeightSerialized(sProperty, sShowInspector).ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool kInspectorFoldout = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// References the connexion field serialized.
+        /// References the connection field serialized.
         /// </summary>
         /// <param name="sPosition">position.</param>
         /// <param name="sEntitled">entitled.</param>
@@ -261,7 +261,7 @@ namespace NetWorkedData
         /// <param name="sEditionEnable">If set to <c>true</c> edition enable.</param>
         /// <param name="sEditButton">If set to <c>true</c> edit button.</param>
         /// <param name="sNewButton">If set to <c>true</c> new button.</param>
-        public static void ReferenceConnexionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
+        public static void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         {
 
             GUIContent tLabelContent = new GUIContent(sEntitled);
@@ -290,18 +290,18 @@ namespace NetWorkedData
                 tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
                 tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), 100);
 
-                // test if connexion is ok or ko
-                bool tConnexion = true;
+                // test if connection is ok or ko
+                bool tConnection = true;
                 if (tValue != null && tValue != "")
                 {
                     if (NWDBasis<K>.InstanceByReference(tValue) == null)
                     {
-                        tConnexion = false;
+                        tConnection = false;
                     }
                 }
 
                 // editable? 
-                EditorGUI.BeginDisabledGroup(!tConnexion);
+                EditorGUI.BeginDisabledGroup(!tConnection);
 
                 // find class and invoke methods
                 Type tType = ClassType();
@@ -373,9 +373,9 @@ namespace NetWorkedData
                         if (kInspectorFoldout == true)
                         {
                             Rect tRectToHelpBox = new Rect(
-                                tX + NWDConstants.kConnexionIndent,
+                                tX + NWDConstants.kConnectionIndent,
                                                          tY,
-                                sPosition.width - NWDConstants.kConnexionIndent,
+                                sPosition.width - NWDConstants.kConnectionIndent,
                                 sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
 
 
@@ -429,7 +429,7 @@ namespace NetWorkedData
 
                 EditorGUI.EndDisabledGroup();
 
-                if (tConnexion == false)
+                if (tConnection == false)
                 {
                     //GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, tLabelStyle);
                     //tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
