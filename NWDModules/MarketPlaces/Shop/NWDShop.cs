@@ -77,12 +77,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDShop()
         {
-            Debug.Log("NWDShop Constructor");
+            //Debug.Log("NWDShop Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDShop(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDShop Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+           //Debug.Log("NWDShop Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

@@ -68,12 +68,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBattleProperty()
         {
-            Debug.Log("NWDBattleProperty Constructor");
+            //Debug.Log("NWDBattleProperty Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBattleProperty(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDBattleProperty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDBattleProperty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

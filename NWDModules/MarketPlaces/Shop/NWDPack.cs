@@ -82,12 +82,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPack()
         {
-            Debug.Log("NWDPack Constructor");
+            //Debug.Log("NWDPack Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDPack(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDPack Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDPack Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

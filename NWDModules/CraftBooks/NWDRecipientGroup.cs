@@ -88,12 +88,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRecipientGroup()
         {
-            Debug.Log("NWDRecipientGroup Constructor");
+            //Debug.Log("NWDRecipientGroup Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDRecipientGroup(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDRecipientGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDRecipientGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()

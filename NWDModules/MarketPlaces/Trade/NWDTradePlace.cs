@@ -100,12 +100,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTradePlace()
         {
-            Debug.Log("NWDTradePlace Constructor");
+            //Debug.Log("NWDTradePlace Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDTradePlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDTradePlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

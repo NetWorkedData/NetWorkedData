@@ -66,12 +66,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPreferences()
         {
-            Debug.Log("NWDPreferences Constructor");
+            //Debug.Log("NWDPreferences Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDPreferences(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDPreferences Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDPreferences Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

@@ -64,12 +64,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDInAppPack()
         {
-            Debug.Log("NWDInAppPack Constructor");
+            //Debug.Log("NWDInAppPack Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDInAppPack(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDInAppPack Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDInAppPack Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

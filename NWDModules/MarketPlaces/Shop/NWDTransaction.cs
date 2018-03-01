@@ -71,12 +71,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTransaction()
         {
-            Debug.Log("NWDTransaction Constructor");
+            //Debug.Log("NWDTransaction Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTransaction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDTransaction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDTransaction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

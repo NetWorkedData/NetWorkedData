@@ -100,7 +100,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K[] EditorGetObjects()
         {
-            return new K[] { NWDBasis<K>.InstanceByReference(Value) as K };
+            List<K> rReturn = new List<K>();
+            K tObj = NWDBasis<K>.InstanceByReference(Value) as K;
+                if (tObj != null)
+                {
+                    rReturn.Add(tObj);
+                }
+            return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void EditorAddNewObject()

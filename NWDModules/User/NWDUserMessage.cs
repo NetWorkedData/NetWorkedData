@@ -74,12 +74,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDUserMessage ()
         {
-            Debug.Log("NWDUserMessage Constructor");
+            //Debug.Log("NWDUserMessage Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserMessage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDUserMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDUserMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

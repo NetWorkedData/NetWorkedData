@@ -87,12 +87,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDConfiguration ()
         {
-           Debug.Log("NWDConfiguration Constructor");
+           //Debug.Log("NWDConfiguration Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDConfiguration(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-           Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+           //Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()

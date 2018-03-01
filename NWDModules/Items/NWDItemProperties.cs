@@ -64,12 +64,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItemProperties()
         {
-            Debug.Log("NWDItemProperties Constructor");
+            //Debug.Log("NWDItemProperties Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDItemProperties(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDItemProperties Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDItemProperties Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

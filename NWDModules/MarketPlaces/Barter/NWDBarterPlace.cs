@@ -84,12 +84,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterPlace()
         {
-            Debug.Log("NWDBarterPlace Constructor");
+            //Debug.Log("NWDBarterPlace Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBarterPlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

@@ -76,12 +76,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTipsAndTricks()
         {
-            Debug.Log("NWDTipsAndTricks Constructor");
+            //Debug.Log("NWDTipsAndTricks Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTipsAndTricks(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDTipsAndTricks Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDTipsAndTricks Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

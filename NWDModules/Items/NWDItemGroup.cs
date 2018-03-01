@@ -74,12 +74,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDItemGroup()
         {
-            Debug.Log("NWDItemGroup Constructor");
+            //Debug.Log("NWDItemGroup Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDItemGroup(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDItemGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDItemGroup Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

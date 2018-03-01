@@ -27,16 +27,47 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
-    public class NWDQuestUserAdvancementConnection : NWDConnection<NWDQuestUserAdvancement>
+    public enum NWDQuestState : int
+    {
+        None,
+        Start,
+        StartAlternate,
+        Accept,
+        Refuse,
+        Success,
+        Cancel,
+        Failed,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDDialogState : int
+    {
+        Sequent,
+        Step,
+        Stop,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDDialogAnswerType : int
+    {
+        None,
+        Default,
+        Cancel,
+        Validate,
+        Destructive,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public class NWDDialogConnection : NWDConnection<NWDDialog>
     {
     }
     //-------------------------------------------------------------------------------------------------------------
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("QUA")]
-    [NWDClassDescriptionAttribute("Quest User Advancement descriptions Class")]
-    [NWDClassMenuNameAttribute("Quest User Advancement")]
+    [NWDClassTrigrammeAttribute("DLG")]
+    [NWDClassDescriptionAttribute("Dialog descriptions Class")]
+    [NWDClassMenuNameAttribute("Dialog")]
     //-------------------------------------------------------------------------------------------------------------
-    public partial class NWDQuestUserAdvancement : NWDBasis<NWDQuestUserAdvancement>
+    public partial class NWDDialog : NWDBasis<NWDDialog>
     {
         //-------------------------------------------------------------------------------------------------------------
         //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -48,64 +79,76 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        public NWDReferenceType<NWDAccount> AccountReference
+        [NWDGroupStartAttribute("Reply for preview Dialog (optional)", true, true, true)]
+        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
         {
             get; set;
         }
-        public NWDReferenceType<NWDQuest> QuestReference
+        public NWDReferencesQuantityType<NWDItem> ItemsRequired
         {
             get; set;
         }
-        public NWDQuestState QuestState
+        public NWDDialogAnswerType AnswerType
+        {
+            get; set;
+        } // default, cancel, ok ...
+        public NWDDialogState AnswerState
+        {
+            get; set;
+        } // sequent, step, finish
+        public NWDQuestState QuestStep
         {
             get; set;
         }
-        public int AcceptCounter
+        public NWDLocalizableStringType Answer
         {
             get; set;
         }
-        public int RefuseCounter
+        [NWDGroupEnd]
+        [NWDSeparator]
+        [NWDGroupStartAttribute("Dialog", true, true, true)]
+        public NWDReferenceType<NWDCharacter> CharacterReference
         {
             get; set;
         }
-        public int FinishCounter
+        public NWDCharacterEmotion CharacterEmotion
         {
             get; set;
         }
-        public int SuccessCounter
+        public NWDLocalizableTextType Dialog
         {
             get; set;
         }
-        public int CancelCounter
+        [NWDGroupEndAttribute]
+        [NWDSeparator]
+        [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
+        public NWDReferencesListType<NWDDialog> NextDialogs
         {
             get; set;
         }
-        public int FailCounter
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDDialog> LastDialogReference
-        {
-            get; set;
-        }
+
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDQuestUserAdvancement()
+        public NWDDialog()
         {
-            Debug.Log("NWDQuestUserAdvancement Constructor");
+            //Debug.Log("NWDDialog Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDQuestUserAdvancement(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDDialog(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDQuestUserAdvancement Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDDialog Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
+        {
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()
         {
@@ -115,10 +158,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
         //-------------------------------------------------------------------------------------------------------------
         public void MyInstanceMethod()
         {
@@ -192,6 +231,102 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             return tYadd;
+        }
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        {
+            return 350.0f;
+            //return sDocumentWidth;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawHeight()
+        {
+            return 200f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        {
+            GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
+
+            GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
+            tStyle.richText = true;
+            string tText = "";
+            // if answer
+            string tAnswer = Answer.GetBaseString();
+            if (tAnswer != "")
+            {
+                tText += "For the answer : \"" + tAnswer + "\"…\n";
+            }
+            // quest change
+            if (QuestStep != NWDQuestState.None)
+            {
+                tText += "The Quest change to state : " + QuestStep.ToString() + ".\n";
+            }
+            // dialog
+            NWDCharacter tCharacter = CharacterReference.GetObject();
+            string tCharacterName = "unknow";
+            string tCharacterEmotion = CharacterEmotion.ToString();
+            if (tCharacter != null)
+            {
+                tCharacterName = tCharacter.FirstName.GetBaseString() + " " + tCharacter.LastName.GetBaseString();
+            }
+            string tDialog = Dialog.GetBaseString();
+            tText += "<b>" + tCharacterName + "</b> says [" + tCharacterEmotion + "]: \n\n \"<i>" + tDialog + "</i>\"\n\n";
+
+            if (sPropertysGroup == true)
+            {
+                // check answer
+                NWDDialog[] tDialogs = NextDialogs.GetObjects();
+                int tI = tDialogs.Length;
+                foreach (NWDDialog tAnswerDialog in tDialogs)
+                {
+                    //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
+                    Color tBackgroundColor = GUI.backgroundColor;
+                    if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+                    {
+                        GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                    }
+                    if (GUI.Button(new Rect(sRect.x, sRect.y + sRect.height - tI * (NWDConstants.HeightButton + NWDConstants.kFieldMarge), sRect.width, NWDConstants.HeightButton), tAnswerDialog.Answer.GetBaseString()))
+                    {
+                        NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
+                    }
+                    tI--;
+                    GUI.backgroundColor = tBackgroundColor;
+                }
+            }
+
+            // draw resume
+            GUI.Label(sRect, tText, tStyle);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
+        {
+            GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
+            tBox.alignment = TextAnchor.MiddleLeft;
+            GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
+            //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
+            //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
+
+            float tButtonWidth = 150.0F;
+
+            Color tBackgroundColor = GUI.backgroundColor;
+            if (AnswerState == NWDDialogState.Stop)
+            {
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            }
+            if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth, sRect.y , tButtonWidth, NWDConstants.HeightButton), Answer.GetBaseString()))
+            {
+                NWDDataInspector.InspectNetWorkedData(this, false, false);
+            }
+            GUI.backgroundColor = tBackgroundColor;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override Color AddOnNodeColor()
+        {
+            return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

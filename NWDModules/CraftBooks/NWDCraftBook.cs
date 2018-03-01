@@ -86,12 +86,12 @@ namespace NetWorkedData
 		/// </summary>
 		public NWDCraftBook ()
         {
-            Debug.Log("NWDCraftBook Constructor");
+            //Debug.Log("NWDCraftBook Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDCraftBook(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDCraftBook Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDCraftBook Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()

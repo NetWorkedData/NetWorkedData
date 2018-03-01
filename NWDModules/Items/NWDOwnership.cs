@@ -96,12 +96,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOwnership()
         {
-            Debug.Log("NWDOwnership Constructor");
+            //Debug.Log("NWDOwnership Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

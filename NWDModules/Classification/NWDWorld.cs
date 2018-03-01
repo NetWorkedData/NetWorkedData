@@ -105,12 +105,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDWorld()
         {
-            Debug.Log("NWDWorld Constructor");
+            //Debug.Log("NWDWorld Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDWorld(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDWorld Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDWorld Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
