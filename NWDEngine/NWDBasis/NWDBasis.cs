@@ -70,12 +70,18 @@ namespace NetWorkedData
         {
             get; set;
         }
-
+        public override string InternalKeyValue()
+        {
+            return InternalKey;
+        }
         public string InternalDescription
         {
             get; set;
         }
-
+        public override string InternalDescriptionValue()
+        {
+            return InternalDescription;
+        }
         public string Preview
         {
             get; set;

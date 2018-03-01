@@ -346,6 +346,12 @@ namespace NetWorkedData
             {
                 tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
             }
+
+            List<GUIContent> tContentFuturList = new List<GUIContent>();
+            foreach (string tS in tInternalNameList.ToArray())
+            {
+                tContentFuturList.Add(new GUIContent(tS));
+            }
             List<string> tValueList = new List<string>();
             if (Value != null && Value != "")
             {
@@ -370,10 +376,11 @@ namespace NetWorkedData
                 if (i > 0)
                 {
                     tFieldName = "   ";
+                    tContent = new GUIContent("   ");
                 }
                 string tV = tValueList.ElementAt(i);
                 int tIndex = tReferenceList.IndexOf(tV);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tInternalNameList.ToArray(), tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), tPopupdStyle);
 
                 if (tValueListERROR.Contains(tV))
                 {

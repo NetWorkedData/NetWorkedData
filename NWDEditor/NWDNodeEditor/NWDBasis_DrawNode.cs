@@ -140,13 +140,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddOnNodeDraw(Rect sRect)
         {
-            //GUI.Button(sRect, "knkjkjhg");
-            GUI.Label(sRect, InternalDescription);
+            GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual Color AddOnNodeColor()
         {
-            return Color.gray;
+            return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

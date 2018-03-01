@@ -249,8 +249,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect)
         {
-            //GUI.Button(sRect, "knkjkjhg");
-            GUI.Label(sRect, Dialog.GetLocalString());
+            GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override Color AddOnNodeColor()

@@ -480,6 +480,7 @@ namespace NetWorkedData
                 if (i > 0)
                 {
                     tFieldName = "   ";
+                    tContent = new GUIContent("   ");
                 }
 
                 int tIndex = 0;

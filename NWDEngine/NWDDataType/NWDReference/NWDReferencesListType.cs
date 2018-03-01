@@ -312,6 +312,7 @@ namespace NetWorkedData
 				if (i > 0) 
 				{
 					tFieldName = "   ";
+                    tContent = new GUIContent("   ");
 				}
 				string tV = tValueList.ElementAt (i);
 				int tIndex = tReferenceList.IndexOf (tV);
