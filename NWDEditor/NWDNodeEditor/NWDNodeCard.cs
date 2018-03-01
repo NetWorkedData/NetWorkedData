@@ -71,7 +71,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty, object[] sObjectsArray, bool sButtonAdd)
+        public List<NWDNodeCard> AddPropertyResult(PropertyInfo sProperty, NWDNodeConnectionReferenceType sConType, object[] sObjectsArray, bool sButtonAdd)
         {
             // Debug.Log("NWDNodeCard AddPropertyResult()");
             List<NWDNodeCard> rResult = new List<NWDNodeCard>();
@@ -91,13 +91,14 @@ namespace NetWorkedData
                     //        break;
                     //    }
                     //}
-                    if (tNewConnection == null)
-                    {
+                    //if (tNewConnection == null)
+                    //{
                         tNewConnection = new NWDNodeConnection();
-                        tNewConnection.PropertyName = sProperty.Name;
+                    tNewConnection.PropertyName = sProperty.Name;
+                    tNewConnection.ConType = sConType;
                         ConnectionList.Add(tNewConnection);
                         tNewConnection.Parent = this;
-                    }
+                    //}
                     tNewConnection.Property = sProperty;
                     tNewConnection.AddButton = sButtonAdd;
                     //int tLine = 0;
@@ -108,6 +109,7 @@ namespace NetWorkedData
                     {
                         tNewConnection = new NWDNodeConnection();
                         tNewConnection.PropertyName = sProperty.Name;
+                        tNewConnection.ConType = sConType;
                         tNewConnection.Parent = this;
                         tNewConnection.Property = sProperty;
                         tNewConnection.AddButton = sButtonAdd;
@@ -119,6 +121,7 @@ namespace NetWorkedData
                         bool tDataAllReadyShow = false;
                         NWDNodeCard tCard = null;
                         NWDNodeConnectionLine tCardLine = new NWDNodeConnectionLine();
+                        tCardLine.ConType = sConType;
                         foreach (NWDNodeCard tOldCard in ParentDocument.AllCards)
                         {
                             if (tOldCard.Data == tObject)
@@ -131,7 +134,7 @@ namespace NetWorkedData
                                 }
                                 else
                                 {
-                                    tCardLine.Style = NWDNodeConnectionType.Valid;
+                                    tCardLine.Style = NWDNodeConnectionType.FuturCard;
                                 }
                                 break;
                             }
@@ -143,8 +146,18 @@ namespace NetWorkedData
                             tCard.Line = ParentDocument.GetNextLine(tCard);
                             tCard.Data = tObject;
                             rResult.Add(tCard);
+                            ParentDocument.AllCards.Add(tCard);
+                            tCardLine.Style = NWDNodeConnectionType.Valid;
                         }
                         tCardLine.Child = tCard;
+                        tNewConnection.ChildrenList.Add(tCardLine);
+                    }
+                    else
+                    {
+                        // broken link?!
+                        NWDNodeConnectionLine tCardLine = new NWDNodeConnectionLine();
+                        tCardLine.ConType = sConType;
+                        tCardLine.Style = NWDNodeConnectionType.Broken;
                         tNewConnection.ChildrenList.Add(tCardLine);
                     }
                 }
@@ -266,7 +279,7 @@ namespace NetWorkedData
             var tMethodInfo = tType.GetMethod("AddOnNodeDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
-                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect , ParentDocument.ReGroupProperties});
+                tMethodInfo.Invoke(Data, new object[] { InfoUsableRect, ParentDocument.ReGroupProperties });
             }
             // add connection
             foreach (NWDNodeConnection tConnection in ConnectionList)
@@ -278,26 +291,34 @@ namespace NetWorkedData
 
                 if (ParentDocument.ReGroupProperties == false && tConnection.ChildrenList.Count > 0)
                 {
-                    // draw properties distinct
-                    GUI.Box(tConnection.Rectangle, "", tBox);
-                    // add special infos in this property draw
-                    NWDTypeClass tSubData = tConnection.ChildrenList[0].Child.Data;
-                    Type tSubType = tSubData.GetType();
-                    var tSubMethodInfo = tSubType.GetMethod("AddOnNodePropertyDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tSubMethodInfo != null)
+                    NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
+                    if (tSubCard != null)
                     {
-                        tSubMethodInfo.Invoke(tSubData, new object[] { tConnection.PropertyName, new Rect(tConnection.Rectangle.x, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height) });
+                        // draw properties distinct
+                        GUI.Box(tConnection.Rectangle, "", tBox);
+                        // add special infos in this property draw
+                        NWDTypeClass tSubData = tSubCard.Data;
+                        Type tSubType = tSubData.GetType();
+                        var tSubMethodInfo = tSubType.GetMethod("AddOnNodePropertyDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                        if (tSubMethodInfo != null)
+                        {
+                            tSubMethodInfo.Invoke(tSubData, new object[] { tConnection.PropertyName, new Rect(tConnection.Rectangle.x, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height) });
+                        }
+                        // Add button to edit this data
+                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
+                        {
+                            NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
+                        }
+                        // add button to center node on this data
+                        if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
+                        {
+                            NWDDataInspector.InspectNetWorkedData(tSubCard.Data, true, true);
+                            ParentDocument.SetData(tSubCard.Data);
+                        }
                     }
-                    // Add button to edit this data
-                    if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 2 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tButtonContent, NWDConstants.StyleMiniButton))
+                    else
                     {
-                        NWDDataInspector.InspectNetWorkedData(tConnection.ChildrenList[0].Child.Data, true, true);
-                    }
-                    // add button to center node on this data
-                    if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width + NWDConstants.kFieldMarge - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3 - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNodeContent, NWDConstants.StyleMiniButton))
-                    {
-                        NWDDataInspector.InspectNetWorkedData(tConnection.ChildrenList[0].Child.Data, true, true);
-                        ParentDocument.SetData(tConnection.ChildrenList[0].Child.Data);
+                        GUI.Box(tConnection.Rectangle, tConnection.PropertyName + " <BROKEN> " + tConnection.ChildrenList[0].Style.ToString(), tBox);
                     }
                 }
                 else

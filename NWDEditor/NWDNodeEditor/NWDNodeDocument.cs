@@ -25,6 +25,7 @@ namespace NetWorkedData
         /// All cards. Used to prevent dupplicated card
         /// </summary>
         public List<NWDNodeCard> AllCards = new List<NWDNodeCard>();
+        public List<NWDNodeCard> AllCardsAnalyzed = new List<NWDNodeCard>();
         /// <summary>
         /// The properties counter max found.
         /// </summary>
@@ -454,6 +455,7 @@ namespace NetWorkedData
             }
 
             AllCards = new List<NWDNodeCard>();
+            AllCardsAnalyzed = new List<NWDNodeCard>();
             PropertyMax = 0;
 
             Width = 200.0F;
@@ -469,12 +471,19 @@ namespace NetWorkedData
 
             InformationsHeight = 50.0F;
 
-            OriginalData = new NWDNodeCard();
-            OriginalData.Line = 0;
-            OriginalData.Column = 0;
-            OriginalData.Position = new Vector2(0, 0);
-            OriginalData.Data = sObject;
-            Analyze();
+            if (sObject != null)
+            {
+                OriginalData = new NWDNodeCard();
+                OriginalData.Line = 0;
+                OriginalData.Column = 0;
+                OriginalData.Position = new Vector2(0, 0);
+                OriginalData.Data = sObject;
+                AllCards.Add(OriginalData);
+                OriginalData.Analyze(this);
+            }
+            //            Debug.Log(AllCards.Count + " Cards found");
+            ReEvaluateLayout();
+            //Analyze();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -515,19 +524,20 @@ namespace NetWorkedData
         /// <summary>
         /// Analyze this instance.
         /// </summary>
-        public void Analyze()
-        {
-            //BTBConsole.Clear();
-            //Debug.Log("NWDNodeDocument Analyze()");
-            AllCards = new List<NWDNodeCard>();
-            if (OriginalData != null)
-            {
-                OriginalData.Analyze(this);
-            }
-            //            Debug.Log(AllCards.Count + " Cards found");
-            ReEvaluateLayout();
+        //public void Analyze()
+        //{
+        //    //BTBConsole.Clear();
+        //    Debug.Log("NWDNodeDocument Analyze()");
+        //    AllCards = new List<NWDNodeCard>();
+        //    AllCardsAnalyzed = new List<NWDNodeCard>();
+        //    if (OriginalData != null)
+        //    {
+        //        OriginalData.Analyze(this);
+        //    }
+        //    Debug.Log(AllCards.Count + " Cards found");
+        //    ReEvaluateLayout();
 
-        }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Draw the specified sViewRect.

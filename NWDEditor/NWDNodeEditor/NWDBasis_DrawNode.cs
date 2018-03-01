@@ -58,11 +58,20 @@ namespace NetWorkedData
                     break;
                 }
             }
+            bool tDataAllReadyAnalyze = false;
+            foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCardsAnalyzed)
+            {
+                if (tCard.Data == sCard.Data)
+                {
+                    tDataAllReadyAnalyze = true;
+                    break;
+                }
+            }
             // data is not in a preview card
-            if (tDataAllReadyShow == false)
+            if (tDataAllReadyAnalyze == false)
             {
                 // I add this card
-                sCard.ParentDocument.AllCards.Add(sCard);
+                sCard.ParentDocument.AllCardsAnalyzed.Add(sCard);
                 // I analyze this card and its properties (only the reference properties)
                 Type tType = ClassType();
 
@@ -81,6 +90,9 @@ namespace NetWorkedData
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
                                 {
+
+
+
 
                                     Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                                     if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
@@ -102,11 +114,32 @@ namespace NetWorkedData
                                                         tObjectCounter++;
                                                     }
                                                 }
+
+                                                NWDNodeConnectionReferenceType tConType = NWDNodeConnectionReferenceType.None;
+
                                                 if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>) && tObjectCounter > 0)
                                                 {
                                                     tButtonAdd = false;
                                                 }
-                                                List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tObjects, tButtonAdd);
+
+                                                if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>))
+                                                {
+                                                    tConType = NWDNodeConnectionReferenceType.ReferenceType;
+                                                }
+                                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>))
+                                                {
+                                                    tConType = NWDNodeConnectionReferenceType.ReferencesListType;
+                                                }
+                                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
+                                                {
+                                                    tConType = NWDNodeConnectionReferenceType.ReferenceQuantityType;
+                                                }
+                                                else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
+                                                {
+                                                    tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
+                                                }
+
+                                                List<NWDNodeCard> tNewCards = sCard.AddPropertyResult(tProp, tConType, tObjects, tButtonAdd);
                                                 foreach (NWDNodeCard tNewCard in tNewCards)
                                                 {
                                                     tNewCard.Analyze(sCard.ParentDocument);

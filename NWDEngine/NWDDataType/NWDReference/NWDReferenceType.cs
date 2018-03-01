@@ -101,11 +101,14 @@ namespace NetWorkedData
         public K[] EditorGetObjects()
         {
             List<K> rReturn = new List<K>();
-            K tObj = NWDBasis<K>.InstanceByReference(Value) as K;
-                if (tObj != null)
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                K tObj = NWDBasis<K>.InstanceByReference(Value) as K;
+                //if (tObj != null)
                 {
                     rReturn.Add(tObj);
                 }
+            }
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -327,7 +327,7 @@ namespace NetWorkedData
             foreach (string tReference in GetReferences())
             {
                 K tObj = NWDBasis<K>.InstanceByReference(tReference) as K;
-                if (tObj != null)
+                //if (tObj != null)
                 {
                     if (rReturn.Contains(tObj) == false)
                     {

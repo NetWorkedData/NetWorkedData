@@ -20,11 +20,23 @@ namespace NetWorkedData
         Valid,
         Broken,
         OldCard,
+        FuturCard,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDNodeConnectionReferenceType : byte
+    {
+        None,
+        ReferencesArrayType,
+        ReferencesListType,
+        ReferenceQuantityType,
+        ReferenceType,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDNodeConnectionLine
     {
-        public NWDNodeConnectionType Style = NWDNodeConnectionType.Valid;
+
+        public NWDNodeConnectionType Style = NWDNodeConnectionType.None;
+        public NWDNodeConnectionReferenceType ConType = NWDNodeConnectionReferenceType.None;
         public NWDNodeCard Child;
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -32,6 +44,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDNodeCard Parent;
+        public NWDNodeConnectionReferenceType ConType = NWDNodeConnectionReferenceType.None;
         public string PropertyName;
         public PropertyInfo Property;
         public List<NWDNodeConnectionLine> ChildrenList = new List<NWDNodeConnectionLine>();
@@ -48,7 +61,34 @@ namespace NetWorkedData
             foreach (NWDNodeConnectionLine tCardLine in ChildrenList)
             {
                 NWDNodeCard tCard = tCardLine.Child;
-                if (tCard != null)
+
+                Color tLineColor = NWDConstants.kNodeLineColor;
+                //switch (tCardLine.ConType)
+                //{
+                //    case NWDNodeConnectionReferenceType.ReferenceType:
+                //        {
+                //            tLineColor = Color.black;
+                //        }
+                //        break;
+                //    case NWDNodeConnectionReferenceType.ReferencesArrayType:
+                //        {
+                //            tLineColor = Color.green;
+                //        }
+                //        break;
+                //    case NWDNodeConnectionReferenceType.ReferencesListType:
+                //        {
+                //            tLineColor = Color.gray;
+                //        }
+                //        break;
+                //    case NWDNodeConnectionReferenceType.ReferenceQuantityType:
+                //        {
+
+                //            tLineColor = Color.cyan;
+                //        }
+                //        break;
+                //}
+
+                //if (tCard != null)
                 {
                     switch (tCardLine.Style)
                     {
@@ -56,7 +96,8 @@ namespace NetWorkedData
                             {
                                 //Handles.color = Color.red;
                                 //Handles.DrawLine(Position, tCard.Position);
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, NWDConstants.kNodeLineColor, NWDConstants.kImageBezierTexture , 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture , 2.0F);
+                                //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.green, NWDConstants.kImageBezierTexture, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, NWDConstants.kNodeLineColor, null, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 2.0F);
                                 //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.black, null, 2.0F);
@@ -64,13 +105,21 @@ namespace NetWorkedData
                             break;
                         case NWDNodeConnectionType.Broken:
                             {
-                                Handles.color = Color.red;
-                                Handles.DrawLine(Position, tCard.Position);
+                                //Handles.DrawBezier(Position, Position, PositionTangent, PositionTangent, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
+                                Vector2 tBroken = new Vector2(Position.x + 30, Position.y);
+                                Handles.DrawBezier(Position, Position, tBroken, tBroken, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
                         case NWDNodeConnectionType.OldCard:
                             {
-                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, NWDConstants.kNodeLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.red, NWDConstants.kImageBezierTexture, 2.0F);
+                            }
+                            break;
+                        case NWDNodeConnectionType.FuturCard:
+                            {
+                                Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, tLineColor, NWDConstants.kImageBezierTexture, 2.0F);
+                                //Handles.DrawBezier(Position, tCard.CirclePosition, PositionTangent, tCard.PositionTangent, Color.blue, NWDConstants.kImageBezierTexture, 2.0F);
                             }
                             break;
                         case NWDNodeConnectionType.None:
