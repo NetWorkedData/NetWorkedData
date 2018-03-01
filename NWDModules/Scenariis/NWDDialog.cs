@@ -27,9 +27,21 @@ namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
+    public enum NWDQuestState : int
+    {
+        None,
+        Start,
+        StartAlternate,
+        Accept,
+        Refuse,
+        Success,
+        Cancel,
+        Failed,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
     public enum NWDDialogState : int
     {
-        Start,
         Sequent,
         Step,
         Stop,
@@ -67,8 +79,12 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        [NWDGroupStartAttribute("Reply from preview dialog (optional)", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ListOfItemsRequired
+        [NWDGroupStartAttribute("Reply for preview Dialog (optional)", true, true, true)]
+        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> ItemsRequired
         {
             get; set;
         }
@@ -80,13 +96,17 @@ namespace NetWorkedData
         {
             get; set;
         } // sequent, step, finish
+        public NWDQuestState QuestStep
+        {
+            get; set;
+        }
         public NWDLocalizableStringType Answer
         {
             get; set;
         }
         [NWDGroupEnd]
-
-        [NWDGroupStartAttribute("Character Dialog", true, true, true)]
+        [NWDSeparator]
+        [NWDGroupStartAttribute("Dialog", true, true, true)]
         public NWDReferenceType<NWDCharacter> CharacterReference
         {
             get; set;
@@ -100,9 +120,9 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-
-        [NWDGroupStartAttribute("List of next replies", true, true, true)]
-        public NWDReferencesListType<NWDDialog> ListOfAnswers
+        [NWDSeparator]
+        [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
+        public NWDReferencesListType<NWDDialog> NextDialogs
         {
             get; set;
         }

@@ -30,6 +30,34 @@ namespace NetWorkedData
     public enum NWDCharacterEmotion : int
     {
         Normal = 0,
+        Shy,
+        Sad,
+        Surprised,
+        Happy,
+        Angry,
+        Overwhelmed,
+        Lonely,
+        Frustrated,
+        Thoughtful,
+        Tired,
+        Disgusted,
+        Worried,
+        Silly,
+        Excited,
+        Confused,
+        Hurt,
+        Embarrassed,
+        Afraid,
+        Annoyed,
+        Bored,
+        Confident,
+        Proud,
+        Hopeful,
+        Relaxed,
+
+        Poisoned,
+        Possesses,
+
     }
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
@@ -58,7 +86,7 @@ namespace NetWorkedData
 		public NWDReferencesListType<NWDFamily> Families { get; set; }
 		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
 		[NWDGroupEndAttribute]
-
+        [NWDSeparator]
 		[NWDGroupStartAttribute("Identity",true, true, true)]
 
 		public NWDLocalizableStringType FirstName { get; set; }
@@ -66,35 +94,41 @@ namespace NetWorkedData
 		public NWDLocalizableStringType LastName { get; set; }
 
 		public NWDLocalizableStringType NickName { get; set; }
-
+        [NWDGroupEndAttribute]
+        [NWDSeparator]
         [NWDGroupStartAttribute("Dialog tempo", true, true, true)]
 
-        public float SentenceGeneralSpeed
+        public float SentenceSpeed
         {
             get; set;
         }
-        public float PonctuationDotLatence
+        public float DotLatence
         {
             get; set;
         }
-        public float PonctuationDotCommaLatence
+        public float DotCommaLatence
         {
             get; set;
         }
-        public float PonctuationCommaLatence
+        public float CommaLatence
         {
             get; set;
         }
-        public float PonctuationExclamationLatence
+        public float ExclamationLatence
         {
             get; set;
         }
-        public float PonctuationInterrogationLatence
+        public float InterrogationLatence
         {
             get; set;
         }
-
-
+        public float TripleDotLatence
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+        [NWDSeparator]
+        [NWDGroupStartAttribute("Render", true, true, true)]
         public NWDPrefabType NormalState
         {
             get; set;
@@ -129,12 +163,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-            SentenceGeneralSpeed = 1.0F;
-            PonctuationDotLatence = 0.15F;
-            PonctuationDotCommaLatence = 0.15F;
-            PonctuationCommaLatence = 0.15F;
-            PonctuationExclamationLatence = 0.15F;
-            PonctuationInterrogationLatence = 0.15F;
+            SentenceSpeed = 1.0F;
+            DotLatence = 0.25F;
+            DotCommaLatence = 0.25F;
+            CommaLatence = 0.15F;
+            ExclamationLatence = 0.25F;
+            InterrogationLatence = 0.505F;
+            TripleDotLatence = 1.0F;
             UpdateMe();
         }
 		//-------------------------------------------------------------------------------------------------------------
