@@ -223,6 +223,25 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string DialogRichText()
+        {
+            string rReturn = Dialog.GetLocalString();
+            rReturn = DialogAddEnrichissement(rReturn);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string DialogRichTextForLanguage(string sLanguage)
+        {
+            string rReturn = Dialog.GetLanguageString(sLanguage);
+            rReturn = DialogAddEnrichissement(rReturn);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string DialogAddEnrichissement(string sDialog)
+        {
+            return sDialog;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
