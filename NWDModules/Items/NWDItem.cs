@@ -59,7 +59,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[NWDGroupStartAttribute ("Description", true, true, true)]
-		public NWDLocalizableStringType Name { get; set; }
+        public NWDLocalizableStringType Name { get; set; }
+        public NWDLocalizableStringType PluralName { get; set;}
 		public NWDLocalizableStringType SubName { get; set; }
 		public NWDLocalizableStringType Description { get; set; }
 		[NWDGroupEndAttribute]

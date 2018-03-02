@@ -125,6 +125,13 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltipsAttribute("The random limit in range to [0-1] ")]
+        [NWDIf("AnswerState", (int)NWDDialogState.Random)]
+        [NWDFloatSlider(0.0F, 1.0F)]
+        public float RandomFrequency
+        {
+            get; set;
+        }
         [NWDTooltipsAttribute("This answer change the quest state to ... " +
                               "\n •None (do nothing),  " +
                               "\n •Start, " +
@@ -172,6 +179,35 @@ namespace NetWorkedData
         {
             get; set;
         }
+
+        [NWDTooltipsAttribute("Select characters to use in dialog by these tags" +
+                              "\n •for Fistname : #F0# #F1# …" +
+                              "\n •for Lastname : #L0# #L1# …" +
+                              "\n •for Nickname : #N0# #N1# …" +
+                              "")]
+        public NWDReferencesListType<NWDCharacter> ReplaceCharacters
+        {
+            get; set;
+        }
+
+        [NWDTooltipsAttribute("Select items to use in dialog by these tags" +
+                              "\n •for item name #I0# #I1# …" +
+                              "\n •for item plural name #IS0# #IS1# …" +
+                              "")]
+        public NWDReferencesListType<NWDItem> ReplaceItems
+        {
+            get; set;
+        }
+
+        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in dialog by these " +
+                              "\n •for item to describe name tags #G0# #G1# …" +
+                              "\n •for item to describe plural name #GS0# #GS1# …" +
+                              "")]
+        public NWDReferencesListType<NWDItemGroup> ReplaceItemGroups
+        {
+            get; set;
+        }
+
         [NWDGroupEndAttribute]
         [NWDSeparator]
         [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
@@ -180,6 +216,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
+        [NWDSeparator]
         [NWDGroupStartAttribute("Option Quest", true, true, true)]
         [NWDTooltipsAttribute("The quest launched after this dialog")]
         public NWDReferenceType<NWDQuest> NextQuest
@@ -223,23 +260,130 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string DialogRichText()
+        public string AnswerRichText(bool sBold = true)
+        {
+            string rReturn = Answer.GetLocalString();
+            rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance.PlayerLanguage, sBold);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string AnswerRichTextForLanguage(string sLanguage, bool sBold = true)
+        {
+            string rReturn = Answer.GetLanguageString(sLanguage);
+            rReturn = Enrichment(rReturn, sLanguage, sBold);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string DialogRichText(bool sBold = true)
         {
             string rReturn = Dialog.GetLocalString();
-            rReturn = DialogAddEnrichissement(rReturn);
+            rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance.PlayerLanguage, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string DialogRichTextForLanguage(string sLanguage)
+        public string DialogRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = Dialog.GetLanguageString(sLanguage);
-            rReturn = DialogAddEnrichissement(rReturn);
+            rReturn = Enrichment(rReturn, sLanguage, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string DialogAddEnrichissement(string sDialog)
+        public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
-            return sDialog;
+            string rText = sText;
+            int tCounter = 0;
+            string tBstart = "<b>";
+            string tBend = "</b>";
+            if (sBold == false)
+            {
+                tBstart = "";
+                tBend = "";
+            }
+            if (ReplaceCharacters != null)
+            {
+                tCounter = 0;
+                foreach (NWDCharacter tCharacter in ReplaceCharacters.GetObjects())
+                {
+                    if (tCharacter.LastName != null)
+                    {
+                        string tLastName = tCharacter.LastName.GetLanguageString(sLanguage);
+                        if (tLastName != null)
+                        {
+                            rText = rText.Replace("#L" + tCounter.ToString() + "#", tBstart + tLastName + tBend);
+                        }
+                    }
+                    if (tCharacter.FirstName != null)
+                    {
+                        string tFirstName = tCharacter.FirstName.GetLanguageString(sLanguage);
+                        if (tFirstName != null)
+                        {
+                            rText = rText.Replace("#F" + tCounter.ToString() + "#", tBstart + tFirstName + tBend);
+                        }
+                    }
+                    if (tCharacter.NickName != null)
+                    {
+                        string tNickName = tCharacter.NickName.GetLanguageString(sLanguage);
+                        if (tNickName != null)
+                        {
+                            rText = rText.Replace("#N" + tCounter.ToString() + "#", tBstart + tNickName + tBend);
+                        }
+                    }
+                    tCounter++;
+                }
+            }
+            if (ReplaceItems != null)
+            {
+                tCounter = 0;
+                foreach (NWDItem tItem in ReplaceItems.GetObjects())
+                {
+                    if (tItem.Name != null)
+                    {
+                        string tName = tItem.Name.GetLanguageString(sLanguage);
+                        if (tName != null)
+                        {
+                            rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                        }
+                    }
+                    if (tItem.PluralName != null)
+                    {
+                        string tPluralName = tItem.PluralName.GetLanguageString(sLanguage);
+                        if (tPluralName != null)
+                        {
+                            rText = rText.Replace("#IS" + tCounter.ToString() + "#", tBstart + tPluralName + tBend);
+                        }
+                    }
+                    tCounter++;
+                }
+            }
+            if (ReplaceItemGroups != null)
+            {
+                tCounter = 0;
+                foreach (NWDItemGroup tItemGroup in ReplaceItemGroups.GetObjects())
+                {
+                    NWDItem tItem = tItemGroup.ItemToDescribe.GetObject();
+                    if (tItem != null)
+                    {
+                        if (tItem.Name != null)
+                        {
+                            string tName = tItem.Name.GetLanguageString(sLanguage);
+                            if (tName != null)
+                            {
+                                rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                            }
+                        }
+                        if (tItem.PluralName != null)
+                        {
+                            string tPluralName = tItem.PluralName.GetLanguageString(sLanguage);
+                            if (tPluralName != null)
+                            {
+                                rText = rText.Replace("#GS" + tCounter.ToString() + "#", tBstart + tPluralName + tBend);
+                            }
+                        }
+                    }
+                    tCounter++;
+                }
+            }
+            return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
@@ -291,7 +435,7 @@ namespace NetWorkedData
         static private bool ImageLoaded = false;
         static public Texture2D kImageSequent = null;
         static public Texture2D kImageStep = null;
-        static public Texture2D kImageStop = null;
+        static public Texture2D kImageNormal = null;
         static public Texture2D kImageRandom = null;
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadImages()
@@ -302,7 +446,7 @@ namespace NetWorkedData
                 ImageLoaded = true;
                 kImageSequent = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceSequent.psd"));
                 kImageStep = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceStep.psd"));
-                kImageStop = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceStop.psd"));
+                kImageNormal = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceNormal.psd"));
                 kImageRandom = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceRandom.psd"));
             }
         }
@@ -329,9 +473,6 @@ namespace NetWorkedData
             float tYadd = 0.0f;
             return tYadd;
         }
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawWidth(float sDocumentWidth)
         {
@@ -345,13 +486,14 @@ namespace NetWorkedData
             tBubuleStyle.fontSize = 14;
             tBubuleStyle.richText = true;
             string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
-            string tDialog = Dialog.GetLanguageString(tLangue);
+            //string tDialog = Dialog.GetLanguageString(tLangue);
+            string tDialog = DialogRichTextForLanguage(tLangue);
             float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDConstants.kFieldMarge * 2 - NWDConstants.kPrefabSize);
 
             NWDDialog[] tDialogs = NextDialogs.GetObjects();
-            float tAnswers = tDialogs.Length * NWDNodeEditor.SharedInstance().GetHeightProperty(); 
+            float tAnswers = tDialogs.Length * NWDNodeEditor.SharedInstance().GetHeightProperty();
 
-            return NWDConstants.kFieldMarge*3+NWDConstants.kPrefabSize+tText+tAnswers;
+            return NWDConstants.kFieldMarge * 3 + NWDConstants.kPrefabSize + tText + tAnswers;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
@@ -368,7 +510,7 @@ namespace NetWorkedData
             // if answer
             string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
 
-            string tAnswer = Answer.GetLanguageString(tLangue);
+            string tAnswer = AnswerRichTextForLanguage(tLangue);
             if (tAnswer != "")
             {
                 tText += "For the answer : \"" + tAnswer + "\"…\n";
@@ -387,22 +529,23 @@ namespace NetWorkedData
                 tCharacterName = tCharacter.FirstName.GetLanguageString(tLangue) + " " + tCharacter.LastName.GetBaseString();
                 tCharacter.DrawPreviewTexture2D(new Vector2(sRect.x, sRect.y));
             }
-            tText += "<b>" + tCharacterName + "</b> says ("+tLangue+") [" + tCharacterEmotion + "]:";
+            tText += "<b>" + tCharacterName + "</b> says (" + tLangue + ") [" + tCharacterEmotion + "]:";
 
             // draw resume
-            GUI.Label(new Rect (sRect.x + NWDConstants.kPrefabSize+ NWDConstants.kFieldMarge,sRect.y, sRect.width - NWDConstants.kPrefabSize - NWDConstants.kFieldMarge, sRect.height), tText, tStyle);
+            GUI.Label(new Rect(sRect.x + NWDConstants.kPrefabSize + NWDConstants.kFieldMarge, sRect.y, sRect.width - NWDConstants.kPrefabSize - NWDConstants.kFieldMarge, sRect.height), tText, tStyle);
 
 
             // draw dialog
-            string tDialog = Dialog.GetLanguageString(tLangue);
+            //string tDialog = Dialog.GetLanguageString(tLangue);
+            string tDialog = DialogRichTextForLanguage(tLangue);
             GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
             tBubuleStyle.fontSize = 14;
             tBubuleStyle.richText = true;
-            GUI.backgroundColor =Color.white;
-            GUI.Box(new Rect(sRect.x + NWDConstants.kPrefabSize - NWDConstants.kFieldMarge*3,
-                             sRect.y+ NWDConstants.kPrefabSize - NWDConstants.kFieldMarge*3,
-                             sRect.width - NWDConstants.kPrefabSize + NWDConstants.kFieldMarge*3,
-                             sRect.height- NWDConstants.kPrefabSize + NWDConstants.kFieldMarge*3), tDialog,tBubuleStyle);
+            GUI.backgroundColor = Color.white;
+            GUI.Box(new Rect(sRect.x + NWDConstants.kPrefabSize - NWDConstants.kFieldMarge * 3,
+                             sRect.y + NWDConstants.kPrefabSize - NWDConstants.kFieldMarge * 3,
+                             sRect.width - NWDConstants.kPrefabSize + NWDConstants.kFieldMarge * 3,
+                             sRect.height - NWDConstants.kPrefabSize + NWDConstants.kFieldMarge * 3), tDialog, tBubuleStyle);
             GUI.backgroundColor = tBackgroundColor;
 
 
@@ -427,28 +570,28 @@ namespace NetWorkedData
                     //{
                     //    GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
                     //}
-
-                    GUIContent tContent = null;
+                    string tAnswerDialogAnswer = tAnswerDialog.AnswerRichTextForLanguage(tLangue, false);
+                    GUIContent tContent = new GUIContent(tAnswerDialogAnswer);
                     switch (tAnswerDialog.AnswerState)
                     {
-                        case NWDDialogState.Sequent :
+                        case NWDDialogState.Sequent:
                             {
-                                tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageSequent);
+                                tContent = new GUIContent(tAnswerDialogAnswer, kImageSequent);
                             }
                             break;
                         case NWDDialogState.Step:
                             {
-                                tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageStep);
+                                tContent = new GUIContent(tAnswerDialogAnswer, kImageStep);
                             }
                             break;
-                        //case NWDDialogState.Stop:
-                            //{
-                            //    tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageStop);
-                            //}
-                            //break;
+                        case NWDDialogState.Normal:
+                            {
+                                tContent = new GUIContent(tAnswerDialogAnswer, kImageNormal);
+                            }
+                            break;
                         case NWDDialogState.Random:
                             {
-                                tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageRandom);
+                                tContent = new GUIContent(tAnswerDialogAnswer, kImageRandom);
                             }
                             break;
                     }
@@ -499,8 +642,9 @@ namespace NetWorkedData
             //}
 
 
-            GUIContent tContent = null;
-            string tAnswer = Answer.GetLanguageString(tLangue);
+            //string tAnswer = Answer.GetLanguageString(tLangue);
+            string tAnswer = AnswerRichTextForLanguage(tLangue, false);
+            GUIContent tContent = new GUIContent(tAnswer);
             switch (AnswerState)
             {
                 case NWDDialogState.Sequent:
@@ -513,20 +657,20 @@ namespace NetWorkedData
                         tContent = new GUIContent(tAnswer, kImageStep);
                     }
                     break;
-                //case NWDDialogState.Stop:
-                    //{
-                    //    tContent = new GUIContent(tAnswer, kImageStop);
-                    //}
-                    //break;
+                case NWDDialogState.Normal:
+                    {
+                        tContent = new GUIContent(tAnswer, kImageNormal);
+                    }
+                    break;
                 case NWDDialogState.Random:
                     {
                         tContent = new GUIContent(tAnswer, kImageRandom);
                     }
                     break;
             }
-           // if (string.IsNullOrEmpty(tAnswer) == false)
+            // if (string.IsNullOrEmpty(tAnswer) == false)
             {
-                if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth- NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
+                if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
                 {
                     NWDDataInspector.InspectNetWorkedData(this, false, false);
                 }
