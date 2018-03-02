@@ -341,7 +341,14 @@ namespace NetWorkedData
         public const string K_APP_CONNEXION_NEW = "new";
         //-------------------------------------------------------------------------------------------------------------
         public static Color K_RED_BUTTON_COLOR = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
-                                                                                    //-------------------------------------------------------------------------------------------------------------
+
+        // todo test the color of button
+        public static Color K_GREEN_BUTTON_COLOR = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
+        public static Color K_BLUE_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
+        public static Color K_ORANGE_BUTTON_COLOR = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
+        public static Color K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
+        public static Color K_DARKGRAY_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+        //-------------------------------------------------------------------------------------------------------------
         public static string[] K_VERSION_MAJOR_ARRAY = new string[] {
             "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
         };

@@ -491,7 +491,7 @@ namespace NetWorkedData
         /// </summary>
         public void ReAnalyze()
         {
-            Debug.Log("ReAnalyze()");
+            //Debug.Log("ReAnalyze()");
             if (OriginalData != null)
             {
                 SetData(OriginalData.Data, false);

@@ -287,8 +287,18 @@ namespace NetWorkedData
                     Color tBackgroundColor = GUI.backgroundColor;
                     if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
                     {
-                        GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                        GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
                     }
+                    else if (tAnswerDialog.AnswerState == NWDDialogState.Step)
+                    {
+                        GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
+                    }
+                    else if (tAnswerDialog.AnswerState == NWDDialogState.Sequent)
+                    {
+                        GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
+                    }
+
+
                     if (GUI.Button(new Rect(sRect.x, sRect.y + sRect.height - tI * (NWDConstants.HeightButton + NWDConstants.kFieldMarge), sRect.width, NWDConstants.HeightButton), tAnswerDialog.Answer.GetBaseString()))
                     {
                         NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
@@ -313,10 +323,22 @@ namespace NetWorkedData
             float tButtonWidth = 150.0F;
 
             Color tBackgroundColor = GUI.backgroundColor;
+
+
             if (AnswerState == NWDDialogState.Stop)
             {
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
             }
+            else if (AnswerState == NWDDialogState.Step)
+            {
+                GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
+            }
+            else if (AnswerState == NWDDialogState.Sequent)
+            {
+                GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
+            }
+
+
             if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth, sRect.y , tButtonWidth, NWDConstants.HeightButton), Answer.GetBaseString()))
             {
                 NWDDataInspector.InspectNetWorkedData(this, false, false);
