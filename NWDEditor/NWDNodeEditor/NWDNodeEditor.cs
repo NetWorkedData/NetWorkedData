@@ -53,11 +53,15 @@ namespace NetWorkedData
         /// <summary>
         /// Shared instance.
         /// </summary>
-        public static void SharedInstance()
+        public static NWDNodeEditor SharedInstance()
         {
-            kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
-            kNodeEditorSharedInstance.Show();
-            kNodeEditorSharedInstance.Focus();
+            if (kNodeEditorSharedInstance == null)
+            {
+                kNodeEditorSharedInstance = EditorWindow.GetWindow(typeof(NWDNodeEditor)) as NWDNodeEditor;
+                kNodeEditorSharedInstance.Show();
+                kNodeEditorSharedInstance.Focus();
+            }
+            return kNodeEditorSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -135,7 +139,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnEnable ()
 		{
-            titleContent = new GUIContent ("NWDNodeEditor");
+            titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
             Document.LoadClasses();
             Repaint();
 		}
@@ -193,6 +197,16 @@ namespace NetWorkedData
                     mLastMousePosition = currPos;
                 }
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetLanguage()
+        {
+            return Document.Language;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float GetHeightProperty()
+        {
+            return Document.HeightProperty;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

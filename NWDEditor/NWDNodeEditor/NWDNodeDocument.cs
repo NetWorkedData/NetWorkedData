@@ -95,6 +95,8 @@ namespace NetWorkedData
         /// </summary>
         public bool ReGroupProperties = false;
         public bool UsedOnlyProperties = false;
+
+        public string Language = "BASE";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeDocument"/> class.
@@ -117,6 +119,7 @@ namespace NetWorkedData
             }
             EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
             EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
+            EditorPrefs.SetString("NWDNodeEditorLanguage", Language);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -133,6 +136,7 @@ namespace NetWorkedData
 
             ReGroupProperties = EditorPrefs.GetBool("NWDEditorGroup");
             UsedOnlyProperties = EditorPrefs.GetBool("NWDEditorusedOnly");
+            Language = EditorPrefs.GetString("NWDNodeEditorLanguage");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -145,7 +149,7 @@ namespace NetWorkedData
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
             float tW = (MargeWidth - NWDConstants.kFieldMarge * 2);
 
-            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Show all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_SHOW_ALL, EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -155,7 +159,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), "Mask all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_MASK_ALL, EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -169,7 +173,7 @@ namespace NetWorkedData
             tY += HeightProperty + NWDConstants.kFieldMarge;
 
 
-            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), "Analyze all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_ANALYZE_ALL, EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -179,7 +183,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), "No Analyze all", EditorStyles.miniButton))
+            if (GUI.Button(new Rect(tWHalf + NWDConstants.kFieldMarge * 2, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_ANALYZE_NONE, EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(AnalyzeTheseClasses);
                 foreach (KeyValuePair<string, bool> tKeyValue in tClassesCopy)
@@ -191,7 +195,7 @@ namespace NetWorkedData
             }
             tY += HeightProperty + NWDConstants.kFieldMarge;
 
-            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), ReGroupProperties, "Group properties");
+            bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), ReGroupProperties, NWDConstants.K_EDITOR_NODE_GROUP_PROPERTIES);
             if (tReGroupProperties != ReGroupProperties)
             {
                 ReGroupProperties = tReGroupProperties;
@@ -200,7 +204,7 @@ namespace NetWorkedData
             }
             tY += HeightProperty + NWDConstants.kFieldMarge;
 
-            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), UsedOnlyProperties, "Only used properties");
+            bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
             if (tUsedOnlyProperties != UsedOnlyProperties)
             {
                 UsedOnlyProperties = tUsedOnlyProperties;
@@ -208,6 +212,33 @@ namespace NetWorkedData
                 ReAnalyze();
             }
             tY += HeightProperty + NWDConstants.kFieldMarge;
+
+
+            string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
+            string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> tLocalizationList = new List<string>(tLanguageArray);
+            int tIndexActual = tLocalizationList.IndexOf(Language);
+
+            int tIndexNext = EditorGUI.Popup(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_CHOOSE_LANGUAGE, tIndexActual, tLocalizationList.ToArray());
+            if (tIndexNext < 0 || tIndexNext >= tLocalizationList.Count)
+            {
+                tIndexNext = 0;
+            }
+            if (tIndexActual != tIndexNext)
+            {
+                Language = tLocalizationList[tIndexNext];
+                EditorPrefs.SetString("NWDNodeEditorLanguage", Language);
+            }
+
+            tY += HeightProperty + NWDConstants.kFieldMarge;
+
+
+
+
+
+
+
+
 
 
             float tXA = NWDConstants.kFieldMarge;
@@ -221,7 +252,7 @@ namespace NetWorkedData
             //Debug.Log("tXB = " + tXB.ToString());
             //Debug.Log("tWidthB = " + tWidthB.ToString());
 
-            GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), "Show / Analyze", EditorStyles.boldLabel);
+            GUI.Label(new Rect(NWDConstants.kFieldMarge, MargeHeight + NWDConstants.kFieldMarge, MargeWidth, HeightProperty), NWDConstants.K_EDITOR_NODE_LIST, EditorStyles.boldLabel);
             // to show
             int tCounter = 0;
             Dictionary<string, bool> tShowTheseClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);

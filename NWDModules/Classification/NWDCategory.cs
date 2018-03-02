@@ -237,7 +237,7 @@ namespace NetWorkedData
             //return sDocumentWidth;
         }
 		//-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight()
+        public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             return 130.0f;
         }

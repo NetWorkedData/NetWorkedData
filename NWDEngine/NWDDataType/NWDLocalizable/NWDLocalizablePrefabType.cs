@@ -27,7 +27,7 @@ namespace NetWorkedData
 	[SerializeField]
 	public class NWDLocalizablePrefabType : NWDLocalizableType
 	{
-		// TODO : Finish to access to object directly ... ass GameObjectDataType 
+		// TODO : Finish to access to object directly ... as GameObjectDataType 
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLocalizablePrefabType ()
 		{
@@ -97,7 +97,12 @@ namespace NetWorkedData
 		public string GetBaseString ()
 		{
 			return NWDToolbox.TextUnprotect(SplitDico (NWDDataLocalizationManager.kBaseDev));
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetLanguageString(string sLanguage)
+        {
+            return NWDToolbox.TextUnprotect(SplitDico(sLanguage));
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------

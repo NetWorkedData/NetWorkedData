@@ -107,7 +107,12 @@ namespace NetWorkedData
 		public string GetBaseString ()
 		{
 			return NWDToolbox.TextUnprotect(SplitDico (NWDDataLocalizationManager.kBaseDev));
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetLanguageString(string sLanguage)
+        {
+            return NWDToolbox.TextUnprotect(SplitDico(sLanguage));
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------

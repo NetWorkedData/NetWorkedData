@@ -48,7 +48,18 @@ namespace NetWorkedData
 			this.Entitled = sEntitled;
 			this.ToolsTips = sToolsTips;
 		}
-	}
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //-------------------------------------------------------------------------------------------------------------
+    public class NWDTooltipsAttribute : Attribute
+    {
+        public string ToolsTips = "";
+        public NWDTooltipsAttribute(string sToolsTips)
+        {
+            this.ToolsTips = sToolsTips;
+        }
+    }
 	//-------------------------------------------------------------------------------------------------------------
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
 	//-------------------------------------------------------------------------------------------------------------

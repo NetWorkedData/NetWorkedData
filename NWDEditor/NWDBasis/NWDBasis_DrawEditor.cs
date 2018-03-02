@@ -130,19 +130,64 @@ namespace NetWorkedData
         ////			}
         //			DrawableList.Add(sValue);
         //		}
-        //		//-------------------------------------------------------------------------------------------------------------
-        //		public void RemoveDrawable ()
-        //		{
-        ////			if (DrawableList.ContainsKey (EditorGUI.indentLevel)) {
-        ////				DrawableList [EditorGUI.indentLevel] = sValue;
-        ////			} else {
-        ////				DrawableList.Add(EditorGUI.indentLevel,sValue);
-        ////			}
-        //			if (DrawableList.Count () > 0) {
-        //				DrawableList.RemoveAt (DrawableList.Count () - 1);
-        //			}
-        //		}
+        //		
         //-------------------------------------------------------------------------------------------------------------
+        protected Texture2D PreviewTexture;
+        protected bool PreviewTextureIsLoaded = false;
+        //-------------------------------------------------------------------------------------------------------------
+        public Texture2D ReloadPreviewTexture2D()
+        {
+            PreviewTextureIsLoaded = true;
+            PreviewTexture = null;
+            UnityEngine.Object tObject = null;
+            if (Preview != null && Preview != "")
+            {
+                //tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(GameObject)) as GameObject;
+                tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
+                if (tObject != null)
+                {
+                    PreviewTexture = AssetPreview.GetAssetPreview(tObject);
+                    while (AssetPreview.IsLoadingAssetPreview(tObject.GetInstanceID()))
+                    {
+                        // Loading
+                    }
+                }
+            }
+            return PreviewTexture;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Texture2D GetPreviewTexture2D()
+        {
+            if (PreviewTextureIsLoaded == false)
+            {
+                ReloadPreviewTexture2D();
+            }
+            return PreviewTexture;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPreviewTexture2D(Vector2 sOrigin)
+        {
+            DrawPreviewTexture2D(new Rect(sOrigin.x, sOrigin.y, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawPreviewTexture2D(Rect sRect)
+        {
+            if (PreviewTextureIsLoaded == false)
+            {
+                ReloadPreviewTexture2D();
+            }
+            if (PreviewTexture != null)
+            {
+                EditorGUI.DrawPreviewTexture(sRect, PreviewTexture);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
         public float DrawObjectInspectorHeight()
         {
             float tY = 0;
@@ -548,6 +593,11 @@ namespace NetWorkedData
                             tToolsTips = tReference.ToolsTips;
                         }
 
+                        if (tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true).Length > 0)
+                        {
+                            NWDTooltipsAttribute tReference = (NWDTooltipsAttribute)tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true)[0];
+                            tToolsTips = tReference.ToolsTips;
+                        }
 
                         // if is enable 
                         //						if (tProp.GetCustomAttributes (typeof(NWDNotEditableAttribute), true).Length > 0) {
@@ -946,30 +996,32 @@ namespace NetWorkedData
 
             //GUI.Label (new Rect (NWDConstants.kFieldMarge, tY, tImageWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PREVIEW, tMiniLabelStyle);
 
-            GameObject tObject = null;
+            UnityEngine.Object tObject = null;
             if (Preview != null && Preview != "")
             {
-                tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(GameObject)) as GameObject;
+                tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
             }
-            Texture2D tTexture2D = null;
+            //Texture2D tTexture2D = null;
 
-            if (tObject != null)
-            {
-                //				if (mGameObjectEditor == null) {
-                //					mGameObjectEditor = Editor.CreateEditor (tObject);
-                //				}
-                // draw prefab if it's possible
-                tTexture2D = AssetPreview.GetAssetPreview(tObject);
-                while (AssetPreview.IsLoadingAssetPreview(tObject.GetInstanceID()))
-                {
-                    // Loading
-                }
-            }
-            if (tTexture2D != null)
-            {
-                EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY + tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth), tTexture2D);
-            }
+            //if (tObject != null)
+            //{
+            //    //				if (mGameObjectEditor == null) {
+            //    //					mGameObjectEditor = Editor.CreateEditor (tObject);
+            //    //				}
+            //    // draw prefab if it's possible
+            //    tTexture2D = AssetPreview.GetAssetPreview(tObject);
+            //    while (AssetPreview.IsLoadingAssetPreview(tObject.GetInstanceID()))
+            //    {
+            //        // Loading
+            //    }
+            //}
+            //if (tTexture2D != null)
+            //{
+            //    EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY + tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth), tTexture2D);
+            //}
 
+
+            DrawPreviewTexture2D(new Rect(NWDConstants.kFieldMarge, tY +tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth));
 
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL))
             {
@@ -1069,13 +1121,13 @@ namespace NetWorkedData
 
             UnityEngine.Object pObj = EditorGUI.ObjectField(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight),
                                           NWDConstants.K_APP_BASIS_PREVIEW_GAMEOBJECT,
-                                          (UnityEngine.Object)tObject, typeof(GameObject), false);
+                                                            (UnityEngine.Object)tObject, typeof(UnityEngine.Object), false);
             tY += tObjectFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             string tPreFabGameObject = "";
             if (pObj != null)
             {
-                if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
+                //if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
                 {
                     tPreFabGameObject = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabObject(pObj));
                 }
@@ -1083,6 +1135,10 @@ namespace NetWorkedData
 
             if (Preview != tPreFabGameObject)
             {
+                ReloadPreviewTexture2D();
+                RepaintTableEditor();
+                NWDNodeEditor.ReDraw();
+
                 Preview = tPreFabGameObject;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
@@ -1249,7 +1305,9 @@ namespace NetWorkedData
                     RemoveObjectInListOfEdition(this);
                     DeleteMe();
                     SetObjectInEdition(null);
-                    NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    //NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    RepaintTableEditor();
+                    NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;

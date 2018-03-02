@@ -340,6 +340,16 @@ namespace NetWorkedData
         public const string K_APP_CONNEXION_EDIT = "edit";
         public const string K_APP_CONNEXION_NEW = "new";
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_EDITOR_NODE_WINDOW_TITLE = "Nodal view";
+        public const string K_EDITOR_NODE_CHOOSE_LANGUAGE =  "Choose language";
+        public const string K_EDITOR_NODE_ONLY_USED_PROPERTIES = "Only used properties";
+        public const string K_EDITOR_NODE_GROUP_PROPERTIES = "Group properties";
+        public const string K_EDITOR_NODE_ANALYZE_NONE = "Analyze nothing";
+        public const string K_EDITOR_NODE_ANALYZE_ALL = "Analyze everything";
+        public const string K_EDITOR_NODE_MASK_ALL = "Show nothing";
+        public const string K_EDITOR_NODE_SHOW_ALL = "Show everything";
+        public const string K_EDITOR_NODE_LIST = "Classes show/analyze/new";
+        //-------------------------------------------------------------------------------------------------------------
         public static Color K_RED_BUTTON_COLOR = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
 
         // todo test the color of button

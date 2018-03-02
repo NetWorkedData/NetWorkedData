@@ -246,6 +246,23 @@ namespace NetWorkedData
 			float tYadd = 0.0f;
 			return tYadd;
 		}
+
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        {
+            return 350.0f;
+            //return sDocumentWidth;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawHeight(float sCardWidth)
+        {
+            return 200f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        {
+            DrawPreviewTexture2D(new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------

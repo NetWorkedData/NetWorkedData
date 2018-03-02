@@ -43,8 +43,10 @@ namespace NetWorkedData
     public enum NWDDialogState : int
     {
         Sequent,
+        Normal,
         Step,
-        Stop,
+        //Stop,
+        Random,
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
@@ -55,6 +57,16 @@ namespace NetWorkedData
         Cancel,
         Validate,
         Destructive,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public enum NWDBubbleStyleType : int
+    {
+        Speech,
+        Whisper,
+        Thought,
+        Scream,
+
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
@@ -80,26 +92,54 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         [NWDGroupStartAttribute("Reply for preview Dialog (optional)", true, true, true)]
+        [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
         {
             get; set;
         }
+        [NWDTooltipsAttribute("The list and quantity of Item required to show this answer and this dialog")]
         public NWDReferencesQuantityType<NWDItem> ItemsRequired
         {
             get; set;
         }
+        [NWDTooltipsAttribute("The type of button to use for this answer : " +
+                              "\n •None, " +
+                              "\n •Default, " +
+                              "\n •Cancel, " +
+                              "\n •Validate, " +
+                              "\n •Destructive, " +
+                              "\n •etc." +
+                              "")]
         public NWDDialogAnswerType AnswerType
         {
             get; set;
-        } // default, cancel, ok ...
+        }
+        [NWDTooltipsAttribute("The type of answer " +
+                              "\n •Sequent (just continue next, perhaps not show button)," +
+                              "\n •Normal (choose answer),  " +
+                              "\n •Step ( the next time restart quest here), " +
+                              //"\n •Stop (stop the dialog after this answer), " +
+                              "\n •Random (randomly show answer)" +
+                              "")]
         public NWDDialogState AnswerState
         {
             get; set;
-        } // sequent, step, finish
+        }
+        [NWDTooltipsAttribute("This answer change the quest state to ... " +
+                              "\n •None (do nothing),  " +
+                              "\n •Start, " +
+                              "\n •StartAlternate, " +
+                              "\n •Accept, " +
+                              "\n •Refuse, " +
+                              "\n •Success, " +
+                              "\n •Cancel, " +
+                              "\n •Failed" +
+                              "")]
         public NWDQuestState QuestStep
         {
             get; set;
         }
+        [NWDTooltipsAttribute("Select language and write your answer in this language")]
         public NWDLocalizableStringType Answer
         {
             get; set;
@@ -107,14 +147,27 @@ namespace NetWorkedData
         [NWDGroupEnd]
         [NWDSeparator]
         [NWDGroupStartAttribute("Dialog", true, true, true)]
+        [NWDTooltipsAttribute("Select the character who says the dialog")]
         public NWDReferenceType<NWDCharacter> CharacterReference
         {
             get; set;
         }
+        [NWDTooltipsAttribute("Select the character emotion to illustrate this Dialog")]
         public NWDCharacterEmotion CharacterEmotion
         {
             get; set;
         }
+        [NWDTooltipsAttribute("Select the Bubble style to content this Dialog" +
+                              "\n •Speech," +
+                              "\n •Whisper," +
+                              "\n •Thought," +
+                              "\n •Scream, " +
+                              "")]
+        public NWDBubbleStyleType BubbleStyle
+        {
+            get; set;
+        }
+        [NWDTooltipsAttribute("Select language and write your dialog in this language")]
         public NWDLocalizableTextType Dialog
         {
             get; set;
@@ -126,7 +179,13 @@ namespace NetWorkedData
         {
             get; set;
         }
-
+        [NWDGroupEndAttribute]
+        [NWDGroupStartAttribute("Option Quest", true, true, true)]
+        [NWDTooltipsAttribute("The quest launched after this dialog")]
+        public NWDReferenceType<NWDQuest> NextQuest
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -210,6 +269,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
+        static private bool ImageLoaded = false;
+        static public Texture2D kImageSequent = null;
+        static public Texture2D kImageStep = null;
+        static public Texture2D kImageStop = null;
+        static public Texture2D kImageRandom = null;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void LoadImages()
+        {
+            //Debug.Log("STATIC STEConstants LoadImages()");
+            if (ImageLoaded == false)
+            {
+                ImageLoaded = true;
+                kImageSequent = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceSequent.psd"));
+                kImageStep = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceStep.psd"));
+                kImageStop = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceStop.psd"));
+                kImageRandom = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceRandom.psd"));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override bool AddonEdited(bool sNeedBeUpdate)
         {
             if (sNeedBeUpdate == true)
@@ -242,20 +320,36 @@ namespace NetWorkedData
             //return sDocumentWidth;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight()
+        public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 200f;
+            GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
+            tBubuleStyle.fontSize = 14;
+            tBubuleStyle.richText = true;
+            string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+            string tDialog = Dialog.GetLanguageString(tLangue);
+            float tText = tBubuleStyle.CalcHeight(new GUIContent(tDialog), sCardWidth - NWDConstants.kFieldMarge * 2 - NWDConstants.kPrefabSize);
+
+            NWDDialog[] tDialogs = NextDialogs.GetObjects();
+            float tAnswers = tDialogs.Length * NWDNodeEditor.SharedInstance().GetHeightProperty(); 
+
+            return NWDConstants.kFieldMarge*3+NWDConstants.kPrefabSize+tText+tAnswers;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
+            LoadImages();
+
             GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
+
+            Color tBackgroundColor = GUI.backgroundColor;
 
             GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
             tStyle.richText = true;
             string tText = "";
             // if answer
-            string tAnswer = Answer.GetBaseString();
+            string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+
+            string tAnswer = Answer.GetLanguageString(tLangue);
             if (tAnswer != "")
             {
                 tText += "For the answer : \"" + tAnswer + "\"…\n";
@@ -271,10 +365,27 @@ namespace NetWorkedData
             string tCharacterEmotion = CharacterEmotion.ToString();
             if (tCharacter != null)
             {
-                tCharacterName = tCharacter.FirstName.GetBaseString() + " " + tCharacter.LastName.GetBaseString();
+                tCharacterName = tCharacter.FirstName.GetLanguageString(tLangue) + " " + tCharacter.LastName.GetBaseString();
+                tCharacter.DrawPreviewTexture2D(new Vector2(sRect.x, sRect.y));
             }
-            string tDialog = Dialog.GetBaseString();
-            tText += "<b>" + tCharacterName + "</b> says [" + tCharacterEmotion + "]: \n\n \"<i>" + tDialog + "</i>\"\n\n";
+            tText += "<b>" + tCharacterName + "</b> says ("+tLangue+") [" + tCharacterEmotion + "]:";
+
+            // draw resume
+            GUI.Label(new Rect (sRect.x + NWDConstants.kPrefabSize+ NWDConstants.kFieldMarge,sRect.y, sRect.width - NWDConstants.kPrefabSize - NWDConstants.kFieldMarge, sRect.height), tText, tStyle);
+
+
+            // draw dialog
+            string tDialog = Dialog.GetLanguageString(tLangue);
+            GUIStyle tBubuleStyle = new GUIStyle(GUI.skin.box);
+            tBubuleStyle.fontSize = 14;
+            tBubuleStyle.richText = true;
+            GUI.backgroundColor =Color.white;
+            GUI.Box(new Rect(sRect.x + NWDConstants.kPrefabSize - NWDConstants.kFieldMarge*3,
+                             sRect.y+ NWDConstants.kPrefabSize - NWDConstants.kFieldMarge*3,
+                             sRect.width - NWDConstants.kPrefabSize + NWDConstants.kFieldMarge*3,
+                             sRect.height- NWDConstants.kPrefabSize + NWDConstants.kFieldMarge*3), tDialog,tBubuleStyle);
+            GUI.backgroundColor = tBackgroundColor;
+
 
             if (sPropertysGroup == true)
             {
@@ -284,22 +395,51 @@ namespace NetWorkedData
                 foreach (NWDDialog tAnswerDialog in tDialogs)
                 {
                     //tText += "<b> Answer : "+tI+" </b>"+tAnswerDialog.Answer.GetBaseString()+"\n";
-                    Color tBackgroundColor = GUI.backgroundColor;
-                    if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+                    //if (tAnswerDialog.AnswerState == NWDDialogState.Stop)
+                    //{
+                    //    GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
+                    //}
+                    //else 
+                    //    if (tAnswerDialog.AnswerState == NWDDialogState.Step)
+                    //{
+                    //    GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
+                    //}
+                    //else if (tAnswerDialog.AnswerState == NWDDialogState.Sequent)
+                    //{
+                    //    GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
+                    //}
+
+                    GUIContent tContent = null;
+                    switch (tAnswerDialog.AnswerState)
                     {
-                        GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
-                    }
-                    else if (tAnswerDialog.AnswerState == NWDDialogState.Step)
-                    {
-                        GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
-                    }
-                    else if (tAnswerDialog.AnswerState == NWDDialogState.Sequent)
-                    {
-                        GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
+                        case NWDDialogState.Sequent :
+                            {
+                                tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageSequent);
+                            }
+                            break;
+                        case NWDDialogState.Step:
+                            {
+                                tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageStep);
+                            }
+                            break;
+                        //case NWDDialogState.Stop:
+                            //{
+                            //    tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageStop);
+                            //}
+                            //break;
+                        case NWDDialogState.Random:
+                            {
+                                tContent = new GUIContent(tAnswerDialog.Answer.GetLanguageString(tLangue), kImageRandom);
+                            }
+                            break;
                     }
 
 
-                    if (GUI.Button(new Rect(sRect.x, sRect.y + sRect.height - tI * (NWDConstants.HeightButton + NWDConstants.kFieldMarge), sRect.width, NWDConstants.HeightButton), tAnswerDialog.Answer.GetBaseString()))
+                    if (GUI.Button(new Rect(sRect.x + NWDConstants.kPrefabSize,
+                                            sRect.y + sRect.height - tI * (NWDConstants.HeightButton + NWDConstants.kFieldMarge),
+                                            sRect.width - NWDConstants.kFieldMarge - NWDConstants.kPrefabSize,
+                                            NWDConstants.HeightButton),
+                                   tContent))
                     {
                         NWDDataInspector.InspectNetWorkedData(tAnswerDialog, false, false);
                     }
@@ -308,40 +448,69 @@ namespace NetWorkedData
                 }
             }
 
-            // draw resume
-            GUI.Label(sRect, tText, tStyle);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodePropertyDraw(string sPpropertyName, Rect sRect)
         {
+            LoadImages();
             GUIStyle tBox = new GUIStyle(EditorStyles.helpBox);
             tBox.alignment = TextAnchor.MiddleLeft;
             GUI.Label(sRect, sPpropertyName + " : " + InternalKey, EditorStyles.miniLabel);
             //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
             //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
 
+            string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+
             float tButtonWidth = 150.0F;
 
             Color tBackgroundColor = GUI.backgroundColor;
 
+            //if (AnswerState == NWDDialogState.Stop)
+            //{
+            //    GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
+            //}
+            //else 
+            //    if (AnswerState == NWDDialogState.Step)
+            //{
+            //    GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
+            //}
+            //else if (AnswerState == NWDDialogState.Sequent)
+            //{
+            //    GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
+            //}
 
-            if (AnswerState == NWDDialogState.Stop)
-            {
-                GUI.backgroundColor = NWDConstants.K_BLUE_BUTTON_COLOR;
-            }
-            else if (AnswerState == NWDDialogState.Step)
-            {
-                GUI.backgroundColor = NWDConstants.K_GREEN_BUTTON_COLOR;
-            }
-            else if (AnswerState == NWDDialogState.Sequent)
-            {
-                GUI.backgroundColor = NWDConstants.K_GRAY_BUTTON_COLOR;
-            }
 
-
-            if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth, sRect.y , tButtonWidth, NWDConstants.HeightButton), Answer.GetBaseString()))
+            GUIContent tContent = null;
+            string tAnswer = Answer.GetLanguageString(tLangue);
+            switch (AnswerState)
             {
-                NWDDataInspector.InspectNetWorkedData(this, false, false);
+                case NWDDialogState.Sequent:
+                    {
+                        tContent = new GUIContent(tAnswer, kImageSequent);
+                    }
+                    break;
+                case NWDDialogState.Step:
+                    {
+                        tContent = new GUIContent(tAnswer, kImageStep);
+                    }
+                    break;
+                //case NWDDialogState.Stop:
+                    //{
+                    //    tContent = new GUIContent(tAnswer, kImageStop);
+                    //}
+                    //break;
+                case NWDDialogState.Random:
+                    {
+                        tContent = new GUIContent(tAnswer, kImageRandom);
+                    }
+                    break;
+            }
+           // if (string.IsNullOrEmpty(tAnswer) == false)
+            {
+                if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth- NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
+                {
+                    NWDDataInspector.InspectNetWorkedData(this, false, false);
+                }
             }
             GUI.backgroundColor = tBackgroundColor;
         }

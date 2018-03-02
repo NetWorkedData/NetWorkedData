@@ -270,7 +270,7 @@ namespace NetWorkedData
             return 200.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight()
+        public override float AddOnNodeDrawHeight(float sCardWidth)
         {
             return 50.0f;
         }
