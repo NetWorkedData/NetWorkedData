@@ -240,7 +240,7 @@ namespace NetWorkedData
             // do something when object finish to be updated
 #if UNITY_EDITOR
             NWDVersion.UpdateVersionBundle();
-            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDVersion));
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDVersion));
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

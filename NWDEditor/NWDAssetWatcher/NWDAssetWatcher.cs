@@ -61,7 +61,7 @@ namespace NetWorkedData
 			string tExtension = Path.GetExtension (sOldPath);
 			//UnityEngine.Debug.Log ("OnWillMoveAsset " + sOldPath + " to " + sNewPath);
 			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
-				NWDDataManager.SharedInstance.ChangeAssetPath (sOldPath, sNewPath);
+				NWDDataManager.SharedInstance().ChangeAssetPath (sOldPath, sNewPath);
 			}
 			return rReturn;
 		}
@@ -78,7 +78,7 @@ namespace NetWorkedData
 			//UnityEngine.Debug.Log ("OnWillDeleteAsset " + sOldPath + "");
 			string tExtension = Path.GetExtension (sOldPath);
 			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
-				NWDDataManager.SharedInstance.ChangeAssetPath (sOldPath, "");
+				NWDDataManager.SharedInstance().ChangeAssetPath (sOldPath, "");
 			}
 			return rReturn;
 		}

@@ -288,10 +288,10 @@ namespace NetWorkedData
         public static Dictionary<string, object> SynchronizationPushData(NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
         {
 
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
-                tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
 
             //Debug.Log("SynchronizationPushData for table " + TableName());
@@ -447,14 +447,14 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             if (Application.isPlaying == true)
             {
-                NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce(new List<Type> { ClassType() }, true, sEnvironment);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(new List<Type> { ClassType() }, true, sEnvironment);
             }
             else
             {
                 NWDEditorMenu.EnvironementSync().SynchronizationForce(new List<Type> { ClassType() }, sEnvironment);
             }
 #else
-				NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
+				NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
@@ -470,14 +470,14 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             if (Application.isPlaying == true)
             {
-                NWDDataManager.SharedInstance.AddWebRequestSynchronization(new List<Type> { ClassType() }, true, sEnvironment);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type> { ClassType() }, true, sEnvironment);
             }
             else
             {
                 NWDEditorMenu.EnvironementSync().Synchronization(new List<Type> { ClassType() }, sEnvironment);
             }
 #else
-				NWDDataManager.SharedInstance.AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
+				NWDDataManager.SharedInstance().AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
@@ -497,10 +497,10 @@ namespace NetWorkedData
             }
             else
             {
-                NWDDataManager.SharedInstance.AddWebRequestSynchronizationClean(new List<Type> { ClassType() }, true, sEnvironment);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean(new List<Type> { ClassType() }, true, sEnvironment);
             }
 #else
-			NWDDataManager.SharedInstance.AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
+			NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;
@@ -529,11 +529,11 @@ namespace NetWorkedData
         {
             if (sForce == true)
             {
-                NWDDataManager.SharedInstance.AddWebRequestSynchronization(new List<Type> { typeof(K) });
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type> { typeof(K) });
             }
             else
             {
-                NWDDataManager.SharedInstance.AddWebRequestSynchronizationForce(new List<Type> { typeof(K) });
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(new List<Type> { typeof(K) });
             }
         }
         //-------------------------------------------------------------------------------------------------------------

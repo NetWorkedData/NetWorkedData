@@ -53,7 +53,7 @@ namespace NetWorkedData
             if (IsLaunched == false && IsLaunching==false) {
                 IsLaunching = true;
 				// Get ShareInstance
-				NWDDataManager tShareInstance = NWDDataManager.SharedInstance;
+				NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
 				// connect to database;
 				tShareInstance.ConnectToDatabase ();
 				// Find all Type of NWDType

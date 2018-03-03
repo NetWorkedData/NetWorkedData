@@ -34,7 +34,7 @@ namespace NetWorkedData
 		                                                      NWDAppEnvironment sEnvironment = null, bool sPriority = false)
 		{
 			NWDOperationWebManagement rReturn = NWDOperationWebManagement.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment);
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
+			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

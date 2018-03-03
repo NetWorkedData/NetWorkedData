@@ -127,10 +127,10 @@ namespace NetWorkedData
 		public bool TestReference (string sReference)
 		{
 
-			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
 			if (AccountDependent ())
 			{
-				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+				tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
 			}
 
 			bool rValid = false;
@@ -163,7 +163,7 @@ namespace NetWorkedData
 			#if UNITY_EDITOR
 			string tOldReference = Reference;
 			string tNewReference = NewReference ();
-			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 				var tMethodInfo = tType.GetMethod ("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					tMethodInfo.Invoke (null, new object[]{ tOldReference, tNewReference});
@@ -172,7 +172,7 @@ namespace NetWorkedData
 			Reference = tNewReference;
 			UpdateMe (true);
 			UpdateObjectInListOfEdition (this);
-			NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+			NWDDataManager.SharedInstance().RepaintWindowsInManager (this.GetType ());
 			#endif
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -26,12 +26,12 @@ namespace NetWorkedData
 		public void ReOrderAllLocalizations ()
 		{
 			string tProgressBarTitle = "NetWorkedData Reorder localization";
-			float tCountClass = NWDDataManager.SharedInstance.mTypeList.Count + 1;
+			float tCountClass = NWDDataManager.SharedInstance().mTypeList.Count + 1;
 			float tOperation = 1;
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare operation", tOperation/tCountClass);
 			tOperation++;
 
-			foreach( Type tType in NWDDataManager.SharedInstance.mTypeList)
+			foreach( Type tType in NWDDataManager.SharedInstance().mTypeList)
 			{
 				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  "+tType.Name+" objects", tOperation/tCountClass);
 				tOperation++;
@@ -49,7 +49,7 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("ExportToCSV");
 			// apply the pending modification : prevent lost modification
-			NWDDataManager.SharedInstance.UpdateQueueExecute ();
+			NWDDataManager.SharedInstance().UpdateQueueExecute ();
 			// ask for final file path
 			string tPath = EditorUtility.SaveFilePanel(
 				"Export Localization CSV",
@@ -63,7 +63,7 @@ namespace NetWorkedData
 				// start to create file
 				string tFile = tHeaders;
 				// populate file by class result
-				foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+				foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 					var tMethodInfo = tType.GetMethod ("ExportAllLocalization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
 						string tResult = tMethodInfo.Invoke (null, null) as string;
@@ -89,7 +89,7 @@ namespace NetWorkedData
 				string[] tFileRows = tFile.Split (new string[]{ "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 				if (tFile != null) {
-					foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+					foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 						var tMethodInfo = tType.GetMethod ("ImportAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 						if (tMethodInfo != null) {
 							string tResult = tMethodInfo.Invoke (null, new object[]{ tLanguageArray, tFileRows }) as string;
@@ -97,7 +97,7 @@ namespace NetWorkedData
 						}
 					}
 				}
-				NWDDataManager.SharedInstance.UpdateQueueExecute ();
+				NWDDataManager.SharedInstance().UpdateQueueExecute ();
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

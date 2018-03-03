@@ -133,7 +133,7 @@ namespace NetWorkedData
 				tCanCreate = false;
 			} else {
 //				TODO: find if Type exists for generic
-				foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+				foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 					if (tType.Name == ClassName) {
 						tCanCreate = false;
 					}
@@ -155,9 +155,9 @@ namespace NetWorkedData
 				tCanCreate = false;
 			} else {
 				//  but Trigramme already exists ?
-				if (NWDDataManager.SharedInstance.mTrigramTypeDictionary.ContainsKey (ClassNameTrigramme)) {
+				if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey (ClassNameTrigramme)) {
 					tCanCreate = false;
-					EditorGUILayout.LabelField (" ", "trigramme allready used by '" + NWDDataManager.SharedInstance.mTrigramTypeDictionary [ClassNameTrigramme].Name + "'!");
+					EditorGUILayout.LabelField (" ", "trigramme allready used by '" + NWDDataManager.SharedInstance().mTrigramTypeDictionary [ClassNameTrigramme].Name + "'!");
 				} else {
 					EditorGUILayout.LabelField (" ", "trigramme is Ok!");
 				}
@@ -222,7 +222,7 @@ namespace NetWorkedData
 			tListOfType.Add ("NWDGeolocType");
 			tListOfType.Add ("        "); // use as separator remove by ereg
 			tListOfType.Add ("NWDJsonType");
-			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 				tListOfType.Add ("NWDReferencesListType<K>/"+tType.Name);
 				tListOfType.Add ("NWDReferencesQuantityType<K>/"+tType.Name);
 				tListOfType.Add ("NWDReferenceType<K>/"+tType.Name);

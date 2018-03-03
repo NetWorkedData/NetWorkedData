@@ -177,7 +177,7 @@ namespace NetWorkedData
         public static void ReorderListOfManagementByName()
         {
             // apply all modifications 
-            NWDDataManager.SharedInstance.UpdateQueueExecute();
+            NWDDataManager.SharedInstance().UpdateQueueExecute();
             // must be more efficient
             LoadTableEditor();
             FilterTableEditor();
@@ -267,10 +267,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static IEnumerable<K> SelectForEditionObjects(string sInternalKey, string sInternalDescription, NWDBasisTag sTag)
         {
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
-                tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
 
             if ((sInternalKey == null || sInternalKey == "") && (sInternalDescription == null || sInternalDescription == "") && (int)sTag < 0)
@@ -443,10 +443,10 @@ namespace NetWorkedData
         {
             //Debug.Log ("LoadTableEditor ##########");
 
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
-                tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
 
 
@@ -454,7 +454,7 @@ namespace NetWorkedData
             IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
 #else
             //TODO Modify request for release
-			//IEnumerable tEnumerable = NWDDataManager.SharedInstance.SQLiteConnection.Table<K> ().Where (x => x.AC.Equals (bool.TrueString)).OrderBy(x => x.InternalKey);
+			//IEnumerable tEnumerable = NWDDataManager.SharedInstance().SQLiteConnection.Table<K> ().Where (x => x.AC.Equals (bool.TrueString)).OrderBy(x => x.InternalKey);
 			IEnumerable tEnumerable = tSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
             //TODO Add restriction of AccountReference is AccountReference Exist
 #endif

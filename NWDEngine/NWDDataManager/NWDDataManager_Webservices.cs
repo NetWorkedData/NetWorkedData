@@ -353,7 +353,7 @@ namespace NetWorkedData
 			Debug.Log ("AddWebRequestSessionWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Session with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "session";
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@ namespace NetWorkedData
 			sOperation.Email = sEmail;
 			sOperation.Password = sPassword;
 			sOperation.ConfirmPassword = sConfirmPassword;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -386,7 +386,7 @@ namespace NetWorkedData
 			sOperation.Action = "signin";
 			sOperation.Email = sEmail;
 			sOperation.Password = sPassword;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -399,7 +399,7 @@ namespace NetWorkedData
 			Debug.Log ("AddWebRequestSignOutWithBlock");
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Sign-out with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "signout";
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -416,7 +416,7 @@ namespace NetWorkedData
 				sOperation.AnonymousPlayerAccountReference = sEnvironment.AnonymousPlayerAccountReference;
 				sOperation.AnonymousResetPassword = sEnvironment.AnonymousResetPassword;
 			}
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -434,7 +434,7 @@ namespace NetWorkedData
 			sOperation.OldPassword = sOldPassword;
 			sOperation.NewPassword = sNewPassword;
 			sOperation.ConfirmPassword = sConfirmPassword;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -449,7 +449,7 @@ namespace NetWorkedData
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Modifiy with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "modify";
 			sOperation.EmailRescue = sEmail;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -465,7 +465,7 @@ namespace NetWorkedData
 			sOperation.Action = "delete";
 			sOperation.Password = sPassword;
 			sOperation.ConfirmPassword = sConfirmPassword;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -480,7 +480,7 @@ namespace NetWorkedData
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "facebook";
 			sOperation.SocialToken = sSocialToken;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -495,7 +495,7 @@ namespace NetWorkedData
 			NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create ("Account Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
 			sOperation.Action = "google";
 			sOperation.SocialToken = sSocialToken;
-			SharedInstance.WebOperationQueue.AddOperation (sOperation, sPriority);
+            SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -563,7 +563,7 @@ namespace NetWorkedData
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
             {
-                List<Type> tTypeList = NWDDataManager.SharedInstance.mTypeList;
+                List<Type> tTypeList = NWDDataManager.SharedInstance().mTypeList;
                 sTypeList = tTypeList;
             }
 
@@ -592,7 +592,7 @@ namespace NetWorkedData
 
 			if (sUpdateData == true)
             {
-				SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
+                SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

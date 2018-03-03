@@ -97,7 +97,7 @@ namespace NetWorkedData
 				Interlocked.Increment(ref InstanceCounter);
 				if (Initialized == false) {
 					// memorize the shared instance
-					DataManager = NWDDataManager.SharedInstance;
+					DataManager = NWDDataManager.SharedInstance();
 					AppConfiguration = NWDAppConfiguration.SharedInstance();
 					NotificationCenter = BTBNotificationManager.SharedInstance();
 					// ready to launch database

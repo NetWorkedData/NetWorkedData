@@ -232,7 +232,7 @@ namespace NetWorkedData
 		/// </summary>
 		public static void UpdateQueueExecute ()
 		{
-			NWDDataManager.SharedInstance.UpdateQueueExecute ();
+			NWDDataManager.SharedInstance().UpdateQueueExecute ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -240,7 +240,7 @@ namespace NetWorkedData
 		/// </summary>
 		public static void ApplyAllModifications ()
 		{
-			NWDDataManager.SharedInstance.UpdateQueueExecute ();
+			NWDDataManager.SharedInstance().UpdateQueueExecute ();
 			#if UNITY_EDITOR
 			LoadTableEditor ();
 			FilterTableEditor ();
@@ -361,7 +361,7 @@ namespace NetWorkedData
                 }
                 this.AddonInsertMe();
 				this.UpdateIntegrity ();
-				NWDDataManager.SharedInstance.InsertObject (this, AccountDependent ());
+				NWDDataManager.SharedInstance().InsertObject (this, AccountDependent ());
 				AddObjectInListOfEdition (this);
 				rReturn = true;
 			} else {
@@ -371,7 +371,7 @@ namespace NetWorkedData
 			}
 
 #if UNITY_EDITOR
-            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(K));
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(K));
 #endif
 			return rReturn;
 		}
@@ -431,12 +431,12 @@ namespace NetWorkedData
 			this.ProdSync = 0;
             this.ServerHash = "";
 			this.UpdateIntegrity ();
-			NWDDataManager.SharedInstance.UpdateObject (this, AccountDependent ());
+			NWDDataManager.SharedInstance().UpdateObject (this, AccountDependent ());
 			// object was updated
 			this.AddonUpdatedMe (); // call override method
 			// I have one or more uploaded datas to synchronize;
 			NWDGameDataManager.UnitySingleton ().NeedSynchronizeData ();
-			//NWDDataManager.SharedInstance.NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
+			//NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -458,7 +458,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void UpdateMeLater ()
 		{
-			NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
+			NWDDataManager.SharedInstance().AddObjectToUpdateQueue (this);
 		}
 
 		//-------------------------------------------------------------------------------------------------------------
@@ -471,7 +471,7 @@ namespace NetWorkedData
 			bool tReturn = false;
 			if (this.Integrity != this.IntegrityValue ()) {
 				tReturn = true;
-				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
+				NWDDataManager.SharedInstance().AddObjectToUpdateQueue (this);
 			}
 			return tReturn;
 		}
@@ -480,7 +480,7 @@ namespace NetWorkedData
 		//		{
 		//			this.DM = NWDToolbox.Timestamp ();
 		//			this.UpdateIntegrity ();
-		//			NWDDataManager.SharedInstance.UpdateObject (this);
+		//			NWDDataManager.SharedInstance().UpdateObject (this);
 		//		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -490,10 +490,10 @@ namespace NetWorkedData
 		public NWDBasis<K> DuplicateMe ()
 		{
 
-			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+			SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
 			if (AccountDependent ())
 			{
-				tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+				tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
 			}
 
 			// Must reccord object in data base 
@@ -568,7 +568,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void DeleteMe ()
 		{
-			NWDDataManager.SharedInstance.DeleteObject (this, AccountDependent ());
+			NWDDataManager.SharedInstance().DeleteObject (this, AccountDependent ());
 
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -283,7 +283,7 @@ namespace NetWorkedData
                                 if (tPropertyValueOld.Value != tNextValue)
                                 {
                                     tPropertyValueOld.Value = tNextValue;
-                                    NWDDataManager.SharedInstance.AddObjectToUpdateQueue(tObject);
+                                    NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tObject);
                                 }
                             }
                             //								
@@ -295,7 +295,7 @@ namespace NetWorkedData
                             //								NWDLocalizableStringType tPropertyValueOld = (NWDLocalizableStringType)tInfo.GetValue (tObject, null);
                             //								if (tPropertyValueOld.Value != tPropertyValue.Value) {
                             //									tInfo.SetValue (tObject, tPropertyValue, null);
-                            //									NWDDataManager.SharedInstance.AddObjectToUpdateQueue (tObject);
+                            //									NWDDataManager.SharedInstance().AddObjectToUpdateQueue (tObject);
                             //								}
                             //							}
                             //							if (tInfo.PropertyType == typeof(NWDLocalizableTextType)) {
@@ -305,7 +305,7 @@ namespace NetWorkedData
                             //								NWDLocalizableTextType tPropertyValueOld = (NWDLocalizableTextType)tInfo.GetValue (tObject, null);
                             //								if (tPropertyValueOld.Value != tPropertyValue.Value) {
                             //									tInfo.SetValue (tObject, tPropertyValue, null);
-                            //									NWDDataManager.SharedInstance.AddObjectToUpdateQueue (tObject);
+                            //									NWDDataManager.SharedInstance().AddObjectToUpdateQueue (tObject);
                             //								}
                             //							}
 

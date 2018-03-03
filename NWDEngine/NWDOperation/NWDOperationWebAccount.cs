@@ -63,7 +63,7 @@ namespace NetWorkedData
 		                                                   NWDAppEnvironment sEnvironment = null, bool sPriority = false)
 		{
 			NWDOperationWebAccount rReturn = NWDOperationWebAccount.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment);
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
+			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -114,11 +114,11 @@ namespace NetWorkedData
 			if (Action != null) {
 				if (Action == "signin" || Action == "facebook" || Action == "google" || Action == "session") {
 					// TODO : check if work correctly 
-					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, false, NWDDataManager.SharedInstance.mTypeAccountDependantList);
+					Data = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (Environment, false, NWDDataManager.SharedInstance().mTypeAccountDependantList);
 					//Data = new Dictionary<string, object> ();
 				} else {
 					// TODO : check if work correctly 
-					Data = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, false, NWDDataManager.SharedInstance.mTypeSynchronizedList);
+					Data = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (Environment, false, NWDDataManager.SharedInstance().mTypeSynchronizedList);
 				}
 				if (Data.ContainsKey (ActionKey)) {
 					Data [ActionKey] = Action;
@@ -244,7 +244,7 @@ namespace NetWorkedData
 			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
             if (sData.isSignIn)
             {
-				foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList)
+				foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
                 {
 					var tMethodInfo = tType.GetMethod ("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null)
@@ -254,7 +254,7 @@ namespace NetWorkedData
 				}
 			}
 
-            NWDDataManager.SharedInstance.SynchronizationPullClassesDatas(Environment, sData, NWDDataManager.SharedInstance.mTypeAccountDependantList);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList);
 			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 		}
         //-------------------------------------------------------------------------------------------------------------

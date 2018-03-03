@@ -542,7 +542,7 @@ namespace NetWorkedData
 			}
 			RecipeHash = BTBSecurityTools.GenerateSha (tAssembly, BTBSecurityShaTypeEnum.Sha1);
 
-			NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+			NWDDataManager.SharedInstance().RepaintWindowsInManager (this.GetType ());
 			NWDDataInspector.ActiveRepaint ();
 			//--------------
 			#endif

@@ -114,13 +114,13 @@ namespace NetWorkedData
 		/// </summary>
 		public void DefineTab ()
 		{
-			NWDDataManager.SharedInstance.ConnectToDatabase ();
+			NWDDataManager.SharedInstance().ConnectToDatabase ();
 			int tCount = mTabTypeList.Length;
 			mTabList = new string[tCount];
 			int tN = 0;
 			foreach( Type tType in mTabTypeList)
 			{
-//				NWDDataManager.SharedInstance.NotificationCenter.AddObserver (this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
+//				NWDDataManager.SharedInstance().NotificationCenter.AddObserver (this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
 //					{
 ////						Debug.Log ("###### method invoke");
 //						UpdateDatas();
@@ -134,7 +134,7 @@ namespace NetWorkedData
 					tN++;
 				}
 				// I add this window to window update for this Type of Datas
-				NWDDataManager.SharedInstance.AddWindowInManager (this, mTabTypeList);
+				NWDDataManager.SharedInstance().AddWindowInManager (this, mTabTypeList);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -155,14 +155,14 @@ namespace NetWorkedData
 		/// </summary>
 		void OnEnable ()
 		{
-			NWDDataManager.SharedInstance.UpdateQueueExecute();
+			NWDDataManager.SharedInstance().UpdateQueueExecute();
 			if (typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true).Length > 0) {
 				NWDTypeWindowParamAttribute tNWDBasisWindowParamAttribute = (NWDTypeWindowParamAttribute)typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true) [0];
 				mTitleKey = tNWDBasisWindowParamAttribute.Title;
 				IconOfWindow = FromGizmos(tNWDBasisWindowParamAttribute.IconName);
 				mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
 				if (tNWDBasisWindowParamAttribute.TypeList == null) {
-					mTabTypeList = NWDDataManager.SharedInstance.mTypeList.ToArray ();
+					mTabTypeList = NWDDataManager.SharedInstance().mTypeList.ToArray ();
 					Array.Sort(mTabTypeList, (x,y) => String.Compare(x.Name, y.Name));
 				} else {
 					mTabTypeList = tNWDBasisWindowParamAttribute.TypeList;
@@ -176,7 +176,7 @@ namespace NetWorkedData
 		/// </summary>
 		void OnDisable ()
 		{
-			NWDDataManager.SharedInstance.UpdateQueueExecute();
+			NWDDataManager.SharedInstance().UpdateQueueExecute();
 			//ApplyUpdate();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -184,27 +184,27 @@ namespace NetWorkedData
 		/// Call on focus on this window
 		/// </summary>
 		void OnFocus() {
-			NWDDataManager.SharedInstance.UpdateQueueExecute();
+			NWDDataManager.SharedInstance().UpdateQueueExecute();
 //			ApplyUpdate();
 //			ApplyListUpdate ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		void OnLostFocus()
 		{
-			NWDDataManager.SharedInstance.UpdateQueueExecute();
+			NWDDataManager.SharedInstance().UpdateQueueExecute();
 //			ApplyUpdate();
 //			ApplyTableUpdate ();
 //			ApplyListUpdate ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		void OnDestroy() {
-			NWDDataManager.SharedInstance.RemoveWindowFromManager (this);
+			NWDDataManager.SharedInstance().RemoveWindowFromManager (this);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetClassInEdition(Type sClassType)
 		{
 //			ApplyUpdate();
-			NWDDataManager.SharedInstance.UpdateQueueExecute();
+			NWDDataManager.SharedInstance().UpdateQueueExecute();
 			GUI.FocusControl (null);
 			NWDBasisClassInspector tBasisClassInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
 			tBasisClassInspector.mTypeInEdition = sClassType;

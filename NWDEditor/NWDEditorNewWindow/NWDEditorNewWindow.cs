@@ -99,7 +99,7 @@ namespace NetWorkedData
 			tCanCreate = false;
 		} else {
 //				TODO: find if Type exists
-//			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+//			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 //				if (tType.Name == ClassName) {
 //					tCanCreate = false;
 //				}
@@ -149,7 +149,7 @@ namespace NetWorkedData
 		// create properties type
 		List<string> tListOfType = new List<string> ();
 		tListOfType.Add (" ");
-		foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+		foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 			tListOfType.Add (tType.Name);
 		}
 		tListOfType.Sort ();

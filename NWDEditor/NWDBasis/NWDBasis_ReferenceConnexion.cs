@@ -188,7 +188,7 @@ namespace NetWorkedData
 
                         tValue = tObject.Reference;
                         SetObjectInEdition(tObject);
-                        NWDDataManager.SharedInstance.RepaintWindowsInManager(tObject.GetType());
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(tObject.GetType());
                     }
                 }
             }
@@ -410,7 +410,7 @@ namespace NetWorkedData
 
                             tFuturValue = tObject.Reference;
                             SetObjectInEdition(tObject, true, true);
-                            NWDDataManager.SharedInstance.RepaintWindowsInManager(tObject.GetType());
+                            NWDDataManager.SharedInstance().RepaintWindowsInManager(tObject.GetType());
                         }
                     }
                 }

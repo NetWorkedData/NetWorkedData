@@ -80,6 +80,25 @@ namespace NetWorkedData
             }
             return rReturn.ToArray();
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] TrashAllObjects(string sAccountReference = null)
+        {
+            List<K> rReturn = new List<K>();
+            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            {
+                if (tObject.IsReacheableByAccount(sAccountReference))
+                {
+                    tObject.TrashMe();
+                    rReturn.Add(tObject);
+                }
+            }
+#if UNITY_EDITOR
+            RepaintTableEditor();
+            RepaintInspectorEditor();
+#endif
+            return rReturn.ToArray();
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByReference(string sReference, string sAccountReference = null)
         {
@@ -229,10 +248,10 @@ namespace NetWorkedData
         // TODO: must be tested
         public static K[] Where(Expression<Func<K, bool>> predExpr, string sAccountReference = null)
         {
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionEditor;
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
-                tSQLiteConnection = NWDDataManager.SharedInstance.SQLiteConnectionAccount;
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
             IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(predExpr);
             List<K> tAllReferences = new List<K>();

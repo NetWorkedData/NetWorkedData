@@ -78,7 +78,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RepaintTableEditor()
         {
-        NWDDataManager.SharedInstance.RepaintWindowsInManager(ClassType());
+        NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+        }
+        public static void RepaintInspectorEditor()
+        {
+            NWDDataInspector.ActiveRepaint();
         }
         //-------------------------------------------------------------------------------------------------------------
 		public static void DrawPagesTab ()
@@ -121,7 +125,7 @@ namespace NetWorkedData
 				t_PageSelected = EditorGUILayout.Popup (m_PageSelected, tListOfPagesName, EditorStyles.popup, GUILayout.Width (tPopupWidth));
 			}
 			if (m_PageSelected != t_PageSelected) {
-				NWDDataManager.SharedInstance.UpdateQueueExecute ();
+				NWDDataManager.SharedInstance().UpdateQueueExecute ();
 			}
 			m_PageSelected = t_PageSelected;
 			GUILayout.FlexibleSpace ();
@@ -145,7 +149,7 @@ namespace NetWorkedData
 //			if (TestSaltValid () == false) {
 //				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 //			}
-			if (NWDDataManager.SharedInstance.TestSaltMemorizationForAllClass () == false) {
+			if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass () == false) {
 				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 			}
 
@@ -541,7 +545,7 @@ namespace NetWorkedData
 						tObjectToDelete.DeleteMe ();
 					}
 					SetObjectInEdition (null);
-					NWDDataManager.SharedInstance.RepaintWindowsInManager (ClassType ());
+					NWDDataManager.SharedInstance().RepaintWindowsInManager (ClassType ());
 				}
 			}
 
@@ -573,7 +577,7 @@ namespace NetWorkedData
 					}
 					SetObjectInEdition (null);
 					//					sEditorWindow.Repaint ();
-					NWDDataManager.SharedInstance.RepaintWindowsInManager (ClassType ());
+					NWDDataManager.SharedInstance().RepaintWindowsInManager (ClassType ());
 				}
 			}
 
@@ -633,7 +637,7 @@ namespace NetWorkedData
 
 
 			bool tDisableProd = false;
-			if (NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Contains (ClassType ())) {
+			if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains (ClassType ())) {
 				tDisableProd = true;
 			}
 			if (AccountDependent () == true) {
@@ -760,7 +764,7 @@ namespace NetWorkedData
 				m_PageSelected = m_MaxPage * 3;
 				SetObjectInEdition (tNewObject);
 //				sEditorWindow.Repaint ();
-				NWDDataManager.SharedInstance.RepaintWindowsInManager (ClassType ());
+				NWDDataManager.SharedInstance().RepaintWindowsInManager (ClassType ());
 			}
 
 
@@ -769,7 +773,7 @@ namespace NetWorkedData
                 K tNewObject = new K();
                 m_PageSelected = m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(ClassType());
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
 
 

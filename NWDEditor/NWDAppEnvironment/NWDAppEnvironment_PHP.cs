@@ -140,7 +140,7 @@ namespace NetWorkedData
 				"// TABLES MANAGEMENT \n" +
 				"//-------------------- \n";
 			// I need include ALL tables management files to manage ALL tables
-			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					string tClassName = tMethodInfo.Invoke (null, null) as string;
@@ -151,7 +151,7 @@ namespace NetWorkedData
 				"function CreateAllTables ()\n" +
 				"\t{\n" +
 				"\t\tmyLog('CREATE ALL TABALES ON SERVER', __FILE__, __FUNCTION__, __LINE__);\n";
-			foreach (Type tType in NWDDataManager.SharedInstance.mTypeList) {
+			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					string tClassName = tMethodInfo.Invoke (null, null) as string;
@@ -212,7 +212,7 @@ namespace NetWorkedData
 				"if (!errorDetected())\n" +
                 "\t{\n";
 			// I need include ALL tables management files to manage ALL tables
-			foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
+			foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					string tClassName = tMethodInfo.Invoke (null, null) as string;
@@ -226,7 +226,7 @@ namespace NetWorkedData
 			if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment) {
 
                 tWebServices += "\tif ($admin == true)\n\t\t{\n";
-				foreach (Type tType in NWDDataManager.SharedInstance.mTypeUnSynchronizedList) {
+				foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList) {
 					var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
 						string tClassName = tMethodInfo.Invoke (null, null) as string;
@@ -263,7 +263,7 @@ namespace NetWorkedData
                 "if (!errorDetected())\n" +
                 "\t{\n";
             // I need include ALL tables management files to manage ALL tables
-            foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList)
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
             {
                 var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
@@ -302,8 +302,8 @@ namespace NetWorkedData
 				"\t\t\t\tif ($REP['signin'] == true)\n" +
 				"\t\t\t\t\t{\n";
 			// I need include ALL tables management files to manage ALL tables
-			foreach (Type tType in NWDDataManager.SharedInstance.mTypeAccountDependantList) {
-//				foreach (Type tType in NWDDataManager.SharedInstance.mTypeSynchronizedList) {
+			foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList) {
+//				foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
 				var tMethodInfo = tType.GetMethod ("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) {
 					string tClassName = tMethodInfo.Invoke (null, null) as string;

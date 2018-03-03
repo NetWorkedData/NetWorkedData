@@ -199,7 +199,7 @@ namespace NetWorkedData
 			}
 
 			bool tDisableProd = false;
-			if (NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Contains (ClassType ())) {
+			if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains (ClassType ())) {
 				tDisableProd = true;
 			}
 			if (AccountDependent () == true) {
@@ -251,7 +251,7 @@ namespace NetWorkedData
 			// check click in rect
 			if (rRectAnalyze.Contains (sMouseClickPosition)) 
 			{
-				//NWDDataManager.SharedInstance.UpdateQueueExecute(); // update execute in another place!? in NWDDataManager.SharedInstance destroyed?
+				//NWDDataManager.SharedInstance().UpdateQueueExecute(); // update execute in another place!? in NWDDataManager.SharedInstance() destroyed?
 				GUI.FocusControl (null);
 				SetObjectInEdition (this);
 				if (sSelectAndClick==true) {

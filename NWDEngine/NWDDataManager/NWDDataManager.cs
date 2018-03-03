@@ -80,7 +80,7 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("NWDDataManager Destructor");
 			// reccord all modifications because this instance will be destroyed
-			SharedInstance.UpdateQueueExecute();
+            SharedInstance().UpdateQueueExecute();
 			// remove notification center
 			if (NotificationCenter != null) {
 				NotificationCenter.RemoveAll ();
@@ -171,10 +171,8 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDDataManager SharedInstance {
-			get {
-				return kSharedInstance; 
-			}
+        public static NWDDataManager SharedInstance() {
+			return kSharedInstance;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

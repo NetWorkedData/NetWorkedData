@@ -143,7 +143,7 @@ namespace NetWorkedData
                     SyncNickNameBlockDelegate(true, tInfos);
                 }
             };
-            NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
@@ -276,7 +276,7 @@ namespace NetWorkedData
         //    sOperation.Nickname = sNickname;
         //    sOperation.UserNicknameReference = this;
         //    // add request!
-        //    NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+        //    NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         //}
         //-------------------------------------------------------------------------------------------------------------
     }

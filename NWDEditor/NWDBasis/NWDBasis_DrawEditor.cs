@@ -61,13 +61,13 @@ namespace NetWorkedData
             if (sObject != null)
             {
                 tLastTypeEdited = sObject.GetType();
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(tLastTypeEdited);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(tLastTypeEdited);
             }
             else if (tLastTypeEdited != null)
             {
                 // repaint all window?
                 // or just last type?
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(tLastTypeEdited);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(tLastTypeEdited);
                 tLastTypeEdited = null;
             }
         }
@@ -947,7 +947,7 @@ namespace NetWorkedData
                             NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
                     {
                         UpdateMe(true);
-                        NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     }
                 }
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -975,7 +975,7 @@ namespace NetWorkedData
                         ))
                     {
                         UnTrashMe();
-                        NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                        NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     }
                 }
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1078,21 +1078,21 @@ namespace NetWorkedData
 				DM = NWDToolbox.Timestamp ();
 				UpdateIntegrity ();
 				UpdateObjectInListOfEdition (this);
-				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
-				NWDDataManager.SharedInstance.UpdateQueueExecute ();
-				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+				NWDDataManager.SharedInstance().AddObjectToUpdateQueue (this);
+				NWDDataManager.SharedInstance().UpdateQueueExecute ();
+				NWDDataManager.SharedInstance().RepaintWindowsInManager (this.GetType ());
 			}
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 			if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle)) {
-				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (this);
+				NWDDataManager.SharedInstance().AddObjectToUpdateQueue (this);
 				K tNexObject = (K)DuplicateMe ();
 				AddObjectInListOfEdition (tNexObject);
-				NWDDataManager.SharedInstance.AddObjectToUpdateQueue (tNexObject);
+				NWDDataManager.SharedInstance().AddObjectToUpdateQueue (tNexObject);
 				SetObjectInEdition (tNexObject);
 				m_PageSelected = m_MaxPage * 3;
-				NWDDataManager.SharedInstance.UpdateQueueExecute ();
-				NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+				NWDDataManager.SharedInstance().UpdateQueueExecute ();
+				NWDDataManager.SharedInstance().RepaintWindowsInManager (this.GetType ());
 			}
 			tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 //			tStyle.alignment = TextAnchor.MiddleLeft;
@@ -1103,7 +1103,7 @@ namespace NetWorkedData
 //				tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle)) {
 					EnableMe ();
-					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+					NWDDataManager.SharedInstance().RepaintWindowsInManager (this.GetType ());
 				}
 				tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			} else {
@@ -1111,7 +1111,7 @@ namespace NetWorkedData
 //				tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle)) {
 					DisableMe ();
-					NWDDataManager.SharedInstance.RepaintWindowsInManager (this.GetType ());
+					NWDDataManager.SharedInstance().RepaintWindowsInManager (this.GetType ());
 				}
 				tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 			}
@@ -1142,7 +1142,7 @@ namespace NetWorkedData
                 Preview = tPreFabGameObject;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
-                NWDDataManager.SharedInstance.AddObjectToUpdateQueue(this);
+                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
             }
 
 
@@ -1164,8 +1164,8 @@ namespace NetWorkedData
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
                     UpdateObjectInListOfEdition(this);
-                    NWDDataManager.SharedInstance.AddObjectToUpdateQueue(this);
-                    NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
             else
@@ -1184,8 +1184,8 @@ namespace NetWorkedData
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
-                NWDDataManager.SharedInstance.AddObjectToUpdateQueue(this);
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
 
 
@@ -1197,8 +1197,8 @@ namespace NetWorkedData
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
-                NWDDataManager.SharedInstance.AddObjectToUpdateQueue(this);
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
 
 
@@ -1241,7 +1241,7 @@ namespace NetWorkedData
                         NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
                 {
                     TrashMe();
-                    NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
             GUI.backgroundColor = tOldColor;
@@ -1251,27 +1251,27 @@ namespace NetWorkedData
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
-                NWDDataManager.SharedInstance.AddObjectToUpdateQueue(this);
-                NWDDataManager.SharedInstance.UpdateQueueExecute();
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                NWDDataManager.SharedInstance().UpdateQueueExecute();
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
             if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle))
             {
-                NWDDataManager.SharedInstance.AddObjectToUpdateQueue(this);
+                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 K tNexObject = (K)DuplicateMe();
                 AddObjectInListOfEdition(tNexObject);
-                NWDDataManager.SharedInstance.AddObjectToUpdateQueue(tNexObject);
+                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 SetObjectInEdition(tNexObject);
                 m_PageSelected = m_MaxPage * 3;
-                NWDDataManager.SharedInstance.UpdateQueueExecute();
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                NWDDataManager.SharedInstance().UpdateQueueExecute();
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
             if (AC == false)
             {
                 if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle))
                 {
                     EnableMe();
-                    NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
             else
@@ -1279,7 +1279,7 @@ namespace NetWorkedData
                 if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle))
                 {
                     DisableMe();
-                    NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
 
@@ -1305,7 +1305,7 @@ namespace NetWorkedData
                     RemoveObjectInListOfEdition(this);
                     DeleteMe();
                     SetObjectInEdition(null);
-                    //NWDDataManager.SharedInstance.RepaintWindowsInManager(this.GetType());
+                    //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     RepaintTableEditor();
                     NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }

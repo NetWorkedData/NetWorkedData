@@ -263,7 +263,7 @@ namespace NetWorkedData
         public string AnswerRichText(bool sBold = true)
         {
             string rReturn = Answer.GetLocalString();
-            rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance.PlayerLanguage, sBold);
+            rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -277,7 +277,7 @@ namespace NetWorkedData
         public string DialogRichText(bool sBold = true)
         {
             string rReturn = Dialog.GetLocalString();
-            rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance.PlayerLanguage, sBold);
+            rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

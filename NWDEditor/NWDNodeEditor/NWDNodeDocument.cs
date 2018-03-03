@@ -463,7 +463,7 @@ namespace NetWorkedData
         {
             ShowTheseClasses = new Dictionary<string, bool>();
             AnalyzeTheseClasses = new Dictionary<string, bool>();
-            TypeList = NWDDataManager.SharedInstance.mTypeList;
+            TypeList = NWDDataManager.SharedInstance().mTypeList;
             TypeList.Sort((tA, tB) => string.Compare(tA.Name, tB.Name, StringComparison.Ordinal));
             foreach (Type tType in TypeList)
             {

@@ -27,7 +27,7 @@ namespace NetWorkedData
 		/// </summary>
 		public NWDEditorMenu ()
 		{
-			NWDDataManager.SharedInstance.ConnectToDatabase ();
+			NWDDataManager.SharedInstance().ConnectToDatabase ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 #if UNITY_MENU_IDEMOBI
@@ -174,20 +174,20 @@ namespace NetWorkedData
 		public static void CreatePHP ()
 		{
 //			NWDFindPackage.SharedInstance ();
-			NWDDataManager.SharedInstance.CreatePHPAllClass();
+			NWDDataManager.SharedInstance().CreatePHPAllClass();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9002)]
 		public static void CreateWebsitesPHP ()
 		{
 //			NWDFindPackage.SharedInstance ();
-			NWDDataManager.SharedInstance.ExportWebSites();
+			NWDDataManager.SharedInstance().ExportWebSites();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 //		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]
 //		public static void CreateCSharp ()
 //		{
-//			NWDDataManager.SharedInstance.CreateCShapAllClass();
+//			NWDDataManager.SharedInstance().CreateCShapAllClass();
 //		}
 		//-------------------------------------------------------------------------------------------------------------
 		// LOCALIZATION
@@ -345,13 +345,13 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_LOCAL_CREATE_TABLES, false, 9201)]
 		public static void CreateTables ()
 		{
-			NWDDataManager.SharedInstance.CreateAllTablesLocal();
+			NWDDataManager.SharedInstance().CreateAllTablesLocal();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_LOCAL_RELOAD_DATAS, false, 9202)]
 		public static void ReloadAllDatas ()
 		{
-			NWDDataManager.SharedInstance.ReloadAllObjects();
+			NWDDataManager.SharedInstance().ReloadAllObjects();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

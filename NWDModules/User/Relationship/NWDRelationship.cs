@@ -207,7 +207,7 @@ namespace NetWorkedData
             tReturn.InsertMe();
 
 #if UNITY_EDITOR
-            NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+            NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDRelationship));
 #endif
             return tReturn;
         }
@@ -226,7 +226,7 @@ namespace NetWorkedData
             sOperation.Action = "EnterPinCode";
             sOperation.Nickname = sNickname;
             sOperation.PinCode = sPinCode;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         static public void SynchronizeSlaveDatas(BTBOperationBlock sSuccessBlock = null,
@@ -239,7 +239,7 @@ namespace NetWorkedData
         {
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sAdditionalTypes, sEnvironment);
             sOperation.Action = "Sync";
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
 
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -253,7 +253,7 @@ namespace NetWorkedData
         {
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Sync", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sAdditionalTypes, sEnvironment);
             sOperation.Action = "SyncForce";
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
 
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -336,7 +336,7 @@ namespace NetWorkedData
                     SyncRemoveBlockDelegate(true, tInfos);
                 }
             };
-            NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
@@ -388,7 +388,7 @@ namespace NetWorkedData
             //                BTBConsole.Clean();
             //                new NWDRelationship();
             //#if UNITY_EDITOR
-            //                NWDDataManager.SharedInstance.RepaintWindowsInManager(typeof(NWDRelationship));
+            //                NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDRelationship));
             //#endif
             //}
             //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -668,7 +668,7 @@ namespace NetWorkedData
             sOperation.PinDelay = sSeconds;
             sOperation.Nickname = sNickname;
             sOperation.Relationship = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool AskWaitingFromServer(
@@ -681,7 +681,7 @@ namespace NetWorkedData
                                          NWDAppEnvironment sEnvironment = null)
         {
             bool rReturn = false;
-            //NWDDataManager.SharedInstance.AddWebRequestAllSynchronization();
+            //NWDDataManager.SharedInstance().AddWebRequestAllSynchronization();
             if (RelationState == NWDRelationshipPinState.Waiting)
             {
                 rReturn = false;
@@ -694,7 +694,7 @@ namespace NetWorkedData
 
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship Waiting", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "Waiting";
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -713,7 +713,7 @@ namespace NetWorkedData
             sOperation.Action = "AcceptFriend";
             sOperation.Relationship = this;
             sOperation.Bilateral = sBilateral;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void EnterNicknameIDToServer(string sNickname, string sNicknameID,
@@ -732,7 +732,7 @@ namespace NetWorkedData
             sOperation.Nickname = sNickname;
             sOperation.NicknameID = sNicknameID;
             sOperation.Relationship = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RefuseRelation(
@@ -748,7 +748,7 @@ namespace NetWorkedData
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship AcceptRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "RefuseFriend";
             sOperation.Relationship = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void BannedRelation(
@@ -764,7 +764,7 @@ namespace NetWorkedData
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship BannedRelation", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "BannedFriend";
             sOperation.Relationship = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeClassByPublisher(BTBOperationBlock sSuccessBlock = null,
@@ -779,7 +779,7 @@ namespace NetWorkedData
             sOperation.Action = "ChangeClassByPublisher";
             sOperation.Classes = PublisherClassesShared;
             sOperation.Relationship = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeClassByReader(BTBOperationBlock sSuccessBlock = null,
@@ -794,7 +794,7 @@ namespace NetWorkedData
             sOperation.Action = "ChangeClassByReader";
             sOperation.Classes = ReaderClassesAccepted;
             sOperation.Relationship = this;
-            NWDDataManager.SharedInstance.WebOperationQueue.AddOperation(sOperation, sPriority);
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

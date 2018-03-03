@@ -37,7 +37,7 @@ namespace NetWorkedData
 		static public NWDOperationWebUnity AddOperation (string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
 		{
 			NWDOperationWebUnity rReturn = NWDOperationWebUnity.Create (sName, sEnvironment);
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
+			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ namespace NetWorkedData
 			Parent.Controller [QueueName].ActualOperation = this;
 
 			// Force all datas to be write in database
-			NWDDataManager.SharedInstance.UpdateQueueExecute ();
+			NWDDataManager.SharedInstance().UpdateQueueExecute ();
 
 			#if UNITY_EDITOR
 			// Deselect all object
@@ -287,7 +287,7 @@ namespace NetWorkedData
                                 {
 									if (!tUUID.Equals (""))
                                     {
-										NWDDataManager.SharedInstance.ChangeAllDatasForUserToAnotherUser (Environment, tUUID);
+										NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser (Environment, tUUID);
 									}
 								}
 
@@ -419,7 +419,7 @@ namespace NetWorkedData
 		    OS = "unity";
 	#endif
 #endif
-			Lang = NWDDataManager.SharedInstance.PlayerLanguage;
+			Lang = NWDDataManager.SharedInstance().PlayerLanguage;
 
 			// insert value in header dico
 			tHeaderParams.Add (UUIDKey, UUID);

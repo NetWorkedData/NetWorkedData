@@ -359,7 +359,7 @@ namespace NetWorkedData
 					    NWDConstants.K_CLEAN_ALERT_MESSAGE,
 					    NWDConstants.K_CLEAN_ALERT_OK,
 					    NWDConstants.K_CLEAN_ALERT_CANCEL)) {
-					NWDDataManager.SharedInstance.CleanAllTablesLocal ();
+					NWDDataManager.SharedInstance().CleanAllTablesLocal ();
 				}
 			}
 			GUI.backgroundColor = tOldColor;
@@ -414,7 +414,7 @@ namespace NetWorkedData
 			}
 			if (tOk == true) {
 				StartProcess (sEnvironment);
-				NWDOperationWebSynchronisation.AddOperation ("All Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, false, false);
+				NWDOperationWebSynchronisation.AddOperation ("All Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, false, false);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -433,7 +433,7 @@ namespace NetWorkedData
 			}
 			if (tOk == true) {
 				StartProcess (sEnvironment);
-				NWDOperationWebSynchronisation.AddOperation ("All Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, true, true);
+				NWDOperationWebSynchronisation.AddOperation ("All Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, true);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -452,7 +452,7 @@ namespace NetWorkedData
 			}
 			if (tOk == true) {
 				StartProcess (sEnvironment);
-				NWDOperationWebSynchronisation.AddOperation ("All Synchronization Clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance.mTypeSynchronizedList, true, true, true);
+				NWDOperationWebSynchronisation.AddOperation ("All Synchronization Clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, true, true);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -536,7 +536,7 @@ namespace NetWorkedData
 		public void Flush (NWDAppEnvironment sEnvironment)
 		{
 			StartProcess (sEnvironment);
-			NWDDataManager.SharedInstance.WebOperationQueue.Flush (sEnvironment.Environment);
+			NWDDataManager.SharedInstance().WebOperationQueue.Flush (sEnvironment.Environment);
 			// TODO : add message in window
 			EndTime = DateTime.Now;
 		}

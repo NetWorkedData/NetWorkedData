@@ -231,7 +231,7 @@ namespace NetWorkedData
                     BuyPackBlockDelegate(BuyPackResult.Failed, null);
                 }
             };
-            NWDDataManager.SharedInstance.AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
         private BuyPackResult PackEnable(string sPackKey)

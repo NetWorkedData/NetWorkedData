@@ -58,7 +58,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void SynchronizeTest ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestAllSynchronizationWithBlock (
+            NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
 					NWDOperationResult tResult = (NWDOperationResult) sResult;
 					string tDescription =  "";
@@ -103,7 +103,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void LogInTest ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestSignInWithBlock ("Kortex", "Xetrok",
+			NWDDataManager.SharedInstance().AddWebRequestSignInWithBlock ("Kortex", "Xetrok",
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
 					NWDOperationResult tResult = (NWDOperationResult) sResult;
 					string tDescription =  "";
@@ -147,7 +147,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void LogOutTest ()
 		{
-			NWDDataManager.SharedInstance.AddWebRequestSignOutWithBlock (
+			NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
 					NWDOperationResult tResult = (NWDOperationResult) sResult;
 					string tDescription =  "";

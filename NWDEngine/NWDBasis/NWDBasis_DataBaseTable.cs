@@ -49,7 +49,7 @@ namespace NetWorkedData
 //				if (tEnumerable != null) {
 //					foreach (NWDBasis<K> tItem in tEnumerable) {
 //						AddObjectInListOfEdition (tItem);
-//						NWDDataManager.SharedInstance.InsertObject (tItem);
+//						NWDDataManager.SharedInstance().InsertObject (tItem);
 //					}
 //				}
 
@@ -79,17 +79,17 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void CreateTable ()
 		{
-			NWDDataManager.SharedInstance.CreateTable (ClassType (),AccountDependent ());
+			NWDDataManager.SharedInstance().CreateTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 //        public static void ConnectToDatabase()
 //        {
-//            NWDDataManager.SharedInstance.ConnectToDatabase();
+//            NWDDataManager.SharedInstance().ConnectToDatabase();
 //		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ResetTable ()
 		{
-			NWDDataManager.SharedInstance.ResetTable (ClassType (), AccountDependent ());
+			NWDDataManager.SharedInstance().ResetTable (ClassType (), AccountDependent ());
 
 			#if UNITY_EDITOR
 
@@ -104,22 +104,22 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public static void PopulateTable ()
 		{
-			NWDDataManager.SharedInstance.PopulateTable (ClassType (),AccountDependent ());
+			NWDDataManager.SharedInstance().PopulateTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void EmptyTable ()
 		{
-			NWDDataManager.SharedInstance.EmptyTable (ClassType (),AccountDependent ());
+			NWDDataManager.SharedInstance().EmptyTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void DropTable ()
 		{
-			NWDDataManager.SharedInstance.DropTable (ClassType (),AccountDependent ());
+			NWDDataManager.SharedInstance().DropTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void ReInitializeTable ()
 		{
-			NWDDataManager.SharedInstance.ReInitializeTable (ClassType (),AccountDependent ());
+			NWDDataManager.SharedInstance().ReInitializeTable (ClassType (),AccountDependent ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		protected static string GenerateNewSalt ()

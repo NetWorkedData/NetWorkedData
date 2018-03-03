@@ -91,7 +91,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public string GetLocalString ()
 		{
-			return SplitDico (NWDDataManager.SharedInstance.PlayerLanguage);
+			return SplitDico (NWDDataManager.SharedInstance().PlayerLanguage);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public string GetBaseString ()

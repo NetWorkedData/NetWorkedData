@@ -43,7 +43,7 @@ namespace NetWorkedData
 			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false)
 		{
 			NWDOperationWebSynchronisation rReturn = NWDOperationWebSynchronisation.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean);
-			NWDDataManager.SharedInstance.WebOperationQueue.AddOperation (rReturn, sPriority);
+			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -89,14 +89,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-			Dictionary<string, object> tData = NWDDataManager.SharedInstance.SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, FlushTrash);
+			Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, FlushTrash);
 			tData.Add ("action", "sync");
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-            NWDDataManager.SharedInstance.SynchronizationPullClassesDatas (Environment, sData, TypeList);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (Environment, sData, TypeList);
 		}
         //-------------------------------------------------------------------------------------------------------------
 	}

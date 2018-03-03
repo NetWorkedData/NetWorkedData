@@ -96,12 +96,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void AddLocalString (string sValue)
 		{
-			AddValue (NWDDataManager.SharedInstance.PlayerLanguage, sValue);
+			AddValue (NWDDataManager.SharedInstance().PlayerLanguage, sValue);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public string GetLocalString ()
 		{
-			return NWDToolbox.TextUnprotect( SplitDico (NWDDataManager.SharedInstance.PlayerLanguage));
+			return NWDToolbox.TextUnprotect( SplitDico (NWDDataManager.SharedInstance().PlayerLanguage));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public string GetBaseString ()

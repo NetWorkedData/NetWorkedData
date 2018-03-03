@@ -87,11 +87,11 @@ namespace NetWorkedData
 //						NWDConstants.K_SYNC_ALERT_MESSAGE,
 //						NWDConstants.K_SYNC_ALERT_OK,
 //						NWDConstants.K_SYNC_ALERT_CANCEL)) {
-//						NWDDataManager.SharedInstance.SynchronizeAllData (sEnvironment, mForceSynchronization);
+//						NWDDataManager.SharedInstance().SynchronizeAllData (sEnvironment, mForceSynchronization);
 //					}
 //
 //				} else {
-//					NWDDataManager.SharedInstance.SynchronizeAllData (sEnvironment, mForceSynchronization);
+//					NWDDataManager.SharedInstance().SynchronizeAllData (sEnvironment, mForceSynchronization);
 //				}
 //			}
 //			EditorGUI.indentLevel--;

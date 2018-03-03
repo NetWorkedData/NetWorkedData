@@ -49,7 +49,7 @@ namespace NetWorkedData
 		public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw warning if salt for class is false
-			if (NWDDataManager.SharedInstance.TestSaltMemorizationForAllClass () == false) {
+			if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass () == false) {
 				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 			}
 			// Draw helpbox

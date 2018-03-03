@@ -109,7 +109,7 @@ namespace NetWorkedData
 			ShareInstance ().Data (sTarget, sResetStack,sFocus);
             if (sTarget != null)
             {
-                NWDDataManager.SharedInstance.RepaintWindowsInManager(sTarget.GetType());
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(sTarget.GetType());
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------

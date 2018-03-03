@@ -36,7 +36,7 @@ namespace NetWorkedData
             //Debug.Log ("tType : " + tType.Name);
             //Debug.Log ("K : " + typeof(K).Name);
             NWDTypeInfos.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
-            //NWDDataManager.SharedInstance.AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+            //NWDDataManager.SharedInstance().AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
             redefineClassToUse(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
@@ -318,79 +318,79 @@ namespace NetWorkedData
 
             AccountDependentAnalyze();
 
-            if (NWDDataManager.SharedInstance.mTypeList.Contains(sType) == false)
+            if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
             {
-                NWDDataManager.SharedInstance.mTypeList.Add(sType);
+                NWDDataManager.SharedInstance().mTypeList.Add(sType);
             }
             if (sServerSynchronize == true)
             {
-                if (NWDDataManager.SharedInstance.mTypeSynchronizedList.Contains(sType) == false)
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == false)
                 {
-                    NWDDataManager.SharedInstance.mTypeSynchronizedList.Add(sType);
+                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(sType);
                 }
-                if (NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Contains(sType) == true)
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == true)
                 {
-                    NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Remove(sType);
+                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(sType);
                 }
 
                 if (AccountDependent())
                 {
-                    if (NWDDataManager.SharedInstance.mTypeAccountDependantList.Contains(sType) == false)
+                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == false)
                     {
-                        NWDDataManager.SharedInstance.mTypeAccountDependantList.Add(sType);
+                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(sType);
                     }
-                    if (NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Contains(sType) == true)
+                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
                     {
-                        NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Remove(sType);
+                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
                     }
                 }
                 else
                 {
-                    if (NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Contains(sType) == false)
+                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == false)
                     {
-                        NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Add(sType);
+                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(sType);
                     }
-                    if (NWDDataManager.SharedInstance.mTypeAccountDependantList.Contains(sType) == true)
+                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
                     {
-                        NWDDataManager.SharedInstance.mTypeAccountDependantList.Remove(sType);
+                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
                     }
                 }
 
             }
             else
             {
-                if (NWDDataManager.SharedInstance.mTypeSynchronizedList.Contains(sType) == true)
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == true)
                 {
-                    NWDDataManager.SharedInstance.mTypeSynchronizedList.Remove(sType);
+                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(sType);
                 }
-                if (NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Contains(sType) == false)
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == false)
                 {
-                    NWDDataManager.SharedInstance.mTypeUnSynchronizedList.Add(sType);
+                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(sType);
                 }
-                if (NWDDataManager.SharedInstance.mTypeAccountDependantList.Contains(sType) == true)
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
                 {
-                    NWDDataManager.SharedInstance.mTypeAccountDependantList.Remove(sType);
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
                 }
-                if (NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Contains(sType) == true)
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
                 {
-                    NWDDataManager.SharedInstance.mTypeNotAccountDependantList.Remove(sType);
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
                 }
             }
-            if (NWDDataManager.SharedInstance.mTrigramTypeDictionary.ContainsKey(sClassTrigramme))
+            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(sClassTrigramme))
             {
-                Debug.Log("ERROR in " + tClassName + ", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance.mTrigramTypeDictionary[sClassTrigramme] + ")");
+                Debug.Log("ERROR in " + tClassName + ", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[sClassTrigramme] + ")");
             }
             else
             {
-                NWDDataManager.SharedInstance.mTrigramTypeDictionary.Add(sClassTrigramme, sType);
+                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(sClassTrigramme, sType);
             }
 
-            NWDDataManager.SharedInstance.mTypeLoadedList.Add(sType);
+            NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
             CreateTable();
-            if (NWDDataManager.SharedInstance.NeedCopy == true)
+            if (NWDDataManager.SharedInstance().NeedCopy == true)
             {
-                CopyTable(/*NWDDataManager.SharedInstance.SQLiteConnectionFromBundleCopy*/);
+                CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
             }
             LoadTableEditor();
 #if UNITY_EDITOR
