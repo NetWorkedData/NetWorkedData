@@ -142,13 +142,20 @@ namespace NetWorkedData
 			this.mReducible = sReducible;
 		}
 	}
-	//-------------------------------------------------------------------------------------------------------------
-	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------
+    public enum NWDIfType
+    {
+        Equal,
+        Range,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //-------------------------------------------------------------------------------------------------------------
 	public class NWDIfAttribute : Attribute
 	{
 		public string mPropertyName;
 		public string[] mValues;
+        public NWDIfType TypeOfCompare = NWDIfType.Equal;
         //		public bool mVisible;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -156,20 +163,45 @@ namespace NetWorkedData
         public bool IsDrawable(System.Object sObject)
         {
             bool rReturn = true;
-            PropertyInfo tInfo = sObject.GetType().GetProperty(mPropertyName, BindingFlags.Public | BindingFlags.Instance);
-            if (tInfo != null)
+            if (TypeOfCompare == NWDIfType.Equal)
             {
-                List<string> tList = new List<string>(mValues);
-                object tObject = tInfo.GetValue(sObject, null);
-                string tV = tObject.ToString();
-                if (tObject.GetType().IsEnum)
+                PropertyInfo tInfo = sObject.GetType().GetProperty(mPropertyName, BindingFlags.Public | BindingFlags.Instance);
+                if (tInfo != null)
                 {
-                    int tvv = (int)tObject;
-                    tV = tvv.ToString();
+                    List<string> tList = new List<string>(mValues);
+                    object tObject = tInfo.GetValue(sObject, null);
+                    string tV = tObject.ToString();
+                    if (tObject.GetType().IsEnum)
+                    {
+                        int tvv = (int)tObject;
+                        tV = tvv.ToString();
+                    }
+                    if (!tList.Contains(tV))
+                    {
+                        rReturn = false;
+                    }
                 }
-                if (!tList.Contains(tV))
+            }
+            else if (TypeOfCompare == NWDIfType.Range)
+            {
+                PropertyInfo tInfo = sObject.GetType().GetProperty(mPropertyName, BindingFlags.Public | BindingFlags.Instance);
+                if (tInfo != null)
                 {
-                    rReturn = false;
+                    object tObject = tInfo.GetValue(sObject, null);
+
+                    float tValue = 0;
+                    float.TryParse(tObject.ToString(),out tValue);
+
+                    float tValueMin = 0;
+                    float.TryParse(mValues[0], out tValueMin);
+
+                    float tValueMax = 0;
+                    float.TryParse(mValues[1], out tValueMax);
+
+                    if (tValue<tValueMin || tValue>tValueMax)
+                    {
+                        rReturn = false;
+                    }
                 }
             }
             return rReturn;
@@ -178,33 +210,38 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDIfAttribute (string sPropertyName, string[] sValues)//, bool sVisible = true)
+        public NWDIfAttribute (string sPropertyName, string sValue)//, bool sVisible = true)
 		{
-			this.mPropertyName = sPropertyName;
-			this.mValues = sValues;
-//			this.mVisible = sVisible;
-		}
+            this.mPropertyName = sPropertyName;
+            this.mValues = new string[] { sValue };
+            this.TypeOfCompare = NWDIfType.Equal;
+            //          this.mVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIfAttribute(string sPropertyName, string[] sValues)//, bool sVisible = true)
+        {
+            this.mPropertyName = sPropertyName;
+            this.mValues = sValues;
+            this.TypeOfCompare = NWDIfType.Equal;
+            //          this.mVisible = sVisible;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDIfAttribute (string sPropertyName, bool sValue)//, bool sVisible = true)
 		{
 			this.mPropertyName = sPropertyName;
-			this.mValues = new string[]{sValue.ToString()};
+            this.mValues = new string[]{sValue.ToString()};
+            this.TypeOfCompare = NWDIfType.Equal;
 			//			this.mVisible = sVisible;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDIfAttribute (string sPropertyName, int sValue)//, bool sVisible = true)
 		{
 			this.mPropertyName = sPropertyName;
-			this.mValues = new string[]{sValue.ToString()};
+            this.mValues = new string[]{sValue.ToString()};
+            this.TypeOfCompare = NWDIfType.Equal;
 			//			this.mVisible = sVisible;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDIfAttribute (string sPropertyName, float sValue)//, bool sVisible = true)
-		{
-			this.mPropertyName = sPropertyName;
-			this.mValues = new string[]{sValue.ToString()};
-			//			this.mVisible = sVisible;
-		}
+        //-------------------------------------------------------------------------------------------------------------
 		public NWDIfAttribute (string sPropertyName, int[] sValues)//, bool sVisible = true)
 		{
 			this.mPropertyName = sPropertyName;
@@ -212,16 +249,47 @@ namespace NetWorkedData
 			foreach (int ti in sValues) {
 				tValues.Add (ti.ToString ());
 			}
-			this.mValues = tValues.ToArray ();
+            this.mValues = tValues.ToArray ();
+            this.TypeOfCompare = NWDIfType.Equal;
 			//			this.mVisible = sVisible;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-//		public NWDIfAttribute (string sPropertyName, Enum sValue)//, bool sVisible = true)
-//		{
-//			this.mPropertyName = sPropertyName;
-//			this.mValues = new string[]{((int)sValue).ToString()};
-//			//			this.mVisible = sVisible;
-//		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIfAttribute(string sPropertyName, int sValueMin, int sValueMax)//, bool sVisible = true)
+        {
+            this.mPropertyName = sPropertyName;
+            this.mValues = new string[] { sValueMin.ToString(), sValueMax.ToString()};
+            this.TypeOfCompare = NWDIfType.Range;
+            //          this.mVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIfAttribute(string sPropertyName, float sValue)//, bool sVisible = true)
+        {
+            this.mPropertyName = sPropertyName;
+            this.mValues = new string[] { sValue.ToString() };
+            this.TypeOfCompare = NWDIfType.Equal;
+            //          this.mVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIfAttribute(string sPropertyName, float[] sValues)//, bool sVisible = true)
+        {
+            this.mPropertyName = sPropertyName;
+            List<string> tValues = new List<string>();
+            foreach (int ti in sValues)
+            {
+                tValues.Add(ti.ToString());
+            }
+            this.mValues = tValues.ToArray();
+            this.TypeOfCompare = NWDIfType.Equal;
+            //          this.mVisible = sVisible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDIfAttribute(string sPropertyName, float sValueMin, float sValueMax)//, bool sVisible = true)
+        {
+            this.mPropertyName = sPropertyName;
+            this.mValues = new string[] { sValueMin.ToString(), sValueMax.ToString() };
+            this.TypeOfCompare = NWDIfType.Range;
+            //          this.mVisible = sVisible;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//-------------------------------------------------------------------------------------------------------------
@@ -295,6 +363,18 @@ namespace NetWorkedData
 		{
 			this.mEnumString = sEnumString;
 		}
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //-------------------------------------------------------------------------------------------------------------
+    public class NWDLongStringAttribute : Attribute
+    {
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //-------------------------------------------------------------------------------------------------------------
+    public class NWDVeryLongStringAttribute : Attribute
+    {
     }
     //-------------------------------------------------------------------------------------------------------------
     //public class NWDUniqueFromPropertyAttribute : Attribute

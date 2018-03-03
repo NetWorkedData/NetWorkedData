@@ -107,21 +107,23 @@ namespace NetWorkedData
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
-		{
-			int tRow = 1;
+        {
+            //NWDConstants.LoadImages();
+            //NWDConstants.LoadStyles();
+			int tRow = 0;
 			if (Value != null && Value != "") {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tRow += tValueArray.Count ();
 			}
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100);
 
-			float rReturn = (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight) * tRow;
+            float rReturn = (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + NWDConstants.kTextFieldStyle.fixedHeight) * tRow+ NWDConstants.kPopupdStyle.fixedHeight;
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
-		{
+        {
+            //NWDConstants.LoadImages();
+            //NWDConstants.LoadStyles();
             NWDLocalizablePrefabType tTemporary = new NWDLocalizablePrefabType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
@@ -130,9 +132,6 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
             float tY = sPosition.position.y;
             float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
-
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
 			List<string> tLocalizationList = new List<string> ();
 			tLocalizationList.Add ("-");
@@ -195,7 +194,7 @@ namespace NetWorkedData
 
 				int tIndex = tValueFuturList.IndexOf (tLangague);
                 //tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
 				if (tIndex < 0 || tIndex >= tValueFuturList.Count) {
 					tIndex = 0;
 				}
@@ -212,7 +211,7 @@ namespace NetWorkedData
 					EditorGUI.DrawPreviewTexture (new Rect (tWidth - NWDConstants.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tTexture2D);
 				}
 				if (tLangague != "") {
-					UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
+                    UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
 					if (pObj != null) {
 						if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) {
 							tText = AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabObject (pObj));
@@ -223,7 +222,7 @@ namespace NetWorkedData
 				}
 				//tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
 //				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-				tY += NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + tPopupdStyle.fixedHeight;
+                tY += NWDConstants.kPrefabSize + NWDConstants.kFieldMarge + NWDConstants.kPopupdStyle.fixedHeight;
 				if (tResult.ContainsKey (tLangague)) {
 					tResult [tLangague] = tText;
 				} else {

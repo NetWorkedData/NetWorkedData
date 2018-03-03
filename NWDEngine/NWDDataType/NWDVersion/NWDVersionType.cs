@@ -47,22 +47,17 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-			GUIStyle tPopupFieldStyle = new GUIStyle (EditorStyles.popup);
-			return tPopupFieldStyle.CalcHeight (new GUIContent ("A"), 100);
+            return NWDConstants.kPopupdStyle.fixedHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
             NWDVersionType tTemporary = new NWDVersionType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
-//			Debug.Log ("sPosition.width = " + sPosition.width);
-//			Debug.Log ("EditorGUIUtility.labelWidth = " + EditorGUIUtility.labelWidth);
 			float tWidth = sPosition.width - EditorGUIUtility.labelWidth;
-			//			Debug.Log ("tWidth = " + tWidth);
 			int tNumberOfSubDivision = 3;
-			float tWidthSub = Mathf.Ceil ((tWidth - NWDConstants.kFieldMarge * (tNumberOfSubDivision-1)) / tNumberOfSubDivision);
-//			Debug.Log ("tWidth = " + tWidth);
-			//tWidth = 40.0f;
+            float tWidthSubPos = Mathf.Ceil (tWidth / tNumberOfSubDivision);
+            float tWidthSub = Mathf.Ceil((tWidth -NWDConstants.kFieldMarge-NWDConstants.kFieldMarge) / tNumberOfSubDivision);
 			int tMajorIndex = 0;
 			int tMinorIndex = 0;
 			int tBuildIndex = 0;
@@ -78,19 +73,20 @@ namespace NetWorkedData
 					tBuildIndex = Array.IndexOf (NWDConstants.K_VERSION_BUILD_ARRAY, tValues [2]);
 				}
 			}
-
             List<GUIContent> tContentFuturList = new List<GUIContent>();
             foreach (string tS in NWDConstants.K_VERSION_MAJOR_ARRAY)
             {
                 tContentFuturList.Add(new GUIContent(tS));
             }
-
-			tMajorIndex = EditorGUI.Popup (new Rect (sPosition.x, sPosition.y, sPosition.width - tWidthSub * 2 - NWDConstants.kFieldMarge * 2, sPosition.height),
+            tMajorIndex = EditorGUI.Popup (new Rect (sPosition.x, sPosition.y, sPosition.width - tWidthSub * 2 - NWDConstants.kFieldMarge*2, sPosition.height),
                                            tContent, tMajorIndex, tContentFuturList.ToArray());
-			tMinorIndex = EditorGUI.Popup (new Rect (sPosition.width - tWidthSub * 2, sPosition.y, tWidthSub, sPosition.height),
+            
+            tMinorIndex = EditorGUI.Popup (new Rect (sPosition.x+sPosition.width - tWidthSub *2 - NWDConstants.kFieldMarge, sPosition.y, tWidthSub, sPosition.height),
 				tMinorIndex, NWDConstants.K_VERSION_MINOR_ARRAY);
-			tBuildIndex = EditorGUI.Popup (new Rect (sPosition.width - tWidthSub + NWDConstants.kFieldMarge, sPosition.y, tWidthSub, sPosition.height),
+            
+            tBuildIndex = EditorGUI.Popup (new Rect (sPosition.x + sPosition.width - tWidthSub, sPosition.y, tWidthSub, sPosition.height),
 				tBuildIndex, NWDConstants.K_VERSION_BUILD_ARRAY);
+            
 			tTemporary.Value = NWDConstants.K_VERSION_MAJOR_ARRAY [tMajorIndex] + "." + NWDConstants.K_VERSION_MINOR_ARRAY [tMinorIndex] + "." + NWDConstants.K_VERSION_BUILD_ARRAY [tBuildIndex];
 			return tTemporary;
 		}

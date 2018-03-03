@@ -30,7 +30,9 @@ namespace NetWorkedData
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDJsonType : BTBDataType
-	{
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        const int kCONST_NUMBER_OF_LINE = 4;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDJsonType ()
 		{
@@ -65,15 +67,27 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			float tHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			return tHeight;
+            float rReturn = (NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge) + NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
             NWDJsonType tTemporary = new NWDJsonType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
+
+            float tWidth = sPosition.width;
+            float tHeight = sPosition.height;
+            float tX = sPosition.position.x;
+            float tY = sPosition.position.y;
+            EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+            string tNextValue = GUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value, NWDConstants.kTextAreaStyle);
+            if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
+            {
+                // test if valide
+            }
+
+            tTemporary.Value = tNextValue; 
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

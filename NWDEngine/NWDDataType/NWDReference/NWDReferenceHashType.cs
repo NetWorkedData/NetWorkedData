@@ -58,18 +58,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			float tHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-
-			// test if error in reference and add button height
-			if (Value != null && Value != "") 
-			{
-//				if (ReferenceInError (new List<string> (Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0) {
-//					tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-//				}
-			}
-
-			return tHeight;
+            return NWDConstants.kPopupdStyle.fixedHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
@@ -82,8 +71,6 @@ namespace NetWorkedData
 			float tHeight = sPosition.height;
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
 			List<string> tReferenceList = new List<string> ();
 			List<string> tInternalNameList = new List<string> ();
 			tReferenceList.Add (NWDConstants.kFieldSeparatorA);
@@ -103,7 +90,7 @@ namespace NetWorkedData
                 tContentFuturList.Add(new GUIContent(tS));
             }
 			int tIndex = tReferenceList.IndexOf (Value);
-            int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), tPopupdStyle);
+            int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), NWDConstants.kPopupdStyle);
 			if (rIndex != tIndex) 
 			{
 				string tNextValue = tReferenceList.ElementAt (rIndex);

@@ -51,6 +51,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static float kFieldMarge = 5.0f;
+
+        public static int kLongString = 5;
+        public static int kVeryLongString = 15;
         public static float kPrefabSize = 80.0f;
         public static float kIntWidth = 36.0f;
         public static float kIconWidth = 36.0f;
@@ -453,6 +456,15 @@ namespace NetWorkedData
 
 
 
+
+        static public GUIStyle kPopupdStyle;
+        static public GUIStyle kTextFieldStyle;
+        static public GUIStyle kTextAreaStyle;
+        static public GUIStyle kRedLabelStyle;
+        static public GUIStyle kGrayLabelStyle;
+        static public GUIStyle kPopupButtonStyle;
+        static public GUIStyle kMiniButtonStyle;
+        static public GUIStyle kDeleteButtonStyle;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -488,6 +500,34 @@ namespace NetWorkedData
 
                 SizeSlider = Mathf.Min(HeightButton, HeightMiniButton);
 
+                // used in form of inspector
+                kPopupdStyle = new GUIStyle(EditorStyles.popup);
+                kPopupdStyle.fixedHeight = kPopupdStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
+                kPopupButtonStyle = new GUIStyle(EditorStyles.miniButton);
+                kPopupButtonStyle.fixedHeight = kPopupdStyle.fixedHeight;
+                kPopupButtonStyle.padding = new RectOffset(2, 2, 2, 2);
+
+                kTextFieldStyle = new GUIStyle(EditorStyles.textField);
+                kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent("A"), 100.0f);
+
+                kTextAreaStyle = new GUIStyle(EditorStyles.textArea);
+                kTextAreaStyle.wordWrap = true;
+
+                kRedLabelStyle = new GUIStyle(EditorStyles.label);
+                kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kRedLabelStyle.normal.textColor = Color.red;
+
+                kGrayLabelStyle = new GUIStyle(EditorStyles.label);
+                kGrayLabelStyle.fontSize = 9;
+                kGrayLabelStyle.fixedHeight = kGrayLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kGrayLabelStyle.normal.textColor = Color.gray;
+
+                kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
+                kDeleteButtonStyle = new GUIStyle(EditorStyles.miniButton);
+                kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
 
             }
             kNodeLineColor = new Color(0.4F,0.4F,0.4F,1.0F);

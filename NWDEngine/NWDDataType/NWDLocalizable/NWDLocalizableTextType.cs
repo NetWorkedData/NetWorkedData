@@ -116,18 +116,17 @@ namespace NetWorkedData
             return NWDToolbox.TextUnprotect(SplitDico(sLanguage));
         }
 		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{
-			int tRow = 1;
+			int tRow = 0;
 			if (Value != null && Value != "") {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tRow += tValueArray.Count ();
 			}
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), 100);
-			float rReturn = (tPopupdStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge;
+
+            float rReturn = (NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge) * tRow + NWDConstants.kPopupdStyle.fixedHeight;
 //			return (tPopupdStyle.CalcHeight (new GUIContent ("A"), 100.0f) + NWDConstants.kFieldMarge) * tRow * kCONST_NUMBER_OF_LINE - NWDConstants.kFieldMarge;
 			return rReturn;
 		}
@@ -142,9 +141,6 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
             float tY = sPosition.position.y;
             float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
-
-			GUIStyle tPopupdStyle = new GUIStyle (EditorStyles.popup);
-			tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
 			List<string> tLocalizationList = new List<string> ();
 			tLocalizationList.Add ("-");
@@ -207,17 +203,18 @@ namespace NetWorkedData
 
 				int tIndex = tValueFuturList.IndexOf (tLangague);
                 //tIndex = EditorGUI.Popup (new Rect (tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tFieldName, tIndex, tLangageFuturArray, tPopupdStyle);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tLangWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
 				if (tIndex < 0 || tIndex >= tValueFuturList.Count) {
 					tIndex = 0;
 				}
 				tLangague = tValueFuturList [tIndex];
 				if (tLangague != "") {
 					//tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
-					tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect (tText));
+                    //tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect (tText), NWDConstants.kTextAreaStyle);
+                    tText = GUI.TextArea(new Rect(tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText), NWDConstants.kTextAreaStyle);
 					tText = NWDToolbox.TextProtect (tText);
 				}
-				tY += tPopupdStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge;
+                tY += NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge;
 				if (tResult.ContainsKey (tLangague)) {
 					tResult [tLangague] = tText;
 				} else {

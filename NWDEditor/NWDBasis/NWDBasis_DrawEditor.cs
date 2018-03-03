@@ -190,6 +190,10 @@ namespace NetWorkedData
 
         public float DrawObjectInspectorHeight()
         {
+
+            NWDConstants.LoadImages();
+            NWDConstants.LoadStyles();
+
             float tY = 0;
             //EditorGUI.indentLevel = 0;
             //			ResetDrawable ();
@@ -340,6 +344,14 @@ namespace NetWorkedData
                             {
                                 tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                             }
+                            else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
+                            {
+                                tY += tTextFieldStyle.fixedHeight* NWDConstants.kLongString + NWDConstants.kFieldMarge;
+                            }
+                            else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
+                            {
+                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
+                            }
                             else if (tProp.GetCustomAttributes(typeof(NWDEnumStringAttribute), true).Length > 0)
                             {
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -415,6 +427,10 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if object inspector was updated, <c>false</c> otherwise.</returns>
         public Rect DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
         {
+
+            NWDConstants.LoadImages();
+            NWDConstants.LoadStyles();
+
             float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
             float tX = sInRect.position.x + NWDConstants.kFieldMarge;
             float tY = sInRect.position.y + NWDConstants.kFieldMarge;
@@ -625,13 +641,37 @@ namespace NetWorkedData
                         EditorGUI.BeginDisabledGroup(tDisabled);
                         //else 
                         {
-
+                            GUIContent tContent = new GUIContent(tEntitled, tToolsTips);
                             if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
                             {
                                 NWDIntSliderAttribute tSlider = tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true)[0] as NWDIntSliderAttribute;
                                 int tValue = (int)tProp.GetValue(this, null);
-                                int tValueNext = EditorGUI.IntSlider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tSlider.mMin, tSlider.mMax);
+                                int tValueNext = EditorGUI.IntSlider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tSlider.mMin, tSlider.mMax);
                                 tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                if (tValueNext != tValue)
+                                {
+                                    tProp.SetValue(this, tValueNext, null);
+                                    rNeedBeUpdate = true;
+                                }
+                            }
+                            else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
+                            {
+                                string tValue = (string)tProp.GetValue(this, null);
+                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+                                string tValueNext = GUI.TextArea(new Rect(tX+ EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight*NWDConstants.kLongString),tValue, NWDConstants.kTextAreaStyle);
+                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
+                                if (tValueNext != tValue)
+                                {
+                                    tProp.SetValue(this, tValueNext, null);
+                                    rNeedBeUpdate = true;
+                                }
+                            }
+                            else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
+                            {
+                                string tValue = (string)tProp.GetValue(this, null);
+                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+                                string tValueNext = GUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
+                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
                                     tProp.SetValue(this, tValueNext, null);
@@ -642,7 +682,7 @@ namespace NetWorkedData
                             {
                                 NWDFloatSliderAttribute tSlider = tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true)[0] as NWDFloatSliderAttribute;
                                 float tValue = (float)tProp.GetValue(this, null);
-                                float tValueNext = EditorGUI.Slider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tEntitled, tValue, tSlider.mMin, tSlider.mMax);
+                                float tValueNext = EditorGUI.Slider(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tSlider.mMin, tSlider.mMax);
                                 tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
@@ -656,7 +696,8 @@ namespace NetWorkedData
                                 string[] tV = tInfo.mEnumString;
                                 string tValue = (string)tProp.GetValue(this, null);
                                 int tValueInt = Array.IndexOf<string>(tV, tValue);
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tEntitled, tValueInt, tV, tPopupdStyle);
+                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth -EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 string tValueNext = "";
                                 if (tValueIntNext < tV.Length && tValueIntNext >= 0)
@@ -676,7 +717,8 @@ namespace NetWorkedData
                                 int[] tI = tInfo.mEnumInt;
                                 int tValue = (int)tProp.GetValue(this, null);
                                 int tValueInt = Array.IndexOf<int>(tI, tValue);
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tEntitled, tValueInt, tV, tPopupdStyle);
+                                EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+                                int tValueIntNext = EditorGUI.Popup(new Rect(tX+EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 int tValueNext = 0;
                                 if (tValueIntNext < tI.Length && tValueIntNext >= 0)
@@ -694,7 +736,6 @@ namespace NetWorkedData
                                 Type tTypeOfThis = tProp.PropertyType;
                                 //Debug.Log (tTypeOfThis.Name);
 
-                                GUIContent tContent = new GUIContent(tEntitled, tToolsTips);
                                 if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                                 {
                                     string tValue = tProp.GetValue(this, null) as string;

@@ -221,11 +221,15 @@ namespace NetWorkedData
 			tListOfType.Add ("       "); // use as separator remove by ereg
 			tListOfType.Add ("NWDGeolocType");
 			tListOfType.Add ("        "); // use as separator remove by ereg
-			tListOfType.Add ("NWDJsonType");
+            tListOfType.Add ("NWDJsonType");
+            tListOfType.Add("          "); // use as separator remove by ereg
+            tListOfType.Add("NWDVersionType");
+            tListOfType.Add("           "); // use as separator remove by ereg
 			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
 				tListOfType.Add ("NWDReferencesListType<K>/"+tType.Name);
 				tListOfType.Add ("NWDReferencesQuantityType<K>/"+tType.Name);
-				tListOfType.Add ("NWDReferenceType<K>/"+tType.Name);
+                tListOfType.Add ("NWDReferenceType<K>/"+tType.Name);
+                tListOfType.Add("NWDReferenceArray<K>/" + tType.Name);
 			}
 			// prepare result properties
 			List<KeyValuePair<string,string>> tNextClassNameProperties = new List<KeyValuePair<string,string>> ();

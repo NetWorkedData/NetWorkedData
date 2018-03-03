@@ -271,30 +271,16 @@ namespace NetWorkedData
                 }
             }
 
-            float tWidth = 100.0F;
-            GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
-            tLabelStyle.normal.textColor = Color.red;
-            GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
-            tLabelAssetStyle.fontSize = 9;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent("A"), tWidth);
-            tLabelAssetStyle.normal.textColor = Color.gray;
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
-
-            float tHeight = (tPopupdStyle.CalcHeight(new GUIContent("A"), 100.0f) + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge +
-                tConnection * (tLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
-                    //tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
-                    tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
+            float tHeight = (NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge) * tRow - NWDConstants.kFieldMarge +
+                             tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
+                                          NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
             // test if error in reference and add button height
             if (Value != null && Value != "")
             {
                 if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
                 {
-                    tHeight = tHeight + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tHeight = tHeight + NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
                 }
             }
 
@@ -303,8 +289,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
         {
-            NWDConstants.LoadImages();
-            NWDConstants.LoadStyles();
+            //NWDConstants.LoadImages();
+            //NWDConstants.LoadStyles();
             NWDReferencesArrayType<K> tTemporary = new NWDReferencesArrayType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
@@ -315,19 +301,6 @@ namespace NetWorkedData
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
             float tEditWidth = NWDConstants.kEditWidth;
-
-            GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
-            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
-            tLabelStyle.normal.textColor = Color.red;
-            GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
-            tLabelAssetStyle.fontSize = 9;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent("A"), tWidth);
-            tLabelAssetStyle.normal.textColor = Color.red;
-            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
-
             bool tConnection = true;
 
 
@@ -380,17 +353,17 @@ namespace NetWorkedData
                 }
                 string tV = tValueList.ElementAt(i);
                 int tIndex = tReferenceList.IndexOf(tV);
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, tPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), tPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
 
                 if (tValueListERROR.Contains(tV))
                 {
-                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, tLabelAssetStyle.fixedHeight), "? <" + tV + ">", tLabelAssetStyle);
+                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, NWDConstants.kGrayLabelStyle.fixedHeight), "? <" + tV + ">", NWDConstants.kGrayLabelStyle);
                 }
 
                 if (tIndex >= 0)
                 {//if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
                     GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
-                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tDeleteContent, NWDConstants.StyleMiniButton))
+                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))
                     {
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(tIndex)), false);
                     }
@@ -398,14 +371,14 @@ namespace NetWorkedData
                 else
                 {
                     GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
-                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), tNewContent, NWDConstants.StyleMiniButton))
+                    if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tNewContent, NWDConstants.kPopupButtonStyle))
                     {
                         NWDBasis<K> tNewObject = NWDBasis<K>.NewObject();
                         tNewReference = tNewObject.Reference + NWDConstants.kFieldSeparatorA;
                         NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
                     }
                 }
-                tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tY += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                 if (tIndex >= 0 && tIndex < tReferenceList.Count)
                 {
                     tValueList[i] = tReferenceList.ElementAt(tIndex);
@@ -426,13 +399,13 @@ namespace NetWorkedData
             {
                 tTemporary.Value = Value;
 
-                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, tLabelStyle);
-                tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
+                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, NWDConstants.kRedLabelStyle);
+                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
                 //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
                 //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
                 Color tOldColor = GUI.backgroundColor;
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
+                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
                     foreach (string tDeleteReference in tValueListERROR)
                     {
@@ -444,7 +417,7 @@ namespace NetWorkedData
                     tTemporary.Value = tNextValue;
                 }
                 GUI.backgroundColor = tOldColor;
-                tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
+                tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
             }
 
             return tTemporary;
