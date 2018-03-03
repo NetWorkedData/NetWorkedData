@@ -511,8 +511,10 @@ namespace NetWorkedData
                 kTextFieldStyle = new GUIStyle(EditorStyles.textField);
                 kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent("A"), 100.0f);
 
-                kTextAreaStyle = new GUIStyle(EditorStyles.textArea);
+                //kTextAreaStyle = new GUIStyle(EditorStyles.textArea);
+                kTextAreaStyle = new GUIStyle(EditorStyles.textField);
                 kTextAreaStyle.wordWrap = true;
+
 
                 kRedLabelStyle = new GUIStyle(EditorStyles.label);
                 kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);

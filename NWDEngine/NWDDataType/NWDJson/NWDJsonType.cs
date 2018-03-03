@@ -32,7 +32,7 @@ namespace NetWorkedData
 	public class NWDJsonType : BTBDataType
     {
         //-------------------------------------------------------------------------------------------------------------
-        const int kCONST_NUMBER_OF_LINE = 4;
+        const int kCONST_NUMBER_OF_LINE = 40;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDJsonType ()
 		{
@@ -81,7 +81,7 @@ namespace NetWorkedData
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
-            string tNextValue = GUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value, NWDConstants.kTextAreaStyle);
+            string tNextValue = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value, NWDConstants.kTextAreaStyle);
             if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
             {
                 // test if valide

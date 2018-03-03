@@ -236,7 +236,7 @@ namespace NetWorkedData
                 {
                     //tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
                     //tText = EditorGUI.TextArea (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect (tText), NWDConstants.kTextAreaStyle);
-                    tText = GUI.TextArea(new Rect(tX  +NWDConstants.kLangWidth, tY + NWDConstants.kFieldMarge +NWDConstants.kPopupdStyle.fixedHeight, tWidth - NWDConstants.kLangWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText), NWDConstants.kTextAreaStyle);
+                    tText = EditorGUI.TextArea(new Rect(tX  +NWDConstants.kLangWidth, tY + NWDConstants.kFieldMarge +NWDConstants.kPopupdStyle.fixedHeight, tWidth - NWDConstants.kLangWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), NWDToolbox.TextUnprotect(tText), NWDConstants.kTextAreaStyle);
                     tText = NWDToolbox.TextProtect(tText);
                 }
                 tY += NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE + NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge*2;

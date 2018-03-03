@@ -208,7 +208,7 @@ namespace NetWorkedData
 //				Debug.LogVerbose ("tIndex = " +tIndex.ToString ());
 				if (tLangague !="") 
 				{
-                    tText = GUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));
+                    tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));
 				}
 				tText = NWDToolbox.TextProtect (tText);
                 tY += NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;

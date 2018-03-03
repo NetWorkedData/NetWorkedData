@@ -658,7 +658,7 @@ namespace NetWorkedData
                             {
                                 string tValue = (string)tProp.GetValue(this, null);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
-                                string tValueNext = GUI.TextArea(new Rect(tX+ EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight*NWDConstants.kLongString),tValue, NWDConstants.kTextAreaStyle);
+                                string tValueNext = EditorGUI.TextArea(new Rect(tX+ EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight*NWDConstants.kLongString),tValue, NWDConstants.kTextAreaStyle);
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
@@ -670,7 +670,7 @@ namespace NetWorkedData
                             {
                                 string tValue = (string)tProp.GetValue(this, null);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
-                                string tValueNext = GUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
+                                string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
