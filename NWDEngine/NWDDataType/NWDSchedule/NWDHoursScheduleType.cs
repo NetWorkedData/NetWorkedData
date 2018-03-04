@@ -101,11 +101,30 @@ namespace NetWorkedData
 				}
 			}
 
-			if (ResultForNow () == false) {
-				GUI.Label (new Rect (sPosition.x, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowFailed);
-			} else {
-				GUI.Label (new Rect (sPosition.x, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowSuccess);
-			}
+
+            if (base.AvailableNow() == false)
+            {
+                GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowFailed);
+            }
+            else
+            {
+                GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowSuccess);
+            }
+
+            DateTime tDateTimeInGame = NWDAppEnvironment.SelectedEnvironment().DateTimeInGameTime();
+            GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight * 3, sPosition.width, sPosition.height), kNowGameTime + " (" + NWDAppEnvironment.SelectedEnvironment().SpeedOfGameTime + "x)");
+            GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight * 4, sPosition.width, sPosition.height), tDateTimeInGame.ToString("yyyy-MMM-dd"));
+            GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight * 5, sPosition.width, sPosition.height), tDateTimeInGame.ToString("ddd HH:mm:ss"));
+            if (base.AvailableNowInGameTime() == false)
+            {
+                GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight * 6, sPosition.width, sPosition.height), kNowGameFailed);
+            }
+            else
+            {
+                GUI.Label(new Rect(sPosition.x + 15, sPosition.y + tHeight * 6, sPosition.width, sPosition.height), kNowGameSuccess);
+            }
+
+            //GUI.Label (new Rect (sPos.x, sPos.y + tHeight *9, sPos.width, sPos.height), Value);
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

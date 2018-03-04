@@ -52,6 +52,8 @@ namespace NetWorkedData
 		public int BuildTimestamp = 0;
 		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
+
+        public float SpeedOfGameTime = 1.0F;
 		//public string RescueEmail = "no-reply@my-web-site.com";
 		//		public string Version = "0.00.00";
 		//-------------------------------------------------------------------------------------------------------------
@@ -70,9 +72,17 @@ namespace NetWorkedData
 			this.Selected = sSelected;
 			FormatVerification ();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		#region instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppEnvironment SelectedEnvironment()
+        {
+           return NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region instance methods
 		//-------------------------------------------------------------------------------------------------------------
 		public void AnonymousVerification ()
 		{
@@ -129,7 +139,46 @@ namespace NetWorkedData
 			if (TokenHistoric < 1 || TokenHistoric > 10) {
 				TokenHistoric = 3;
 			}
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Absolutes the date time in game time. With additional year.
+        /// </summary>
+        /// <returns>The date time in game time.</returns>
+        public DateTime AbsoluteDateTimeInGameTime()
+        {
+            float tSpeedOfGameTime = SpeedOfGameTime;
+            DateTime tNow = DateTime.Now;
+            DateTime tNowTwo = new DateTime(tNow.Year,1,1, 0, 0, 0, DateTimeKind.Utc);
+            float tTimestamp = (float)tNow.Subtract(tNowTwo).TotalSeconds;
+            if (tSpeedOfGameTime > 0 && tSpeedOfGameTime < 1000)
+            {
+                tTimestamp = tTimestamp * tSpeedOfGameTime;
+            }
+            DateTime tDateInGame = new DateTime(tNow.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            tDateInGame = tDateInGame.AddSeconds(tTimestamp);
+             return tDateInGame;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Date the time in game time. Without additional year (loop in the same year… paradoxal seasons)
+        /// </summary>
+        /// <returns>The time in game time.</returns>
+        public DateTime DateTimeInGameTime()
+        {
+            float tSpeedOfGameTime = SpeedOfGameTime;
+            DateTime tNow = DateTime.Now;
+            DateTime tNowTwo = new DateTime(tNow.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            float tTimestamp = (float)tNow.Subtract(tNowTwo).TotalSeconds;
+            if (tSpeedOfGameTime > 0 && tSpeedOfGameTime < 1000)
+            {
+                tTimestamp = tTimestamp * tSpeedOfGameTime;
+            }
+            DateTime tDateInGame = new DateTime(tNow.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            tDateInGame = tDateInGame.AddSeconds(tTimestamp);
+            DateTime tDateInGameResult = new DateTime(tNow.Year, tDateInGame.Month, tDateInGame.Day, tDateInGame.Hour, tDateInGame.Minute, tDateInGame.Second, DateTimeKind.Utc);
+            return tDateInGameResult;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 	}

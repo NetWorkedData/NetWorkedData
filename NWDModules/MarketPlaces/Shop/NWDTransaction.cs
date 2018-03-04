@@ -212,8 +212,8 @@ namespace NetWorkedData
                             switch (sType)
                             {
                                 case TransactionType.Daily:
-                                    double tLocalDateStart = BTBDateHelper.ConvertToUnixTimestamp(DateTime.Today);
-                                    double tLocalDateEnd = BTBDateHelper.ConvertToUnixTimestamp(DateTime.Today.AddDays(1));
+                                    double tLocalDateStart = BTBDateHelper.ConvertToTimestamp(DateTime.Today);
+                                    double tLocalDateEnd = BTBDateHelper.ConvertToTimestamp(DateTime.Today.AddDays(1));
                                     if (transaction.DC >= tLocalDateStart && transaction.DC <= tLocalDateEnd)
                                     {
                                         isValidate = true;

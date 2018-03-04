@@ -42,7 +42,10 @@ namespace NetWorkedData
 		public static string kMinutesUnit = "M";
 		public static string kHoursUnit = "H";
 		public static string kNowSuccess = "Now √";
-		public static string kNowFailed = "Now x";
+        public static string kNowFailed = "Now x";
+        public static string kNowGameTime = "GameTime";
+        public static string kNowGameSuccess = "Now GameTime √";
+        public static string kNowGameFailed = "Now GameTime x";
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDScheduleType ()
 		{
@@ -58,10 +61,28 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public virtual bool ResultForNow () 
-		{
-			return ResultForDate (DateTime.Now);
-		}
+        //[Obsolete("ResultForNow is deprecated, please use AvailableNow instead.")]
+		//public bool ResultForNow () 
+		//{
+			//return ResultForDate (DateTime.Now);
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public bool AvailableNow()
+        {
+            return ResultForDate(DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool AvailableNowInGameTime()
+        {
+            float tSpeedOfGameTime = NWDAppConfiguration.SharedInstance().SelectedEnvironment().SpeedOfGameTime;
+            float tTimestamp = (float)BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            if (tSpeedOfGameTime > 0 && tSpeedOfGameTime < 1000)
+            {
+                tTimestamp = tTimestamp * tSpeedOfGameTime;
+            }
+            DateTime tDateTimeInGame = BTBDateHelper.ConvertFromTimestamp(tTimestamp);
+            return ResultForDate(tDateTimeInGame);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public virtual bool ResultForDate (DateTime sDateTime)
 		{
@@ -80,7 +101,7 @@ namespace NetWorkedData
         public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
 		{
             NWDScheduleType tTemporary = new NWDScheduleType ();
-            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
+            //GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
