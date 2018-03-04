@@ -457,6 +457,8 @@ namespace NetWorkedData
 
 
 
+        static public GUIStyle kLabelStyle;
+        static public GUIStyle kBoldLabelStyle;
         static public GUIStyle kPopupdStyle;
         static public GUIStyle kTextFieldStyle;
         static public GUIStyle kTextAreaStyle;
@@ -465,6 +467,7 @@ namespace NetWorkedData
         static public GUIStyle kPopupButtonStyle;
         static public GUIStyle kMiniButtonStyle;
         static public GUIStyle kDeleteButtonStyle;
+        static public GUIStyle kSeparatorStyle;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -501,6 +504,12 @@ namespace NetWorkedData
                 SizeSlider = Mathf.Min(HeightButton, HeightMiniButton);
 
                 // used in form of inspector
+
+                kLabelStyle = new GUIStyle(EditorStyles.label);
+                kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+                kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
                 kPopupdStyle = new GUIStyle(EditorStyles.popup);
                 kPopupdStyle.fixedHeight = kPopupdStyle.CalcHeight(new GUIContent("A"), 100.0F);
 
@@ -531,6 +540,9 @@ namespace NetWorkedData
                 kDeleteButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
 
+                kSeparatorStyle = new GUIStyle(EditorStyles.label);
+                kSeparatorStyle.alignment = TextAnchor.MiddleCenter;
+                kSeparatorStyle.fixedHeight = kSeparatorStyle.CalcHeight(new GUIContent("A"), 100.0F);
             }
             kNodeLineColor = new Color(0.4F,0.4F,0.4F,1.0F);
             kNodeOverLineColor = new Color(0.7F, 0.7F, 0.7F, 1.0F);
