@@ -149,8 +149,8 @@ namespace NetWorkedData
 			float tWidthDay = tTiersWidthB -5;
             GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
 
-			tYear = 1900+ EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
-				tDateTime.Year - 1900, NWDDateTimeType.kYears);
+            tYear = NWDDateTimeType.kYearStart+ EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
+                                                                 tDateTime.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
 
 			tMonth = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
 				tDateTime.Month-1, NWDDateTimeType.kMonths);

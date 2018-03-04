@@ -32,22 +32,22 @@ namespace NetWorkedData
 	/// </summary>
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateTimeRangeType : BTBDataType
+	public class NWDDateRangeType : BTBDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NetWorkedData.NWDDateTimeRangeType"/> class.
+		/// Initializes a new instance of the <see cref="NetWorkedData.NWDDateRangeType"/> class.
 		/// </summary>
-		public NWDDateTimeRangeType ()
+		public NWDDateRangeType ()
 		{
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Initializes a new instance of the <see cref="NetWorkedData.NWDDateTimeRangeType"/> class.
+		/// Initializes a new instance of the <see cref="NetWorkedData.NWDDateRangeType"/> class.
 		/// </summary>
 		/// <param name="sValue">S value.</param>
-		public NWDDateTimeRangeType (string sValue = "")
+		public NWDDateRangeType (string sValue = "")
 		{
 			if (sValue == null) {
 				Value = "";
@@ -179,7 +179,7 @@ namespace NetWorkedData
 			float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			return tHeight * 4 + NWDConstants.kFieldMarge * 3 + tHeightTitle * 2;
+			return tHeight * 2 + NWDConstants.kFieldMarge * 3 + tHeightTitle * 2;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -191,7 +191,7 @@ namespace NetWorkedData
 		/// <param name="sPos">S position.</param>
         public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
-            NWDDateTimeRangeType tTemporary = new NWDDateTimeRangeType ();
+            NWDDateRangeType tTemporary = new NWDDateRangeType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
 
@@ -249,17 +249,22 @@ namespace NetWorkedData
 
 			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
-			GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
 
-			int tHourStart = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
-				                 tStartDateTimes.Hour, NWDDateTimeType.kHours);
-			int tMinuteStart = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
-				                   tStartDateTimes.Minute, NWDDateTimeType.kMinutes);
-			int tSecondStart = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
-				                   tStartDateTimes.Second, NWDDateTimeType.kSeconds);
+			//int tHourStart = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
+			//	                 tStartDateTimes.Hour, NWDDateTimeType.kHours);
+			//int tMinuteStart = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
+			//	                   tStartDateTimes.Minute, NWDDateTimeType.kMinutes);
+			//int tSecondStart = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
+			//	                   tStartDateTimes.Second, NWDDateTimeType.kSeconds);
 
-			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+			//tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+
+
+            int tHourStart = 0;
+            int tMinuteStart = 0;
+            int tSecondStart = 0;
 
 			GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y + tHeightAdd, sPos.width, sPos.height), "End", tLabelStyle);
 			tHeightAdd += tHeightTitle;
@@ -289,17 +294,21 @@ namespace NetWorkedData
 
 			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
 
-			GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
-			GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
+			//GUI.Label (new Rect (tX + tTiersWidthB + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tTiersWidthB * 2 + NWDConstants.kFieldMarge - 2, sPos.height), ":", tSeparatorStyle);
 
-			int tHourNext = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
-				                tEndDateTimes.Hour, NWDDateTimeType.kHours);
-			int tMinuteNext = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
-				                  tEndDateTimes.Minute, NWDDateTimeType.kMinutes);
-			int tSecondNext = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
-				                  tEndDateTimes.Second, NWDDateTimeType.kSeconds);
+			//int tHourNext = EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
+			//	                tEndDateTimes.Hour, NWDDateTimeType.kHours);
+			//int tMinuteNext = EditorGUI.Popup (new Rect (tX + tTiersWidth, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
+			//	                  tEndDateTimes.Minute, NWDDateTimeType.kMinutes);
+			//int tSecondNext = EditorGUI.Popup (new Rect (tX + tTiersWidth * 2, sPos.y + tHeightAdd, tTiersWidthB, sPos.height),
+				                  //tEndDateTimes.Second, NWDDateTimeType.kSeconds);
 
-			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+            //tHeightAdd += tHeight + NWDConstants.kFieldMarge;
+
+            int tHourNext = 0;
+            int tMinuteNext = 0;
+            int tSecondNext = 0;
 
 			if (ResultNow () == false) {
 				GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, sPos.height), NWDScheduleType.kNowFailed);
