@@ -30,70 +30,94 @@ namespace NetWorkedData
     public enum NWDCharacterEmotion : int
     {
         Normal = 0,
-        Shy,
-        Sad,
-        Surprised,
-        Happy,
-        Angry,
-        Overwhelmed,
-        Lonely,
-        Frustrated,
-        Thoughtful,
-        Tired,
-        Disgusted,
-        Worried,
-        Silly,
-        Excited,
-        Confused,
-        Hurt,
-        Embarrassed,
-        Afraid,
-        Annoyed,
-        Bored,
-        Confident,
-        Proud,
-        Hopeful,
-        Relaxed,
+        Afraid = 1,
+        Angry = 2,
+        Annoyed = 3,
+        Bored = 4,
+        Confident = 5,
+        Confused = 6,
+        Disgusted = 7,
+        Embarrassed = 8,
+        Excited = 9,
+        Frustrated = 10,
+        Happy = 11,
+        Hopeful = 12,
+        Hurt = 13,
+        Lonely = 14,
+        Overwhelmed = 15,
+        Poisoned = 16,
+        Possesses = 17,
+        Proud = 18,
+        Relaxed = 19,
+        Sad = 20,
+        Shy = 21,
+        Silly = 22,
+        Surprised = 23,
+        Thoughtful = 24,
+        Tired = 25,
+        Worried = 26,
 
-        Poisoned,
-        Possesses,
+        // Add new emotion here ... start at 30
 
     }
-	//-------------------------------------------------------------------------------------------------------------
-	[Serializable]
-	public class NWDCharacterConnection : NWDConnection <NWDCharacter> {}
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("CHR")]
-	[NWDClassDescriptionAttribute ("Character descriptions Class")]
-	[NWDClassMenuNameAttribute ("Character")]
-	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDCharacter :NWDBasis <NWDCharacter>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		[NWDGroupStartAttribute("Classification",true, true, true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
-		[NWDGroupEndAttribute]
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
+    public class NWDCharacterConnection : NWDConnection<NWDCharacter>
+    {
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("CHR")]
+    [NWDClassDescriptionAttribute("Character descriptions Class")]
+    [NWDClassMenuNameAttribute("Character")]
+    //-------------------------------------------------------------------------------------------------------------
+    public partial class NWDCharacter : NWDBasis<NWDCharacter>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+        //-------------------------------------------------------------------------------------------------------------
+        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        // Your properties
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDWorld> Worlds
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDCategory> Categories
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> Families
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> Keywords
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
         [NWDSeparator]
-		[NWDGroupStartAttribute("Identity",true, true, true)]
+        [NWDGroupStartAttribute("Identity", true, true, true)]
 
-		public NWDLocalizableStringType FirstName { get; set; }
+        public NWDLocalizableStringType FirstName
+        {
+            get; set;
+        }
 
-		public NWDLocalizableStringType LastName { get; set; }
+        public NWDLocalizableStringType LastName
+        {
+            get; set;
+        }
 
-		public NWDLocalizableStringType NickName { get; set; }
+        public NWDLocalizableStringType NickName
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
         [NWDSeparator]
         [NWDGroupStartAttribute("Dialog tempo", true, true, true)]
@@ -133,12 +157,117 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDPrefabType AfraidState
+        {
+            get; set;
+        }
+        public NWDPrefabType AngryState
+        {
+            get; set;
+        }
+        public NWDPrefabType AnnoyedState
+        {
+            get; set;
+        }
+        public NWDPrefabType BoredState
+        {
+            get; set;
+        }
+        public NWDPrefabType ConfidentState
+        {
+            get; set;
+        }
+        public NWDPrefabType ConfusedState
+        {
+            get; set;
+        }
+        public NWDPrefabType DisgustedState
+        {
+            get; set;
+        }
+        public NWDPrefabType EmbarrassedState
+        {
+            get; set;
+        }
+        public NWDPrefabType ExcitedState
+        {
+            get; set;
+        }
+        public NWDPrefabType FrustratedState
+        {
+            get; set;
+        }
+        public NWDPrefabType HappyState
+        {
+            get; set;
+        }
+        public NWDPrefabType HopefulState
+        {
+            get; set;
+        }
+        public NWDPrefabType HurtState
+        {
+            get; set;
+        }
+        public NWDPrefabType LonelyState
+        {
+            get; set;
+        }
+        public NWDPrefabType OverwhelmedState
+        {
+            get; set;
+        }
+        public NWDPrefabType PoisonedState
+        {
+            get; set;
+        }
+        public NWDPrefabType PossessesState
+        {
+            get; set;
+        }
+        public NWDPrefabType ProudState
+        {
+            get; set;
+        }
+        public NWDPrefabType RelaxedState
+        {
+            get; set;
+        }
+        public NWDPrefabType SadState
+        {
+            get; set;
+        }
+        public NWDPrefabType ShyState
+        {
+            get; set;
+        }
+        public NWDPrefabType SillyState
+        {
+            get; set;
+        }
+        public NWDPrefabType SurprisedState
+        {
+            get; set;
+        }
+        public NWDPrefabType ThoughtfulState
+        {
+            get; set;
+        }
+        public NWDPrefabType TiredState
+        {
+            get; set;
+        }
+        public NWDPrefabType WorrieState
+        {
+            get; set;
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-		public NWDCharacter()
+        public NWDCharacter()
         {
             //Debug.Log("NWDCharacter Constructor");
         }
@@ -147,18 +276,18 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDCharacter Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MyClassMethod()
+        {
+            // do something with this class
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -172,80 +301,80 @@ namespace NetWorkedData
             TripleDotLatence = 1.0F;
             UpdateMe();
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
-		{
-			// do something when object will be inserted
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdateMe ()
-		{
-			// do something when object will be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe ()
-		{
-			// do something when object finish to be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDuplicateMe ()
-		{
-			// do something when object will be dupplicate
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonEnableMe ()
-		{
-			// do something when object will be enabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDisableMe ()
-		{
-			// do something when object will be disabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonTrashMe ()
-		{
-			// do something when object will be put in trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUnTrashMe ()
-		{
-			// do something when object will be remove from trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		//Addons for Edition
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
-		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
-			}
-			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditor (Rect sInRect)
-		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditorHeight ()
-		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
+        //-------------------------------------------------------------------------------------------------------------
+        public void MyInstanceMethod()
+        {
+            // do something with this object
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe()
+        {
+            // do something when object will be inserted
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            // do something when object will be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMe()
+        {
+            // do something when object finish to be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDuplicateMe()
+        {
+            // do something when object will be dupplicate
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonEnableMe()
+        {
+            // do something when object will be enabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDisableMe()
+        {
+            // do something when object will be disabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            // do something when object will be put in trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            // do something when object will be remove from trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        //Addons for Edition
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonEdited(bool sNeedBeUpdate)
+        {
+            if (sNeedBeUpdate == true)
+            {
+                // do something
+            }
+            return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditorHeight()
+        {
+            // Height calculate for the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
 
         //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawWidth(float sDocumentWidth)
@@ -263,14 +392,14 @@ namespace NetWorkedData
         {
             DrawPreviewTexture2D(new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

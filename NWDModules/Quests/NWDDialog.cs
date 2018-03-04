@@ -92,7 +92,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-
+        [NWDSeparator]
         [NWDGroupStartAttribute("Reply for preview Dialog (optional)", true, true, true)]
         [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
