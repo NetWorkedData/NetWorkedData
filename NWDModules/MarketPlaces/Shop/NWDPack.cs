@@ -53,6 +53,16 @@ namespace NetWorkedData
 
         [NWDSeparatorAttribute]
 
+        [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
+        [NWDTooltips("Availability schedule of this Pack")]
+        public NWDDateTimeScheduleType AvailabilitySchedule
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+
+        [NWDSeparatorAttribute]
+
         [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
         public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }

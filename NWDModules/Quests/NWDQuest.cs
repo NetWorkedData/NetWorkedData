@@ -76,13 +76,21 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDSeparator]
         [NWDGroupStartAttribute("Type of quest", true, true, true)]
-        [NWDEntitled("Type of quest", "Determine if quest is replayable or not")]
+        [NWDTooltips("Determine if quest is replayable or not")]
         public NWDQuestType Type
         {
             get; set;
         }
         [NWDIf("Type",1)]
         public int Number
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+        [NWDSeparator]
+        [NWDGroupStartAttribute("Availability schedule", true, true, true)]
+        [NWDTooltips("Determine the availability schedule of this quest")]
+        public NWDDateTimeScheduleType AvailabilitySchedule
         {
             get; set;
         }

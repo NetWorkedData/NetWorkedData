@@ -82,15 +82,17 @@ namespace NetWorkedData
     public partial class NWDDialog : NWDBasis<NWDDialog>
     {
         //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
+
+        [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
+        [NWDTooltips("Availability schedule of this Dialog")]
+        public NWDDateTimeScheduleType AvailabilitySchedule
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+
         [NWDGroupStartAttribute("Reply for preview Dialog (optional)", true, true, true)]
         [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired

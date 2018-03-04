@@ -98,7 +98,7 @@ namespace NetWorkedData
 				}
 			}
 
-			if (ResultNow () == false) {
+			if (ResultForNow () == false) {
 				GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, sPos.height), kNowFailed);
 			} else {
 				GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, sPos.height), kNowSuccess);

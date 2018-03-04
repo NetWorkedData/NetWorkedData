@@ -58,7 +58,7 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public virtual bool ResultNow () 
+		public virtual bool ResultForNow () 
 		{
 			return ResultForDate (DateTime.Now);
 		}

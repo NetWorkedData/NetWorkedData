@@ -48,7 +48,6 @@ namespace NetWorkedData
 		// Your properties
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
         [NWDSeparatorAttribute]
 
         [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]

@@ -31,15 +31,15 @@ namespace NetWorkedData
 	/// </summary>
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateScheduleType : NWDScheduleType
+	public class NWDDateTimeScheduleType : NWDScheduleType
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateScheduleType ()
+		public NWDDateTimeScheduleType ()
 		{
 			Value = "";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateScheduleType (string sValue = "")
+		public NWDDateTimeScheduleType (string sValue = "")
 		{
 			if (sValue == null) {
 				Value = "";
@@ -85,6 +85,16 @@ namespace NetWorkedData
 				rReturn = !Value.Contains (kDaysSchedulePrefix + tDays.ToString("00"));
 			}
 
+			if (rReturn == true) {
+				int tHour = sDateTime.Hour;
+				rReturn = !Value.Contains (kHoursSchedulePrefix + tHour.ToString("00"));
+			}
+
+			if (rReturn == true) {
+				int tMinute = sDateTime.Minute;
+				rReturn = !Value.Contains (kMinutesSchedulePrefix + tMinute.ToString("00"));
+			}
+
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -98,13 +108,15 @@ namespace NetWorkedData
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			int tCount = NWDDateTimeType.kDayNames.Length;
 			int tCountB = NWDDateTimeType.kMonths.Length;
+			int tCountC = NWDDateTimeType.kHours.Length/3;
 			int tCountD = 11;
-			return tHeight * (tCount + tCountB  + tCountD) + tHeightTitle*5;
+			int tCountE = NWDDateTimeType.kMinutes.Length/3;
+			return tHeight * (tCount + tCountB + tCountC + tCountD+ tCountE) + tHeightTitle*5;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
-            NWDDateScheduleType tTemporary = new NWDDateScheduleType ();
+            NWDDateTimeScheduleType tTemporary = new NWDDateTimeScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
@@ -161,6 +173,38 @@ namespace NetWorkedData
 				}
 			}
 			tHeightAdd += tHeight * 7;
+
+			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Hours", tLabelStyle);
+			tHeightAdd += tHeightTitle;
+			for (int i=0; i<NWDDateTimeType.kHours.Length;i++)
+			{
+				int c = i % 8;
+				int l = (i - c) / 8;
+				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y +tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
+					!Value.Contains (kHoursSchedulePrefix+i.ToString("00")),
+					NWDDateTimeType.kHours[i]+kHoursUnit);
+				if (tValueTest==false)
+				{
+					tTemporary.Value += kHoursSchedulePrefix+i.ToString("00");
+				}
+			}
+			tHeightAdd += tHeight * 8;
+
+			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y+tHeightAdd, sPos.width, sPos.height), "Minutes", tLabelStyle);
+			tHeightAdd += tHeightTitle;
+			for (int i=0; i<NWDDateTimeType.kMinutes.Length;i++)
+			{
+				int c = i % 20;
+				int l = (i - c) / 20;
+				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y +tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
+					!Value.Contains (kMinutesSchedulePrefix+i.ToString("00")),
+					NWDDateTimeType.kMinutes[i]+kMinutesUnit);
+				if (tValueTest==false)
+				{
+					tTemporary.Value += kMinutesSchedulePrefix+i.ToString("00");
+				}
+			}
+			tHeightAdd += tHeight * 20;
 
 			if (base.ResultForNow () == false) {
                 GUI.Label (new Rect(sPos.x, sPos.y + tHeight, sPos.width, sPos.height), kNowFailed);
