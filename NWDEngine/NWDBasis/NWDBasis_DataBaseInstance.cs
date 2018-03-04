@@ -75,7 +75,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NewNetWorkedData()
         {
-            Debug.Log("NWDBasis <K> NewNetWorkedData()");
+            //Debug.Log("NWDBasis <K> NewNetWorkedData()");
            this.InstanceInit();
             this.AC = true;
             this.DM = NWDToolbox.Timestamp();
@@ -88,7 +88,7 @@ namespace NetWorkedData
             this.Reference = this.NewReference();
             foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
             {
-                Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
+                //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
                 tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                 tPropInfo.SetValue(this, tAtt, null);
@@ -102,7 +102,7 @@ namespace NetWorkedData
 		/// <returns>The instance.</returns>
 		private static NWDBasis<K> NewInstance ()
         {
-            Debug.Log("NWDBasis <K> NewInstance()");
+            //Debug.Log("NWDBasis <K> NewInstance()");
 			return NewInstanceWithReference (null);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ namespace NetWorkedData
 		/// <param name="sReference">S reference.</param>
 		private static NWDBasis<K> NewInstanceWithReference (string sReference)
         {
-            Debug.Log("NWDBasis <K> NewInstanceWithReference()");
+            //Debug.Log("NWDBasis <K> NewInstanceWithReference()");
 			NWDBasis<K> rReturnObject = null;
             //rReturnObject = (NWDBasis<K>)Activator.CreateInstance (ClassType ());
             if (ClassType() != null)
@@ -142,7 +142,7 @@ namespace NetWorkedData
                 }
                 foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
                 {
-                    Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
+                    //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                     NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
                     tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     tPropInfo.SetValue(rReturnObject, tAtt, null);

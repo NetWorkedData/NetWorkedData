@@ -61,7 +61,9 @@ namespace NetWorkedData
 				"\t\t//Created by Jean-François CONTART\n" +
 				"\t\t//-------------------- \n" +
 				"\t\t// CONSTANTS \n" +
-				"\t\t//-------------------- \n";
+                "\t\t//-------------------- \n" +
+                "\t$NWD_TMA = microtime(true);\n" +
+                "\t\t//-------------------- \n";
 			if (NWDAppConfiguration.SharedInstance().DevEnvironment == this) {
 				tConstantsFile += "\terror_reporting(E_ALL);\n" +
 					"\tini_set('display_errors', 1);\n" +
@@ -69,7 +71,7 @@ namespace NetWorkedData
 			} else {
                 tConstantsFile += "\t$NWD_LOG = false;\n";
 			}
-            tConstantsFile += "\t$NWD_TMA = microtime();\n" +
+            tConstantsFile += "" +
                 "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT FOR SHA512\n" +
                 "\t$NWD_SHA_SEC = '" + DataSHAPassword.Replace("'", "\'") + "';\n" +

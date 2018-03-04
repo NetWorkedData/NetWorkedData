@@ -17,9 +17,6 @@
 		respondAdd('log',$RRR_LOG);
 	}
 		//--------------------
-		// server benchmark
-	respondAdd('perform',microtime()-$NWD_TMA);
-		//--------------------
 		// web-services build
 	respondAdd('wsbuild',$WSBUILD);
 		//--------------------
@@ -28,6 +25,10 @@
 		//--------------------
 		// Insert error if necessary
 	errorResult();
+		//--------------------
+		// server benchmark
+	respondAdd('perform',microtime(true)-$NWD_TMA);
+	respondAdd('performRequest',microtime(true)-$_SERVER['REQUEST_TIME_FLOAT']);
 		//--------------------
 		//transform respond in JSON file
 	$json = json_encode($REP);

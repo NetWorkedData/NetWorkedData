@@ -209,6 +209,16 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
+            // use these bools to fix the bug of error on redraw
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment; // default value replace after in script
+            bool tUpdateTable = false;
+            bool tSync = false;
+            bool tSyncForce = false;
+            bool tSyncClean = false;
+            //bool tResethToken = false;
+            //bool tFlushWebQueue = false;
+
+
 			this.minSize = new Vector2 (300, 330);
 			this.maxSize = new Vector2 (300, 380);
 			// set title of window
@@ -236,37 +246,55 @@ namespace NetWorkedData
 
 			GUILayout.BeginHorizontal ();
 			if (GUILayout.Button ("Update Table", EditorStyles.miniButton)) {
-				CreateTable (NWDAppConfiguration.SharedInstance().DevEnvironment);
+                tUpdateTable = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+				//CreateTable (NWDAppConfiguration.SharedInstance().DevEnvironment);
 			}
-			if (GUILayout.Button ("Update Table", EditorStyles.miniButton)) {
-				CreateTable (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            if (GUILayout.Button ("Update Table", EditorStyles.miniButton)) {
+                tUpdateTable = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+				//CreateTable (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
 			}
-			if (GUILayout.Button ("Update Table", EditorStyles.miniButton)) {
-				CreateTable (NWDAppConfiguration.SharedInstance().ProdEnvironment);
-			}
-			GUILayout.EndHorizontal ();
-
-			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
-				AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
-			}
-			if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
-				AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-			}
-			if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
-				AllSynchronization (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            if (GUILayout.Button ("Update Table", EditorStyles.miniButton)) {
+                tUpdateTable = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+				//CreateTable (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 			}
 			GUILayout.EndHorizontal ();
 
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
-				AllSynchronizationForce (NWDAppConfiguration.SharedInstance().DevEnvironment);
+            if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
+                tSync = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+				//AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
 			}
-			if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
-				AllSynchronizationForce (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
+                tSync = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+				//AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
 			}
-			if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
-				AllSynchronizationForce (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            if (GUILayout.Button ("Sync", EditorStyles.miniButton)) {
+                tSync = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+				//AllSynchronization (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+			}
+			GUILayout.EndHorizontal ();
+
+			GUILayout.BeginHorizontal ();
+            if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
+                tSyncForce = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+				//AllSynchronizationForce (NWDAppConfiguration.SharedInstance().DevEnvironment);
+			}
+            if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
+                tSyncForce = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+				//AllSynchronizationForce (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+			}
+            if (GUILayout.Button ("Sync Force", EditorStyles.miniButton)) {
+                tSyncForce = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+				//AllSynchronizationForce (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 			}
 			GUILayout.EndHorizontal ();
 
@@ -274,14 +302,20 @@ namespace NetWorkedData
 			Color tOldColor = GUI.backgroundColor;
 			GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 			GUILayout.BeginHorizontal ();
-			if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
-				AllSynchronizationForce (NWDAppConfiguration.SharedInstance().DevEnvironment);
+            if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
+                tSyncClean = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                //AllSynchronizationClean (NWDAppConfiguration.SharedInstance().DevEnvironment);
 			}
-			if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
-				AllSynchronizationForce (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
+                tSyncClean = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                //AllSynchronizationClean (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
 			}
-			if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
-				AllSynchronizationForce (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            if (GUILayout.Button ("Sync Clean", EditorStyles.miniButton)) {
+                tSyncClean = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                //AllSynchronizationClean (NWDAppConfiguration.SharedInstance().ProdEnvironment);
 			}
 			GUILayout.EndHorizontal ();
 			GUI.backgroundColor = tOldColor;
@@ -378,6 +412,26 @@ namespace NetWorkedData
                     NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
                 }
             }
+
+
+
+            if (tUpdateTable == true)
+            {
+                CreateTable(tEnvironment);
+            }
+            if (tSync == true)
+            {
+                AllSynchronization(tEnvironment);
+            }
+            if (tSyncForce == true)
+            {
+                AllSynchronizationForce(tEnvironment);
+            }
+            if (tSyncClean == true)
+            {
+                AllSynchronizationClean(tEnvironment);
+            }
+
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void CreateTable (NWDAppEnvironment sEnvironment)
