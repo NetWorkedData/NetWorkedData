@@ -59,17 +59,22 @@ namespace NetWorkedData
 		/// Results if "now" is in range.
 		/// </summary>
 		/// <returns><c>true</c>, if now was resulted, <c>false</c> otherwise.</returns>
-		public bool ResultNow ()
+        public bool AvailableNow ()
 		{
-			return ResultForDate (DateTime.Now);
-		}
+            return AvailableForTime (DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool AvailableNowInGameTime()
+        {
+            return AvailableForTime(NWDAppEnvironment.SelectedEnvironment().DateTimeInGameTime());
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Results for date if the time of this date is in range (only the hour:minute:second).
 		/// </summary>
 		/// <returns><c>true</c>, if for date was resulted, <c>false</c> otherwise.</returns>
 		/// <param name="sDateTime">S date time.</param>
-		public bool ResultForDate (DateTime sDateTime)
+        public bool AvailableForTime (DateTime sDateTime)
 		{
 			DateTime tDateExtract = new DateTime (1970, 1, 1, sDateTime.Hour, sDateTime.Minute, sDateTime.Second);
 			int tDate = NWDToolbox.Timestamp (tDateExtract);
@@ -170,7 +175,7 @@ namespace NetWorkedData
 			//float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			//GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			//float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-            return NWDConstants.kPopupdStyle.fixedHeight * 4 + NWDConstants.kFieldMarge * 3 + NWDConstants.kLabelStyle.fixedHeight * 2;
+            return NWDConstants.kPopupdStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3 + NWDConstants.kLabelStyle.fixedHeight * 2;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -241,11 +246,25 @@ namespace NetWorkedData
 
 			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
 
-			if (ResultNow () == false) {
-                GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
+            if (AvailableNow () == false) {
+                GUI.Label (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
 			} else {
-                GUI.Label (new Rect (sPos.x, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
+                GUI.Label (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
 			}
+
+            DateTime tDateTimeInGame = NWDAppEnvironment.SelectedEnvironment().DateTimeInGameTime();
+            GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 2, sPos.width, sPos.height), NWDScheduleType.kNowGameTime + " (" + NWDAppEnvironment.SelectedEnvironment().SpeedOfGameTime + "x)");
+            //GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 4, sPos.width, sPos.height), tDateTimeInGame.ToString("yyyy-MMM-dd"));
+            GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 3, sPos.width, sPos.height), tDateTimeInGame.ToString("ddd HH:mm:ss"));
+            if (AvailableNowInGameTime() == false)
+            {
+                GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 4, sPos.width, sPos.height), NWDScheduleType.kNowGameFailed);
+            }
+            else
+            {
+                GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 4, sPos.width, sPos.height), NWDScheduleType.kNowGameSuccess);
+            }
+
 
 			tTemporary.Value = 
 			tHourStart + NWDConstants.kFieldSeparatorA +

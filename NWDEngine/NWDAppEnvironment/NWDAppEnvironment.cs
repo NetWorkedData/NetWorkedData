@@ -179,6 +179,16 @@ namespace NetWorkedData
             DateTime tDateInGameResult = new DateTime(tNow.Year, tDateInGame.Month, tDateInGame.Day, tDateInGame.Hour, tDateInGame.Minute, tDateInGame.Second, DateTimeKind.Utc);
             return tDateInGameResult;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public static float kSunRotationPerSeconds = 0.0014666667F; // ((360 /24)/60)/60 : 360° div by 24 hours, div by 60 minutes, div by 60 seconds : angle for one second
+        //-------------------------------------------------------------------------------------------------------------
+        public float RotationOfSunInGameTime()
+        {
+            //TODO Test this solution 
+            DateTime tNow = DateTime.Now;
+            int tSeconds = tNow.Hour*3600 + tNow.Minute*60 + tNow.Second;
+            return kSunRotationPerSeconds * tSeconds * SpeedOfGameTime;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 	}
