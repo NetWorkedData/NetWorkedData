@@ -502,7 +502,7 @@ namespace NetWorkedData
         {
             LoadImages();
 
-            GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
+            //GUI.Label(sRect, InternalDescription, EditorStyles.wordWrappedLabel);
 
             Color tBackgroundColor = GUI.backgroundColor;
 

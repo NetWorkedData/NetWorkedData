@@ -881,7 +881,6 @@ namespace NetWorkedData
 
             if (sWithScrollview == true)
             {
-
                 GUI.EndScrollView();
             }
 
@@ -891,7 +890,7 @@ namespace NetWorkedData
             }
             if (rNeedBeUpdate == true)
             {
-                NWDDataInspector.ActiveRepaint();
+                //NWDDataInspector.ActiveRepaint();
                 if (sEditionEnable == true)
                 {
 
@@ -901,7 +900,6 @@ namespace NetWorkedData
                         UpdateIntegrity();
                         UpdateMeLater();
                         // TODO Imagine an timer to refresh if modified
-                        //NWDNodeEditor.UpdateNodeWindow(this);
                     }
                 }
             }
@@ -1243,6 +1241,7 @@ namespace NetWorkedData
                     UpdateObjectInListOfEdition(this);
                     NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                    NWDNodeEditor.UpdateNodeWindow(this);
                 }
             }
             else
@@ -1263,6 +1262,7 @@ namespace NetWorkedData
                 UpdateObjectInListOfEdition(this);
                 NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                NWDNodeEditor.UpdateNodeWindow(this);
             }
 
 
@@ -1276,6 +1276,7 @@ namespace NetWorkedData
                 UpdateObjectInListOfEdition(this);
                 NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                NWDNodeEditor.UpdateNodeWindow(this);
             }
 
 
