@@ -153,6 +153,11 @@ namespace NetWorkedData
 			Sprite tObject = null;
 			//bool tNoError = true;
 
+
+            // remove EditorGUI.indentLevel to draw next controller without indent 
+            //int tIndentLevel = EditorGUI.indentLevel;
+            //EditorGUI.indentLevel = 0;
+
 			Texture2D tTexture = tTemporary.ToTexture ();
 			if (Value != null && Value != "" && tTexture == null) {
                 EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent);

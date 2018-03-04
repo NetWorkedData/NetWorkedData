@@ -42,7 +42,7 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute ("Informations", true, true, true)]
 		public NWDLocalizableStringType Name { get; set; }
 		[NWDGroupEndAttribute]
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 		[NWDGroupStartAttribute ("Description", true, true, true)]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
 		[NWDGroupStartAttribute("Classification",true,true,true)]

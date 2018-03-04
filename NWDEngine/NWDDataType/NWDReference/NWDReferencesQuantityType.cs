@@ -483,8 +483,13 @@ namespace NetWorkedData
 
                 if (tIndex > 0)
                 {
-                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge * 2, tY, tIntWidth + NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), tQ);
 
+             //remove EditorGUI.indentLevel to draw next controller without indent 
+                    int tIndentLevel = EditorGUI.indentLevel;
+                    EditorGUI.indentLevel = 0;
+                    tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge * 2, tY, tIntWidth + NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), tQ);
+                    
+                    EditorGUI.indentLevel = tIndentLevel;
                     //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
                     GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
                     if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))

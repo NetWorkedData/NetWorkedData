@@ -51,7 +51,7 @@ namespace NetWorkedData
             get; set;
         } // TODO : NWDHiearchicList
         [NWDGroupEndAttribute]
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Description", true, true, true)]
         public NWDReferenceType<NWDItem> ItemToDescribe
         {

@@ -57,7 +57,7 @@ namespace NetWorkedData
         public NWDReferenceType<NWDPack> PackReference { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Other", true, true, true)]
         public string Platform { get; set; }

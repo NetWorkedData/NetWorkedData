@@ -57,7 +57,7 @@ namespace NetWorkedData
 		public string Code { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
            
 		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
 		public NWDLocalizableStringType Title { get; set; } // TODO : rename by Title ?

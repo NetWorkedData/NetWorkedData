@@ -211,6 +211,10 @@ namespace NetWorkedData
 					EditorGUI.DrawPreviewTexture (new Rect (tWidth - NWDConstants.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tTexture2D);
 				}
 				if (tLangague != "") {
+
+                     //remove EditorGUI.indentLevel to draw next controller without indent 
+                    int tIndentLevel = EditorGUI.indentLevel;
+                    EditorGUI.indentLevel = 0;
                     UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
 					if (pObj != null) {
 						if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) {
@@ -218,7 +222,9 @@ namespace NetWorkedData
 						}
 					} else {
 						tText = "";
-					}
+                    }
+                    EditorGUI.indentLevel = tIndentLevel;
+
 				}
 				//tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, tPopupdStyle.fixedHeight), tText);
 //				tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;

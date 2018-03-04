@@ -207,9 +207,13 @@ namespace NetWorkedData
 				tLangague = tValueFuturList [tIndex];
 //				Debug.LogVerbose ("tIndex = " +tIndex.ToString ());
 				if (tLangague !="") 
-				{
+                {
+                    //remove EditorGUI.indentLevel to draw next controller without indent 
+                    int tIndentLevel = EditorGUI.indentLevel;
+                    EditorGUI.indentLevel = 0;
                     tText = EditorGUI.TextField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), NWDToolbox.TextUnprotect (tText));
-				}
+                    EditorGUI.indentLevel = tIndentLevel;
+                }
 				tText = NWDToolbox.TextProtect (tText);
                 tY += NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 				if (tResult.ContainsKey (tLangague)) {
@@ -231,6 +235,8 @@ namespace NetWorkedData
 				tNextValue = "";
 			}
 			tTemporary.Value = tNextValue;
+            Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
+            Debug.Log("tLangWidth = " + tLangWidth.ToString());
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -48,14 +48,14 @@ namespace NetWorkedData
 		// Your properties
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]
 		public NWDReferencesQuantityType<NWDPack> PackReference { get; set; }
 		public bool Limited { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }

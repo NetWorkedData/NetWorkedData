@@ -81,11 +81,17 @@ namespace NetWorkedData
             float tX = sPosition.position.x;
             float tY = sPosition.position.y;
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+
+            //remove EditorGUI.indentLevel to draw next controller without indent 
+            int tIndentLevel = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+
             string tNextValue = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth , tY, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight * kCONST_NUMBER_OF_LINE), Value, NWDConstants.kTextAreaStyle);
             if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kTextFieldStyle.fixedHeight*kCONST_NUMBER_OF_LINE + NWDConstants.kFieldMarge, tWidth - EditorGUIUtility.labelWidth, NWDConstants.kTextFieldStyle.fixedHeight), "Test If Valid (must be developped)"))
             {
                 // test if valide
             }
+            EditorGUI.indentLevel = tIndentLevel;
 
             tTemporary.Value = tNextValue; 
 			return tTemporary;

@@ -74,7 +74,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Type of quest", true, true, true)]
         [NWDTooltips("Determine if quest is replayable or not")]
         public NWDQuestType Type
@@ -87,7 +87,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Availability schedule", true, true, true)]
         [NWDTooltips("Determine the availability schedule of this quest")]
         public NWDDateTimeScheduleType AvailabilitySchedule
@@ -95,7 +95,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
         [NWDEntitled("Title of quest", "Title of the quest in the description")]
         public NWDLocalizableStringType Title
@@ -107,7 +107,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Start Way", true, true, true)]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
         {
@@ -123,7 +123,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Alternate Way", true, true, true)]
 
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsWanted
@@ -141,7 +141,7 @@ namespace NetWorkedData
         } // to start with ListOfItemsAsked
 
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Quest reward", true, true, true)]
         public NWDReferencesQuantityType<NWDPack> PackRewards
         {

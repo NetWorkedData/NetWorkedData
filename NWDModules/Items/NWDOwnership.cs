@@ -76,14 +76,14 @@ namespace NetWorkedData
         public string Name { get; set; }
 		[NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Extensions", true, true, true)]
         public NWDReferencesArrayType<NWDOwnership> ItemsContained { get; set; }
 		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
 		[NWDGroupEndAttribute]
 		
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Development addons", true, true, true)]
 		public string JSON { get; set; }

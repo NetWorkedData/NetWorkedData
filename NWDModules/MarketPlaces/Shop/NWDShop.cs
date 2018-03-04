@@ -43,7 +43,7 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute("Racks",true, true, true)]
 		public NWDReferencesListType<NWDRack> DailyRack { get; set; }
@@ -51,7 +51,7 @@ namespace NetWorkedData
 		public NWDReferencesListType<NWDRack> MonthlyRack { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Special Racks", true, true, true)]
         public NWDDateTimeType SpecialDateStart { get; set; }
@@ -59,7 +59,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDRack> SpecialRack { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }

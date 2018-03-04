@@ -138,6 +138,8 @@ namespace NetWorkedData
 			float tX = sPosition.position.x;
 			float tY = sPosition.position.y;
 
+
+
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
 			tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight (new GUIContent ("A"), tWidth);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.label);
@@ -152,6 +154,10 @@ namespace NetWorkedData
 
 			Sprite tObject = null;
 			//bool tNoError = true;
+
+            // remove EditorGUI.indentLevel to draw next controller without indent 
+            //int tIndentLevel = EditorGUI.indentLevel;
+            //EditorGUI.indentLevel = 0;
 
 			Texture2D tTexture = tTemporary.ToTexture ();
 			if (Value != null && Value != "" && tTexture == null) {

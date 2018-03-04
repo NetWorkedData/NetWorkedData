@@ -301,9 +301,15 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDSeparatorAttribute : Attribute
+	public class NWDGroupSeparatorAttribute : Attribute
 	{
-	}
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //-------------------------------------------------------------------------------------------------------------
+    public class NWDSeparatorAttribute : Attribute
+    {
+    }
 	//-------------------------------------------------------------------------------------------------------------
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
 	//-------------------------------------------------------------------------------------------------------------

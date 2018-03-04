@@ -262,9 +262,9 @@ namespace NetWorkedData
                             tDraw = true;
                         }
                     }
-
+                    
                     // draw separator before
-                    foreach (NWDSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+                    foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
                     {
                         tY += NWDConstants.kFieldMarge * 2;
                     }
@@ -274,6 +274,7 @@ namespace NetWorkedData
                     {
                         if (tDraw == true)
                         {
+
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
@@ -314,6 +315,11 @@ namespace NetWorkedData
 
                     if (tDraw)
                     {
+
+                        foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+                        {
+                            tY += NWDConstants.kFieldMarge * 2;
+                        }
                         // draw space
                         foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
                         {
@@ -523,7 +529,7 @@ namespace NetWorkedData
                         }
                     }
                     // draw separator before
-                    foreach (NWDSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+                    foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
                     {
                         //						if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
                         EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
@@ -535,6 +541,7 @@ namespace NetWorkedData
                     {
                         if (tDraw == true)
                         {
+
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
@@ -581,6 +588,14 @@ namespace NetWorkedData
                     if (tDraw)
                     {
 
+                        foreach (NWDSeparatorAttribute tInsideReference in tProp.GetCustomAttributes(typeof(NWDSeparatorAttribute), true))
+                        {
+                            Rect tRect = EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1));
+                            //float tIndentWidth = tRect.x;
+                            //                      if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
+                            EditorGUI.DrawRect(tRect, kRowColorLine);
+                            tY += NWDConstants.kFieldMarge * 2;
+                        }
                         // draw space
                         foreach (NWDSpaceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDSpaceAttribute), true))
                         {
@@ -658,6 +673,9 @@ namespace NetWorkedData
                             {
                                 string tValue = (string)tProp.GetValue(this, null);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+                                //remove EditorGUI.indentLevel to draw next controller without indent 
+                                int tIndentLevel = EditorGUI.indentLevel;
+                                EditorGUI.indentLevel = 0;
                                 string tValueNext = EditorGUI.TextArea(new Rect(tX+ EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight*NWDConstants.kLongString),tValue, NWDConstants.kTextAreaStyle);
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
@@ -665,11 +683,16 @@ namespace NetWorkedData
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
+                                EditorGUI.indentLevel = tIndentLevel;
                             }
                             else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
                             {
                                 string tValue = (string)tProp.GetValue(this, null);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+
+             //remove EditorGUI.indentLevel to draw next controller without indent 
+                                int tIndentLevel = EditorGUI.indentLevel;
+                                EditorGUI.indentLevel = 0;
                                 string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
@@ -677,6 +700,7 @@ namespace NetWorkedData
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
+                                EditorGUI.indentLevel = tIndentLevel;
                             }
                             else if (tProp.GetCustomAttributes(typeof(NWDFloatSliderAttribute), true).Length > 0)
                             {
@@ -697,6 +721,11 @@ namespace NetWorkedData
                                 string tValue = (string)tProp.GetValue(this, null);
                                 int tValueInt = Array.IndexOf<string>(tV, tValue);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+
+             //remove EditorGUI.indentLevel to draw next controller without indent 
+                                int tIndentLevel = EditorGUI.indentLevel;
+                                EditorGUI.indentLevel = 0;
+
                                 int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth -EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 string tValueNext = "";
@@ -709,6 +738,7 @@ namespace NetWorkedData
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
+                                EditorGUI.indentLevel = tIndentLevel;
                             }
                             else if (tProp.GetCustomAttributes(typeof(NWDEnumAttribute), true).Length > 0)
                             {
@@ -718,6 +748,11 @@ namespace NetWorkedData
                                 int tValue = (int)tProp.GetValue(this, null);
                                 int tValueInt = Array.IndexOf<int>(tI, tValue);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
+
+             //remove EditorGUI.indentLevel to draw next controller without indent 
+                                int tIndentLevel = EditorGUI.indentLevel;
+                                EditorGUI.indentLevel = 0;
+
                                 int tValueIntNext = EditorGUI.Popup(new Rect(tX+EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 int tValueNext = 0;
@@ -730,6 +765,7 @@ namespace NetWorkedData
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
+                                EditorGUI.indentLevel = tIndentLevel;
                             }
                             else
                             {

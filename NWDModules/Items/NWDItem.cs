@@ -65,7 +65,7 @@ namespace NetWorkedData
 		public NWDLocalizableStringType Description { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Classification", true, true, true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
@@ -74,7 +74,7 @@ namespace NetWorkedData
 		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 	
 		[NWDGroupStartAttribute ("Rarity", true, true, true)]
 		[NWDFloatSliderAttribute (0.0F, 1.0F)]
@@ -82,7 +82,7 @@ namespace NetWorkedData
 		public float Rarity { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Usage", true, true, true)]
 		public bool Usable { get; set; }
@@ -91,7 +91,7 @@ namespace NetWorkedData
 		public float DelayBeforeReUse { get; set; }
         [NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute("Craft Usage", true, true, true)]
 		[NWDNotEditableAttribute]
@@ -102,14 +102,14 @@ namespace NetWorkedData
         public NWDReferenceType<NWDRecipientGroup> RecipientType { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Extensions", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsContained { get; set; }
 		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Assets", true, true, true)]
 		[NWDHeaderAttribute ("Textures")]
@@ -126,14 +126,14 @@ namespace NetWorkedData
 		public NWDPrefabType TertiaryPrefab { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Development addons", true, true, true)]
 		public string JSON { get; set; }
 		public string KeysValues { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Precalculate", true, true, true)]
 		//[NWDNotEditableAttribute]

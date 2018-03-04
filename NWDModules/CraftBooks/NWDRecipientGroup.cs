@@ -52,14 +52,14 @@ namespace NetWorkedData
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute("Usage",true, true, true)] // ok
 		public bool CraftOnlyMax {get; set;}
 		public bool CraftUnUsedElements {get; set;}
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
         [NWDHeaderAttribute("Active Recipient")]
@@ -76,7 +76,7 @@ namespace NetWorkedData
 
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute("Item(s) use as recipient",true, true, true)] // ok
 		public NWDReferencesListType<NWDItem> ItemList { get; set; }

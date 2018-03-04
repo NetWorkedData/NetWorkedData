@@ -514,7 +514,7 @@ namespace NetWorkedData
                 kPopupdStyle.fixedHeight = kPopupdStyle.CalcHeight(new GUIContent("A"), 100.0F);
 
                 kPopupButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kPopupButtonStyle.fixedHeight = kPopupdStyle.fixedHeight;
+                kPopupButtonStyle.fixedHeight = kPopupdStyle.fixedHeight; // use kPopupdStyle to fixe the good size of button from popup
                 kPopupButtonStyle.padding = new RectOffset(2, 2, 2, 2);
 
                 kTextFieldStyle = new GUIStyle(EditorStyles.textField);

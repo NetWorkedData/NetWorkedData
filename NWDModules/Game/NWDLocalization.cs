@@ -53,7 +53,7 @@ namespace NetWorkedData
 		public NWDLocalizableTextType TextValue { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 		[NWDGroupStartAttribute ("Development addons", true, true, true)]
 		/// <summary>
 		/// Gets or sets the annexe value.

@@ -52,7 +52,7 @@ namespace NetWorkedData
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Recipe attribut", true, true, true)] // ok
 		public bool OrderIsImportant { get; set; }
@@ -61,7 +61,7 @@ namespace NetWorkedData
 		public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("FX (Special Effects)", true, true, true)]
 		public NWDPrefabType SuccessParticles { get; set; }
@@ -70,7 +70,7 @@ namespace NetWorkedData
 		public NWDPrefabType FailSound { get; set; }
 		[NWDGroupEndAttribute]
 
-		[NWDSeparatorAttribute]
+		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Development addons", true, true, true)]
 		[NWDNotEditableAttribute]

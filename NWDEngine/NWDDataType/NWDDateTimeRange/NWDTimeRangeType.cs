@@ -214,7 +214,11 @@ namespace NetWorkedData
 //			float tWidthYear = tTiersWidthB + 10;
 //			float tWidthMonth = tTiersWidthB - 5;
 //			float tWidthDay = tTiersWidthB - 5;
-            GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
+            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
+
+            // remove EditorGUI.indentLevel to draw next controller without indent 
+            int tIndentLevel = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
 
             GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "Start", NWDConstants.kLabelStyle);
 			tHeightAdd += tHeightTitle;
@@ -276,6 +280,9 @@ namespace NetWorkedData
 			tSecondNext;
 
 			//GUI.Label (new Rect (sPos.x, sPos.y+tHeightAdd, sPos.width, sPos.height), Value);
+
+            // move EditorGUI.indentLevel to draw next controller with indent 
+            EditorGUI.indentLevel = tIndentLevel;
 
 			return tTemporary;
 		}

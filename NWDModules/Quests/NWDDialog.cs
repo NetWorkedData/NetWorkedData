@@ -92,7 +92,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Reply for preview Dialog (optional)", true, true, true)]
         [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
@@ -154,7 +154,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEnd]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Dialog", true, true, true)]
         [NWDTooltipsAttribute("Select the character who says the dialog")]
         public NWDReferenceType<NWDCharacter> CharacterReference
@@ -211,14 +211,14 @@ namespace NetWorkedData
         }
 
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
         public NWDReferencesListType<NWDDialog> NextDialogs
         {
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Option Quest", true, true, true)]
         [NWDTooltipsAttribute("The quest launched after this dialog")]
         public NWDReferenceType<NWDQuest> NextQuest

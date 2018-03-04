@@ -101,7 +101,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Identity", true, true, true)]
 
         public NWDLocalizableStringType FirstName
@@ -119,7 +119,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Dialog tempo", true, true, true)]
 
         public float SentenceSpeed
@@ -151,7 +151,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Render", true, true, true)]
         public NWDPrefabType NormalState
         {

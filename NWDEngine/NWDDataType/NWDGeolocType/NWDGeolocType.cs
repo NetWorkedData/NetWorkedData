@@ -117,7 +117,11 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-            GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
+            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
+
+            // remove EditorGUI.indentLevel to draw next controller without indent 
+            int tIndentLevel = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
 
 			Vector2 tLatitudeLongitude = LatitudeLongitude ();
 
@@ -128,6 +132,10 @@ namespace NetWorkedData
 			float tLongitude = EditorGUI.FloatField (new Rect (tX, sPos.y + tHeight * 3, sPos.width - EditorGUIUtility.labelWidth, sPos.height), tLatitudeLongitude.y);
 
 			tTemporary.Value = tLatitude + NWDConstants.kFieldSeparatorA + tLongitude;
+
+            // move EditorGUI.indentLevel to draw next controller with indent 
+            EditorGUI.indentLevel = tIndentLevel;
+
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

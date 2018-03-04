@@ -57,7 +57,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Environment", true, true, true)]
         public bool ActiveDev
         {
@@ -72,7 +72,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Options", true, true, true)]
         public bool BlockDataUpdate
         {
@@ -83,7 +83,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Message and links", true, true, true)]
         public NWDLocalizableStringType AlertTitle
         {

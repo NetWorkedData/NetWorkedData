@@ -59,7 +59,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparator]
+        [NWDGroupSeparator]
         [NWDGroupStartAttribute("Character and all quests", true, true, true)]
         public NWDReferenceType<NWDCharacter> CharacterReference
         {

@@ -51,7 +51,7 @@ namespace NetWorkedData
 		[NWDHeaderAttribute("Representation")]
 		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
         [NWDTooltips("Availability schedule of this Pack")]
@@ -61,7 +61,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
@@ -69,7 +69,7 @@ namespace NetWorkedData
         public bool EnableFreePack { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
         public string AppleID { get; set; }
@@ -77,7 +77,7 @@ namespace NetWorkedData
         public string SteamID { get; set; }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }

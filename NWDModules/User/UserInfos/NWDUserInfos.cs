@@ -74,7 +74,11 @@ namespace NetWorkedData
 		public bool SFX {get; set;}
 		public float SFXVolume {get; set;}
 		public bool Music {get; set;}
-		public float MusicVolume {get; set;}
+        public float MusicVolume {get; set;}
+        public NWDLocalizableStringType MusicVolumeLangu
+        {
+            get; set;
+        }
         [NWDHeader("Last Game Informations")]
         //public NWDReferenceType<NWDSpot> LastSpotReference { get; set; }
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }

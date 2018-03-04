@@ -53,14 +53,14 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Desription", true, true, true)]
         public NWDReferenceType<NWDItem> ItemToDescribe
         {
             get; set;
         }
         [NWDGroupEndAttribute]
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> World
         {
@@ -80,7 +80,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
 
-        [NWDSeparatorAttribute]
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Assets", true, true, true)]
         public NWDColorType PrimaryColor
