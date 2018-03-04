@@ -209,7 +209,7 @@ namespace NetWorkedData
 //			float tWidthYear = tTiersWidthB + 10;
 //			float tWidthMonth = tTiersWidthB - 5;
 //			float tWidthDay = tTiersWidthB - 5;
-			GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), sEntitled);
+            GUI.Label (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
 
             GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "Start", NWDConstants.kLabelStyle);
 			tHeightAdd += tHeightTitle;

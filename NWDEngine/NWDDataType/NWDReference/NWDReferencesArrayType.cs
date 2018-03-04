@@ -345,10 +345,10 @@ namespace NetWorkedData
             string tNewReference = "";
             for (int i = 0; i < tValueList.Count; i++)
             {
-                string tFieldName = sEntitled;
+                //string tFieldName = sEntitled;
                 if (i > 0)
                 {
-                    tFieldName = "   ";
+                    //tFieldName = "   ";
                     tContent = new GUIContent("   ");
                 }
                 string tV = tValueList.ElementAt(i);
