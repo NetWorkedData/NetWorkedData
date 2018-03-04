@@ -56,7 +56,7 @@ namespace NetWorkedData
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 			float tWidth = sPosition.width - EditorGUIUtility.labelWidth;
 			int tNumberOfSubDivision = 3;
-            float tWidthSubPos = Mathf.Ceil (tWidth / tNumberOfSubDivision);
+            //float tWidthSubPos = Mathf.Ceil (tWidth / tNumberOfSubDivision);
             float tWidthSub = Mathf.Ceil((tWidth -NWDConstants.kFieldMarge-NWDConstants.kFieldMarge) / tNumberOfSubDivision);
 			int tMajorIndex = 0;
 			int tMinorIndex = 0;

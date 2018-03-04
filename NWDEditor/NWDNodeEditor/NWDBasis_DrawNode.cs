@@ -47,15 +47,15 @@ namespace NetWorkedData
             sCard.InformationsColor = AddOnNodeColor();
             // data must be analyzed
             // data is in a preview card?
-            bool tDataAllReadyShow = false;
-            foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCards)
-            {
-                if (tCard.Data == sCard.Data)
-                {
-                    tDataAllReadyShow = true;
-                    break;
-                }
-            }
+            //bool tDataAllReadyShow = false;
+            //foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCards)
+            //{
+            //    if (tCard.Data == sCard.Data)
+            //    {
+            //        tDataAllReadyShow = true;
+            //        break;
+            //    }
+            //}
             bool tDataAllReadyAnalyze = false;
             foreach (NWDNodeCard tCard in sCard.ParentDocument.AllCardsAnalyzed)
             {

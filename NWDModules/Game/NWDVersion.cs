@@ -125,11 +125,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetAppVersion()
+        {
+            return GetVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public static string GetVersionForEnvironemt(NWDAppEnvironment sEnvironment)
         {
-            Debug.Log("GetVersionForEnvironemt");
+            //Debug.Log("GetVersionForEnvironemt");
             // I will change th last version of my App
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
