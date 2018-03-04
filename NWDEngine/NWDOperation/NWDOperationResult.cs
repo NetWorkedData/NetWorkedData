@@ -118,6 +118,13 @@ namespace NetWorkedData
             if (data.ContainsKey("wsbuild"))
             {
                 wsBuild = int.Parse(data["wsbuild"].ToString());
+                int tWSBuildEditor = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD);
+                if (wsBuild != tWSBuildEditor)
+                {
+                    //TODO Error if Ws service is not the good version ? perhaps Error is not necessary ?!
+                    // imagine ws are conciliant!?
+                    // let's go... no error for this moment
+                }
             }
 
             if (isError)
