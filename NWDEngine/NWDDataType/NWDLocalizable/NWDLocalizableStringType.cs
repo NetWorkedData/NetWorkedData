@@ -235,8 +235,6 @@ namespace NetWorkedData
 				tNextValue = "";
 			}
 			tTemporary.Value = tNextValue;
-            Debug.Log("NWDConstants.kFieldMarge = " + NWDConstants.kFieldMarge.ToString());
-            Debug.Log("tLangWidth = " + tLangWidth.ToString());
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

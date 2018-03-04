@@ -310,23 +310,25 @@ namespace NetWorkedData
 
 			tHeightAdd += tHeight + NWDConstants.kFieldMarge;
 
+            // move EditorGUI.indentLevel to draw next controller with indent 
+            EditorGUI.indentLevel = tIndentLevel;
             if (AvailableNow () == false) {
-                GUI.Label (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
+                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowFailed);
 			} else {
-                GUI.Label (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
+                EditorGUI.LabelField (new Rect (sPos.x + 15, sPos.y + tHeight, sPos.width, NWDConstants.kLabelStyle.fixedHeight), NWDScheduleType.kNowSuccess);
 			}
 
             DateTime tDateTimeInGame = NWDAppEnvironment.SelectedEnvironment().DateTimeInGameTime();
-            GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 2, sPos.width, sPos.height), NWDScheduleType.kNowGameTime + " (" + NWDAppEnvironment.SelectedEnvironment().SpeedOfGameTime + "x)");
-            GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 3, sPos.width, sPos.height), tDateTimeInGame.ToString("yyyy-MMM-dd"));
-            GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 4, sPos.width, sPos.height), tDateTimeInGame.ToString("ddd HH:mm:ss"));
+            EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 2, sPos.width, sPos.height), NWDScheduleType.kNowGameTime + " (" + NWDAppEnvironment.SelectedEnvironment().SpeedOfGameTime + "x)");
+            EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 3, sPos.width, sPos.height), tDateTimeInGame.ToString("yyyy-MMM-dd"));
+            EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 4, sPos.width, sPos.height), tDateTimeInGame.ToString("ddd HH:mm:ss"));
             if (AvailableNowInGameTime() == false)
             {
-                GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 5, sPos.width, sPos.height), NWDScheduleType.kNowGameFailed);
+                EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 5, sPos.width, sPos.height), NWDScheduleType.kNowGameFailed);
             }
             else
             {
-                GUI.Label(new Rect(sPos.x + 15, sPos.y + tHeight * 5, sPos.width, sPos.height), NWDScheduleType.kNowGameSuccess);
+                EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 5, sPos.width, sPos.height), NWDScheduleType.kNowGameSuccess);
             }
 
 			tTemporary.Value = tYearStart + NWDConstants.kFieldSeparatorA +
@@ -345,8 +347,6 @@ namespace NetWorkedData
 
 			//GUI.Label (new Rect (sPos.x, sPos.y+tHeightAdd, sPos.width, sPos.height), Value);
 
-            // move EditorGUI.indentLevel to draw next controller with indent 
-            EditorGUI.indentLevel = tIndentLevel;
 
 			return tTemporary;
 		}
