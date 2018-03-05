@@ -5,18 +5,16 @@
 //
 //=====================================================================================================================
 
-using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
-
 using BasicToolBox;
 
 //=====================================================================================================================
 
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
 	/// NWD account panel. A script for NWDAccountPanel refab to show the informations about wiwh account is use in the 
 	/// game. 
@@ -52,11 +50,29 @@ namespace NetWorkedData
 		/// The text of network statut.
 		/// </summary>
 		public Text TextNetworkResult;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Use to test Synchronization
-		/// </summary>
-		public void SynchronizeTest ()
+        /// <summary>
+        /// Dropdown menu with list of account
+        /// </summary>
+        public Dropdown DropdownAccountList;
+        /// <summary>
+        /// The text for login
+        /// </summary>
+        public Text TextLogin;
+        /// <summary>
+        /// The text for logout
+        /// </summary>
+        public Text TextLogout;
+        /// <summary>
+        /// The text for synchronize
+        /// </summary>
+        public Text TextSynchronize;
+        //-------------------------------------------------------------------------------------------------------------
+        private List<NWDAccounTest> AccountList;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to test Synchronization
+        /// </summary>
+        public void SynchronizeTest ()
 		{
             NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
@@ -103,7 +119,13 @@ namespace NetWorkedData
 		/// </summary>
 		public void LogInTest ()
 		{
-			NWDDataManager.SharedInstance().AddWebRequestSignInWithBlock ("Kortex", "Xetrok",
+            // Get selected account
+            int key = DropdownAccountList.value;
+            NWDAccounTest tAccount = AccountList[key];
+            string Login = tAccount.EmailHash;
+            string Password = tAccount.PasswordHash;
+
+            NWDDataManager.SharedInstance().AddWebRequestSignTestWithBlock (Login, Password,
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
 					NWDOperationResult tResult = (NWDOperationResult) sResult;
 					string tDescription =  "";
@@ -185,29 +207,44 @@ namespace NetWorkedData
 					TextWebResult.text = " Sign Out Progress " + tDescription;
 				});
 		}
+        //-------------------------------------------------------------------------------------------------------------
+        public void ShowAccount()
+        {
+            gameObject.SetActive(!gameObject.activeInHierarchy);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		// Use this for initialization
 		void Start ()
 		{
 			Debug.Log("START NWDAccountPanel");
-			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification) {
+			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification)
+            {
 				if (TextNetworkResult!=null)
 				{
-				TextNetworkResult.text = "ON LINE";
+                    TextNetworkResult.text = "<color=green><b>ON LINE</b></color>";
 				}
 			});
-			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, delegate (BTBNotification sNotification) {
+			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
+            {
 				if (TextNetworkResult!=null)
 				{
-				TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
+				    TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
 				}
 			});
-			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, delegate (BTBNotification sNotification) {
+			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
+            {
 				if (TextNetworkResult!=null)
 				{
-					TextNetworkResult.text = "<color=orange><b>????</b></color>";
+					TextNetworkResult.text = "<color=orange><b>UNKNOW</b></color>";
 				}
 			});
+
+            InitAccountList();
+            SynchronizeTest();
+
+            NWDLocalization.AutoLocalize(TextLogin);
+            NWDLocalization.AutoLocalize(TextSynchronize);
+            NWDLocalization.AutoLocalize(TextLogout);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// Use this for destroy
@@ -219,17 +256,51 @@ namespace NetWorkedData
 		// Update is called once per frame
 		void Update ()
 		{
-			TextEnvironment.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().Environment;
-			TextAccount.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference;
-			TextToken.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().RequesToken;
-			TextAnonymousAccount.text = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().AnonymousPlayerAccountReference;
+            NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(tApp);
+
+            TextEnvironment.text = tApp.Environment;
+
+            TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
+            TextToken.text = tApp.RequesToken;
+
+            TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
 			TextAnonymousToken.text = "????";
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowAccount()
+        void InitAccountList()
         {
-            gameObject.SetActive(!gameObject.activeInHierarchy);
+            NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+
+            // Create List array
+            List<string> tOptions = new List<string>();
+
+            // Clear the menu
+            DropdownAccountList.ClearOptions();
+
+            // Active option
+            int tActiveAccountIndex = 0;
+            int tCpt = 0;
+
+            // Init all options
+            AccountList = NWDAccount.GetTestsAccounts();
+            foreach (NWDAccounTest acc in AccountList)
+            {
+                tOptions.Add(acc.InternalKey);
+                if (acc.Reference.Equals(tApp.PlayerAccountReference))
+                {
+                    tActiveAccountIndex = tCpt;
+                }
+                tCpt++;
+            }
+
+            // Add options to the menu
+            DropdownAccountList.AddOptions(tOptions);
+
+            // Set active option
+            DropdownAccountList.value = tActiveAccountIndex;
         }
+        //-------------------------------------------------------------------------------------------------------------
     }
 }
 //=====================================================================================================================
