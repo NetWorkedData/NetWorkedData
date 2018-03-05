@@ -247,6 +247,24 @@ namespace NetWorkedData
             IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void SelectAllObjectEnableInTableList()
+        {
+            foreach (NWDBasis<K> tObject in ObjectsList)
+            {
+                if (ObjectsInEditorTableList.Contains(tObject.Reference))
+                {
+                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    ObjectsInEditorTableSelectionList[tIndex] = tObject.AC;
+                }
+                else
+                {
+                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                }
+            }
+            IntegritySelection();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectDisableInTableList()
         {
             foreach (NWDBasis<K> tObject in ObjectsList)

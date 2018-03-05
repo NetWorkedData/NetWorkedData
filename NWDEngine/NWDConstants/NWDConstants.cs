@@ -283,7 +283,8 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SELECT_ALL = "Select all";
         public const string K_APP_TABLE_DESELECT_ALL = "Deselect all";
         public const string K_APP_TABLE_INVERSE = "Inverse";
-        public const string K_APP_TABLE_SELECT_DISABLED = "Select Disabled";
+        public const string K_APP_TABLE_SELECT_ENABLED = "Select all enabled";
+        public const string K_APP_TABLE_SELECT_DISABLED = "Select all disabled";
         public const string K_APP_TABLE_ACTIONS = "Actions";
         public const string K_APP_TABLE_REACTIVE = "Re-active";
         public const string K_APP_TABLE_DISACTIVE = "Disactive";
