@@ -130,8 +130,6 @@ namespace NetWorkedData
             return GetVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         public static string GetVersionForEnvironemt(NWDAppEnvironment sEnvironment)
         {
             //Debug.Log("GetVersionForEnvironemt");
@@ -160,6 +158,8 @@ namespace NetWorkedData
             // sEnvironment.Version = tVersionString;
             return tVersionString;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
