@@ -33,6 +33,7 @@ namespace NetWorkedData
     //-----------------------------------------------------------------------------------------------------------------
     public class NWDAccounTest
     {
+        public string Reference;
         public string InternalKey;
         public string EmailHash;
         public string PasswordHash;
@@ -54,12 +55,6 @@ namespace NetWorkedData
     //-----------------------------------------------------------------------------------------------------------------
     public partial class NWDAccount : NWDBasis<NWDAccount>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -191,7 +186,7 @@ namespace NetWorkedData
                         {
                             if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
                             {
-                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password);
+                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
                             }
                         }
                     }
@@ -202,7 +197,7 @@ namespace NetWorkedData
                         {
                             if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
                             {
-                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password);
+                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password + NWDConstants.kFieldSeparatorC + tObject.Reference);
                             }
                         }
                     }
@@ -228,12 +223,13 @@ namespace NetWorkedData
                         string tAccountKey = tLineValue[0];
                         string tText = tLineValue[1];
                         string[] tInfos = tText.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
-                        if (tInfos.Length == 2)
+                        if (tInfos.Length == 3)
                         {
                             NWDAccounTest tAccount = new NWDAccounTest();
                             tAccount.InternalKey = tAccountKey;
                             tAccount.EmailHash = tInfos[0];
                             tAccount.PasswordHash = tInfos[1];
+                            tAccount.Reference = tInfos[2];
                             rReturn.Add(tAccount);
                         }
                     }
