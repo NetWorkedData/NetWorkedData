@@ -131,22 +131,31 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjectsByInternalKey(string sInternalKey, string sAccountReference = null)
         {
-            List<K> rReturn = new List<K>();
-            int[] tIndexes = ObjectsByKeyList.Select((b, i) => b == sInternalKey ? i : -1).Where(i => i != -1).ToArray();
-            foreach (int tIndex in tIndexes)
+            K[] tArray = GetAllObjects(sAccountReference);
+            List<K> tAllList = new List<K>();
+            foreach (K tObject in tArray)
             {
-                K tObject = ObjectsList.ElementAt(tIndex) as K;
-                if (tObject.IsReacheableByAccount(sAccountReference))
+                if (tObject.InternalKey == sInternalKey)
                 {
-                    rReturn.Add(tObject);
+                    tAllList.Add(tObject);
                 }
             }
-            return rReturn.ToArray();
+            return tAllList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKey(string sInternalKey, bool sFlushOlderDupplicate = false, string sAccountReference = null)
         {
-            K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
+            //K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
+            K[] tArray = GetAllObjects(sAccountReference);
+            List<K> tAllList = new List<K>();
+            foreach (K tObject in tArray)
+            {
+                if (tObject.InternalKey == sInternalKey)
+                {
+                    tAllList.Add(tObject);
+                }
+            }
+            K[] rReturnArray = tAllList.ToArray();
             K rReturn = null;
             if (rReturnArray.Length > 0)
             {
@@ -177,15 +186,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKeyOrCreate(string sInternalKey, string sInternalDescription = "", bool sFlushOlderDupplicate = false, string sAccountReference = null)
         {
-            K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
+            Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate()");
+            //K[] rReturnArray = GetAllObjectsByInternalKey(sInternalKey, sAccountReference);
+            K[] tArray = GetAllObjects(sAccountReference);
+            List<K> tAllList = new List<K>();
+            foreach (K tObject in tArray)
+            {
+                if (tObject.InternalKey == sInternalKey)
+                {
+                    tAllList.Add(tObject);
+                }
+            }
+            K[] rReturnArray = tAllList.ToArray();
             K rReturn = null;
+            Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
             if (rReturnArray.Length > 0)
             {
+                Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have some return");
                 rReturn = rReturnArray[0];
             }
             if (rReturnArray.Length > 1)
             {
-                Debug.LogWarning("The InternalKey " + sInternalKey + " for " + ClassNamePHP() + " is not unique!");
+                Debug.Log("!!!The InternalKey " + sInternalKey + " for " + ClassNamePHP() + " is not unique!");
                 if (sFlushOlderDupplicate == true)
                 {
                     List<K> tList = new List<K>();
@@ -206,10 +228,11 @@ namespace NetWorkedData
             }
             if (rReturn == null)
             {
+                Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have a return");
                 rReturn = NWDBasis<K>.NewObject();
                 rReturn.InternalKey = sInternalKey;
                 rReturn.InternalDescription = sInternalDescription;
-                rReturn.UpdateMe();
+                rReturn.InsertMe();
                 AddObjectInListOfEdition(rReturn);
             }
             return rReturn;

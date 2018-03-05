@@ -72,7 +72,7 @@
 			if ($action == 'session')
 			{
 					// Ok I create a permanent account if temporary before
-				AccountAnonymeGenerate();
+				// AccountAnonymeGenerate(); // Did in request file
 					// I have a valid account anyway now
 				$tQuery = 'SELECT * FROM `'.$ENV.'_NWDAccount` WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;';
 				$tResult = $SQL_CON->query($tQuery);
@@ -201,7 +201,7 @@
 							if ($password == $password_confirm)
 							{
 									// Ok I create a permanent accpunt if temporary before
-								AccountAnonymeGenerate();
+									// AccountAnonymeGenerate(); // Did in request file
 									// I have a valid account anyway now
 								
 								if ($ban == false)
@@ -237,7 +237,7 @@
 															$tInternalKey = ''.$email.'';
 															$tInternalDescription = 'dev account';
 														}
-														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.time().'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;'; // AND `Email` = \'\' AND `Password` = \'\'
+														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;'; // AND `Email` = \'\' AND `Password` = \'\'
 														$tResultC = $SQL_CON->query($tQueryC);
 														if (!$tResultC)
 														{
@@ -308,7 +308,7 @@
 								{
 									
 										// Ok I create a permanent accpunt if temporary before
-									AccountAnonymeGenerate();
+									// AccountAnonymeGenerate();
 										// I have a valid account anyway now
 									
 									if ($ban == false)
@@ -349,7 +349,7 @@
 															$tInternalKey = ''.$email.'';
 															$tInternalDescription = 'dev account';
 														}
-														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.time().'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($new_password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;';
+														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($new_password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;';
 														$tResultC = $SQL_CON->query($tQueryC);
 														if (!$tResultC)
 														{
@@ -424,7 +424,7 @@
 							if ($ban==false)
 							{
 									// Ok I create a permanent account if temporary before
-								AccountAnonymeGenerate();
+								// AccountAnonymeGenerate();
 									// Ok no facebookID in my Database
 								$tInternalKey = '';
 								$tInternalDescription = '';
@@ -434,7 +434,7 @@
 									$tInternalDescription = 'dev account';
 								}
 									// I had the social value to this UUID and return the UUID
-								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.time().'\', `FacebookID` = \''.$SQL_CON->real_escape_string($tFacebookID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
+								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `FacebookID` = \''.$SQL_CON->real_escape_string($tFacebookID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
 								$tResultB = $SQL_CON->query($tQueryB);
 								if (!$tResultB)
 								{
@@ -524,7 +524,7 @@
 							if ($ban==false)
 							{
 									// Ok I create a permanent account if temporary before
-								AccountAnonymeGenerate();
+								// AccountAnonymeGenerate();
 									// Ok no $tGoogleID in my Database
 								$tInternalKey = '';
 								$tInternalDescription = '';
@@ -534,7 +534,7 @@
 									$tInternalDescription = 'dev account';
 								}
 									// I had the social value to this UUID and return the UUID
-								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.time().'\', `GoogleID` = \''.$SQL_CON->real_escape_string($tGoogleID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
+								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `GoogleID` = \''.$SQL_CON->real_escape_string($tGoogleID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
 								$tResultB = $SQL_CON->query($tQueryB);
 								if (!$tResultB)
 								{
@@ -713,7 +713,7 @@
 						if ($password == $password_confirm)
 						{
 								// Ok I delete this account
-							$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.time().'\', `DD` = \''.time().'\', `AC` = \'0\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `Password` = \''.$SQL_CON->real_escape_string($password).'\';';
+							$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `DD` = \''.$TIME_STAMP.'\', `AC` = \'0\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `Password` = \''.$SQL_CON->real_escape_string($password).'\';';
 							$tResultC = $SQL_CON->query($tQueryC);
 							if (!$tResultC)
 							{

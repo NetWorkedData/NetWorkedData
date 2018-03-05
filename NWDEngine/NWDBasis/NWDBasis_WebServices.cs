@@ -391,6 +391,7 @@ namespace NetWorkedData
                 else
                 {
                     Debug.Log("--SynchronizationPullData : BIG ERROR NO TIMESTAMP");
+                    // TODO perhaps break ?
                 }
 
                 SynchronizationTimestampValidate(sEnvironment, tTimestampServer);

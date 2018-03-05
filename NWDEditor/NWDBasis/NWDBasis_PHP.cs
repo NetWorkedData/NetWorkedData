@@ -540,20 +540,20 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Prepare" + tClassName + "Data ($sCsv)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $TIME_STAMP, $TIME_SYNC;\n" +
             "\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
-            "\t\t$sCsvList[2] = time();// change DS\n";
+            "\t\t$sCsvList[2] = $TIME_SYNC;// change DS\n";
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-                tSynchronizationFile += "\t\t$sCsvList[3] = time();// change DevSync\n";
+                tSynchronizationFile += "\t\t$sCsvList[3] = $TIME_SYNC;// change DevSync\n";
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
-                tSynchronizationFile += "\t\t$sCsvList[4] = time();// change PreprodSync\n";
+                tSynchronizationFile += "\t\t$sCsvList[4] = $TIME_SYNC;// change PreprodSync\n";
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
-                tSynchronizationFile += "\t\t$sCsvList[5] = time();// change ProdSync\n";
+                tSynchronizationFile += "\t\t$sCsvList[5] = $TIME_SYNC;// change ProdSync\n";
             }
             tSynchronizationFile += "" +
             //			"\t\t$tIntegrity = array_pop($sCsvList);\n" +
@@ -616,7 +616,7 @@ namespace NetWorkedData
 
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
-                "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+                "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV, $TIME_STAMP, $TIME_SYNC;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
@@ -634,7 +634,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-            ", `'.$ENV.'Sync` = \\''.time().'\\' " +
+            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' " +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +

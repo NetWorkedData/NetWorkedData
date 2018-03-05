@@ -200,16 +200,16 @@ namespace NetWorkedData
 				"// start the generic process\n" +
 				"include_once ($PATH_BASE.'/Engine/start.php');\n" +
 				"// start the script\n" +
-				"//--------------------\n" +
-				"global $dico, $uuid;\n" +
-				"//--------------------\n" +
-				"// Ok I create a permanent account if temporary before\n" +
-				"AccountAnonymeGenerate();\n" +
-				"//--------------------\n" +
-				"if ($ban == true)\n" +
-				"\t{\n" +
-				"\t\terror('ACC99');\n" +
-                "\t}\n" +
+				//"//--------------------\n" +
+				//"global $dico, $uuid;\n" +
+				//"//--------------------\n" +
+				//"// Ok I create a permanent account if temporary before\n" +
+				//"AccountAnonymeGenerate();\n" +
+				//"//--------------------\n" +
+				//"if ($ban == true)\n" +
+				//"\t{\n" +
+				//"\t\terror('ACC99');\n" +
+                //"\t}\n" +
                 "//--------------------\n" +
 				"if (!errorDetected())\n" +
                 "\t{\n";
@@ -261,6 +261,14 @@ namespace NetWorkedData
                 "//Created by Jean-François CONTART\n" +
                 "//--------------------\n" +
                 "// WEBSERVICES FUNCTIONS FOR INSIDE INCLUDING\n" +
+                //"//--------------------\n" +
+                //"// Ok I create a permanent account if temporary before\n" +
+                //"AccountAnonymeGenerate();\n" +
+                //"//--------------------\n" +
+                //"if ($ban == true)\n" +
+                //"\t{\n" +
+                //"\t\terror('ACC99');\n" +
+                //"\t}\n" +
                 "//--------------------\n" +
                 "if (!errorDetected())\n" +
                 "\t{\n";
@@ -276,6 +284,24 @@ namespace NetWorkedData
                     tWebServicesAnnexe += "\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
                     tWebServicesAnnexe += "\t\t}\n";
                 }
+            }
+            // I need to prevent Non synchronized class from editor
+            if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            {
+                tWebServicesAnnexe += "\tif ($admin == true)\n\t\t{\n";
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
+                {
+                    var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                        tWebServicesAnnexe += "\t\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
+                        tWebServicesAnnexe += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                        tWebServicesAnnexe += "\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
+                        tWebServicesAnnexe += "\t\t\t}\n";
+                    }
+                }
+                tWebServicesAnnexe += "\t\t}\n";
             }
             tWebServicesAnnexe += "// script is finished\n" +
                 "\t}\n" +

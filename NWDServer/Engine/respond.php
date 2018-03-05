@@ -5,11 +5,16 @@
 	//--------------------
 	// RESPOND FUNCTIONS
 	//--------------------
+	global $TIME_SYNC;
+	global $TIME_STAMP;
+	global $TIME_MICRO;
+	//--------------------
 	// datas output
 	$REP;
 	//--------------------
 	// get timestamp of server compute
-	$REP['timestamp'] = time();
+	$REP['timestamp'] = $TIME_SYNC;
+	$REP['timemicro'] = $TIME_MICRO;
 	//--------------------
 	// add dictionary enter in respond
 	function respondAdd($sKey, $sValue)

@@ -8,7 +8,7 @@
         //   error_reporting(E_ALL);
         //   error_reporting(-1);
         //--------------------
-    global $NWD_LOG;
+    global $NWD_LOG, $TIME_STAMP, $TIME_SYNC;
     $NWD_LOG=true;
     myLogLineReturn();
     myLogLineReturn();
@@ -73,7 +73,7 @@
 //-------------------- 
 // function ServerHashReevalue ($sReference)
 // {
-//     global $SQL_CON;
+//     global $SQL_CON, $TIME_STAMP;
 //     global $SQL_NWDRelationship_SaltA, $SQL_NWDRelationship_SaltB;
 //     $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\';';
 //     $tResult = $SQL_CON->query($tQuery);
@@ -87,7 +87,7 @@
 //             if ($tResult->num_rows == 1)
 //                 {
 //                     // I calculate the integrity and reinject the good value
-//                     $tUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `ServerHash` = \''.$SQL_CON->real_escape_string($tCalculate).'\', `ProdSync` = \''.time().'\'  WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\';';
+//                     $tUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `ServerHash` = \''.$SQL_CON->real_escape_string($tCalculate).'\', `ProdSync` = \''.$TIME_STAMP.'\'  WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\';';
 //                     $tUpdateResult = $SQL_CON->query($tUpdate);
 //                     if (!$tUpdateResult)
 //                         {
@@ -161,7 +161,7 @@
                         myLog('test $tPinCode = '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
                         while ($tTested == false)
                             {
-                            $tTimeMax = time();
+                            $tTimeMax = $TIME_STAMP-10;
                             $tQuery = 'SELECT `PinCode` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$tPinCode.'\' AND `PinLimit` > '.$tTimeMax.' AND `RelationState` <3';
                             $tResult = $SQL_CON->query($tQuery);
                             if (!$tResult)
@@ -176,10 +176,9 @@
                                     {
                                     myLog('pincode is not used '.$tPinCode, __FILE__, __FUNCTION__, __LINE__);
                                     $tTested = true;
-                                    $tTimeLimit = time() + $pindelay + 10; // I add 10 seconds of marge
-                                                                           // Ok I have a good PinCode I update
-                                    $tTimeSync = time(); //$dico['NWDRelationship']['sync'];
-                                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `PublisherNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `ServerHash`= \'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
+                                    $tTimeLimit = $TIME_STAMP + $pindelay + 10; // I add 10 seconds of marge
+                                                                           // Ok I have a good PinCode I updat
+                                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$TIME_SYNC.'\', `PublisherNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `PinCode` = \''.$tPinCode.'\', `PinLimit` = \''.$tTimeLimit.'\', `ServerHash`= \'\', `RelationState` = \'2\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 1';
                                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                     $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -228,8 +227,7 @@
             errorDeclaration('RLSw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
-                    $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `ServerHash`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.time().'\ ';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$TIME_SYNC.'\', `ServerHash`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.$TIME_STAMP.'\ ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' ';//AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -313,15 +311,15 @@
                                 $tInsert.= '`Integrity`) ';
                                 $tInsert.= ' VALUES (';
                                 $tInsert.= '\''.$SQL_CON->real_escape_string($tReferenceBilateral).'\',';
-                                $tInsert.= ' \''.time().'\',';
-                                $tInsert.= ' \''.time().'\',';
-                                $tInsert.= ' \''.time().'\',';
-                                $tInsert.= ' \''.time().'\',';
-                                $tInsert.= ' \''.time().'\',';
+                                $tInsert.= ' \''.$TIME_STAMP.'\',';
+                                $tInsert.= ' \''.$TIME_STAMP.'\',';
+                                $tInsert.= ' \''.$TIME_STAMP.'\',';
+                                $tInsert.= ' \''.$TIME_STAMP.'\',';
+                                $tInsert.= ' \''.$TIME_STAMP.'\',';
                                 $tInsert.= ' \'1\', ';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherClassesShared']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ReaderClassesAccepted']).'\', ';
-                                $tInsert.= ' \''.time().'\',';
+                                $tInsert.= ' \''.$TIME_STAMP.'\',';
                                 $tInsert.= ' \'0\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['FirstSync']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['InternalDescription']).'\',';
@@ -352,9 +350,7 @@
                                     }
                                 }
                             }
-
-                    $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `ServerHash`= \'\', `RelationState` = \'4\', `Reciprocity` = \''.$SQL_CON->real_escape_string($tReferenceBilateral).'\' ';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$TIME_SYNC.'\', `ServerHash`= \'\', `RelationState` = \'4\', `Reciprocity` = \''.$SQL_CON->real_escape_string($tReferenceBilateral).'\' ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -381,8 +377,7 @@
             errorDeclaration('RLSw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
-                    $tTimeSync = time();
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$tTimeSync.'\', `ServerHash`= \'\', `RelationState` = \'98\' ';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$TIME_SYNC.'\', `ServerHash`= \'\', `RelationState` = \'98\' ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -436,7 +431,7 @@
                     if (paramValue ('nickname', 'nickname', $ereg_nickname, 'RLSw25', 'RLSw26')) // I test pincodeLength
                         {
 
-                $tTime = time();
+                $tTime = $TIME_STAMP;
                 $tQuery = 'SELECT `Reference`, `PublisherReference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinCode` LIKE \''.$pincode.'\' AND `RelationState` = 2';// AND `PinLimit` > '.$tTime.'';
                 $tResult = $SQL_CON->query($tQuery);
                 if (!$tResult)
@@ -453,13 +448,12 @@
                             {
                             $tPublisherReference = $tRow['PublisherReference'];
                             $tReference = $tRow['Reference'];
-                            $tTimeSync = time();
                                 // recherche si une relation existe déjà
                             $tQueryAllready = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PublisherReference` LIKE \''.$tPublisherReference.'\' AND `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND `AC` = 1 AND `XX` = 0 ';// AND `PinLimit` > '.$tTime.'';
                             $tResultAllready = $SQL_CON->query($tQueryAllready);
                             if ($tResultAllready->num_rows > 0)
                                 {
-                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$tTimeSync.', `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 7 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$TIME_SYNC.', `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 7 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
                                 myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                 myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                 $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -477,7 +471,7 @@
                                 }
                             else
                                 {
-                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$tTimeSync.', `ReaderNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 3 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = '.$TIME_SYNC.', `ReaderNickname` = \''.$SQL_CON->real_escape_string($nickname).'\', `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\', `RelationState` = 3 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tReference).'\'';
                                 myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                                 myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
                                 $tResultUpdate = $SQL_CON->query($tQueryUpdate);
@@ -512,7 +506,7 @@
         if ($action == 'Clean')
             {
                 /*
-                 $tQuery = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinLimit`<'.time().' AND `RelationState` <4 AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\'';
+                 $tQuery = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PinLimit`<'.$TIME_STAMP.' AND `RelationState` <4 AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\'';
                  $tResult = $SQL_CON->query($tQuery);
                  if (!$tResult)
                  {
@@ -524,7 +518,7 @@
                  while($tRow = $tResult->fetch_array())
                  {
                  $tReference = $tRow['Reference'];
-                 $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `XX` = \''.time().'\', `DM` = \''.time().'\', `PinCode` = \'\', `RelationState` = 6 WHERE `Reference` LIKE \''.$SQL_CON->real_escape_string($tReference).'\' and `RelationState` > 0';
+                 $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `XX` = \''.$TIME_STAMP.'\', `DM` = \''.$TIME_STAMP.'\', `PinCode` = \'\', `RelationState` = 6 WHERE `Reference` LIKE \''.$SQL_CON->real_escape_string($tReference).'\' and `RelationState` > 0';
                  $tResultUpdate = $SQL_CON->query($tQueryUpdate);
                  if (!$tResultUpdate)
                  {
@@ -568,9 +562,28 @@
                     {
                         IntegrityServerNWDRelationshipValidate($tRow['Reference']);
                     if (IntegrityServerNWDRelationshipValidateByRow ($tRow) == true)
-                    // IntegrityServerNWDRelationshipValidateByRow ($tRow);
-                    // if (true)
                         {
+
+                            // todo check if account is valid
+
+
+                            // force if first sync
+                            if ($tRow['FirstSync']==1)
+                            {
+                                $tForce = true;
+                                $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `FirstSync` = 0 WHERE `Reference` = \''.$SQL_CON->real_escape_string($tRow['Reference']).'\'';
+                                $tResultUpdate = $SQL_CON->query($tQueryUpdate);
+                                if (!$tResultUpdate)
+                                    {
+                                    errorDeclaration('RLSw981', 'error in update reference object with uuid and pincode');
+                                    error('RLSw981');
+                                    }
+                                else
+                                    {
+                                    IntegrityNWDRelationshipReevalue ($tRow['Reference']);
+                                    }
+                            }
+
                         myLog('Must add object from '.$tRow ['PublisherClassesShared']. ' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
                         myLog('Must filter object by '.$tRow ['ReaderClassesAccepted']. ' from '.$tRow ['PublisherReference'], __FILE__, __FUNCTION__, __LINE__);
                         $tArrayClassesMaster = explode(',',$tRow ['PublisherClassesShared']);

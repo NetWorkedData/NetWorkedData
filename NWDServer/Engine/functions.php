@@ -155,7 +155,8 @@
 		//--------------------
 	function referenceRandom ($sPrefix)
 	{
-		$tTime = time()-1492711200; // Timestamp unix format
+		global $TIME_STAMP;
+		$tTime = $TIME_STAMP-1492711200; // Timestamp unix format
 		return $sPrefix.'-'.$tTime.'-'.rand ( 100000 , 999999 ).'C'; // C for Certify
 	}
 		//--------------------
@@ -220,7 +221,7 @@
 		//--------------------
 	function AccountAnonymeGenerate($sExit=true)
 	{
-		global $ACC_TMP;
+		global $ACC_TMP, $TIME_STAMP, $TIME_SYNC;
 		$rReturn = false;
 		if ($ACC_TMP == true)
 		{
@@ -238,7 +239,7 @@
 			
 			$tNewUUID = referenceGenerate ('ACC', $ENV.'_NWDAccount', 'Reference');
 			$tNewSecretKey = referenceGenerate ('SHS', $ENV.'_NWDAccount', 'SecretKey');
-			$tInsert = $SQL_CON->query('INSERT INTO `'.$ENV.'_NWDAccount` (`Reference`, `SecretKey`, `DC`, `DM`, `AC`, `Ban`, `DevSync`, `PreprodSync`, `ProdSync`, `InternalKey`, `InternalDescription`) VALUES (\''.$SQL_CON->real_escape_string($tNewUUID).'\', \''.$SQL_CON->real_escape_string($tNewSecretKey).'\', \''.time().'\', \''.time().'\', \'1\', \'0\', \''.time().'\', \''.time().'\', \''.time().'\',\''.$SQL_CON->real_escape_string($tInternalKey).'\',\''.$SQL_CON->real_escape_string($tInternalDescription).'\');');
+			$tInsert = $SQL_CON->query('INSERT INTO `'.$ENV.'_NWDAccount` (`Reference`, `SecretKey`, `DC`, `DM`, `AC`, `Ban`, `DevSync`, `PreprodSync`, `ProdSync`, `InternalKey`, `InternalDescription`) VALUES (\''.$SQL_CON->real_escape_string($tNewUUID).'\', \''.$SQL_CON->real_escape_string($tNewSecretKey).'\', \''.$TIME_STAMP.'\', \''.$TIME_STAMP.'\', \'1\', \'0\', \''.$TIME_SYNC.'\', \''.$TIME_SYNC.'\', \''.$TIME_SYNC.'\',\''.$SQL_CON->real_escape_string($tInternalKey).'\',\''.$SQL_CON->real_escape_string($tInternalDescription).'\');');
 			if (!$tInsert)
 			{
 				error('ACC91');
@@ -291,7 +292,7 @@ function RandomString($sLength = 10) {
 	//--------------------
 function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResult, $sReference, $sNeverEmpty = true)
 	{
-		global $SQL_CON;
+		global $SQL_CON, $TIME_STAMP, $TIME_SYNC;
 		$rModified = false;
 		$tQuery = 'SELECT `'.$sColumnOrign.'`, `'.$sColumUniqueResult.'`, `Reference` FROM `'.$sTable.'` WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
 		$tResult = $SQL_CON->query($tQuery);
@@ -355,7 +356,6 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 										while ($tTested == false)
 											{
 												$tPinCode = CodeRandomSizable($tSize++);
-												$tTimeMax = time();
 												$tQueryTestUnique = 'SELECT `'.$sColumUniqueResult.'` FROM `'.$sTable.'` WHERE `'.$sColumUniqueResult.'` LIKE \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\'';
 												$tResultTestUnique = $SQL_CON->query($tQueryTestUnique);
 												if (!$tResultTestUnique)
@@ -371,7 +371,7 @@ function UniquePropertyValueFromValue($sTable, $sColumnOrign, $sColumUniqueResul
 																$tTested = true;
 																$rModified = true;
 																// Ok I have a good PinCode I update
-																$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \''.$tTimeMax.'\', `'.$sColumnOrign.'` = \''.$SQL_CON->real_escape_string($tOrigin).'\', `'.$sColumUniqueResult.'` = \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
+																$tQueryUpdate = 'UPDATE `'.$sTable.'` SET `DM` = \''.$TIME_STAMP.'\', `'.$sColumnOrign.'` = \''.$SQL_CON->real_escape_string($tOrigin).'\', `'.$sColumUniqueResult.'` = \''.$SQL_CON->real_escape_string($tOrigin).'#'.$tPinCode.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\'';
 																//myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
 																//myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
 																$tResultUpdate = $SQL_CON->query($tQueryUpdate);

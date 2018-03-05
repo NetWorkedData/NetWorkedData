@@ -110,4 +110,13 @@
 			}
 		}
 	}
+//--------------------
+// Ok I create a permanent account if temporary before
+AccountAnonymeGenerate();
+//--------------------
+if ($ban == true)
+	{
+		error('ACC99', true);
+	}
+//--------------------
 	?>

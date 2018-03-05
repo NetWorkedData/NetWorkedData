@@ -274,21 +274,22 @@ namespace NetWorkedData
 									NWDGameDataManager.UnitySingleton ().ErrorManagement (tInfosResult.errorDesc);
 								}
 							}
-                            else
+                            else if (tInfosResult.isNewUser && tInfosResult.isUserTransfert)
+                            {
+                                string tUUID = tInfosResult.uuid;
+                                if (!tUUID.Equals(""))
+                                {
+                                    NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID);
+                                    Statut = BTBOperationState.ReStart;
+                                }
+                            }
+                            else 
                             {
 								Statut = BTBOperationState.Success;
 								string tUUID = tInfosResult.uuid;
 								if (!tUUID.Equals (""))
                                 {
 									Environment.PlayerAccountReference = tUUID;
-								}
-
-								if (tInfosResult.isNewUser && tInfosResult.isUserTransfert)
-                                {
-									if (!tUUID.Equals (""))
-                                    {
-										NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser (Environment, tUUID);
-									}
 								}
 
 								if (tInfosResult.isSignUpdate)
@@ -359,9 +360,17 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Finish ()
 		{
-			this.Statut = BTBOperationState.Finish;
-			IsFinish = true;
-			Parent.NextOperation (this.QueueName);
+            if (Statut == BTBOperationState.ReStart)
+            {
+                Debug.Log("I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT");
+                Parent.ReplayOperation(this.QueueName);
+            }
+            else
+            {
+                this.Statut = BTBOperationState.Finish;
+                IsFinish = true;
+                Parent.NextOperation(this.QueueName);
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DestroyThisOperation ()

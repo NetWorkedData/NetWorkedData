@@ -4,6 +4,10 @@
 	//--------------------
 	// START
 	//--------------------
+	$TIME_STAMP = time();
+	$TIME_SYNC = time();
+	$TIME_MICRO = microtime(true); // perhaps use in instance of $TIME_STAMP in sync 
+	//--------------------
 	// use functions library
 	include_once ('functions.php');
 	//--------------------

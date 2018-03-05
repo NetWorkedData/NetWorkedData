@@ -175,18 +175,19 @@ namespace NetWorkedData
 			}
 		}
         //-------------------------------------------------------------------------------------------------------------
-        static private int kCounterExport=0;
+        //static private int kCounterExport=0;
         //-------------------------------------------------------------------------------------------------------------
 		public void ExportWebSites ()
 		{
 			string tPath = EditorUtility.SaveFolderPanel ("Export WebSite(s)", "", "NetWorkedDataServer");
-            kCounterExport++;
+            int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
+            //kCounterExport++;
 			if (tPath != null) {
-                if (Directory.Exists (tPath + "/NetWorkedDataServer_"+kCounterExport.ToString("0000")) == false) {
-                    Directory.CreateDirectory (tPath + "/NetWorkedDataServer_"+ kCounterExport.ToString("0000"));
+                if (Directory.Exists (tPath + "/NetWorkedDataServer_"+tPHPBuild.ToString("0000")) == false) {
+                    Directory.CreateDirectory (tPath + "/NetWorkedDataServer_"+ tPHPBuild.ToString("0000"));
 				}
-                if (Directory.Exists (tPath + "/NetWorkedDataServer_"+ kCounterExport.ToString("0000")) == true) {
-                    NWDToolbox.ExportCopyFolderFiles ("Assets/NetWorkedDataServer", tPath + "/NetWorkedDataServer_"+ kCounterExport.ToString("0000"));
+                if (Directory.Exists (tPath + "/NetWorkedDataServer_"+ tPHPBuild.ToString("0000")) == true) {
+                    NWDToolbox.ExportCopyFolderFiles ("Assets/NetWorkedDataServer", tPath + "/NetWorkedDataServer_"+ tPHPBuild.ToString("0000"));
 				}
 			}
 		}

@@ -560,6 +560,7 @@ namespace NetWorkedData
 		{
 			// change account refrence 
 			// generate new Reference for this objetc (based on account reference)
+            Debug.Log("NWDDataManager ChangeAllDatasForUserToAnotherUser()");
 			foreach (Type tType in mTypeList)
             {
 				var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);

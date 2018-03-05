@@ -24,7 +24,7 @@
 		{
 			$sFrequence = 600;
 		}
-		$unixTime = time()+$sIndex*$sFrequence;
+		$unixTime = time()+$sIndex*$sFrequence; // use time() exceptional
 		return ($unixTime-($unixTime%$sFrequence));
 	}
 	//--------------------
