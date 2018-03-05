@@ -29,6 +29,7 @@ namespace NetWorkedData
         public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
         {
 			//Debug.Log("Play Mode State Changed!");
+            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 			NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

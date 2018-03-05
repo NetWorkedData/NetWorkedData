@@ -228,7 +228,13 @@ namespace NetWorkedData
 		{
 			Debug.Log ("NWDOperationWebAccount");
 			return AddWebRequestSignInWithBlock (sEmail, sPassword, null, null, null, null, sPriority, sEnvironment);
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebAccount AddWebRequestSignTest(string sEmailHash, string sPasswordHash, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            Debug.Log("NWDOperationWebAccount");
+            return AddWebRequestSignTestWithBlock(sEmailHash, sPasswordHash, null, null, null, null, sPriority, sEnvironment);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignOut (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
@@ -388,7 +394,23 @@ namespace NetWorkedData
 			sOperation.Password = sPassword;
             SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebAccount AddWebRequestSignTestWithBlock(string sEmailHash, string sPasswordHash,
+                                                                    BTBOperationBlock sSuccessBlock = null,
+                                                                    BTBOperationBlock sErrorBlock = null,
+                                                                    BTBOperationBlock sCancelBlock = null,
+                                                                    BTBOperationBlock sProgressBlock = null,
+                                                                    bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            Debug.Log("AddWebRequestSignInWithBlock");
+            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Account Sign-test with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "signin";
+            sOperation.EmailHash = sEmailHash;
+            sOperation.PasswordHash = sPasswordHash;
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebAccount AddWebRequestSignOutWithBlock (BTBOperationBlock sSuccessBlock = null, 
                                                         			 BTBOperationBlock sErrorBlock = null, 

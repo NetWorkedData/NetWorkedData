@@ -73,21 +73,36 @@ namespace NetWorkedData
                 tConstantsFile += "" +
                 "\t\t\tthis.ProdEnvironment.Selected = false;\n" +
                 "\t\t\tthis.PreprodEnvironment.Selected = false;\n" +
-                "\t\t\tthis.DevEnvironment.Selected = true;\n";
+                "\t\t\tthis.DevEnvironment.Selected = true;\n" +
+                "\t\t\t// For tests\n" +
+                "\t\t\tthis.ProdEnvironment.AccountsForTests = \"\";\n" +
+                "\t\t\tthis.PreprodEnvironment.AccountsForTests = \"\";\n" +
+                "\t\t\tthis.DevEnvironment.AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Dev) + "\";\n" +
+                "";
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
                 tConstantsFile += "" +
-                    "\t\t\tthis.ProdEnvironment.Selected = false;\n" +
-                    "\t\t\tthis.PreprodEnvironment.Selected = true;\n" +
-                    "\t\t\tthis.DevEnvironment.Selected = false;\n";
+                "\t\t\tthis.ProdEnvironment.Selected = false;\n" +
+                "\t\t\tthis.PreprodEnvironment.Selected = true;\n" +
+                "\t\t\tthis.DevEnvironment.Selected = false;\n" +
+                "\t\t\t// For tests\n" +
+                "\t\t\tthis.ProdEnvironment.AccountsForTests = \"\";\n" +
+                "\t\t\tthis.PreprodEnvironment.AccountsForTests = \"" + NWDAccount.GetAccountsForConfig(NWDAccountEnvironment.Preprod) + "\";\n" +
+                "\t\t\tthis.DevEnvironment.AccountsForTests = \"\";\n" +
+                "";
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 tConstantsFile += "" +
-                    "\t\t\tthis.ProdEnvironment.Selected = true;\n" +
-                    "\t\t\tthis.PreprodEnvironment.Selected = false;\n" +
-                    "\t\t\tthis.DevEnvironment.Selected = false;\n";
+                "\t\t\tthis.ProdEnvironment.Selected = true;\n" +
+                "\t\t\tthis.PreprodEnvironment.Selected = false;\n" +
+                "\t\t\tthis.DevEnvironment.Selected = false;\n" +
+                "\t\t\t// For tests\n" +
+                "\t\t\tthis.ProdEnvironment.AccountsForTests = \"\";\n" +
+                "\t\t\tthis.PreprodEnvironment.AccountsForTests = \"\";\n" +
+                "\t\t\tthis.DevEnvironment.AccountsForTests = \"\";\n" +
+                "";
             }
 
             tConstantsFile += "" +
@@ -171,9 +186,9 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.AdminKey = \"" + this.DevEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
             // "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SpeedOfGameTime = " + this.DevEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.DevEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp().ToString() + ";\n" +
-            "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.DevEnvironment.FormatVerification ();\n" +

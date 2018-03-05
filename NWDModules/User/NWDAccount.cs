@@ -31,6 +31,15 @@ namespace NetWorkedData
     {
     }
     //-----------------------------------------------------------------------------------------------------------------
+    public enum NWDAccountEnvironment : int
+    {
+        InGame = 0, // player state (Prod)
+        Dev = 1,    // dev state
+        Preprod = 2, // preprod state
+        //Prod = 3, NEVER COPY ACCOUNT IN PROD !!!!
+        None = 9,
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     [NWDClassServerSynchronizeAttribute(false)]
     [NWDClassTrigrammeAttribute("ACC")]
     [NWDClassDescriptionAttribute("Account descriptions Class")]
@@ -47,6 +56,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
+        public NWDAccountEnvironment UseInEnvironment
+        {
+            get; set;
+        }
         /// <summary>
         /// Gets or sets the SecretKey to restaure anonymous account.
         /// </summary>
@@ -142,17 +155,65 @@ namespace NetWorkedData
             return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
+        public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
+        {
+            string rReturn = "";
+            switch (sEnvironment)
+            {
+                case NWDAccountEnvironment.Dev :
+                    {
+                        rReturn += "Kortex"+NWDConstants.kFieldSeparatorB+"khjghfh " + NWDConstants.kFieldSeparatorC + "ddddd "+NWDConstants.kFieldSeparatorA+"GG dev"+NWDConstants.kFieldSeparatorB+"7ac65838dff3573853497b4ac1dd3f6874612ee6" + NWDConstants.kFieldSeparatorC + "7fe75629d52d857f580bbe307240d123923ae8f8";
+                    }
+                    break;
+                case NWDAccountEnvironment.Preprod:
+                    {
+                        rReturn += "KortexProd"+NWDConstants.kFieldSeparatorB+"khjghfh" + NWDConstants.kFieldSeparatorC + "dddddd"+NWDConstants.kFieldSeparatorA+"GGPe prod"+NWDConstants.kFieldSeparatorB+"7ac65838dff3573853497b4ac1dd3f6874612ee6" + NWDConstants.kFieldSeparatorC + "7fe75629d52d857f580bbe307240d123923ae8f8";
+                    }
+                    break;
+            }
+            return rReturn;
+        }
+        #endif
+        //-------------------------------------------------------------------------------------------------------------
+        public static Dictionary<string, List<string>> GetTestsAccounts()
+        {
+            Dictionary<string, List<string>> rReturn = new Dictionary<string, List<string>>();
+            string tValue = NWDAppConfiguration.SharedInstance().SelectedEnvironment().AccountsForTests;
+            if (tValue != null && tValue != "")
+            {
+                string[] tValueArray = tValue.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string tValueArrayLine in tValueArray)
+                {
+                    string[] tLineValue = tValueArrayLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+                    if (tLineValue.Length == 2)
+                    {
+                        string tLangague = tLineValue[0];
+                        string tText = tLineValue[1];
+                        if (rReturn.ContainsKey(tLangague) == false)
+                        {
+                            string[] tInfos = tText.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
+                            List<string> tInfosList = new List<string>(tInfos);
+                            rReturn.Add(tLangague, tInfosList);
+                        }
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         //public static NWDAccount GetCurrentAccount() // not possible the object don't exist for real in the data
         //{
         //    return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            UseInEnvironment = NWDAccountEnvironment.InGame;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountReference()
@@ -434,7 +495,8 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tY += NWDConstants.kFieldMarge;
+            tY += NWDConstants.kFieldMarge * 2;
+            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
