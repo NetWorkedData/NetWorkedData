@@ -57,12 +57,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTipsAndTricksOwnership()
         {
-            Debug.Log("NWDTipsAndTricksOwnership Constructor");
+            //Debug.Log("NWDTipsAndTricksOwnership Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTipsAndTricksOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDTipsAndTricksOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDTipsAndTricksOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

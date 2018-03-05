@@ -59,12 +59,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTradeProposition()
         {
-            Debug.Log("NWDTradeProposition Constructor");
+            //Debug.Log("NWDTradeProposition Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradeProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDTradeProposition Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDTradeProposition Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

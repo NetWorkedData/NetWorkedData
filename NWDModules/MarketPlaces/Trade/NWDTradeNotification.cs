@@ -55,12 +55,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTradeNotification()
         {
-            Debug.Log("NWDTradeNotification Constructor");
+            //Debug.Log("NWDTradeNotification Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradeNotification(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDTradeNotification Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDTradeNotification Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

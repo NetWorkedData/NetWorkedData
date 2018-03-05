@@ -61,12 +61,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBarterProposition()
         {
-            Debug.Log("NWDBarterProposition Constructor");
+            //Debug.Log("NWDBarterProposition Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDBarterProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDBarterProposition Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDBarterProposition Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

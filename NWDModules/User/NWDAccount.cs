@@ -155,26 +155,40 @@ namespace NetWorkedData
             return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
         {
             string rReturn = "";
+            List<string> tList = new List<string>();
             switch (sEnvironment)
             {
-                case NWDAccountEnvironment.Dev :
+                case NWDAccountEnvironment.Dev:
                     {
-                        rReturn += "Kortex"+NWDConstants.kFieldSeparatorB+"khjghfh " + NWDConstants.kFieldSeparatorC + "ddddd "+NWDConstants.kFieldSeparatorA+"GG dev"+NWDConstants.kFieldSeparatorB+"7ac65838dff3573853497b4ac1dd3f6874612ee6" + NWDConstants.kFieldSeparatorC + "7fe75629d52d857f580bbe307240d123923ae8f8";
+                        foreach (NWDAccount tObject in NWDAccount.ObjectsList)
+                        {
+                            if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
+                            {
+                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password);
+                            }
+                        }
                     }
                     break;
                 case NWDAccountEnvironment.Preprod:
                     {
-                        rReturn += "KortexProd"+NWDConstants.kFieldSeparatorB+"khjghfh" + NWDConstants.kFieldSeparatorC + "dddddd"+NWDConstants.kFieldSeparatorA+"GGPe prod"+NWDConstants.kFieldSeparatorB+"7ac65838dff3573853497b4ac1dd3f6874612ee6" + NWDConstants.kFieldSeparatorC + "7fe75629d52d857f580bbe307240d123923ae8f8";
+                        foreach (NWDAccount tObject in NWDAccount.ObjectsList)
+                        {
+                            if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
+                            {
+                                tList.Add(tObject.InternalKey + NWDConstants.kFieldSeparatorB + tObject.Email + NWDConstants.kFieldSeparatorC + tObject.Password);
+                            }
+                        }
                     }
                     break;
             }
+            rReturn = string.Join(NWDConstants.kFieldSeparatorA, tList.ToArray());
             return rReturn;
         }
-        #endif
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, List<string>> GetTestsAccounts()
         {
@@ -207,7 +221,7 @@ namespace NetWorkedData
         //    return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
         //}
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
@@ -456,7 +470,7 @@ namespace NetWorkedData
                 if (tMethodInfo != null)
                 {
                     object[] tObjectsArray = tMethodInfo.Invoke(null, new object[] { this.Reference }) as object[];
-                    if (GUI.Button(new Rect(tX , tY, tWidth, tMiniButtonStyle.fixedHeight),
+                    if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight),
                                    " Trash " + tObjectsArray.Length + " " + tType.Name,
                                    tMiniButtonStyle))
                     {
