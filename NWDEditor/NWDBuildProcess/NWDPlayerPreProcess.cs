@@ -28,8 +28,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
         {
-			//Debug.Log("Play Mode State Changed!");
-            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            Debug.Log("Play Mode State Changed!");
+            if (sState == PlayModeStateChange.ExitingEditMode)
+            {
+                // must check the accounts for test
+                Debug.Log("Play Mode State must recompile NWDConfigurations.cs file!");
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
 			NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
