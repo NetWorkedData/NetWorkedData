@@ -31,6 +31,13 @@ namespace NetWorkedData
     {
     }
     //-----------------------------------------------------------------------------------------------------------------
+    public class NWDAccounTest
+    {
+        public string InternalKey;
+        public string EmailHash;
+        public string PasswordHash;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
     public enum NWDAccountEnvironment : int
     {
         InGame = 0, // player state (Prod)
@@ -56,14 +63,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
+        [NWDGroupStart("Account statut")]
+        [NWDTooltips("The statut of this account in process of test (normal and default is 'InGame')")]
         public NWDAccountEnvironment UseInEnvironment
         {
             get; set;
         }
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+        [NWDGroupStart("Account sign ip/up")]
         /// <summary>
         /// Gets or sets the SecretKey to restaure anonymous account.
         /// </summary>
         /// <value>The login.</value>
+        [NWDTooltips("The secret key to re-authentify the anonyme account")]
         public string SecretKey
         {
             get; set;
@@ -73,6 +86,7 @@ namespace NetWorkedData
         /// Gets or sets the email.
         /// </summary>
         /// <value>The login is an email.</value>
+        [NWDTooltips("Hash of email for the appropriate environment")]
         public string Email
         {
             get; set;
@@ -82,11 +96,34 @@ namespace NetWorkedData
         /// Gets or sets the password.
         /// </summary>
         /// <value>The password.</value>
+        [NWDTooltips("Hash of password for the appropriate environment")]
         public string Password
         {
             get; set;
         }
 
+        /// <summary>
+        /// Gets or sets the Facebook Identifiant.
+        /// </summary>
+        /// <value>The facebook I.</value>
+        [NWDTooltips("FacebookID")]
+        public string FacebookID
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// Gets or sets the Google Identifiant.
+        /// </summary>
+        /// <value>The google I.</value>
+        [NWDTooltips("GoogleID")]
+        public string GoogleID
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+        [NWDGroupStart("Account push notification")]
         /// <summary>
         /// Gets or sets the apple notification token for message.
         /// </summary>
@@ -104,33 +141,19 @@ namespace NetWorkedData
         {
             get; set;
         }
-
-        /// <summary>
-        /// Gets or sets the Facebook Identifiant.
-        /// </summary>
-        /// <value>The facebook I.</value>
-        public string FacebookID
-        {
-            get; set;
-        }
-
-        /// <summary>
-        /// Gets or sets the Google Identifiant.
-        /// </summary>
-        /// <value>The google I.</value>
-        public string GoogleID
-        {
-            get; set;
-        }
-
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+        [NWDGroupStart("Account ban")]
         /// <summary>
         /// Gets or sets a value indicating whether this account <see cref="NWDEditor.NWDAccount"/> is banned.
         /// </summary>
         /// <value><c>true</c> if ban; otherwise, <c>false</c>.</value>
+        [NWDTooltips("If account is ban set the unix timestamp of ban's date")]
         public int Ban
         {
             get; set;
         }
+
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -190,9 +213,9 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, List<string>> GetTestsAccounts()
+        public static List<NWDAccounTest> GetTestsAccounts()
         {
-            Dictionary<string, List<string>> rReturn = new Dictionary<string, List<string>>();
+            List<NWDAccounTest> rReturn = new List<NWDAccounTest>();
             string tValue = NWDAppConfiguration.SharedInstance().SelectedEnvironment().AccountsForTests;
             if (tValue != null && tValue != "")
             {
@@ -202,13 +225,16 @@ namespace NetWorkedData
                     string[] tLineValue = tValueArrayLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        string tLangague = tLineValue[0];
+                        string tAccountKey = tLineValue[0];
                         string tText = tLineValue[1];
-                        if (rReturn.ContainsKey(tLangague) == false)
+                        string[] tInfos = tText.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
+                        if (tInfos.Length == 2)
                         {
-                            string[] tInfos = tText.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
-                            List<string> tInfosList = new List<string>(tInfos);
-                            rReturn.Add(tLangague, tInfosList);
+                            NWDAccounTest tAccount = new NWDAccounTest();
+                            tAccount.InternalKey = tAccountKey;
+                            tAccount.EmailHash = tInfos[0];
+                            tAccount.PasswordHash = tInfos[1];
+                            rReturn.Add(tAccount);
                         }
                     }
                 }
