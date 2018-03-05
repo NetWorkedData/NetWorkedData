@@ -50,7 +50,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override bool ResultForDate (DateTime sDateTime)
 		{
-			bool rReturn = false;
+			bool rReturn = true;
 			DayOfWeek tDayOfWeek = sDateTime.DayOfWeek;
 			switch (tDayOfWeek) {
 			case DayOfWeek.Monday: 
@@ -140,7 +140,8 @@ namespace NetWorkedData
                 EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 6, sPos.width, sPos.height), kNowGameSuccess);
             }
 
-            //GUI.Label (new Rect (sPos.x, sPos.y + tHeight *9, sPos.width, sPos.height), Value);
+            //EditorGUI.TextField(new Rect(sPos.x, sPos.y + tHeight * 9, sPos.width, sPos.height), tTemporary.Value);
+            //EditorGUI.TextField(new Rect(sPos.x, sPos.y + tHeight * 10, sPos.width, sPos.height), StringResultOfDate(tDateTimeInGame));
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

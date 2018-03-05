@@ -50,7 +50,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override bool ResultForDate (DateTime sDateTime)
 		{
-			bool rReturn = false;
+			bool rReturn = true;
 			int tHour = sDateTime.Hour;
 			rReturn = !Value.Contains (kHoursSchedulePrefix + tHour.ToString("00"));
 			return rReturn;
@@ -67,24 +67,24 @@ namespace NetWorkedData
 			return tHeight * 8 + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
 		{
             NWDHoursScheduleType tTemporary = new NWDHoursScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
-            EditorGUI.LabelField (new Rect (sPosition.x, sPosition.y, sPosition.width, sPosition.height), tContent);
+            EditorGUI.LabelField (new Rect (sPos.x, sPos.y, sPos.width, sPos.height), tContent);
 			GUIStyle tToggleStyle = new GUIStyle (EditorStyles.toggle);
 			float tHeight = tToggleStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 			GUIStyle tLabelStyle = new GUIStyle (EditorStyles.boldLabel);
 			float tHeightTitle = tLabelStyle.CalcHeight (new GUIContent ("A"), 100.0f);
 
-			float tTiersWidth = Mathf.Ceil( (sPosition.width - EditorGUIUtility.labelWidth) / 3.0F);
+			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth) / 3.0F);
 
 
 
 			float tHeightAdd = 0;
 
-			GUI.Label (new Rect (sPosition.x+EditorGUIUtility.labelWidth, sPosition.y, sPosition.width, sPosition.height), "Hours selection", tLabelStyle);
+			GUI.Label (new Rect (sPos.x+EditorGUIUtility.labelWidth, sPos.y, sPos.width, sPos.height), "Hours selection", tLabelStyle);
 			tHeightAdd += tHeightTitle;
 
 
@@ -92,7 +92,7 @@ namespace NetWorkedData
 			{
 				int c = i % 8;
 				int l = (i - c) / 8;
-				bool tValueTest = GUI.Toggle (new Rect (sPosition.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPosition.y + tHeightAdd+ tHeight * c, tTiersWidth, sPosition.height),
+				bool tValueTest = GUI.Toggle (new Rect (sPos.x+EditorGUIUtility.labelWidth + l*tTiersWidth, sPos.y + tHeightAdd+ tHeight * c, tTiersWidth, sPos.height),
 					!Value.Contains (kHoursSchedulePrefix+i.ToString("00")),
 					NWDDateTimeType.kHours[i]+"H");
 				if (tValueTest==false)
@@ -104,27 +104,28 @@ namespace NetWorkedData
 
             if (base.AvailableNow() == false)
             {
-                EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowFailed);
+                EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight, sPos.width, sPos.height), kNowFailed);
             }
             else
             {
-                EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight, sPosition.width, sPosition.height), kNowSuccess);
+                EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight, sPos.width, sPos.height), kNowSuccess);
             }
 
             DateTime tDateTimeInGame = NWDAppEnvironment.SelectedEnvironment().DateTimeInGameTime();
-            EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight * 3, sPosition.width, sPosition.height), kNowGameTime + " (" + NWDAppEnvironment.SelectedEnvironment().SpeedOfGameTime + "x)");
-            EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight * 4, sPosition.width, sPosition.height), tDateTimeInGame.ToString("yyyy-MMM-dd"));
-            EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight * 5, sPosition.width, sPosition.height), tDateTimeInGame.ToString("ddd HH:mm:ss"));
+            EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 3, sPos.width, sPos.height), kNowGameTime + " (" + NWDAppEnvironment.SelectedEnvironment().SpeedOfGameTime + "x)");
+            EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 4, sPos.width, sPos.height), tDateTimeInGame.ToString("yyyy-MMM-dd"));
+            EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 5, sPos.width, sPos.height), tDateTimeInGame.ToString("ddd HH:mm:ss"));
             if (base.AvailableNowInGameTime() == false)
             {
-                EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight * 6, sPosition.width, sPosition.height), kNowGameFailed);
+                EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 6, sPos.width, sPos.height), kNowGameFailed);
             }
             else
             {
-                EditorGUI.LabelField(new Rect(sPosition.x + 15, sPosition.y + tHeight * 6, sPosition.width, sPosition.height), kNowGameSuccess);
+                EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 6, sPos.width, sPos.height), kNowGameSuccess);
             }
 
-            //GUI.Label (new Rect (sPos.x, sPos.y + tHeight *9, sPos.width, sPos.height), Value);
+            //EditorGUI.TextField(new Rect(sPos.x, sPos.y + tHeight * 9, sPos.width, sPos.height), tTemporary.Value);
+            //EditorGUI.TextField(new Rect(sPos.x, sPos.y + tHeight * 10, sPos.width, sPos.height), StringResultOfDate(tDateTimeInGame));
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------

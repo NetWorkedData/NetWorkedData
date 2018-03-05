@@ -175,7 +175,7 @@ namespace NetWorkedData
 		public static string[] kDayNames = new string[] {
 			"Monday",
 			"Tuesday",
-			"Wenesday",
+			"Wednesday",
 			"Thursday",
 			"Friday",
 			"Saturday",

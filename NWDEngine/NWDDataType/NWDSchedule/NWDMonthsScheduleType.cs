@@ -50,9 +50,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override bool ResultForDate (DateTime sDateTime)
 		{
-			bool rReturn = false;
-				int tMonth = sDateTime.Month-1;
-				rReturn = !Value.Contains (kMonthsSchedulePrefix + tMonth.ToString("00"));
+			bool rReturn = true;
+			int tMonth = sDateTime.Month-1;
+			rReturn = !Value.Contains (kMonthsSchedulePrefix + tMonth.ToString("00"));
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -121,7 +121,8 @@ namespace NetWorkedData
                 EditorGUI.LabelField(new Rect(sPos.x + 15, sPos.y + tHeight * 6, sPos.width, sPos.height), kNowGameSuccess);
             }
 
-            //GUI.Label (new Rect (sPos.x, sPos.y + tHeight *9, sPos.width, sPos.height), Value);
+            //EditorGUI.TextField(new Rect(sPos.x, sPos.y + tHeight * 9, sPos.width, sPos.height), tTemporary.Value);
+            //EditorGUI.TextField(new Rect(sPos.x, sPos.y + tHeight * 10, sPos.width, sPos.height), StringResultOfDate(tDateTimeInGame));
 			return tTemporary;
 		}
 		//-------------------------------------------------------------------------------------------------------------
