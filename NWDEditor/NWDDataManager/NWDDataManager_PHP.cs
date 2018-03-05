@@ -33,9 +33,9 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar (tProgressBarTitle, "Create general error index", tOperation / tCountClass);
 			tOperation++;
 
-			NWDError.CreateGenericError ("webrequest", "WEB01", "Network", "no network", "warning");
-			NWDError.CreateGenericError ("webrequest", "WEB02", "Network", "http error", "warning");
-			NWDError.CreateGenericError ("webrequest", "WEB03", "Network", "http respond is empty", "warning");
+            NWDError.CreateGenericError ("webrequest", "WEB01", "Network", "no network", "critical");
+            NWDError.CreateGenericError ("webrequest", "WEB02", "Network", "http error", "critical");
+            NWDError.CreateGenericError ("webrequest", "WEB03", "Network", "http respond is empty", "critical");
 			NWDError.CreateGenericError ("webrequest", "WEB04", "Network", "http respond is not valid format", "critical");
 
 			NWDError.CreateGenericError ("sql", "UIG00", "ID", "error in unique generate", "alert");
