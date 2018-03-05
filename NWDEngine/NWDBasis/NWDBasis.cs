@@ -158,6 +158,7 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string m_SearchReference = "";
         public static string m_SearchInternalName = "";
         public static string m_SearchInternalDescription = "";
         public static NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
@@ -283,66 +284,163 @@ namespace NetWorkedData
             IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static IEnumerable<K> SelectForEditionObjects(string sInternalKey, string sInternalDescription, NWDBasisTag sTag)
+        public static IEnumerable<K> SelectForEditionObjects(string sReference, string sInternalKey, string sInternalDescription, NWDBasisTag sTag)
         {
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
                 tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
-
-            if ((sInternalKey == null || sInternalKey == "") && (sInternalDescription == null || sInternalDescription == "") && (int)sTag < 0)
+            if (string.IsNullOrEmpty(sReference) && string.IsNullOrEmpty(sInternalKey) && string.IsNullOrEmpty(sInternalDescription) && (int)sTag < 0)
             {
-                //Debug.Log ("no filter");
                 return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
             }
             else
             {
-                if (sInternalKey != null && sInternalKey != "" && sInternalDescription != null && sInternalDescription != "")
+                if (!string.IsNullOrEmpty(sReference))
                 {
-                    //Debug.Log ("name + description filter");
-                    if ((int)sTag >= 0)
+                    Debug.Log("sReference = " + sReference);
+                    if (!string.IsNullOrEmpty(sInternalKey))
                     {
-                        return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey) && x.InternalDescription.Contains(sInternalDescription) && x.Tag.Equals((int)sTag)).OrderBy(x => x.InternalKey);
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => 
+                                                                          x.Reference.Contains(sReference) 
+                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                                                          && x.InternalDescription.Contains(sInternalDescription) 
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => 
+                                                                          x.Reference.Contains(sReference) 
+                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => 
+                                                                          x.Reference.Contains(sReference) 
+                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
+                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
                     }
                     else
                     {
-                        return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey) && x.InternalDescription.Contains(sInternalDescription)).OrderBy(x => x.InternalKey);
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
+                                                                          && x.InternalDescription.Contains(sInternalDescription) 
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)  
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
                     }
                 }
-                else if (sInternalKey != null && sInternalKey != "")
+                else
                 {
-                    //Debug.Log ("name filter");
-
-                    if ((int)sTag >= 0)
+                    if (!string.IsNullOrEmpty(sInternalKey))
                     {
-                        return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey) && x.Tag.Equals((int)sTag)).OrderBy(x => x.InternalKey);
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                           x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                           x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                           x.InternalKey.Contains(sInternalKey)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
                     }
                     else
                     {
-                        return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey)).OrderBy(x => x.InternalKey);
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey);
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+                            }
+                        }
                     }
-
-                }
-                else if (sInternalDescription != null && sInternalDescription != "")
-                {
-                    //Debug.Log ("description filter");
-
-                    if ((int)sTag >= 0)
-                    {
-                        return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription) && x.Tag.Equals((int)sTag)).OrderBy(x => x.InternalKey);
-                    }
-                    else
-                    {
-                        return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)).OrderBy(x => x.InternalKey);
-                    }
-
-                }
-                else if ((int)sTag >= 0)
-                {
-                    //Debug.Log ("description filter");
-                    return tSQLiteConnection.Table<K>().Where(x => x.Tag.Equals((int)sTag)).OrderBy(x => x.InternalKey);
-
                 }
             }
             return null;
@@ -359,7 +457,7 @@ namespace NetWorkedData
             });
             // change results
             ObjectsInEditorTableList = new List<string>();
-            IEnumerable tEnumerable = SelectForEditionObjects(m_SearchInternalName, m_SearchInternalDescription, m_SearchTag);
+            IEnumerable tEnumerable = SelectForEditionObjects(m_SearchReference, m_SearchInternalName, m_SearchInternalDescription, m_SearchTag);
             if (tEnumerable != null)
             {
                 foreach (NWDBasis<K> tItem in tEnumerable)

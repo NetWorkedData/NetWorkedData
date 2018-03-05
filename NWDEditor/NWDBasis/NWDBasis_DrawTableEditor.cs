@@ -171,6 +171,7 @@ namespace NetWorkedData
             // -------------------------------------------
             GUILayout.BeginVertical(GUILayout.Width(300));
             // |||||||||||||||||||||||||||||||||||||||||||
+            m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
             m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, m_SearchInternalName, GUILayout.Width(300));
             m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, m_SearchInternalDescription, GUILayout.Width(300));
             m_SearchTag = (NWDBasisTag)EditorGUILayout.EnumPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG, m_SearchTag, GUILayout.Width(300));
@@ -180,24 +181,22 @@ namespace NetWorkedData
             GUILayout.EndVertical();
             GUILayout.BeginVertical(GUILayout.Width(120));
             // |||||||||||||||||||||||||||||||||||||||||||
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
-            {
-                GUI.FocusControl(null);
-                SetObjectInEdition(null);
-                m_SearchInternalName = "";
-                m_SearchInternalDescription = "";
-                m_SearchTag = NWDBasisTag.NoTag;
-                FilterTableEditor();
-            }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
             {
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 FilterTableEditor();
             }
-            GUILayout.EndVertical();
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.BeginVertical(GUILayout.Width(120));
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
+            {
+                GUI.FocusControl(null);
+                SetObjectInEdition(null);
+                m_SearchReference = "";
+                m_SearchInternalName = "";
+                m_SearchInternalDescription = "";
+                m_SearchTag = NWDBasisTag.NoTag;
+                FilterTableEditor();
+            }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_SORT, EditorStyles.miniButton, GUILayout.Width(120)))
             {
                 GUI.FocusControl(null);
