@@ -164,12 +164,12 @@ namespace NetWorkedData
                 EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
             }
 
-            GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             //EditorGUILayout.BeginScrollView (Vector2.zero, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (false), GUILayout.ExpandHeight (false));
             // ===========================================
             GUILayout.BeginHorizontal();
             // -------------------------------------------
             GUILayout.BeginVertical(GUILayout.Width(300));
+            GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
             m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
             m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, m_SearchInternalName, GUILayout.Width(300));
@@ -180,6 +180,7 @@ namespace NetWorkedData
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
             GUILayout.BeginVertical(GUILayout.Width(120));
+            GUILayout.Label(" ", EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
             {
@@ -217,27 +218,28 @@ namespace NetWorkedData
             GUILayout.EndVertical();
 
 
-            GUILayout.BeginVertical(GUILayout.Width(300));
+            GUILayout.BeginVertical(GUILayout.Width(120));
+            GUILayout.Label(" ", EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
-            bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, m_ShowEnable, GUILayout.Width(200));
+            bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, m_ShowEnable, GUILayout.Width(120));
             if (m_ShowEnable != t_ShowEnable)
             {
                 m_ShowEnable = t_ShowEnable;
                 FilterTableEditor();
             }
-            bool t_ShowDisable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, m_ShowDisable, GUILayout.Width(200));
+            bool t_ShowDisable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, m_ShowDisable, GUILayout.Width(120));
             if (m_ShowDisable != t_ShowDisable)
             {
                 m_ShowDisable = t_ShowDisable;
                 FilterTableEditor();
             }
-            bool t_ShowTrashed = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, m_ShowTrashed, GUILayout.Width(200));
+            bool t_ShowTrashed = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, m_ShowTrashed, GUILayout.Width(120));
             if (m_ShowTrashed != t_ShowTrashed)
             {
                 m_ShowTrashed = t_ShowTrashed;
                 FilterTableEditor();
             }
-            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, m_ShowIntegrityError, GUILayout.Width(200));
+            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, m_ShowIntegrityError, GUILayout.Width(120));
             if (m_ShowIntegrityError != t_ShowIntegrityError)
             {
                 m_ShowIntegrityError = t_ShowIntegrityError;
@@ -247,13 +249,27 @@ namespace NetWorkedData
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
 
+            GUILayout.FlexibleSpace();
 
+            GUILayout.BeginVertical(GUILayout.Width(120));
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+            {
+                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                tBasisInspector.mTypeInEdition = ClassType();
+                Selection.activeObject = tBasisInspector;
+            }
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.EndVertical();
 
             // -------------------------------------------
             GUILayout.EndHorizontal();
-            EditorGUILayout.HelpBox(NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_A + " " +
-            NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_B + " " +
-            NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_C, MessageType.Info);
+           
+
+            //EditorGUILayout.HelpBox(NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_A + " " +
+            //NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_B + " " +
+            //NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_C, MessageType.Info);
 
             // ===========================================
             DrawPagesTab();
@@ -614,9 +630,59 @@ namespace NetWorkedData
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
 
-            GUILayout.BeginVertical(GUILayout.Width(120));
-            // |||||||||||||||||||||||||||||||||||||||||||
 
+
+            GUILayout.BeginVertical(GUILayout.Width(120));
+            GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
+            //          GUILayout.BeginHorizontal ();
+            int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
+            if (t_ItemPerPageSelection != m_ItemPerPageSelection)
+            {
+                m_PageSelected = 0;
+            }
+            m_ItemPerPageSelection = t_ItemPerPageSelection;
+            int tRealReference = ObjectsByReferenceList.Count;
+            if (tRealReference == 0)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
+            }
+            else if (tRealReference == 1)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT);
+            }
+            else
+            {
+                GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
+            }
+
+            int tResultReference = ObjectsInEditorTableList.Count;
+            if (tResultReference == 0)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
+            }
+            else if (tResultReference == 1)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED);
+            }
+            else
+            {
+                GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED);
+            }
+
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.EndVertical();
+
+
+            /*GUILayout.BeginVertical(GUILayout.Width(120));
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+            {
+                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                tBasisInspector.mTypeInEdition = ClassType();
+                Selection.activeObject = tBasisInspector;
+            }
+            // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
             //			GUILayout.BeginHorizontal ();
             int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
@@ -655,23 +721,8 @@ namespace NetWorkedData
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
+            */
             GUILayout.FlexibleSpace();
-            GUILayout.BeginVertical(GUILayout.Width(120));
-            // |||||||||||||||||||||||||||||||||||||||||||
-
-            GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
-            {
-                //				NWDBasisClassInspector tBasisInspector = new NWDBasisClassInspector ();
-                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                tBasisInspector.mTypeInEdition = ClassType();
-                //				tBasisInspector.mObjectInEdition = null;
-                //				tBasisInspector.mWindowInEdition = sEditorWindow;
-                Selection.activeObject = tBasisInspector;
-            }
-
-
-            // |||||||||||||||||||||||||||||||||||||||||||
 
 
 
@@ -685,34 +736,32 @@ namespace NetWorkedData
                 tDisableProd = true;
             }
 
-
-            GUILayout.EndVertical();
-
             GUILayout.BeginVertical(GUILayout.Width(120));
 
             // SYNCHRONIZATION
-
-            GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
-
-
-
+            // no big title
+           // GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
             var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
             tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
 
+            // SYNCHRO ENVIRONMENT (TIMESTAMP as date in tooltips)
             GUILayout.BeginHorizontal();
-            GUILayout.Label(NWDConstants.K_DEVELOPMENT_NAME, tStyleBoldCenter);
-            GUILayout.Label(NWDConstants.K_PREPRODUCTION_NAME, tStyleBoldCenter);
-            GUILayout.Label(NWDConstants.K_PRODUCTION_NAME, EditorStyles.boldLabel);
+            GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
+            GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(60)); 
+            GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
+            GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(60));         
+            GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
+            GUILayout.Label(tProdContent, tStyleBoldCenter,GUILayout.Width(60));
             GUILayout.EndHorizontal();
 
 
             // SYNCHRO TIMESTAMP
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.EndHorizontal();
+            // tooltips in title of section
+            //GUILayout.BeginHorizontal();
+            //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            //GUILayout.EndHorizontal();
 
 
             GUILayout.BeginHorizontal();
@@ -787,6 +836,12 @@ namespace NetWorkedData
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
 
+
+
+
+            GUILayout.FlexibleSpace();
+
+
             GUILayout.BeginVertical(GUILayout.Width(120));
 
             // |||||||||||||||||||||||||||||||||||||||||||
@@ -803,14 +858,14 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
 
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
-            {
-                K tNewObject = new K();
-                m_PageSelected = m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
+            // ADD new object by the new instance directly (not NewObject() method)
+            //if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
+            //{
+            //    K tNewObject = new K();
+            //    m_PageSelected = m_MaxPage * 3;
+            //    SetObjectInEdition(tNewObject);
+            //    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            //}
 
 
             // |||||||||||||||||||||||||||||||||||||||||||

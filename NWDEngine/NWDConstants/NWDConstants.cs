@@ -338,7 +338,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_TABLE_ROW_OBJECT_OK = " ";
         public const string K_APP_TABLE_ROW_OBJECT_ERROR = "Error";
-        public const string K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR = "No integrate!";
+        public const string K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR = "Corrupted!";
         public const string K_APP_TABLE_ROW_OBJECT_TRASH = "Trashed";
         public const string K_APP_TABLE_ROW_OBJECT_DISACTIVE = "Desactived";
         //-------------------------------------------------------------------------------------------------------------

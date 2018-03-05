@@ -443,7 +443,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            return null;
+            //return null;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void FilterTableEditor()
