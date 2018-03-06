@@ -538,6 +538,35 @@ namespace NetWorkedData
 			}
 			WebOperationQueue.Infos (sEnvironment.Environment);
 		}
+
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebBlank AddWebRequestBlankWithBlock(BTBOperationBlock sSuccessBlock = null,
+                                                                BTBOperationBlock sErrorBlock = null,
+                                                                BTBOperationBlock sCancelBlock = null,
+                                                                BTBOperationBlock sProgressBlock = null,
+                                                                bool sPriority = false, 
+                                                                NWDAppEnvironment sEnvironment = null)
+        {
+            Debug.Log("AddWebRequestBlankWithBlock");
+            NWDOperationWebBlank sOperation = NWDOperationWebBlank.Create("Blank with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "arghhh";
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebNoPage AddWebRequestNoPageWithBlock(BTBOperationBlock sSuccessBlock = null,
+                                                                BTBOperationBlock sErrorBlock = null,
+                                                                BTBOperationBlock sCancelBlock = null,
+                                                                BTBOperationBlock sProgressBlock = null,
+                                                                bool sPriority = false,
+                                                                NWDAppEnvironment sEnvironment = null)
+        {
+            Debug.Log("AddWebRequestNoPageWithBlock");
+            NWDOperationWebNoPage sOperation = NWDOperationWebNoPage.Create("NoPage with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "arghhh";
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// The synchronize in progress.

@@ -310,6 +310,30 @@ namespace NetWorkedData
             DropdownAccountList.value = tActiveAccountIndex;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void WebOffLineAction()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void WebBlankAction()
+        {
+            Debug.Log("WebBlankAction()");
+            NWDDataManager.SharedInstance().AddWebRequestBlankWithBlock();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void FalseTokenAction()
+        {
+            Debug.Log("NWDAppEnvironment.SelectedEnvironment().RequesToken = " + NWDAppEnvironment.SelectedEnvironment().RequesToken);
+            NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDToolbox.RandomStringUnix(16);
+            Debug.Log("NWDAppEnvironment.SelectedEnvironment().RequesToken FALSIFIED = " + NWDAppEnvironment.SelectedEnvironment().RequesToken);
+            SynchronizeTest();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void HttpErrorAction()
+        {
+            Debug.Log("HttpErrorAction()");
+            NWDDataManager.SharedInstance().AddWebRequestNoPageWithBlock();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
 }
 //=====================================================================================================================
