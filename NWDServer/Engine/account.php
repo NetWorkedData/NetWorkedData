@@ -606,7 +606,7 @@
 			{
 					//NWDRequestTokenReset ($uuid); // reset connexion to zero
 				respondAdd('signout', true);
-				AccountAnonymousNeeded();
+				AccountAnonymousNeeded(false);
 				
 				if (paramValue ('auuid', 'auuid', $ereg_auuidHash, 'ACC15', 'ACC45')) // I test hashsec
 				{
@@ -632,7 +632,7 @@
 						if (substr($auuid, -1) == 'T')
 						{
 								// I put order to create anonymous account if account is not resolve before action (sync, etc)
-							AccountAnonymousNeeded();
+							AccountAnonymousNeeded(true);
 							respondAdd('create-anonymous', true);
 						}
 						else
@@ -721,7 +721,8 @@
 							}
 							else
 							{
-								AccountAnonymousNeeded();;
+								AccountAnonymousNeeded(false);
+								respondAdd('usertransfert', false);
 								respondAdd('delete', true);
 							}
 						}

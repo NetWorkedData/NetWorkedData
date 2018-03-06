@@ -279,6 +279,8 @@ namespace NetWorkedData
                                 string tUUID = tInfosResult.uuid;
                                 if (!tUUID.Equals(""))
                                 {
+                                    //TODO :  notify user change
+
                                     NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID);
                                     Statut = BTBOperationState.ReStart;
                                 }
@@ -287,6 +289,12 @@ namespace NetWorkedData
                             {
 								Statut = BTBOperationState.Success;
 								string tUUID = tInfosResult.uuid;
+
+                                if (tInfosResult.isNewUser)
+                                {
+                                    //TODO :  notify user change
+                                }
+
 								if (!tUUID.Equals (""))
                                 {
 									Environment.PlayerAccountReference = tUUID;

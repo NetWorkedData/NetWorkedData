@@ -190,13 +190,15 @@
 	}
 		//--------------------
 		// temporary account ?
+		// global $ACC_TMP, $ACC_NEED_USER_TRANSFERT;
 		$ACC_TMP = false;
+		$ACC_NEED_USER_TRANSFERT = false;
 		//--------------------
-	function AccountAnonymousNeeded()
+	function AccountAnonymousNeeded($sUserTransfert=true)
 	{
 		global $ACC_TMP;
 		$ACC_TMP = true;
-		
+		$ACC_NEED_USER_TRANSFERT = $sUserTransfert;
 	}
 		//--------------------
 	function AccountIsSigned()
@@ -221,7 +223,7 @@
 		//--------------------
 	function AccountAnonymeGenerate($sExit=true)
 	{
-		global $ACC_TMP, $TIME_STAMP, $TIME_SYNC;
+		global $ACC_TMP, $TIME_STAMP, $TIME_SYNC, $ACC_NEED_USER_TRANSFERT;
 		$rReturn = false;
 		if ($ACC_TMP == true)
 		{
@@ -250,7 +252,7 @@
 				IntegrityNWDAccountReevalue ($uuid);
 				respondUUID($uuid);
 				respondAdd('newuser', true);
-				respondAdd('usertransfert', true);
+				respondAdd('usertransfert', $ACC_NEED_USER_TRANSFERT);
 				respondAdd('sign', 'anonymous');
 				respondAdd('signkey', $tNewSecretKey);
 				respondAdd('reloaddatas', true);

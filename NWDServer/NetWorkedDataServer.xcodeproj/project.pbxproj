@@ -1,0 +1,76 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXFileReference section */
+		683704E2204E83CD009002D4 /* Engine */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Engine; sourceTree = "<group>"; };
+		683704E3204E83CE009002D4 /* Environment */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Environment; sourceTree = "<group>"; };
+		683704E4204E83CE009002D4 /* index.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		683704DB204E838C009002D4 = {
+			isa = PBXGroup;
+			children = (
+				683704E2204E83CD009002D4 /* Engine */,
+				683704E3204E83CE009002D4 /* Environment */,
+				683704E4204E83CE009002D4 /* index.php */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		683704DC204E838C009002D4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+			};
+			buildConfigurationList = 683704DF204E838C009002D4 /* Build configuration list for PBXProject "NetWorkedDataServer" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 683704DB204E838C009002D4;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		683704E0204E838C009002D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		683704E1204E838C009002D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		683704DF204E838C009002D4 /* Build configuration list for PBXProject "NetWorkedDataServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				683704E0204E838C009002D4 /* Debug */,
+				683704E1204E838C009002D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 683704DC204E838C009002D4 /* Project object */;
+}
