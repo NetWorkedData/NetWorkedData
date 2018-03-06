@@ -68,7 +68,7 @@
 											if (substr($uuid, -1) == 'T')
 											{
 													// I put order to create anonymous account if account is not resolve before action (sync, etc)
-												AccountAnonymousNeeded();
+												AccountAnonymousNeeded(true);
 											}
 											else
 											{
