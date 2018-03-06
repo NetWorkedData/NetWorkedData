@@ -72,7 +72,7 @@ namespace NetWorkedData
         /// <summary>
         /// Use to test Synchronization
         /// </summary>
-        public void SynchronizeTest ()
+        public void SynchronizeTest()
 		{
             NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
@@ -117,7 +117,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Use to test Log-in
 		/// </summary>
-		public void LogInTest ()
+		public void LogInTest()
 		{
             // Get selected account
             int key = DropdownAccountList.value;
@@ -167,7 +167,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// Use to test Log-out
 		/// </summary>
-		public void LogOutTest ()
+		public void LogOutTest()
 		{
 			NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
@@ -208,13 +208,22 @@ namespace NetWorkedData
 				});
 		}
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Create a Temporary Account
+        /// </summary>
+        public void TemporaryAccount()
+        {
+            NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            tAppEnvironment.ResetSession();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void ShowAccount()
         {
             gameObject.SetActive(!gameObject.activeInHierarchy);
         }
 		//-------------------------------------------------------------------------------------------------------------
 		// Use this for initialization
-		void Start ()
+		void Start()
 		{
 			Debug.Log("START NWDAccountPanel");
 			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification)

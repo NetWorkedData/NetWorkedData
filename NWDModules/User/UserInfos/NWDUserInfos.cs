@@ -54,33 +54,30 @@ namespace NetWorkedData
 		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
 		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class Properties
+		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your static properties
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance Properties
-		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-        [NWDHeader("Player Informations")]
+        [NWDGroupStart("Player Informations")]
+        [NWDTooltips("")]
 		public NWDReferenceType<NWDAccount> AccountReference {get; set;}
         [NWDEnumString(new string[] {"Temporary","Anonymous","LoginPassword","Facebook","Google","Unknow"})]
         public string AccountType { get; set; }
 		public NWDTextureType Avatar {get; set;}
 		public string FirstName {get; set;}
         public string LastName {get; set;}
-        [NWDHeader("Game Options")]
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Game Options")]
+        [NWDTooltips("")]
 		public bool SFX {get; set;}
 		public float SFXVolume {get; set;}
 		public bool Music {get; set;}
         public float MusicVolume {get; set;}
-        public NWDLocalizableStringType MusicVolumeLangu
-        {
-            get; set;
-        }
-        [NWDHeader("Last Game Informations")]
-        //public NWDReferenceType<NWDSpot> LastSpotReference { get; set; }
+        public NWDLocalizableStringType MusicVolumeLangu {get; set;}
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Last Game Informations")]
         public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
         public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
         public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
@@ -121,7 +118,7 @@ namespace NetWorkedData
             if (tUserInfos == null)
             {
                 tUserInfos = NewObject();
-                tUserInfos.InternalKey = env.PlayerStatut.ToString();
+                tUserInfos.InternalKey = env.PlayerAccountReference;
                 tUserInfos.AccountReference.SetReference(env.PlayerAccountReference);
                 tUserInfos.AccountType = env.PlayerStatut.ToString();
             }
