@@ -556,11 +556,18 @@ namespace NetWorkedData
 		//		/// </summary>
 		//		public static bool SynchronizeRepeatInForce = false;
 		//-------------------------------------------------------------------------------------------------------------
-		public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference)
+        public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference, string sAnonymousResetPassword)
 		{
 			// change account refrence 
 			// generate new Reference for this objetc (based on account reference)
             Debug.Log("NWDDataManager ChangeAllDatasForUserToAnotherUser()");
+
+            if (sEnvironment.AnonymousPlayerAccountReference == sEnvironment.PlayerAccountReference)
+            {
+                sEnvironment.AnonymousPlayerAccountReference = sNewAccountReference;
+                sEnvironment.AnonymousResetPassword = sAnonymousResetPassword;
+            }
+
 			foreach (Type tType in mTypeList)
             {
 				var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);

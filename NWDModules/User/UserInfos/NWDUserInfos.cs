@@ -59,8 +59,8 @@ namespace NetWorkedData
         [NWDGroupStart("Player Informations")]
         [NWDTooltips("")]
 		public NWDReferenceType<NWDAccount> AccountReference {get; set;}
-        [NWDEnumString(new string[] {"Temporary","Anonymous","LoginPassword","Facebook","Google","Unknow"})]
-        public string AccountType { get; set; }
+        //[NWDEnumString(new string[] {"Temporary","Anonymous","LoginPassword","Facebook","Google","Unknow"})]
+        public NWDAppEnvironmentPlayerStatut AccountType { get; set; }
 		public NWDTextureType Avatar {get; set;}
 		public string FirstName {get; set;}
         public string LastName {get; set;}
@@ -120,7 +120,7 @@ namespace NetWorkedData
                 tUserInfos = NewObject();
                 tUserInfos.InternalKey = env.PlayerAccountReference;
                 tUserInfos.AccountReference.SetReference(env.PlayerAccountReference);
-                tUserInfos.AccountType = env.PlayerStatut.ToString();
+                tUserInfos.AccountType = env.PlayerStatut;
             }
 
             return tUserInfos;
@@ -129,17 +129,18 @@ namespace NetWorkedData
         /// <summary>
         /// Get Account type of active user
         /// </summary>
-        public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDUserInfos user)
-        {
-            NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
-            if (user != null)
-            {
-                Debug.Log("--GetUserStatut : " + user.AccountType);
-                rPlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), user.AccountType, true);
-            }
+        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDUserInfos user)
+        //{
+        //    NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
+        //    if (user != null)
+        //    {
+        //        Debug.Log("--GetUserStatut : " + user.AccountType.ToString());
+        //        //rPlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), user.AccountType, true);
+        //        rPlayerStatut = user.AccountType;
+        //    }
 
-            return rPlayerStatut;
-        }
+        //    return rPlayerStatut;
+        //}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

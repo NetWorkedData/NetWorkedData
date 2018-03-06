@@ -632,7 +632,7 @@
 						if (substr($auuid, -1) == 'T')
 						{
 								// I put order to create anonymous account if account is not resolve before action (sync, etc)
-							AccountAnonymousNeeded(true);
+							AccountAnonymousNeeded(false);
 							respondAdd('create-anonymous', true);
 						}
 						else

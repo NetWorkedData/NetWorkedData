@@ -13,6 +13,8 @@
 	include_once ($PATH_BASE.'/Engine/start.php');
 		// start the script
 		//--------------------
+	include_once ($PATH_BASE.'/Environment/Dev/webservices_inside.php');
+		//--------------------
 	include_once ($PATH_BASE.'/Engine/account.php');
 		//--------------------
 	include_once ($PATH_BASE.'/Environment/Dev/accountservices.php');

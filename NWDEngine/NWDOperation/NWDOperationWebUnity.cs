@@ -90,6 +90,7 @@ namespace NetWorkedData
 		IEnumerator ExecuteAsync()
 		{
 			Statut = BTBOperationState.Start;
+            bool tUserChange = false;
 
             //Debug.Log("NWDOperationWebUnity ExecuteAsync() THREAD ID " + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
 			//callback error
@@ -281,9 +282,9 @@ namespace NetWorkedData
                                 {
                                     //TODO :  notify user change
 
-                                    NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID);
+                                    NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID, tInfosResult.signkey);
                                     Statut = BTBOperationState.ReStart;
-                                    NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+                                    tUserChange = true;
                                 }
                             }
                             else 
@@ -294,7 +295,7 @@ namespace NetWorkedData
                                 if (tInfosResult.isNewUser)
                                 {
                                     //TODO :  notify user change
-                                    NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+                                    tUserChange = true;
                                 }
 
 								if (!tUUID.Equals (""))
@@ -304,29 +305,24 @@ namespace NetWorkedData
 
 								if (tInfosResult.isSignUpdate)
                                 {
+                                    tUserChange = true;
                                     NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 									Environment.PlayerStatut = tInfosResult.sign;
-                                    //tActiveUser.AccountType = tInfosResult;
-
+                                    tActiveUser.AccountType = tInfosResult.sign;
                                     if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Unknow)
                                     {
-                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Unknow;
                                     }
                                     else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.LoginPassword)
                                     {
-                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.LoginPassword;
                                     }
                                     else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Facebook)
                                     {
-                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Facebook;
                                     }
                                     else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Google)
                                     {
-                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Google;
                                     }
                                     else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Anonymous)
                                     {
-                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Anonymous;
 										if (!tUUID.Equals (""))
                                         {
 											Environment.AnonymousPlayerAccountReference = tUUID;
@@ -338,7 +334,6 @@ namespace NetWorkedData
 									}
                                     else if (tInfosResult.sign != NWDAppEnvironmentPlayerStatut.Temporary)
                                     {
-                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;
 										if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
                                         {
 											//Using signed account as anonymous account = reset!
@@ -365,7 +360,15 @@ namespace NetWorkedData
 				Environment.SavePreferences();
 
                 //Perform next operation
+
+
+            if (tUserChange == true)
+                {
+                    NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+                }
+
 				Finish();
+
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -470,7 +473,10 @@ namespace NetWorkedData
 
 #if UNITY_EDITOR
             // add hash for admin
-			tHeaderParams.Add (AdminHashKey, NWDToolbox.GenerateAdminHash (Environment.AdminKey, Environment.SaltFrequency));
+            if (Application.isPlaying == false && Application.isEditor == true)
+            {
+                tHeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
+            }
 			string tDebug = "";
 
             // insert dico of header in request header

@@ -196,7 +196,7 @@
 		//--------------------
 	function AccountAnonymousNeeded($sUserTransfert=true)
 	{
-		global $ACC_TMP;
+		global $ACC_TMP, $ACC_NEED_USER_TRANSFERT;
 		$ACC_TMP = true;
 		$ACC_NEED_USER_TRANSFERT = $sUserTransfert;
 	}

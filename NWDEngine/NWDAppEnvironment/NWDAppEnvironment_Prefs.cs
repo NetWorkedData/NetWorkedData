@@ -75,9 +75,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetSession ()
 		{
-			//Debug.Log ("ResetSession in " + Environment);
-			ResetPlayerSession ();
-			ResetAnonymousSession ();
+            //Debug.Log ("ResetSession in " + Environment);
+            AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
+            AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
+            PlayerAccountReference = AnonymousPlayerAccountReference;
+            RequesToken = "";
+            PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
+            SavePreferences();
+            // add notification
+            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetPlayerSession ()
