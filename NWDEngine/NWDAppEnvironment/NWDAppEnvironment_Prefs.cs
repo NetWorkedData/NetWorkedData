@@ -86,7 +86,9 @@ namespace NetWorkedData
 			PlayerAccountReference = NWDToolbox.GenerateUniqueID();
 			RequesToken = "";
 			PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
-			SavePreferences ();
+            SavePreferences();
+            // add notification
+            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetAnonymousSession ()
@@ -94,7 +96,9 @@ namespace NetWorkedData
 			//Debug.Log ("ResetAnonymousSession in " + Environment);
 			AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
 			AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
-			SavePreferences ();
+            SavePreferences();
+            // add notification
+            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void RestaureAnonymousSession ()
@@ -104,7 +108,9 @@ namespace NetWorkedData
 			RequesToken = "";
 			PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;
 			// TODO :  must connect to server
-			SavePreferences ();
+            SavePreferences ();
+            // add notification
+            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

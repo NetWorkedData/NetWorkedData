@@ -283,6 +283,7 @@ namespace NetWorkedData
 
                                     NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID);
                                     Statut = BTBOperationState.ReStart;
+                                    NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
                                 }
                             }
                             else 
@@ -293,6 +294,7 @@ namespace NetWorkedData
                                 if (tInfosResult.isNewUser)
                                 {
                                     //TODO :  notify user change
+                                    NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
                                 }
 
 								if (!tUUID.Equals (""))
@@ -302,13 +304,29 @@ namespace NetWorkedData
 
 								if (tInfosResult.isSignUpdate)
                                 {
+                                    NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 									Environment.PlayerStatut = tInfosResult.sign;
-									if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Unknow)
+                                    //tActiveUser.AccountType = tInfosResult;
+
+                                    if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Unknow)
                                     {
-										//Nothing to do
-									}
+                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Unknow;
+                                    }
+                                    else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.LoginPassword)
+                                    {
+                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.LoginPassword;
+                                    }
+                                    else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Facebook)
+                                    {
+                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Facebook;
+                                    }
+                                    else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Google)
+                                    {
+                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Google;
+                                    }
                                     else if (tInfosResult.sign == NWDAppEnvironmentPlayerStatut.Anonymous)
                                     {
+                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Anonymous;
 										if (!tUUID.Equals (""))
                                         {
 											Environment.AnonymousPlayerAccountReference = tUUID;
@@ -320,6 +338,7 @@ namespace NetWorkedData
 									}
                                     else if (tInfosResult.sign != NWDAppEnvironmentPlayerStatut.Temporary)
                                     {
+                                        //tActiveUser.AccountType = NWDAppEnvironmentPlayerStatut.Temporary;
 										if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
                                         {
 											//Using signed account as anonymous account = reset!
