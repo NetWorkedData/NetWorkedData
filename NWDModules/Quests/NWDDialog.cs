@@ -153,6 +153,8 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltips("Add an action to this answer")]
+        public NWDReferenceType<NWDAction> ActionOnAnswer { get; set; }
         [NWDGroupEnd]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Dialog", true, true, true)]
@@ -181,7 +183,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-
+        [NWDTooltips ("Add an action to this dialog")]
+        public NWDReferenceType<NWDAction> ActionOnDialog { get; set; }
         [NWDTooltipsAttribute("Select characters to use in dialog by these tags" +
                               "\n •for Fistname : #F0# #F1# …" +
                               "\n •for Lastname : #L0# #L1# …" +
