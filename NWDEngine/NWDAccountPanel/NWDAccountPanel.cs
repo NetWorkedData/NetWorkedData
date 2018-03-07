@@ -214,7 +214,7 @@ namespace NetWorkedData
         public void TemporaryAccount()
         {
             NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            tAppEnvironment.ResetSession();
+            tAppEnvironment.ResetGameSession();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ShowAccount()

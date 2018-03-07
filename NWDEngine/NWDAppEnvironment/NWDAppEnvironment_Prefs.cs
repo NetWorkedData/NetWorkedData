@@ -69,12 +69,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetPreferences ()
 		{
-			ResetSession ();
-			SavePreferences ();
+			ResetSession();
+			SavePreferences();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void ResetSession ()
-		{
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetGameSession()
+        {
             //Debug.Log ("ResetSession in " + Environment);
             AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
             AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
@@ -84,9 +84,22 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetSession()
+		{
+            //Debug.Log ("ResetSession in " + Environment);
+            AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
+            AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
+            PlayerAccountReference = AnonymousPlayerAccountReference;
+            RequesToken = "";
+            PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
+            SavePreferences();
+            // add notification
+            //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void ResetPlayerSession ()
+		public void ResetPlayerSession()
 		{
 			//Debug.Log ("ResetPlayerSession in " + Environment);
 			PlayerAccountReference = NWDToolbox.GenerateUniqueID();
@@ -94,17 +107,17 @@ namespace NetWorkedData
 			PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
-            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public void ResetAnonymousSession ()
+		public void ResetAnonymousSession()
 		{
 			//Debug.Log ("ResetAnonymousSession in " + Environment);
 			AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
 			AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
             SavePreferences();
             // add notification
-            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void RestaureAnonymousSession ()
@@ -116,7 +129,7 @@ namespace NetWorkedData
 			// TODO :  must connect to server
             SavePreferences ();
             // add notification
-            NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
