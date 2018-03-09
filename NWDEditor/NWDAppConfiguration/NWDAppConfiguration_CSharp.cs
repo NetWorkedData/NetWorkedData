@@ -82,7 +82,20 @@ namespace NetWorkedData
             tConstantsFile += "\t\t\t WSList = new Dictionary<int, bool>();\n";
             foreach (KeyValuePair<int, bool> tWS in WSList)
             {
-                tConstantsFile += "\t\t\t WSList.Add(" + tWS.Key + "," + tWS.Value.ToString().ToLower() + ");\n";
+                if (tWS.Value == true)
+                {
+                    tConstantsFile += "\t\t\t WSList.Add(" + tWS.Key + "," + tWS.Value.ToString().ToLower() + ");\n";
+                }
+                else
+                {
+                    // TODO remove the web folder 
+                    string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                    if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/"+tWebServiceFolder) == true)
+                    {
+                        //AssetDatabase.DeleteAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder);
+
+                    }
+                }
             }
 
             tConstantsFile += "//Environments restaure\n";
@@ -225,63 +238,99 @@ namespace NetWorkedData
             tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
                 "\t\t\t{\n";
 
-            /*
+
             foreach (KeyValuePair<int, bool> tWS in WSList)
             {
-                
+
             }
+
             foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkCSVAssemblyOrderArray)
             {
-                tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
-                foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
-                    tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
+                        foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                        {
+                            tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
+                        }
+                    }
                 }
             }
             foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkSLQAssemblyOrderArray)
             {
-                tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
-                foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
-                    tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
+                        foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                        {
+                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
+                        }
+                    }
                 }
             }
 
 
             foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
             {
-                tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
-                foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value)
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
-                    tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue + "\");\n";
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
+                        foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value)
+                        {
+                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value + "\");\n";
+                        }
+                    }
                 }
             }
 
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityOrder)
             {
-                tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
-                foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
-                    tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
+                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                        {
+                            tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                        }
+                    }
                 }
             }
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder)
             {
-                tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
-                foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
-                    tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
+                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                        {
+                            tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                        }
+                    }
                 }
             }
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkDataAssemblyPropertiesList)
             {
-                tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
-                foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
-                    tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
+                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                        {
+                            tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                        }
+                    }
                 }
             }
-            */
 
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";

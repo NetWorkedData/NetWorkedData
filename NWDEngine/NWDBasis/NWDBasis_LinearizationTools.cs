@@ -550,69 +550,90 @@ namespace NetWorkedData
             NWDAppConfiguration tApp =  NWDAppConfiguration.SharedInstance();
             int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
 
-            if (tApp.kWebBuildkCSVAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+
+            // TODO test old version is diffeerent from new version of data
+            string tLastRegister = "";
+            int tLast = 0;
+            foreach (KeyValuePair<int,Dictionary<string,string>> tPair in tApp.kWebBuildkSLQAssemblyOrder)
             {
-                tApp.kWebBuildkCSVAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
+                if (tLast<tPair.Key)
+                {
+                    tLast = tPair.Key;
+                    if (tPair.Value.ContainsKey(ClassID()))
+                    {
+                        tLastRegister = tPair.Value[ClassID()];
+                    }
+                }
             }
-            if (tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) ==false)
+            string tActualRegister = SLQAssemblyOrder();
+
+            //Debug.Log(ClassID() + " tActualRegister = "+ tActualRegister);
+            //Debug.Log(ClassID() + " tLastRegister = " + tLastRegister);
+            if (tActualRegister != tLastRegister)
             {
-                tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].Add(ClassID(), CSVAssemblyOrderArray());
+                //Debug.Log(ClassID() + " must be updated for webservice " + tWebBuild.ToString());
+                if (tApp.kWebBuildkCSVAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+                {
+                    tApp.kWebBuildkCSVAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
+                }
+                if (tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) == false)
+                {
+                    tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].Add(ClassID(), CSVAssemblyOrderArray());
+                }
+
+                if (tApp.kWebBuildkSLQAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+                {
+                    tApp.kWebBuildkSLQAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
+                }
+                if (tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) == false)
+                {
+                    tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].Add(ClassID(), SLQAssemblyOrderArray());
+                }
+
+
+                if (tApp.kWebBuildkSLQAssemblyOrder.ContainsKey(tWebBuild) == false)
+                {
+                    tApp.kWebBuildkSLQAssemblyOrder.Add(tWebBuild, new Dictionary<string, string>());
+                }
+                if (tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].ContainsKey(ClassID()) == false)
+                {
+                    tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].Add(ClassID(), SLQAssemblyOrder());
+                }
+
+
+                if (tApp.kWebBuildkSLQIntegrityOrder.ContainsKey(tWebBuild) == false)
+                {
+                    tApp.kWebBuildkSLQIntegrityOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
+                }
+                if (tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].ContainsKey(ClassID()) == false)
+                {
+                    tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].Add(ClassID(), SLQIntegrityOrder());
+                }
+
+
+
+                if (tApp.kWebBuildkSLQIntegrityServerOrder.ContainsKey(tWebBuild) == false)
+                {
+                    tApp.kWebBuildkSLQIntegrityServerOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
+                }
+                if (tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].ContainsKey(ClassID()) == false)
+                {
+                    tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].Add(ClassID(), SLQIntegrityServerOrder());
+                }
+
+
+                if (tApp.kWebBuildkDataAssemblyPropertiesList.ContainsKey(tWebBuild) == false)
+                {
+                    tApp.kWebBuildkDataAssemblyPropertiesList.Add(tWebBuild, new Dictionary<string, List<string>>());
+                }
+                if (tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].ContainsKey(ClassID()) == false)
+                {
+                    tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].Add(ClassID(), DataAssemblyPropertiesList());
+                }
             }
-
-
-            if (tApp.kWebBuildkSLQAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+            else
             {
-                tApp.kWebBuildkSLQAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
-            }
-            if (tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) == false)
-            {
-                tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].Add(ClassID(), SLQAssemblyOrderArray());
-            }
-
-
-
-
-            if (tApp.kWebBuildkSLQAssemblyOrder.ContainsKey(tWebBuild) == false)
-            {
-                tApp.kWebBuildkSLQAssemblyOrder.Add(tWebBuild, new Dictionary<string, string>());
-            }
-            if (tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].ContainsKey(ClassID()) == false)
-            {
-                tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].Add(ClassID(), SLQAssemblyOrder());
-            }
-
-
-
-
-
-            if (tApp.kWebBuildkSLQIntegrityOrder.ContainsKey(tWebBuild) == false)
-            {
-                tApp.kWebBuildkSLQIntegrityOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
-            }
-            if (tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].ContainsKey(ClassID()) == false)
-            {
-                tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].Add(ClassID(), SLQIntegrityOrder());
-            }
-
-
-
-            if (tApp.kWebBuildkSLQIntegrityServerOrder.ContainsKey(tWebBuild) == false)
-            {
-                tApp.kWebBuildkSLQIntegrityServerOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
-            }
-            if (tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].ContainsKey(ClassID()) == false)
-            {
-                tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].Add(ClassID(), SLQIntegrityServerOrder());
-            }
-
-
-            if (tApp.kWebBuildkDataAssemblyPropertiesList.ContainsKey(tWebBuild) == false)
-            {
-                tApp.kWebBuildkDataAssemblyPropertiesList.Add(tWebBuild, new Dictionary<string, List<string>>());
-            }
-            if (tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].ContainsKey(ClassID()) == false)
-            {
-                tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].Add(ClassID(), DataAssemblyPropertiesList());
+                //Debug.Log(ClassID() + " doesn't be updated for webservice " + tWebBuild.ToString() + " ... Keep cool");
             }
         }
         //-------------------------------------------------------------------------------------------------------------

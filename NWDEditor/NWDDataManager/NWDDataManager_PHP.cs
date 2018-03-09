@@ -221,16 +221,16 @@ namespace NetWorkedData
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
             string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer";
-            Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
+            //Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
             if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer") == false)
             {
-                Debug.Log("Assets/NetWorkedDataServer MUST BE CREATE");
+                //Debug.Log("Assets/NetWorkedDataServer MUST BE CREATE");
                 AssetDatabase.CreateFolder("Assets", "NetWorkedDataServer");
                 AssetDatabase.ImportAsset("Assets/NetWorkedDataServer");
             }
             if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == false)
             {
-                Debug.Log("Assets/NetWorkedDataServer/"+tWebServiceFolder+" MUST BE CREATE");
+                //Debug.Log("Assets/NetWorkedDataServer/"+tWebServiceFolder+" MUST BE CREATE");
                 AssetDatabase.CreateFolder("Assets/NetWorkedDataServer", tWebServiceFolder);
                 AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/"+ tWebServiceFolder);
             }
