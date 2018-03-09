@@ -24,23 +24,17 @@ using SQLite4Unity3d;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
 	{
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Class Methods
-
 		//-------------------------------------------------------------------------------------------------------------
-
-
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
+        /// <summary>
 		/// Changes the reference for another in all objects.
 		/// </summary>
 		/// <param name="sOldReference">S old reference.</param>
 		/// <param name="sNewReference">S new reference.</param>
-		/// <param name="sType">S type.</param>
 		public static void ChangeReferenceForAnotherInAllObjects (string sOldReference, string sNewReference)
 		{
 			//Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
@@ -48,8 +42,6 @@ namespace NetWorkedData
 				tObject.ChangeReferenceForAnother (sOldReference, sNewReference);
 			}
 		}
-
-
 		//-------------------------------------------------------------------------------------------------------------
 		public static void TryToChangeUserForAllObjects (string sOldUser, string sNewUser)
 		{
@@ -59,13 +51,9 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-
 		#region Instance Methods
-
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// UUID transform for reference.
@@ -81,7 +69,6 @@ namespace NetWorkedData
 			tUUID = tUUID.Replace ("-", "");
 			return tUUID;
 		}
-
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// New reference from UUID.
@@ -102,7 +89,6 @@ namespace NetWorkedData
 			}
 			return rReturn;
 		}
-
 		//-------------------------------------------------------------------------------------------------------------
 //		/// <summary>
 //		/// Updates the reference without change repercsusion security.
@@ -181,7 +167,6 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sOldReference">old reference.</param>
 		/// <param name="sNewReference">new reference.</param>
-		/// <param name="sType">type.</param>
 		public void ChangeReferenceForAnother (string sOldReference, string sNewReference)
 		{
 			bool rModify = false;
@@ -238,10 +223,9 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-
 		#endregion
-
 		//-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

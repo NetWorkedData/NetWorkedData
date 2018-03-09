@@ -236,7 +236,10 @@ namespace NetWorkedData
 			tHeight += tToolbarStyle.CalcHeight (new GUIContent ("A"), tWidthUsed);
 
 			EditorGUI.DrawRect (new Rect (0,0, tWidthUsed, tHeight), new Color (0.6f, 0.6f, 0.6f, 1.0f));
-			EditorGUILayout.HelpBox (mDescriptionKey, MessageType.None);
+            if (mDescriptionKey != "")
+            {
+                EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
+            }
 
 			if (mTabSelected > mTabList.Count ()) {
 				mTabSelected = 0;

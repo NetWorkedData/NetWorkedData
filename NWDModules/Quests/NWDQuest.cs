@@ -108,7 +108,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
-        [NWDGroupStartAttribute("Start Way", true, true, true)]
+        [NWDGroupStartAttribute("Items required to start quest", true, true, true)]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
         {
             get; set;
@@ -117,6 +117,11 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltips("If you have not the requiered item")]
+        public NWDReferenceType<NWDDialog> NoItemDialogReference { get; set; }
+        [NWDGroupEndAttribute]
+        [NWDGroupSeparator]
+        [NWDGroupStartAttribute("Quest First Dialog", true, true, true)]
         [NWDEntitled("Normal Dialog")]
         public NWDReferenceType<NWDDialog> DialogReference
         {
@@ -124,8 +129,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
-        [NWDGroupStartAttribute("Alternate Way", true, true, true)]
-
+        [NWDGroupStartAttribute("Items wanted to finish quest", true, true, true)]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsWanted
         {
             get; set;
@@ -135,11 +139,11 @@ namespace NetWorkedData
             get; set;
         }
         [NWDEntitled("Alternate Dialog")]
+        [NWDTooltips("If you have allready the wanted item")]
         public NWDReferenceType<NWDDialog> AlternateDialogReference
         {
             get; set;
         } // to start with ListOfItemsAsked
-
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Quest reward", true, true, true)]

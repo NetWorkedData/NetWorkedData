@@ -274,19 +274,24 @@ namespace NetWorkedData
 				if (File.Exists (tNewPath)) {
 					File.Delete (tNewPath);
 				}
-				if (tFile.Extension != ".meta" && (tFile.Name != ".DS_Store")) {
+                if (tFile.Extension != ".meta" && tFile.Name != ".DS_Store" && tFile.Name != ".xcodeproj") {
 					tFile.CopyTo (tNewPath);
 				}
 			}
 			DirectoryInfo[] tSubFoldersArray = tDirectory.GetDirectories ();
-			foreach (DirectoryInfo tSubFolder in tSubFoldersArray) {
-				//Debug.Log ("find subfolder Name = " + tSubFolder.Name);
-				string tSubFolderLast = tSubFolder.Name;
-				if (Directory.Exists (sToFolder + "/" + tSubFolderLast) == false) {
-					Directory.CreateDirectory (sToFolder + "/" + tSubFolderLast);
-				}
-				ExportCopyFolderFiles (sFromFolder + "/" + tSubFolderLast, sToFolder + "/" + tSubFolderLast);
-			}
+            foreach (DirectoryInfo tSubFolder in tSubFoldersArray)
+            {
+                //Debug.Log ("find subfolder Name = " + tSubFolder.Name);
+                string tSubFolderLast = tSubFolder.Name;
+               // if (!tSubFolderLast.Contains(".xcodeproj"))
+                {
+                    if (Directory.Exists(sToFolder + "/" + tSubFolderLast) == false)
+                    {
+                        Directory.CreateDirectory(sToFolder + "/" + tSubFolderLast);
+                    }
+                    ExportCopyFolderFiles(sFromFolder + "/" + tSubFolderLast, sToFolder + "/" + tSubFolderLast);
+                }
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endif

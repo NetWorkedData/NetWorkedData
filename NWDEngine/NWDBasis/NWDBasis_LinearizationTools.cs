@@ -111,6 +111,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string[]> kCSVAssemblyOrderArray = new Dictionary<string, string[]>();
+
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// CSV assembly order array.
@@ -132,6 +133,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
                 rReturn.Insert(1, "DM");
@@ -139,6 +141,7 @@ namespace NetWorkedData
                 rReturn.Insert(3, "DevSync");
                 rReturn.Insert(4, "PreprodSync");
                 rReturn.Insert(5, "ProdSync");
+                //rReturn.Insert(6, "WebServiceVersion");
                 rReturn.Add("Integrity");
                 kCSVAssemblyOrderArray[ClassID()] = rReturn.ToArray<string>();
             }
@@ -146,12 +149,14 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string[]> kSLQAssemblyOrderArray = new Dictionary<string, string[]>();
+
+
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order array.
         /// </summary>
         /// <returns>The assembly order array.</returns>
-        public static string[] SLQAssemblyOrderArray()
+        public static string[] SLQAssemblyOrderArray() //  for insert of $sCsvList
         {
             if (kSLQAssemblyOrderArray.ContainsKey(ClassID()) == false)
             {
@@ -167,12 +172,14 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
                 rReturn.Insert(0, "DM");
                 rReturn.Insert(1, "DS");
                 rReturn.Insert(2, "DevSync");
                 rReturn.Insert(3, "PreprodSync");
                 rReturn.Insert(4, "ProdSync");
+                //rReturn.Insert(5, "WebServiceVersion");
                 rReturn.Add("Integrity");
                 kSLQAssemblyOrderArray[ClassID()] = rReturn.ToArray<string>();
             }
@@ -180,6 +187,8 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> kSLQAssemblyOrder = new Dictionary<string, string>();
+
+
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order.
@@ -201,6 +210,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
                 rReturn.Insert(1, "DM");
@@ -208,6 +218,7 @@ namespace NetWorkedData
                 rReturn.Insert(3, "DevSync");
                 rReturn.Insert(4, "PreprodSync");
                 rReturn.Insert(5, "ProdSync");
+                //rReturn.Insert(6, "WebServiceVersion");
                 rReturn.Add("Integrity");
                 kSLQAssemblyOrder[ClassID()] = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
             }
@@ -216,6 +227,7 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, List<string>> kSLQIntegrityOrder = new Dictionary<string, List<string>>();
+
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order.
@@ -237,10 +249,12 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
-                rReturn.Sort((tA, tB) => tA.CompareTo(tB));
+                //rReturn.Remove("WebServiceVersion");
+                rReturn.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.Ordinal));
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
                 rReturn.Insert(1, "DM");
+                //rReturn.Insert(2, "WebServiceVersion");
                 kSLQIntegrityOrder[ClassID()] = rReturn;
             }
             return kSLQIntegrityOrder[ClassID()];
@@ -275,7 +289,7 @@ namespace NetWorkedData
                 rReturn.Remove("DC");
                 rReturn.Remove("DD");
                 // add the good order for this element
-                rReturn.Sort((tA, tB) => tB.CompareTo(tA));
+                rReturn.Sort((tA, tB) => string.Compare(tB, tA, StringComparison.Ordinal));
                 // add the good order for this element
                 rReturn.Insert(2, "Reference");
                 // add another order for these element (perhaps bad solution ?)
@@ -289,6 +303,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, List<string>> kDataAssemblyPropertiesList = new Dictionary<string, List<string>>();
+
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order.
@@ -514,6 +529,92 @@ namespace NetWorkedData
 
         #endregion
 
+
+        // TODO : Create WebService memorize
+
+        //public static Dictionary<int, Dictionary<string, string[]>> kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
+
+        //public static Dictionary<int, Dictionary<string, string[]>> kWebBuildkSLQAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
+
+        //public static Dictionary<int, Dictionary<string, string>> kWebBuildkSLQAssemblyOrder = new Dictionary<int, Dictionary<string, string>>();
+
+        //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityOrder = new Dictionary<int, Dictionary<string, List<string>>>();
+       
+        //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();
+
+        //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();
+
+
+        public static void PrepareOrders()
+        {
+            NWDAppConfiguration tApp =  NWDAppConfiguration.SharedInstance();
+            int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+
+            if (tApp.kWebBuildkCSVAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+            {
+                tApp.kWebBuildkCSVAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
+            }
+            if (tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) ==false)
+            {
+                tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].Add(ClassID(), CSVAssemblyOrderArray());
+            }
+
+
+            if (tApp.kWebBuildkSLQAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+            {
+                tApp.kWebBuildkSLQAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
+            }
+            if (tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) == false)
+            {
+                tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].Add(ClassID(), SLQAssemblyOrderArray());
+            }
+
+
+
+
+            if (tApp.kWebBuildkSLQAssemblyOrder.ContainsKey(tWebBuild) == false)
+            {
+                tApp.kWebBuildkSLQAssemblyOrder.Add(tWebBuild, new Dictionary<string, string>());
+            }
+            if (tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].ContainsKey(ClassID()) == false)
+            {
+                tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].Add(ClassID(), SLQAssemblyOrder());
+            }
+
+
+
+
+
+            if (tApp.kWebBuildkSLQIntegrityOrder.ContainsKey(tWebBuild) == false)
+            {
+                tApp.kWebBuildkSLQIntegrityOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
+            }
+            if (tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].ContainsKey(ClassID()) == false)
+            {
+                tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].Add(ClassID(), SLQIntegrityOrder());
+            }
+
+
+
+            if (tApp.kWebBuildkSLQIntegrityServerOrder.ContainsKey(tWebBuild) == false)
+            {
+                tApp.kWebBuildkSLQIntegrityServerOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
+            }
+            if (tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].ContainsKey(ClassID()) == false)
+            {
+                tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].Add(ClassID(), SLQIntegrityServerOrder());
+            }
+
+
+            if (tApp.kWebBuildkDataAssemblyPropertiesList.ContainsKey(tWebBuild) == false)
+            {
+                tApp.kWebBuildkDataAssemblyPropertiesList.Add(tWebBuild, new Dictionary<string, List<string>>());
+            }
+            if (tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].ContainsKey(ClassID()) == false)
+            {
+                tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].Add(ClassID(), DataAssemblyPropertiesList());
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
 }

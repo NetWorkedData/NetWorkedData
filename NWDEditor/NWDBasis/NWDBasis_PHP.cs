@@ -67,6 +67,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreatePHP(NWDAppEnvironment sEnvironment)
         {
+            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tEnvironmentFolder = sEnvironment.Environment;
             Type tType = ClassType();
             TableMapping tTableMapping = new TableMapping(tType);
@@ -79,9 +80,11 @@ namespace NetWorkedData
 
             PrefLoad();
 
+            PrepareOrders();
+
             // Create folders
 
-            string tServerRootFolder = "Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder;
+            string tServerRootFolder = "Assets/NetWorkedDataServer/"+tWebServiceFolder+"/Environment/" + tEnvironmentFolder;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
 
             if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer") == false)
@@ -89,35 +92,36 @@ namespace NetWorkedData
                 AssetDatabase.CreateFolder("Assets/", "NetWorkedDataServer");
                 AssetDatabase.ImportAsset("Assets/NetWorkedDataServer");
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/Environment") == false)
+            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == false)
             {
-                //Debug.Log ("CreatePHP error 02 Assets/NetWorkedDataServer/"+sEnvironement+" not exists ");
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer", "Environment");
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/Environment");
+                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer", tWebServiceFolder);
+                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder);
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder) == false)
+            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment") == false)
             {
-                //Debug.Log ("CreatePHP error 02 Assets/NetWorkedDataServer/"+sEnvironement+" not exists ");
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer", tEnvironmentFolder);
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder);
+                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder, "Environment");
+                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment");
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine") == false)
+            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder) == false)
             {
-                //Debug.Log ("CreatePHP error  03 Assets/NetWorkedDataServer/"+sEnvironement+"/Engine not exists ");
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder, "Engine");
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine");
+                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder+ "/Environment/", tEnvironmentFolder);
+                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder);
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine/Database") == false)
+            // tServerRootFolder is created 
+            if (AssetDatabase.IsValidFolder(tServerRootFolder + "/Engine") == false)
             {
-                //Debug.Log ("CreatePHP error 04 Assets/NetWorkedDataServer/"+sEnvironement+"/Engine/Database not exists ");
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine", "Database");
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine/Database");
+                AssetDatabase.CreateFolder(tServerRootFolder, "Engine");
+                AssetDatabase.ImportAsset(tServerRootFolder + "/Engine");
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName) == false)
+            if (AssetDatabase.IsValidFolder(tServerRootFolder + "/Engine/Database") == false)
             {
-                //Debug.Log ("CreatePHP error 05 Assets/NetWorkedDataServer/"+sEnvironement+"/Engine/Database/"+ tClassName+" not exists ");
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine/Database", tClassName);
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName);
+                AssetDatabase.CreateFolder(tServerRootFolder + "/Engine", "Database");
+                AssetDatabase.ImportAsset(tServerRootFolder + "/Engine/Database");
+            }
+            if (AssetDatabase.IsValidFolder(tServerRootFolder + "/Engine/Database/" + tClassName) == false)
+            {
+                AssetDatabase.CreateFolder(tServerRootFolder + "/Engine/Database", tClassName);
+                AssetDatabase.ImportAsset(tServerRootFolder  + "/Engine/Database/" + tClassName);
             }
             if (AssetDatabase.IsValidFolder(tServerDatabaseFolder) == false)
             {

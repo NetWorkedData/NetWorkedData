@@ -396,6 +396,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             FilterTableEditor();
             PrefSave();
+            PrepareOrders();
 #else
 #endif
         }

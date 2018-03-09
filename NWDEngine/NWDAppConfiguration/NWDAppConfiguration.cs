@@ -29,6 +29,17 @@ namespace NetWorkedData
 		public NWDAppEnvironment ProdEnvironment = new NWDAppEnvironment (NWDConstants.K_PREPRODUCTION_NAME, false);
 		public Dictionary<string,string> IntegritySaltDictionary = new Dictionary<string,string> ();
 		public Dictionary<string,string> GenerateSaltDictionary = new Dictionary<string,string> ();
+        public string WebFolder = "NWDFolder";
+        public int WebBuild=0;
+
+        public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
+        public Dictionary<int, Dictionary<string, string[]>> kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
+        public Dictionary<int, Dictionary<string, string[]>> kWebBuildkSLQAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
+        public Dictionary<int, Dictionary<string, string>> kWebBuildkSLQAssemblyOrder = new Dictionary<int, Dictionary<string, string>>();
+        public Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityOrder = new Dictionary<int, Dictionary<string, List<string>>>();
+        public Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();
+        public Dictionary<int, Dictionary<string, List<string>>> kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();
+
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 
@@ -167,7 +178,12 @@ namespace NetWorkedData
 			};
 			return tEnvironnements;
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public string WebServiceFolder()
+        {
+            return WebFolder + "_" + WebBuild.ToString("0000");
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		#endregion
 	}
 }

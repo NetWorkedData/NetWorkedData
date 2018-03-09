@@ -348,6 +348,8 @@ namespace NetWorkedData
 
                 NWDVersionType tVersion = new NWDVersionType();
                 tVersion.SetString("0.00.00");
+                this.WebServiceVersion = NWDAppConfiguration.SharedInstance().WebBuild;
+                this.AddonVersionMe(); // call override method
                 this.MinVersion = tVersion;
                 this.DevSync = 0;
                 this.PreprodSync = 0;
@@ -430,6 +432,9 @@ namespace NetWorkedData
 			this.PreprodSync = 0;
 			this.ProdSync = 0;
             this.ServerHash = "";
+            this.WebServiceVersion = NWDAppConfiguration.SharedInstance().WebBuild;
+            this.AddonVersionMe(); // call override method
+
 			this.UpdateIntegrity ();
 			NWDDataManager.SharedInstance().UpdateObject (this, AccountDependent ());
 			// object was updated

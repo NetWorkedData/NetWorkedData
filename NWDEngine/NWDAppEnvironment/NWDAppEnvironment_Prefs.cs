@@ -83,6 +83,7 @@ namespace NetWorkedData
             PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
+<<<<<<< HEAD
             NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -97,6 +98,9 @@ namespace NetWorkedData
             SavePreferences();
             // add notification
             //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+=======
+            NWDDataManager.SharedInstance().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+>>>>>>> [ADD] first step add webservice version
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetPlayerSession()
@@ -107,7 +111,11 @@ namespace NetWorkedData
 			PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
+<<<<<<< HEAD
             //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+=======
+            NWDDataManager.SharedInstance().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+>>>>>>> [ADD] first step add webservice version
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void ResetAnonymousSession()
@@ -117,7 +125,11 @@ namespace NetWorkedData
 			AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
             SavePreferences();
             // add notification
+<<<<<<< HEAD
             //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+=======
+            NWDDataManager.SharedInstance().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+>>>>>>> [ADD] first step add webservice version
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void RestaureAnonymousSession ()
@@ -129,7 +141,11 @@ namespace NetWorkedData
 			// TODO :  must connect to server
             SavePreferences ();
             // add notification
+<<<<<<< HEAD
             //NWDGameDataManager.UnitySingleton().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+=======
+            NWDDataManager.SharedInstance().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+>>>>>>> [ADD] first step add webservice version
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}

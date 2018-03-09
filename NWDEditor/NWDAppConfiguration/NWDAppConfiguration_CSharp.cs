@@ -54,18 +54,37 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\tpublic void RestaureConfigurations ()\n" +
             "\t\t{\n" +
+            "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
+            "\t\t\tWebBuild = " + WebBuild + ";\n" +
             "\t\t\t//Debug.Log(\"NWDAppConfiguration Restaure Config\");\n" +
             "\t\t\t//Salts regenerate (Calgon© is back :-p )\n";
             foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary)
             {
                 tConstantsFile += "\t\t\tIntegritySaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
-
             }
             tConstantsFile += "//Salts Validity\n";
             foreach (KeyValuePair<string, string> tEntry in GenerateSaltDictionary)
             {
                 tConstantsFile += "\t\t\tGenerateSaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
+            tConstantsFile += "\t\t\t//WebService regenerate (Apache or Siou)\n";
+
+            tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();\n";
+            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();\n";
+            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder = new Dictionary<int, Dictionary<string, string>>();\n";
+            tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder = new Dictionary<int, Dictionary<string, List<string>>>();\n";
+            tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();\n";
+            tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();\n";
+
+            tConstantsFile += "\t\t\t//WebService regenerate all version of webservice\n";
+
+
+            tConstantsFile += "\t\t\t WSList = new Dictionary<int, bool>();\n";
+            foreach (KeyValuePair<int, bool> tWS in WSList)
+            {
+                tConstantsFile += "\t\t\t WSList.Add(" + tWS.Key + "," + tWS.Value.ToString().ToLower() + ");\n";
+            }
+
             tConstantsFile += "//Environments restaure\n";
             // Select the build environnement
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
@@ -114,7 +133,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.SaltEnd = \"" + this.ProdEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SaltFrequency = " + this.ProdEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHTTPS = \"" + this.ProdEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
-                                                                "\t\t\t#if UNITY_EDITOR\n" +
+            "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.ProdEnvironment.SaltServer = \"" + this.ProdEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHost = \"" + this.ProdEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerUser = \"" + this.ProdEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
@@ -196,12 +215,82 @@ namespace NetWorkedData
             "\n" +
             "\t\t\t// Restaure languages \n" +
             "\t\t\tthis.DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";\n" +
+            "\t\t\tRestaureStepTwo();\n" +
             "\t\t}\n" +
-            "\t//-------------------------------------------------------------------------------------------------------------\n" +
-            "\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n";
+
+
+
+
+            tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
+                "\t\t\t{\n";
+
+            /*
+            foreach (KeyValuePair<int, bool> tWS in WSList)
+            {
+                
+            }
+            foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkCSVAssemblyOrderArray)
+            {
+                tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
+                foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                {
+                    tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
+                }
+            }
+            foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkSLQAssemblyOrderArray)
+            {
+                tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
+                foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                {
+                    tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
+                }
+            }
+
+
+            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
+            {
+                tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
+                foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value)
+                {
+                    tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue + "\");\n";
+                }
+            }
+
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityOrder)
+            {
+                tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
+                foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                {
+                    tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                }
+            }
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder)
+            {
+                tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
+                foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                {
+                    tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                }
+            }
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkDataAssemblyPropertiesList)
+            {
+                tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
+                foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                {
+                    tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
+                }
+            }
+            */
+
+            tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n";
+
+            tConstantsFile += "\t}\n" +
             "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
             "}\n" +
             "//=====================================================================================================================\n";
+
 
             // File.WriteAllText(tEngineRootFolder + "/NWDConfigurations.cs", tConstantsFile);
             // force to import this file by Unity3D

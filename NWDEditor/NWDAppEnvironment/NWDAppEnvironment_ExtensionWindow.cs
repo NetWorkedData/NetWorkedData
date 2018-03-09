@@ -38,8 +38,13 @@ namespace NetWorkedData
 		{
 			// TODO use NWDConstants for these strings
 			// TODO use GUI without layout
-			EditorGUILayout.BeginVertical (GUILayout.Width(300.0f));
+
 			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connection with server", MessageType.None);
+
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+
 			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
 			AppName = EditorGUILayout.TextField ("AppName", AppName);
 			EditorGUILayout.TextField ("Security of Datas"+ Environment, EditorStyles.boldLabel);
@@ -51,11 +56,32 @@ namespace NetWorkedData
             SaltServer = EditorGUILayout.TextField("Salt server", SaltServer);
 			SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
 			EditorGUILayout.TextField ("Server Params for "+ Environment, EditorStyles.boldLabel);
-			ServerHTTPS = EditorGUILayout.TextField ("Server (https://…)", ServerHTTPS);
-			ServerHost = EditorGUILayout.TextField ("MySQL Host", ServerHost);
-			ServerUser = EditorGUILayout.TextField ("MySQL user", ServerUser);
-			ServerPassword = EditorGUILayout.TextField ("MySQL password", ServerPassword);
-			ServerBase = EditorGUILayout.TextField ("MySQL base", ServerBase);
+            ServerHTTPS = EditorGUILayout.TextField ("Server (https://…)", ServerHTTPS);
+            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
+     
+            ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
+            ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
+            ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
+            ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
+
+            EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+
+            Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
+
+            foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
+            {
+                tWSList.Add(tWS.Key, tWS.Value);
+            }
+            foreach (KeyValuePair<int, bool> tWS in tWSList)
+            {
+                bool tV= EditorGUILayout.Toggle("WebService " + tWS.Key.ToString()+" in config", tWS.Value);
+                NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+            }
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+
 			EditorGUILayout.TextField ("Social Params for "+ Environment, EditorStyles.boldLabel);
 			FacebookAppID = EditorGUILayout.TextField ("FacebookAppID", FacebookAppID);
 			FacebookAppSecret = EditorGUILayout.TextField ("FacebookAppSecret", FacebookAppSecret);
@@ -72,7 +98,11 @@ namespace NetWorkedData
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of GameTime", SpeedOfGameTime);
 			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
 			EditorGUILayout.LabelField ("version", NWDVersion.GetVersionForEnvironemt (this), EditorStyles.boldLabel);
+
 			EditorGUILayout.EndVertical();
+
+            EditorGUILayout.EndHorizontal();
+
 			FormatVerification ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

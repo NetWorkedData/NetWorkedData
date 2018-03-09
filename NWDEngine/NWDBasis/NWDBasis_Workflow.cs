@@ -36,12 +36,22 @@ namespace NetWorkedData
         TagOne = 1,
         TagTwo = 2,
 
+        TagFreeOne = 11,
+        TagFreeTwo = 12,
+        TagFreeThree = 13,
+        TagFreeFour = 14,
+        TagFreeFive = 15,
+        TagFreeSix = 16,
+        TagFreeSeven = 17,
+        TagFreeHeight = 18,
+        TagFreeNine = 19,
+        TagFreeTen = 20,
+
         MultipleData = 98,
 
         InError = 99,
 
         GGDontDoThat = 997,
-
         WhatTheFuck = 998,
         MustBeDestroyed = 999,
     }

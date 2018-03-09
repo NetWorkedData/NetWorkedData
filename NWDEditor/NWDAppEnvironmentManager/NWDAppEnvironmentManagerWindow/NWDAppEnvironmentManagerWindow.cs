@@ -48,7 +48,7 @@ namespace NetWorkedData
 		{
 			mTitleKey = "Environments";
 			IconOfWindow = FromGizmos("NWDIcons_03");
-			mDescriptionKey = "Environments Edition, You can add, change, remove the item of your game here. Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.";
+			mDescriptionKey = "Environments Edition";
 			mTabTypeList = new Type[] {
 				typeof(NWDAppEnvironmentManager),
 			};

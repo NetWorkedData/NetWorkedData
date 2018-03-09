@@ -70,23 +70,40 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public string StringValue
-        {
-            get; set;
-        }
-        public bool BoolValue
-        {
-            get; set;
-        }
-        public int IntValue
-        {
-            get; set;
-        }
-        public float FloatValue
-        {
-            get; set;
-        }
+        //public string StringValue
+        //{
+        //    get; set;
+        //}
+        //public bool BoolValue
+        //{
+        //    get; set;
+        //}
+        //public int IntValue
+        //{
+        //    get; set;
+        //}
+        //public float FloatValue
+        //{
+        //    get; set;
+        //}
 
+        [NWDGroupStart("Float consolidate")]
+        public float LastValue
+        {
+            get; set;
+        }
+        public float Total
+        {
+            get; set;
+        }
+        public int Counter
+        {
+            get; set;
+        }
+        public float Average
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -125,8 +142,13 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        public void MyInstanceMethod()
+        public void AddValue( float sValue)
         {
+            LastValue = sValue;
+            Total += sValue;
+            Counter++;
+            Average = Total / (float)Counter;
+            SaveModifications();
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -278,41 +300,41 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats NewIntStat(string sInternalKey, int sInt)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
-            rReturn.InternalKey = sInternalKey;
-            rReturn.IntValue = sInt;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats NewFloatStat(string sInternalKey, float sFloat)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
-            rReturn.InternalKey = sInternalKey;
-            rReturn.FloatValue = sFloat;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats NewBoolStat(string sInternalKey, bool sBool)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
-            rReturn.InternalKey = sInternalKey;
-            rReturn.BoolValue = sBool;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats NewStringStat(string sInternalKey, string sString)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
-            rReturn.InternalKey = sInternalKey;
-            rReturn.StringValue = sString;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
+        //public static NWDUserConsolidatedStats NewIntStat(string sInternalKey, int sInt)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
+        //    rReturn.InternalKey = sInternalKey;
+        //    rReturn.IntValue = sInt;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserConsolidatedStats NewFloatStat(string sInternalKey, float sFloat)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
+        //    rReturn.InternalKey = sInternalKey;
+        //    rReturn.FloatValue = sFloat;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserConsolidatedStats NewBoolStat(string sInternalKey, bool sBool)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
+        //    rReturn.InternalKey = sInternalKey;
+        //    rReturn.BoolValue = sBool;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserConsolidatedStats NewStringStat(string sInternalKey, string sString)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NewObject();
+        //    rReturn.InternalKey = sInternalKey;
+        //    rReturn.StringValue = sString;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats GetStatByInternalKey(string sInternalKey)
         {
@@ -329,61 +351,60 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, int sInt)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.IntValue = sInt;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
+        //public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, int sInt)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.IntValue = sInt;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, float sFloat)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.FloatValue = sFloat;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, float sFloat)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.FloatValue = sFloat;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
+        //public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, bool sBool)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.BoolValue = sBool;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, string sString)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.StringValue = sString;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, bool sBool)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.BoolValue = sBool;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats ModifyStat(string sInternalKey, string sString)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.StringValue = sString;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, int sAddInt)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.IntValue+= sAddInt;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
+        //public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, int sAddInt)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.IntValue+= sAddInt;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, float sAddFloat)
         {
             NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.FloatValue+= sAddFloat;
-            rReturn.SaveModifications();
+            rReturn.AddValue(sAddFloat);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, string sAddString)
-        {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.StringValue+= sAddString;
-            rReturn.SaveModifications();
-            return rReturn;
-        }
+        //public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, string sAddString)
+        //{
+        //    NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.StringValue+= sAddString;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //-------------------------------------------------------------------------------------------------------------

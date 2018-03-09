@@ -59,6 +59,14 @@ namespace NetWorkedData
         [Indexed("EditorIndex", 0)]
         [Indexed("AccountIndex", 0)]
         [NWDNotEditable]
+        public int WebServiceVersion
+        {
+            get; set;
+        }
+        [Indexed("DefaultIndex", 0)]
+        [Indexed("EditorIndex", 0)]
+        [Indexed("AccountIndex", 0)]
+        [NWDNotEditable]
         public string ReferenceVersionned
         {
             get; set;

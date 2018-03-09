@@ -240,6 +240,10 @@ namespace NetWorkedData
             // do something when object will be updated
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void AddonVersionMe(){
+            WebServiceVersion = 0;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMe()
         {
             // do something when object finish to be updated
