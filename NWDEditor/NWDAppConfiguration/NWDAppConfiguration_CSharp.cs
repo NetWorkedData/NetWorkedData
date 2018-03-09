@@ -229,14 +229,14 @@ namespace NetWorkedData
             "\t\t\t// Restaure languages \n" +
             "\t\t\tthis.DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";\n" +
             "\t\t\tRestaureStepTwo();\n" +
+            "\t\t\tRestaureStepThree();\n" +
+            "\t\t\tRestaureStepFour();\n" +
+            "\t\t\tRestaureStepFive();\n" +
+            "\t\t\tRestaureStepSix();\n" +
+            "\t\t\tRestaureStepSeven();\n" +
             "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
 
-
-
-
-            tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
-                "\t\t\t{\n";
 
 
             foreach (KeyValuePair<int, bool> tWS in WSList)
@@ -244,6 +244,9 @@ namespace NetWorkedData
 
             }
 
+
+            tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
+                "\t\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkCSVAssemblyOrderArray)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -258,6 +261,11 @@ namespace NetWorkedData
                     }
                 }
             }
+            tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            "\t\t public void RestaureStepThree() \n" +
+            "\t\t\t{\n";
+
             foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkSLQAssemblyOrderArray)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -272,7 +280,10 @@ namespace NetWorkedData
                     }
                 }
             }
-
+            tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            "\t\t public void RestaureStepFour() \n" +
+            "\t\t\t{\n";
 
             foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
             {
@@ -288,7 +299,10 @@ namespace NetWorkedData
                     }
                 }
             }
-
+            tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            "\t\t public void RestaureStepFive() \n" +
+            "\t\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityOrder)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -303,6 +317,10 @@ namespace NetWorkedData
                     }
                 }
             }
+            tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            "\t\t public void RestaureStepSix() \n" +
+            "\t\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -317,6 +335,10 @@ namespace NetWorkedData
                     }
                 }
             }
+            tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            "\t\t public void RestaureStepSeven() \n" +
+            "\t\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkDataAssemblyPropertiesList)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -331,10 +353,8 @@ namespace NetWorkedData
                     }
                 }
             }
-
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
-
             tConstantsFile += "\t}\n" +
             "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
             "}\n" +
