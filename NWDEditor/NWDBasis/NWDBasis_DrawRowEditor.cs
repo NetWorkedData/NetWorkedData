@@ -115,7 +115,7 @@ namespace NetWorkedData
             tStyleRight.alignment = TextAnchor.MiddleRight;
 
 			// prepare text
-			Rect rRectColored = new Rect (sRect.x-5, sRect.y, sRect.width+10, sRect.height);
+			Rect rRectColored = new Rect (sRect.x-5, sRect.y, sRect.width+1024, sRect.height);
             string tString = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
             // to check the versioning active this line
             //tString+= "minversion = '" + MinVersion.ToString()+"'";
@@ -245,7 +245,7 @@ namespace NetWorkedData
 			Rect tRect = GUILayoutUtility.GetLastRect ();
 			// determine rect to select and draw
 			Rect rRect = new Rect (tRect.x, tRect.y-5, tWidthUsed, kRowHeight+5);
-			Rect rRectColored = new Rect (tRect.x-5, tRect.y-5, tWidthUsed+10, kRowHeight+5);
+			Rect rRectColored = new Rect (tRect.x-5, tRect.y-5, tWidthUsed+1024, kRowHeight+5);
 			// determine rect to analyze
 			Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, tWidthUsed, kRowHeight+10);
 			// check click in rect
@@ -271,7 +271,7 @@ namespace NetWorkedData
 			// draw informations
 			RowInformation (rRect);
 			// draw line to delimit the rect
-			tRect = new Rect (tRect.x-kRowOutMarge, tRect.y+kRowHeight, tWidthUsed, kRowLineStroke);
+			tRect = new Rect (tRect.x-kRowOutMarge, tRect.y+kRowHeight, tWidthUsed+1024, kRowLineStroke);
 			EditorGUI.DrawRect (tRect, kRowColorLine);
 			// finish line
 			GUILayout.EndHorizontal ();

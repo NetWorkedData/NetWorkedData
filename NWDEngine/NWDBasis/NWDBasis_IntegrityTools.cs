@@ -90,8 +90,15 @@ namespace NetWorkedData
         public bool TestIntegrity()
         {
             bool rReturn = false;
-            // test integrity
-            if (Integrity == IntegrityValue())
+            if (NWDAppConfiguration.SharedInstance().RowDataIntegrity == true)
+            {
+                // test integrity
+                if (Integrity == IntegrityValue())
+                {
+                    rReturn = true;
+                }
+            }
+            else
             {
                 rReturn = true;
             }

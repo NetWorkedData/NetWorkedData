@@ -141,7 +141,7 @@ namespace NetWorkedData
                 rReturn.Insert(3, "DevSync");
                 rReturn.Insert(4, "PreprodSync");
                 rReturn.Insert(5, "ProdSync");
-                //rReturn.Insert(6, "WebServiceVersion");
+                //rReturn.Add("WebServiceVersion");
                 rReturn.Add("Integrity");
                 kCSVAssemblyOrderArray[ClassID()] = rReturn.ToArray<string>();
             }
@@ -179,7 +179,7 @@ namespace NetWorkedData
                 rReturn.Insert(2, "DevSync");
                 rReturn.Insert(3, "PreprodSync");
                 rReturn.Insert(4, "ProdSync");
-                //rReturn.Insert(5, "WebServiceVersion");
+                //rReturn.Add("WebServiceVersion");
                 rReturn.Add("Integrity");
                 kSLQAssemblyOrderArray[ClassID()] = rReturn.ToArray<string>();
             }
@@ -218,7 +218,7 @@ namespace NetWorkedData
                 rReturn.Insert(3, "DevSync");
                 rReturn.Insert(4, "PreprodSync");
                 rReturn.Insert(5, "ProdSync");
-                //rReturn.Insert(6, "WebServiceVersion");
+                //rReturn.Add("WebServiceVersion");
                 rReturn.Add("Integrity");
                 kSLQAssemblyOrder[ClassID()] = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
             }
@@ -254,12 +254,13 @@ namespace NetWorkedData
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
                 rReturn.Insert(1, "DM");
-                //rReturn.Insert(2, "WebServiceVersion");
+                //rReturn.Add("WebServiceVersion");
                 kSLQIntegrityOrder[ClassID()] = rReturn;
             }
             return kSLQIntegrityOrder[ClassID()];
         }
 
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, List<string>> kSLQIntegrityServerOrder = new Dictionary<string, List<string>>();
         //-------------------------------------------------------------------------------------------------------------
@@ -282,6 +283,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                //rReturn.Remove("WebServiceVersion");
 
                 // I remove this to be able to trash and untrash object without break server integrity (perhaps bad solution ?)
                 rReturn.Remove("DM");
@@ -301,6 +303,7 @@ namespace NetWorkedData
             }
             return kSLQIntegrityServerOrder[ClassID()];
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, List<string>> kDataAssemblyPropertiesList = new Dictionary<string, List<string>>();
 
@@ -325,6 +328,9 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");// not include in integrity
                 rReturn.Remove("PreprodSync");// not include in integrity
                 rReturn.Remove("ProdSync");// not include in integrity
+                rReturn.Remove("ProdSync");// not include in integrity
+                //rReturn.Remove("WebServiceVersion");
+                //rReturn.Add("WebServiceVersion");
                 kDataAssemblyPropertiesList[ClassID()] = rReturn;
             }
             return kDataAssemblyPropertiesList[ClassID()];
@@ -464,6 +470,21 @@ namespace NetWorkedData
             string rReturn = "";
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
+
+            // todo get the good version of assembly 
+            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+            int tLastWebService = -1;
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
+            {
+                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+                {
+                    if (tKeyValue.Value.ContainsKey(ClassID()))
+                    {
+                        tPropertiesList = tKeyValue.Value[ClassID()];
+                    }
+                }
+            }
+
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -514,6 +535,8 @@ namespace NetWorkedData
                 DevSync + NWDConstants.kStandardSeparator +
                 PreprodSync + NWDConstants.kStandardSeparator +
                 ProdSync + NWDConstants.kStandardSeparator +
+                // Todo Add WebServiceVersion ?
+                //WebServiceVersion + NWDConstants.kStandardSeparator +
                 rReturn +
                 Integrity;
             }
@@ -539,24 +562,24 @@ namespace NetWorkedData
         //public static Dictionary<int, Dictionary<string, string>> kWebBuildkSLQAssemblyOrder = new Dictionary<int, Dictionary<string, string>>();
 
         //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityOrder = new Dictionary<int, Dictionary<string, List<string>>>();
-       
+
         //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();
 
         //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();
 
-
+#if UNITY_EDITOR
         public static void PrepareOrders()
         {
-            NWDAppConfiguration tApp =  NWDAppConfiguration.SharedInstance();
+            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
 
 
             // TODO test old version is diffeerent from new version of data
             string tLastRegister = "";
             int tLast = 0;
-            foreach (KeyValuePair<int,Dictionary<string,string>> tPair in tApp.kWebBuildkSLQAssemblyOrder)
+            foreach (KeyValuePair<int, Dictionary<string, string>> tPair in tApp.kWebBuildkSLQAssemblyOrder)
             {
-                if (tLast<tPair.Key)
+                if (tLast < tPair.Key)
                 {
                     tLast = tPair.Key;
                     if (tPair.Value.ContainsKey(ClassID()))
@@ -636,6 +659,7 @@ namespace NetWorkedData
                 //Debug.Log(ClassID() + " doesn't be updated for webservice " + tWebBuild.ToString() + " ... Keep cool");
             }
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
 }

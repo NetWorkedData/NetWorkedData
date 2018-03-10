@@ -31,6 +31,22 @@ namespace NetWorkedData
 			{
 				tProd = true;
 			}
+            // buildtiestamp update ?
+            bool tBuild = true;
+            if (EditorUtility.DisplayDialog("Update the build timestamp?", "Be sure to choose ", "NOT UPDATE", "Update"))
+            {
+                tBuild = false;
+            }
+            // update build timestamp
+            if (tBuild == true)
+            {
+                Debug.LogWarning("NWDBuildPreProcess Update the build timestamp in NetWorkedData lib !!!");
+                int tTimeStamp = NWDToolbox.Timestamp();
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
+                NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
+            }
+            // change the build environment 
 			if (tProd == true)
 			{
 				//Debug.Log("NWDBuildPreProcess !!! PRODUCTION BUILD");
@@ -47,7 +63,7 @@ namespace NetWorkedData
 				NWDAppConfiguration.SharedInstance().PreprodEnvironment.Selected = true;
 				NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = false;
 			}
-
+            // update vesion of app build from NWDVersion system
 			NWDVersion.UpdateVersionBundle ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -34,6 +34,15 @@ namespace NetWorkedData
 		public static List<object> ObjectsList = new List<object> ();
 		public static List<string> ObjectsByReferenceList = new List<string> ();
 		public static List<string> ObjectsByKeyList = new List<string> (); // TODO Rename ObjectsByInternalKeyList
+
+
+        // InGame ... Use ObjectsList, the get all filter to account
+        //public static List<object> InGameObjectsList = new List<object>();
+        //public static List<string> InGameObjectsByReference = new List<string>();
+        //public static List<string> InGameObjectsByKey = new List<string>();
+
+
+
 		//-------------------------------------------------------------------------------------------------------------
 		#region Basis finder
 		//-------------------------------------------------------------------------------------------------------------

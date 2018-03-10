@@ -31,11 +31,11 @@ namespace NetWorkedData
         /// <param name="sEnvironment">S environment.</param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
+            Debug.LogWarning("GenerateCSharpFile !!!");
             //string tEngineRootFolder = "Assets";
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
-
             string tConstantsFile = "";
             tConstantsFile += "" +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
@@ -56,6 +56,7 @@ namespace NetWorkedData
             "\t\t{\n" +
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
             "\t\t\tWebBuild = " + WebBuild + ";\n" +
+            "\t\t\tRowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";\n" +
             "\t\t\t//Debug.Log(\"NWDAppConfiguration Restaure Config\");\n" +
             "\t\t\t//Salts regenerate (Calgon© is back :-p )\n";
             foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary)
@@ -78,7 +79,6 @@ namespace NetWorkedData
 
             tConstantsFile += "\t\t\t//WebService regenerate all version of webservice\n";
 
-
             tConstantsFile += "\t\t\t WSList = new Dictionary<int, bool>();\n";
             foreach (KeyValuePair<int, bool> tWS in WSList)
             {
@@ -96,6 +96,13 @@ namespace NetWorkedData
 
                     }
                 }
+            }
+
+
+            tConstantsFile += "\t\t\t TagList = new Dictionary<int, string>();\n";
+            foreach (KeyValuePair<int, string> tTag in TagList)
+            {
+                tConstantsFile += "\t\t\t TagList.Add(" + tTag.Key + ",\"" + tTag.Value + "\");\n";
             }
 
             tConstantsFile += "//Environments restaure\n";
@@ -163,7 +170,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.TwitterAppKey = \"" + this.ProdEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
-            "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp().ToString() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
             //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.ProdEnvironment.FormatVerification ();\n" +
@@ -192,7 +199,7 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.TwitterAppKey = \"" + this.PreprodEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SpeedOfGameTime = " + this.PreprodEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
-            "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp().ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + this.PreprodEnvironment.BuildTimestamp.ToString() + ";\n" +
             //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.PreprodEnvironment.FormatVerification ();\n" +
@@ -220,7 +227,7 @@ namespace NetWorkedData
             // "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SpeedOfGameTime = " + this.DevEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
-            "\t\t\tthis.DevEnvironment.BuildTimestamp = " + NWDToolbox.Timestamp().ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.BuildTimestamp = " + this.DevEnvironment.BuildTimestamp.ToString() + ";\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.DevEnvironment.FormatVerification ();\n" +
@@ -237,13 +244,10 @@ namespace NetWorkedData
             "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
 
-
-
             foreach (KeyValuePair<int, bool> tWS in WSList)
             {
 
             }
-
 
             tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
                 "\t\t\t{\n";
@@ -320,7 +324,9 @@ namespace NetWorkedData
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepSix() \n" +
-            "\t\t\t{\n";
+            "\t\t\t{\n" +
+            "\t\t\t\t#if UNITY_EDITOR\n" +
+            "";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -335,7 +341,9 @@ namespace NetWorkedData
                     }
                 }
             }
-            tConstantsFile += "\t\t}\n" +
+            tConstantsFile += "" +
+            "\t\t\t\t#endif\n" +
+            "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepSeven() \n" +
             "\t\t\t{\n";
@@ -370,6 +378,7 @@ namespace NetWorkedData
             File.WriteAllText(tPath, tConstantsFile);
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tPath);
+            AssetDatabase.Refresh();
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

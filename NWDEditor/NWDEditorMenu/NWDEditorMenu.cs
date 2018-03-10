@@ -345,14 +345,29 @@ namespace NetWorkedData
 		[MenuItem (NWDConstants.K_MENU_LOCAL_CREATE_TABLES, false, 9201)]
 		public static void CreateTables ()
 		{
-			NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_LOCAL_RELOAD_DATAS, false, 9202)]
 		public static void ReloadAllDatas ()
 		{
 			NWDDataManager.SharedInstance().ReloadAllObjects();
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_DATAS, false, 9203)]
+        public static void CleanAllDatas()
+        {
+            NWDDataManager.SharedInstance().CleanAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_RESET_DATAS, false, 9204)]
+        public static void ResetAllDatas()
+        {
+            NWDDataManager.SharedInstance().ResetAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 	}
 }

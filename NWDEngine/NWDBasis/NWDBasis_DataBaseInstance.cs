@@ -412,7 +412,41 @@ namespace NetWorkedData
 				AddObjectInListOfEdition (this);
 			}
 			return tReturn;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Update this instance. Change a lot of states of instance and write in database. 
+        /// Object is not synchronized, integrity changed, ...
+        /// </summary>
+        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
+        public void UpdateMeAndWebVersion(bool sAutoDate = true, bool sWebServiceUpgrade = true)
+        {
+            Debug.Log("UpdateMeAndWebVersion  " + Reference + " with/without DM (" + sAutoDate.ToString() + ") and integrity reval web service version = " + WebServiceVersion);
+            this.AddonUpdateMe(); // call override method
+                                  // so object is prepared to be update
+            if (sAutoDate == true)
+            {
+                this.DM = NWDToolbox.Timestamp();
+            }
+            //          this.DS = 0;
+            this.DevSync = 0;
+            this.PreprodSync = 0;
+            this.ProdSync = 0;
+            this.ServerHash = "";
+            if (sWebServiceUpgrade == true)
+            {
+                this.WebServiceVersion = NWDAppConfiguration.SharedInstance().WebBuild;
+            }
+            this.AddonVersionMe(); // call override method
+
+            this.UpdateIntegrity();
+            NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
+            // object was updated
+            this.AddonUpdatedMe(); // call override method
+                                   // I have one or more uploaded datas to synchronize;
+            NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
+            //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update this instance. Change a lot of states of instance and write in database. 
@@ -421,7 +455,7 @@ namespace NetWorkedData
 		/// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
 		public void UpdateMe (bool sAutoDate = true)
 		{
-			//Debug.Log ("UpdateMe  " + Reference + " with/without DM ("+sAutoDate.ToString()+") and integrity reval");
+            //Debug.Log ("UpdateMe  " + Reference + " with/without DM ("+sAutoDate.ToString()+") and integrity reval web service version = " + WebServiceVersion);
 			this.AddonUpdateMe (); // call override method
 			// so object is prepared to be update
 			if (sAutoDate == true) {

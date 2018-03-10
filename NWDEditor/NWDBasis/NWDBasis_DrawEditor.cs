@@ -998,7 +998,7 @@ namespace NetWorkedData
             //GUI.SetNextControlName(NWDConstants.K_CLASS_FOCUS_ID);
             //			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
             string tTitle = InternalKey;
-            if (tTitle == "")
+            if (string.IsNullOrEmpty(tTitle))
             {
                 tTitle = "Unamed " + ClassNamePHP() + "";
                 //				tTitle = ClassNamePHP () + "'s Object";
@@ -1304,7 +1304,47 @@ namespace NetWorkedData
             }
 
 
-            NWDBasisTag tInternalTag = (NWDBasisTag)EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_TAG, (NWDBasisTag)Tag);
+            // Web Service Version management
+            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+            int tWebBuilt = tApp.WebBuild;
+            List<int> tWebServicesInt = new List<int>();
+            List<string> tWebServicesString = new List<string>();
+            //foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
+            for (int tW = 0; tW <= tWebBuilt; tW++)
+            {
+                tWebServicesInt.Add(tW);
+                tWebServicesString.Add("WebService "+tW.ToString());
+            }
+            int tWebServiceVersionIndex = EditorGUI.IntPopup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Web service version", WebServiceVersion ,tWebServicesString.ToArray(),  tWebServicesInt.ToArray());
+            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+          
+            if (WebServiceVersion != tWebServiceVersionIndex)
+            {
+                WebServiceVersion = tWebServiceVersionIndex; 
+                DM = NWDToolbox.Timestamp();
+                UpdateIntegrity();
+                UpdateObjectInListOfEdition(this);
+                UpdateMeAndWebVersion(true, false);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                NWDNodeEditor.UpdateNodeWindow(this);
+            }
+
+
+
+
+            // Tag management
+            List<int> tTagIntList = new List<int>();
+            List<string> tTagStringList = new List<string>();
+            foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
+            {
+                tTagIntList.Add(tTag.Key);
+                tTagStringList.Add(tTag.Value);
+            }
+
+            NWDBasisTag tInternalTag = (NWDBasisTag)EditorGUI.IntPopup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+                                                                        NWDConstants.K_APP_BASIS_INTERNAL_TAG,
+                                                                       (int)Tag,
+                                                                       tTagStringList.ToArray(),tTagIntList.ToArray());
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
             if ((int)tInternalTag != Tag)
             {

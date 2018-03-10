@@ -35,25 +35,24 @@ namespace NetWorkedData
         TagZero = 0,
         TagOne = 1,
         TagTwo = 2,
-
-        TagFreeOne = 11,
-        TagFreeTwo = 12,
-        TagFreeThree = 13,
-        TagFreeFour = 14,
-        TagFreeFive = 15,
-        TagFreeSix = 16,
-        TagFreeSeven = 17,
-        TagFreeHeight = 18,
-        TagFreeNine = 19,
-        TagFreeTen = 20,
-
-        MultipleData = 98,
-
-        InError = 99,
-
-        GGDontDoThat = 997,
-        WhatTheFuck = 998,
-        MustBeDestroyed = 999,
+        TagThree = 3,
+        TagFour = 4,
+        TagFive = 5,
+        TagSix = 6,
+        TagSeven = 7,
+        TagHeight = 8,
+        TagNine = 9,
+        TagTen = 10,
+        TagEleven = 11,
+        TagTwelve = 12,
+        TagThirteen = 13,
+        TagFourteen = 14,
+        TagFifteen = 15,
+        TagSixteen = 16,
+        TagSeventeen = 17,
+        TagHeighteen = 18,
+        TagNineteen = 19,
+        TagTwenty = 20,
     }
     //-------------------------------------------------------------------------------------------------------------
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()

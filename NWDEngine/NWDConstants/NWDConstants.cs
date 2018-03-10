@@ -138,10 +138,10 @@ namespace NetWorkedData
 
         public const string K_MENU_LOCAL_CREATE_TABLES = K_MENU_BASE + K_MENU_LOCAL + "/Create all tables on local";
         public const string K_MENU_LOCAL_RELOAD_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Reload local datas on local";
+        public const string K_MENU_LOCAL_CLEAN_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Clean all tables datas on local";
+        public const string K_MENU_LOCAL_RESET_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Reset all tables datas on local";
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
-
-
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Reference";
@@ -271,8 +271,8 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";
         public const string K_APP_TABLE_SEARCH_REFERENCE = "Reference";
         public const string K_APP_TABLE_SEARCH_NAME = "Internal name";
-        public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Intername description";
-        public const string K_APP_TABLE_SEARCH_TAG = "Intername tag";
+        public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal description";
+        public const string K_APP_TABLE_SEARCH_TAG = "Internal tag";
         public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = "Remove filter";
         public const string K_APP_TABLE_SEARCH_FILTER = "Filter";
         public const string K_APP_TABLE_SEARCH_SORT = "Sort by name";

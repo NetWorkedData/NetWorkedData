@@ -214,6 +214,18 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                 }
             }
+                }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ResetAllTablesLocal()
+        {
+            foreach (Type tType in mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, null);
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

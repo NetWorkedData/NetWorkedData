@@ -57,26 +57,11 @@ namespace NetWorkedData
 			SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
 			EditorGUILayout.TextField ("Server Params for "+ Environment, EditorStyles.boldLabel);
             ServerHTTPS = EditorGUILayout.TextField ("Server (https://…)", ServerHTTPS);
-            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
-     
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
 
-            EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
-
-            Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
-
-            foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
-            {
-                tWSList.Add(tWS.Key, tWS.Value);
-            }
-            foreach (KeyValuePair<int, bool> tWS in tWSList)
-            {
-                bool tV= EditorGUILayout.Toggle("WebService " + tWS.Key.ToString()+" in config", tWS.Value);
-                NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
-            }
 
             EditorGUILayout.EndVertical();
 
@@ -101,6 +86,64 @@ namespace NetWorkedData
 
 			EditorGUILayout.EndVertical();
 
+            EditorGUILayout.EndHorizontal();
+
+
+
+
+            EditorGUILayout.HelpBox("Webservice app config (all environements)", MessageType.None);
+
+            EditorGUILayout.LabelField("Webservice app config (all environements)", EditorStyles.boldLabel);
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+
+            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
+            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
+
+            EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+            Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
+
+            foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
+            {
+                tWSList.Add(tWS.Key, tWS.Value);
+            }
+            foreach (KeyValuePair<int, bool> tWS in tWSList)
+            {
+                bool tV = EditorGUILayout.Toggle("WebService " + tWS.Key.ToString() + " in config", tWS.Value);
+                NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+            }
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+
+
+
+
+
+            EditorGUILayout.LabelField("Tag managment (all environements)", EditorStyles.boldLabel);
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+
+            NWDAppConfiguration.SharedInstance().TagList[-1] = "No Tag";
+
+            Dictionary<int, string> tTagList = new Dictionary<int, string>(NWDAppConfiguration.SharedInstance().TagList);
+            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
+            {
+                if (NWDAppConfiguration.SharedInstance().TagList.ContainsKey(tI) == false )
+                {
+                    NWDAppConfiguration.SharedInstance().TagList.Add(tI, "tag " + tI.ToString());
+                }
+                EditorGUI.BeginDisabledGroup(tI < 0);
+                string tV = EditorGUILayout.TextField("tag " + tI.ToString(), NWDAppConfiguration.SharedInstance().TagList[tI]);
+                tTagList[tI] = tV.Replace("\"", "`");
+                EditorGUI.EndDisabledGroup();
+            }
+            NWDAppConfiguration.SharedInstance().TagList = tTagList;
+            EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
 
 			FormatVerification ();

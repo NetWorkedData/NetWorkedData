@@ -314,18 +314,18 @@ namespace NetWorkedData
                         {
                             if ((int)sTag >= 0)
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => 
-                                                                          x.Reference.Contains(sReference) 
-                                                                          && x.InternalKey.Contains(sInternalKey) 
-                                                                          && x.InternalDescription.Contains(sInternalDescription) 
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                          x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
                                                                           && x.Tag.Equals((int)sTag)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
                             else
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => 
-                                                                          x.Reference.Contains(sReference) 
-                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                          x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
@@ -334,16 +334,16 @@ namespace NetWorkedData
                         {
                             if ((int)sTag >= 0)
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => 
-                                                                          x.Reference.Contains(sReference) 
-                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                          x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
                                                                           && x.Tag.Equals((int)sTag)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
                             else
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
-                                                                          && x.InternalKey.Contains(sInternalKey) 
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
                         }
@@ -354,14 +354,14 @@ namespace NetWorkedData
                         {
                             if ((int)sTag >= 0)
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
-                                                                          && x.InternalDescription.Contains(sInternalDescription) 
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
                                                                           && x.Tag.Equals((int)sTag)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
                             else
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)  
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
@@ -370,13 +370,13 @@ namespace NetWorkedData
                         {
                             if ((int)sTag >= 0)
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                           && x.Tag.Equals((int)sTag)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
                             else
                             {
-                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference) 
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                          ).OrderBy(x => x.InternalKey);
                             }
                         }
@@ -512,17 +512,50 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AddObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … AddObjectInListOfManagment
         {
-            if (ObjectsList.Contains(sObject) == false)
-            {
-                sObject.AddonLoadedMe();
-                ObjectsList.Add(sObject);
-                ObjectsByReferenceList.Add(sObject.Reference);
-                ObjectsByKeyList.Add(sObject.InternalKey);
+            // test object validity (integer or corrupt)
+            bool tObjectIsValid = sObject.TestIntegrity();
+            //if (tObjectIsValid == true)
+            //{
+            //    if (ObjectsList.Contains(sObject) == false)
+            //    {
+            //        // launch method specific on load object
+            //        sObject.AddonLoadedMe();
+            //        if (sObject.IsTrashed() == false)
+            //        {
+            //            if (sObject.IsReacheableByAccount())
+            //            {
+            //                InGameObjectsList.Add(sObject);
+            //                InGameObjectsByReference.Add(sObject.Reference);
+            //                InGameObjectsByKey.Add(sObject.InternalKey);
+            //            }
+            //        }
+            //    }
+            //}
+
+
 #if UNITY_EDITOR
-                ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
-                ObjectsInEditorTableList.Add(sObject.Reference);
-                ObjectsInEditorTableSelectionList.Add(false);
+            // override the insertion for unity editor
+            tObjectIsValid = true;
 #endif
+            // if integrity is ok insert in ObjectsList
+            if (tObjectIsValid == true)
+            {
+                if (ObjectsList.Contains(sObject) == false)
+                {
+                    // launch method specific on load object
+                    sObject.AddonLoadedMe();
+
+                    // add object in lists 
+                    ObjectsList.Add(sObject);
+                    ObjectsByReferenceList.Add(sObject.Reference);
+                    ObjectsByKeyList.Add(sObject.InternalKey);
+#if UNITY_EDITOR
+                    // add load object in editor table
+                    ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+                    ObjectsInEditorTableList.Add(sObject.Reference);
+                    ObjectsInEditorTableSelectionList.Add(false);
+#endif
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -531,6 +564,11 @@ namespace NetWorkedData
             if (ObjectsList.Contains(sObject) == true)
             {
                 sObject.AddonUnloadMe();
+                //int tIndexInGame = InGameObjectsList.IndexOf(sObject);
+                //InGameObjectsList.RemoveAt(tIndexInGame);
+                //InGameObjectsByReference.RemoveAt(tIndexInGame);
+                //InGameObjectsByKey.RemoveAt(tIndexInGame);
+
                 int tIndex = ObjectsList.IndexOf(sObject);
                 ObjectsList.RemoveAt(tIndex);
                 ObjectsByReferenceList.RemoveAt(tIndex);
@@ -547,8 +585,17 @@ namespace NetWorkedData
         {
             if (ObjectsList.Contains(sObject) == true)
             {
+
+                //int tIndexInGame = InGameObjectsList.IndexOf(sObject);
+                //// InGameObjectsList doesn't change
+                //InGameObjectsList.RemoveAt(tIndexInGame);
+                //InGameObjectsList.Insert(tIndexInGame, sObject.Reference);
+                //InGameObjectsByKey.RemoveAt(tIndexInGame);
+                //InGameObjectsByKey.Insert(tIndexInGame, sObject.InternalKey);
+
+
                 int tIndex = ObjectsList.IndexOf(sObject);
-                // ObjectsList don't change
+                // ObjectsList doesn't change
                 ObjectsByReferenceList.RemoveAt(tIndex);
                 ObjectsByReferenceList.Insert(tIndex, sObject.Reference);
                 ObjectsByKeyList.RemoveAt(tIndex);
@@ -583,11 +630,16 @@ namespace NetWorkedData
             //TODO Add restriction of AccountReference is AccountReference Exist
 #endif
 
+            //InGameObjectsList = new List<object>();
+            //InGameObjectsByReference = new List<string>();
+            //InGameObjectsByKey = new List<string>();
+
             ObjectsList = new List<object>();
             ObjectsByReferenceList = new List<string>();
             ObjectsByKeyList = new List<string>();
 
 #if UNITY_EDITOR
+
             ObjectsInEditorTableKeyList = new List<string>();
             ObjectsInEditorTableSelectionList = new List<bool>();
             ObjectsInEditorTableList = new List<string>();

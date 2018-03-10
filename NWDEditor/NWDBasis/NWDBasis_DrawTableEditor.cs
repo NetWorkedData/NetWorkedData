@@ -174,7 +174,22 @@ namespace NetWorkedData
             m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
             m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, m_SearchInternalName, GUILayout.Width(300));
             m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, m_SearchInternalDescription, GUILayout.Width(300));
-            m_SearchTag = (NWDBasisTag)EditorGUILayout.EnumPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG, m_SearchTag, GUILayout.Width(300));
+           
+
+
+
+            List<int> tTagIntList = new List<int>();
+            List<string> tTagStringList = new List<string>();
+            foreach (KeyValuePair<int, string> tTag in NWDAppConfiguration.SharedInstance().TagList)
+            {
+                tTagIntList.Add(tTag.Key);
+                tTagStringList.Add(tTag.Value);
+            }
+
+            m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
+                                                                (int)m_SearchTag,tTagStringList.ToArray(),
+                                                                tTagIntList.ToArray(),
+                                                                GUILayout.Width(300));
 
 
             // |||||||||||||||||||||||||||||||||||||||||||
