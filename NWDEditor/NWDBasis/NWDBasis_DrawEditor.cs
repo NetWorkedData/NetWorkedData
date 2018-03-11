@@ -1136,11 +1136,11 @@ namespace NetWorkedData
 
             DrawPreviewTexture2D(new Rect(NWDConstants.kFieldMarge, tY +tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth));
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL))
-            {
-                NWDNodeEditor.SetObjectInNodeWindow(this);
-            }
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL))
+            //{
+            //    NWDNodeEditor.SetObjectInNodeWindow(this);
+            //}
+            //tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             //			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), ClassNamePHP() + "'s Object", tBoldLabelStyle);
@@ -1358,8 +1358,11 @@ namespace NetWorkedData
             }
 
 
-
-            float tBottomHeight = tBoldLabelStyle.fixedHeight * 2 + tMiniButtonStyle.fixedHeight * 3 + tLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 7;
+            //  Action Zone + Warning Zone Height
+            float tBottomHeight = tBoldLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3
+                                  + tMiniButtonStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3
+                                  //+ tLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 2
+                                                 ;
 
             Rect tRectProperty = new Rect(0, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
             EditorGUI.DrawRect(tRectProperty, kPropertyColor);
@@ -1380,27 +1383,24 @@ namespace NetWorkedData
             EditorGUI.DrawRect(new Rect(tX, tY + 1, tWidth, tBottomHeight), kIdentityColor);
 
 
-            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, tBoldLabelStyle);
-            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            // Prepare Action and Warning zone 
+
+            tY += NWDConstants.kFieldMarge; // Add marge 
 
             float tButtonWidth = (tWidth - (NWDConstants.kFieldMarge * 3)) / 4.0f;
 
 
-            Color tOldColor = GUI.backgroundColor;
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 
-            if (GUI.Button(new Rect(tX, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, tMiniButtonStyle))
+            // Action Zone
+            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ACTION_ZONE, tBoldLabelStyle);
+            tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+            if (GUI.Button(new Rect(tX, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL, tMiniButtonStyle))
             {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
-                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
-                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
-                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
-                {
-                    TrashMe();
-                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-                }
+                NWDNodeEditor.SetObjectInNodeWindow(this);
             }
-            GUI.backgroundColor = tOldColor;
 
             if (GUI.Button(new Rect(tX + tButtonWidth + NWDConstants.kFieldMarge, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle))
             {
@@ -1446,12 +1446,33 @@ namespace NetWorkedData
 
             EditorGUI.EndDisabledGroup();
 
+
+
+            // Warning Zone
+
+
+
+
             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_WARNING_ZONE, tBoldLabelStyle);
-            tOldColor = GUI.backgroundColor;
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle))
+            Color tOldColor = GUI.backgroundColor;
+            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+
+            if (GUI.Button(new Rect(tX, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, tMiniButtonStyle))
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_PUT_IN_TRASH_WARNING,
+                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_MESSAGE,
+                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
+                        NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
+                {
+                    TrashMe();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                }
+            }
+
+
+            if (GUI.Button(new Rect(tX+ tButtonWidth * 2 + NWDConstants.kFieldMarge * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_DELETE_WARNING,
                         NWDConstants.K_APP_BASIS_DELETE_MESSAGE,
@@ -1466,8 +1487,8 @@ namespace NetWorkedData
                     NWDNodeEditor.ReAnalyzeIfNecessary(this);
                 }
             }
-            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_NEW_REFERENCE, tMiniButtonStyle))
+            //tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX + tButtonWidth * 3 + NWDConstants.kFieldMarge *3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_NEW_REFERENCE, tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
                         NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,
@@ -1480,11 +1501,11 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             GUI.backgroundColor = tOldColor;
 
-
-            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_VALUE, Integrity, tLabelStyle);
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_VALUE + " new", IntegrityValue(), tLabelStyle);
-            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //TODO Comment this line to hide the intergrity value 
+            //EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_VALUE, Integrity, tLabelStyle);
+            //tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //EditorGUI.LabelField(new Rect(tX, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_VALUE + " new", IntegrityValue(), tLabelStyle);
+            //tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
         }
         //-------------------------------------------------------------------------------------------------------------

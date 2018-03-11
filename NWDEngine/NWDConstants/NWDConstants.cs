@@ -90,7 +90,7 @@ namespace NetWorkedData
         public const string K_MENU_IDEMOBI = K_MENU_BASE + "Developed by ideMobi";
         public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Editor preferences";
         public const string K_MENU_EDITOR_NODAL = K_MENU_BASE + "Editor Nodal";
-        public const string K_BUTTON_EDITOR_NODAL = "Editor Nodal";
+        public const string K_BUTTON_EDITOR_NODAL = "Nodal view";
         public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Create New NWDBasis Class";
         public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Create New Window NWD management";
 
@@ -229,13 +229,13 @@ namespace NetWorkedData
         public const string K_APP_BASIS_PUT_IN_TRASH_CANCEL = "Cancel";
 
         public const string K_APP_BASIS_WARNING_ZONE = "WARNING ZONE";
-        public const string K_APP_BASIS_DELETE = "Delete on local database";
+        public const string K_APP_BASIS_DELETE = "Local delete";
         public const string K_APP_BASIS_DELETE_WARNING = "Warning";
         public const string K_APP_BASIS_DELETE_MESSAGE = "Do you want to delete this object?";
         public const string K_APP_BASIS_DELETE_OK = "Delete it";
         public const string K_APP_BASIS_DELETE_CANCEL = "Cancel";
 
-        public const string K_APP_BASIS_NEW_REFERENCE = "Regenerate Reference";
+        public const string K_APP_BASIS_NEW_REFERENCE = "New reference";
         public const string K_APP_BASIS_NEW_REFERENCE_WARNING = "Warning";
         public const string K_APP_BASIS_NEW_REFERENCE_MESSAGE = "Do you want to change the reference of this object?";
         public const string K_APP_BASIS_NEW_REFERENCE_OK = "Change it's reference";
@@ -351,6 +351,7 @@ namespace NetWorkedData
         public const string K_EDITOR_NODE_GROUP_PROPERTIES = "Group properties";
         public const string K_EDITOR_NODE_ANALYZE_NONE = "Analyze nothing";
         public const string K_EDITOR_NODE_ANALYZE_ALL = "Analyze everything";
+        public const string K_EDITOR_NODE_SHOW_SELECTED_OBJECT = "Show Selected Object";
         public const string K_EDITOR_NODE_MASK_ALL = "Show nothing";
         public const string K_EDITOR_NODE_SHOW_ALL = "Show everything";
         public const string K_EDITOR_NODE_LIST = "Classes show/analyze/new";

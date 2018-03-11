@@ -986,35 +986,35 @@ namespace NetWorkedData
 
             if (tSyncProd == true)
             {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
-                        NWDConstants.K_SYNC_ALERT_MESSAGE,
-                        NWDConstants.K_SYNC_ALERT_OK,
-                        NWDConstants.K_SYNC_ALERT_CANCEL))
-                {
+                //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                //        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                //        NWDConstants.K_SYNC_ALERT_OK,
+                //        NWDConstants.K_SYNC_ALERT_CANCEL))
+                //{
                     SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                }
+                //}
             }
 
             if (tSyncForceProd == true)
             {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
-                        NWDConstants.K_SYNC_ALERT_MESSAGE,
-                        NWDConstants.K_SYNC_ALERT_OK,
-                        NWDConstants.K_SYNC_ALERT_CANCEL))
-                {
+                //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                //        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                //        NWDConstants.K_SYNC_ALERT_OK,
+                //        NWDConstants.K_SYNC_ALERT_CANCEL))
+                //{
                     SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                }
+                //}
             }
             if (tSyncCleanProd == true)
             {
 
-                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
-                        NWDConstants.K_SYNC_ALERT_MESSAGE,
-                        NWDConstants.K_SYNC_ALERT_OK,
-                        NWDConstants.K_SYNC_ALERT_CANCEL))
-                {
+                //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                //        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                //        NWDConstants.K_SYNC_ALERT_OK,
+                //        NWDConstants.K_SYNC_ALERT_CANCEL))
+                //{
                     SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
-                }
+                //}
             }
 
             if (tCleanLocalTable == true)

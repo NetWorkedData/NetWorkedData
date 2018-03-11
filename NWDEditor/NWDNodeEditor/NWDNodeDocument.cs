@@ -33,7 +33,7 @@ namespace NetWorkedData
         /// <summary>
         /// The height of the marge.
         /// </summary>
-        public float MargeHeight = 200.0F;
+        public float MargeHeight = 300.0F;
         /// <summary>
         /// The width of the marge.
         /// </summary>
@@ -149,6 +149,28 @@ namespace NetWorkedData
             float tWHalf = (MargeWidth - NWDConstants.kFieldMarge * 3) / 2.0f;
             float tW = (MargeWidth - NWDConstants.kFieldMarge * 2);
 
+            // root object zone
+            GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
+                      "Root object", EditorStyles.boldLabel);
+            tY += HeightProperty + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_SHOW_SELECTED_OBJECT, EditorStyles.miniButton))
+            {
+                NWDNodeEditor.SetObjectInNodeWindow((NWDTypeClass)NWDDataInspector.ShareInstance().mObjectInEdition);
+                ReAnalyze();
+            }
+            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
+
+
+
+            // Analyze object zone
+
+            GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
+                      "Analyze object", EditorStyles.boldLabel);
+            tY += HeightProperty + NWDConstants.kFieldMarge;
+
+
+
             if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_SHOW_ALL, EditorStyles.miniButton))
             {
                 Dictionary<string, bool> tClassesCopy = new Dictionary<string, bool>(ShowTheseClasses);
@@ -170,7 +192,7 @@ namespace NetWorkedData
                 ReAnalyze();
             }
 
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
 
 
             if (GUI.Button(new Rect(NWDConstants.kFieldMarge, tY, tWHalf, NWDConstants.kEditWidth), NWDConstants.K_EDITOR_NODE_ANALYZE_ALL, EditorStyles.miniButton))
@@ -193,7 +215,7 @@ namespace NetWorkedData
                 }
                 ReAnalyze();
             }
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
 
             bool tReGroupProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), ReGroupProperties, NWDConstants.K_EDITOR_NODE_GROUP_PROPERTIES);
             if (tReGroupProperties != ReGroupProperties)
@@ -202,7 +224,7 @@ namespace NetWorkedData
                 EditorPrefs.SetBool("NWDEditorGroup", ReGroupProperties);
                 ReAnalyze();
             }
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
 
             bool tUsedOnlyProperties = GUI.Toggle(new Rect(NWDConstants.kFieldMarge, tY, tW, NWDConstants.kEditWidth), UsedOnlyProperties, NWDConstants.K_EDITOR_NODE_ONLY_USED_PROPERTIES);
             if (tUsedOnlyProperties != UsedOnlyProperties)
@@ -211,8 +233,15 @@ namespace NetWorkedData
                 EditorPrefs.SetBool("NWDEditorusedOnly", UsedOnlyProperties);
                 ReAnalyze();
             }
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
 
+
+
+            // Localization Zone
+
+            GUI.Label(new Rect(NWDConstants.kFieldMarge, tY, MargeWidth, HeightProperty),
+                      "Localization test", EditorStyles.boldLabel);
+            tY += HeightProperty + NWDConstants.kFieldMarge;
 
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -230,7 +259,7 @@ namespace NetWorkedData
                 EditorPrefs.SetString("NWDNodeEditorLanguage", Language);
             }
 
-            tY += HeightProperty + NWDConstants.kFieldMarge;
+            tY += NWDConstants.kEditWidth + NWDConstants.kFieldMarge;
 
 
 
