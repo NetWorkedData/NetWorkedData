@@ -63,7 +63,13 @@ namespace NetWorkedData
 
             if (string.IsNullOrEmpty(PlayerAccountReference))
             {
-                ResetSession();
+                //ResetSession();
+                AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
+                AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
+                PlayerAccountReference = AnonymousPlayerAccountReference;
+                RequesToken = "";
+                PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
+                SavePreferences();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
