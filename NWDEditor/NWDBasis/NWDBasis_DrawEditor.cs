@@ -293,7 +293,6 @@ namespace NetWorkedData
                     {
                         if (tDraw == true)
                         {
-
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
@@ -329,8 +328,6 @@ namespace NetWorkedData
                         tReference.Parent = tActualGroupReference;
                         tActualGroupReference = tReference;
                     }
-
-
 
                     if (tDraw)
                     {
@@ -964,6 +961,9 @@ namespace NetWorkedData
             GUIStyle tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
             tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
 
+            GUIStyle tMiniLabelStyleCenter = new GUIStyle(EditorStyles.miniLabel);
+            tMiniLabelStyleCenter.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniLabelStyleCenter.alignment = TextAnchor.MiddleCenter;
 
             GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
             tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), tWidth);
@@ -992,9 +992,7 @@ namespace NetWorkedData
             bool tCanBeEdit = true;
             bool tTestIntegrity = TestIntegrity();
 
-            //
-            //
-            //
+            //Draw Internal Key
             //GUI.SetNextControlName(NWDConstants.K_CLASS_FOCUS_ID);
             //			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
             string tTitle = InternalKey;
@@ -1005,7 +1003,12 @@ namespace NetWorkedData
             }
             GUI.Label(new Rect(tX, tY, tWidth, tTitleLabelStyle.fixedHeight), tTitle, tTitleLabelStyle);
 
+            // Draw reference
+            GUI.Label(new Rect(tX, tY+tTitleLabelStyle.fixedHeight - NWDConstants.kFieldMarge, tWidth, tTitleLabelStyle.fixedHeight), Reference, tMiniLabelStyleCenter);
+
+
             // add button to navigate next / preview
+            // TODO : change < to image
             if (NWDDataInspector.InspectNetWorkedPreview())
             {
                 if (GUI.Button(new Rect(tX, tY + 10, 20, 20), "<"))
@@ -1014,6 +1017,7 @@ namespace NetWorkedData
                 }
             }
 
+            // TODO : change > to image
             if (NWDDataInspector.InspectNetWorkedNext())
             {
                 if (GUI.Button(new Rect(tX + tWidth - 20, tY + 10, 20, 20), ">"))
