@@ -24,7 +24,8 @@ namespace NetWorkedData
             typeof(NWDSetOfQuests),
 			typeof(NWDQuest),
 			typeof(NWDDialog),
-			typeof(NWDCharacter),
+            typeof(NWDCharacter),
+            typeof(NWDAction),
 			typeof(NWDQuestUserAdvancement),
 			/* Add NWDBasis here*/
 		}

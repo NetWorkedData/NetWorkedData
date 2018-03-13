@@ -100,9 +100,15 @@ namespace NetWorkedData
 
 
             tConstantsFile += "\t\t\t TagList = new Dictionary<int, string>();\n";
-            foreach (KeyValuePair<int, string> tTag in TagList)
+            // bug in writing order
+            //foreach (KeyValuePair<int, string> tTag in TagList)
+            //{
+            //    tConstantsFile += "\t\t\t TagList.Add(" + tTag.Key + ",\"" + tTag.Value + "\");\n";
+            //}
+            // write in good order
+            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
             {
-                tConstantsFile += "\t\t\t TagList.Add(" + tTag.Key + ",\"" + tTag.Value + "\");\n";
+                tConstantsFile += "\t\t\t TagList.Add(" + tI + ",\"" + TagList[tI] + "\");\n";
             }
 
             tConstantsFile += "//Environments restaure\n";

@@ -72,6 +72,7 @@ namespace NetWorkedData
 				this.PreprodEnvironment.Selected = false;
 				this.DevEnvironment.Selected = true;
 			}
+
 			// But in unity we bypass the restaure configuration to use the environment selected in the editor's preferences 
 			#if UNITY_EDITOR
 			// reset all environement to false

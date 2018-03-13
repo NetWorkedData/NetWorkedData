@@ -488,43 +488,46 @@ namespace NetWorkedData
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
-                Type tTypeOfThis = tProp.PropertyType;
-
-                // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
-
-                string tValueString = "";
-
-                object tValue = tProp.GetValue(this, null);
-                if (tValue == null)
+                if (tProp != null)
                 {
-                    tValue = "";
-                }
-                tValueString = tValue.ToString();
-                if (tTypeOfThis.IsEnum)
-                {
-                    //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
-                    int tInt = (int)tValue;
-                    tValueString = tInt.ToString();
-                }
-                if (tTypeOfThis == typeof(bool))
-                {
-                    //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
-                    if (tValueString == "False")
+                    Type tTypeOfThis = tProp.PropertyType;
+
+                    // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
+
+                    string tValueString = "";
+
+                    object tValue = tProp.GetValue(this, null);
+                    if (tValue == null)
                     {
-                        tValueString = "0";
+                        tValue = "";
+                    }
+                    tValueString = tValue.ToString();
+                    if (tTypeOfThis.IsEnum)
+                    {
+                        //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
+                        int tInt = (int)tValue;
+                        tValueString = tInt.ToString();
+                    }
+                    if (tTypeOfThis == typeof(bool))
+                    {
+                        //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+                        if (tValueString == "False")
+                        {
+                            tValueString = "0";
+                        }
+                        else
+                        {
+                            tValueString = "1";
+                        }
+                    }
+                    if (sAsssemblyAsCSV == true)
+                    {
+                        rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
                     }
                     else
                     {
-                        tValueString = "1";
+                        rReturn += NWDToolbox.TextCSVProtect(tValueString);
                     }
-                }
-                if (sAsssemblyAsCSV == true)
-                {
-                    rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
-                }
-                else
-                {
-                    rReturn += NWDToolbox.TextCSVProtect(tValueString);
                 }
             }
             if (sAsssemblyAsCSV == true)
