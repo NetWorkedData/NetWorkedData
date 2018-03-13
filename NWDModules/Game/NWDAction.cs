@@ -43,7 +43,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Action by notification")]
     [NWDClassMenuNameAttribute("Action")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    [NWDInternalKeyNotEditable]
+    //[NWDInternalKeyNotEditable]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -61,10 +61,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //PROPERTIES
-		public string ActionName {get; set;}
-
+  //      [NWDTooltips("The name of message post to all observer objects. Example 'Raining', 'Start Quest Music', etc.")]
+		//public string ActionName {get; set;}
+        [NWDGroupStart("Optional", true, true, false)]
+        [NWDTooltips("An additional message, it's optional and not used in standard process.")]
+        public string Message {get; set;}
+        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
+        public string ParamOne {get; set;}
+        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
+        public string ParamTwo { get; set; }
+        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
+        public string ParamThree { get; set;}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -103,9 +110,20 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        public void SendAction()
+        public void PostNotification()
         {
-            BTBNotificationManager.SharedInstance().PostNotification(this, ActionName);
+            //BTBNotificationManager.SharedInstance().PostNotification(this, ActionName);
+            BTBNotificationManager.SharedInstance().PostNotification(this, Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void TrackBy(object sWhich, BTBNotificationBlock sBlockToUse)
+        {
+            BTBNotificationManager.SharedInstance().AddObserver(sWhich, Reference, sBlockToUse);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void UnTrackBy(object sWhich)
+        {
+            BTBNotificationManager.SharedInstance().RemoveObserverForSender(sWhich, Reference, this);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -144,7 +162,10 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
-            InternalKey = ActionName;
+            Debug.Log("NWDAction AddonUpdateMe()");
+           // InternalKey = ActionName;
+            // update the name in edition list
+            //UpdateObjectInListOfEdition(this);
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -154,6 +175,9 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdatedMe()
         {
+            Debug.Log("NWDAction AddonUpdatedMe()");
+            // update the name in edition list
+           //UpdateObjectInListOfEdition(this);
             // do something when object finish to be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -243,7 +267,7 @@ namespace NetWorkedData
             // Draw the interface addon for editor
             if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDConstants.kMiniButtonStyle.fixedHeight ), "Send Action"))
             {
-                SendAction();
+                PostNotification();
             }
             float tYadd = NWDConstants.kMiniButtonStyle.fixedHeight;
             return tYadd;
@@ -276,7 +300,7 @@ namespace NetWorkedData
         /// <returns>The on node draw height.</returns>
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            return 40.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

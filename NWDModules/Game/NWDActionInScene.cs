@@ -11,8 +11,8 @@ namespace NetWorkedData
     public class NWDActionInScene : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        NWDActionConnection ActionReference;
-        public UnityEvent ActionTOEvent;
+        public NWDActionConnection ActionReference;
+        public UnityEvent ActionToSceneEvent;
         //-------------------------------------------------------------------------------------------------------------
         // Use this for initialization
         void Start()
@@ -20,24 +20,47 @@ namespace NetWorkedData
             Debug.Log("NWDActionInScene Start()");
             BTBNotificationBlock tListener = delegate (BTBNotification sNotification)
             {
-                RunAction();
+                ReceiptNotification((NWDAction)sNotification.Sender);
             };
             NWDAction tAction = ActionReference.GetObject();
             if (tAction!=null)
             {
-                BTBNotificationManager.SharedInstance().AddObserver(this, tAction.ActionName, tListener);
+                tAction.TrackBy(this, tListener);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        void RunAction()
+        public void PostNotification() // use in demo
         {
-            Debug.Log("NWDActionInScene RunAction()");
+            Debug.Log("NWDActionInScene PostNotification()");
+            NWDAction tAction = ActionReference.GetObject();
+            if (tAction != null)
+            {
+                tAction.PostNotification();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void ReceiptNotification(NWDAction sAction)
+        {
+            Debug.Log("NWDActionInScene ReceiptNotification()");
+            if (ActionToSceneEvent != null)
+            {
+                ActionToSceneEvent.Invoke();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DoSceneAction()
+        {
+            Debug.Log("NWDActionInScene DoSceneAction()");
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
             Debug.Log("NWDActionInScene OnDestroy()");
-            BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+            NWDAction tAction = ActionReference.GetObject();
+            if (tAction != null)
+            {
+                tAction.UnTrackBy(this);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
     }
