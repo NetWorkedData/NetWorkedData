@@ -20,6 +20,9 @@ using BasicToolBox;
 using UnityEditor;
 #endif
 
+using NotificationServices = UnityEngine.iOS.NotificationServices;
+using NotificationType = UnityEngine.iOS.NotificationType;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -193,12 +196,12 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment env)
+        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
         {
             NWDUserInfos tUserInfos = null;
             foreach (NWDUserInfos user in GetAllObjects())
             {
-                if (user.AccountReference.GetReference().Equals(env.PlayerAccountReference))
+                if (user.AccountReference.GetReference().Equals(sEnvironment.PlayerAccountReference))
                 {
                     tUserInfos = user;
                     break;
@@ -207,9 +210,9 @@ namespace NetWorkedData
             if (tUserInfos == null)
             {
                 tUserInfos = NewObject();
-                tUserInfos.InternalKey = env.PlayerAccountReference;
-                tUserInfos.AccountReference.SetReference(env.PlayerAccountReference);
-                tUserInfos.AccountType = env.PlayerStatut;
+                tUserInfos.InternalKey = sEnvironment.PlayerAccountReference;
+                tUserInfos.AccountReference.SetReference(sEnvironment.PlayerAccountReference);
+                tUserInfos.AccountType = sEnvironment.PlayerStatut;
             }
             return tUserInfos;
         }
@@ -219,18 +222,39 @@ namespace NetWorkedData
 #if UNITY_ANDROID
             OSLastSignIn = NWDOperatingSystem.Android;
             // TODO register notification token
+
 #elif UNITY_IOS
             OSLastSignIn = NWDOperatingSystem.IOS;
             // TODO register notification token
+
+            NotificationServices.RegisterForNotifications( NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
+
+            byte[] tToken = NotificationServices.deviceToken;
+            if (tToken != null)
+            {
+                AppleNotificationToken = "%" + System.BitConverter.ToString(tToken).Replace('-', '%');
+            }
+
 #elif UNITY_STANDALONE_OSX
             OSLastSignIn = NWDOperatingSystem.OSX;
             // TODO register notification token
+
+#elif UNITY_STANDALONE_WIN
+            OSLastSignIn = NWDOperatingSystem.WIN;
+
 #elif UNITY_WP8
             OSLastSignIn = NWDOperatingSystem.WIN;
+
 #elif UNITY_WINRT
             OSLastSignIn = NWDOperatingSystem.WINRT;
-#else
+
 #endif
+
+            if (SaveModificationsIfModified())
+            {
+                // TODO send to server immediatly
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDUserInfos)}, true);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -415,27 +439,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
-
-    //-------------------------------------------------------------------------------------------------------------
-    #region Connection NWDUserInfos with Unity MonoBehavior
-    //-------------------------------------------------------------------------------------------------------------
-    /// <summary>
-    /// NWDUserInfos connection.
-    /// In your MonoBehaviour Script connect object with :
-    /// <code>
-    ///	[NWDConnectionAttribut(true,true, true, true)]
-    /// public NWDUserInfosConnection MyNWDUserInfosObject;
-    /// </code>
-    /// </summary>
-    //-------------------------------------------------------------------------------------------------------------
-    // CONNEXION STRUCTURE METHODS
-    //-------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------
-    //public class NWDUserInfosMonoBehaviour: NWDMonoBehaviour<NWDUserInfosMonoBehaviour> {}
-    #endregion
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
