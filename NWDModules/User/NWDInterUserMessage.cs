@@ -25,60 +25,31 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDActionConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+    /// NWDInterUserMessageConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
     /// Use like :
     /// public class MyScriptInGame : MonoBehaviour
     /// { 
     /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDActionConnection MyNetWorkedData;
+    /// public NWDInterUserMessageConnection MyNetWorkedData;
     /// }
     /// </summary>
     [Serializable]
-    public class NWDActionConnection : NWDConnection<NWDAction>
+    public class NWDInterUserMessageConnection : NWDConnection<NWDInterUserMessage>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Tracks the referenced object in the notification.
-        /// </summary>
-        /// <param name="sObserver">Observer.</param>
-        /// <param name="sBlockToUse">S block to use.</param>
-        public void TrackBy(object sObserver, BTBNotificationBlock sBlockToUse)
-        {
-            NWDAction tAction = this.GetObject();
-            if (tAction != null)
-            {
-                tAction.TrackBy(sObserver, sBlockToUse);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Untrack the referenced object in the notification.
-        /// </summary>
-        /// <param name="sObserver">Observer.</param>
-        public void UnTrackBy(object sObserver)
-        {
-            NWDAction tAction = this.GetObject();
-            if (tAction != null)
-            {
-                tAction.UnTrackBy(sObserver);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ACT")]
-    [NWDClassDescriptionAttribute("Action by notification")]
-    [NWDClassMenuNameAttribute("Action")]
+    [NWDClassTrigrammeAttribute("IUM")]
+    [NWDClassDescriptionAttribute("Post message to user to user ")]
+    [NWDClassMenuNameAttribute("UserInterMessage")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    //[NWDInternalKeyNotEditable]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWD example class. This class is use for (complete description here)
     /// </summary>
-    public partial class NWDAction : NWDBasis<NWDAction>
+    public partial class NWDInterUserMessage : NWDBasis<NWDInterUserMessage>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
@@ -89,30 +60,75 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-  //      [NWDTooltips("The name of message post to all observer objects. Example 'Raining', 'Start Quest Music', etc.")]
-		//public string ActionName {get; set;}
-        [NWDGroupStart("Optional", true, true, false)]
-        [NWDTooltips("An additional message, it's optional and not used in standard process.")]
-        public string Message {get; set;}
-        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string ParamOne {get; set;}
-        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string ParamTwo { get; set; }
-        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string ParamThree { get; set;}
+        // Your properties
+        //PROPERTIES
+        [NWDGroupStart("Publisher")]
+        [NWDTooltips("The publisher reference")]
+        public NWDReferenceType<NWDAccount> Publisher {get; set;}
+        [NWDTooltips("The publishing date")]
+        public NWDDateTimeType PublicationDate {get; set;}
+        [NWDTooltips("The published message template")]
+        public NWDReferenceType<NWDMessage> Message {get; set;}
+        [NWDTooltipsAttribute("Select characters to use in message by these tags" +
+                              "\n •for Fistname : #F0# #F1# …" +
+                              "\n •for Lastname : #L0# #L1# …" +
+                              "\n •for Nickname : #N0# #N1# …" +
+                              "")]
+        public NWDReferencesListType<NWDCharacter> ReplaceCharacters {get; set;}
+        [NWDTooltipsAttribute("Select items to use in message by these tags" +
+                              "\n •for item name #I0# #I1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDItem> ReplaceItems{get; set;}
+        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
+                              "\n •for item to describe name #G0# #G1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups {get; set;}
+        [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
+                              "\n •for item to describe name #P0# #P1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDPack> ReplacePacks {get; set;}
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Push system")]
+        [NWDTooltips("The published message template")]
+        public NWDReferenceType<NWDMessage> PushMessage {get; set;}
+        public string PushAndroid { get; set;}
+        public string PushApple { get; set;}
+        public NWDDateTimeType PushDate {get; set;}
+        public bool Push {get; set;}
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Destinataire")]
+		public NWDReferenceType<NWDAccount> Receiver {get; set;}
+        public bool Distribute {get; set;}
+        public NWDDateTimeType DistributeDate {get; set;}
+		public bool Read {get; set;}
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Original InterUserMessage")]
+        public NWDReferenceType<NWDInterUserMessage> OriginalInterUserMessage
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAction()
+        public NWDInterUserMessage()
         {
-            //Debug.Log("NWDAction Constructor");
+            //Debug.Log("NWDInterUserMessage Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDInterUserMessage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDAction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDInterUserMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -138,20 +154,138 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        public void PostNotification()
+        public void MyInstanceMethod()
         {
-            //BTBNotificationManager.SharedInstance().PostNotification(this, ActionName);
-            BTBNotificationManager.SharedInstance().PostNotification(this, Reference);
+            // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void TrackBy(object sObserver, BTBNotificationBlock sBlockToUse)
+        public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
-            BTBNotificationManager.SharedInstance().AddObserver(sObserver, Reference, sBlockToUse);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void UnTrackBy(object sObserver)
-        {
-            BTBNotificationManager.SharedInstance().RemoveObserverForSender(sObserver, Reference, this);
+            string rText = sText;
+            int tCounter = 0;
+            string tBstart = "<b>";
+            string tBend = "</b>";
+            if (sBold == false)
+            {
+                tBstart = "";
+                tBend = "";
+            }
+
+
+            // TODO ADD REPLACE PLUBLISHER NICKNAME AND READER NICKNAME
+
+
+            if (ReplaceCharacters != null)
+            {
+                tCounter = 0;
+                foreach (NWDCharacter tCharacter in ReplaceCharacters.GetObjects())
+                {
+                    if (tCharacter.LastName != null)
+                    {
+                        string tLastName = tCharacter.LastName.GetLanguageString(sLanguage);
+                        if (tLastName != null)
+                        {
+                            rText = rText.Replace("#L" + tCounter.ToString() + "#", tBstart + tLastName + tBend);
+                        }
+                    }
+                    if (tCharacter.FirstName != null)
+                    {
+                        string tFirstName = tCharacter.FirstName.GetLanguageString(sLanguage);
+                        if (tFirstName != null)
+                        {
+                            rText = rText.Replace("#F" + tCounter.ToString() + "#", tBstart + tFirstName + tBend);
+                        }
+                    }
+                    if (tCharacter.NickName != null)
+                    {
+                        string tNickName = tCharacter.NickName.GetLanguageString(sLanguage);
+                        if (tNickName != null)
+                        {
+                            rText = rText.Replace("#N" + tCounter.ToString() + "#", tBstart + tNickName + tBend);
+                        }
+                    }
+                    tCounter++;
+                }
+            }
+            if (ReplaceItems != null)
+            {
+                tCounter = 0;
+                foreach (KeyValuePair<NWDItem, int> tKeyValue in ReplaceItems.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key;
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xI" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            if (ReplaceItemGroups != null)
+            {
+                tCounter = 0;
+                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in ReplaceItemGroups.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xG" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            if (ReplacePacks != null)
+            {
+                tCounter = 0;
+                foreach (KeyValuePair<NWDPack, int> tKeyValue in ReplacePacks.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#P" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xP" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -286,11 +420,7 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
             // Draw the interface addon for editor
-            if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDConstants.kMiniButtonStyle.fixedHeight ), "Post this Action"))
-            {
-                PostNotification();
-            }
-            float tYadd = NWDConstants.kMiniButtonStyle.fixedHeight;
+            float tYadd = 0.0f;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -301,7 +431,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = NWDConstants.kMiniButtonStyle.fixedHeight;
+            float tYadd = 0.0f;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -321,7 +451,7 @@ namespace NetWorkedData
         /// <returns>The on node draw height.</returns>
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 40.0f;
+            return 130.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

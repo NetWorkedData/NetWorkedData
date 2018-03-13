@@ -195,20 +195,24 @@ namespace NetWorkedData
             get; set;
         }
 
-        [NWDTooltipsAttribute("Select items to use in dialog by these tags" +
+        [NWDTooltipsAttribute("Select items to use in message by these tags" +
                               "\n •for item name #I0# #I1# …" +
-                              "\n •for item plural name #IS0# #IS1# …" +
                               "")]
-        public NWDReferencesListType<NWDItem> ReplaceItems
+        public NWDReferencesQuantityType<NWDItem> ReplaceItems
         {
             get; set;
         }
-
-        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in dialog by these " +
-                              "\n •for item to describe name tags #G0# #G1# …" +
-                              "\n •for item to describe plural name #GS0# #GS1# …" +
+        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
+                              "\n •for item to describe name #G0# #G1# …" +
                               "")]
-        public NWDReferencesListType<NWDItemGroup> ReplaceItemGroups
+        public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups
+        {
+            get; set;
+        }
+        [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
+                              "\n •for item to describe name #P0# #P1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDPack> ReplacePacks
         {
             get; set;
         }
@@ -339,23 +343,25 @@ namespace NetWorkedData
             if (ReplaceItems != null)
             {
                 tCounter = 0;
-                foreach (NWDItem tItem in ReplaceItems.GetObjects())
+                foreach (KeyValuePair<NWDItem, int> tKeyValue in ReplaceItems.GetObjectAndQuantity())
                 {
-                    if (tItem.Name != null)
+                    NWDItem tItem = tKeyValue.Key;
+                    if (tItem != null)
                     {
-                        string tName = tItem.Name.GetLanguageString(sLanguage);
-                        if (tName != null)
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
                         {
-                            rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
                         }
-                    }
-                    if (tItem.PluralName != null)
-                    {
-                        string tPluralName = tItem.PluralName.GetLanguageString(sLanguage);
-                        if (tPluralName != null)
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
                         {
-                            rText = rText.Replace("#IS" + tCounter.ToString() + "#", tBstart + tPluralName + tBend);
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
                         }
+                        rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xI" + tCounter.ToString() + "#", tBstart + tName + tBend);
                     }
                     tCounter++;
                 }
@@ -363,27 +369,51 @@ namespace NetWorkedData
             if (ReplaceItemGroups != null)
             {
                 tCounter = 0;
-                foreach (NWDItemGroup tItemGroup in ReplaceItemGroups.GetObjects())
+                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in ReplaceItemGroups.GetObjectAndQuantity())
                 {
-                    NWDItem tItem = tItemGroup.ItemToDescribe.GetObject();
+                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
                     if (tItem != null)
                     {
-                        if (tItem.Name != null)
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
                         {
-                            string tName = tItem.Name.GetLanguageString(sLanguage);
-                            if (tName != null)
-                            {
-                                rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tName + tBend);
-                            }
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
                         }
-                        if (tItem.PluralName != null)
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
                         {
-                            string tPluralName = tItem.PluralName.GetLanguageString(sLanguage);
-                            if (tPluralName != null)
-                            {
-                                rText = rText.Replace("#GS" + tCounter.ToString() + "#", tBstart + tPluralName + tBend);
-                            }
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
                         }
+                        rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xG" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            if (ReplacePacks != null)
+            {
+                tCounter = 0;
+                foreach (KeyValuePair<NWDPack, int> tKeyValue in ReplacePacks.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#P" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xP" + tCounter.ToString() + "#", tBstart + tName + tBend);
                     }
                     tCounter++;
                 }

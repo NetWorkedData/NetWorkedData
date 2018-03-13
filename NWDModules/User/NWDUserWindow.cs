@@ -30,7 +30,7 @@ namespace NetWorkedData
             typeof(NWDUsage),
             typeof(NWDUserStats),
             typeof(NWDUserConsolidatedStats),
-            typeof(NWDUserMessage),
+            typeof(NWDInterUserMessage),
 			/* Add NWDBasis here*/
 		}
     )]
