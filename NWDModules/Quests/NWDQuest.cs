@@ -106,6 +106,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDReferenceType<NWDItem> ItemToDescribe
+        {
+            get; set;
+        }
         public NWDLocalizableTextType Description
         {
             get; set;
