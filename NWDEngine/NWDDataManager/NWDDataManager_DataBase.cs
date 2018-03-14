@@ -20,7 +20,7 @@ using UnityEditor;
 using SQLite4Unity3d;
 
 using BasicToolBox;
-using ColoredAdvancedDebug;
+//using ColoredAdvancedDebug;
 
 //=====================================================================================================================
 namespace NetWorkedData
