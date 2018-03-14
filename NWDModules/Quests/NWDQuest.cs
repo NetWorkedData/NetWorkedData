@@ -97,8 +97,12 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
-        [NWDEntitled("Title of quest", "Title of the quest in the description")]
+        [NWDEntitled("Title", "Title of the quest in the description")]
         public NWDLocalizableStringType Title
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType SubTitle
         {
             get; set;
         }

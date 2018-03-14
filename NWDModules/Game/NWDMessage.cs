@@ -62,7 +62,29 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
 		public NWDLocalizableStringType Title { get; set; } // TODO : rename by Title ?
         public NWDLocalizableStringType Message { get; set; } // TODO : rename by Description ?
-        public NWDLocalizableStringType Ok  { get; set;  }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparatorAttribute]
+
+        [NWDGroupStartAttribute("User choose", true, true, true)] // ok
+        public bool HasValidButton { get; set;}
+        public NWDLocalizableStringType ValidText  { get; set;  }
+        public NWDReferenceType<NWDAction> ValidAction
+        {
+            get; set;
+        }
+        public bool HasCancelButton
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType CancelText
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDAction> CancelAction
+        {
+            get; set;
+        }
         //public NWDLocalizableStringType Cancel { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------

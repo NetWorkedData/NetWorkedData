@@ -48,7 +48,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DoSceneAction()
+        public void DoSceneAction() // use in demo
         {
             Debug.Log("NWDActionInScene DoSceneAction()");
         }

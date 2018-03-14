@@ -70,6 +70,14 @@ namespace NetWorkedData
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
+    public enum NWDCharacterPositionType : int
+    {
+        Left,
+        Middle,
+        Right,
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
     public class NWDDialogConnection : NWDConnection<NWDDialog>
     {
     }
@@ -168,6 +176,11 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltipsAttribute("Select the character position in screen")]
+        public NWDCharacterPositionType CharacterPosition
+        {
+            get; set;
+        }
         [NWDTooltipsAttribute("Select the Bubble style to content this Dialog" +
                               "\n •Speech," +
                               "\n •Whisper," +
@@ -178,13 +191,16 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltips("Add an action to this dialog")]
+        public NWDReferenceType<NWDAction> ActionOnDialog
+        {
+            get; set;
+        }
         [NWDTooltipsAttribute("Select language and write your dialog in this language")]
         public NWDLocalizableTextType Dialog
         {
             get; set;
         }
-        [NWDTooltips ("Add an action to this dialog")]
-        public NWDReferenceType<NWDAction> ActionOnDialog { get; set; }
         [NWDTooltipsAttribute("Select characters to use in dialog by these tags" +
                               "\n •for Fistname : #F0# #F1# …" +
                               "\n •for Lastname : #L0# #L1# …" +
@@ -197,6 +213,7 @@ namespace NetWorkedData
 
         [NWDTooltipsAttribute("Select items to use in message by these tags" +
                               "\n •for item name #I0# #I1# …" +
+                              "\n •for quantity and item name #xI0# #xI1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItem> ReplaceItems
         {
@@ -204,6 +221,7 @@ namespace NetWorkedData
         }
         [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
                               "\n •for item to describe name #G0# #G1# …" +
+                              "\n •for quantity and item to describe name #xG0# #xG1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups
         {
@@ -211,6 +229,7 @@ namespace NetWorkedData
         }
         [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
                               "\n •for item to describe name #P0# #P1# …" +
+                              "\n •for quantity and item to describe name #xP0# #xP1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDPack> ReplacePacks
         {
@@ -310,7 +329,7 @@ namespace NetWorkedData
             }
             if (ReplaceCharacters != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (NWDCharacter tCharacter in ReplaceCharacters.GetObjects())
                 {
                     if (tCharacter.LastName != null)
@@ -342,7 +361,7 @@ namespace NetWorkedData
             }
             if (ReplaceItems != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (KeyValuePair<NWDItem, int> tKeyValue in ReplaceItems.GetObjectAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key;
@@ -368,7 +387,7 @@ namespace NetWorkedData
             }
             if (ReplaceItemGroups != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in ReplaceItemGroups.GetObjectAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
@@ -394,7 +413,7 @@ namespace NetWorkedData
             }
             if (ReplacePacks != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (KeyValuePair<NWDPack, int> tKeyValue in ReplacePacks.GetObjectAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();

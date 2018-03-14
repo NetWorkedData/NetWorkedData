@@ -41,7 +41,7 @@ namespace NetWorkedData
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("IUM")]
     [NWDClassDescriptionAttribute("Post message to user to user ")]
-    [NWDClassMenuNameAttribute("UserInterMessage")]
+    [NWDClassMenuNameAttribute("User Inter Message")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
@@ -77,16 +77,22 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDCharacter> ReplaceCharacters {get; set;}
         [NWDTooltipsAttribute("Select items to use in message by these tags" +
                               "\n •for item name #I0# #I1# …" +
+                              "\n •for quantity and item name #xI0# #xI1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItem> ReplaceItems{get; set;}
         [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
                               "\n •for item to describe name #G0# #G1# …" +
+                              "\n •for quantity and item to describe name #xG0# #xG1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups {get; set;}
         [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
                               "\n •for item to describe name #P0# #P1# …" +
+                              "\n •for quantity and item to describe name #xP0# #xP1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDPack> ReplacePacks {get; set;}
+
+        [NWDTooltips("Receipt Acknowledgment : publisher see the meessage was reading")]
+        public bool ReceiptAcknowledgment { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -94,28 +100,35 @@ namespace NetWorkedData
         [NWDGroupStart("Push system")]
         [NWDTooltips("The published message template")]
         public NWDReferenceType<NWDMessage> PushMessage {get; set;}
+        [NWDTooltips("The message in jsons for Android pushing")]
         public string PushAndroid { get; set;}
+        [NWDTooltips("The message in jsons for Apple pushing")]
         public string PushApple { get; set;}
+        [NWDTooltips("The ultimate date to push the message")]
         public NWDDateTimeType PushDate {get; set;}
+        [NWDTooltips("The message was pushed")]
         public bool Push {get; set;}
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Destinataire")]
-		public NWDReferenceType<NWDAccount> Receiver {get; set;}
+        [NWDTooltips("The receiver reference")]
+        public NWDReferenceType<NWDAccount> Receiver {get; set;}
+        [NWDTooltips("The message was show ")]
         public bool Distribute {get; set;}
+        [NWDTooltips("The message was show at date")]
         public NWDDateTimeType DistributeDate {get; set;}
-		public bool Read {get; set;}
+        [NWDTooltips("The message was read")]
+        public bool Read {get; set;}
+        [NWDTooltips("Don't trash message, just archived to hide the message")]
+        public bool Archived { get; set;}
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStart("Original InterUserMessage")]
-        public NWDReferenceType<NWDInterUserMessage> OriginalInterUserMessage
-        {
-            get; set;
-        }
+        [NWDGroupStart("Original Inter User Message")]
+        public NWDReferenceType<NWDInterUserMessage> OriginalMessage { get; set;}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -177,7 +190,7 @@ namespace NetWorkedData
 
             if (ReplaceCharacters != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (NWDCharacter tCharacter in ReplaceCharacters.GetObjects())
                 {
                     if (tCharacter.LastName != null)
@@ -209,7 +222,7 @@ namespace NetWorkedData
             }
             if (ReplaceItems != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (KeyValuePair<NWDItem, int> tKeyValue in ReplaceItems.GetObjectAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key;
@@ -235,7 +248,7 @@ namespace NetWorkedData
             }
             if (ReplaceItemGroups != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in ReplaceItemGroups.GetObjectAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
@@ -261,7 +274,7 @@ namespace NetWorkedData
             }
             if (ReplacePacks != null)
             {
-                tCounter = 0;
+                tCounter = 1;
                 foreach (KeyValuePair<NWDPack, int> tKeyValue in ReplacePacks.GetObjectAndQuantity())
                 {
                     NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
