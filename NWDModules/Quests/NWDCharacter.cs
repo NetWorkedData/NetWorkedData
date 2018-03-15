@@ -153,7 +153,7 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Render", true, true, true)]
-        public NWDPrefabType NormalState
+        public NWDTextureType NormalState
         {
             get; set;
         }

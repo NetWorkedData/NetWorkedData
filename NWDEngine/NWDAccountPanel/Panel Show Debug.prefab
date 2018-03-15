@@ -295,7 +295,6 @@ GameObject:
   - component: {fileID: 224947371630646960}
   - component: {fileID: 222342793404086882}
   - component: {fileID: 114162032551873260}
-  - component: {fileID: 114085904930487426}
   m_Layer: 5
   m_Name: Panel Show Debug
   m_TagString: Untagged
@@ -931,19 +930,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114085904930487426
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1372846104779954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa424d93bd643450f84db5cbba93ce42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ButtonShowLog: {fileID: 114073285438264472}
-  ButtonShowAccount: {fileID: 114805602479945448}
 --- !u!114 &114105091051471620
 MonoBehaviour:
   m_ObjectHideFlags: 1
