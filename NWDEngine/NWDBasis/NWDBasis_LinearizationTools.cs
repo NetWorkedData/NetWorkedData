@@ -485,6 +485,7 @@ namespace NetWorkedData
                 }
             }
 
+            Debug.Log("DATA ASSEMBLY  initail count =  " + tPropertiesList.Count.ToString());
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -542,6 +543,7 @@ namespace NetWorkedData
                 //WebServiceVersion + NWDConstants.kStandardSeparator +
                 rReturn +
                 Integrity;
+                Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
             }
             else
             {
