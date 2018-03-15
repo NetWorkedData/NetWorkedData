@@ -782,11 +782,19 @@ namespace NetWorkedData
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Sync", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
 
             if (GUILayout.Button("Sync", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
@@ -803,10 +811,18 @@ namespace NetWorkedData
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Sync Force", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
             if (GUILayout.Button("Sync Force", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
@@ -825,10 +841,18 @@ namespace NetWorkedData
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Sync Clean", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
             if (GUILayout.Button("Sync Clean", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
@@ -836,6 +860,10 @@ namespace NetWorkedData
             bool tSyncCleanProd = false; //prevent GUIlayout error
             if (GUILayout.Button("Sync Clean", EditorStyles.miniButton))
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 tSyncCleanProd = true;
             }
             EditorGUI.EndDisabledGroup();
@@ -986,6 +1014,10 @@ namespace NetWorkedData
 
             if (tSyncProd == true)
             {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
                 //        NWDConstants.K_SYNC_ALERT_MESSAGE,
                 //        NWDConstants.K_SYNC_ALERT_OK,
@@ -1002,12 +1034,20 @@ namespace NetWorkedData
                 //        NWDConstants.K_SYNC_ALERT_OK,
                 //        NWDConstants.K_SYNC_ALERT_CANCEL))
                 //{
+                if (Application.isPlaying == true && AccountDependent()==false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                     SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
                 //}
             }
             if (tSyncCleanProd == true)
             {
 
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
                 //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
                 //        NWDConstants.K_SYNC_ALERT_MESSAGE,
                 //        NWDConstants.K_SYNC_ALERT_OK,
