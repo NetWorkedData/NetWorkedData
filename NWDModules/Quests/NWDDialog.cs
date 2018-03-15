@@ -67,6 +67,10 @@ namespace NetWorkedData
         Thought,
         Scream,
 
+        Narrative,
+        Divine,
+        Subconscient
+
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
