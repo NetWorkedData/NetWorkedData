@@ -419,7 +419,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
                 }
                 CreateTable(tEnvironment);
             }
@@ -427,7 +427,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
                 }
                 AllSynchronization(tEnvironment);
             }
@@ -435,7 +435,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
                 }
                 AllSynchronizationForce(tEnvironment);
             }
@@ -443,7 +443,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
                 }
                 AllSynchronizationClean(tEnvironment);
             }
