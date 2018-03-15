@@ -417,18 +417,34 @@ namespace NetWorkedData
 
             if (tUpdateTable == true)
             {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                }
                 CreateTable(tEnvironment);
             }
             if (tSync == true)
             {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                }
                 AllSynchronization(tEnvironment);
             }
             if (tSyncForce == true)
             {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                }
                 AllSynchronizationForce(tEnvironment);
             }
             if (tSyncClean == true)
             {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                }
                 AllSynchronizationClean(tEnvironment);
             }
 
