@@ -166,7 +166,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("Add an action to this answer")]
-        public NWDReferenceType<NWDAction> ActionOnAnswer { get; set; }
+        public NWDReferencesListType<NWDAction> ActionOnAnswer { get; set; }
         [NWDGroupEnd]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Dialog", true, true, true)]
@@ -196,7 +196,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("Add an action to this dialog")]
-        public NWDReferenceType<NWDAction> ActionOnDialog
+        public NWDReferencesListType<NWDAction> ActionOnDialog
         {
             get; set;
         }
