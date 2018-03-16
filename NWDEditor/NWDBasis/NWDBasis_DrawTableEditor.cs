@@ -784,7 +784,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
@@ -793,7 +793,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
@@ -813,7 +813,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
@@ -821,7 +821,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
@@ -843,7 +843,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
@@ -851,7 +851,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
@@ -862,7 +862,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 tSyncCleanProd = true;
             }

@@ -145,7 +145,7 @@ namespace NetWorkedData
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Reference";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account InternalKey";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account Internal Key";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT = "Account Select";
 
         //-------------------------------------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ namespace NetWorkedData
 
         public const string K_APP_BASIS_INTEGRITY_IS_FALSE = "INTEGRITY IS FALSE";
         public const string K_APP_BASIS_INTEGRITY_HELPBOX = "Integrity of this object is false! Perhaps it's damaged or hacked. Becarefully check its data.";
-        public const string K_APP_BASIS_INTEGRITY_REEVAL = "Click to reaval integrity";
+        public const string K_APP_BASIS_INTEGRITY_REEVAL = "Click to reeval integrity";
         public const string K_APP_BASIS_INTEGRITY_WARNING = "Warning";
         public const string K_APP_BASIS_INTEGRITY_WARNING_MESSAGE = "Are-you sure to reeval integrity and then accept this object in your database?";
         public const string K_APP_BASIS_INTEGRITY_OK = "OK";
@@ -270,9 +270,9 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SHORTCUT_ZONE_B = "Use arrows to navigate throw lines or pages.";
         public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";
         public const string K_APP_TABLE_SEARCH_REFERENCE = "Reference";
-        public const string K_APP_TABLE_SEARCH_NAME = "Internal name";
-        public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal description";
-        public const string K_APP_TABLE_SEARCH_TAG = "Internal tag";
+        public const string K_APP_TABLE_SEARCH_NAME = "Internal Key";
+        public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal Description";
+        public const string K_APP_TABLE_SEARCH_TAG = "Internal Tag";
         public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = "Remove filter";
         public const string K_APP_TABLE_SEARCH_FILTER = "Filter";
         public const string K_APP_TABLE_SEARCH_SORT = "Sort by name";
@@ -356,6 +356,11 @@ namespace NetWorkedData
         public const string K_EDITOR_NODE_SHOW_ALL = "Show everything";
         public const string K_EDITOR_NODE_LIST = "Classes show/analyze/new";
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE = "ALERT";
+        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE = "You are in playing mode, all sync not effective!";
+        public const string K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK = "OK";
+        //-------------------------------------------------------------------------------------------------------------
+
         public static Color K_RED_BUTTON_COLOR = new Color(0.9F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
 
         // todo test the color of button
