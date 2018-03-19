@@ -108,7 +108,10 @@ namespace NetWorkedData
             // write in good order
             for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
             {
-                tConstantsFile += "\t\t\t TagList.Add(" + tI + ",\"" + TagList[tI] + "\");\n";
+                if (TagList.ContainsKey(tI) == true)
+                {
+                    tConstantsFile += "\t\t\t TagList.Add(" + tI + ",\"" + TagList[tI] + "\");\n";
+                }
             }
 
             tConstantsFile += "//Environments restaure\n";

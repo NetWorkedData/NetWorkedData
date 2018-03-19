@@ -419,7 +419,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 CreateTable(tEnvironment);
             }
@@ -427,7 +427,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 AllSynchronization(tEnvironment);
             }
@@ -435,7 +435,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 AllSynchronizationForce(tEnvironment);
             }
@@ -443,7 +443,7 @@ namespace NetWorkedData
             {
                 if (Application.isPlaying == true)
                 {
-                    EditorUtility.DisplayDialog("ALERT NO SYNC ALL VCALID IN EDITOR", " ", "OK");
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 AllSynchronizationClean(tEnvironment);
             }

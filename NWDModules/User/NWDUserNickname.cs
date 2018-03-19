@@ -113,6 +113,28 @@ namespace NetWorkedData
             return rNickName;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetNickName()
+        {
+            string rNickname = "";
+            NWDUserNickname[] tNickname = GetAllObjects();
+            if (tNickname.Length > 0)
+            {
+                rNickname = tNickname[0].Nickname;
+            }
+            return rNickname;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetUniqueNickName()
+        {
+            string rUniqueNickname = "";
+            NWDUserNickname[] tNickname = GetAllObjects();
+            if (tNickname.Length > 0)
+            {
+                rUniqueNickname = tNickname[0].UniqueNickname;
+            }
+            return rUniqueNickname;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
