@@ -142,7 +142,7 @@ namespace NetWorkedData
         /// Ownership for item's reference exists.
         /// </summary>
         /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
-        /// <param name="sItemReference">S item reference.</param>
+        /// <param name="sItemReference">item reference.</param>
         public static bool OwnershipForItemReferenceExists(string sItemReference)
         {
             NWDOwnership rOwnershipToUse = null;
@@ -158,10 +158,10 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Return the Ownership for item.
+        /// Return the Ownership for selected item.
         /// </summary>
-        /// <returns>The for item.</returns>
-        /// <param name="sItem">S item.</param>
+        /// <returns>The ownership.</returns>
+        /// <param name="sItem">selected item.</param>
         public static NWDOwnership OwnershipForItem(NWDItem sItem)
         {
             NWDOwnership rOwnershipToUse = null;

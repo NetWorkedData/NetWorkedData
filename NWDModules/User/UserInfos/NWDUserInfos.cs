@@ -115,7 +115,26 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupStart("Account push notification")]
+        public bool AcceptTradePush
+        {
+            get; set;
+        }
+        public bool AcceptBarterPush
+        {
+            get; set;
+        }
+        public bool AcceptShopPush
+        {
+            get; set;
+        }
+        public bool AcceptRelationshipPush
+        {
+            get; set;
+        }
+        public bool AcceptUserInterMessagePush
+        {
+            get; set;
+        }
         /// <summary>
         /// Gets or sets the apple notification token for message.
         /// </summary>
