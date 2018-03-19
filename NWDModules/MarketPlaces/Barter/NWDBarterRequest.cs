@@ -45,19 +45,49 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		public NWDReferenceType<NWDBarterPlace> BarterReference { get; set; }
-
-		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
-
-		public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
-
+        // Your properties
+        [NWDTooltips("Barter Place reference")]
+        public NWDReferenceType<NWDBarterPlace> BarterPlaceReference
+        {
+            get; set;
+        }
+        [Indexed("AccountIndex", 0)]
+        [NWDTooltips("Account reference")]
+        public NWDReferenceType<NWDAccount> AccountReference
+        {
+            get; set;
+        }
+        [NWDTooltips("Items proposed to exchange with …")]
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed
+        {
+            get; set;
+        }
+        [NWDTooltips("Items to pay the barter zone trader( can be empty)")]
+        public NWDReferencesQuantityType<NWDItem> ItemsSpent
+        {
+            get; set;
+        }
+        [NWDTooltips("Items wanted (minimum wanted) (can be empty)")]
+        public NWDReferencesQuantityType<NWDItem> ItemsWanted
+        {
+            get; set;
+        }
+        [NWDTooltips("Propose to friends (if null propose for all friends")]
+        public NWDReferencesListType<NWDAccount> FriendsList
+        {
+            get; set;
+        }
+        [NWDTooltips("Propose to friends (if null propose for all friends")]
+        public NWDReferenceType<NWDBarterProposition> AcceptedProposition
+        {
+            get; set;
+        }
+        public NWDBarterState RequestState
+        {
+            get; set;
+        }
+        [NWDTooltips("if the date is over, all propositions in waiting became refused")]
 		public int LimitDateTime { get; set; }
-
-		public bool Accepted { get; set; }
-
-		public NWDReferenceType<NWDTradeRequest> PropositionReference { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -88,6 +118,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            RequestState = NWDBarterState.InWaiting;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()

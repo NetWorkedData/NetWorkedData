@@ -306,6 +306,24 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SendMessage(NWDMessage sMessage,
+                                bool sNow = true,
+                                NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
+                                NWDReferencesQuantityType<NWDItemGroup> sReplaceItemGroups = null,
+                                NWDReferencesQuantityType<NWDPack> sReplacePacks = null
+                               )
+        {
+            // put players
+            string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
+            string tReceiver = ReaderReference.GetReference();
+            if (PublisherReference.GetReference() != tPublisher && ReaderReference.GetReference() == tPublisher)
+            {
+                tReceiver = PublisherReference.GetReference();
+            }
+            NWDInterUserMessage.SendMessage(sMessage, tReceiver, sNow, null, 60, sReplaceCharacters, sReplaceItems, sReplaceItemGroups, sReplacePacks);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// remove a  Relationship and synchronize to server
         /// </summary>

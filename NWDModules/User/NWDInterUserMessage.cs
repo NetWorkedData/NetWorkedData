@@ -155,9 +155,45 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public static void MyClassMethod()
+        public static void SendMessage(NWDMessage sMessage, string sReceiver,
+                                bool sNow = true,
+                                NWDMessage sPushMessage = null,
+                                int sPushDelayInSeconds = 3600,
+                                NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
+                                NWDReferencesQuantityType<NWDItemGroup> sReplaceItemGroups = null,
+                                NWDReferencesQuantityType<NWDPack> sReplacePacks = null
+                               )
         {
-            // do something with this class
+            NWDInterUserMessage tInterMessage = NWDInterUserMessage.NewObject();
+            tInterMessage.Message.SetObject(sMessage);
+            // put players
+            string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
+            tInterMessage.Publisher.SetReference(tPublisher);
+            tInterMessage.Receiver.SetReference(sReceiver);
+            // inserrt the replacacble element
+            tInterMessage.ReplaceCharacters = sReplaceCharacters;
+            tInterMessage.ReplaceItems = sReplaceItems;
+            tInterMessage.ReplaceItemGroups = sReplaceItemGroups;
+            tInterMessage.ReplacePacks = sReplacePacks;
+            // add datetime
+            tInterMessage.PublicationDate.SetDateTime(DateTime.Now);
+            // prepare push ?
+            tInterMessage.PushMessage.SetObject(sPushMessage);
+            tInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
+            if (sPushMessage!=null)
+            {
+                // TODO prepare push json
+            }
+            // send message now?
+            if (sNow == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDInterUserMessage) }, true);
+            }
+            else
+            {
+                // send message on the next sync.
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

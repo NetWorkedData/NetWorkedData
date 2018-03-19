@@ -25,6 +25,14 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //-------------------------------------------------------------------------------------------------------------
+    public enum NWDBarterState : int
+    {
+        InWaiting, // the request or proposition is waiting
+        Refused,// the request or proposition is refused
+        Accepted,// the request or proposition is accepted ... item can be distrib
+        ItemDistribute,// the request or proposition 's items are distribute
+    }
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
 	public class NWDBarterPropositionConnection : NWDConnection <NWDBarterProposition> {}
@@ -45,15 +53,16 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		public NWDReferenceType<NWDBarterRequest> BarterReference { get; set; }
-
+        // Your properties
+        [NWDTooltips("Barter reference")]
+		public NWDReferenceType<NWDBarterRequest> BarterRequestReference { get; set; }
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
-
-		public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
-
-		public bool Accepted { get; set; }
+        [NWDTooltips("Account reference")]
+        public NWDReferenceType<NWDAccount> AccountReference { get; set; }
+        [NWDTooltips("Items to pay the bater zone trader( can be empty)")]
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
+        [NWDTooltips("State of proposition. You can refound your item only when the barter is 'Refused'. If refused/accpetd the state can be nerver change.")]
+        public NWDBarterState PropositionState { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -84,6 +93,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            PropositionState = NWDBarterState.InWaiting;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void MyInstanceMethod ()

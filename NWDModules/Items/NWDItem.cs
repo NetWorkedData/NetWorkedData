@@ -124,6 +124,9 @@ namespace NetWorkedData
 		public NWDPrefabType PrimaryPrefab { get; set; }
 		public NWDPrefabType SecondaryPrefab { get; set; }
 		public NWDPrefabType TertiaryPrefab { get; set; }
+
+        [NWDTooltips("Particules effect used overlay render (for special item)")]
+        public NWDPrefabType EffectPrefab { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDGroupSeparatorAttribute]
