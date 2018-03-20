@@ -259,6 +259,26 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDUserNickname PublisherNickname()
+        {
+            return NWDUserNickname.GetFirstObject(Publisher.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserNickname ReceiverNickname()
+        {
+            return NWDUserNickname.GetFirstObject(Receiver.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAvatar PublisherAvatar()
+        {
+            return NWDAvatar.GetFirstObject(Publisher.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAvatar ReceiverAvatar()
+        {
+            return NWDAvatar.GetFirstObject(Receiver.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
             string rText = sText;
@@ -284,8 +304,30 @@ namespace NetWorkedData
             rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
             rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
 
-            // TODO ADD REPLACE PLUBLISHER NICKNAME AND READER NICKNAME
+            NWDUserNickname tPublisherObject = PublisherNickname();
+            string tPublisher = "";
+            string tPublisherID = "";
+            if (tPublisherObject != null)
+            {
+                tPublisher = tNickNameObject.Nickname;
+                tPublisherID = tNickNameObject.UniqueNickname;
+            }
 
+            rText = rText.Replace("@publisher@", tBstart + tPublisher + tBend);
+            rText = rText.Replace("@publisherid@", tBstart + tPublisherID + tBend);
+
+
+            NWDUserNickname tReceiverObject = ReceiverNickname();
+            string tReceiver = "";
+            string tReceiverID = "";
+            if (tReceiverObject != null)
+            {
+                tReceiver = tReceiverObject.Nickname;
+                tReceiverID = tReceiverObject.UniqueNickname;
+            }
+
+            rText = rText.Replace("@reader@", tBstart + tReceiver + tBend);
+            rText = rText.Replace("@readerid@", tBstart + tReceiverID + tBend);
 
 
             // // replace the text
