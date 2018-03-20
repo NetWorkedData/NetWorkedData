@@ -63,8 +63,8 @@ namespace NetWorkedData
         // Your properties
         //PROPERTIES
         [NWDGroupStart("Publisher")]
-        [NWDTooltips("The publisher reference")]
-        public NWDReferenceType<NWDAccount> Publisher {get; set;}
+        [NWDTooltips("The publisher sender")]
+        public NWDReferenceType<NWDAccount> Sender {get; set;}
         [NWDTooltips("The publishing date")]
         public NWDDateTimeType PublicationDate {get; set;}
         [NWDTooltipsAttribute("Select characters to use in message by these tags" +
@@ -172,7 +172,7 @@ namespace NetWorkedData
             tInterMessage.Message.SetObject(sMessage);
             // put players
             string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
-            tInterMessage.Publisher.SetReference(tPublisher);
+            tInterMessage.Sender.SetReference(tPublisher);
             tInterMessage.Receiver.SetReference(sReceiver);
             // inserrt the replacacble element
             tInterMessage.ReplaceCharacters = sReplaceCharacters;
@@ -261,7 +261,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname PublisherNickname()
         {
-            return NWDUserNickname.GetFirstObject(Publisher.GetReference());
+            return NWDUserNickname.GetFirstObject(Sender.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname ReceiverNickname()
@@ -271,7 +271,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAvatar PublisherAvatar()
         {
-            return NWDAvatar.GetFirstObject(Publisher.GetReference());
+            return NWDAvatar.GetFirstObject(Sender.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAvatar ReceiverAvatar()
@@ -326,8 +326,8 @@ namespace NetWorkedData
                 tReceiverID = tReceiverObject.UniqueNickname;
             }
 
-            rText = rText.Replace("@reader@", tBstart + tReceiver + tBend);
-            rText = rText.Replace("@readerid@", tBstart + tReceiverID + tBend);
+            rText = rText.Replace("@receiver@", tBstart + tReceiver + tBend);
+            rText = rText.Replace("@receiverid@", tBstart + tReceiverID + tBend);
 
 
             // // replace the text
