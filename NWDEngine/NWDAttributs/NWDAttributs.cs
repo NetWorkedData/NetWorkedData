@@ -135,7 +135,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endif
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDGroupStartAttribute (string sGroupName, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
+		public NWDGroupStartAttribute(string sGroupName, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
 		{
 			this.mGroupName = sGroupName;
 			this.mBoldHeader = sBoldHeader;
