@@ -331,6 +331,21 @@ namespace NetWorkedData
                 tBstart = "";
                 tBend = "";
             }
+
+            // Replace the nickname
+            NWDUserNickname tNickNameObject = NWDUserNickname.GetFirstObject();
+            string tNickname = "";
+            string tNicknameID = "";
+            if (tNickNameObject != null)
+            {
+                tNickname = tNickNameObject.Nickname;
+                tNicknameID = tNickNameObject.UniqueNickname;
+            }
+
+            rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
+            rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
+
+            // // replace referecen in text
             if (ReplaceCharacters != null)
             {
                 tCounter = 1;
