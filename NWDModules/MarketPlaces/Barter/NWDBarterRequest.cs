@@ -32,7 +32,8 @@ namespace NetWorkedData
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("BRR")]
 	[NWDClassDescriptionAttribute ("Barter Request descriptions Class")]
-	[NWDClassMenuNameAttribute ("Barter Request")]
+    [NWDClassMenuNameAttribute ("Barter Request")]
+    [NWDClassPhpGetAddonAttribute("GetDatasNWDAvatar (0, $tRow['AccountReference']);\nGetDatasNWDNickname(0, $tRow['AccountReference']);\n")]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDBarterRequest :NWDBasis <NWDBarterRequest>
 	{

@@ -882,7 +882,13 @@ namespace NetWorkedData
             "\t\t\t{\n" +
             "\t\t\t\twhile($tRow = $tResult->fetch_row())\n" +
             "\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
+                "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n";
+            if (tType.GetCustomAttributes(typeof(NWDClassPhpGetAddonAttribute), true).Length > 0)
+            {
+                NWDClassPhpGetAddonAttribute tScriptNameAttribut = (NWDClassPhpGetAddonAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpGetAddonAttribute), true)[0];
+                tSynchronizationFile += tScriptNameAttribut.Script;
+            }
+            tSynchronizationFile += "\n\n\n" +
             "\t\t\t\t\t}\n" +
             "\t\t\t\tmysqli_free_result($tResult);\n" +
             "\t\t\t}\n" +

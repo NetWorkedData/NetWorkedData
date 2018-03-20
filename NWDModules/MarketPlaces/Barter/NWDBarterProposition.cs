@@ -40,7 +40,8 @@ namespace NetWorkedData
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("BPR")]
 	[NWDClassDescriptionAttribute ("Barter Proposition descriptions Class")]
-	[NWDClassMenuNameAttribute ("Barter Proposition")]
+    [NWDClassMenuNameAttribute ("Barter Proposition")]
+    [NWDClassPhpGetAddonAttribute("GetDatasNWDAvatar (0, $tRow['AccountReference']);\nGetDatasNWDNickname(0, $tRow['AccountReference']);\n")]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDBarterProposition :NWDBasis <NWDBarterProposition>
 	{
@@ -55,7 +56,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         // Your properties
         [NWDTooltips("Barter reference")]
-		public NWDReferenceType<NWDBarterRequest> BarterRequestReference { get; set; }
+        public NWDReferenceType<NWDBarterRequest> BarterRequestReference { get; set; }
+        public NWDReferenceType<NWDAccount> BarterAccountReference { get; set; }
 		[Indexed ("AccountIndex", 0)]
         [NWDTooltips("Account reference")]
         public NWDReferenceType<NWDAccount> AccountReference { get; set; }

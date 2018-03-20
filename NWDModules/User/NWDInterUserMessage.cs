@@ -43,6 +43,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Post message to user to user ")]
     [NWDClassMenuNameAttribute("User Inter Message")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
+    [NWDClassPhpGetAddonAttribute("GetDatasNWDAvatar (0, $tRow['Sender']);\nGetDatasNWDNickname(0, $tRow['Sender']);\nGetDatasNWDAvatar (0, $tRow['Receiver']);\nGetDatasNWDNickname(0, $tRow['Receiver']);\n")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
