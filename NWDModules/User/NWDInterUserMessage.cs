@@ -211,6 +211,54 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string MessageRichText(bool sBold = true)
+        {
+            string rReturn = "";
+            NWDMessage tMessage = Message.GetObject();
+            if (tMessage != null)
+            {
+                rReturn = tMessage.Message.GetLocalString();
+                rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string MessageRichTextForLanguage(string sLanguage, bool sBold = true)
+        {
+            string rReturn = "";
+            NWDMessage tMessage = Message.GetObject();
+            if (tMessage != null)
+            {
+                rReturn = tMessage.Message.GetLanguageString(sLanguage);
+                rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string TitleRichText(bool sBold = true)
+        {
+            string rReturn = "";
+            NWDMessage tMessage = Message.GetObject();
+            if (tMessage != null)
+            {
+                rReturn = tMessage.Title.GetLocalString();
+                rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string TitleRichTextForLanguage(string sLanguage, bool sBold = true)
+        {
+            string rReturn = "";
+            NWDMessage tMessage = Message.GetObject();
+            if (tMessage != null)
+            {
+                rReturn = tMessage.Title.GetLanguageString(sLanguage);
+                rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
             string rText = sText;

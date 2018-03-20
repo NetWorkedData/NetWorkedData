@@ -217,7 +217,7 @@ namespace NetWorkedData
 
         [NWDTooltipsAttribute("Select items to use in message by these tags" +
                               "\n •for item name #I1# #I2# …" +
-                              "\n •for quantity and item name #xI0# #xI1# …" +
+                              "\n •for quantity and item name #xI1# #xI2# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItem> ReplaceItems
         {
@@ -225,7 +225,7 @@ namespace NetWorkedData
         }
         [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
                               "\n •for item to describe name #G1# #G2# …" +
-                              "\n •for quantity and item to describe name #xG0# #xG1# …" +
+                              "\n •for quantity and item to describe name #xG1# #xG2# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups
         {
@@ -233,7 +233,7 @@ namespace NetWorkedData
         }
         [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
                               "\n •for item to describe name #P1# #P2# …" +
-                              "\n •for quantity and item to describe name #xP0# #xP1# …" +
+                              "\n •for quantity and item to describe name #xP1# #xP2# …" +
                               "")]
         public NWDReferencesQuantityType<NWDPack> ReplacePacks
         {
