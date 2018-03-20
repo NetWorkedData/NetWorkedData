@@ -63,41 +63,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         //PROPERTIES
-        [NWDGroupStart("Publisher")]
-        [NWDTooltips("The publisher sender")]
+        [NWDGroupStart("Sender")]
+        [NWDTooltips("The Sender account reference")]
         public NWDReferenceType<NWDAccount> Sender {get; set;}
         [NWDTooltips("The publishing date")]
         public NWDDateTimeType PublicationDate {get; set;}
-        [NWDTooltipsAttribute("Select characters to use in message by these tags" +
-                              "\n •for Fistname : #F1# #F2# …" +
-                              "\n •for Lastname : #L1# #L2# …" +
-                              "\n •for Nickname : #N1# #N2# …" +
-                              "")]
-        public NWDReferencesListType<NWDCharacter> ReplaceCharacters {get; set;}
-        [NWDTooltipsAttribute("Select items to use in message by these tags" +
-                              "\n •for item name #I1# #I2# …" +
-                              "\n •for quantity and item name #xI1# #xI2# …" +
-                              "")]
-        public NWDReferencesQuantityType<NWDItem> ReplaceItems{get; set;}
-        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
-                              "\n •for item to describe name #G0# #G1# …" +
-                              "\n •for quantity and item to describe name #xG1# #xG2# …" +
-                              "")]
-        public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups {get; set;}
-        [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
-                              "\n •for item to describe name #P1# #P2# …" +
-                              "\n •for quantity and item to describe name #xP1# #xP2# …" +
-                              "")]
-        public NWDReferencesQuantityType<NWDPack> ReplacePacks {get; set;}
-
         [NWDTooltips("Receipt Acknowledgment : publisher see the meessage was reading")]
         public bool ReceiptAcknowledgment { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStart("Reader")]
-        [NWDTooltips("The receiver reference")]
+        [NWDGroupStart("Receiver")]
+        [NWDTooltips("The Receiver account reference")]
         public NWDReferenceType<NWDAccount> Receiver {get; set;}
         [NWDTooltips("The message was show at date")]
         public NWDDateTimeType DistributeDate {get; set;}
@@ -111,8 +89,31 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDTooltips("The published message template, use @nickname@ or @nicknameid@ to replace by player nickname")]
+        [NWDGroupStart("Message")]
+        [NWDTooltips("The Message")]
         public NWDReferenceType<NWDMessage> Message { get; set; }
+        [NWDTooltipsAttribute("Select characters to use in message by these tags" +
+                      "\n •for Fistname : #F1# #F2# …" +
+                      "\n •for Lastname : #L1# #L2# …" +
+                      "\n •for Nickname : #N1# #N2# …" +
+                      "")]
+        public NWDReferencesListType<NWDCharacter> ReplaceCharacters { get; set; }
+        [NWDTooltipsAttribute("Select items to use in message by these tags" +
+                              "\n •for item name #I0# #I1# …" +
+                              "\n •for quantity and item name #xI0# #xI1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDItem> ReplaceItems { get; set; }
+        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
+                              "\n •for item to describe name #G0# #G1# …" +
+                              "\n •for quantity and item to describe name #xG0# #xG1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups { get; set; }
+        [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
+                              "\n •for item to describe name #P0# #P1# …" +
+                              "\n •for quantity and item to describe name #xP0# #xP1# …" +
+                              "")]
+        public NWDReferencesQuantityType<NWDPack> ReplacePacks { get; set; }
+        [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
