@@ -67,8 +67,6 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccount> Publisher {get; set;}
         [NWDTooltips("The publishing date")]
         public NWDDateTimeType PublicationDate {get; set;}
-        [NWDTooltips("The published message template")]
-        public NWDReferenceType<NWDMessage> Message {get; set;}
         [NWDTooltipsAttribute("Select characters to use in message by these tags" +
                               "\n •for Fistname : #F0# #F1# …" +
                               "\n •for Lastname : #L0# #L1# …" +
@@ -97,32 +95,37 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDGroupStart("Push system")]
-        [NWDTooltips("The published message template")]
-        public NWDReferenceType<NWDMessage> PushMessage {get; set;}
-        [NWDTooltips("The message in jsons for Android pushing")]
-        public string PushAndroid { get; set;}
-        [NWDTooltips("The message in jsons for Apple pushing")]
-        public string PushApple { get; set;}
-        [NWDTooltips("The ultimate date to push the message")]
-        public NWDDateTimeType PushDate {get; set;}
-        [NWDTooltips("The message was pushed")]
-        public bool Push {get; set;}
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
-        [NWDGroupStart("Destinataire")]
+        [NWDGroupStart("Reader")]
         [NWDTooltips("The receiver reference")]
         public NWDReferenceType<NWDAccount> Receiver {get; set;}
-        [NWDTooltips("The message was show ")]
-        public bool Distribute {get; set;}
         [NWDTooltips("The message was show at date")]
         public NWDDateTimeType DistributeDate {get; set;}
+        [NWDTooltips("The message was show ")]
+        public bool Distribute { get; set; }
         [NWDTooltips("The message was read")]
         public bool Read {get; set;}
         [NWDTooltips("Don't trash message, just archived to hide the message")]
         public bool Archived { get; set;}
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDTooltips("The published message template")]
+        public NWDReferenceType<NWDMessage> Message { get; set; }
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Push system")]
+        [NWDTooltips("The published message template")]
+        public NWDReferenceType<NWDMessage> PushMessage { get; set; }
+        [NWDTooltips("The message in jsons for Android pushing")]
+        public string PushAndroid { get; set; }
+        [NWDTooltips("The message in jsons for Apple pushing")]
+        public string PushApple { get; set; }
+        [NWDTooltips("The ultimate date to push the message")]
+        public NWDDateTimeType PushDate { get; set; }
+        [NWDTooltips("The message was pushed")]
+        public bool Push { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]

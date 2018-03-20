@@ -68,8 +68,7 @@ namespace NetWorkedData
         }
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
-        [NWDGroupStartAttribute("Counter", true, true, true)]
-        [NWDTooltips("Quest Counter, Finish is Success and Failed")]
+        [NWDGroupStartAttribute("Counter", "Quest Counter, Finish is Success and Failed", true, true, true)]
         public int AcceptCounter
         {
             get; set;
@@ -90,7 +89,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupSeparator]
+        [NWDSeparator]
         public int FinishCounter
         {
             get; set;
