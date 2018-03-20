@@ -585,12 +585,12 @@ namespace NetWorkedData
                             {
                                 if (tBold == true)
                                 {
-                                    tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tBoldFoldoutStyle.fixedHeight), tActualDraw, tReference.mGroupName, tBoldFoldoutStyle);
+                                    tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tBoldFoldoutStyle.fixedHeight), tActualDraw, tReference.Content(), tBoldFoldoutStyle);
                                     tY += tBoldFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 }
                                 else
                                 {
-                                    tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tFoldoutStyle.fixedHeight), tActualDraw, tReference.mGroupName, tFoldoutStyle);
+                                    tActualDraw = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tFoldoutStyle.fixedHeight), tActualDraw, tReference.Content(), tFoldoutStyle);
                                     tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 }
                             }

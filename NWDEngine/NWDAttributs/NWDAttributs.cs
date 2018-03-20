@@ -94,10 +94,11 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDGroupStartAttribute : Attribute
 	{
-		public string mGroupName;
+        public string mGroupName = "";
+        public string mToolsTips = "";
 		public bool mBoldHeader;
 		public bool mReducible;
-		public bool mOpen;
+        public bool mOpen;
 
 		public NWDGroupStartAttribute Parent;
 
@@ -140,7 +141,22 @@ namespace NetWorkedData
 			this.mBoldHeader = sBoldHeader;
 			this.mOpen = sOpen;
 			this.mReducible = sReducible;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDGroupStartAttribute(string sGroupName, string sToolsTips, bool sBoldHeader = false, bool sReducible = true, bool sOpen = true)
+        {
+            this.mGroupName = sGroupName;
+            this.mToolsTips = sToolsTips;
+            this.mBoldHeader = sBoldHeader;
+            this.mOpen = sOpen;
+            this.mReducible = sReducible;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public GUIContent Content()
+        {
+            return new GUIContent(mGroupName, mToolsTips);
+        }
+        //-------------------------------------------------------------------------------------------------------------
 	}
     //-------------------------------------------------------------------------------------------------------------
     public enum NWDIfType
