@@ -67,11 +67,6 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccount> Publisher {get; set;}
         [NWDTooltips("The publishing date")]
         public NWDDateTimeType PublicationDate {get; set;}
-<<<<<<< HEAD
-        [NWDTooltips("The published message template, use @nickname@ or @nicknameid@ to replace by player nickname")]
-        public NWDReferenceType<NWDMessage> Message {get; set;}
-=======
->>>>>>> c8fa31f8402bff2f0104d0e932206152b0e2859a
         [NWDTooltipsAttribute("Select characters to use in message by these tags" +
                               "\n •for Fistname : #F1# #F2# …" +
                               "\n •for Lastname : #L1# #L2# …" +
@@ -115,7 +110,7 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDTooltips("The published message template")]
+        [NWDTooltips("The published message template, use @nickname@ or @nicknameid@ to replace by player nickname")]
         public NWDReferenceType<NWDMessage> Message { get; set; }
 
         [NWDGroupSeparator]
