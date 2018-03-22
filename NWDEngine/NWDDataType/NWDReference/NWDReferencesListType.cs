@@ -123,6 +123,36 @@ namespace NetWorkedData
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public K[] GetObjectsAbsolute()
+        {
+            List<K> tList = new List<K>();
+            string[] tArray = GetReferences();
+            foreach (string tRef in tArray)
+            {
+                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                if (tObject != null)
+                {
+                    tList.Add(tObject);
+                }
+            }
+            return tList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<K> GetObjectsAbsoluteList()
+        {
+            List<K> tList = new List<K>();
+            string[] tArray = GetReferences();
+            foreach (string tRef in tArray)
+            {
+                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                if (tObject != null)
+                {
+                    tList.Add(tObject);
+                }
+            }
+            return tList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetObjects (K[] sObjects)
 		{
 			List<string> tList = new List<string>();

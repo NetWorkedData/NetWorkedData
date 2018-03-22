@@ -396,7 +396,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             FilterTableEditor();
             PrefSave();
-            PrepareOrders();
+            //PrepareOrders(); // don't do that here: that's fake the weservice number / order
 #else
 #endif
         }

@@ -43,7 +43,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Post message to user to user ")]
     [NWDClassMenuNameAttribute("User Inter Message")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    [NWDClassPhpGetAddonAttribute("GetDatasNWDAvatar (0, $tRow['Sender']);\nGetDatasNWDNickname(0, $tRow['Sender']);\nGetDatasNWDAvatar (0, $tRow['Receiver']);\nGetDatasNWDNickname(0, $tRow['Receiver']);\n")]
+    [NWDClassMenuNameAttribute("User Inter Message")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -65,6 +65,8 @@ namespace NetWorkedData
         //PROPERTIES
         [NWDGroupStart("Sender")]
         [NWDTooltips("The Sender account reference")]
+        [NWDNeedAvatarAttribute()]
+        [NWDNeedNicknameAttribute()]
         public NWDReferenceType<NWDAccount> Sender {get; set;}
         [NWDTooltips("The publishing date")]
         public NWDDateTimeType PublicationDate {get; set;}
@@ -76,6 +78,8 @@ namespace NetWorkedData
 
         [NWDGroupStart("Receiver")]
         [NWDTooltips("The Receiver account reference")]
+        [NWDNeedAvatarAttribute()]
+        [NWDNeedNicknameAttribute()]
         public NWDReferenceType<NWDAccount> Receiver {get; set;}
         [NWDTooltips("The message was show at date")]
         public NWDDateTimeType DistributeDate {get; set;}

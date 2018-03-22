@@ -264,6 +264,8 @@ namespace NetWorkedData
             tWebServices += "// script is finished\n" +
                 "\t}\n" +
                 "//--------------------\n" +
+                "include_once($PATH_BASE.'/Environment/"+ Environment +"/webservices_addon.php');\n" +
+                "//--------------------\n" +
                 "// finish the generic process\n" +
                 "include_once ($PATH_BASE.'/Engine/finish.php');\n" +
                 "//-------------------- \n" +
@@ -330,8 +332,75 @@ namespace NetWorkedData
                 "?>\n";
             File.WriteAllText(tServerRootFolder + "/webservices_inside.php", tWebServicesAnnexe);
             AssetDatabase.ImportAsset(tServerRootFolder + "/webservices_inside.php");
-            //========= WEBSERVICE FILE WHEN ACCOUNT IS SIGN-IN SUCCESSED
 
+             //========= WEBSERVICE FILE AS ADDON OF ANOTHER FILE             string tWebServicesAddon = "";             tWebServicesAddon += "<?php\n" +                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +                 "//Created by Jean-Françis CONTART\n" +                 "//--------------------\n" +                 "// WEBSERVICES FUNCTIONS FOR ADDON INCLUDING\n" +                 //"//--------------------\n" +                 //"// Ok I create a permanent account if temporary before\n" +                 //"AccountAnonymeGenerate();\n" +                 //"//--------------------\n" +                 //"if ($ban == true)\n" +                 //"\t{\n" +                 //"\t\terror('ACC99');\n" +                 //"\t}\n" +                 "//--------------------\n" +                 "if (!errorDetected())\n" +                 "\t{\n";             // I need include ALL tables management files to manage ALL tables             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)             {
+                bool tCanBeAddoned = false;
+
+                foreach (Type tSecondType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+                {
+                    foreach (var tProp in tSecondType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                    {
+                        if (tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true).Length > 0)
+                        {
+                            foreach (NWDNeedReferenceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true))
+                            {
+                                if (tReference.ClassName == tType.Name)
+                                {
+                                    tCanBeAddoned = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (tProp.GetCustomAttributes(typeof(NWDNeedAvatarAttribute), true).Length > 0)
+                        {
+                            if (typeof(NWDAvatar).Name == tType.Name)
+                            {
+                                tCanBeAddoned = true;
+                            }
+                        }
+                        if (tProp.GetCustomAttributes(typeof(NWDNeedNicknameAttribute), true).Length > 0)
+                        {
+                            if (typeof(NWDUserNickname).Name == tType.Name)
+                            {
+                                tCanBeAddoned = true;
+                            }
+                        }
+                        if (tCanBeAddoned == true)
+                        {
+                           break;
+                        }
+                    }
+                    if (tCanBeAddoned == true)
+                    {
+                        break;
+                    }
+                }
+
+                if (tCanBeAddoned == true)
+                {
+                    var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                        tWebServicesAddon += "\tif (isset($REF_NEEDED['" + tClassName + "']))\n\t\t{\n";
+                        tWebServicesAddon += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                       // tWebServicesAddon += "\t\t\t // Need write loop to get Reference\n";
+                        tWebServicesAddon += "\t\t\t GetDatas" + tClassName + "ByReferences(array_keys($REF_NEEDED['" + tClassName + "']));\n";
+                        tWebServicesAddon += "\t\t}\n";
+
+                        if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tType))
+                        {
+                            tWebServicesAddon += "\tif (isset($ACC_NEEDED['" + tClassName + "']))\n\t\t{\n";
+                            tWebServicesAddon += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                            //tWebServicesAddon += "\t\t\t // Need write loop to get Datas account link\n";
+                            tWebServicesAddon += "\t\t\t GetDatas" + tClassName + "ByAccounts (0, array_keys($ACC_NEEDED['" + tClassName + "']));\n";
+                            tWebServicesAddon += "\t\t}\n";
+                        }
+                    }
+                }             }             tWebServicesAddon += "// script is finished\n" +                 "\t}\n" +                 "//-------------------- \n" +                 "?>\n";             File.WriteAllText(tServerRootFolder + "/webservices_addon.php", tWebServicesAddon);             AssetDatabase.ImportAsset(tServerRootFolder + "/webservices_addon.php");
+
+
+            //========= WEBSERVICE FILE WHEN ACCOUNT IS SIGN-IN SUCCESSED
             string tAccountServices = "";
             tAccountServices += "<?php\n" +
                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +

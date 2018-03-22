@@ -42,14 +42,15 @@ namespace NetWorkedData
         #if COLORED_ADVANCED_DEBUG
         void CADDebugOverlayAddOnCallBack(CADDebugOverlay sDebug)
         {
-            Debug.Log("SceneController CADDebugOverlayAddOnCallBack()");
-            Debug.Log("SceneController Add this string " + NWDDataManager.SharedInstance().Informations());
+            //Debug.Log("ShowLog CADDebugOverlayAddOnCallBack()");
+            //Debug.Log("ShowLog Add this string " + NWDDataManager.SharedInstance().Informations());
             sDebug.AddString(NWDDataManager.SharedInstance().Informations());
         }
         #endif 
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
+            //Debug.Log("NetWorkedData Awake");
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
             NWDDataManager.SharedInstance().NotificationCenter.AddObserver(this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
@@ -58,14 +59,17 @@ namespace NetWorkedData
             });
             // Add callback to 
             #if COLORED_ADVANCED_DEBUG
+            //Debug.Log("Add CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
             #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
+            //Debug.Log("NetWorkedData OnDestroy");
             NWDDataManager.SharedInstance().NotificationCenter.RemoveObserverEveryWhere(this);
             #if COLORED_ADVANCED_DEBUG
+            //Debug.Log("Remove CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
             #endif
         }

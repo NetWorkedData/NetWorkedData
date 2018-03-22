@@ -16,6 +16,9 @@ using SQLite4Unity3d;
 
 #if UNITY_EDITOR
 
+using UnityEditor.iOS.Xcode;
+using System.IO;
+
 using UnityEditor;
 using UnityEditor.Build;
 
@@ -34,6 +37,25 @@ namespace NetWorkedData
 			switch (tBuildTarget) {
                 case BuildTarget.StandaloneOSX: 
 				{
+
+                        // TODO : change project localization 
+                        string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
+                        // Get plist
+                        string plistPath = path + "/Contents/Info.plist";
+                        PlistDocument plist = new PlistDocument();
+                        plist.ReadFromString(File.ReadAllText(plistPath));
+                        // Get root
+                        PlistElementDict rootDict = plist.root;
+                        // Change value of CFBundleVersion in Xcode plist
+                        var buildKey = "CFBundleDevelopmentRegion";
+                        rootDict.SetString(buildKey, NWDAppConfiguration.SharedInstance().DataLocalizationManager.ISOValue(tProjetcLanguage));
+                        // Change value of CFBundleDisplayName in Xcode plist
+                        var tBundleDisplayNameKey = "CFBundleDisplayName";
+                        string tBundleName = NWDAppConfiguration.SharedInstance().BundleName[tProjetcLanguage];
+                        tBundleName = Application.productName;
+                        rootDict.SetString(tBundleDisplayNameKey, tBundleName);
+                        // Write to file
+                        File.WriteAllText(plistPath, plist.WriteToString());
 				}
 				break;
 			case BuildTarget.StandaloneWindows: 
@@ -42,6 +64,59 @@ namespace NetWorkedData
 				break;
 			case BuildTarget.iOS: 
 				{
+                        // TODO : change project localization 
+                        string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
+                        // Get plist
+                        string plistPath = path + "/Info.plist";
+                        PlistDocument plist = new PlistDocument();
+                        plist.ReadFromString(File.ReadAllText(plistPath));
+                        // Get root
+                        PlistElementDict rootDict = plist.root;
+                        // Change value of CFBundleVersion in Xcode plist
+                        var buildKey = "CFBundleDevelopmentRegion";
+                        rootDict.SetString(buildKey, NWDAppConfiguration.SharedInstance().DataLocalizationManager.ISOValue(tProjetcLanguage));
+                        // Write to file
+                        File.WriteAllText(plistPath, plist.WriteToString());
+
+
+
+
+                        /*
+
+                        // NOT WORKING !!!
+
+                        // get project xcode
+                        string tPBXProjectPath = PBXProject.GetPBXProjectPath(path);
+                        PBXProject tPBXProject = new PBXProject();
+                        tPBXProject.ReadFromString(File.ReadAllText(tPBXProjectPath));
+
+                        // Add localizable string
+                        Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
+                        foreach (KeyValuePair<string, string> tKeyValue in tLanguageDico)
+                        {
+                            bool tContains = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Contains(tKeyValue.Value);
+                            if (tContains == true)
+                            {
+                                //string tV = NWDAppConfiguration.SharedInstance().DataLocalizationManager.ISOValue(tKeyValue.Value);
+                                string tV = tKeyValue.Value;
+                                if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tKeyValue.Value))
+                                {
+                                    // todo create the InfoPlist.strings and add to project ?!
+                                    string tBundleName = NWDAppConfiguration.SharedInstance().BundleName[tKeyValue.Value];
+                                    if (string.IsNullOrEmpty(tBundleName) == false)
+                                    {
+
+                                        if (Directory.Exists(path + "/" + tV + ".lproj") == false)
+                                        {
+                                            Directory.CreateDirectory(path + "/" + tV + ".lproj");
+                                        }
+                                        File.WriteAllText(path + "/" + tV + ".lproj/InfoPlist.strings", "\n\"CFBundleDisplayName\" = \"" + tBundleName + "\";\n");
+                                        tPBXProject.AddFile(path + "/" + tV + ".lproj/InfoPlist.strings", "InfoPlist.strings", PBXSourceTree.Source);
+                                    }
+                                }
+                            }
+                        }
+                        */
 				}
 				break;
 			case BuildTarget.Android: 

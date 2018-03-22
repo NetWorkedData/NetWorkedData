@@ -12,59 +12,210 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public partial class NWDDataLocalizationManager
-	{
-		public const string kBaseDev = "BASE";
-		public string LanguagesString = kBaseDev + ";de;en;es;fr;it;ja;ko;pt;ru;th";
-		public Dictionary<string,string> LanguageDico = new Dictionary<string,string> ();
+    public partial class NWDDataLocalizationManager
+    {
+        public const string kBaseDev = "BASE";
+        public string LanguagesString = kBaseDev + ";de;en;es;fr;it;ja;ko;pt;ru;th";
+        public Dictionary<string, string> LanguageDico = new Dictionary<string, string>();
 
-		public NWDDataLocalizationManager ()
-		{
-			// LanguageDico.Add ("Base Dev", kBaseDev);
-			LanguageDico.Add ("English (U.S.)", "en");		
-//			LanguageDico.Add ("English (British)", "en-GB");	
-//			LanguageDico.Add ("English (Australian)", "en-AU");
-//			LanguageDico.Add ("English (Canadian)", "en-CA");	
-//			LanguageDico.Add ("English (Indian)", "en-IN");
-			LanguageDico.Add ("French", "fr");	
-//			LanguageDico.Add ("French (Canadian)", "fr-CA");		
-			LanguageDico.Add ("Spanish", "es");		
-//			LanguageDico.Add ("Spanish (Mexico)", "es-MX");		
-			LanguageDico.Add ("Portuguese", "pt");		
-//			LanguageDico.Add ("Portuguese (Brazil)", "pt-BR");		
-			LanguageDico.Add ("Italian", "it");		
-			LanguageDico.Add ("German", "de");	
-			LanguageDico.Add ("Chinese (Simplified)", "zhs");		
-			LanguageDico.Add ("Chinese (Traditional)", "zht");
-//			LanguageDico.Add ("Chinese (Simplified)", "zh-Hans");		
-//			LanguageDico.Add ("Chinese (Traditional)", "zh-Hant");		
-//			LanguageDico.Add ("Chinese (Hong Kong)", "zh-HK");		
-			LanguageDico.Add ("Dutch", "nl");		
-			LanguageDico.Add ("Japanese", "ja");		
-			LanguageDico.Add ("Korean", "ko");		
-			LanguageDico.Add ("Vietnamese", "vi");		
-			LanguageDico.Add ("Russian", "ru");		
-			LanguageDico.Add ("Swedish", "sv");		
-			LanguageDico.Add ("Danish", "da");		
-			LanguageDico.Add ("Finnish", "fi");		
-			LanguageDico.Add ("Norwegian (Bokmal)", "nb");		
-			LanguageDico.Add ("Turkish", "tr");		
-			LanguageDico.Add ("Greek", "el");		
-			LanguageDico.Add ("Indonesian", "id");		
-			LanguageDico.Add ("Malay", "ms");		
-			LanguageDico.Add ("Thai", "th");		
-			LanguageDico.Add ("Hindi", "hi");		
-			LanguageDico.Add ("Hungarian", "hu");		
-			LanguageDico.Add ("Polish", "pl");		
-			LanguageDico.Add ("Czech", "cs");		
-			LanguageDico.Add ("Slovak", "sk");		
-			LanguageDico.Add ("Ukrainian", "uk");		
-			LanguageDico.Add ("Croatian", "hr");		
-			LanguageDico.Add ("Catalan", "ca");		
-			LanguageDico.Add ("Romanian", "ro");		
-			LanguageDico.Add ("Hebrew", "he");		
-			LanguageDico.Add ("Arabic", "ar");
-		}
-	}
+        public NWDDataLocalizationManager()
+        {
+            // LanguageDico.Add ("Base Dev", kBaseDev);
+            LanguageDico.Add("English (U.S.)", "en");
+            //			LanguageDico.Add ("English (British)", "en_GB");	
+            //			LanguageDico.Add ("English (Australian)", "en_AU");
+            //			LanguageDico.Add ("English (Canadian)", "en_CA");	
+            //			LanguageDico.Add ("English (Indian)", "en_IN");
+            LanguageDico.Add("French", "fr");
+            //			LanguageDico.Add ("French (Canadian)", "fr_CA");		
+            LanguageDico.Add("Spanish", "es");
+            //			LanguageDico.Add ("Spanish (Mexico)", "es_MX");		
+            LanguageDico.Add("Portuguese", "pt");
+            //			LanguageDico.Add ("Portuguese (Brazil)", "pt_BR");		
+            LanguageDico.Add("Italian", "it");
+            LanguageDico.Add("German", "de");
+            LanguageDico.Add("Chinese (Simplified)", "zhs");
+            LanguageDico.Add("Chinese (Traditional)", "zht");
+            LanguageDico.Add("Dutch", "nl");
+            LanguageDico.Add("Japanese", "ja");
+            LanguageDico.Add("Korean", "ko");
+            LanguageDico.Add("Vietnamese", "vi");
+            LanguageDico.Add("Russian", "ru");
+            LanguageDico.Add("Swedish", "sv");
+            LanguageDico.Add("Danish", "da");
+            LanguageDico.Add("Finnish", "fi");
+            LanguageDico.Add("Norwegian (Bokmal)", "nb");
+            //LanguageDico.Add ("Norwegian (Nynorsk)", "nn_NO");      
+            LanguageDico.Add("Turkish", "tr");
+            LanguageDico.Add("Greek", "el");
+            LanguageDico.Add("Indonesian", "id");
+            LanguageDico.Add("Malay", "ms");
+            LanguageDico.Add("Thai", "th");
+            LanguageDico.Add("Hindi", "hi");
+            LanguageDico.Add("Hungarian", "hu");
+            LanguageDico.Add("Polish", "pl");
+            LanguageDico.Add("Czech", "cs");
+            LanguageDico.Add("Slovak", "sk");
+            LanguageDico.Add("Ukrainian", "uk");
+            LanguageDico.Add("Croatian", "hr");
+            LanguageDico.Add("Catalan", "ca");
+            LanguageDico.Add("Romanian", "ro");
+            LanguageDico.Add("Hebrew", "he");
+            LanguageDico.Add("Arabic", "ar");
+            //LanguageDico.Add("Arabic(Algeria)", "ar_DZ");
+            //LanguageDico.Add("Arabic(Bahrain)", "ar_BH");
+            //LanguageDico.Add("Arabic(Egypt)", "ar_EG");
+            //LanguageDico.Add("Arabic(Iraq)", "ar_IQ");
+            //LanguageDico.Add("Arabic(Jordan)", "ar_JO");
+            //LanguageDico.Add("Arabic(Kuwait)", "ar_KW");
+            //LanguageDico.Add("Arabic(Lebanon)", "ar_LB");
+            //LanguageDico.Add("Arabic(Libya)", "ar_LY");
+            //LanguageDico.Add("Arabic(Morocco)", "ar_MA");
+            //LanguageDico.Add("Arabic(Oman)", "ar_OM");
+            //LanguageDico.Add("Arabic(Qatar)", "ar_QA");
+            //LanguageDico.Add("Arabic(Saudi Arabia)", "ar_SA");
+            //LanguageDico.Add("Arabic(Sudan)", "ar_SD");
+            //LanguageDico.Add("Arabic(Syria)", "ar_SY");
+            //LanguageDico.Add("Arabic(Tunisia)", "ar_TN");
+            //LanguageDico.Add("Arabic(Uae)", "ar_AE");
+            //LanguageDico.Add("Arabic(Yemen)", "ar_YE");
+        }
+
+        public string ISOValue(string sValue)
+        {
+            if (sValue == "fr")
+            {
+                return "fr_FR";
+            }
+            else if (sValue == "en")
+            {
+                return "en_US";
+            }
+            else if (sValue == "es")
+            {
+                return "es_ES";
+            }
+            else if (sValue == "pt")
+            {
+                return "pt_PT";
+            }
+            else if (sValue == "it")
+            {
+                return "it_IT";
+            }
+            else if (sValue == "de")
+            {
+                return "de_DE";
+            }
+            else if (sValue == "zhs")
+            {
+                return "zh_CN";
+            }
+            else if (sValue == "zht")
+            {
+                return "zh_TW";
+            }
+            else if (sValue == "nl")
+            {
+                return "nl_NL";
+            }
+            else if (sValue == "ja")
+            {
+                return "ja_JP";
+            }
+            else if (sValue == "ko")
+            {
+                return "ko_KR";
+            }
+            else if (sValue == "vi")
+            {
+                return "vi_VN";
+            }
+            else if (sValue == "ru")
+            {
+                return "ru_RU";
+            }
+            else if (sValue == "sv")
+            {
+                return "sv_SE";
+            }
+            else if (sValue == "da")
+            {
+                return "da_DK";
+            }
+            else if (sValue == "fi")
+            {
+                return "fi_FI";
+            }
+            else if (sValue == "nb")
+            {
+                return "nb_NO";
+            }
+            else if (sValue == "tr")
+            {
+                return "tr_TR";
+            }
+            else if (sValue == "el")
+            {
+                return "el_GR";
+            }
+            else if (sValue == "id")
+            {
+                return "id_ID";
+            }
+            else if (sValue == "ms")
+            {
+                return "ms_My";
+            }
+            else if (sValue == "th")
+            {
+                return "th_TH";
+            }
+            else if (sValue == "hi")
+            {
+                return "hi_In";
+            }
+            else if (sValue == "hu")
+            {
+                return "hu_HU";
+            }
+            else if (sValue == "pl")
+            {
+                return "pl_PL";
+            }
+            else if (sValue == "cs")
+            {
+                return "cs_CZ";
+            }
+            else if (sValue == "sk")
+            {
+                return "sk_SK";
+            }
+            else if (sValue == "uk")
+            {
+                return "uk_UA";
+            }
+            else if (sValue == "hr")
+            {
+                return "hr_HR";
+            }
+            else if (sValue == "ca")
+            {
+                return "ca_ES";
+            }
+            else if (sValue == "ro")
+            {
+                return "ro_RO";
+            }
+            else if (sValue == "he")
+            {
+                return "he_IL";
+            }
+            else
+            {
+                return sValue;
+            }
+        }
+    }
 }
 //=====================================================================================================================

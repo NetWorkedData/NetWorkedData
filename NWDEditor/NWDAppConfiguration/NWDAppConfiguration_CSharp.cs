@@ -68,6 +68,14 @@ namespace NetWorkedData
             {
                 tConstantsFile += "\t\t\tGenerateSaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
+
+            tConstantsFile += "\t\t\t//Language regenerate (MultiPass?!)\n";
+            tConstantsFile += "\t\t\tProjetcLanguage = \""+ProjetcLanguage+"\";\n";
+            foreach (KeyValuePair<string, string> tEntry in BundleName)
+            {
+                tConstantsFile += "\t\t\tBundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
+            }
+
             tConstantsFile += "\t\t\t//WebService regenerate (Apache or Siou)\n";
 
             tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();\n";

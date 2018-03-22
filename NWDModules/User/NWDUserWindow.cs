@@ -24,6 +24,7 @@ namespace NetWorkedData
             typeof(NWDAccount),
             typeof(NWDUserInfos),
             typeof(NWDUserNickname),
+            typeof(NWDAvatar),
             typeof(NWDPreferences),
             typeof(NWDRelationship),
             typeof(NWDOwnership),

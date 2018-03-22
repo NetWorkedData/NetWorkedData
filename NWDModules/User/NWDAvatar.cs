@@ -64,10 +64,17 @@ namespace NetWorkedData
         //PROPERTIES
 
         [NWDGroupStart("Account and final render")]
+        [NWDTooltips("The account reference of user")]
         public NWDReferenceType<NWDAccount> AccountReference
         {
             get; set;
         }
+        [NWDTooltips("Item used to render Avatar in simple game ")]
+        public NWDReferenceType<NWDItem> ItemReference
+        {
+            get; set;
+        }
+        [NWDTooltips("PNG bytes file used to render Avatar in game (use as picture or as render)")]
         public NWDImagePNGType AvatarRender
         {
             get; set;

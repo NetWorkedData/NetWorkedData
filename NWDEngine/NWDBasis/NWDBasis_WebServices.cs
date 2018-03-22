@@ -526,15 +526,63 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeThisClasse(bool sForce)
+        //public static List<Type> OverrideClasseInThisSync()
+        //{
+        //    return new List<Type> { typeof(K)/*, typeof(NWDUserNickname), etc*/ };
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> ClasseInThisSync()
         {
-            if (sForce == true)
+            var tMethodInfo = ClassType().GetMethod("OverrideClasseInThisSync", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodInfo != null)
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type> { typeof(K) });
+                return tMethodInfo.Invoke(null, null) as List<Type>;
             }
             else
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(new List<Type> { typeof(K) });
+                return new List<Type> { typeof(K) };
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeThisClasse(bool sForce = false)
+        {
+            if (sForce == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync());
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeThisClasseWithBlock(bool sForce = false,
+                                                          BTBOperationBlock sSuccessBlock = null,
+                                                          BTBOperationBlock sErrorBlock = null,
+                                                          BTBOperationBlock sCancelBlock = null,
+                                                          BTBOperationBlock sProgressBlock = null,
+                                                          bool sPriority = false, 
+                                                          NWDAppEnvironment sEnvironment = null)
+        {
+            if (sForce == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(ClasseInThisSync(),
+                                                                                     sSuccessBlock,
+                                                                                     sErrorBlock,
+                                                                                     sCancelBlock,
+                                                                                     sProgressBlock,
+                                                                                     sPriority, 
+                                                                                     sEnvironment);
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForceWithBlock(ClasseInThisSync(),
+                                                                                     sSuccessBlock,
+                                                                                     sErrorBlock,
+                                                                                     sCancelBlock,
+                                                                                     sProgressBlock,
+                                                                                     sPriority,
+                                                                                     sEnvironment);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

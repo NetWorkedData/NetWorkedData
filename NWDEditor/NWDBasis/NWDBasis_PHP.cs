@@ -474,6 +474,7 @@ namespace NetWorkedData
 
             // if need Account reference I prepare the restriction
             List<string> tAccountReference = new List<string>();
+            List<string> tAccountReferences = new List<string>();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 Type tTypeOfThis = tProp.PropertyType;
@@ -488,6 +489,7 @@ namespace NetWorkedData
                             if (tSubType == typeof(NWDAccount))
                             {
                                 tAccountReference.Add("`" + tProp.Name + "` LIKE \\''.$SQL_CON->real_escape_string($sAccountReference).'\\' ");
+                                tAccountReferences.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sAccountReferences).'\\') ");
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
@@ -496,6 +498,7 @@ namespace NetWorkedData
                             if (tSubType == typeof(NWDAccount))
                             {
                                 tAccountReference.Add("`" + tProp.Name + "` LIKE \\''.$SQL_CON->real_escape_string(md5($sAccountReference.$SQL_" + tClassName + "_SaltA)).'\\' ");
+                                tAccountReferences.Add("`" + tProp.Name + "` IN (\\''.implode('\\', \\'', $sAccountReferences).'\\') ");
                             }
                         }
                     }
@@ -620,7 +623,7 @@ namespace NetWorkedData
 
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
-                "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV, $TIME_STAMP, $TIME_SYNC;\n" +
+                "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_STAMP, $TIME_SYNC;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
@@ -638,7 +641,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' " +
+            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -738,7 +741,7 @@ namespace NetWorkedData
 
             tSynchronizationFile += "function Integrity" + tClassName + "ValidateByRow ($sRow)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$tCalculate =Integrity" + tClassName + "Generate ($sRow);\n" +
             "\t\tif ($tCalculate == $sRow['Integrity'])\n" +
@@ -766,7 +769,7 @@ namespace NetWorkedData
             }
             tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $ENV;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\tglobal $admin;\n" +
             "\t\tif (Integrity" + tClassName + "Test ($sCsv) == true)\n" +
@@ -817,7 +820,7 @@ namespace NetWorkedData
             tSynchronizationFile += "" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction;\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$WSBUILD.'';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -854,10 +857,83 @@ namespace NetWorkedData
             "\t\t\t\terror('" + tTrigramme + "x40');\n" +
             "\t\t\t}\n" +
             "}" +
+                "//-------------------- \n" +
+            "function GetDatas" + tClassName + "ByReference ($sReference)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\tglobal $REP;\n" +
+            //"\t\t$tPage = $sPage*$sLimit;\n" +
+                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
+            "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+            "\t\tif (!$tResult)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t}\n" +
+            "\t\telse\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\twhile($tRow = $tResult->fetch_row())\n" +
+            "\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
+            "\t\t\t\t\t}\n";
+            string tSpecialAdd = "";
+            foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (tProp.GetCustomAttributes(typeof(NWDNeedAvatarAttribute), true).Length > 0)
+                {
+                    tSpecialAdd += NWDNeedAvatarAttribute.PHPstring(tProp.Name);
+                }
+                if (tProp.GetCustomAttributes(typeof(NWDNeedNicknameAttribute), true).Length > 0)
+                {
+                    tSpecialAdd += NWDNeedNicknameAttribute.PHPstring(tProp.Name);
+                }
+                if (tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true).Length > 0)
+                {
+                    foreach (NWDNeedReferenceAttribute tReference in tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true))
+                    {
+                        tSpecialAdd += tReference.PHPstring(tProp.Name);
+                    }
+                }
+            }
+            if (tSpecialAdd != "")
+            {
+                tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n"+tSpecialAdd+"\n\t\t\t\t\t}\n";
+            }
+
+            tSynchronizationFile += "\t\t\t\tmysqli_free_result($tResult);\n" +
+            "\t\t\t}\n" +
+            "\t}\n" +
+            "//-------------------- \n" +
+            "function GetDatas" + tClassName + "ByReferences ($sReferences)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\tglobal $REP;\n" +
+            //"\t\t$tPage = $sPage*$sLimit;\n" +
+                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\') AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
+            "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+            "\t\tif (!$tResult)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t}\n" +
+            "\t\telse\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\twhile($tRow = $tResult->fetch_row())\n" +
+            "\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
+            "\t\t\t\t\t}\n";
+            if (tSpecialAdd != "")
+            {
+                tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
+            }
+
+            tSynchronizationFile += "\t\t\t\tmysqli_free_result($tResult);\n" +
+            "\t\t\t}\n" +
+            "\t}\n" +
             "//-------------------- \n" +
             "function GetDatas" + tClassName + " ($sTimeStamp, $sAccountReference)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $ENV;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
@@ -871,7 +947,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "AND (" + string.Join("OR ", tAccountReference.ToArray()) + ") ";
             }
-            tSynchronizationFile += ";';\n";
+            tSynchronizationFile += " AND `WebServiceVersion` <= '.$WSBUILD.';';\n";
             // I do the result operation
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -882,18 +958,59 @@ namespace NetWorkedData
             "\t\t\t{\n" +
             "\t\t\t\twhile($tRow = $tResult->fetch_row())\n" +
             "\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n";
-            if (tType.GetCustomAttributes(typeof(NWDClassPhpGetAddonAttribute), true).Length > 0)
+            "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
+            "\t\t\t\t\t}\n";
+            if (tSpecialAdd != "")
             {
-                NWDClassPhpGetAddonAttribute tScriptNameAttribut = (NWDClassPhpGetAddonAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpGetAddonAttribute), true)[0];
-                tSynchronizationFile += tScriptNameAttribut.Script;
+                tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
             }
-            tSynchronizationFile += "\n\n\n" +
-            "\t\t\t\t\t}\n" +
-            "\t\t\t\tmysqli_free_result($tResult);\n" +
+            tSynchronizationFile +="\t\t\t\tmysqli_free_result($tResult);\n" +
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n" +
+
+
+            "function GetDatas" + tClassName + "ByAccounts ($sTimeStamp, $sAccountReferences)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\tglobal $REP;\n" +
+            //"\t\t$tPage = $sPage*$sLimit;\n" +
+            "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
+           "`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            // if need Account reference
+            if (tAccountReferences.Count == 0)
+            {
+            }
+            else
+            {
+                tSynchronizationFile += "AND (" + string.Join("OR ", tAccountReferences.ToArray()) + ") ";
+            }
+            tSynchronizationFile += " AND `WebServiceVersion` <= '.$WSBUILD.';';\n";
+            // I do the result operation
+            tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
+            "\t\tif (!$tResult)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t}\n" +
+            "\t\telse\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\twhile($tRow = $tResult->fetch_row())\n" +
+            "\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
+            "\t\t\t\t\t}\n";
+            if (tSpecialAdd != "")
+            {
+                tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
+            }
+            tSynchronizationFile += "\t\t\t\tmysqli_free_result($tResult);\n" +
+            "\t\t\t}\n" +
+            "\t}\n" +
+            "//-------------------- \n" +
+
+
+
+
             "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +
             "\t{\n";
             if (tINeedAdminAccount == true)

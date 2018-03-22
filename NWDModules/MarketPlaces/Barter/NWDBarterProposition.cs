@@ -41,7 +41,6 @@ namespace NetWorkedData
 	[NWDClassTrigrammeAttribute ("BPR")]
 	[NWDClassDescriptionAttribute ("Barter Proposition descriptions Class")]
     [NWDClassMenuNameAttribute ("Barter Proposition")]
-    [NWDClassPhpGetAddonAttribute("GetDatasNWDAvatar (0, $tRow['AccountReference']);\nGetDatasNWDNickname(0, $tRow['AccountReference']);\n")]
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDBarterProposition :NWDBasis <NWDBarterProposition>
 	{
@@ -56,10 +55,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         // Your properties
         [NWDTooltips("Barter reference")]
+        [NWDNeedReferenceAttribute(typeof(NWDBarterRequest))]
         public NWDReferenceType<NWDBarterRequest> BarterRequestReference { get; set; }
+        [NWDNeedAvatarAttribute()]
+        [NWDNeedNicknameAttribute()]
         public NWDReferenceType<NWDAccount> BarterAccountReference { get; set; }
 		[Indexed ("AccountIndex", 0)]
         [NWDTooltips("Account reference")]
+        [NWDNeedAvatarAttribute()]
+        [NWDNeedNicknameAttribute()]
         public NWDReferenceType<NWDAccount> AccountReference { get; set; }
         [NWDTooltips("Items to pay the bater zone trader( can be empty)")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
@@ -82,7 +86,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> {typeof(NWDBarterProposition), typeof(NWDBarterRequest), typeof(NWDUserNickname), typeof(NWDAvatar)};
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()
 		{

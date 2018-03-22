@@ -151,13 +151,13 @@ namespace NetWorkedData
             return Value.Contains(sObject.Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public K[] GetObjects()
+        public K[] GetObjects(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef) as K;
+                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -166,13 +166,43 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<K> GetObjectsList()
+        public List<K> GetObjectsList(string sAccountReference = null)
         {
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef) as K;
+                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
+                if (tObject != null)
+                {
+                    tList.Add(tObject);
+                }
+            }
+            return tList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K[] GetObjectsAbsolute()
+        {
+            List<K> tList = new List<K>();
+            string[] tArray = GetReferences();
+            foreach (string tRef in tArray)
+            {
+                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                if (tObject != null)
+                {
+                    tList.Add(tObject);
+                }
+            }
+            return tList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<K> GetObjectsAbsoluteList()
+        {
+            List<K> tList = new List<K>();
+            string[] tArray = GetReferences();
+            foreach (string tRef in tArray)
+            {
+                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);

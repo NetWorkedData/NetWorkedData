@@ -20,8 +20,10 @@ using BasicToolBox;
 using UnityEditor;
 #endif
 
+#if UNITY_IOS
 using NotificationServices = UnityEngine.iOS.NotificationServices;
 using NotificationType = UnityEngine.iOS.NotificationType;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -84,7 +86,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDTextureType Avatar
+        public NWDReferenceType<NWDAvatar> Avatar
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDUserNickname> Nickname
         {
             get; set;
         }

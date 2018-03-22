@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 224947371630646960}
   - component: {fileID: 222342793404086882}
   - component: {fileID: 114162032551873260}
+  - component: {fileID: 114136474378566264}
   m_Layer: 5
   m_Name: Panel Show Debug
   m_TagString: Untagged
@@ -1083,6 +1084,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u2022T.ACC\u2022"
+--- !u!114 &114136474378566264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1372846104779954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ade0c4685ff4c4683235c086bce89e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonShowLog: {fileID: 114073285438264472}
+  ButtonShowAccount: {fileID: 114805602479945448}
 --- !u!114 &114151713975281466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3621,7 +3635,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 14.699989}
+  m_AnchoredPosition: {x: 0, y: 14.699982}
   m_SizeDelta: {x: 0, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224413429741825772
@@ -3639,7 +3653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -57.468662}
+  m_AnchoredPosition: {x: 0, y: -57.46866}
   m_SizeDelta: {x: 0, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224432352598883566

@@ -212,6 +212,21 @@ namespace NetWorkedData
             return tList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public K[] GetObjectsAbsolute()
+        {
+            List<K> tList = new List<K>();
+            string[] tArray = GetReferences();
+            foreach (string tRef in tArray)
+            {
+                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                if (tObject != null)
+                {
+                    tList.Add(tObject);
+                }
+            }
+            return tList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public string[] GetReferences()
         {
             List<string> tValueList = new List<string>();
@@ -282,6 +297,30 @@ namespace NetWorkedData
                         int tQ = 0;
                         int.TryParse(tLineValue[1], out tQ);
                         K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
+                        if (tObject != null)
+                        {
+                            tValueDico.Add(tObject, tQ);
+                        }
+                    }
+                }
+            }
+            return tValueDico;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Dictionary<K, int> GetObjectAndQuantityAbsolute()
+        {
+            Dictionary<K, int> tValueDico = new Dictionary<K, int>();
+            if (Value != null && Value != "")
+            {
+                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string tLine in tValueArray)
+                {
+                    string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+                    if (tLineValue.Length == 2)
+                    {
+                        int tQ = 0;
+                        int.TryParse(tLineValue[1], out tQ);
+                        K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             tValueDico.Add(tObject, tQ);

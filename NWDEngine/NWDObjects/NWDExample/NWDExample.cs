@@ -114,6 +114,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDExample)/*, typeof(NWDUserNickname), etc*/ };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just after loaded from database.
         /// </summary>

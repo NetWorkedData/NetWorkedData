@@ -17,6 +17,8 @@
 		//--------------------
 	include_once ($PATH_BASE.'/Engine/relationship.php');
 		//--------------------
+	include_once ($PATH_BASE.'/Environment/Prod/webservices_addon.php');
+		//--------------------
 		// finish the generic process
 	include_once ($PATH_BASE.'/Engine/finish.php');
 		//--------------------

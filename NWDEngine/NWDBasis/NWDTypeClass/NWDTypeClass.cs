@@ -96,16 +96,60 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
-    public class NWDClassPhpGetAddonAttribute : Attribute
+    //-------------------------------------------------------------------------------------------------------------
+    //public class NWDClassPhpGetAddonAttribute : Attribute
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public string Script;
+    //    public NWDClassPhpGetAddonAttribute(string sScript)
+    //    {
+    //        this.Script = sScript;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property)]
+    public class NWDNeedAvatarAttribute : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
-        public string Script;
-        public NWDClassPhpGetAddonAttribute(string sScript)
+        public static string PHPstring(string sPropertyName)
         {
-            this.Script = sScript;
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDAvatar'][$tRow['" + sPropertyName + "']]= true;}\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property)]
+    public class NWDNeedNicknameAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHPstring(string sPropertyName)
+        {
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDUserNickname'][$tRow['"+sPropertyName+"']]= true;}\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [AttributeUsage(AttributeTargets.Property)]
+    public class NWDNeedReferenceAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string ClassName;
+        public Type ClassType;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDNeedReferenceAttribute(Type sClassType)
+        {
+            this.ClassName = sClassType.Name;
+            this.ClassType = sClassType;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string PHPstring(string sPropertyName)
+        {
+            return "$REF_NEEDED['"+this.ClassName+"'][$tRow['" + sPropertyName + "']]= true;\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //-------------------------------------------------------------------------------------------------------------
 //#endif
     //-------------------------------------------------------------------------------------------------------------
 }

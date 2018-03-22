@@ -15,6 +15,8 @@
         myLogLineReturn();
     
 		respondAdd('log',$RRR_LOG);
+		respondAdd('Addon Ref',$REF_NEEDED);
+		respondAdd('Addon Acc',$ACC_NEEDED);
 	}
 		//--------------------
 		// web-services build

@@ -137,6 +137,32 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static K GetObjectAbsoluteByReference(string sReference)
+        {
+            K rReturn = null;
+            int tIndex = ObjectsByReferenceList.IndexOf(sReference);
+            if (tIndex >= 0)
+            {
+                K tObject = ObjectsList.ElementAt(tIndex) as K;
+                    rReturn = tObject;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetObjectsAbsoluteByReferences(string[] sReferences)
+        {
+            List<K> rReturn = new List<K>();
+            foreach (string tReference in sReferences)
+            {
+                K tObject = GetObjectAbsoluteByReference(tReference);
+                if (tObject != null)
+                {
+                    rReturn.Add(tObject);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static K[] GetObjectsByReferences(string[] sReferences, string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();

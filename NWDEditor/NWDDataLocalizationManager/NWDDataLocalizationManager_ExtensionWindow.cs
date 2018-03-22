@@ -40,7 +40,9 @@ namespace NetWorkedData
 		{
 			// Draw interface for language chooser
 			Dictionary<string,string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
+            //GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, EditorStyles.helpBox);
 
+            GUILayout.Space(20.0f);
 			GUILayout.Label (NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, EditorStyles.boldLabel);
 
 			ScrollPosition = GUILayout.BeginScrollView (ScrollPosition, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (true), GUILayout.ExpandHeight (true));
@@ -67,12 +69,41 @@ namespace NetWorkedData
 				}
 			}
 			GUILayout.EndHorizontal ();
-			tResult.Sort ();
+            if (tResult.Count == 0)
+            {
+                tResult.Add("en");
+            }
+            tResult.Sort();
+            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_BUNDLENAMEE_AREA, EditorStyles.boldLabel);
+
+            foreach (string tLang in tResult)
+            {
+                if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tLang) == false)
+                {
+                    NWDAppConfiguration.SharedInstance().BundleName.Add(tLang,"");   
+                }
+                NWDAppConfiguration.SharedInstance().BundleName[tLang] = EditorGUILayout.TextField(tLang, NWDAppConfiguration.SharedInstance().BundleName[tLang]);
+            }
+
+            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA, EditorStyles.boldLabel);
+            int tIndex = tResult.IndexOf(NWDAppConfiguration.SharedInstance().ProjetcLanguage);
+            if (tIndex < 0)
+            {
+                tIndex = 0;
+            }
+            int tSelect = EditorGUILayout.Popup(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_CHOOSE,tIndex, tResult.ToArray());
+            NWDAppConfiguration.SharedInstance().ProjetcLanguage = tResult[tSelect];
+
 			string tNewLanguages = NWDDataLocalizationManager.kBaseDev + ";" + string.Join (";", tResult.ToArray ());
 			if (NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString != tNewLanguages) {
 				NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString = tNewLanguages;
 				NWDDataInspector.ActiveRepaint ();
 			}
+
+
+
+
+
 			GUILayout.EndScrollView ();
 			GUILayout.Space (8.0f);
 			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) {
