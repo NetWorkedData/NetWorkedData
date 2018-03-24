@@ -334,13 +334,26 @@ namespace NetWorkedData
                 {
                     if (tItem.TestIntegrity() && tItem.IsLockedObject() == false)
                     {
-                        // TODO LIMIT EXPORT IF I HAVE ACCOUNT RIGHTS !!!!
+                        // LIMIT EXPORT IF I HAVE ACCOUNT RIGHTS !!!!
                         // But Auhtorize if editor ....
-
-                        // TODO WARNING  
+                        // TODO Silmplify the reach editor mode ?
 #if UNITY_EDITOR
-                        tDatas.Add(tItem.DataAssembly(true));
+                        // check if is playing or not
+                        if (Application.isPlaying == true)
+                        {
+                            // TODO WARNING  ?
+                            if (tItem.IsReacheableByAccount())
+                            {
+                                tDatas.Add(tItem.DataAssembly(true));
+                            }
+                        }
+                        else
+                        {
+                            // Fake playing mode
+                            tDatas.Add(tItem.DataAssembly(true));
+                        }
 #else
+                        // not in editor : playing mode only
                         if (tItem.IsReacheableByAccount())
                         {
                             tDatas.Add(tItem.DataAssembly(true));
