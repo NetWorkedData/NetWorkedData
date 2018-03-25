@@ -30,7 +30,7 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDTypeLauncher
 	{
-        private static NWDTypeLauncher InitialLaucher = new NWDTypeLauncher();
+        //private static NWDTypeLauncher InitialLaucher = new NWDTypeLauncher();
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsLaunching = false;// to protect dupplicate launch editor/player
 		public static bool IsLaunched = false;// to protect dupplicate launch editor/player
@@ -63,7 +63,7 @@ namespace NetWorkedData
 				                       select type).ToArray ();
 				// Force launch and register class type
 				int tTrigrammeAbstract = 111;
-				int tNumberOfClasses = tAllNWDTypes.Count ();
+				//int tNumberOfClasses = tAllNWDTypes.Count ();
 				int tIndexOfActualClass = 0;
 				foreach (Type tType in tAllNWDTypes) {
 					tTrigrammeAbstract++;

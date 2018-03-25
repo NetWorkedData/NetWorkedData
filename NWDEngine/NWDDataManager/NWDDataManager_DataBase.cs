@@ -214,7 +214,7 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                 }
             }
-                }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAllTablesLocal()
         {
@@ -247,18 +247,18 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.CreateTableByType(sType);
             }
-
-            PopulateTable(sType, sAccountConnected);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void PopulateTable(Type sType, bool sAccountConnected)
-        {
-            //TODO implement code
         }
         //-------------------------------------------------------------------------------------------------------------
         public void EmptyTable(Type sType, bool sAccountConnected)
         {
-            //TODO implement code
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.TruncateTableByType(sType);
+            }
+            else
+            {
+                SQLiteConnectionEditor.TruncateTableByType(sType);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DropTable(Type sType, bool sAccountConnected)
@@ -276,7 +276,6 @@ namespace NetWorkedData
         public void ReInitializeTable(Type sType, bool sAccountConnected)
         {
             EmptyTable(sType, sAccountConnected);
-            PopulateTable(sType, sAccountConnected);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetTable(Type sType, bool sAccountConnected)
