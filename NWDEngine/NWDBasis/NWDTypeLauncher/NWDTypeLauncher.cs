@@ -48,7 +48,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void Launcher ()
 		{
-            
 			//Debug.Log ("#### NWDTypeLauncher Launcher start");
             if (IsLaunched == false && IsLaunching==false) {
                 IsLaunching = true;

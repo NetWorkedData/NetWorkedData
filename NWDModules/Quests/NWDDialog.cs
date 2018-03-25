@@ -36,7 +36,7 @@ namespace NetWorkedData
         Refuse,
         Success,
         Cancel,
-        Failed,
+        Fail,
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]

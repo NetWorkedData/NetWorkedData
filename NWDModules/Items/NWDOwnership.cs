@@ -344,6 +344,46 @@ namespace NetWorkedData
 			return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        // TODO : Verif this method
+        public static bool ContainsItemGroups(NWDReferencesQuantityType<NWDItemGroup> sItemGroupsReferenceQuantity)
+        {
+            bool rReturn = true;
+            if (sItemGroupsReferenceQuantity != null)
+            {
+                foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.GetObjectAndQuantity())
+                {
+                    if (ContainsItemGroups(tItemQuantity.Key, tItemQuantity.Value) == false)
+                    {
+                        rReturn = false;
+                        break;
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : Verif this method
+        public static bool ContainsItemGroups(NWDItemGroup sItemGroup, int sQuantity)
+        {
+            bool rReturn = true;
+            if (sItemGroup != null)
+            {
+                rReturn = false;
+                int tQ = 0;
+                foreach (NWDItem tItem in sItemGroup.ItemList.GetObjects())
+                {
+                    NWDOwnership tOwnership = NWDOwnership.OwnershipForItem(tItem);
+                    tQ = tQ + tOwnership.Quantity;
+                    if (tQ >= sQuantity)
+                    {
+                        rReturn = true;
+                        break;
+                    } 
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods

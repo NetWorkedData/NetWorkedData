@@ -307,8 +307,7 @@ namespace NetWorkedData
                     tObjToSpawn = new GameObject("NWDGameDataManagerUnitySingleton");
                     //Add Components
                     tObjToSpawn.AddComponent<NWDGameDataManager>();
-
-
+                    tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
 
                     // keep k_Singleton
                     kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
@@ -380,6 +379,8 @@ namespace NetWorkedData
 
             //Network is unknow at start
             NetworkStatutChange(NWDNetworkState.Unknow);
+
+
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -420,6 +421,19 @@ namespace NetWorkedData
                 Destroy (this.gameObject);
 #endif
             }
+
+
+            // User networking?
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnEnable()
+        {
+            //Debug.OnEnable ("NWDGameDataManager Destroy");
+            //if (Application.isPlaying == true)
+            //{
+            //    NWDUserNetWorking.StartUpdate(60, null);
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

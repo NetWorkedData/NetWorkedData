@@ -117,16 +117,23 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Items required to start quest", true, true, true)]
+        [NWDTooltips("Required itemGroup (not removable when quest accepted)")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
         {
             get; set;
         }
+        [NWDTooltips("Required items (removable when quest accepted)")]
         public NWDReferencesQuantityType<NWDItem> ItemsRequired
         {
             get; set;
         }
+        [NWDGroupStartAttribute("Items required remove when quest is accepted?", true, true, true)]
+        public bool RemoveItemsRequired
+        {
+            get; set;
+        }
         [NWDTooltips("If you have not the requiered item")]
-        public NWDReferenceType<NWDDialog> NoItemDialogReference { get; set; }
+        public NWDReferenceType<NWDDialog> NoRequiredDialogReference { get; set; }
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Quest First Dialog", true, true, true)]
@@ -138,16 +145,23 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Items wanted to finish quest", true, true, true)]
+        [NWDTooltips("Wanted itemGroup (not removable when quest success)")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsWanted
         {
             get; set;
         }
+        [NWDTooltips("Wanted item (removable when quest success)")]
         public NWDReferencesQuantityType<NWDItem> ItemsWanted
         {
             get; set;
         }
+        [NWDGroupStartAttribute("Items wanted remove when quest is success?", true, true, true)]
+        public bool RemoveItemsWanted
+        {
+            get; set;
+        }
         [NWDEntitled("Alternate Dialog")]
-        [NWDTooltips("If you have allready the wanted item")]
+        [NWDTooltips("If you have allready the wanted item the quest start with this dialog")]
         public NWDReferenceType<NWDDialog> AlternateDialogReference
         {
             get; set;
@@ -155,18 +169,22 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Quest reward", true, true, true)]
+        public NWDReferencesQuantityType<NWDItem> ItemRewards
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItemPack> ItemPackRewards
+        {
+            get; set;
+        }
         public NWDReferencesQuantityType<NWDPack> PackRewards
         {
             get; set;
         }
-        public int NumberOfRewards
-        {
-            get; set;
-        }
-        public bool ItemsAskedRemove
-        {
-            get; set;
-        } // if quest is finish Item asked are remove from chest
+        //public int NumberOfRewards
+        //{
+        //    get; set;
+        //}
           //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

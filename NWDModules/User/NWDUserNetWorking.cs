@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -15,6 +15,7 @@ using System.Reflection;
 using UnityEngine;
 
 using BasicToolBox;
+using System.Timers;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -25,23 +26,33 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDExampleConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+    /// NWDUserNetWorkingConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
     /// Use like :
     /// public class MyScriptInGame : MonoBehaviour
     /// { 
     /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDExampleConnection MyNetWorkedData;
+    /// public NWDUserNetWorkingConnection MyNetWorkedData;
     /// }
     /// </summary>
     [Serializable]
-    public class NWDExampleConnection : NWDConnection<NWDExample>
+    public class NWDUserNetWorkingConnection : NWDConnection<NWDUserNetWorking>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDUserNetWorkingState : int
+    {
+        Unknow = -1,
+        OffLine = 0,
+        OnLine = 1,
+
+        NotDisturbe = 2,
+        Masked = 9,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("NWDExample_Tri")]
-    [NWDClassDescriptionAttribute("NWDExample_Description")]
-    [NWDClassMenuNameAttribute("NWDExample_MenuName")]
+    [NWDClassTrigrammeAttribute("UNW")]
+    [NWDClassDescriptionAttribute("User statut on Network")]
+    [NWDClassMenuNameAttribute("User Net Working")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
@@ -49,13 +60,8 @@ namespace NetWorkedData
     /// <summary>
     /// NWD example class. This class is use for (complete description here)
     /// </summary>
-    public partial class NWDExample : NWDBasis<NWDExample>
+    public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
     {
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -67,19 +73,41 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         //PROPERTIES
+        public NWDReferencesListType<NWDAccount> AccountReference
+        {
+            get; set;
+        }
+        public NWDDateTimeType NextUpdate
+        {
+            get; set;
+        }
+        public bool NotDisturbe
+        {
+            get; set;
+        }
+        public bool Masked
+        {
+            get; set;
+        }
+        // perhaps add some stats 
+        public int TotalPlay
+        {
+            get; set;
+        }
+
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDExample()
+        public NWDUserNetWorking()
         {
-            //Debug.Log("NWDExample Constructor");
+            //Debug.Log("NWDUserNetWorking Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDExample(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserNetWorking(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDExample Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDUserNetWorking Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -90,28 +118,172 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        public static int UpdateDelayInSeconds = 600;
+        static bool Started = false;
+        static List<Type> OtherData = new List<Type>();
+        //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke
         {
+            Debug.Log("NWDUserNetWorking Static ClassInitialization()");
+            //Only on player
+            //if (Application.isPlaying == true)
+            //{
+            //    StartUpdate(60, null);
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Exampel of implement for class method.
-        /// </summary>
-        public static void MyClassMethod()
+        private static Timer NWDUserNetWorkingTimer;
+        //-------------------------------------------------------------------------------------------------------------
+        //public static void StartUpdate(int sUpdateDelayInSeconds, List<Type> sOtherData)
+        //{
+        //    Debug.Log("NWDUserNetWorking Static StartUpdate()");
+        //    if (Started == false)
+        //    {
+        //        Started = true;
+        //        UpdateDelayInSeconds = sUpdateDelayInSeconds;
+        //        if (UpdateDelayInSeconds < 60)
+        //        {
+        //            UpdateDelayInSeconds = 60;
+        //        }
+        //        if (sOtherData != null)
+        //        {
+        //            OtherData = sOtherData;
+        //        }
+        //        if (OtherData.Contains(typeof(NWDUserNetWorking)) == false)
+        //        {
+        //            OtherData.Add(typeof(NWDUserNetWorking));
+        //        }
+        //        // do something with this class
+        //        NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstObject();
+        //        if (tUserNetWorking == null)
+        //        {
+        //            tUserNetWorking = NWDUserNetWorking.NewObject();
+        //            tUserNetWorking.InsertMe();
+        //        }
+        //        NWDUserNetWorkingTimer = new System.Timers.Timer(UpdateDelayInSeconds * 1000);
+        //        NWDUserNetWorkingTimer.Elapsed += new System.Timers.ElapsedEventHandler(NetworkingUpdate);
+        //        NWDUserNetWorkingTimer.Interval = UpdateDelayInSeconds * 1000;
+        //        NWDUserNetWorkingTimer.Enabled = true;
+        //    }
+        //}
+
+
+        public static void PrepareUpdate(int sUpdateDelayInSeconds, List<Type> sOtherData)
         {
-            // do something with this class
+            Debug.Log("NWDUserNetWorking Static StartUpdate()");
+            if (Started == false)
+            {
+                Started = true;
+                UpdateDelayInSeconds = sUpdateDelayInSeconds;
+                if (UpdateDelayInSeconds < 60)
+                {
+                    UpdateDelayInSeconds = 60;
+                }
+                if (sOtherData != null)
+                {
+                    OtherData = sOtherData;
+                }
+                if (OtherData.Contains(typeof(NWDUserNetWorking)) == false)
+                {
+                    OtherData.Add(typeof(NWDUserNetWorking));
+                }
+                // do something with this class
+                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstObject();
+                if (tUserNetWorking == null)
+                {
+                    tUserNetWorking = NWDUserNetWorking.NewObject();
+                    tUserNetWorking.InsertMe();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+     
+        //-------------------------------------------------------------------------------------------------------------
+        //private static void NetworkingUpdate(object source, ElapsedEventArgs e)
+        //{
+        public static void NetworkingUpdate()
+            {
+                Debug.Log("NWDUserNetWorking Static NetworkingUpdate()");
+                Started = true;
+                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstObject();
+                if (tUserNetWorking != null)
+                {
+                    DateTime tDateTime = DateTime.Now;
+                    int tTimestampA = (int)BTBDateHelper.ConvertToTimestamp(tDateTime);
+                    int tTimestampB = (int)BTBDateHelper.ConvertToTimestamp(tUserNetWorking.NextUpdate.ToDateTime());
+                    tUserNetWorking.TotalPlay += UpdateDelayInSeconds - tTimestampB + tTimestampA;
+                    tDateTime = tDateTime.AddSeconds(UpdateDelayInSeconds);
+                    tUserNetWorking.NextUpdate.SetDateTime(tDateTime);
+                    tUserNetWorking.SaveModifications();
+                    NWDDataManager.SharedInstance().AddWebRequestSynchronization(OtherData, true);
+                }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static void NetworkingOffline()
+        {
+            Debug.Log("NWDUserNetWorking Static NetworkingOffline()");
+            if (Started == true)
+            {
+                Started = false;
+                NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstObject();
+                if (tUserNetWorking != null)
+                {
+                    tUserNetWorking.Offline();
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
+        public void Offline()
+        {
+            DateTime tDateTime = DateTime.Now;
+            int tTimestampA = (int)BTBDateHelper.ConvertToTimestamp(tDateTime);
+            int tTimestampB = (int)BTBDateHelper.ConvertToTimestamp(NextUpdate.ToDateTime());
+            TotalPlay += UpdateDelayInSeconds - tTimestampB + tTimestampA;
+            NextUpdate.SetDateTime(tDateTime);
+            SaveModifications();
+            //NWDDataManager.SharedInstance().AddWebRequestSynchronization(OtherData, true);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserNetWorking) }, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //~NWDUserNetWorking()
+        //{
+        //    Offline();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        public void MyInstanceMethod()
+        public NWDUserNetWorkingState Statut()
         {
-            // do something with this object
+            NWDUserNetWorkingState rReturn = NWDUserNetWorkingState.Unknow;
+            if (Masked == true)
+            {
+                rReturn = NWDUserNetWorkingState.Masked;
+            }
+            else
+            {
+                if (NextUpdate.ToDateTime() > DateTime.Now)
+                {
+                    if (NotDisturbe == true)
+                    {
+                        rReturn = NWDUserNetWorkingState.NotDisturbe;
+                    }
+                    else
+                    {
+                        rReturn = NWDUserNetWorkingState.OnLine;
+                    }
+                }
+                else
+                {
+                    rReturn = NWDUserNetWorkingState.OffLine;
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -120,7 +292,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDExample)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDUserNetWorking)/*, typeof(NWDUserNickname), etc*/ };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -225,7 +397,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -303,7 +475,7 @@ namespace NetWorkedData
             return Color.gray;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
