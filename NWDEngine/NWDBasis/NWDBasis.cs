@@ -5,6 +5,7 @@
 //
 //=====================================================================================================================
 
+// system lib
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,19 +13,24 @@ using System.Linq;
 using System.IO;
 using System.Reflection;
 
+// unity3D lib
 using UnityEngine;
 
+// SQLite lib
 using SQLite4Unity3d;
 
+// Basic method by ideMobi
 using BasicToolBox;
 
 #if UNITY_EDITOR
+// unity3D editor lib
 using UnityEditor;
 #endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWD basis the base object of the NetWorkedData framework. This object can be synchronize, modified, update, connect with other NWDBasis <K> Object, etc.
     /// And this object's class can be connect with GameObject by properties autogenerate
@@ -493,7 +499,6 @@ namespace NetWorkedData
                     }
                 }
             }
-
             foreach (NWDBasis<K> tObject in ObjectsList)
             {
                 if (ObjectsInEditorTableList.Contains(tObject.Reference))
@@ -655,5 +660,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
