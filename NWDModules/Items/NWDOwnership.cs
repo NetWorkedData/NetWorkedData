@@ -313,12 +313,19 @@ namespace NetWorkedData
             bool rReturn = true;
             if (sItemsReferenceQuantity != null)
             {
-                foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
+                if (sItemsReferenceQuantity.IsEmpty())
                 {
-                    NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
-                    if (rOwnershipToUse.Quantity < tItemQuantity.Value)
+                    // No test needed
+                }
+                else
+                {
+                    foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
                     {
-                        rReturn = false;
+                        NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
+                        if (rOwnershipToUse.Quantity < tItemQuantity.Value)
+                        {
+                            rReturn = false;
+                        }
                     }
                 }
             }
@@ -350,12 +357,19 @@ namespace NetWorkedData
             bool rReturn = true;
             if (sItemGroupsReferenceQuantity != null)
             {
-                foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.GetObjectAndQuantity())
+                if (sItemGroupsReferenceQuantity.IsEmpty())
                 {
-                    if (ContainsItemGroups(tItemQuantity.Key, tItemQuantity.Value) == false)
+                    // No test needed
+                }
+                else
+                {
+                    foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.GetObjectAndQuantity())
                     {
-                        rReturn = false;
-                        break;
+                        if (ContainsItemGroups(tItemQuantity.Key, tItemQuantity.Value) == false)
+                        {
+                            rReturn = false;
+                            break;
+                        }
                     }
                 }
             }

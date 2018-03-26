@@ -166,25 +166,81 @@ namespace NetWorkedData
             // If first dialog is not an step dialog I found the Dialog to use
             if (rDialog == null)
             {
-                // I need propose the First Dialaog
-                if (NWDOwnership.ContainsItems(tQuest.ItemsRequired) && NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsRequired))
+                bool tItemsRequired = NWDOwnership.ContainsItems(tQuest.ItemsRequired);
+                bool tItemsGroupsRequired = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsRequired);
+
+                bool tItemsWanted = NWDOwnership.ContainsItems(tQuest.ItemsWanted);
+                bool tItemsGroupsWanted = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted);
+                /*
+                if (tQuest.ItemsRequired.IsEmpty())
                 {
-                    if (NWDOwnership.ContainsItems(tQuest.ItemsWanted) && NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted))
-                    {
-                        rDialog = tQuest.AlternateDialogReference.GetObject();
-                        QuestState = NWDQuestState.StartAlternate;
-                    }
-                    else
-                    {
-                        rDialog = tQuest.DialogReference.GetObject();
-                        QuestState = NWDQuestState.Start;
-                    }
+                    tItemsRequired = true;
                 }
                 else
                 {
-                    rDialog = tQuest.NoRequiredDialogReference.GetObject();
-                    QuestState = NWDQuestState.None;
+                    if (NWDOwnership.ContainsItems(tQuest.ItemsRequired))
+                    {
+                        tItemsRequired = true;
+                    }
                 }
+
+
+                if (tQuest.ItemGroupsRequired.IsEmpty())
+                {
+                    tItemsGroupsRequired = true;
+                }
+                else
+                {
+                    if (NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsRequired))
+                    {
+                        tItemsGroupsRequired = true;
+                    }
+                }
+
+                if (tQuest.ItemsWanted.IsEmpty())
+                {
+                    tItemsWanted = true;
+                }
+                else
+                {
+                    if (NWDOwnership.ContainsItems(tQuest.ItemsWanted))
+                    {
+                        tItemsWanted = true;
+                    }
+                }
+
+
+                if (tQuest.ItemGroupsWanted.IsEmpty())
+                {
+                    tItemsGroupsWanted = true;
+                }
+                else
+                {
+                    if (NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted))
+                    {
+                        tItemsGroupsWanted = true;
+                    }
+                }
+*/
+                    // I need propose the First Dialaog
+                if (tItemsRequired && tItemsGroupsRequired)
+                    {
+                    if (tItemsWanted && tItemsGroupsWanted)
+                        {
+                            rDialog = tQuest.AlternateDialogReference.GetObject();
+                            QuestState = NWDQuestState.StartAlternate;
+                        }
+                        else
+                        {
+                            rDialog = tQuest.DialogReference.GetObject();
+                            QuestState = NWDQuestState.Start;
+                        }
+                    }
+                    else
+                    {
+                        rDialog = tQuest.NoRequiredDialogReference.GetObject();
+                        QuestState = NWDQuestState.None;
+                    }
             }
             return rDialog;
         }

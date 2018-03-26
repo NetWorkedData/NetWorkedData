@@ -150,6 +150,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public bool TestSaltMemorizationForAllClass ()
 		{
+            //Debug.Log("NWDDataManager TestSaltMemorizationForAllClass()");
 			bool rReturn = true;
 			foreach (Type tType in mTypeList) {
 				var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -163,7 +164,7 @@ namespace NetWorkedData
 			if (rReturn == false) {
 				// do reccord and recompile
 				#if UNITY_EDITOR
-				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
+				//NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 				#else
 				// no... ALERT USER ERROR IN APP DISTRIBUTION
 				#endif

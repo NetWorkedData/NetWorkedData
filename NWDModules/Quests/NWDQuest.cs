@@ -74,7 +74,9 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Type of quest", true, true, true)]
         [NWDTooltips("Determine if quest is replayable or not")]
         public NWDQuestType Type
@@ -87,7 +89,9 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Availability schedule", true, true, true)]
         [NWDTooltips("Determine the availability schedule of this quest")]
         public NWDDateTimeScheduleType AvailabilitySchedule
@@ -95,7 +99,9 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
         [NWDEntitled("Title", "Title of the quest in the description")]
         public NWDLocalizableStringType Title
@@ -115,7 +121,9 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Items required to start quest", true, true, true)]
         [NWDTooltips("Required itemGroup (not removable when quest accepted)")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
@@ -127,7 +135,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupStartAttribute("Items required remove when quest is accepted?", true, true, true)]
+
+
+        [NWDTooltips("Items required remove when quest is accepted?")]
         public bool RemoveItemsRequired
         {
             get; set;
@@ -135,7 +145,9 @@ namespace NetWorkedData
         [NWDTooltips("If you have not the requiered item")]
         public NWDReferenceType<NWDDialog> NoRequiredDialogReference { get; set; }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Quest First Dialog", true, true, true)]
         [NWDEntitled("Normal Dialog")]
         public NWDReferenceType<NWDDialog> DialogReference
@@ -143,7 +155,9 @@ namespace NetWorkedData
             get; set;
         }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Items wanted to finish quest", true, true, true)]
         [NWDTooltips("Wanted itemGroup (not removable when quest success)")]
         public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsWanted
@@ -155,7 +169,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDGroupStartAttribute("Items wanted remove when quest is success?", true, true, true)]
+
+        [NWDTooltips("Items wanted remove when quest is success?")]
         public bool RemoveItemsWanted
         {
             get; set;
@@ -167,7 +182,9 @@ namespace NetWorkedData
             get; set;
         } // to start with ListOfItemsAsked
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Quest reward", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemRewards
         {
