@@ -65,14 +65,14 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferencesListType<NWDFamily> Families
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> Keywords
-        {
-            get; set;
-        }
+        //public NWDReferencesListType<NWDFamily> Families
+        //{
+        //    get; set;
+        //}
+        //public NWDReferencesListType<NWDKeyword> Keywords
+        //{
+        //    get; set;
+        //}
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparator]

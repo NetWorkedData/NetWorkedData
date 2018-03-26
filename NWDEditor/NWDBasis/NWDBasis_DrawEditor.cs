@@ -260,7 +260,7 @@ namespace NetWorkedData
                     && tProp.Name != "ServerHash" 
                     && tProp.Name != "ServerLog" 
                     && tProp.Name != "WebServiceVersion" 
-                    && tProp.Name != "ReferenceVersionned" 
+                    && tProp.Name != "ReferenceVersioned" 
                     && tProp.Name != "MinVersion" 
 
                    )
@@ -538,7 +538,7 @@ namespace NetWorkedData
                     && tProp.Name != "ServerHash" 
                     && tProp.Name != "ServerLog"
                     && tProp.Name != "WebServiceVersion" 
-                    && tProp.Name != "ReferenceVersionned" 
+                    && tProp.Name != "ReferenceVersioned" 
                     && tProp.Name != "MinVersion" 
                    
                    )

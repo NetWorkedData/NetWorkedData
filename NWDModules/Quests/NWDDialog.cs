@@ -287,9 +287,33 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod()
+        public NWDDialog[] GetNextDialogs()
         {
-            // do something with this object
+            List<NWDDialog> rDialogList = new List<NWDDialog>();
+            foreach (NWDDialog tDialog in NextDialogs.GetObjects())
+            {
+                if (tDialog.AvailabilitySchedule.AvailableNowInGameTime())
+                {
+                    if (NWDOwnership.ContainsItemGroups(tDialog.ItemGroupsRequired))
+                    {
+                        if (NWDOwnership.ContainsItems(tDialog.ItemsRequired))
+                        {
+                            if (tDialog.AnswerState == NWDDialogState.Random)
+                            {
+                                if (UnityEngine.Random.Range(0.0F, 1.0F)<= tDialog.RandomFrequency)
+                                {
+                                    rDialogList.Add(tDialog);
+                                }
+                            }
+                            else
+                            {
+                                rDialogList.Add(tDialog);
+                            }
+                        }
+                    }
+                }
+            }
+            return rDialogList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AnswerRichText(bool sBold = true)

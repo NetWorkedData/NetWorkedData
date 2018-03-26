@@ -73,7 +73,7 @@ namespace NetWorkedData
         [Indexed("EditorIndex", 0)]
         [Indexed("AccountIndex", 0)]
         [NWDNotEditable]
-        public string ReferenceVersionned
+        public string ReferenceVersioned
         {
             get; set;
         }

@@ -5,7 +5,7 @@
 		// FINISH
 		//--------------------
 		// prevent include from function for exit (typical example: error('XXX', true);)
-	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, $TIME_STAMP, $TIME_SYNC;
+	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, $TIME_STAMP, $TIME_SYNC, $REF_NEEDED, $ACC_NEEDED;
 		//--------------------
 		// add log
 	if ($NWD_LOG==true)
