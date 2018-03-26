@@ -149,6 +149,11 @@ namespace NetWorkedData
             return rAdvancement;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDDialog FirstDialogOnShowQuest(NWDQuest sQuest)
+        {
+            return GetAdvancementForQuest(sQuest).FirstDialogOnShowQuest();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
@@ -182,6 +187,11 @@ namespace NetWorkedData
                 }
             }
             return rDialog;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void AdvancementDialog(NWDQuest sQuest, NWDDialog sDialog)
+        {
+            GetAdvancementForQuest(sQuest).AdvancementDialog(sDialog);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AdvancementDialog(NWDDialog sDialog)
