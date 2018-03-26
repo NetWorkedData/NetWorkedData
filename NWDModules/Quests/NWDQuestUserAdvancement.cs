@@ -171,58 +171,13 @@ namespace NetWorkedData
 
                 bool tItemsWanted = NWDOwnership.ContainsItems(tQuest.ItemsWanted);
                 bool tItemsGroupsWanted = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted);
-                /*
-                if (tQuest.ItemsRequired.IsEmpty())
-                {
-                    tItemsRequired = true;
-                }
-                else
-                {
-                    if (NWDOwnership.ContainsItems(tQuest.ItemsRequired))
-                    {
-                        tItemsRequired = true;
-                    }
-                }
 
-
-                if (tQuest.ItemGroupsRequired.IsEmpty())
+                if (tQuest.ItemsWanted.IsEmpty() && tQuest.ItemGroupsWanted.IsEmpty())
                 {
-                    tItemsGroupsRequired = true;
+                    tItemsWanted = false;
+                    tItemsGroupsWanted = false;
                 }
-                else
-                {
-                    if (NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsRequired))
-                    {
-                        tItemsGroupsRequired = true;
-                    }
-                }
-
-                if (tQuest.ItemsWanted.IsEmpty())
-                {
-                    tItemsWanted = true;
-                }
-                else
-                {
-                    if (NWDOwnership.ContainsItems(tQuest.ItemsWanted))
-                    {
-                        tItemsWanted = true;
-                    }
-                }
-
-
-                if (tQuest.ItemGroupsWanted.IsEmpty())
-                {
-                    tItemsGroupsWanted = true;
-                }
-                else
-                {
-                    if (NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted))
-                    {
-                        tItemsGroupsWanted = true;
-                    }
-                }
-*/
-                    // I need propose the First Dialaog
+                // I need propose the First Dialaog
                 if (tItemsRequired && tItemsGroupsRequired)
                     {
                     if (tItemsWanted && tItemsGroupsWanted)
@@ -292,32 +247,42 @@ namespace NetWorkedData
                     case NWDQuestState.Success:
                         if (QuestState == NWDQuestState.Accept)
                         {
-                            QuestState = NWDQuestState.Success;
-                            // I must remove the required object or Not?
-                            if (tQuest.RemoveItemsWanted == true)
+                            bool tItemsWanted = NWDOwnership.ContainsItems(tQuest.ItemsWanted);
+                            bool tItemsGroupsWanted = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted);
+                            if (tItemsWanted && tItemsGroupsWanted)
                             {
-                                NWDOwnership.AddItemToOwnership(tQuest.ItemsWanted);
-                            }
-                            // Add items
-                            NWDOwnership.AddItemToOwnership(tQuest.ItemRewards);
-                            // Add Items by itemPacks
-                            foreach (KeyValuePair<NWDItemPack, int> tKeyValue in tQuest.ItemPackRewards.GetObjectAndQuantity())
-                            {
-                                for (int tI = 0; tI < tKeyValue.Value; tI++)
+                                QuestState = NWDQuestState.Success;
+                                // I must remove the required object or Not?
+                                if (tQuest.RemoveItemsWanted == true)
                                 {
-                                    NWDOwnership.AddItemToOwnership(tKeyValue.Key.Items);
+                                    NWDOwnership.AddItemToOwnership(tQuest.ItemsWanted);
                                 }
-                            }
-                            // Add items by Pack
-                            foreach (KeyValuePair<NWDPack, int> tKeyValue in tQuest.PackRewards.GetObjectAndQuantity())
-                            {
-                                for (int tI = 0; tI < tKeyValue.Value; tI++)
+                                // Add items
+                                NWDOwnership.AddItemToOwnership(tQuest.ItemRewards);
+                                // Add Items by itemPacks
+                                foreach (KeyValuePair<NWDItemPack, int> tKeyValue in tQuest.ItemPackRewards.GetObjectAndQuantity())
                                 {
-                                    NWDOwnership.AddItemToOwnership(tKeyValue.Key.GetAllItemReferenceAndQuantity());
+                                    for (int tI = 0; tI < tKeyValue.Value; tI++)
+                                    {
+                                        NWDOwnership.AddItemToOwnership(tKeyValue.Key.Items);
+                                    }
                                 }
+                                // Add items by Pack
+                                foreach (KeyValuePair<NWDPack, int> tKeyValue in tQuest.PackRewards.GetObjectAndQuantity())
+                                {
+                                    for (int tI = 0; tI < tKeyValue.Value; tI++)
+                                    {
+                                        NWDOwnership.AddItemToOwnership(tKeyValue.Key.GetAllItemReferenceAndQuantity());
+                                    }
+                                }
+                                SuccessCounter++;
+                                FinishCounter++;
                             }
-                            SuccessCounter++;
-                            FinishCounter++;
+                            else
+                            {
+                                // Error
+                                Debug.LogWarning("Quest "+QuestReference.GetReference()+" must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!");
+                            }
                         }
                         break;
                     case NWDQuestState.Fail:
