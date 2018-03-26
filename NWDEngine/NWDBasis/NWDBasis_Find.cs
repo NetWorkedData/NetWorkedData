@@ -122,17 +122,20 @@ namespace NetWorkedData
                     {
                         // find property and method to access
                         var tValue = tProp.GetValue(this, null);
-                        MethodInfo tMethodInfo = tValue.GetType().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                        if (tMethodInfo != null)
+                        if (tValue != null)
                         {
-                            // get value of account reference
-                            string tValueToString = tMethodInfo.Invoke(tValue, null) as string;
-                            if (tValueToString.Contains(sAccountReference))
+                            MethodInfo tMethodInfo = tValue.GetType().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                            if (tMethodInfo != null)
                             {
-                                // account reference in value
-                                rReturn = true;
-                                // add break !
-                                break;
+                                // get value of account reference
+                                string tValueToString = tMethodInfo.Invoke(tValue, null) as string;
+                                if (tValueToString.Contains(sAccountReference))
+                                {
+                                    // account reference in value
+                                    rReturn = true;
+                                    // add break !
+                                    break;
+                                }
                             }
                         }
                     }
