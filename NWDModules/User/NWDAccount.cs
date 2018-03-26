@@ -396,8 +396,6 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
 
-
-
             BTBOperationBlock tSuccessOrFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 if (NWDEditorMenu.kNWDAppEnvironmentChooser != null)
@@ -441,9 +439,6 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
 
-
-
-
             EditorGUI.BeginDisabledGroup(Email == "" || Password == "");
             if (GUI.Button(new Rect(tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn dev", tMiniButtonStyle))
             {
@@ -454,8 +449,6 @@ namespace NetWorkedData
                 sOperation.EmailHash = Email;
                 sOperation.PasswordHash = Password;
                 NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, true);
-
-
 
             }
 
@@ -482,8 +475,6 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
             tY += NWDConstants.kFieldMarge;
-
-
             // Tool box of account connected objects
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Connected NWDBasis Objects", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -508,7 +499,6 @@ namespace NetWorkedData
                     tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
                 }
             }
-
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

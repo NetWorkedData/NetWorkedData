@@ -220,12 +220,6 @@ namespace NetWorkedData
             return rOwnershipToUse != null;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Add the item's quantity to ownership and set to sQuantity.
-		/// </summary>
-		/// <returns>The item to ownership.</returns>
-		/// <param name="sItem">S item.</param>
-		/// <param name="sQuantity">S quantity.</param>
 		public static NWDOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
 		{
 			NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
@@ -234,12 +228,6 @@ namespace NetWorkedData
 			return rOwnershipToUse;
 		}
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Add the item's quantity to ownership.
-        /// </summary>
-        /// <returns>The item to ownership.</returns>
-        /// <param name="sItem">S item.</param>
-        /// <param name="sQuantity">S quantity.</param>
         public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
         {
             NWDOwnership rOwnership = OwnershipForItem(sItem);
@@ -255,12 +243,6 @@ namespace NetWorkedData
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Remove the item's quantity to ownership.
-        /// </summary>
-        /// <returns>The item to ownership.</returns>
-        /// <param name="sItem">S item.</param>
-        /// <param name="sQuantity">S quantity.</param>
         public static NWDOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
         {
             NWDOwnership rOwnership = OwnershipForItem(sItem);
@@ -269,10 +251,6 @@ namespace NetWorkedData
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Add item's quantity to ownership.
-        /// </summary>
-        /// <param name="sItemsReferenceQuantity">items reference/quantity.</param>
         public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
             if (sItemsReferenceQuantity != null)
@@ -286,10 +264,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Remove item's quantity to ownership.
-        /// </summary>
-        /// <param name="sItemsReferenceQuantity">items reference/quantity.</param>
         public static void RemoveItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
             if (sItemsReferenceQuantity != null)
@@ -303,11 +277,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Contains items with quantities.
-        /// </summary>
-        /// <returns><c>true</c>, if items was contained with the enough quantity, <c>false</c> otherwise.</returns>
-        /// <param name="sItemsReferenceQuantity">S items reference quantity.</param>
         public static bool ContainsItems(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
             bool rReturn = true;
@@ -319,12 +288,12 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
+                    foreach (KeyValuePair<NWDItem, int> tItemQuantity in sItemsReferenceQuantity.GetObjectAndQuantity())
                     {
-                        NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
-                        if (rOwnershipToUse.Quantity < tItemQuantity.Value)
+                        if (ContainsItem(tItemQuantity.Key, tItemQuantity.Value) == false)
                         {
                             rReturn = false;
+                            break;
                         }
                     }
                 }
@@ -332,11 +301,6 @@ namespace NetWorkedData
             return rReturn;
         }
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Contains item with quantitie.
-		/// </summary>
-		/// <returns><c>true</c>, if item was contained with the enough quantity, <c>false</c> otherwise.</returns>
-		/// <param name="sItemsReferenceQuantity">S item reference quantity.</param>
 		public static bool ContainsItem(NWDItem sItem, int sQuantity)
         {
 			bool rReturn = true;
@@ -347,6 +311,10 @@ namespace NetWorkedData
 				{
 					rReturn = false;
 				}
+                if (sQuantity == 0 && rOwnershipToUse.Quantity > 0)
+                {
+                    rReturn = false;
+                }
 			}
 			return rReturn;
         }
@@ -390,9 +358,16 @@ namespace NetWorkedData
                     tQ = tQ + tOwnership.Quantity;
                     if (tQ >= sQuantity)
                     {
-                        rReturn = true;
-                        break;
+                        if (sQuantity >= 0)
+                        {
+                            rReturn = true;
+                            break;
+                        }
                     } 
+                }
+                if (sQuantity == 0 && tQ>0)
+                {
+                    rReturn = false;
                 }
             }
             return rReturn;

@@ -205,19 +205,19 @@ namespace NetWorkedData
 			}
 
 
-            GUIContent tChooseContent = new GUIContent(NWDConstants.kImageTabReduce, "choose");
-            if (GUI.Button(new Rect(tX + tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tChooseContent, NWDConstants.kPopupButtonStyle))
-            {
-                string tTransitionReference =  NWDBasisChooserDialog.SelectObject(typeof(K), Value, null, NWDBasisChooserMode.Add, Value, 0);
-                if (tTransitionReference!=null)
-                {
-                    Debug.Log("TransitionReference is null");
-                }
-                else
-                {
-                    Debug.Log("TransitionReference is " + tTransitionReference);
-                }
-            }
+            //GUIContent tChooseContent = new GUIContent(NWDConstants.kImageTabReduce, "choose");
+            //if (GUI.Button(new Rect(tX + tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tChooseContent, NWDConstants.kPopupButtonStyle))
+            //{
+            //    string tTransitionReference =  NWDBasisChooserDialog.SelectObject(typeof(K), Value, null, NWDBasisChooserMode.Add, Value, 0);
+            //    if (tTransitionReference!=null)
+            //    {
+            //        Debug.Log("TransitionReference is null");
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("TransitionReference is " + tTransitionReference);
+            //    }
+            //}
 
             if (tIndex >= 0)
             {

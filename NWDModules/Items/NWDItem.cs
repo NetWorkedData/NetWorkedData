@@ -258,15 +258,55 @@ namespace NetWorkedData
 		public override float AddonEditor (Rect sInRect)
 		{
 			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            NWDOwnership tOwnership = NWDOwnership.OwnershipForItem(this);
+            GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have "+tOwnership.Quantity+" "+this.InternalKey+"!");
+            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
+            {
+                NWDOwnership.AddItemToOwnership(this, 1);
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
+            {
+                NWDOwnership.AddItemToOwnership(this, -1);
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            return tY;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override float AddonEditorHeight ()
 		{
 			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
+            float tY = 0.0f;
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+
+            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawWidth(float sDocumentWidth)
