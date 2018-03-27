@@ -172,7 +172,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
         /// <param name="sItemReference">item reference.</param>
-        public static int OwnershipForItemQuantities(string sItemReference)
+        public static int QuantityForItem(string sItemReference)
         {
             int rQte = 0;
             foreach (NWDOwnership tOwnership in GetAllObjects())

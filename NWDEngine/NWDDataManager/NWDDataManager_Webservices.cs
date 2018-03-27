@@ -651,7 +651,7 @@ namespace NetWorkedData
 
 			if (sUpdateData == true)
             {
-                SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
+                BTBNotificationManager.SharedInstance().PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_UPDATED, null));
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

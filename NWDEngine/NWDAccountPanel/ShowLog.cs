@@ -53,7 +53,7 @@ namespace NetWorkedData
             //Debug.Log("NetWorkedData Awake");
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
-            NWDDataManager.SharedInstance().NotificationCenter.AddObserver(this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
+            BTBNotificationManager.SharedInstance().AddObserver(this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
             {
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });
@@ -67,7 +67,7 @@ namespace NetWorkedData
         void OnDestroy()
         {
             //Debug.Log("NetWorkedData OnDestroy");
-            NWDDataManager.SharedInstance().NotificationCenter.RemoveObserverEveryWhere(this);
+            BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
             #if COLORED_ADVANCED_DEBUG
             //Debug.Log("Remove CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;

@@ -115,6 +115,8 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string ChangeNotification = "NWDQuestUserAdvancement_ChangeNotification";
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
@@ -319,6 +321,8 @@ namespace NetWorkedData
                             QuestState = NWDQuestState.Accept;
                             // increment counters
                             AcceptCounter++;
+                            // send BTBNotification
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
                         }
                         break;
                     case NWDQuestState.Refuse:
@@ -329,6 +333,8 @@ namespace NetWorkedData
                             QuestState = NWDQuestState.Refuse;
                             // increment counters
                             RefuseCounter++;
+                            // send BTBNotification
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
                         }
                         break;
                     case NWDQuestState.Cancel:
@@ -339,6 +345,8 @@ namespace NetWorkedData
                             QuestState = NWDQuestState.Cancel;
                             // increment counters
                             CancelCounter++;
+                            // send BTBNotification
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
                         }
                         break;
                     case NWDQuestState.Success:
@@ -389,6 +397,8 @@ namespace NetWorkedData
                                 {
                                     FinishQuest();
                                 }
+                                // send BTBNotification
+                                BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
                             }
                             else
                             {
@@ -420,6 +430,8 @@ namespace NetWorkedData
                             {
                                 FinishQuest();
                             }
+                            // send BTBNotification
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
                         }
                         break;
                 }

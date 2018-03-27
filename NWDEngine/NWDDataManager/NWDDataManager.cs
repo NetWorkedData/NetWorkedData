@@ -37,7 +37,7 @@ namespace NetWorkedData
 		public SQLiteConnection SQLiteConnectionAccount;
 		public string DatabasePathAccount = "Assets";
 		public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
-		public BTBNotificationManager NotificationCenter;
+		//public BTBNotificationManager NotificationCenter;
 		public bool NeedCopy = false;
         public bool IsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ namespace NetWorkedData
 		private NWDDataManager ()
 		{
             //Debug.Log("NWDDataManager private Constructor");
-			NotificationCenter = BTBNotificationManager.SharedInstance();
+			//NotificationCenter = BTBNotificationManager.SharedInstance();
 			SystemLanguage tLocalLanguage = Application.systemLanguage;
 			switch (tLocalLanguage) {
     			case SystemLanguage.Afrikaans:
@@ -82,10 +82,10 @@ namespace NetWorkedData
 			// reccord all modifications because this instance will be destroyed
             SharedInstance().UpdateQueueExecute();
 			// remove notification center
-			if (NotificationCenter != null) {
-				NotificationCenter.RemoveAll ();
-				NotificationCenter = null;
-			}
+			//if (NotificationCenter != null) {
+                BTBNotificationManager.SharedInstance().RemoveAll ();
+			//	NotificationCenter = null;
+			//}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public List<Type> mTypeLoadedList = new List<Type> ();

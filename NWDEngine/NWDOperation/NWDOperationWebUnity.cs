@@ -366,7 +366,7 @@ namespace NetWorkedData
 
                 if (tUserChange == true)
                 {
-                    NWDDataManager.SharedInstance().NotificationCenter.PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
                 }
 
                 Finish();
