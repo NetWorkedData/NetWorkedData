@@ -222,6 +222,12 @@ namespace NetWorkedData
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
+        {
+            // do something when object will be web service upgrade
+            // TODO verif if method is call in good place in good timing
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor

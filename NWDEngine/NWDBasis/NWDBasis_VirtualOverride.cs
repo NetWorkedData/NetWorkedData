@@ -127,7 +127,13 @@ namespace NetWorkedData
 		public virtual void AddonUnTrashMe ()
 		{
 
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
+        {
+            // do something when object will be web service upgrade
+            // TODO verif if method is call in good place in good timing
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

@@ -447,7 +447,20 @@ namespace NetWorkedData
             NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
             //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
         }
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public void WebserviceVersionCheckMe()
+        {
+            if (WebServiceVersion < NWDAppConfiguration.SharedInstance().WebBuild)
+            {
+            this.AddonWebversionUpgradeMe(WebServiceVersion, NWDAppConfiguration.SharedInstance().WebBuild);
+            // use to update NWDBasis when push to server.
+            this.WebServiceVersion = NWDAppConfiguration.SharedInstance().WebBuild;
+            this.AddonVersionMe(); // Modify the special webservice override ( for example version)
+            this.UpdateIntegrity();
+            NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Update this instance. Change a lot of states of instance and write in database. 
 		/// Object is not synchronized, integrity changed, ...
@@ -473,9 +486,11 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance().UpdateObject (this, AccountDependent ());
 			// object was updated
 			this.AddonUpdatedMe (); // call override method
+
 			// I have one or more uploaded datas to synchronize;
 			NWDGameDataManager.UnitySingleton ().NeedSynchronizeData ();
-			//NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
+            //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
+            //NWDDataManager.SharedInstance().DatasMustBeSync = true;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

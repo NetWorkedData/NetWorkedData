@@ -332,9 +332,12 @@ namespace NetWorkedData
             {
                 foreach (NWDBasis<K> tItem in tResults)
                 {
+                    // I test integrity and if object is locked (only editable by editor)
                     if (tItem.TestIntegrity() && tItem.IsLockedObject() == false)
                     {
-                        // LIMIT EXPORT IF I HAVE ACCOUNT RIGHTS !!!!
+                        // I need to update the webservice to synchronize !
+                        tItem.WebserviceVersionCheckMe(); // use this method is more effectient
+                        // LIMIT EXPORT IF I HAVE ACCOUNT RIGHTS !
                         // But Auhtorize if editor ....
                         // TODO Silmplify the reach editor mode ?
 #if UNITY_EDITOR
@@ -403,7 +406,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    Debug.Log("--SynchronizationPullData : BIG ERROR NO TIMESTAMP");
+                    Debug.LogWarning("NWDBasis SynchronizationPullData() : BIG ERROR NO TIMESTAMP");
                     // TODO perhaps break ?
                 }
 
