@@ -287,8 +287,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
-            string rText = sText;
-            int tCounter = 0;
+            string rText = NWDToolbox.Enrichment(sText, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             string tBstart = "<b>";
             string tBend = "</b>";
             if (sBold == false)
@@ -296,32 +295,17 @@ namespace NetWorkedData
                 tBstart = "";
                 tBend = "";
             }
-
-            // Replace the nickname
-            NWDUserNickname tNickNameObject = NWDUserNickname.GetFirstObject();
-            string tNickname = "";
-            string tNicknameID = "";
-            if (tNickNameObject != null)
-            {
-                tNickname = tNickNameObject.Nickname;
-                tNicknameID = tNickNameObject.UniqueNickname;
-            }
-
-            rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
-            rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
-
             NWDUserNickname tPublisherObject = PublisherNickname();
             string tPublisher = "";
             string tPublisherID = "";
             if (tPublisherObject != null)
             {
-                tPublisher = tNickNameObject.Nickname;
-                tPublisherID = tNickNameObject.UniqueNickname;
+                tPublisher = tPublisherObject.Nickname;
+                tPublisherID = tPublisherObject.UniqueNickname;
             }
 
             rText = rText.Replace("@publisher@", tBstart + tPublisher + tBend);
             rText = rText.Replace("@publisherid@", tBstart + tPublisherID + tBend);
-
 
             NWDUserNickname tReceiverObject = ReceiverNickname();
             string tReceiver = "";
@@ -335,118 +319,6 @@ namespace NetWorkedData
             rText = rText.Replace("@receiver@", tBstart + tReceiver + tBend);
             rText = rText.Replace("@receiverid@", tBstart + tReceiverID + tBend);
 
-
-            // // replace the text
-            if (ReplaceCharacters != null)
-            {
-                tCounter = 1;
-                foreach (NWDCharacter tCharacter in ReplaceCharacters.GetObjects())
-                {
-                    if (tCharacter.LastName != null)
-                    {
-                        string tLastName = tCharacter.LastName.GetLanguageString(sLanguage);
-                        if (tLastName != null)
-                        {
-                            rText = rText.Replace("#L" + tCounter.ToString() + "#", tBstart + tLastName + tBend);
-                        }
-                    }
-                    if (tCharacter.FirstName != null)
-                    {
-                        string tFirstName = tCharacter.FirstName.GetLanguageString(sLanguage);
-                        if (tFirstName != null)
-                        {
-                            rText = rText.Replace("#F" + tCounter.ToString() + "#", tBstart + tFirstName + tBend);
-                        }
-                    }
-                    if (tCharacter.NickName != null)
-                    {
-                        string tNickName = tCharacter.NickName.GetLanguageString(sLanguage);
-                        if (tNickName != null)
-                        {
-                            rText = rText.Replace("#N" + tCounter.ToString() + "#", tBstart + tNickName + tBend);
-                        }
-                    }
-                    tCounter++;
-                }
-            }
-            if (ReplaceItems != null)
-            {
-                tCounter = 1;
-                foreach (KeyValuePair<NWDItem, int> tKeyValue in ReplaceItems.GetObjectAndQuantity())
-                {
-                    NWDItem tItem = tKeyValue.Key;
-                    if (tItem != null)
-                    {
-                        string tName = "";
-                        string tNameOnly = "";
-                        if (tKeyValue.Value == 1 && tItem.Name != null)
-                        {
-                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
-                            tName = tKeyValue.Value + " " + tNameOnly;
-                        }
-                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
-                        {
-                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
-                            tName = tKeyValue.Value + " " + tNameOnly;
-                        }
-                        rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
-                        rText = rText.Replace("#xI" + tCounter.ToString() + "#", tBstart + tName + tBend);
-                    }
-                    tCounter++;
-                }
-            }
-            if (ReplaceItemGroups != null)
-            {
-                tCounter = 1;
-                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in ReplaceItemGroups.GetObjectAndQuantity())
-                {
-                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
-                    if (tItem != null)
-                    {
-                        string tName = "";
-                        string tNameOnly = "";
-                        if (tKeyValue.Value == 1 && tItem.Name != null)
-                        {
-                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
-                            tName = tKeyValue.Value + " " + tNameOnly;
-                        }
-                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
-                        {
-                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
-                            tName = tKeyValue.Value + " " + tNameOnly;
-                        }
-                        rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
-                        rText = rText.Replace("#xG" + tCounter.ToString() + "#", tBstart + tName + tBend);
-                    }
-                    tCounter++;
-                }
-            }
-            if (ReplacePacks != null)
-            {
-                tCounter = 1;
-                foreach (KeyValuePair<NWDPack, int> tKeyValue in ReplacePacks.GetObjectAndQuantity())
-                {
-                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
-                    if (tItem != null)
-                    {
-                        string tName = "";
-                        string tNameOnly = "";
-                        if (tKeyValue.Value == 1 && tItem.Name != null)
-                        {
-                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
-                            tName = tKeyValue.Value + " " + tNameOnly;
-                        }
-                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
-                        {
-                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
-                            tName = tKeyValue.Value + " " + tNameOnly;
-                        }
-                        rText = rText.Replace("#P" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
-                        rText = rText.Replace("#xP" + tCounter.ToString() + "#", tBstart + tName + tBend);
-                    }
-                    tCounter++;
-                }
-            }
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------

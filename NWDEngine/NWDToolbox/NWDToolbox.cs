@@ -26,6 +26,167 @@ namespace NetWorkedData
 {
 	public class NWDToolbox
 	{
+        //-------------------------------------------------------------------------------------------------------------
+        /*
+        NWDToolbox.Enrichment(          string sText,
+                                        string sLanguage = null,
+                                        NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                        NWDReferencesQuantityType<NWDItem> sReplaceItems,
+                                        NWDReferencesQuantityType<NWDItemGroup> sReplaceItemGroups,
+                                        NWDReferencesQuantityType<NWDPack> sReplacePacks,
+                                        bool sBold);
+        */             
+        //-------------------------------------------------------------------------------------------------------------
+        public static string Enrichment(string sText,
+                                        string sLanguage = null,
+                                        NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                        NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
+                                        NWDReferencesQuantityType<NWDItemGroup> sReplaceItemGroups = null,
+                                        NWDReferencesQuantityType<NWDPack> sReplacePacks = null,
+                                        bool sBold = true)
+        {
+            string rText = sText;
+            int tCounter = 0;
+            string tBstart = "<b>";
+            string tBend = "</b>";
+            if (sBold == false)
+            {
+                tBstart = "";
+                tBend = "";
+            }
+            if (sLanguage == null)
+            {
+                sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
+            }
+            // Replace the nickname
+            NWDUserNickname tNickNameObject = NWDUserNickname.GetFirstObject();
+            string tNickname = "";
+            string tNicknameID = "";
+            if (tNickNameObject != null)
+            {
+                tNickname = tNickNameObject.Nickname;
+                tNicknameID = tNickNameObject.UniqueNickname;
+            }
+
+            rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
+            rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
+
+            rText = rText.Replace("#Nickname#", tBstart + tNickname + tBend);
+            rText = rText.Replace("#Nicknameid#", tBstart + tNicknameID + tBend);
+
+            // // replace referecen in text
+            if (sReplaceCharacters != null)
+            {
+                tCounter = 1;
+                foreach (NWDCharacter tCharacter in sReplaceCharacters.GetObjects())
+                {
+                    if (tCharacter.LastName != null)
+                    {
+                        string tLastName = tCharacter.LastName.GetLanguageString(sLanguage);
+                        if (tLastName != null)
+                        {
+                            rText = rText.Replace("#L" + tCounter.ToString() + "#", tBstart + tLastName + tBend);
+                        }
+                    }
+                    if (tCharacter.FirstName != null)
+                    {
+                        string tFirstName = tCharacter.FirstName.GetLanguageString(sLanguage);
+                        if (tFirstName != null)
+                        {
+                            rText = rText.Replace("#F" + tCounter.ToString() + "#", tBstart + tFirstName + tBend);
+                        }
+                    }
+                    if (tCharacter.NickName != null)
+                    {
+                        string tNickName = tCharacter.NickName.GetLanguageString(sLanguage);
+                        if (tNickName != null)
+                        {
+                            rText = rText.Replace("#N" + tCounter.ToString() + "#", tBstart + tNickName + tBend);
+                        }
+                    }
+                    tCounter++;
+                }
+            }
+            if (sReplaceItems != null)
+            {
+                tCounter = 1;
+                foreach (KeyValuePair<NWDItem, int> tKeyValue in sReplaceItems.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key;
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xI" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            if (sReplaceItemGroups != null)
+            {
+                tCounter = 1;
+                foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xG" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            if (sReplacePacks != null)
+            {
+                tCounter = 1;
+                foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.GetObjectAndQuantity())
+                {
+                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    if (tItem != null)
+                    {
+                        string tName = "";
+                        string tNameOnly = "";
+                        if (tKeyValue.Value == 1 && tItem.Name != null)
+                        {
+                            tNameOnly = tItem.Name.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        else if (tKeyValue.Value > 1 && tItem.PluralName != null)
+                        {
+                            tNameOnly = tItem.PluralName.GetLanguageString(sLanguage);
+                            tName = tKeyValue.Value + " " + tNameOnly;
+                        }
+                        rText = rText.Replace("#P" + tCounter.ToString() + "#", tBstart + tNameOnly + tBend);
+                        rText = rText.Replace("#xP" + tCounter.ToString() + "#", tBstart + tName + tBend);
+                    }
+                    tCounter++;
+                }
+            }
+            return rText;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 
 		#region class method
