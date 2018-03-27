@@ -11,11 +11,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -67,25 +64,25 @@ namespace NetWorkedData
 		/// </summary>
 		/// <value>The account reference.</value>
 		/// 
-		[NWDGroupStartAttribute("Ownership",true, true, true)] // ok
+		[NWDGroupStart("Ownership",true, true, true)] // ok
 		public bool FirstAcquisition { get; set; }
 		[Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> Account { get; set; }
 		public NWDReferenceType<NWDItem> Item { get; set; }
 		public int Quantity { get; set; }
         public string Name { get; set; }
-		[NWDGroupEndAttribute]
+		[NWDGroupEnd]
 
-        [NWDGroupSeparatorAttribute]
+        [NWDGroupSeparator]
 
-		[NWDGroupStartAttribute ("Extensions", true, true, true)]
+		[NWDGroupStart ("Extensions", true, true, true)]
         public NWDReferencesArrayType<NWDOwnership> ItemsContained { get; set; }
 		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
-		[NWDGroupEndAttribute]
+		[NWDGroupEnd]
 		
-        [NWDGroupSeparatorAttribute]
+        [NWDGroupSeparator]
 
-		[NWDGroupStartAttribute ("Development addons", true, true, true)]
+		[NWDGroupStart ("Development addons", true, true, true)]
 		public string JSON { get; set; }
 		public string KeysValues { get; set; }
 		//[NWDGroupEndAttribute]
@@ -120,46 +117,44 @@ namespace NetWorkedData
         /// <summary>
         /// Ownership for item's reference.
         /// </summary>
-        /// <returns>The for item reference.</returns>
+        /// <returns>The ownership.</returns>
         /// <param name="sItemReference">S item reference.</param>
-        public static NWDOwnership OwnershipForItemReference(string sItemReference)
+        public static NWDOwnership OwnershipForItem(string sItemReference)
         {
-            NWDOwnership rOwnershipToUse = null;
+            NWDOwnership rOwnership = null;
             foreach (NWDOwnership tOwnership in GetAllObjects())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
-                    rOwnershipToUse = tOwnership;
+                    rOwnership = tOwnership;
                     break;
                 }
             }
-            if (rOwnershipToUse == null)
+            if (rOwnership == null)
             {
-                rOwnershipToUse = NewObject();
-                rOwnershipToUse.Item.SetReference(sItemReference);
-                rOwnershipToUse.Quantity = 0;
-                rOwnershipToUse.SaveModifications();
-            }
-            return rOwnershipToUse;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Ownership for item's reference exists.
-        /// </summary>
-        /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
-        /// <param name="sItemReference">item reference.</param>
-        public static bool OwnershipForItemReferenceExists(string sItemReference)
-        {
-            NWDOwnership rOwnershipToUse = null;
-            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
-            {
-                if (tOwnership.Item.GetReference() == sItemReference)
+                rOwnership = NewObject();
+                //--------------
+                #if UNITY_EDITOR
+                //--------------
+                NWDItem tItem = NWDItem.GetObjectByReference(sItemReference);
+                if (tItem.Name != null)
                 {
-                    rOwnershipToUse = tOwnership;
-                    break;
+                    string tItemNameBase = tItem.Name.GetBaseString();
+                    if (tItemNameBase != null)
+                    {
+                        rOwnership.InternalKey = tItemNameBase;
+                    }
                 }
+                rOwnership.InternalDescription = NWDUserNickname.GetNickName();
+                //--------------
+                #endif
+                //--------------
+                rOwnership.Item.SetReference(sItemReference);
+                rOwnership.Tag = 20;
+                rOwnership.Quantity = 0;
+                rOwnership.SaveModifications();
             }
-            return rOwnershipToUse != null;
+            return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -169,36 +164,45 @@ namespace NetWorkedData
         /// <param name="sItem">selected item.</param>
         public static NWDOwnership OwnershipForItem(NWDItem sItem)
         {
-            NWDOwnership rOwnershipToUse = null;
+            return OwnershipForItem(sItem.Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Quantities for item's reference if exists.
+        /// </summary>
+        /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
+        /// <param name="sItemReference">item reference.</param>
+        public static int OwnershipForItemQuantities(string sItemReference)
+        {
+            int rQte = 0;
             foreach (NWDOwnership tOwnership in GetAllObjects())
             {
-                if (tOwnership.Item.GetObject() == sItem)
+                if (tOwnership.Item.GetReference() == sItemReference)
                 {
-                    rOwnershipToUse = tOwnership;
+                    rQte = tOwnership.Quantity;
                     break;
                 }
             }
-            if (rOwnershipToUse == null)
+            return rQte;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Ownership for item's reference exists.
+        /// </summary>
+        /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
+        /// <param name="sItemReference">item reference.</param>
+        public static bool OwnershipForItemExists(string sItemReference)
+        {
+            NWDOwnership rOwnership = null;
+            foreach (NWDOwnership tOwnership in GetAllObjects())
             {
-                rOwnershipToUse = NewObject();
-				//--------------
-				#if UNITY_EDITOR
-				//--------------
-				if (sItem.Name != null) {
-					string tItemNameBase = sItem.Name.GetBaseString ();
-					if (tItemNameBase != null) {
-						rOwnershipToUse.InternalKey = tItemNameBase;
-					}
-				}
-				rOwnershipToUse.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
-				//--------------
-				#endif
-				//--------------
-                rOwnershipToUse.Item.SetObject(sItem);
-                rOwnershipToUse.Quantity = 0;
-                rOwnershipToUse.SaveModifications();
+                if (tOwnership.Item.GetReference() == sItemReference)
+                {
+                    rOwnership = tOwnership;
+                    break;
+                }
             }
-            return rOwnershipToUse;
+            return rOwnership != null;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -208,16 +212,7 @@ namespace NetWorkedData
         /// <param name="sItem">S item.</param>
         public static bool OwnershipForItemExists(NWDItem sItem)
         {
-            NWDOwnership rOwnershipToUse = null;
-            foreach (NWDOwnership tOwnership in NWDOwnership.GetAllObjects())
-            {
-                if (tOwnership.Item.GetObject() == sItem)
-                {
-                    rOwnershipToUse = tOwnership;
-                    break;
-                }
-            }
-            return rOwnershipToUse != null;
+            return OwnershipForItemExists(sItem.Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static NWDOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
@@ -257,7 +252,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
                 {
-                    NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
+                    NWDOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
                     rOwnershipToUse.Quantity += tItemQuantity.Value;
                     rOwnershipToUse.SaveModifications();
                 }
@@ -270,7 +265,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
                 {
-                    NWDOwnership rOwnershipToUse = OwnershipForItemReference(tItemQuantity.Key);
+                    NWDOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
                     rOwnershipToUse.Quantity -= tItemQuantity.Value;
                     rOwnershipToUse.SaveModifications();
                 }
@@ -306,7 +301,7 @@ namespace NetWorkedData
 			bool rReturn = true;
 			if (sItem != null)
 			{
-                NWDOwnership rOwnershipToUse = OwnershipForItemReference(sItem.Reference);
+                NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
 				if (rOwnershipToUse.Quantity < sQuantity)
 				{
 					rReturn = false;
@@ -354,7 +349,7 @@ namespace NetWorkedData
                 int tQ = 0;
                 foreach (NWDItem tItem in sItemGroup.ItemList.GetObjects())
                 {
-                    NWDOwnership tOwnership = NWDOwnership.OwnershipForItem(tItem);
+                    NWDOwnership tOwnership = OwnershipForItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
                     if (tQ >= sQuantity)
                     {
