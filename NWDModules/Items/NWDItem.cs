@@ -85,7 +85,10 @@ namespace NetWorkedData
 		[NWDGroupSeparatorAttribute]
 
 		[NWDGroupStartAttribute ("Usage", true, true, true)]
-		public bool Usable { get; set; }
+        [NWDTooltips("Item is countable or not?")]
+        public bool Uncountable { get; set; }
+        [NWDTooltips("Item is usable or not?")]
+        public bool Usable { get; set; }
 		public float DelayBeforeUse { get; set; }
 		public float DurationOfUse { get; set; }
 		public float DelayBeforeReUse { get; set; }

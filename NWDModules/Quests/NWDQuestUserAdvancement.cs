@@ -352,7 +352,10 @@ namespace NetWorkedData
                             else
                             {
                                 // Error
-                                Debug.LogWarning("Quest "+QuestReference.GetReference()+" must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!");
+                                Debug.LogWarning("Quest " + QuestReference.GetReference() + " must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!");
+                                #if UNITY_EDITOR 
+                                EditorUtility.DisplayDialog("ERROR", "Quest " + QuestReference.GetReference() + " must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!","OK");
+                                #endif
                             }
                         }
                         break;
