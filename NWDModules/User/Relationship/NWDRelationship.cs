@@ -166,6 +166,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDRelationship), typeof(NWDUserNickname), typeof(NWDAvatar) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static NWDRelationship()
         {
             //NWDMessage.CreateGenericMessage("TEST DOMAIN", "CODE", "TITLE", "DESCRIPTION");

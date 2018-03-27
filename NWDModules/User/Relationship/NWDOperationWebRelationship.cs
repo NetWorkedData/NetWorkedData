@@ -84,6 +84,7 @@ namespace NetWorkedData
 
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
+            // add class to sync.
             rReturn.TypeList.Add(NWDRelationship.ClassType());
             if (sAdditionalTypes != null)
             {

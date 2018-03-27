@@ -657,7 +657,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
 		{
-			Dictionary<string, object> rSend = new Dictionary<string, object> ();
+
+#if UNITY_EDITOR 
+            NWDAppEnvironmentSync.SharedInstance().ClassPushCounter =0;
+            NWDAppEnvironmentSync.SharedInstance().ClassPullCounter = 0;
+            NWDAppEnvironmentSync.SharedInstance().RowPullCounter = 0;
+            NWDAppEnvironmentSync.SharedInstance().RowPushCounter = 0;
+#endif
+
+            Dictionary<string, object> rSend = new Dictionary<string, object> ();
 			if (sTypeList != null) {
 				foreach (Type tType in sTypeList) {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);

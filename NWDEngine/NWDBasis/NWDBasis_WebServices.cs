@@ -287,15 +287,15 @@ namespace NetWorkedData
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
         public static Dictionary<string, object> SynchronizationPushData(NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
         {
-
+            Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
+            #if UNITY_EDITOR
+            NWDAppEnvironmentSync.SharedInstance().ClassPushCounter++;
+            #endif
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
                 tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
-
-            //Debug.Log("SynchronizationPushData for table " + TableName());
-
             // ok if sync will be ok this date will be the last sync for this table
             SynchronizationSetInWaitingTimestamp(sEnvironment, NWDToolbox.Timestamp());
             // create respond object
@@ -347,12 +347,14 @@ namespace NetWorkedData
                             // TODO WARNING  ?
                             if (tItem.IsReacheableByAccount())
                             {
+                                NWDAppEnvironmentSync.SharedInstance().RowPushCounter++;
                                 tDatas.Add(tItem.DataAssembly(true));
                             }
                         }
                         else
                         {
                             // Fake playing mode
+                            NWDAppEnvironmentSync.SharedInstance().RowPushCounter++;
                             tDatas.Add(tItem.DataAssembly(true));
                         }
 #else
@@ -387,9 +389,8 @@ namespace NetWorkedData
         /// <param name="sData">S data.</param>
         public static string SynchronizationPullData(NWDAppEnvironment sEnvironment, NWDOperationResult sData)
         {
+            Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
             string rReturn = "NO";
-
-            // Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
 
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
@@ -418,6 +419,9 @@ namespace NetWorkedData
                 // Ok I need to compute all datas for this Class tablename
                 if (sData.param.ContainsKey(tTableName))
                 {
+                    #if UNITY_EDITOR
+                    NWDAppEnvironmentSync.SharedInstance().ClassPullCounter++;
+                    #endif
                     List<object> tListOfRows = sData.param[tTableName] as List<object>;
 
                     if (tListOfRows.Count > 0)
@@ -432,6 +436,7 @@ namespace NetWorkedData
 
 #if UNITY_EDITOR
                             tForceToUse = true;
+                            NWDAppEnvironmentSync.SharedInstance().RowPullCounter++;
 #endif
 
                             NWDBasis<K> tObject = SynchronizationTryToUse(sEnvironment, tCsvValueString, tForceToUse);
@@ -462,13 +467,14 @@ namespace NetWorkedData
         {
             bool rReturn = false;
 #if UNITY_EDITOR
+            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
             if (Application.isPlaying == true)
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(new List<Type> { ClassType() }, true, sEnvironment);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync(), true, sEnvironment);
             }
             else
             {
-                NWDEditorMenu.EnvironementSync().SynchronizationForce(new List<Type> { ClassType() }, sEnvironment);
+                NWDEditorMenu.EnvironementSync().SynchronizationForce(ClasseInThisSync(), sEnvironment);
             }
 #else
 				NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce (new List<Type>{ClassType ()}, true, sEnvironment);
@@ -485,13 +491,14 @@ namespace NetWorkedData
         {
             bool rReturn = false;
 #if UNITY_EDITOR
+            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
             if (Application.isPlaying == true)
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type> { ClassType() }, true, sEnvironment);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync(), true, sEnvironment);
             }
             else
             {
-                NWDEditorMenu.EnvironementSync().Synchronization(new List<Type> { ClassType() }, sEnvironment);
+                NWDEditorMenu.EnvironementSync().Synchronization(ClasseInThisSync(), sEnvironment);
             }
 #else
 				NWDDataManager.SharedInstance().AddWebRequestSynchronization (new List<Type>{ClassType ()}, true, sEnvironment);
@@ -508,13 +515,14 @@ namespace NetWorkedData
         {
             bool rReturn = false;
 #if UNITY_EDITOR
+            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
             if (Application.isPlaying == true)
             {
-                NWDEditorMenu.EnvironementSync().SynchronizationClean(new List<Type> { ClassType() }, sEnvironment);
+                NWDEditorMenu.EnvironementSync().SynchronizationClean(ClasseInThisSync(), sEnvironment);
             }
             else
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean(new List<Type> { ClassType() }, true, sEnvironment);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean(ClasseInThisSync(), true, sEnvironment);
             }
 #else
 			NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
