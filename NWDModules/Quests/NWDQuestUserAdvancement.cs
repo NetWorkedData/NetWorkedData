@@ -115,7 +115,7 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string ChangeNotification = "NWDQuestUserAdvancement_ChangeNotification";
+        public static string NOTIFICATION_USER_QUEST_CHANGE = "NWDQuestUserAdvancement_UserQuestChangeNotification";
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -322,7 +322,7 @@ namespace NetWorkedData
                             // increment counters
                             AcceptCounter++;
                             // send BTBNotification
-                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.NOTIFICATION_USER_QUEST_CHANGE);
                         }
                         break;
                     case NWDQuestState.Refuse:
@@ -334,7 +334,7 @@ namespace NetWorkedData
                             // increment counters
                             RefuseCounter++;
                             // send BTBNotification
-                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.NOTIFICATION_USER_QUEST_CHANGE);
                         }
                         break;
                     case NWDQuestState.Cancel:
@@ -346,7 +346,7 @@ namespace NetWorkedData
                             // increment counters
                             CancelCounter++;
                             // send BTBNotification
-                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.NOTIFICATION_USER_QUEST_CHANGE);
                         }
                         break;
                     case NWDQuestState.Success:
@@ -398,7 +398,7 @@ namespace NetWorkedData
                                     FinishQuest();
                                 }
                                 // send BTBNotification
-                                BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
+                                BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.NOTIFICATION_USER_QUEST_CHANGE);
                             }
                             else
                             {
@@ -431,7 +431,7 @@ namespace NetWorkedData
                                 FinishQuest();
                             }
                             // send BTBNotification
-                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.ChangeNotification);
+                            BTBNotificationManager.SharedInstance().PostNotification(this, NWDQuestUserAdvancement.NOTIFICATION_USER_QUEST_CHANGE);
                         }
                         break;
                 }
