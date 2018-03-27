@@ -87,6 +87,8 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute ("Usage", true, true, true)]
         [NWDTooltips("Item is countable or not?")]
         public bool Uncountable { get; set; }
+        [NWDTooltips("Item is never visible by the player")]
+        public bool HiddenInGame { get; set;}
         [NWDTooltips("Item is usable or not?")]
         public bool Usable { get; set; }
 		public float DelayBeforeUse { get; set; }
