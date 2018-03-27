@@ -254,6 +254,14 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDGroupEndAttribute]
+        [NWDGroupSeparator]
+        [NWDGroupStartAttribute("For the quest'sBook", true, true, true)]
+        [NWDTooltipsAttribute("The resume to write in the quest book (optional)")]
+        public NWDLocalizableTextType Resume
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -280,6 +288,8 @@ namespace NetWorkedData
             Answer.AddBaseString("");
             Dialog = new NWDLocalizableTextType();
             Dialog.AddBaseString("");
+            Resume = new NWDLocalizableTextType();
+            Resume.AddBaseString("");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()
@@ -317,6 +327,15 @@ namespace NetWorkedData
                             }
                         }
                     }
+                }
+            }
+            NWDQuest tNextQuest = NextQuest.GetObject();
+            if (tNextQuest != null)
+            {
+                NWDDialog tDialogQuest = NWDQuestUserAdvancement.FirstDialogOnShowQuest(tNextQuest);
+                if (tDialogQuest != null)
+                {
+                    rDialogList.Add(tDialogQuest);
                 }
             }
             return rDialogList.ToArray();

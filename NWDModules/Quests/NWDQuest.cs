@@ -83,8 +83,14 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltips("Determine if quest is replayable how much time (if Type = Multiple)")]
         [NWDIf("Type",1)]
         public int Number
+        {
+            get; set;
+        }
+        [NWDTooltips("Determine if original quest must increment finish counter if this quest is finish")]
+        public bool DependantCounter
         {
             get; set;
         }
