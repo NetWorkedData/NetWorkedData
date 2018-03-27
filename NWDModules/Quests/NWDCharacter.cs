@@ -157,107 +157,107 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDPrefabType AfraidState
+        public NWDTextureType AfraidState
         {
             get; set;
         }
-        public NWDPrefabType AngryState
+        public NWDTextureType AngryState
         {
             get; set;
         }
-        public NWDPrefabType AnnoyedState
+        public NWDTextureType AnnoyedState
         {
             get; set;
         }
-        public NWDPrefabType BoredState
+        public NWDTextureType BoredState
         {
             get; set;
         }
-        public NWDPrefabType ConfidentState
+        public NWDTextureType ConfidentState
         {
             get; set;
         }
-        public NWDPrefabType ConfusedState
+        public NWDTextureType ConfusedState
         {
             get; set;
         }
-        public NWDPrefabType DisgustedState
+        public NWDTextureType DisgustedState
         {
             get; set;
         }
-        public NWDPrefabType EmbarrassedState
+        public NWDTextureType EmbarrassedState
         {
             get; set;
         }
-        public NWDPrefabType ExcitedState
+        public NWDTextureType ExcitedState
         {
             get; set;
         }
-        public NWDPrefabType FrustratedState
+        public NWDTextureType FrustratedState
         {
             get; set;
         }
-        public NWDPrefabType HappyState
+        public NWDTextureType HappyState
         {
             get; set;
         }
-        public NWDPrefabType HopefulState
+        public NWDTextureType HopefulState
         {
             get; set;
         }
-        public NWDPrefabType HurtState
+        public NWDTextureType HurtState
         {
             get; set;
         }
-        public NWDPrefabType LonelyState
+        public NWDTextureType LonelyState
         {
             get; set;
         }
-        public NWDPrefabType OverwhelmedState
+        public NWDTextureType OverwhelmedState
         {
             get; set;
         }
-        public NWDPrefabType PoisonedState
+        public NWDTextureType PoisonedState
         {
             get; set;
         }
-        public NWDPrefabType PossessesState
+        public NWDTextureType PossessesState
         {
             get; set;
         }
-        public NWDPrefabType ProudState
+        public NWDTextureType ProudState
         {
             get; set;
         }
-        public NWDPrefabType RelaxedState
+        public NWDTextureType RelaxedState
         {
             get; set;
         }
-        public NWDPrefabType SadState
+        public NWDTextureType SadState
         {
             get; set;
         }
-        public NWDPrefabType ShyState
+        public NWDTextureType ShyState
         {
             get; set;
         }
-        public NWDPrefabType SillyState
+        public NWDTextureType SillyState
         {
             get; set;
         }
-        public NWDPrefabType SurprisedState
+        public NWDTextureType SurprisedState
         {
             get; set;
         }
-        public NWDPrefabType ThoughtfulState
+        public NWDTextureType ThoughtfulState
         {
             get; set;
         }
-        public NWDPrefabType TiredState
+        public NWDTextureType TiredState
         {
             get; set;
         }
-        public NWDPrefabType WorrieState
+        public NWDTextureType WorriedState
         {
             get; set;
         }
@@ -302,9 +302,153 @@ namespace NetWorkedData
             UpdateMe();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod()
+        public Sprite GetSpriteForEmotion(NWDCharacterEmotion sEmotion)
         {
-            // do something with this object
+            Sprite rSprite = NormalState.ToSprite();
+            Sprite rSpriteEmotion = null;
+            switch (sEmotion)
+            {
+                case NWDCharacterEmotion.Normal :
+                    {
+                        rSpriteEmotion = NormalState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Afraid:
+                    {
+                        rSpriteEmotion = AfraidState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Angry:
+                    {
+                        rSpriteEmotion = AngryState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Annoyed:
+                    {
+                        rSpriteEmotion = AnnoyedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Bored:
+                    {
+                        rSpriteEmotion = BoredState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Confident:
+                    {
+                        rSpriteEmotion = ConfidentState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Confused:
+                    {
+                        rSpriteEmotion = ConfusedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Disgusted:
+                    {
+                        rSpriteEmotion = DisgustedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Embarrassed:
+                    {
+                        rSpriteEmotion = EmbarrassedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Excited:
+                    {
+                        rSpriteEmotion = ExcitedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Frustrated:
+                    {
+                        rSpriteEmotion = FrustratedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Happy:
+                    {
+                        rSpriteEmotion = HappyState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Hopeful:
+                    {
+                        rSpriteEmotion = HopefulState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Hurt:
+                    {
+                        rSpriteEmotion = HurtState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Lonely:
+                    {
+                        rSpriteEmotion = LonelyState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Overwhelmed:
+                    {
+                        rSpriteEmotion = OverwhelmedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Poisoned:
+                    {
+                        rSpriteEmotion = PoisonedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Possesses:
+                    {
+                        rSpriteEmotion = PossessesState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Proud:
+                    {
+                        rSpriteEmotion = ProudState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Relaxed:
+                    {
+                        rSpriteEmotion = RelaxedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Sad:
+                    {
+                        rSpriteEmotion = SadState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Shy:
+                    {
+                        rSpriteEmotion = ShyState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Silly:
+                    {
+                        rSpriteEmotion = SillyState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Surprised:
+                    {
+                        rSpriteEmotion = SurprisedState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Thoughtful  :
+                    {
+                        rSpriteEmotion = ThoughtfulState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion.Tired  :
+                    {
+                        rSpriteEmotion = TiredState.ToSprite();
+                    }
+                    break;
+                case NWDCharacterEmotion. Worried  :
+                    {
+                        rSpriteEmotion = WorriedState.ToSprite();
+                    }
+                    break;
+            }
+            if (rSpriteEmotion != null)
+            {
+                rSprite = rSpriteEmotion;
+            }
+            return rSprite;
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods

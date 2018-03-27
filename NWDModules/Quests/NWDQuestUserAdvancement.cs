@@ -158,6 +158,53 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
+        public bool AvailableQuest()
+        {
+            bool rReturn = true;
+            NWDQuest tQuest = QuestReference.GetObject();
+            if (tQuest == null)
+            {
+                rReturn = false;
+            }
+            else
+            {
+                switch (tQuest.Type)
+                {
+                    case NWDQuestType.Unique:
+                        {
+                            if (FinishCounter >= 1)
+                            {
+                                rReturn = false;
+                            }
+                        }
+                        break;
+                    case NWDQuestType.Multiple:
+                        {
+                            if (FinishCounter >= tQuest.Number)
+                            {
+                                rReturn = false;
+                            }
+                        }
+                        break;
+                    case NWDQuestType.Infiny:
+                        {
+                            rReturn = true;
+                        }
+                        break;
+                }
+                if (rReturn==true)
+                {
+                    rReturn = tQuest.AvailabilitySchedule.AvailableNowInGameTime();
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AvailableQuest(NWDQuest sQuest)
+        {
+            return GetAdvancementForQuest(sQuest).AvailableQuest();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public NWDDialog FirstDialogOnShowQuest()
         {
             // I return the first dialog
@@ -179,23 +226,34 @@ namespace NetWorkedData
                 }
                 // I need propose the First Dialaog
                 if (tItemsRequired && tItemsGroupsRequired)
-                    {
+                {
                     if (tItemsWanted && tItemsGroupsWanted)
-                        {
-                            rDialog = tQuest.AlternateDialogReference.GetObject();
-                            QuestState = NWDQuestState.StartAlternate;
-                        }
-                        else
-                        {
-                            rDialog = tQuest.DialogReference.GetObject();
-                            QuestState = NWDQuestState.Start;
-                        }
+                    {
+                        rDialog = tQuest.AlternateDialogReference.GetObject();
+                        QuestState = NWDQuestState.StartAlternate;
                     }
                     else
                     {
-                        rDialog = tQuest.NoRequiredDialogReference.GetObject();
-                        QuestState = NWDQuestState.None;
+                        rDialog = tQuest.DialogReference.GetObject();
+                        QuestState = NWDQuestState.Start;
                     }
+                }
+                else
+                {
+                    rDialog = tQuest.NoRequiredDialogReference.GetObject();
+                    QuestState = NWDQuestState.None;
+                }
+            }
+            else
+            {
+                if (rDialog.AnswerState == NWDDialogState.Sequent)
+                {
+                   NWDDialog[] tDialogs = rDialog.GetNextDialogs();
+                    if (tDialogs.Length > 0)
+                    {
+                        rDialog = tDialogs[0];
+                    }
+                }
             }
             return rDialog;
         }
@@ -207,6 +265,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AdvancementDialog(NWDDialog sDialog)
         {
+            Debug.Log("NWDQuestUserAdvancement AdvancementDialog ("+sDialog.Reference+")");
             NWDQuest tQuest = QuestReference.GetObject();
             // If Dialog == null I need determine wich dialog I need to Use
             if (sDialog == null)
@@ -221,41 +280,52 @@ namespace NetWorkedData
                     case NWDQuestState.Accept:
                         if (QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
+                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Accept");
                             // I must remove the required object or Not?
                             if (tQuest.RemoveItemsRequired == true)
                             {
                                 NWDOwnership.RemoveItemToOwnership(tQuest.ItemsRequired);
                             }
+                            // put quest in accept
                             QuestState = NWDQuestState.Accept;
+                            // increment counters
                             AcceptCounter++;
                         }
                         break;
                     case NWDQuestState.Refuse:
                         if (QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
+                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Refuse");
+                            // put quest in cancel
                             QuestState = NWDQuestState.Refuse;
+                            // increment counters
                             RefuseCounter++;
                         }
                         break;
                     case NWDQuestState.Cancel:
                         if (QuestState == NWDQuestState.Accept)
                         {
+                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Cancel");
+                            // put quest in cancel
                             QuestState = NWDQuestState.Cancel;
+                            // increment counters
                             CancelCounter++;
                         }
                         break;
                     case NWDQuestState.Success:
-                        if (QuestState == NWDQuestState.Accept)
+                        if (QuestState == NWDQuestState.Accept || QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
+                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Success");
                             bool tItemsWanted = NWDOwnership.ContainsItems(tQuest.ItemsWanted);
                             bool tItemsGroupsWanted = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted);
                             if (tItemsWanted && tItemsGroupsWanted)
                             {
+                                // put quest in success
                                 QuestState = NWDQuestState.Success;
                                 // I must remove the required object or Not?
                                 if (tQuest.RemoveItemsWanted == true)
                                 {
-                                    NWDOwnership.AddItemToOwnership(tQuest.ItemsWanted);
+                                    NWDOwnership.RemoveItemToOwnership(tQuest.ItemsWanted);
                                 }
                                 // Add items
                                 NWDOwnership.AddItemToOwnership(tQuest.ItemRewards);
@@ -275,6 +345,7 @@ namespace NetWorkedData
                                         NWDOwnership.AddItemToOwnership(tKeyValue.Key.GetAllItemReferenceAndQuantity());
                                     }
                                 }
+                                // increment counters
                                 SuccessCounter++;
                                 FinishCounter++;
                             }
@@ -288,15 +359,23 @@ namespace NetWorkedData
                     case NWDQuestState.Fail:
                         if (QuestState == NWDQuestState.Accept)
                         {
+                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Fail");
+                            // put quest in fail
                             QuestState = NWDQuestState.Fail;
+                            // increment counters
                             FailCounter++;
                             FinishCounter++;
                         }
                         break;
                 }
-                if (sDialog.AnswerState == NWDDialogState.Step)
+                if (sDialog.AnswerState == NWDDialogState.Step || sDialog.AnswerState == NWDDialogState.Sequent)
                 {
                     LastDialogReference.SetObject(sDialog);
+                }
+                if (sDialog.AnswerState == NWDDialogState.Reset)
+                {
+                    // I remove the last dialog... waiting to decalre a new dialog or restart the quest
+                    LastDialogReference.SetObject(null);
                 }
                 SaveModifications();
             }

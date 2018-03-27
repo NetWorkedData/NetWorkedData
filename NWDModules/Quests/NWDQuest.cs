@@ -223,6 +223,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            Title = new NWDLocalizableStringType();
+            Title.AddBaseString("");
+            SubTitle = new NWDLocalizableStringType();
+            SubTitle.AddBaseString("");
+            Description = new NWDLocalizableTextType();
+            Description.AddBaseString("");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()

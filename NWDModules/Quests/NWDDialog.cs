@@ -42,11 +42,10 @@ namespace NetWorkedData
     [Serializable]
     public enum NWDDialogState : int
     {
-        Sequent,
-        Normal,
-        Step,
-        //Stop,
-        Random,
+        Normal = 0,     // normal dialog ... nothing to do
+        Sequent = 1,    // sequent dialog ... the dialog is reccord as last dialog and try to navigate to the next dialog on restart
+        Step = 2,       // step dialog ... the dialog is reccord as last dialog and used on restart
+        Reset = 3,      // the last dialog will be reset
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
@@ -69,7 +68,7 @@ namespace NetWorkedData
 
         Narrative,
         Divine,
-        Subconscient
+        Subconscient,
 
     }
     //-------------------------------------------------------------------------------------------------------------
@@ -140,7 +139,7 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltipsAttribute("The random limit in range to [0-1] ")]
-        [NWDIf("AnswerState", (int)NWDDialogState.Random)]
+        //[NWDIf("AnswerState", (int)NWDDialogState.Random)]
         [NWDFloatSlider(0.0F, 1.0F)]
         public float RandomFrequency
         {
@@ -276,6 +275,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            RandomFrequency = 1.0F;
+            Answer = new NWDLocalizableStringType();
+            Answer.AddBaseString("");
+            Dialog = new NWDLocalizableTextType();
+            Dialog.AddBaseString("");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()
@@ -298,9 +302,11 @@ namespace NetWorkedData
                     {
                         if (NWDOwnership.ContainsItems(tDialog.ItemsRequired))
                         {
-                            if (tDialog.AnswerState == NWDDialogState.Random)
+                            if (tDialog.RandomFrequency<1.0F)
                             {
-                                if (UnityEngine.Random.Range(0.0F, 1.0F)<= tDialog.RandomFrequency)
+                                float tRandom = UnityEngine.Random.Range(0.0F, 1.0F);
+                                //Debug.Log("NWDDialog GetNextDialogs tRandom = " + tRandom.ToString());
+                                if (tRandom<= tDialog.RandomFrequency)
                                 {
                                     rDialogList.Add(tDialog);
                                 }
@@ -686,11 +692,6 @@ namespace NetWorkedData
                                 tContent = new GUIContent(tAnswerDialogAnswer, kImageNormal);
                             }
                             break;
-                        case NWDDialogState.Random:
-                            {
-                                tContent = new GUIContent(tAnswerDialogAnswer, kImageRandom);
-                            }
-                            break;
                     }
 
 
@@ -757,11 +758,6 @@ namespace NetWorkedData
                 case NWDDialogState.Normal:
                     {
                         tContent = new GUIContent(tAnswer, kImageNormal);
-                    }
-                    break;
-                case NWDDialogState.Random:
-                    {
-                        tContent = new GUIContent(tAnswer, kImageRandom);
                     }
                     break;
             }
