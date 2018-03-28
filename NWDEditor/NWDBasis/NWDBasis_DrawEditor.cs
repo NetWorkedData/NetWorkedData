@@ -1313,18 +1313,37 @@ namespace NetWorkedData
             int tWebBuilt = tApp.WebBuild;
             List<int> tWebServicesInt = new List<int>();
             List<string> tWebServicesString = new List<string>();
-            //foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
-            for (int tW = 0; tW <= tWebBuilt; tW++)
+
+
+            int tWebServiceVersionOldValue = 0;
+            foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
+            //for (int tW = 0; tW <= tWebBuilt; tW++)
             {
-                tWebServicesInt.Add(tW);
-                tWebServicesString.Add("WebService "+tW.ToString());
+                if (tKeyValue.Value == true)
+                {
+                    if (tKeyValue.Key <= WebServiceVersion)
+                    {
+                        if (tKeyValue.Key >= tWebServiceVersionOldValue)
+                        {
+                            tWebServiceVersionOldValue = tKeyValue.Key;
+                        }
+                    }
+                    tWebServicesInt.Add(tKeyValue.Key);
+                    tWebServicesString.Add("WebService " + tKeyValue.Key.ToString());
+                }
             }
-            int tWebServiceVersionIndex = EditorGUI.IntPopup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Web service version", WebServiceVersion ,tWebServicesString.ToArray(),  tWebServicesInt.ToArray());
+            int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(tWebServiceVersionOldValue);
+            //kjbjgh g hj jgh jgh jghjg hjgh 
+            int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+                                                             "Web service "+WebServiceVersion+ "(/"+tWebBuilt.ToString()+")" ,
+                                                             tWebServiceVersionOldIndex ,tWebServicesString.ToArray());
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-          
-            if (WebServiceVersion != tWebServiceVersionIndex)
+
+            int tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
+
+            if (WebServiceVersion != tWebServiceVersionNew)
             {
-                WebServiceVersion = tWebServiceVersionIndex; 
+                WebServiceVersion = tWebServiceVersionNew; 
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
