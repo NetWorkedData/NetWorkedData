@@ -170,12 +170,14 @@ namespace NetWorkedData
                 rAdvancement.QuestActualReference.SetReference(sQuest.Reference);
                 rAdvancement.SaveModifications();
             }
+
             // Check if the quest advancement is the good advancement
             // else return the advancement for the actual quest part
             if (rAdvancement.QuestReference.GetReference() != rAdvancement.QuestActualReference.GetReference())
             {
                 rAdvancement = GetAdvancementForQuest(rAdvancement.QuestActualReference.GetObject());
             }
+
             return rAdvancement;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -285,6 +287,10 @@ namespace NetWorkedData
                     }
                 }
             }
+
+            // Save the modification on user quest advancement
+            SaveModifications();
+
             return rDialog;
         }
         //-------------------------------------------------------------------------------------------------------------
