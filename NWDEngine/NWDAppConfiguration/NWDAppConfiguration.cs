@@ -42,6 +42,7 @@ namespace NetWorkedData
         public Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();
         public Dictionary<int, Dictionary<string, List<string>>> kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();
         public Dictionary<string, string> BundleName = new Dictionary<string, string>();
+        public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
 
 		//-------------------------------------------------------------------------------------------------------------

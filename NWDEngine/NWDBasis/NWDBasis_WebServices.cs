@@ -60,6 +60,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual int WebServiceVersionToUse()
+        {
+            int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
+            if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
+            {
+                tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
+            }
+            return tWebBuildUsed;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the prefs key.
         /// </summary>

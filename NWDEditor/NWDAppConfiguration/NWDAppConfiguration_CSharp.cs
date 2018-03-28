@@ -70,7 +70,7 @@ namespace NetWorkedData
             }
 
             tConstantsFile += "\t\t\t//Language regenerate (MultiPass?!)\n";
-            tConstantsFile += "\t\t\tProjetcLanguage = \""+ProjetcLanguage+"\";\n";
+            tConstantsFile += "\t\t\tProjetcLanguage = \"" + ProjetcLanguage + "\";\n";
             foreach (KeyValuePair<string, string> tEntry in BundleName)
             {
                 tConstantsFile += "\t\t\tBundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
@@ -98,14 +98,13 @@ namespace NetWorkedData
                 {
                     // TODO remove the web folder 
                     string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-                    if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/"+tWebServiceFolder) == true)
+                    if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == true)
                     {
                         //AssetDatabase.DeleteAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder);
 
                     }
                 }
             }
-
 
             tConstantsFile += "\t\t\t TagList = new Dictionary<int, string>();\n";
             // bug in writing order
@@ -258,16 +257,11 @@ namespace NetWorkedData
             "\t\t\tRestaureStepFive();\n" +
             "\t\t\tRestaureStepSix();\n" +
             "\t\t\tRestaureStepSeven();\n" +
+            "\t\t\tRestaureStepHeight();\n" +
             "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
-
-            foreach (KeyValuePair<int, bool> tWS in WSList)
-            {
-
-            }
-
             tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
-                "\t\t\t{\n";
+            "\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkCSVAssemblyOrderArray)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -285,8 +279,7 @@ namespace NetWorkedData
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepThree() \n" +
-            "\t\t\t{\n";
-
+            "\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkSLQAssemblyOrderArray)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -304,8 +297,7 @@ namespace NetWorkedData
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepFour() \n" +
-            "\t\t\t{\n";
-
+            "\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -323,7 +315,7 @@ namespace NetWorkedData
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepFive() \n" +
-            "\t\t\t{\n";
+            "\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityOrder)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -341,7 +333,7 @@ namespace NetWorkedData
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepSix() \n" +
-            "\t\t\t{\n" +
+            "\t\t{\n" +
             "\t\t\t\t#if UNITY_EDITOR\n" +
             "";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder)
@@ -363,7 +355,7 @@ namespace NetWorkedData
             "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepSeven() \n" +
-            "\t\t\t{\n";
+            "\t\t{\n";
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkDataAssemblyPropertiesList)
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
@@ -379,13 +371,43 @@ namespace NetWorkedData
                 }
             }
             tConstantsFile += "\t\t}\n" +
+            "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            "\t\t public void RestaureStepHeight() \n" +
+            "\t\t{\n";
+            Dictionary<string, int> tResult = new Dictionary<string, int>();
+            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
+            {
+                if (WSList.ContainsKey(tKeyValue.Key) == true)
+                {
+                    if (WSList[tKeyValue.Key] == true)
+                    {
+                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value)
+                        {
+                            if (tResult.ContainsKey(tSubKeyValue.Key))
+                            {
+                                if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
+                                {
+                                    tResult[tSubKeyValue.Key] = tKeyValue.Key;
+                                }
+                            }
+                            else
+                            {
+                                tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, int> tKeyValue in tResult)
+            {
+                tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
+            }
+            tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
             tConstantsFile += "\t}\n" +
             "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
             "}\n" +
             "//=====================================================================================================================\n";
-
-
             // File.WriteAllText(tEngineRootFolder + "/NWDConfigurations.cs", tConstantsFile);
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset (tEngineRootFolder + "/NWDConfigurations.cs");

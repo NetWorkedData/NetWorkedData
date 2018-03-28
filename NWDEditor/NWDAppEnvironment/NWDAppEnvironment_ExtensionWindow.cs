@@ -106,15 +106,21 @@ namespace NetWorkedData
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
+            tWSList.Add(0, true);
 
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
             {
-                tWSList.Add(tWS.Key, tWS.Value);
+                if (tWSList.ContainsKey(tWS.Key) == false)
+                {
+                    tWSList.Add(tWS.Key, tWS.Value);
+                }
             }
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
+                EditorGUI.BeginDisabledGroup(tWS.Key == 0);
                 bool tV = EditorGUILayout.Toggle("WebService " + tWS.Key.ToString() + " in config", tWS.Value);
                 NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+                EditorGUI.EndDisabledGroup();
             }
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
