@@ -228,6 +228,45 @@ namespace NetWorkedData
                 {
                     rReturn = tQuest.AvailabilitySchedule.AvailableNowInGameTime();
                 }
+
+
+                bool tItemsRequired = NWDOwnership.ContainsItems(tQuest.ItemsRequired);
+                bool tItemsGroupsRequired = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsRequired);
+
+                bool tItemsWanted = NWDOwnership.ContainsItems(tQuest.ItemsWanted);
+                bool tItemsGroupsWanted = NWDOwnership.ContainsItemGroups(tQuest.ItemGroupsWanted);
+
+
+                if (tQuest.ItemsWanted.IsEmpty() && tQuest.ItemGroupsWanted.IsEmpty())
+                {
+                    tItemsWanted = false;
+                    tItemsGroupsWanted = false;
+                }
+                // I need propose the First Dialaog
+                if (tItemsRequired && tItemsGroupsRequired)
+                {
+                    if (tItemsWanted && tItemsGroupsWanted)
+                    {
+                        if (tQuest.AlternateDialogReference.GetObject()==null)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    else
+                    {
+                        if (tQuest.DialogReference.GetObject() == null)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                }
+                else
+                {
+                    if (tQuest.NoRequiredDialogReference.GetObject()==null)
+                    {
+                        rReturn = false;
+                    }
+                }
             }
             return rReturn;
         }
