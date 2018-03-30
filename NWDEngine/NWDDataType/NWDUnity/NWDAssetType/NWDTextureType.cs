@@ -52,17 +52,17 @@ namespace NetWorkedData
 			if (Value != null && Value != "")
             {
 				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
-#if UNITY_EDITOR
-                //--------------------------------------------------------------------------------------
+                #if UNITY_EDITOR
                 rTexture = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
-                //--------------------------------------------------------------------------------------
-#else
-                //--------------------------------------------------------------------------------------
-                tPath = tPath.Replace("Assets/Resources/", "");
-                tPath = tPath.Substring(0, tPath.LastIndexOf("."));
+                #else
+                // tPath = tPath.Replace("Assets/Resources/", "");
+                tPath = Path.GetFileNameWithoutExtension(tPath);
                 rTexture = Resources.Load(tPath, typeof(Texture2D)) as Texture2D;
-                //--------------------------------------------------------------------------------------
-#endif
+                #endif
+                if (rTexture == null)
+                {
+                    Debug.LogWarning("rTexture is null at path " + tPath);
+                }
             }
             return rTexture;
 		}
@@ -134,7 +134,12 @@ namespace NetWorkedData
 					tRessource = false;
 				} else {
 					EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tObject);
-				}
+                }
+                if (Value.Contains("Resources") == false)
+                {
+                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN Resurces FOLDER", tLabelAssetStyle);
+                    tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                }
 			}
 			EditorGUI.BeginDisabledGroup (!tRessource);
             UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Texture2D), false);

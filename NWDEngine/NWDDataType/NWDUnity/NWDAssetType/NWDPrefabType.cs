@@ -53,7 +53,9 @@ namespace NetWorkedData
 
 				#if UNITY_EDITOR
 				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(GameObject)) as GameObject;
-				#else
+                #else
+                //tPath = tPath.Replace("Assets/Resources/", "");
+                tPath = Path.GetFileNameWithoutExtension(tPath);
 				tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
 				#endif
 			}
@@ -139,7 +141,12 @@ namespace NetWorkedData
 						EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
 							, tTexture2D);
 					}
-				}
+                }
+                if (Value.Contains("Resources") == false)
+                {
+                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN Resurces FOLDER", tLabelAssetStyle);
+                    tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                }
 			}
 
 			EditorGUI.BeginDisabledGroup (!tRessource);

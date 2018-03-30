@@ -48,16 +48,24 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Sprite ToSprite ()
 		{
-			Sprite tObject = null;
+            Sprite rSprite = null;
+            Debug.LogWarning("rSprite Value " + Value);
 			if (Value != null && Value != "") {
 				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
 				#if UNITY_EDITOR
-				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
-				#else
-				tObject = Resources.Load (tPath, typeof(Sprite)) as Sprite;
-				#endif
+				rSprite = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
+                #else
+                //tPath = tPath.Replace("Assets/Resources/", "");
+                tPath = Path.GetFileNameWithoutExtension(tPath);
+                rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
+                #endif
+                Debug.LogWarning("rSprite at path " + tPath);
+                if (rSprite == null)
+                {
+                    Debug.LogWarning("rSprite is null at path " + tPath);
+                }
 			}
-			return tObject;
+			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
@@ -124,6 +132,11 @@ namespace NetWorkedData
 							, tTexture2D);
 					}
 				}
+                if (Value.Contains("Resources") == false)
+                {
+                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN Resurces FOLDER", tLabelAssetStyle);
+                    tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                }
 			}
 			EditorGUI.BeginDisabledGroup (!tRessource);
             UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent, tObject, typeof(Sprite), false);

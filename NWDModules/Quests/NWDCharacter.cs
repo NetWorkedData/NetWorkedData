@@ -153,111 +153,111 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Render", true, true, true)]
-        public NWDTextureType NormalState
+        public NWDSpriteType NormalState
         {
             get; set;
         }
-        public NWDTextureType AfraidState
+        public NWDSpriteType AfraidState
         {
             get; set;
         }
-        public NWDTextureType AngryState
+        public NWDSpriteType AngryState
         {
             get; set;
         }
-        public NWDTextureType AnnoyedState
+        public NWDSpriteType AnnoyedState
         {
             get; set;
         }
-        public NWDTextureType BoredState
+        public NWDSpriteType BoredState
         {
             get; set;
         }
-        public NWDTextureType ConfidentState
+        public NWDSpriteType ConfidentState
         {
             get; set;
         }
-        public NWDTextureType ConfusedState
+        public NWDSpriteType ConfusedState
         {
             get; set;
         }
-        public NWDTextureType DisgustedState
+        public NWDSpriteType DisgustedState
         {
             get; set;
         }
-        public NWDTextureType EmbarrassedState
+        public NWDSpriteType EmbarrassedState
         {
             get; set;
         }
-        public NWDTextureType ExcitedState
+        public NWDSpriteType ExcitedState
         {
             get; set;
         }
-        public NWDTextureType FrustratedState
+        public NWDSpriteType FrustratedState
         {
             get; set;
         }
-        public NWDTextureType HappyState
+        public NWDSpriteType HappyState
         {
             get; set;
         }
-        public NWDTextureType HopefulState
+        public NWDSpriteType HopefulState
         {
             get; set;
         }
-        public NWDTextureType HurtState
+        public NWDSpriteType HurtState
         {
             get; set;
         }
-        public NWDTextureType LonelyState
+        public NWDSpriteType LonelyState
         {
             get; set;
         }
-        public NWDTextureType OverwhelmedState
+        public NWDSpriteType OverwhelmedState
         {
             get; set;
         }
-        public NWDTextureType PoisonedState
+        public NWDSpriteType PoisonedState
         {
             get; set;
         }
-        public NWDTextureType PossessesState
+        public NWDSpriteType PossessesState
         {
             get; set;
         }
-        public NWDTextureType ProudState
+        public NWDSpriteType ProudState
         {
             get; set;
         }
-        public NWDTextureType RelaxedState
+        public NWDSpriteType RelaxedState
         {
             get; set;
         }
-        public NWDTextureType SadState
+        public NWDSpriteType SadState
         {
             get; set;
         }
-        public NWDTextureType ShyState
+        public NWDSpriteType ShyState
         {
             get; set;
         }
-        public NWDTextureType SillyState
+        public NWDSpriteType SillyState
         {
             get; set;
         }
-        public NWDTextureType SurprisedState
+        public NWDSpriteType SurprisedState
         {
             get; set;
         }
-        public NWDTextureType ThoughtfulState
+        public NWDSpriteType ThoughtfulState
         {
             get; set;
         }
-        public NWDTextureType TiredState
+        public NWDSpriteType TiredState
         {
             get; set;
         }
-        public NWDTextureType WorriedState
+        public NWDSpriteType WorriedState
         {
             get; set;
         }
