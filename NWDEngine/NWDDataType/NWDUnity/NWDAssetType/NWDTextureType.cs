@@ -137,8 +137,7 @@ namespace NetWorkedData
                 }
                 if (Value.Contains("Resources") == false)
                 {
-                    GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN Resurces FOLDER", tLabelAssetStyle);
-                    tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                    EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), "NOT IN \"Resources\"", tLabelStyle);
                 }
 			}
 			EditorGUI.BeginDisabledGroup (!tRessource);
