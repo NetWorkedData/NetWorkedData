@@ -26,55 +26,59 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	[SerializeField]
-	public class NWDReferenceType<K>: BTBDataType where K : NWDBasis <K>, new()
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDReferenceType ()
-		{
-			Value = "";
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public bool ContainsReference (string sReference)
-		{
-			if (sReference == null) {
-				return false;
-			}
-			return Value.Contains (sReference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetReference (string sReference)
-		{
-			if (sReference == null) {
-				sReference = "";
-			}
-			Value = sReference;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public string GetReference ()
-		{
-			if (Value == null) {
-				return "";
-			}
-			return Value;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public bool ContainsObject (K sObject)
-		{
-			if (sObject == null) {
-				return false;
-			}
-			return Value.Contains (sObject.Reference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-        public K GetObject (string sAccountReference = null)
-		{
-            return NWDBasis <K>.GetObjectByReference (Value,sAccountReference) as K;
+    [SerializeField]
+    public class NWDReferenceType<K> : BTBDataType where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferenceType()
+        {
+            Value = "";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ContainsReference(string sReference)
+        {
+            if (sReference == null)
+            {
+                return false;
+            }
+            return Value.Contains(sReference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetReference(string sReference)
+        {
+            if (sReference == null)
+            {
+                sReference = "";
+            }
+            Value = sReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetReference()
+        {
+            if (Value == null)
+            {
+                return "";
+            }
+            return Value;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ContainsObject(K sObject)
+        {
+            if (sObject == null)
+            {
+                return false;
+            }
+            return Value.Contains(sObject.Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K GetObject(string sAccountReference = null)
+        {
+            return NWDBasis<K>.GetObjectByReference(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
-            return new K[] { NWDBasis<K>.GetObjectByReference(Value,sAccountReference) as K };
+            return new K[] { NWDBasis<K>.GetObjectByReference(Value, sAccountReference) as K };
         }
         //-------------------------------------------------------------------------------------------------------------
         public K GetObjectAbsolute(string sAccountReference = null)
@@ -86,27 +90,46 @@ namespace NetWorkedData
         {
             return new K[] { NWDBasis<K>.GetObjectAbsoluteByReference(Value) as K };
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void SetObject (K sObject)
-		{
-			if (sObject != null) {
-				Value = sObject.Reference;
-			} else {
-				Value = "";
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public List<string> ReferenceInError( List<string> sReferencesList) {
-			List<string> rReturn = new List<string> ();
-			foreach (string tReference in sReferencesList) {
-				if (NWDBasis<K>.InstanceByReference (tReference) == null) {
-					rReturn.Add (tReference);
-				}
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetObject(K sObject)
+        {
+            if (sObject != null)
+            {
+                Value = sObject.Reference;
+            }
+            else
+            {
+                Value = "";
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<string> ReferenceInError(List<string> sReferencesList)
+        {
+            List<string> rReturn = new List<string>();
+            foreach (string tReference in sReferencesList)
+            {
+                if (NWDBasis<K>.InstanceByReference(tReference) == null)
+                {
+                    rReturn.Add(tReference);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsInError()
+        {
+            bool rReturn = false;
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                if (NWDBasis<K>.InstanceByReference(Value) == null)
+                {
+                    rReturn = true;
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public K[] EditorGetObjects()
         {
@@ -128,67 +151,75 @@ namespace NetWorkedData
             this.SetObject(tNewObject);
             NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
-		{
-//			Debug.Log ("Je suis dans l'invocation de hauteur");
+        //-------------------------------------------------------------------------------------------------------------
+        public override float ControlFieldHeight()
+        {
+            //			Debug.Log ("Je suis dans l'invocation de hauteur");
 
-			int tConnection = 0;
-			if (Value != null && Value != "") {
-				if (NWDBasis<K>.InstanceByReference (Value) == null) {
-					tConnection = 1;
-				}
-			}
+            int tConnection = 0;
+            if (Value != null && Value != "")
+            {
+                if (NWDBasis<K>.InstanceByReference(Value) == null)
+                {
+                    tConnection = 1;
+                }
+            }
             float tHeight = NWDConstants.kPopupdStyle.fixedHeight + tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
                                                                                    NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
-			// test if error in reference and add button height
-			if (Value != null && Value != "") {
-				if (ReferenceInError (new List<string> (Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0) {
+            // test if error in reference and add button height
+            if (Value != null && Value != "")
+            {
+                if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
+                {
                     tHeight = tHeight + NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-				}
-			}
-			return tHeight;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
-		{
+                }
+            }
+            return tHeight;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
-            NWDReferenceType<K> tTemporary = new NWDReferenceType<K> ();
+            NWDReferenceType<K> tTemporary = new NWDReferenceType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
-			tTemporary.Value = Value;
+            tTemporary.Value = Value;
 
-			Type sFromType = typeof(K);
-			float tWidth = sPosition.width;
-			float tHeight = sPosition.height;
-			float tX = sPosition.position.x;
-			float tY = sPosition.position.y;
+            Type sFromType = typeof(K);
+            float tWidth = sPosition.width;
+            float tHeight = sPosition.height;
+            float tX = sPosition.position.x;
+            float tY = sPosition.position.y;
 
-			float tEditWidth = NWDConstants.kEditWidth;
+            float tEditWidth = NWDConstants.kEditWidth;
 
 
-			bool tConnection = true;
-			if (Value != null && Value != "") {
-				if (NWDBasis<K>.InstanceByReference (Value) == null) {
-					tConnection = false;
-				}
-			}
+            bool tConnection = true;
+            if (Value != null && Value != "")
+            {
+                if (NWDBasis<K>.InstanceByReference(Value) == null)
+                {
+                    tConnection = false;
+                }
+            }
 
-			EditorGUI.BeginDisabledGroup (!tConnection);
-			List<string> tReferenceList = new List<string> ();
-			List<string> tInternalNameList = new List<string> ();
-			tReferenceList.Add (NWDConstants.kFieldSeparatorA);
-			tInternalNameList.Add (" ");
-			var tReferenceListInfo = sFromType.GetField ("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (tReferenceListInfo != null) {
-				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
-			}
+            EditorGUI.BeginDisabledGroup(!tConnection);
+            List<string> tReferenceList = new List<string>();
+            List<string> tInternalNameList = new List<string>();
+            tReferenceList.Add(NWDConstants.kFieldSeparatorA);
+            tInternalNameList.Add(" ");
+            var tReferenceListInfo = sFromType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tReferenceListInfo != null)
+            {
+                tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+            }
 
-			var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (tInternalNameListInfo != null) {
-				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
-			}
+            var tInternalNameListInfo = sFromType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tInternalNameListInfo != null)
+            {
+                tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
+            }
 
             List<GUIContent> tContentFuturList = new List<GUIContent>();
             foreach (string tS in tInternalNameList.ToArray())
@@ -196,13 +227,14 @@ namespace NetWorkedData
                 tContentFuturList.Add(new GUIContent(tS));
             }
 
-			int tIndex = tReferenceList.IndexOf (Value);
-            int rIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray (), NWDConstants.kPopupdStyle);
+            int tIndex = tReferenceList.IndexOf(Value);
+            int rIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - NWDConstants.kFieldMarge - tEditWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
 
-			if (tConnection == false) {
-                GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, NWDConstants.kGrayLabelStyle.fixedHeight), "? <" + Value + ">", NWDConstants.kGrayLabelStyle);
+            if (tConnection == false)
+            {
+                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge, tY + 1, tWidth - EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge * 4 - tEditWidth, NWDConstants.kGrayLabelStyle.fixedHeight), "? <" + Value + ">", NWDConstants.kGrayLabelStyle);
 
-			}
+            }
 
 
             //GUIContent tChooseContent = new GUIContent(NWDConstants.kImageTabReduce, "choose");
@@ -239,49 +271,54 @@ namespace NetWorkedData
                 }
             }
 
-			if (rIndex != tIndex) {
-				string tNextValue = tReferenceList.ElementAt (rIndex);
-				tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
-				tTemporary.Value = tNextValue;
-			}
+            if (rIndex != tIndex)
+            {
+                string tNextValue = tReferenceList.ElementAt(rIndex);
+                tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
+                tTemporary.Value = tNextValue;
+            }
 
             tY = tY + NWDConstants.kFieldMarge + NWDConstants.kPopupdStyle.fixedHeight;
-			EditorGUI.EndDisabledGroup ();
+            EditorGUI.EndDisabledGroup();
 
-			if (tConnection == false) {
-				tTemporary.Value = Value;
+            if (tConnection == false)
+            {
+                tTemporary.Value = Value;
 
-                GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, NWDConstants.kRedLabelStyle);
+                GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_ERROR, NWDConstants.kRedLabelStyle);
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
-//				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-//				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-                if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle)) {
-					tTemporary.Value = "";
-				}
-				GUI.backgroundColor = tOldColor;
+                //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+                //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                Color tOldColor = GUI.backgroundColor;
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
+                {
+                    tTemporary.Value = "";
+                }
+                GUI.backgroundColor = tOldColor;
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
-			}
-			return tTemporary;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		public string ChangeReferenceForAnother (string sOldReference, string sNewReference)
-		{
-			string rReturn = "NO";
-			if (Value != null) {
-				if (Value.Contains (sOldReference)) {
-					Debug.Log ("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
-					Value = Value.Replace (sOldReference, sNewReference);
-					rReturn = "YES";
-				}
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+            }
+            return tTemporary;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
+        {
+            string rReturn = "NO";
+            if (Value != null)
+            {
+                if (Value.Contains(sOldReference))
+                {
+                    Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
+                    Value = Value.Replace(sOldReference, sNewReference);
+                    rReturn = "YES";
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

@@ -82,6 +82,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
+        public override bool IsInError()
+        {
+            bool rReturn = false;
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                if (Value.Contains("Resources") == false)
+                {
+                    rReturn = true;
+                }
+                else
+                {
+                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                    GameObject tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
+                    if (tObject == null)
+                    {
+                        rReturn = true;
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
@@ -144,7 +166,7 @@ namespace NetWorkedData
                 }
                 if (Value.Contains("Resources") == false)
                 {
-                    EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), NWDConstants.kNOT_IN_Resources, tLabelStyle);
+                    EditorGUI.LabelField(new Rect(tX, tY + tLabelAssetStyle.fixedHeight, tWidth, tLabelAssetStyle.fixedHeight), NWDConstants.K_NOT_IN_RESOURCES_FOLDER, tLabelStyle);
                 }
 			}
 

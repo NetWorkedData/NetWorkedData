@@ -358,7 +358,21 @@ namespace NetWorkedData
             return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsInError()
+        {
+            bool rReturn = false;
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                List<string> tValueListERROR = ReferenceInError(new List<string>(GetReferences()));
+                if (tValueListERROR.Count > 0)
+                {
+                    rReturn = true;
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public K[] EditorGetObjects()
         {

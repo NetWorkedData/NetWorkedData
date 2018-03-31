@@ -162,6 +162,11 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDNotEditable]
+        public bool InError
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static string m_SearchReference = "";
         public static string m_SearchInternalName = "";
@@ -547,6 +552,7 @@ namespace NetWorkedData
                     ObjectsByReferenceList.Add(sObject.Reference);
                     ObjectsByKeyList.Add(sObject.InternalKey);
 #if UNITY_EDITOR
+                    sObject.ErrorCheck();
                     // add load object in editor table
                     ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
                     ObjectsInEditorTableList.Add(sObject.Reference);

@@ -68,7 +68,29 @@ namespace NetWorkedData
 			return rSprite;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool IsInError()
+        {
+            bool rReturn = false;
+            if (string.IsNullOrEmpty(Value) == false)
+            {
+                if (Value.Contains("Resources") == false)
+                {
+                    rReturn = true;
+                }
+                else
+                {
+                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                    Sprite tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
+                    if (tObject == null)
+                    {
+                        rReturn = true;
+                    }
+                }
+            }
+            return rReturn;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public override float ControlFieldHeight ()
 		{

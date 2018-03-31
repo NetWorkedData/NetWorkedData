@@ -104,8 +104,7 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void RowInformation (Rect sRect)
-		{ 
-
+		{
             // Draw internal informations
             var tStyleLeft = new GUIStyle(EditorStyles.label);
             tStyleLeft.alignment = TextAnchor.MiddleLeft;
@@ -116,7 +115,17 @@ namespace NetWorkedData
 
 			// prepare text
 			Rect rRectColored = new Rect (sRect.x-5, sRect.y, sRect.width+1024, sRect.height);
-            string tString = "<size=13><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
+
+            // check error in data 
+            string tIsInError = "";
+            //IsInErrorCheck();
+            if (InError==true)
+            {
+                tIsInError = NWDConstants.K_WARNING;
+            }
+
+
+            string tString = "<size=13><color=red>"+tIsInError+"</color><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> ";
             // to check the versioning active this line
             //tString+= "minversion = '" + MinVersion.ToString()+"'";
 
@@ -251,6 +260,8 @@ namespace NetWorkedData
 			// check click in rect
 			if (rRectAnalyze.Contains (sMouseClickPosition)) 
 			{
+                // verif if object is in error
+                ErrorCheck();
 				//NWDDataManager.SharedInstance().UpdateQueueExecute(); // update execute in another place!? in NWDDataManager.SharedInstance() destroyed?
 				GUI.FocusControl (null);
 				SetObjectInEdition (this);

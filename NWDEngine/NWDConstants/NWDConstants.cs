@@ -215,7 +215,8 @@ namespace NetWorkedData
         public const string K_APP_BASIS_INTERNAL_DESCRIPTION = "Internal Description";
         public const string K_APP_BASIS_INTERNAL_TAG = "Internal Tag";
 
-        public const string kNOT_IN_Resources = "NOT IN \"Resources\"";
+        public const string K_WARNING = "WARNING ";
+        public const string K_NOT_IN_RESOURCES_FOLDER = "NOT IN \"Resources\"";
         public const string K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD = "Asset must be download";
         public const string K_APP_BASIS_ASSET_DELETE = "Delete";
         public const string K_APP_BASIS_REFERENCE_ERROR = "Reference error";

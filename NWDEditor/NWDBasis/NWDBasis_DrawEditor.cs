@@ -258,6 +258,7 @@ namespace NetWorkedData
                     && tProp.Name != "ProdSync" 
                     && tProp.Name != "Tag" 
                     && tProp.Name != "ServerHash" 
+                    && tProp.Name != "InError" 
                     && tProp.Name != "ServerLog" 
                     && tProp.Name != "WebServiceVersion" 
                     && tProp.Name != "ReferenceVersioned" 
@@ -536,6 +537,7 @@ namespace NetWorkedData
                     && tProp.Name != "ProdSync" 
                     && tProp.Name != "Tag" 
                     && tProp.Name != "ServerHash" 
+                    && tProp.Name != "InError" 
                     && tProp.Name != "ServerLog"
                     && tProp.Name != "WebServiceVersion" 
                     && tProp.Name != "ReferenceVersioned" 
@@ -928,7 +930,7 @@ namespace NetWorkedData
                 //NWDDataInspector.ActiveRepaint();
                 if (sEditionEnable == true)
                 {
-
+                    ErrorCheck();
                     if (IntegrityValue() != this.Integrity)
                     {
                         DM = NWDToolbox.Timestamp();
@@ -976,6 +978,7 @@ namespace NetWorkedData
             tTitleLabelStyle.alignment = TextAnchor.MiddleCenter;
             tTitleLabelStyle.fontSize = 14;
             tTitleLabelStyle.fixedHeight = tTitleLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTitleLabelStyle.richText = true;
 
             GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
             tHelpBoxStyle.fixedHeight = tHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), tWidth);
@@ -996,10 +999,15 @@ namespace NetWorkedData
             //GUI.SetNextControlName(NWDConstants.K_CLASS_FOCUS_ID);
             //			GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
             string tTitle = InternalKey;
+
             if (string.IsNullOrEmpty(tTitle))
             {
                 tTitle = "Unamed " + ClassNamePHP() + "";
                 //				tTitle = ClassNamePHP () + "'s Object";
+            }
+            if (InError==true)
+            {
+                tTitle = "<b><color=red>"+NWDConstants.K_WARNING + tTitle+ "</color></b>";
             }
             GUI.Label(new Rect(tX, tY, tWidth, tTitleLabelStyle.fixedHeight), tTitle, tTitleLabelStyle);
 
@@ -1545,6 +1553,45 @@ namespace NetWorkedData
         public virtual bool AddonEdited(bool sNeedBeUpdate)
         {
             return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ErrorCheck()
+        {
+            Debug.Log("NWDBasis ErrorCheck()");
+            bool tNewValue = false;
+            Type tType = ClassType();
+            foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                Type tTypeOfThis = tProp.PropertyType;
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                {
+                    var tValue = tProp.GetValue(this, null);
+                    if (tValue != null)
+                    {
+                        BTBDataType tBTBDataType = tValue as BTBDataType;
+                        if (tBTBDataType.IsInError() == true)
+                        {
+                            tNewValue = true;
+                        }
+                    }
+                }
+            }
+
+            if (AddonErrorFound() == true)
+            {
+                tNewValue = true;
+            }
+
+            if (InError != tNewValue)
+            {
+                InError = tNewValue;
+                //UpdateIntegrity();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool AddonErrorFound()
+        {
+            return false;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

@@ -227,6 +227,9 @@ namespace NetWorkedData
                 //     Debug.LogWarning("OBJECT IS MORE RECENT THAN SYNC RECEIPT!!!!!!!!!!!!!!");
                 // }
             }
+            #if UNITY_EDITOR
+            tObject.ErrorCheck();
+            #endif
             return tObject;
         }
         //-------------------------------------------------------------------------------------------------------------
