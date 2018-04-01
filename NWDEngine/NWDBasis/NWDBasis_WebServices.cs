@@ -301,9 +301,6 @@ namespace NetWorkedData
         public static Dictionary<string, object> SynchronizationPushData(NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
         {
             Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
-            #if UNITY_EDITOR
-            NWDAppEnvironmentSync.SharedInstance().ClassPushCounter++;
-            #endif
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
@@ -382,6 +379,9 @@ namespace NetWorkedData
                 // But I insert the datas only if I had one object or more to insert/update on the server
                 if (tDatas.Count > 0)
                 {
+                    #if UNITY_EDITOR
+                    NWDAppEnvironmentSync.SharedInstance().ClassPushCounter++;
+                    #endif
                     rSendDatas.Add(SynchronizeKeyDataCount, tDatas.Count);
                     rSendDatas.Add(SynchronizeKeyData, tDatas);
                 }

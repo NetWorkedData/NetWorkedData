@@ -431,7 +431,7 @@ namespace NetWorkedData
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         public void UpdateMeAndWebVersion(bool sAutoDate = true, bool sWebServiceUpgrade = true)
         {
-            Debug.Log("UpdateMeAndWebVersion  " + Reference + " with/without DM (" + sAutoDate.ToString() + ") and integrity reval web service version = " + WebServiceVersion);
+            //Debug.Log("UpdateMeAndWebVersion  " + Reference + " with/without DM (" + sAutoDate.ToString() + ") and integrity reval web service version = " + WebServiceVersion);
             this.AddonUpdateMe(); // call override method
                                   // so object is prepared to be update
             if (sAutoDate == true)

@@ -784,7 +784,7 @@ namespace NetWorkedData
 
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -793,7 +793,7 @@ namespace NetWorkedData
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
 
-            if (GUILayout.Button("Sync", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -803,7 +803,7 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Sync", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync this table", EditorStyles.miniButton))
             {
                 tSyncProd = true;
             }
@@ -813,7 +813,7 @@ namespace NetWorkedData
 
             // FORCE SYNCHRO
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync Force", EditorStyles.miniButton))
+            if (GUILayout.Button("Force this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -821,7 +821,7 @@ namespace NetWorkedData
                 }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Sync Force", EditorStyles.miniButton))
+            if (GUILayout.Button("Force this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -831,7 +831,7 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncForceProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Sync Force", EditorStyles.miniButton))
+            if (GUILayout.Button("Force this table", EditorStyles.miniButton))
             {
                 tSyncForceProd = true;
             }
@@ -843,7 +843,7 @@ namespace NetWorkedData
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
             // FORCE SYNCHRO And Clean
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync Clean", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -851,7 +851,7 @@ namespace NetWorkedData
                 }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Sync Clean", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -862,7 +862,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(tDisableProd);
 
             bool tSyncCleanProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Sync Clean", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this table", EditorStyles.miniButton))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -874,7 +874,7 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
 
             bool tCleanLocalTable = false; //prevent GUIlayout error
-            if (GUILayout.Button("Clean local table", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
             {
                 tCleanLocalTable = true;
             }

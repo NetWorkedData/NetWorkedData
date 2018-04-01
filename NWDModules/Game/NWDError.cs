@@ -25,6 +25,14 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDErrorType : int
+    {
+        Verbose = 0,
+
+        Alert = 8, 
+        Critical= 9, 
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
 	public class NWDErrorConnection : NWDConnection <NWDError> {}
@@ -43,28 +51,27 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDError : NWDBasis <NWDError>
 	{
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		//public bool DiscoverItYourSelf { get; set; }
 		[NWDGroupStartAttribute ("Informations", true, true, true)] //ok
-		[NWDEnumString (new string[] { "alert", "critical", "verbose" })]
-		public string Type { get; set; }
+        [NWDTooltips("Type and priority of error")]
+        public NWDErrorType Type { get; set; }
+        [NWDTooltips("Domain of error")]
 		public string Domain { get; set; }
+        [NWDTooltips("Code of error in the selected Domain")]
 		public string Code { get; set; }
 		[NWDGroupEndAttribute]
-
 		[NWDGroupSeparatorAttribute]
-
 		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
-		public NWDLocalizableStringType LocalizedTitle { get; set; } // TODO : rename by Title ?
-		public NWDLocalizableStringType LocalizedDescription { get; set; } // TODO : rename by Description ?
+        [NWDTooltips("Title of error message")]
+        public NWDLocalizableStringType Title { get; set; }
+        [NWDTooltips("Content of error message")]
+        public NWDLocalizableStringType Description { get; set; }
+        [NWDTooltips("Validation text of error message")]
+        public NWDLocalizableStringType Validation { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -111,7 +118,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sType = "verbose")
+        public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sValidation , NWDErrorType sType = NWDErrorType.Verbose)
 		{
 			string tReference = "ERR-"+sDomain + "-" + sCode;
 			// TODO: alert if reference is too long for ereg / or substring if too long
@@ -126,13 +133,17 @@ namespace NetWorkedData
 				tError.Domain = sDomain;
 				tError.Code = sCode;
 				// title
-				NWDLocalizableStringType tTitle = new NWDLocalizableStringType ();
-				tTitle.Value = "BASE:" + sTitle;
-				tError.LocalizedTitle = tTitle;
+                NWDLocalizableStringType tTitle = new NWDLocalizableStringType ();
+                tTitle.AddBaseString(sTitle);
+				tError.Title = tTitle;
 				// description
 				NWDLocalizableStringType tDescription = new NWDLocalizableStringType ();
-				tDescription.Value = "BASE:" + sDescription;
-				tError.LocalizedDescription = tDescription;
+                tDescription.AddBaseString(sDescription);
+                tError.Description = tDescription;
+                // description
+                NWDLocalizableStringType tValidation = new NWDLocalizableStringType();
+                tValidation.AddBaseString(sValidation);
+                tError.Validation = tValidation;
 				// type of alert
 				tError.Type = sType;
 				// add-on edited

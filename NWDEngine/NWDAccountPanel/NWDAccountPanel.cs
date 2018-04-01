@@ -80,7 +80,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Synchronize Success " + tDescription;
 				},
@@ -89,7 +89,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Synchronize Error " + tDescription;
 				},
@@ -98,7 +98,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Synchronize Cancel " + tDescription;
 				},
@@ -107,7 +107,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Synchronize Progress " + tDescription;
 				}
@@ -131,7 +131,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign In Success " + tDescription;
 				},
@@ -140,7 +140,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign In Error " + tDescription;
 				},
@@ -149,7 +149,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign In Cancel " + tDescription;
 				},
@@ -158,7 +158,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign In Progress " + tDescription;
 				});
@@ -175,7 +175,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign Out Success " + tDescription;
 				},
@@ -184,7 +184,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign Out Error " + tDescription;
 				},
@@ -193,7 +193,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign Out Cancel " + tDescription;
 				},
@@ -202,7 +202,7 @@ namespace NetWorkedData
 					string tDescription =  "";
 					if (tResult.errorDesc!=null)
 					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.LocalizedDescription.GetLocalString ();
+						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
 					}
 					TextWebResult.text = " Sign Out Progress " + tDescription;
 				});

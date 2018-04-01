@@ -26,6 +26,15 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDRecommendationType : int
+    {
+        SMS,
+        Email,
+        EmailHTML,
+        //Facebook,
+        //Twitter,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public class NWDVersionConnection : NWDConnection<NWDVersion>
     {
@@ -44,14 +53,17 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Information", true, true, true)]
+        [NWDTooltips("Version reccord in database. The format is X.XX.XX")]
         public NWDVersionType Version
         {
             get; set;
         }
+        [NWDTooltips("This version can be used to build")]
         public bool Buildable
         {
             get; set;
         }
+        [NWDTooltips("This version can be used to build a production build")]
         public bool Editable
         {
             get; set;
@@ -59,14 +71,17 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Environment", true, true, true)]
+        [NWDTooltips("This version can be used to build dev environement")]
         public bool ActiveDev
         {
             get; set;
         }
+        [NWDTooltips("This version can be used to build preprod environement")]
         public bool ActivePreprod
         {
             get; set;
         }
+        [NWDTooltips("This version can be used to build prod environement")]
         public bool ActiveProd
         {
             get; set;
@@ -74,33 +89,59 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Options", true, true, true)]
+        [NWDTooltips("This version block data push")]
         public bool BlockDataUpdate
         {
             get; set;
         }
+        [NWDTooltips("This version block app and show Alert")]
         public bool BlockApplication
         {
             get; set;
         }
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
-        [NWDGroupStartAttribute("Message and links", true, true, true)]
+        [NWDGroupStartAttribute("Alert depriciated", true, true, true)]
+        [NWDTooltips("Alert App is depriciated Title")]
         public NWDLocalizableStringType AlertTitle
         {
             get; set;
         }
+        [NWDTooltips("Alert App is depriciated Message")]
         public NWDLocalizableStringType AlertMessage
         {
             get; set;
         }
-        public NWDLocalizableStringType AlertButtonOK
+        [NWDTooltips("Alert App is depriciated button text validation")]
+        public NWDLocalizableStringType AlertValidation
         {
             get; set;
         }
-        public string AppleStoreURL
+        [NWDGroupEndAttribute]
+        [NWDGroupSeparatorAttribute]
+        [NWDGroupStartAttribute("Links", true, true, true)]
+
+        [NWDTooltips("Recommendation Subject")]
+        public NWDLocalizableTextType RecommendationSubject
         {
             get; set;
         }
+        [NWDTooltips("Recommendation before links")]
+        public NWDLocalizableStringType Recommendation
+        {
+            get; set;
+        }
+        [NWDTooltips("URL to download App in MacOS AppStore")]
+        public string OSXStoreURL
+        {
+            get; set;
+        }
+        [NWDTooltips("URL to download App in iOS AppStore")]
+        public string IOSStoreURL
+        {
+            get; set;
+        }
+        [NWDTooltips("URL to download App in Google Play Store")]
         public string GooglePlayURL
         {
             get; set;
@@ -125,15 +166,106 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetAppVersion()
+        public static void RecommendationBy(NWDRecommendationType sType)
         {
-            return GetVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+            Debug.Log("NWDVersion RecommendationBy()");
+            NWDVersion tVersion = GetMaxVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+            switch (sType)
+            {
+                case NWDRecommendationType.SMS:
+                    {
+                        string tText = tVersion.Recommendation.GetLocalString() + "\r\n";
+                        if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
+                        {
+                            tText += " OSX : " + tVersion.OSXStoreURL + "\r\n";
+                        }
+                        if (string.IsNullOrEmpty(tVersion.IOSStoreURL) == false)
+                        {
+                            tText += " IOS : " + tVersion.IOSStoreURL + "\r\n";
+                        }
+                        if (string.IsNullOrEmpty(tVersion.GooglePlayURL) == false)
+                        {
+                            tText += " Android : " + tVersion.GooglePlayURL + "\r\n";
+                        }
+                        //tText = tText.Replace(";", "");
+                        tText = WWW.EscapeURL(tText).Replace("+", "%20");
+
+                        string tSubject = tVersion.RecommendationSubject.GetLocalString();
+                        tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
+                        string tSMS = "sms:?body=" + tText;
+                        Debug.Log("NWDVersion RecommendationBy SMS => " + tSMS);
+                        Application.OpenURL(tSMS);
+                    }
+                    break;
+                case NWDRecommendationType.Email:
+                    {
+
+                        string tText = tVersion.Recommendation.GetLocalString() + "\n\r";
+                        if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
+                        {
+                            tText += " OSX : " + tVersion.OSXStoreURL + "\n\r";
+                        }
+                        if (string.IsNullOrEmpty(tVersion.IOSStoreURL) == false)
+                        {
+                            tText += " IOS : " + tVersion.IOSStoreURL + "\n\r";
+                        }
+                        if (string.IsNullOrEmpty(tVersion.GooglePlayURL) == false)
+                        {
+                            tText += " Android : " + tVersion.GooglePlayURL + "\n\r";
+                        }
+                        tText += "";
+                        tText = WWW.EscapeURL(tText).Replace("+", "%20");
+
+                        string tSubject = tVersion.RecommendationSubject.GetLocalString();
+                        tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
+                        string tEmail = "mailto:?subject=" + tSubject + "&body=" + tText;
+                        Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
+                        Application.OpenURL(tEmail);
+                    }
+                    break;
+                case NWDRecommendationType.EmailHTML:
+                    {
+                        string tText = "";
+                        //tText+= "<HTML><BODY>";
+                        tText+= tVersion.Recommendation.GetLocalString() + "</BR>";
+                        if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
+                        {
+                            tText += " OSX : <A HREF='" + tVersion.OSXStoreURL + "'>Apple Store</A></BR>";
+                        }
+                        if (string.IsNullOrEmpty(tVersion.IOSStoreURL) == false)
+                        {
+                            tText += " IOS : <A HREF='" + tVersion.IOSStoreURL + "'>" + tVersion.IOSStoreURL + "</A></BR>";
+                        }
+                        if (string.IsNullOrEmpty(tVersion.GooglePlayURL) == false)
+                        {
+                            tText += " Android : <A HREF='" + tVersion.GooglePlayURL + "'>" + tVersion.GooglePlayURL + "</A></BR>";
+                        }
+                        //tText += "</BODY></HTML>";
+                        //tText = tText.Replace("<", "");
+                        //tText = tText.Replace(">", "");
+                        tText = WWW.EscapeURL(tText).Replace("+", "%20");
+
+                        string tSubject = tVersion.RecommendationSubject.GetLocalString();
+                        tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
+                        string tEmail = "mailto:?subject=" + tSubject + "&body=" + tText;
+                        Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
+                        Application.OpenURL(tEmail);
+                    }
+                    break;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetVersionForEnvironemt(NWDAppEnvironment sEnvironment)
+        public static string GetMaxVersion()
         {
-            //Debug.Log("GetVersionForEnvironemt");
+            Debug.Log("NWDVersion GetMaxVersion()");
+            return GetMaxVersionStringForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDVersion GetMaxVersionForEnvironemt(NWDAppEnvironment sEnvironment)
+        {
+            //Debug.Log("GetMaxVersionForEnvironemt");
             // I will change th last version of my App
+            NWDVersion tVersion = null;
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
             int.TryParse(tVersionString.Replace(".", ""), out tVersionInt);
@@ -151,18 +283,59 @@ namespace NetWorkedData
                         {
                             tVersionInt = tVersionInteger;
                             tVersionString = tVersionObject.Version.ToString();
+                            tVersion = tVersionObject;
                         }
                     }
                 }
             }
-            // sEnvironment.Version = tVersionString;
+            return tVersion;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDVersion GetActualVersion()
+        {
+            Debug.Log("NWDVersion GetActualVersion()");
+            return GetActualVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDVersion GetActualVersionForEnvironemt(NWDAppEnvironment sEnvironment)
+        {
+            Debug.Log("NWDVersion GetActualVersionForEnvironemt()");
+            NWDVersion tVersion = null;
+            foreach (NWDVersion tVersionObject in NWDVersion.ObjectsList)
+            {
+                if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
+                {
+                    if ((NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) ||
+                        (NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
+                        (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
+                    {
+                        if (Application.version == tVersionObject.Version.ToString())
+                        {
+                            tVersion = tVersionObject;
+                        }
+                    }
+                }
+            }
+            return tVersion;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string GetMaxVersionStringForEnvironemt(NWDAppEnvironment sEnvironment)
+        {
+            Debug.Log("NWDVersion GetMaxVersionStringForEnvironemt()");
+            string tVersionString = "0.00.00";
+            NWDVersion tVersion = GetMaxVersionForEnvironemt(sEnvironment);
+            if (tVersion != null)
+            {
+                tVersionString = tVersion.Version.ToString();
+            }
             return tVersionString;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
+            Debug.Log("NWDVersion UpdateVersionBundle()");
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsProdEnvironement() == false
@@ -171,11 +344,11 @@ namespace NetWorkedData
                 // error no environnment selected 
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
-            // I will change th last version of my App
+            // I will change the last version of my App
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
             int.TryParse(tVersionString.Replace(".", ""), out tVersionInt);
-            NWDVersion tLastVersionObject = null;
+            NWDVersion tMaxVersionObject = null;
             foreach (NWDVersion tVersionObject in NWDVersion.ObjectsList)
             {
                 if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
@@ -190,16 +363,16 @@ namespace NetWorkedData
                         {
                             tVersionInt = tVersionInteger;
                             tVersionString = tVersionObject.Version.ToString();
-                            tLastVersionObject = tVersionObject;
+                            tMaxVersionObject = tVersionObject;
                         }
                     }
                 }
             }
-            if (tLastVersionObject != null)
+            if (tMaxVersionObject != null)
             {
-                if (PlayerSettings.bundleVersion != tLastVersionObject.Version.ToString())
+                if (PlayerSettings.bundleVersion != tMaxVersionObject.Version.ToString())
                 {
-                    PlayerSettings.bundleVersion = tLastVersionObject.Version.ToString();
+                    PlayerSettings.bundleVersion = tMaxVersionObject.Version.ToString();
                 }
             }
             else
@@ -282,8 +455,6 @@ namespace NetWorkedData
         {
             // do something when object will be remove from trash
         }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -372,7 +543,9 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+        #endif
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

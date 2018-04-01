@@ -577,7 +577,7 @@ namespace NetWorkedData
         {
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            Debug.Log("PrepareOrders for webservice : "+tWebBuild.ToString());
+            //Debug.Log("PrepareOrders for webservice : "+tWebBuild.ToString());
 
             // TODO test old version is diffeerent from new version of data
             string tLastRegister = "";

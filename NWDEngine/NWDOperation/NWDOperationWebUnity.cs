@@ -161,7 +161,6 @@ namespace NetWorkedData
                 {
                     Debug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
-
                     Debug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }
 

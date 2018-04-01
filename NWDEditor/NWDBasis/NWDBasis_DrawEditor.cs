@@ -1557,7 +1557,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ErrorCheck()
         {
-            Debug.Log("NWDBasis ErrorCheck()");
+            //Debug.Log("NWDBasis ErrorCheck()");
             bool tNewValue = false;
             Type tType = ClassType();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))

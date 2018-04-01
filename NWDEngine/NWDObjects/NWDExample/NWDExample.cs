@@ -311,7 +311,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override bool AddonErrorFound()
         {
-            return false;
+            bool rReturnErrorFound = false;
+            // check if you found error in Data values.
+            // normal way is return false!
+            return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endif

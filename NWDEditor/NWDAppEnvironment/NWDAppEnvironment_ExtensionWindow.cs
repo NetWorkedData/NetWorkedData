@@ -82,7 +82,7 @@ namespace NetWorkedData
             EditorGUILayout.TextField("Options for game in " + Environment, EditorStyles.boldLabel);
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of GameTime", SpeedOfGameTime);
 			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
-			EditorGUILayout.LabelField ("version", NWDVersion.GetVersionForEnvironemt (this), EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("version", NWDVersion.GetMaxVersionStringForEnvironemt (this), EditorStyles.boldLabel);
 
 			EditorGUILayout.EndVertical();
 
