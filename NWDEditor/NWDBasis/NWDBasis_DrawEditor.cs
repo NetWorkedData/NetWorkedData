@@ -890,6 +890,7 @@ namespace NetWorkedData
 
                                     if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                                     {
+                                        //Debug.Log("change in "+tTypeOfThis.Name);
                                         tProp.SetValue(this, tBTBDataTypeNext, null);
                                         rNeedBeUpdate = true;
 
@@ -933,6 +934,7 @@ namespace NetWorkedData
                     ErrorCheck();
                     if (IntegrityValue() != this.Integrity)
                     {
+                        //Debug.Log("change need UpdateMeLater() call ");
                         DM = NWDToolbox.Timestamp();
                         UpdateIntegrity();
                         UpdateMeLater();
