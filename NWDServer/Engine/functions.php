@@ -64,8 +64,9 @@
 						
 						respondAdd('AlertTitle',$tRow['AlertTitle']);
 						respondAdd('AlertMessage',$tRow['AlertMessage']);
-						respondAdd('AlertButtonOK',$tRow['AlertButtonOK']);
-						respondAdd('AppleStoreURL',$tRow['AppleStoreURL']);
+						respondAdd('AlertValidation',$tRow['AlertValidation']);
+						respondAdd('OSXStoreURL',$tRow['OSXStoreURL']);
+						respondAdd('IOSStoreURL',$tRow['IOSStoreURL']);
 						respondAdd('GooglePlayURL',$tRow['GooglePlayURL']);
 						$return = false;
 					}
@@ -78,8 +79,9 @@
 				error('GVA02');
 				respondAdd('AlertTitle',$tRow['AlertTitle']);
 				respondAdd('AlertMessage',$tRow['AlertMessage']);
-				respondAdd('AlertButtonOK',$tRow['AlertButtonOK']);
-				respondAdd('AppleStoreURL',$tRow['AppleStoreURL']);
+				respondAdd('AlertValidation',$tRow['AlertValidation']);
+				respondAdd('OSXStoreURL',$tRow['OSXStoreURL']);
+				respondAdd('IOSStoreURL',$tRow['IOSStoreURL']);
 				respondAdd('GooglePlayURL',$tRow['GooglePlayURL']);
 				$return = false;
 			}

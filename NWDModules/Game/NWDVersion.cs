@@ -63,7 +63,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDTooltips("This version can be used to build a production build")]
+        //TODO :
+        [NWDTooltips("This version can be used to build a production build (not used)")]
         public bool Editable
         {
             get; set;
