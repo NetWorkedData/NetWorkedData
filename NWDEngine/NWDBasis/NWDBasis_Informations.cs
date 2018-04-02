@@ -21,9 +21,9 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static void ClassInfos (string sString)
-		{
-			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.GetInfos (typeof(K)) + "' ");
+		public static void ClassInformations (string sString)
+        {
+			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDTypeInfos.Informations (typeof(K)) + "' ");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static string Informations ()

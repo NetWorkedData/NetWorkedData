@@ -33,7 +33,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        // Table EDITOR
 
         /// <summary>
         /// The scroll position list.
@@ -80,6 +79,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
         }
+        //-------------------------------------------------------------------------------------------------------------
         public static void RepaintInspectorEditor()
         {
             NWDDataInspector.ActiveRepaint();
@@ -141,7 +141,7 @@ namespace NetWorkedData
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Draws the table editor.
         /// </summary>
@@ -162,7 +162,7 @@ namespace NetWorkedData
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
-                if (GUILayout.Button("Regenerate"))
+                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
@@ -238,7 +238,7 @@ namespace NetWorkedData
 
 
             GUILayout.BeginVertical(GUILayout.Width(120));
-            GUILayout.Label(" ", EditorStyles.boldLabel);
+            GUILayout.Label(NWDConstants.K_APP_TABLE_FILTER_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
             bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, m_ShowEnable, GUILayout.Width(120));
             if (m_ShowEnable != t_ShowEnable)
@@ -267,6 +267,51 @@ namespace NetWorkedData
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
+
+            GUILayout.BeginVertical(GUILayout.Width(120));
+            GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
+            //          GUILayout.BeginHorizontal ();
+            int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
+            if (t_ItemPerPageSelection != m_ItemPerPageSelection)
+            {
+                m_PageSelected = 0;
+            }
+            m_ItemPerPageSelection = t_ItemPerPageSelection;
+            int tRealReference = ObjectsByReferenceList.Count;
+            if (tRealReference == 0)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
+            }
+            else if (tRealReference == 1)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT);
+            }
+            else
+            {
+                GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
+            }
+
+            int tResultReference = ObjectsInEditorTableList.Count;
+            if (tResultReference == 0)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
+            }
+            else if (tResultReference == 1)
+            {
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED);
+            }
+            else
+            {
+                GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED);
+            }
+
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.EndVertical();
+
+
+
+
+
 
             GUILayout.FlexibleSpace();
 
@@ -651,45 +696,6 @@ namespace NetWorkedData
 
 
 
-            GUILayout.BeginVertical(GUILayout.Width(120));
-            GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
-            //          GUILayout.BeginHorizontal ();
-            int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
-            if (t_ItemPerPageSelection != m_ItemPerPageSelection)
-            {
-                m_PageSelected = 0;
-            }
-            m_ItemPerPageSelection = t_ItemPerPageSelection;
-            int tRealReference = ObjectsByReferenceList.Count;
-            if (tRealReference == 0)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
-            }
-            else if (tRealReference == 1)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT);
-            }
-            else
-            {
-                GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
-            }
-
-            int tResultReference = ObjectsInEditorTableList.Count;
-            if (tResultReference == 0)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
-            }
-            else if (tResultReference == 1)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED);
-            }
-            else
-            {
-                GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED);
-            }
-
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndVertical();
 
 
             /*GUILayout.BeginVertical(GUILayout.Width(120));

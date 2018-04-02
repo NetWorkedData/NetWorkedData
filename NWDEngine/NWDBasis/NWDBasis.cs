@@ -309,7 +309,7 @@ namespace NetWorkedData
             {
                 if (!string.IsNullOrEmpty(sReference))
                 {
-                    Debug.Log("sReference = " + sReference);
+                    //Debug.Log("sReference = " + sReference);
                     if (!string.IsNullOrEmpty(sInternalKey))
                     {
                         if (!string.IsNullOrEmpty(sInternalDescription))

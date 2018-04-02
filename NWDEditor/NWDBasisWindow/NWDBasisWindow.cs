@@ -45,8 +45,9 @@ namespace NetWorkedData
 		/// <summary>
 		/// the array to reccord the name menu of each Type
 		/// </summary>
-		private string[] mTabList;
-
+        private GUIContent[] mTabContentList;
+        int TabsTotalWidthExpected = 0;
+        int TabWidthMax = 0;
 		/// <summary>
 		/// The tab selected.
 		/// </summary>
@@ -114,28 +115,33 @@ namespace NetWorkedData
 		/// </summary>
 		public void DefineTab ()
 		{
+            // force to check database connection
 			NWDDataManager.SharedInstance().ConnectToDatabase ();
-			int tCount = mTabTypeList.Length;
-			mTabList = new string[tCount];
-			int tN = 0;
+            // prepare futur list results
+            TabsTotalWidthExpected = 0;
+            TabWidthMax = 0;
+            int tCounter = 0;
+            List<GUIContent> tTabContentList = new List<GUIContent>();
+            // check all type 
 			foreach( Type tType in mTabTypeList)
 			{
-//				NWDDataManager.SharedInstance().NotificationCenter.AddObserver (this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
-//					{
-////						Debug.Log ("###### method invoke");
-//						UpdateDatas();
-//					}
-//				);
-				var tMethodInfo = tType.GetMethod("MenuName", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) 
-				{
-					var tMenu = tMethodInfo.Invoke(null, null);
-					mTabList[tN] = tMenu.ToString();
-					tN++;
-				}
-				// I add this window to window update for this Type of Datas
-				NWDDataManager.SharedInstance().AddWindowInManager (this, mTabTypeList);
-			}
+                NWDTypeInfos tTypeInfos = NWDTypeInfos.FindTypeInfos(tType);
+                if (tTypeInfos != null)
+                {
+                    // add informations for tab list
+                    if (TabWidthMax<tTypeInfos.MenuName.Length)
+                    {
+                        TabWidthMax = tTypeInfos.MenuName.Length;
+                    }
+                    tTabContentList.Add(tTypeInfos.MenuNameContent);
+                    // I add this window to window update for this Type of Datas
+                    NWDDataManager.SharedInstance().AddWindowInManager(this, mTabTypeList);
+                    tCounter++;
+                }
+            }
+            TabsTotalWidthExpected = TabWidthMax * tCounter * 8;
+            // return result in array
+            mTabContentList = tTabContentList.ToArray();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void UpdateDatas() {
@@ -216,10 +222,15 @@ namespace NetWorkedData
 		/// Call when draw this window, once per frame
 		/// </summary>
 		public void OnGUI ()
-		{
-
+        {
+            // prepare the style
+            GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
+            GUIStyle tToolbarStyle = new GUIStyle(EditorStyles.toolbar);
+            GUIStyle tPopupStyle = new GUIStyle(EditorStyles.popup);
+            // prepare the GUIContent of title for window
 			titleContent = new GUIContent ();
-			titleContent.text = mTitleKey;
+            titleContent.text = mTitleKey;
+            titleContent.tooltip = mDescriptionKey; // not working :-(
 			if (IconOfWindow == null) 
 			{
 				IconOfWindow = AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/settings.png"));
@@ -227,43 +238,52 @@ namespace NetWorkedData
 			if (IconOfWindow != null) {
 				titleContent.image = IconOfWindow;
 			}
-
+            // get width of window
 			float tWidthUsed = EditorGUIUtility.currentViewWidth;
-
-			GUIStyle tHelpBoxStyle = new GUIStyle (EditorStyles.helpBox);
-			float tHeight = tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
-			GUIStyle tToolbarStyle = new GUIStyle (EditorStyles.toolbar);
-			tHeight += tToolbarStyle.CalcHeight (new GUIContent ("A"), tWidthUsed);
-
-			EditorGUI.DrawRect (new Rect (0,0, tWidthUsed, tHeight), new Color (0.6f, 0.6f, 0.6f, 1.0f));
-            if (mDescriptionKey != "")
+            // determine height
+            float tHeight = 0;
+            //tHeight+=tHelpBoxStyle.CalcHeight (new GUIContent (mDescriptionKey), tWidthUsed);
+            if (mTabContentList.Length > 1)
             {
-                EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
+                if (tWidthUsed > TabsTotalWidthExpected)
+                {
+                    tHeight += tToolbarStyle.CalcHeight(new GUIContent("A"), tWidthUsed);
+                }
+                else
+                {
+                    tHeight += tPopupStyle.CalcHeight(new GUIContent("A"), tWidthUsed);
+                }
+                tHeight += NWDConstants.kFieldMarge * 2;
             }
-
-			if (mTabSelected > mTabList.Count ()) {
+            // draw background for toolbar
+            EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), new Color(0.6f, 0.6f, 0.6f, 1.0f));
+            EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), new Color(0.6f, 0.6f, 0.6f, 1.0f));
+            EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F), new Color(0.5f, 0.5f, 0.5f, 1.0f));
+            //if (mDescriptionKey != "")
+            //{
+            //    EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);
+            //}
+            if (mTabSelected > mTabContentList.Count ()) {
 				mTabSelected = 0;
 			}
 			// the next selected tab
 			int tTabSelected = 0;
 			// check if tab ids necessary
-			if (mTabList.Length > 1) {
-				GUILayout.Space (5.0f);
-				Rect tRect = GUILayoutUtility.GetLastRect ();
-				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y, tWidthUsed, 35.0f), new Color (0.6f, 0.6f, 0.6f, 1.0f));
-				EditorGUI.DrawRect (new Rect (tRect.x, tRect.y + 35.0f, tWidthUsed, 1.0f), new Color (0.5f, 0.5f, 0.5f, 1.0f));
-                if (mTabList.Length < NWDConstants.kMaxTabInbasisWindow) {
-					tTabSelected = GUILayout.Toolbar (mTabSelected, mTabList);
+            if (mTabContentList.Length > 1) {
+                GUILayout.Space(NWDConstants.kFieldMarge);
+                if (tWidthUsed > TabsTotalWidthExpected) {
+                    tTabSelected = GUILayout.Toolbar (mTabSelected, mTabContentList);
 				} else {
-					tTabSelected = EditorGUILayout.Popup (mTabSelected, mTabList);
-				}
+                    tTabSelected = EditorGUILayout.Popup (mTabSelected, mTabContentList);
+                }
+                GUILayout.Space(NWDConstants.kFieldMarge);
 			}
 
 			bool tAutoselect = false;
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
 //				if (Event.current.keyCode==KeyCode.Tab && Event.current.shift) {
 				tTabSelected++;
-				if (tTabSelected >= mTabList.Length) {
+                if (tTabSelected >= mTabContentList.Length) {
 					tTabSelected = 0;
 				}
 				tAutoselect = true;

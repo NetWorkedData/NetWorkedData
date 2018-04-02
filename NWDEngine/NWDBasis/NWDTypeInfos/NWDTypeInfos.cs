@@ -34,6 +34,7 @@ namespace NetWorkedData
 		public string ClassDescription = "";
 		public string MenuName = "";
 		public string TableName = "";
+        public GUIContent MenuNameContent = GUIContent.none;
 		//-------------------------------------------------------------------------------------------------------------
 		public string PrefBaseKey = "";
 
@@ -100,6 +101,7 @@ namespace NetWorkedData
 		public static void Declare (Type sType, bool sServerSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
 		{
 			if (sType.IsSubclassOf (typeof(NWDTypeClass))) {
+                // find infos object if exists or create 
 				NWDTypeInfos tTypeInfos = null;
 				if (TypesDictionary.ContainsKey (sType)) {
 					tTypeInfos = TypesDictionary [sType];
@@ -107,21 +109,19 @@ namespace NetWorkedData
 					tTypeInfos = new NWDTypeInfos ();
 					TypesDictionary.Add (sType, tTypeInfos);
 				}
-
+                // insert basic infos
 				tTypeInfos.ClassType = sType;
 				tTypeInfos.TableName = sType.Name;
 				tTypeInfos.ClassName = sType.AssemblyQualifiedName;
-
+                // insert attributs infos
 				tTypeInfos.TrigrammeName = sTrigrammeName;
 				tTypeInfos.MenuName = sMenuName;
 				tTypeInfos.ClassDescription = sDescription;
-
-				tTypeInfos.ServerSynchronize = sServerSynchronize;
-
-
+                tTypeInfos.ServerSynchronize = sServerSynchronize;
+                // create GUI object
+                tTypeInfos.MenuNameContent = new GUIContent(sMenuName, sDescription);
+                // Prepare engine informlations
 				tTypeInfos.PrefBaseKey = sType.Name + "_";
-
-
 				tTypeInfos.PropertiesArrayPrepare ();
 				tTypeInfos.PropertiesOrderArrayPrepare ();
 				tTypeInfos.SLQAssemblyOrderArrayPrepare ();
@@ -142,19 +142,19 @@ namespace NetWorkedData
 			return tTypeInfos;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static string GetInfos (Type sType)
+		public static string Informations (Type sType)
 		{
 			string rReturn = "";
 			NWDTypeInfos tTypeInfos = FindTypeInfos (sType);
 			if (tTypeInfos == null) {
 				rReturn = "unknow";
 			} else {
-				rReturn = tTypeInfos.Infos ();
+				rReturn = tTypeInfos.Informationss ();
 			}
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public string Infos ()
+        public string Informationss ()
 		{
 			return "ClassName = '" + ClassName + "' " +
 			"TrigrammeName = '" + TrigrammeName + "' " +
@@ -164,12 +164,12 @@ namespace NetWorkedData
 			"";
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static void AllInfos ()
-		{
-			foreach (KeyValuePair<Type,NWDTypeInfos> tTypeTypeInfos in TypesDictionary) {
-				Type tType = tTypeTypeInfos.Key;
-			}
-		}
+		//public static void AllInfos ()
+		//{
+		//	foreach (KeyValuePair<Type,NWDTypeInfos> tTypeTypeInfos in TypesDictionary) {
+		//		Type tType = tTypeTypeInfos.Key;
+		//	}
+		//}
 		//-------------------------------------------------------------------------------------------------------------
 		public PropertyInfo[] PropertiesArray;
 		//-------------------------------------------------------------------------------------------------------------

@@ -50,6 +50,7 @@ namespace NetWorkedData
         public static string kFieldSeparatorCSubstitute = "@3#";
         //-------------------------------------------------------------------------------------------------------------
         public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
+        public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         public static float kFieldMarge = 5.0f;
 
         public static int kLongString = 5;
@@ -269,7 +270,8 @@ namespace NetWorkedData
         public const string K_APP_BASIS_CLASS_PHP_GENERATE = "Generate PHP files for";
         public const string K_APP_BASIS_CLASS_CSHARP_GENERATE = "Generate C# files for";
         //-------------------------------------------------------------------------------------------------------------
-        public const string K_APP_TABLE_SEARCH_ZONE = "Filter zone";
+        public const string K_APP_TABLE_SEARCH_ZONE = "Search";
+        public const string K_APP_TABLE_FILTER_ZONE = "Filters";
         public const string K_APP_TABLE_SHORTCUT_ZONE_A = "Tape 's' to select.";
         public const string K_APP_TABLE_SHORTCUT_ZONE_B = "Use arrows to navigate throw lines or pages.";
         public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";

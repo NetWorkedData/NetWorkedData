@@ -42,7 +42,11 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("VRS")]
-    [NWDClassDescriptionAttribute("Version of game descriptions Class")]
+    [NWDClassDescriptionAttribute("Version of game with limit and block for obsolete version. \n" +
+                                  "Integrate the links to store to download this version or new version. \n" +
+                                  "SMS and Email message to recommend thsi version. \n" +
+                                  "Manage the Dev/Preprod/Prod environement by version. \n" +
+                                  "Auto change the build version of unity project. \n")]
     [NWDClassMenuNameAttribute("Version")]
     [NWDInternalKeyNotEditableAttribute]
     [NWDNotVersionnableAttribute]

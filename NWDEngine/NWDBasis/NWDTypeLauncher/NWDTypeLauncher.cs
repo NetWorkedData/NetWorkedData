@@ -37,18 +37,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDTypeLauncher()
         {
-            //Debug.Log("#### NWDTypeLauncher Class Constructor");
+            Debug.Log("NWDTypeLauncher Class Constructor NWDTypeLauncher()");
             Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
 		public NWDTypeLauncher ()
 		{
-            //Debug.Log ("#### NWDTypeLauncher Instance Constructor");
+            Debug.Log ("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public static void Launcher ()
 		{
-			//Debug.Log ("#### NWDTypeLauncher Launcher start");
+            Debug.Log ("NWDTypeLauncher Launcher()");
             if (IsLaunched == false && IsLaunching==false) {
                 IsLaunching = true;
 				// Get ShareInstance
@@ -104,7 +104,7 @@ namespace NetWorkedData
 						}
 
 						/* DEBUG */
-//						var tMethodInfo = tType.GetMethod ("ClassInfos", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        //var tMethodInfo = tType.GetMethod ("ClassInformations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 //						if (tMethodInfo != null) {
 //							tMethodInfo.Invoke (null, new object[]{ "Launcher " });
 //						}
