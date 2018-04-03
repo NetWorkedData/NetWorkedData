@@ -238,6 +238,7 @@ namespace NetWorkedData
                 tUserInfos.InternalKey = sEnvironment.PlayerAccountReference;
                 tUserInfos.AccountReference.SetReference(sEnvironment.PlayerAccountReference);
                 tUserInfos.AccountType = sEnvironment.PlayerStatut;
+                tUserInfos.Tag = 20;
             }
             return tUserInfos;
         }
