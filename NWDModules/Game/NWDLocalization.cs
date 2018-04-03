@@ -28,7 +28,9 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("LCL")]
-	[NWDClassDescriptionAttribute ("Localization of game descriptions Class")]
+	[NWDClassDescriptionAttribute ("Localization are used to localize the string of your game.\n" +
+                                   "It's dependent from the \"Localization\" menu items in editor.\n" +
+                                   "")]
 	[NWDClassMenuNameAttribute ("Localization")]
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>

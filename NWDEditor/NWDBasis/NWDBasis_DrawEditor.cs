@@ -241,28 +241,28 @@ namespace NetWorkedData
 
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (tProp.Name != "ID" 
-                    && tProp.Name != "Reference" 
-                    && tProp.Name != "DC" 
-                    && tProp.Name != "DM" 
-                    && tProp.Name != "DD" 
-                    && tProp.Name != "DS" 
-                    && tProp.Name != "AC" 
-                    && tProp.Name != "XX" 
-                    && tProp.Name != "Integrity" 
-                    && tProp.Name != "InternalKey" 
-                    && tProp.Name != "InternalDescription" 
-                    && tProp.Name != "Preview" 
-                    && tProp.Name != "DevSync" 
-                    && tProp.Name != "PreprodSync" 
-                    && tProp.Name != "ProdSync" 
-                    && tProp.Name != "Tag" 
-                    && tProp.Name != "ServerHash" 
-                    && tProp.Name != "InError" 
-                    && tProp.Name != "ServerLog" 
-                    && tProp.Name != "WebServiceVersion" 
-                    && tProp.Name != "ReferenceVersioned" 
-                    && tProp.Name != "MinVersion" 
+                if (tProp.Name != "ID"
+                    && tProp.Name != "Reference"
+                    && tProp.Name != "DC"
+                    && tProp.Name != "DM"
+                    && tProp.Name != "DD"
+                    && tProp.Name != "DS"
+                    && tProp.Name != "AC"
+                    && tProp.Name != "XX"
+                    && tProp.Name != "Integrity"
+                    && tProp.Name != "InternalKey"
+                    && tProp.Name != "InternalDescription"
+                    && tProp.Name != "Preview"
+                    && tProp.Name != "DevSync"
+                    && tProp.Name != "PreprodSync"
+                    && tProp.Name != "ProdSync"
+                    && tProp.Name != "Tag"
+                    && tProp.Name != "ServerHash"
+                    && tProp.Name != "InError"
+                    && tProp.Name != "ServerLog"
+                    && tProp.Name != "WebServiceVersion"
+                    && tProp.Name != "ReferenceVersioned"
+                    && tProp.Name != "MinVersion"
 
                    )
                 {
@@ -282,7 +282,7 @@ namespace NetWorkedData
                             tDraw = true;
                         }
                     }
-                    
+
                     // draw separator before
                     foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
                     {
@@ -369,7 +369,7 @@ namespace NetWorkedData
                             }
                             else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
                             {
-                                tY += tTextFieldStyle.fixedHeight* NWDConstants.kLongString + NWDConstants.kFieldMarge;
+                                tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                             }
                             else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
                             {
@@ -520,29 +520,29 @@ namespace NetWorkedData
 
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (tProp.Name != "ID" 
-                    && tProp.Name != "Reference" 
-                    && tProp.Name != "DC" 
-                    && tProp.Name != "DM" 
-                    && tProp.Name != "DD" 
-                    && tProp.Name != "DS" 
-                    && tProp.Name != "AC" 
+                if (tProp.Name != "ID"
+                    && tProp.Name != "Reference"
+                    && tProp.Name != "DC"
+                    && tProp.Name != "DM"
+                    && tProp.Name != "DD"
+                    && tProp.Name != "DS"
+                    && tProp.Name != "AC"
                     && tProp.Name != "XX"
-                    && tProp.Name != "Integrity" 
-                    && tProp.Name != "InternalKey" 
-                    && tProp.Name != "InternalDescription" 
+                    && tProp.Name != "Integrity"
+                    && tProp.Name != "InternalKey"
+                    && tProp.Name != "InternalDescription"
                     && tProp.Name != "Preview"
-                    && tProp.Name != "DevSync" 
-                    && tProp.Name != "PreprodSync" 
-                    && tProp.Name != "ProdSync" 
-                    && tProp.Name != "Tag" 
-                    && tProp.Name != "ServerHash" 
-                    && tProp.Name != "InError" 
+                    && tProp.Name != "DevSync"
+                    && tProp.Name != "PreprodSync"
+                    && tProp.Name != "ProdSync"
+                    && tProp.Name != "Tag"
+                    && tProp.Name != "ServerHash"
+                    && tProp.Name != "InError"
                     && tProp.Name != "ServerLog"
-                    && tProp.Name != "WebServiceVersion" 
-                    && tProp.Name != "ReferenceVersioned" 
-                    && tProp.Name != "MinVersion" 
-                   
+                    && tProp.Name != "WebServiceVersion"
+                    && tProp.Name != "ReferenceVersioned"
+                    && tProp.Name != "MinVersion"
+
                    )
                 {
 
@@ -713,7 +713,7 @@ namespace NetWorkedData
                                 //remove EditorGUI.indentLevel to draw next controller without indent 
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
-                                string tValueNext = EditorGUI.TextArea(new Rect(tX+ EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight*NWDConstants.kLongString),tValue, NWDConstants.kTextAreaStyle);
+                                string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kLongString), tValue, NWDConstants.kTextAreaStyle);
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
@@ -727,7 +727,7 @@ namespace NetWorkedData
                                 string tValue = (string)tProp.GetValue(this, null);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
 
-             //remove EditorGUI.indentLevel to draw next controller without indent 
+                                //remove EditorGUI.indentLevel to draw next controller without indent 
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
                                 string tValueNext = EditorGUI.TextArea(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString), tValue, NWDConstants.kTextAreaStyle);
@@ -759,11 +759,11 @@ namespace NetWorkedData
                                 int tValueInt = Array.IndexOf<string>(tV, tValue);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
 
-             //remove EditorGUI.indentLevel to draw next controller without indent 
+                                //remove EditorGUI.indentLevel to draw next controller without indent 
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
 
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth -EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
+                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 string tValueNext = "";
                                 if (tValueIntNext < tV.Length && tValueIntNext >= 0)
@@ -786,11 +786,11 @@ namespace NetWorkedData
                                 int tValueInt = Array.IndexOf<int>(tI, tValue);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
 
-             //remove EditorGUI.indentLevel to draw next controller without indent 
+                                //remove EditorGUI.indentLevel to draw next controller without indent 
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
 
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX+EditorGUIUtility.labelWidth, tY, tWidth-EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
+                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 int tValueNext = 0;
                                 if (tValueIntNext < tI.Length && tValueIntNext >= 0)
@@ -1007,14 +1007,14 @@ namespace NetWorkedData
                 tTitle = "Unamed " + ClassNamePHP() + "";
                 //				tTitle = ClassNamePHP () + "'s Object";
             }
-            if (InError==true)
+            if (InError == true)
             {
-                tTitle = "<b><color=red>"+NWDConstants.K_WARNING + tTitle+ "</color></b>";
+                tTitle = "<b><color=red>" + NWDConstants.K_WARNING + tTitle + "</color></b>";
             }
             GUI.Label(new Rect(tX, tY, tWidth, tTitleLabelStyle.fixedHeight), tTitle, tTitleLabelStyle);
 
             // Draw reference
-            GUI.Label(new Rect(tX, tY+tTitleLabelStyle.fixedHeight - NWDConstants.kFieldMarge, tWidth, tTitleLabelStyle.fixedHeight), Reference, tMiniLabelStyleCenter);
+            GUI.Label(new Rect(tX, tY + tTitleLabelStyle.fixedHeight - NWDConstants.kFieldMarge, tWidth, tTitleLabelStyle.fixedHeight), Reference, tMiniLabelStyleCenter);
 
 
             // add button to navigate next / preview
@@ -1146,9 +1146,12 @@ namespace NetWorkedData
             //{
             //    EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY + tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth), tTexture2D);
             //}
-
-
-            DrawPreviewTexture2D(new Rect(NWDConstants.kFieldMarge, tY +tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth));
+            Texture2D tTexture2D = AssetPreview.GetAssetPreview(tObject);
+            if (tTexture2D != null)
+            {
+                EditorGUI.DrawPreviewTexture(new Rect(NWDConstants.kFieldMarge, tY, tImageWidth, tImageWidth), tTexture2D);
+            }
+            //DrawPreviewTexture2D(new Rect(NWDConstants.kFieldMarge, tY +tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge, tImageWidth, tImageWidth));
 
             //if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_BUTTON_EDITOR_NODAL))
             //{
@@ -1157,25 +1160,30 @@ namespace NetWorkedData
             //tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             //			GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
+           
+
             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), ClassNamePHP() + "'s Object", tBoldLabelStyle);
             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE + Reference, tMiniLabelStyle);
-            tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + NWDToolbox.TimeStampToDateTime(DC).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
-            tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE + Reference, tMiniLabelStyle);
+            //tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
             tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-
-
-            kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_Sync + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), tFoldoutStyle);
+            kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, tFoldoutStyle);
             tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            tY += NWDConstants.kFieldMarge;
+
+            //tX = NWDConstants.kFieldMarge;
+
             if (kSyncAndMoreInformations)
             {
-                tX = NWDConstants.kFieldMarge;
+
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + NWDToolbox.TimeStampToDateTime(DC).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
                 tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_Sync + NWDToolbox.TimeStampToDateTime(DS).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1199,6 +1207,7 @@ namespace NetWorkedData
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
 
+            tX = NWDConstants.kFieldMarge;
 
             /*
 			if (GUI.Button (new Rect (tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UPDATE, tMiniButtonStyle)) {
@@ -1345,15 +1354,15 @@ namespace NetWorkedData
             int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(tWebServiceVersionOldValue);
             //kjbjgh g hj jgh jgh jghjg hjgh 
             int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                                             "Web service "+WebServiceVersion+ "(/"+tWebBuilt.ToString()+")" ,
-                                                             tWebServiceVersionOldIndex ,tWebServicesString.ToArray());
+                                                             "Web service " + WebServiceVersion + "(/" + tWebBuilt.ToString() + ")",
+                                                             tWebServiceVersionOldIndex, tWebServicesString.ToArray());
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             int tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
 
             if (WebServiceVersion != tWebServiceVersionNew)
             {
-                WebServiceVersion = tWebServiceVersionNew; 
+                WebServiceVersion = tWebServiceVersionNew;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
@@ -1377,7 +1386,7 @@ namespace NetWorkedData
             NWDBasisTag tInternalTag = (NWDBasisTag)EditorGUI.IntPopup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
                                                                         NWDConstants.K_APP_BASIS_INTERNAL_TAG,
                                                                        (int)Tag,
-                                                                       tTagStringList.ToArray(),tTagIntList.ToArray());
+                                                                       tTagStringList.ToArray(), tTagIntList.ToArray());
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
             if ((int)tInternalTag != Tag)
             {
@@ -1394,7 +1403,7 @@ namespace NetWorkedData
             //  Action Zone + Warning Zone Height
             float tBottomHeight = tBoldLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3
                                   + tMiniButtonStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3
-                                  //+ tLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 2
+                                                 //+ tLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 2
                                                  ;
 
             Rect tRectProperty = new Rect(0, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
@@ -1505,7 +1514,7 @@ namespace NetWorkedData
             }
 
 
-            if (GUI.Button(new Rect(tX+ tButtonWidth * 2 + NWDConstants.kFieldMarge * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tButtonWidth * 2 + NWDConstants.kFieldMarge * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DELETE, tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_DELETE_WARNING,
                         NWDConstants.K_APP_BASIS_DELETE_MESSAGE,
@@ -1521,7 +1530,7 @@ namespace NetWorkedData
                 }
             }
             //tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            if (GUI.Button(new Rect(tX + tButtonWidth * 3 + NWDConstants.kFieldMarge *3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_NEW_REFERENCE, tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX + tButtonWidth * 3 + NWDConstants.kFieldMarge * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_NEW_REFERENCE, tMiniButtonStyle))
             {
                 if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_NEW_REFERENCE_WARNING,
                         NWDConstants.K_APP_BASIS_NEW_REFERENCE_MESSAGE,

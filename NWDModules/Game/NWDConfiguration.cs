@@ -31,7 +31,9 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("CNF")]
-	[NWDClassDescriptionAttribute ("Configurations of game descriptions Class")]
+	[NWDClassDescriptionAttribute ("Configurations of game. You can use this class to create configurations of your game. \n" +
+                                   "Configurations are set for all user. Use InternalKey to find them and use them. \n" +
+                                   "")]
 	[NWDClassMenuNameAttribute ("Configurations")]
 	//-------------------------------------------------------------------------------------------------------------
 //	[NWDTypeClassInPackageAttribute]
