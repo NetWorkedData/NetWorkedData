@@ -4,9 +4,10 @@
 	//--------------------
 	// START
 	//--------------------
-	$TIME_STAMP = time();
-	$TIME_SYNC = time();
 	$TIME_MICRO = microtime(true); // perhaps use in instance of $TIME_STAMP in sync 
+	settype($TIME_MICRO, "float");
+	$TIME_SYNC = intval($TIME_MICRO);
+	settype($TIME_SYNC, "integer");
 	//--------------------
 	// use functions library
 	include_once ('functions.php');
