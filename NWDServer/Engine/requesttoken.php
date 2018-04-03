@@ -5,10 +5,10 @@
 		//--------------------
 	function NWDRequestTokenCreate($sUUIDHash)
 	{
-		global $SQL_CON, $ENV, $TIME_STAMP, $TIME_SYNC;
+		global $SQL_CON, $ENV, $TIME_SYNC;
 		
 		$tToken = NWDRequestTokenGenerateToken($sUUIDHash);
-		$tInsert = $SQL_CON->query('INSERT INTO `'.$ENV.'_NWDRequestToken` (`DC`, `DM`, `DD`, `AC`, `Token`, `UUIDHash`, `Integrity`) VALUES ( \''.$TIME_STAMP.'\', \''.$TIME_STAMP.'\', \'0\', \'1\', \''.$SQL_CON->real_escape_string($tToken).'\', \''.$SQL_CON->real_escape_string($sUUIDHash).'\', \'???????\' );');
+		$tInsert = $SQL_CON->query('INSERT INTO `'.$ENV.'_NWDRequestToken` (`DC`, `DM`, `DD`, `AC`, `Token`, `UUIDHash`, `Integrity`) VALUES ( \''.$TIME_SYNC.'\', \''.$TIME_SYNC.'\', \'0\', \'1\', \''.$SQL_CON->real_escape_string($tToken).'\', \''.$SQL_CON->real_escape_string($sUUIDHash).'\', \'???????\' );');
 		if (!$tInsert)
 		{
 			error('RQT01');
@@ -34,8 +34,8 @@
 		//--------------------
 	function NWDRequestTokenGenerateToken ($sUUIDHash)
 	{
-		global $TIME_STAMP;
-		$tRandom =  $sUUIDHash.'-'.$TIME_STAMP.'-'.rand ( 1000000000 , 9999999999 ).'-0';
+		global $TIME_SYNC;
+		$tRandom =  $sUUIDHash.'-'.$TIME_SYNC.'-'.rand ( 1000000000 , 9999999999 ).'-0';
 		return md5($tRandom);
 	}
 		//--------------------
@@ -62,7 +62,7 @@
 		//--------------------
 	function NWDRequestTokenIsValid ($sUUIDHash, $sToken)
 	{
-		global $SQL_CON, $ENV, $TIME_STAMP;
+		global $SQL_CON, $ENV, $TIME_SYNC;
 		global $REP;
 		global $token;
 		global $RTH;
@@ -103,7 +103,7 @@
 								// must update with the next Token
 //							
 //							$token = NWDRequestTokenGenerateToken ($sUUIDHash);
-//							$tQueryNewToken = 'UPDATE `'.$ENV.'_NWDRequestToken` SET `DM` = \''.$TIME_STAMP.'\', `Token` = \''.$SQL_CON->real_escape_string($token).'\' WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\';';
+//							$tQueryNewToken = 'UPDATE `'.$ENV.'_NWDRequestToken` SET `DM` = \''.$TIME_SYNC.'\', `Token` = \''.$SQL_CON->real_escape_string($token).'\' WHERE `UUIDHash` = \''.$SQL_CON->real_escape_string($sUUIDHash).'\';';
 //							$tResultNewToken = $SQL_CON->query($tQueryNewToken);
 //							if (!$tResultNewToken)
 //							{

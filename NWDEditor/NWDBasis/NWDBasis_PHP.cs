@@ -547,7 +547,7 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Prepare" + tClassName + "Data ($sCsv)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $TIME_STAMP, $TIME_SYNC;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $TIME_SYNC;\n" +
             "\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
             "\t\t$sCsvList[2] = $TIME_SYNC;// change DS\n";
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
@@ -623,7 +623,7 @@ namespace NetWorkedData
 
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
-                "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_STAMP, $TIME_SYNC;\n" +
+                "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +

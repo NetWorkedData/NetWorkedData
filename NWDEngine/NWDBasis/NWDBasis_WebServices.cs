@@ -25,6 +25,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -34,6 +35,8 @@ namespace NetWorkedData
         public static string SynchronizeKeyTimestamp = "sync";
         public static string SynchronizeKeyLastTimestamp = "last";
         public static string SynchronizeKeyInWaitingTimestamp = "waiting";
+        //-------------------------------------------------------------------------------------------------------------
+#region Synchronization informations
         //-------------------------------------------------------------------------------------------------------------
         public bool IsSynchronized()
         {
@@ -69,6 +72,10 @@ namespace NetWorkedData
             }
             return tWebBuildUsed;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Synchronization informations
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the prefs key.
@@ -124,76 +131,22 @@ namespace NetWorkedData
         public static void SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {
 #if UNITY_EDITOR
-            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
+                EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
 #else
+            if (AccountDependent() == false)
+            {
+                if (sNewTimestamp < sEnvironment.BuildTimestamp)
+                {
+                    sNewTimestamp = sEnvironment.BuildTimestamp;
+                }
+            }
 			PlayerPrefs.SetInt (SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Synchronizations the in waiting prefs key.
-        /// </summary>
-        /// <returns>The in waiting prefs key.</returns>
-        public static string SynchronizationInWaitingPrefsKey(NWDAppEnvironment sEnvironment)
-        {
-            // use the accountReference with prefbase key associated with environement and key time 
-            if (AccountDependent())
-            {
-                return sEnvironment.PlayerAccountReference + PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyInWaitingTimestamp;
-            }
-            else
-            {
-                return PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyInWaitingTimestamp;
-            }
-        }
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Synchronizations the get in waiting timestamp.
-        /// </summary>
-        /// <returns>The get in waiting timestamp.</returns>
-        public static int SynchronizationGetInWaitingTimestamp(NWDAppEnvironment sEnvironment)
-        {
-            int rReturn = sEnvironment.BuildTimestamp;
-#if UNITY_EDITOR
-            if (EditorPrefs.HasKey(SynchronizationInWaitingPrefsKey(sEnvironment)))
-            {
-                rReturn = EditorPrefs.GetInt(SynchronizationInWaitingPrefsKey(sEnvironment));
-            }
-#else
-			if (PlayerPrefs.HasKey(SynchronizationInWaitingPrefsKey(sEnvironment)))
-			{
-			rReturn = PlayerPrefs.GetInt (SynchronizationInWaitingPrefsKey(sEnvironment));
-			};
-#endif
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Synchronizations the set in waiting timestamp.
-        /// </summary>
-        /// <param name="sNewTimestamp">S new timestamp.</param>
-        public static void SynchronizationSetInWaitingTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
-        {
-#if UNITY_EDITOR
-            EditorPrefs.SetInt(SynchronizationInWaitingPrefsKey(sEnvironment), sNewTimestamp);
-#else
-			PlayerPrefs.SetInt (SynchronizationInWaitingPrefsKey(sEnvironment), sNewTimestamp);
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Synchronizations the timestamp validate.
-        /// </summary>
-        /// <param name="sTimestampServer">S timestamp server.</param>
-        public static void SynchronizationTimestampValidate(NWDAppEnvironment sEnvironment, int sTimestampServer)
-        {
-            int tTimestamp = SynchronizationGetInWaitingTimestamp(sEnvironment);
-            if (tTimestamp > sTimestampServer)
-            {
-                tTimestamp = sTimestampServer;
-            }
-            SynchronizationSetNewTimestamp(sEnvironment, tTimestamp);
-        }
+        #region Synchronization Objects
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the insert in base.
@@ -293,6 +246,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Synchronization Push Pull methods
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the push data.
         /// </summary>
@@ -306,8 +263,6 @@ namespace NetWorkedData
             {
                 tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
-            // ok if sync will be ok this date will be the last sync for this table
-            SynchronizationSetInWaitingTimestamp(sEnvironment, NWDToolbox.Timestamp());
             // create respond object
             Dictionary<string, object> rSend = new Dictionary<string, object>();
             // create dictionnary for this tablename and insert in the respond
@@ -413,22 +368,10 @@ namespace NetWorkedData
             }
             else
             {
-                int tTimestampServer = NWDToolbox.Timestamp();
-                if (sData.timestamp >= 0)
-                {
-                    tTimestampServer = sData.timestamp;
-                }
-                else
-                {
-                    Debug.LogWarning("NWDBasis SynchronizationPullData() : BIG ERROR NO TIMESTAMP");
-                    // TODO perhaps break ?
-                }
-
-                SynchronizationTimestampValidate(sEnvironment, tTimestampServer);
-
+                int tTimestampServer = sData.timestamp;
+                SynchronizationSetNewTimestamp(sEnvironment, tTimestampServer);
                 // now i need get only datas for this class tablename
                 string tTableName = TableName();
-
                 // Ok I need to compute all datas for this Class tablename
                 if (sData.param.ContainsKey(tTableName))
                 {
@@ -470,6 +413,70 @@ namespace NetWorkedData
             }
 
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Synchronization WebServices
+        //-------------------------------------------------------------------------------------------------------------
+        //public static List<Type> OverrideClasseInThisSync()
+        //{
+        //    return new List<Type> { typeof(K)/*, typeof(NWDUserNickname), etc*/ };
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> ClasseInThisSync()
+        {
+            var tMethodInfo = ClassType().GetMethod("OverrideClasseInThisSync", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodInfo != null)
+            {
+                return tMethodInfo.Invoke(null, null) as List<Type>;
+            }
+            else
+            {
+                return new List<Type> { typeof(K) };
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeThisClasse(bool sForce = false)
+        {
+            if (sForce == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync());
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync());
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizeThisClasseWithBlock(bool sForce = false,
+                                                          BTBOperationBlock sSuccessBlock = null,
+                                                          BTBOperationBlock sErrorBlock = null,
+                                                          BTBOperationBlock sCancelBlock = null,
+                                                          BTBOperationBlock sProgressBlock = null,
+                                                          bool sPriority = false,
+                                                          NWDAppEnvironment sEnvironment = null)
+        {
+            if (sForce == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(ClasseInThisSync(),
+                                                                                     sSuccessBlock,
+                                                                                     sErrorBlock,
+                                                                                     sCancelBlock,
+                                                                                     sProgressBlock,
+                                                                                     sPriority,
+                                                                                     sEnvironment);
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForceWithBlock(ClasseInThisSync(),
+                                                                                     sSuccessBlock,
+                                                                                     sErrorBlock,
+                                                                                     sCancelBlock,
+                                                                                     sProgressBlock,
+                                                                                     sPriority,
+                                                                                     sEnvironment);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -544,6 +551,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Special delete user
+        //-------------------------------------------------------------------------------------------------------------
         public static void DeleteUser(NWDAppEnvironment sEnvironment)
         {
             if (AccountDependent() == true)
@@ -563,66 +574,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static List<Type> OverrideClasseInThisSync()
-        //{
-        //    return new List<Type> { typeof(K)/*, typeof(NWDUserNickname), etc*/ };
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<Type> ClasseInThisSync()
-        {
-            var tMethodInfo = ClassType().GetMethod("OverrideClasseInThisSync", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                return tMethodInfo.Invoke(null, null) as List<Type>;
-            }
-            else
-            {
-                return new List<Type> { typeof(K) };
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeThisClasse(bool sForce = false)
-        {
-            if (sForce == true)
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(ClasseInThisSync());
-            }
-            else
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForce(ClasseInThisSync());
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SynchronizeThisClasseWithBlock(bool sForce = false,
-                                                          BTBOperationBlock sSuccessBlock = null,
-                                                          BTBOperationBlock sErrorBlock = null,
-                                                          BTBOperationBlock sCancelBlock = null,
-                                                          BTBOperationBlock sProgressBlock = null,
-                                                          bool sPriority = false, 
-                                                          NWDAppEnvironment sEnvironment = null)
-        {
-            if (sForce == true)
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(ClasseInThisSync(),
-                                                                                     sSuccessBlock,
-                                                                                     sErrorBlock,
-                                                                                     sCancelBlock,
-                                                                                     sProgressBlock,
-                                                                                     sPriority, 
-                                                                                     sEnvironment);
-            }
-            else
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationForceWithBlock(ClasseInThisSync(),
-                                                                                     sSuccessBlock,
-                                                                                     sErrorBlock,
-                                                                                     sCancelBlock,
-                                                                                     sProgressBlock,
-                                                                                     sPriority,
-                                                                                     sEnvironment);
-            }
-        }
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

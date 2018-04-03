@@ -5,7 +5,7 @@
 		// FINISH
 		//--------------------
 		// prevent include from function for exit (typical example: error('XXX', true);)
-	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, $TIME_STAMP, $TIME_SYNC, $REF_NEEDED, $ACC_NEEDED;
+	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, $TIME_SYNC, $REF_NEEDED, $ACC_NEEDED, $ENV;
 		//--------------------
 		// add log
 	if ($NWD_LOG==true)
@@ -17,6 +17,7 @@
 		respondAdd('log',$RRR_LOG);
 		respondAdd('Addon Ref',$REF_NEEDED);
 		respondAdd('Addon Acc',$ACC_NEEDED);
+		respondAdd('environment',$ENV);
 	}
 		//--------------------
 		// web-services build

@@ -237,7 +237,7 @@
 															$tInternalKey = ''.$email.'';
 															$tInternalDescription = 'dev account';
 														}
-														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;'; // AND `Email` = \'\' AND `Password` = \'\'
+														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;'; // AND `Email` = \'\' AND `Password` = \'\'
 														$tResultC = $SQL_CON->query($tQueryC);
 														if (!$tResultC)
 														{
@@ -349,7 +349,7 @@
 															$tInternalKey = ''.$email.'';
 															$tInternalDescription = 'dev account';
 														}
-														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($new_password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;';
+														$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `Email` = \''.$SQL_CON->real_escape_string($email).'\', `Password` = \''.$SQL_CON->real_escape_string($new_password).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `AC` = 1;';
 														$tResultC = $SQL_CON->query($tQueryC);
 														if (!$tResultC)
 														{
@@ -434,7 +434,7 @@
 									$tInternalDescription = 'dev account';
 								}
 									// I had the social value to this UUID and return the UUID
-								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `FacebookID` = \''.$SQL_CON->real_escape_string($tFacebookID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
+								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `FacebookID` = \''.$SQL_CON->real_escape_string($tFacebookID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
 								$tResultB = $SQL_CON->query($tQueryB);
 								if (!$tResultB)
 								{
@@ -534,7 +534,7 @@
 									$tInternalDescription = 'dev account';
 								}
 									// I had the social value to this UUID and return the UUID
-								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `GoogleID` = \''.$SQL_CON->real_escape_string($tGoogleID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
+								$tQueryB = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `GoogleID` = \''.$SQL_CON->real_escape_string($tGoogleID).'\', `InternalKey` = \''.$SQL_CON->real_escape_string($tInternalKey).'\', `InternalDescription` = \''.$SQL_CON->real_escape_string($tInternalDescription).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
 								$tResultB = $SQL_CON->query($tQueryB);
 								if (!$tResultB)
 								{
@@ -713,7 +713,7 @@
 						if ($password == $password_confirm)
 						{
 								// Ok I delete this account
-							$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_STAMP.'\', `DD` = \''.$TIME_STAMP.'\', `AC` = \'0\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `Password` = \''.$SQL_CON->real_escape_string($password).'\';';
+							$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `DD` = \''.$TIME_SYNC.'\', `AC` = \'0\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `Password` = \''.$SQL_CON->real_escape_string($password).'\';';
 							$tResultC = $SQL_CON->query($tQueryC);
 							if (!$tResultC)
 							{

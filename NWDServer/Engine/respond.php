@@ -6,7 +6,6 @@
 	// RESPOND FUNCTIONS
 	//--------------------
 	global $TIME_SYNC;
-	global $TIME_STAMP;
 	global $TIME_MICRO;
 	//--------------------
 	// datas output
