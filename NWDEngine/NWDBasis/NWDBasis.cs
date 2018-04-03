@@ -162,11 +162,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        //[NWDNotEditable]
-        private bool InError;
-        //{
-        //    get; set;
-        //}
+        [NWDNotEditable]
+        public bool InError
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static string m_SearchReference = "";
         public static string m_SearchInternalName = "";
