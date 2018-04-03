@@ -76,40 +76,16 @@ namespace NetWorkedData
 		{
             NWDDataManager.SharedInstance().AddWebRequestAllSynchronizationWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Synchronize Success " + tDescription;
+                    TextWebResult.text = " Synchronize Success " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Synchronize Error " + tDescription;
+                    TextWebResult.text = " Synchronize Error " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Synchronize Cancel " + tDescription;
+                    TextWebResult.text = " Synchronize Cancel " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Synchronize Progress " + tDescription;
+                    TextWebResult.text = " Synchronize Progress " + ShowError(sResult);
 				}
 			);
 		}
@@ -127,40 +103,16 @@ namespace NetWorkedData
 
             NWDDataManager.SharedInstance().AddWebRequestSignTestWithBlock (Login, Password,
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign In Success " + tDescription;
+                    TextWebResult.text = " Sign In Success " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign In Error " + tDescription;
+                    TextWebResult.text = " Sign In Error " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign In Cancel " + tDescription;
+                    TextWebResult.text = " Sign In Cancel " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign In Progress " + tDescription;
+                    TextWebResult.text = " Sign In Progress " + ShowError(sResult);
 				});
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -171,40 +123,16 @@ namespace NetWorkedData
 		{
 			NWDDataManager.SharedInstance().AddWebRequestSignOutWithBlock (
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign Out Success " + tDescription;
+                    TextWebResult.text = " Sign Out Success " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign Out Error " + tDescription;
+                    TextWebResult.text = " Sign Out Error " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign Out Cancel " + tDescription;
+                    TextWebResult.text = " Sign Out Cancel " + ShowError(sResult);
 				},
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-					NWDOperationResult tResult = (NWDOperationResult) sResult;
-					string tDescription =  "";
-					if (tResult.errorDesc!=null)
-					{
-						tDescription = ": (" +tResult.errorCode + ") " +tResult.errorDesc.Description.GetLocalString ();
-					}
-					TextWebResult.text = " Sign Out Progress " + tDescription;
+                   TextWebResult.text = " Sign Out Progress " + ShowError(sResult);
 				});
 		}
         //-------------------------------------------------------------------------------------------------------------
@@ -332,6 +260,23 @@ namespace NetWorkedData
         {
             Debug.Log("HttpErrorAction()");
             NWDDataManager.SharedInstance().AddWebRequestNoPageWithBlock();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        string ShowError(BTBOperationResult sResult)
+        {
+            NWDOperationResult tResult = (NWDOperationResult)sResult;
+            string tDescription = "";
+            if (tResult.errorDesc != null)
+            {
+                string tErrorDesc = "";
+                if( tResult.errorDesc.Description != null)
+                {
+                    tErrorDesc = tResult.errorDesc.Description.GetLocalString();
+                }
+                tDescription = ": (" + tResult.errorCode + ") " + tErrorDesc;
+            }
+
+            return tDescription;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
