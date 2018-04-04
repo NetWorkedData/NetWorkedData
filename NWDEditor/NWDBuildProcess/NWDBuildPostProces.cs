@@ -9,18 +9,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.IO;
 using UnityEngine;
-
 using SQLite4Unity3d;
 
 #if UNITY_EDITOR
-
-using UnityEditor.iOS.Xcode;
-using System.IO;
-
 using UnityEditor;
 using UnityEditor.Build;
+
+#if UNITY_IOS
+using UnityEditor.iOS.Xcode;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -37,7 +36,7 @@ namespace NetWorkedData
 			switch (tBuildTarget) {
                 case BuildTarget.StandaloneOSX: 
 				{
-
+                        #if UNITY_IOS
                         // TODO : change project localization 
                         string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
                         // Get plist
@@ -56,6 +55,7 @@ namespace NetWorkedData
                         rootDict.SetString(tBundleDisplayNameKey, tBundleName);
                         // Write to file
                         File.WriteAllText(plistPath, plist.WriteToString());
+                        #endif
 				}
 				break;
 			case BuildTarget.StandaloneWindows: 
@@ -64,6 +64,7 @@ namespace NetWorkedData
 				break;
 			case BuildTarget.iOS: 
 				{
+                        #if UNITY_IOS
                         // TODO : change project localization 
                         string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
                         // Get plist
@@ -78,13 +79,8 @@ namespace NetWorkedData
                         // Write to file
                         File.WriteAllText(plistPath, plist.WriteToString());
 
-
-
-
                         /*
-
                         // NOT WORKING !!!
-
                         // get project xcode
                         string tPBXProjectPath = PBXProject.GetPBXProjectPath(path);
                         PBXProject tPBXProject = new PBXProject();
@@ -117,6 +113,7 @@ namespace NetWorkedData
                             }
                         }
                         */
+                        #endif
 				}
 				break;
 			case BuildTarget.Android: 
