@@ -544,7 +544,7 @@ namespace NetWorkedData
                 if (ObjectsList.Contains(sObject) == false)
                 {
                     // upgrade object between the old web service (add properties init, etc.)
-                    sObject.WebserviceVersionCheckMe();
+                    //sObject.WebserviceVersionCheckMe(); // fait planter la mise à jupr de la table
                     // launch method specific on load object
                     sObject.AddonLoadedMe();
                     // add object in lists 

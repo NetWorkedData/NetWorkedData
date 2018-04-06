@@ -392,6 +392,12 @@ namespace NetWorkedData
             {
                 CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
             }
+            // Invoke the Class Initialization method
+            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodInfo != null)
+            {
+                tMethodInfo.Invoke(null, null);
+            }
             LoadTableEditor();
 #if UNITY_EDITOR
             FilterTableEditor();
@@ -399,12 +405,6 @@ namespace NetWorkedData
             //PrepareOrders(); // don't do that here: that's fake the weservice number / order
 #else
 #endif
-            // Invoke the Class Initialization method
-            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(null, null);
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         static public string kPrefSaltValidKey = "SaltValid";

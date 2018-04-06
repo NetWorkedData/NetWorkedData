@@ -155,6 +155,8 @@ namespace NetWorkedData
             //    //GUILayout.DrawTexture(new Rect(tX + tWidth / 2.0F - 16, tY, 32, 32), tTextureOfClass);
             //}
 
+            // Test the web service version
+            WebserviceVersionCheckMe();
 
 			if (TestIntegrity () == false) {
 				EditorGUI.DrawRect (rRectColored, kRowColorError);
