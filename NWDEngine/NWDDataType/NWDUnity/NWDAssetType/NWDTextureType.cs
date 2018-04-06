@@ -55,10 +55,10 @@ namespace NetWorkedData
                 #if UNITY_EDITOR
                 rTexture = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
                 #else
-                // tPath = tPath.Replace("Assets/Resources/", "");
-                tPath = Path.GetFileNameWithoutExtension(tPath);
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
                 rTexture = Resources.Load(tPath, typeof(Texture2D)) as Texture2D;
                 #endif
+                Debug.LogWarning("rTexture at path " + tPath);
                 if (rTexture == null)
                 {
                     Debug.LogWarning("rTexture is null at path " + tPath);

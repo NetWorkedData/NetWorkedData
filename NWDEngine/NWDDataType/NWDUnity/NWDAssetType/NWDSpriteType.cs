@@ -54,11 +54,10 @@ namespace NetWorkedData
 				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
 				#if UNITY_EDITOR
 				rSprite = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
-                #else
-                //tPath = tPath.Replace("Assets/Resources/", "");
-                tPath = Path.GetFileNameWithoutExtension(tPath);
+#else
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
                 rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
-                #endif
+#endif
                 Debug.LogWarning("rSprite at path " + tPath);
                 if (rSprite == null)
                 {

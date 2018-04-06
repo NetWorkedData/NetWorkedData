@@ -48,17 +48,18 @@ namespace NetWorkedData
 		public GameObject ToPrefab ()
 		{
 			GameObject tObject = null;
-			if (Value != null && Value != "") {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+            if (Value != null && Value != "")
+            {
+                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
 
-				#if UNITY_EDITOR
-				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(GameObject)) as GameObject;
-                #else
-                //tPath = tPath.Replace("Assets/Resources/", "");
-                tPath = Path.GetFileNameWithoutExtension(tPath);
-				tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
-				#endif
-			}
+#if UNITY_EDITOR
+                tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
+#else
+                tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
+                tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
+                #endif
+                Debug.LogWarning("tObject at path " + tPath);
+            }
 			return tObject;
 		}
 		//-------------------------------------------------------------------------------------------------------------
