@@ -614,7 +614,7 @@ namespace NetWorkedData
 			SavePreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public void SynchronizationPullClassesDatas (NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
+        public void SynchronizationPullClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
         {
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
@@ -636,7 +636,7 @@ namespace NetWorkedData
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
-                        string tResult = tMethodInfo.Invoke(null, new object[] { sEnvironment, sData }) as string;
+                        string tResult = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sData }) as string;
                         if (tResult == "YES")
                         {
                             sUpdateData = true;
@@ -655,22 +655,22 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Dictionary<string, object> SynchronizationPushClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
+        public Dictionary<string, object> SynchronizationPushClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
 		{
 
-#if UNITY_EDITOR 
-            NWDAppEnvironmentSync.SharedInstance().ClassPushCounter =0;
-            NWDAppEnvironmentSync.SharedInstance().ClassPullCounter = 0;
-            NWDAppEnvironmentSync.SharedInstance().RowPullCounter = 0;
-            NWDAppEnvironmentSync.SharedInstance().RowPushCounter = 0;
-#endif
+//#if UNITY_EDITOR 
+            sInfos.ClassPushCounter =0;
+            sInfos.ClassPullCounter = 0;
+            sInfos.RowPullCounter = 0;
+            sInfos.RowPushCounter = 0;
+//#endif
 
             Dictionary<string, object> rSend = new Dictionary<string, object> ();
 			if (sTypeList != null) {
 				foreach (Type tType in sTypeList) {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
-						Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{ sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
+                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{sInfos, sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
 						foreach (string tKey in rSendPartial.Keys) {
 							rSend.Add (tKey, rSendPartial [tKey]);
 						}

@@ -214,6 +214,18 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                 }
             }
+                }
+        //-------------------------------------------------------------------------------------------------------------
+                public void UpdateAllTablesLocal()
+        {
+            foreach (Type tType in mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("UpdateDataTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, null);
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAllTablesLocal()

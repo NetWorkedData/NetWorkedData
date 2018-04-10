@@ -355,10 +355,17 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_DATAS, false, 9203)]
+        [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_TRASHED_DATAS, false, 9203)]
         public static void CleanAllDatas()
         {
             NWDDataManager.SharedInstance().CleanAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_UPDATE_DATAS, false, 9203)]
+        public static void UpdateAllDatas()
+        {
+            NWDDataManager.SharedInstance().UpdateAllTablesLocal();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------

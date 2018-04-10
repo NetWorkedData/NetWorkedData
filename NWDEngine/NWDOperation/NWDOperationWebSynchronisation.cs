@@ -89,14 +89,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-			Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, FlushTrash);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash);
 			tData.Add ("action", "sync");
 			Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (Environment, sData, TypeList);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, TypeList);
 		}
         //-------------------------------------------------------------------------------------------------------------
 	}

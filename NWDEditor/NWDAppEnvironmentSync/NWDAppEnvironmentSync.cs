@@ -30,39 +30,43 @@ namespace NetWorkedData
         /// <summary>
         /// The send octects.
         /// </summary>
-        public double SendOctects = 0;
-        /// <summary>
-        /// The receipt octects.
-        /// </summary>
-		public double ReceiptOctects = 0;
-        /// <summary>
-        /// The class pull counter.
-        /// </summary>
-        public int ClassPullCounter = 0;
-        /// <summary>
-        /// The class push counter.
-        /// </summary>
-        public int ClassPushCounter = 0;
-        /// <summary>
-        /// The row pull counter.
-        /// </summary>
-        public int RowPullCounter = 0;
-        /// <summary>
-        /// The row push counter.
-        /// </summary>
-        public int RowPushCounter = 0;
+  //      public double SendOctects = 0;
+  //      /// <summary>
+  //      /// The receipt octects.
+  //      /// </summary>
+        //public double ReceiptOctects = 0;
+        ///// <summary>
+        ///// The class pull counter.
+        ///// </summary>
+        //public int ClassPullCounter = 0;
+        ///// <summary>
+        ///// The class push counter.
+        ///// </summary>
+        //public int ClassPushCounter = 0;
+        ///// <summary>
+        ///// The row pull counter.
+        ///// </summary>
+        //public int RowPullCounter = 0;
+        ///// <summary>
+        ///// The row push counter.
+        ///// </summary>
+        //public int RowPushCounter = 0;
         /// <summary>
         /// The start time.
-        /// </summary>
-        DateTime StartTime;
-        /// <summary>
-        /// The middle time.
-        /// </summary>
-        DateTime MiddleTime;
-        /// <summary>
-        /// The end time.
-        /// </summary>
-        DateTime EndTime;
+        ///// </summary>
+        //DateTime StartTime;
+        ///// <summary>
+        ///// The middle time.
+        ///// </summary>
+        //DateTime MiddleTime;
+        ///// <summary>
+        ///// The middle time.
+        ///// </summary>
+        //DateTime MiddleTimeB;
+        ///// <summary>
+        ///// The end time.
+        ///// </summary>
+        //DateTime EndTime;
         /// <summary>
         /// The dev icon.
         /// </summary>
@@ -87,6 +91,8 @@ namespace NetWorkedData
         /// The prod session expired.
         /// </summary>
         bool ProdSessionExpired = false;
+
+        NWDOperationResult LastInfos = new NWDOperationResult(); 
         //-------------------------------------------------------------------------------------------------------------
         private BTBOperationBlock SuccessBlock = null;
         private BTBOperationBlock FailBlock = null;
@@ -110,17 +116,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Start()
         {
-            //	Debug.Log ("NWDAppEnvironmentSync Start");
+            //    Debug.Log ("NWDAppEnvironmentSync Start");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Awake()
         {
-            //	Debug.Log ("NWDAppEnvironmentSync Awake");
+            //    Debug.Log ("NWDAppEnvironmentSync Awake");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //	Debug.Log ("NWDAppEnvironmentSync OnEnable");
+            //    Debug.Log ("NWDAppEnvironmentSync OnEnable");
 
             kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDRed.psd"));
             kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
@@ -135,11 +141,11 @@ namespace NetWorkedData
             // SUCCESS BLOCK
             SuccessBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                EndTime = DateTime.Now;
-                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
-                NWDError tError = tInfos.errorDesc;
-                string tErrorCode = tInfos.errorCode;
-                ReceiptOctects = tInfos.Octects;
+                //EndTime = DateTime.Now;
+                LastInfos = (NWDOperationResult)bInfos;
+                NWDError tError = LastInfos.errorDesc;
+                string tErrorCode = LastInfos.errorCode;
+                //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = kImageGreen;
@@ -161,11 +167,11 @@ namespace NetWorkedData
             // FAIL BLOCK
             FailBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                EndTime = DateTime.Now;
-                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
-                NWDError tError = tInfos.errorDesc;
-                string tErrorCode = tInfos.errorCode;
-                ReceiptOctects = tInfos.Octects;
+                //EndTime = DateTime.Now;
+                LastInfos = (NWDOperationResult)bInfos;
+                NWDError tError = LastInfos.errorDesc;
+                string tErrorCode = LastInfos.errorCode;
+                //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = kImageRed;
@@ -191,20 +197,20 @@ namespace NetWorkedData
                     }
                 }
                 Repaint();
-                if (tInfos.isError)
+                if (LastInfos.isError)
                 {
                     if (tErrorCode.Contains("RQT"))
                     {
-                        EditorUtility.DisplayDialog("Alert", "Session expired (error code " + tInfos.errorCode + ")", "Ok");
+                        EditorUtility.DisplayDialog("Alert", "Session expired (error code " + LastInfos.errorCode + ")", "Ok");
                     }
                     else
                     {
-                        string tDescription = "Unknown error (error code " + tInfos.errorCode + ")";
-                        if (tInfos.errorDesc != null)
+                        string tDescription = "Unknown error (error code " + LastInfos.errorCode + ")";
+                        if (LastInfos.errorDesc != null)
                         {
-                            if (tInfos.errorDesc.Description != null && tInfos.errorCode!=null)
+                            if (LastInfos.errorDesc.Description != null && LastInfos.errorCode!=null)
                             {
-                                tDescription = "Error " + tInfos.errorCode + " : " + tInfos.errorDesc.Description.GetLocalString();
+                                tDescription = "Error " + LastInfos.errorCode + " : " + LastInfos.errorDesc.Description.GetLocalString();
                             }
                         }
                         EditorUtility.DisplayDialog("Alert", tDescription, "Ok");
@@ -216,11 +222,11 @@ namespace NetWorkedData
             //CANCEL BLOCK
             CancelBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                EndTime = DateTime.Now;
-                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
-                NWDError tError = tInfos.errorDesc;
-                string tErrorCode = tInfos.errorCode;
-                ReceiptOctects = tInfos.Octects;
+                //EndTime = DateTime.Now;
+                LastInfos = (NWDOperationResult)bInfos;
+                NWDError tError = LastInfos.errorDesc;
+                string tErrorCode = LastInfos.errorCode;
+                //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = kImageForbidden;
@@ -240,14 +246,15 @@ namespace NetWorkedData
             // PROGRESS BLOCK
             ProgressBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (bProgress >= 1.0f)
-                {
-                    MiddleTime = DateTime.Now;
-                }
-                NWDOperationResult tInfos = (NWDOperationResult)bInfos;
-                NWDError tError = tInfos.errorDesc;
-                string tErrorCode = tInfos.errorCode;
-                ReceiptOctects = tInfos.Octects;
+                LastInfos = (NWDOperationResult)bInfos;
+                NWDError tError = LastInfos.errorDesc;
+                string tErrorCode = LastInfos.errorCode;
+                //ReceiptOctects = tInfos.OctetDownload;
+
+                //if (bProgress >= 1.0f)
+                //{
+                //    MiddleTime = DateTime.Now;
+                //}
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = kImageWaiting;
@@ -399,54 +406,62 @@ namespace NetWorkedData
             GUILayout.Label(PreProdIcon, tStyleCenter, GUILayout.Height(20));
             GUILayout.Label(ProdIcon, tStyleCenter, GUILayout.Height(20));
             GUILayout.EndHorizontal();
-            double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(MiddleTime) - NWDToolbox.TimestampMilliseconds(StartTime)) / 1000.0F;
-            EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
-            if (RowPushCounter == 0)
+            double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
+            double tPrepareNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
+            double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
+            double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
+            double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
+           EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            if (LastInfos.RowPushCounter == 0)
             { 
-                EditorGUILayout.LabelField("Total row push", RowPushCounter.ToString() + " no row (no class)");
+                EditorGUILayout.LabelField("Rows pused", LastInfos.RowPushCounter.ToString() + " no row (no class)");
             }
-            else if (RowPushCounter == 1)
+            else if (LastInfos.RowPushCounter == 1)
             {
-                EditorGUILayout.LabelField("Total row push", RowPushCounter.ToString() + " row (" + ClassPushCounter.ToString() + " class)");
+                EditorGUILayout.LabelField("Rows pushed", LastInfos.RowPushCounter.ToString() + " row (" + LastInfos.ClassPushCounter.ToString() + " class)");
             }
             else
             {
-                if (ClassPushCounter == 1)
+                if (LastInfos.ClassPushCounter == 1)
                 {
-                    EditorGUILayout.LabelField("Total row push", RowPushCounter.ToString() + " rows (" + ClassPushCounter.ToString() + " class)");
+                    EditorGUILayout.LabelField("Rows pushed", LastInfos.RowPushCounter.ToString() + " rows (" + LastInfos.ClassPushCounter.ToString() + " class)");
                 }
                 else
                 {
-                    EditorGUILayout.LabelField("Total row push", RowPushCounter.ToString() + " rows (" + ClassPushCounter.ToString() + " classes)");
+                    EditorGUILayout.LabelField("Rows pushed", LastInfos.RowPushCounter.ToString() + " rows (" + LastInfos.ClassPushCounter.ToString() + " classes)");
                 }
             }
-            EditorGUILayout.LabelField("Network duration", tDurationNetMilliseconds.ToString("#0.000") + " s");
-            EditorGUILayout.LabelField("Octect send", SendOctects.ToString());
-            EditorGUILayout.LabelField("Octect receipt", ReceiptOctects.ToString());
-            double tDurationDataMilliseconds = (NWDToolbox.TimestampMilliseconds(EndTime) - NWDToolbox.TimestampMilliseconds(MiddleTime)) / 1000.0F;
-            EditorGUILayout.LabelField("DataBase duration", tDurationDataMilliseconds.ToString("#0.000") + " s");
-
-            if (RowPullCounter == 0)
+            EditorGUILayout.LabelField("Data Prepare", tPrepareNetMilliseconds.ToString("#0.000") + " s");
+            EditorGUILayout.LabelField("Network Upload", tUploadNetMilliseconds.ToString("#0.000") + " s");
+            float tKoUpload = (float)LastInfos.OctetUpload / 1024.0F;
+            float tMoUpload = tKoUpload / 1024.0F;
+            EditorGUILayout.LabelField("Octect send", LastInfos.OctetUpload.ToString()+" o = "+tKoUpload.ToString("0.0")+"Ko = "+tMoUpload.ToString("0.0")+"Mo");
+            EditorGUILayout.LabelField("Network Download", tDowloadNetMilliseconds.ToString("#0.000") + " s");
+            EditorGUILayout.LabelField("Server Perform Request", LastInfos.performRequest.ToString("#0.000") + " s");
+            float tKoDownload = (float)LastInfos.OctetDownload / 1024.0F;
+            float tMoDownload = tKoDownload / 1024.0F;
+            EditorGUILayout.LabelField("Octect receipt", LastInfos.OctetDownload.ToString()+ " o = " + tKoDownload.ToString("0.0") + "Ko = " + tMoDownload.ToString("0.0") + "Mo");
+            if (LastInfos.RowPullCounter == 0)
             {
-                EditorGUILayout.LabelField("Total row pull", " no row (no class)");
+                EditorGUILayout.LabelField("Rows pulled", " no row (no class)");
             }
-            else if (RowPullCounter == 1)
+            else if (LastInfos.RowPullCounter == 1)
             {
-                EditorGUILayout.LabelField("Total row pull", RowPullCounter.ToString() + " row (" + ClassPullCounter.ToString() + " class)");
+                EditorGUILayout.LabelField("Rows pulled", LastInfos.RowPullCounter.ToString() + " row (" + LastInfos.ClassPullCounter.ToString() + " class)");
             }
             else
             {
-                if (ClassPullCounter == 1)
+                if (LastInfos.ClassPullCounter == 1)
                 {
-                    EditorGUILayout.LabelField("Total row pull", RowPullCounter.ToString() + " rows (" + ClassPullCounter.ToString() + " class)");
+                    EditorGUILayout.LabelField("Rows pulled", LastInfos.RowPullCounter.ToString() + " rows (" + LastInfos.ClassPullCounter.ToString() + " class)");
                 }
                 else
                 {
-                    EditorGUILayout.LabelField("Total row pull", RowPullCounter.ToString() + " rows (" + ClassPullCounter.ToString() + " classes)");
+                    EditorGUILayout.LabelField("Rows pulled", LastInfos.RowPullCounter.ToString() + " rows (" + LastInfos.ClassPullCounter.ToString() + " classes)");
                 }
             }
-            double tDurationMilliseconds = (NWDToolbox.TimestampMilliseconds(EndTime) - NWDToolbox.TimestampMilliseconds(StartTime)) / 1000.0F;
-            EditorGUILayout.LabelField("Total duration", tDurationMilliseconds.ToString("#0.000") + " s");
+            EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
+            EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
 
 
             if (DevSessionExpired == true || PreProdSessionExpired == true || ProdSessionExpired == true)
@@ -746,7 +761,6 @@ namespace NetWorkedData
                 ProdIcon = kImageEmpty;
                 ProdSessionExpired = false;
             }
-            EndTime = DateTime.Now;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void Flush(NWDAppEnvironment sEnvironment)
@@ -754,21 +768,10 @@ namespace NetWorkedData
             StartProcess(sEnvironment);
             NWDDataManager.SharedInstance().WebOperationQueue.Flush(sEnvironment.Environment);
             // TODO : add message in window
-            EndTime = DateTime.Now;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartProcess(NWDAppEnvironment sEnvironment)
         {
-            StartTime = DateTime.Now;
-            MiddleTime = StartTime;
-            EndTime = StartTime;
-            SendOctects = 0;
-            ReceiptOctects = 0;
-            ClassPullCounter = 0;
-            ClassPushCounter = 0;
-            RowPullCounter = 0;
-            RowPushCounter = 0;
-
             DevIcon = kImageEmpty;
             PreProdIcon = kImageEmpty;
             ProdIcon = kImageEmpty;

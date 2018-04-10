@@ -255,9 +255,9 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> SynchronizationPushData(NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
+        public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
         {
-            Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
+            //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
@@ -274,24 +274,53 @@ namespace NetWorkedData
             // get last synchro
             int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
             // I get all objects 
-            IEnumerable<K> tResults = null;
+            //IEnumerable<K> tResults = null;
+            List<K> tResults = new List<K>();
             //TODO: BUT IF SYNC = TIME ?
             if (sForceAll == true)
             {
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
-                tResults = tSQLiteConnection.Table<K>().Where(x => x.DM >= tLastSynchronization);
+                //tResults = tSQLiteConnection.Table<K>().Where(x => x.DM >= tLastSynchronization);
+                foreach (K tO in ObjectsList)
+                {
+                    if (tO.DM >= tLastSynchronization)
+                    {
+                        tResults.Add(tO);
+                    }
+                }
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-                tResults = tSQLiteConnection.Table<K>().Where(x => x.DevSync == 0);
+                //tResults = tSQLiteConnection.Table<K>().Where(x => x.DevSync == 0);
+                foreach (K tO in ObjectsList)
+                {
+                    if (tO.DevSync == 0)
+                    {
+                        tResults.Add(tO);
+                    }
+                }
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
-                tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
+                //tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
+                foreach (K tO in ObjectsList)
+                {
+                    if (tO.PreprodSync == 0)
+                    {
+                        tResults.Add(tO);
+                    }
+                }
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
-                tResults = tSQLiteConnection.Table<K>().Where(x => x.ProdSync == 0);
+                //tResults = tSQLiteConnection.Table<K>().Where(x => x.ProdSync == 0);
+                foreach (K tO in ObjectsList)
+                {
+                    if (tO.ProdSync == 0)
+                    {
+                        tResults.Add(tO);
+                    }
+                }
             }
             if (tResults != null)
             {
@@ -312,14 +341,14 @@ namespace NetWorkedData
                             // TODO WARNING  ?
                             if (tItem.IsReacheableByAccount())
                             {
-                                NWDAppEnvironmentSync.SharedInstance().RowPushCounter++;
+                                sInfos.RowPushCounter++;
                                 tDatas.Add(tItem.DataAssembly(true));
                             }
                         }
                         else
                         {
                             // Fake playing mode
-                            NWDAppEnvironmentSync.SharedInstance().RowPushCounter++;
+                            sInfos.RowPushCounter++;
                             tDatas.Add(tItem.DataAssembly(true));
                         }
 #else
@@ -334,9 +363,9 @@ namespace NetWorkedData
                 // But I insert the datas only if I had one object or more to insert/update on the server
                 if (tDatas.Count > 0)
                 {
-                    #if UNITY_EDITOR
-                    NWDAppEnvironmentSync.SharedInstance().ClassPushCounter++;
-                    #endif
+                    //#if UNITY_EDITOR
+                    sInfos.ClassPushCounter++;
+                    //#endif
                     rSendDatas.Add(SynchronizeKeyDataCount, tDatas.Count);
                     rSendDatas.Add(SynchronizeKeyData, tDatas);
                 }
@@ -355,9 +384,9 @@ namespace NetWorkedData
         /// Synchronizations the pull data.
         /// </summary>
         /// <param name="sData">S data.</param>
-        public static string SynchronizationPullData(NWDAppEnvironment sEnvironment, NWDOperationResult sData)
+        public static string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData)
         {
-            Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
+            //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
             string rReturn = "NO";
 
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
@@ -375,9 +404,9 @@ namespace NetWorkedData
                 // Ok I need to compute all datas for this Class tablename
                 if (sData.param.ContainsKey(tTableName))
                 {
-                    #if UNITY_EDITOR
-                    NWDAppEnvironmentSync.SharedInstance().ClassPullCounter++;
-                    #endif
+                    //#if UNITY_EDITOR
+                    sInfos.ClassPullCounter++;
+                    //#endif
                     List<object> tListOfRows = sData.param[tTableName] as List<object>;
 
                     if (tListOfRows.Count > 0)
@@ -390,10 +419,10 @@ namespace NetWorkedData
                             // I try to use this data to ... insert/update/delete/... ?
                             bool tForceToUse = false;
 
-#if UNITY_EDITOR
+                            #if UNITY_EDITOR
                             tForceToUse = true;
-                            NWDAppEnvironmentSync.SharedInstance().RowPullCounter++;
-#endif
+                            #endif
+                            sInfos.RowPullCounter++;
 
                             NWDBasis<K> tObject = SynchronizationTryToUse(sEnvironment, tCsvValueString, tForceToUse);
 

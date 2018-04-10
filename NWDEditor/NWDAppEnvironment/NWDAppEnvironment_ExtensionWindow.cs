@@ -61,6 +61,7 @@ namespace NetWorkedData
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
+            WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
 
 
             EditorGUILayout.EndVertical();

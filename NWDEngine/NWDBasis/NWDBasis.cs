@@ -44,26 +44,21 @@ namespace NetWorkedData
         {
             get; set;
         }
-
-        [Indexed("DefaultIndex", 0)]
+        [Indexed("UpdateIndex", 0)]
         [Indexed("EditorIndex", 0)]
-        [Indexed("AccountIndex", 0)]
+        [Indexed("InternalIndex", 0)]
         [NWDNotEditable]
         public string Reference
         {
             get; set;
         }
-        [Indexed("DefaultIndex", 0)]
-        [Indexed("EditorIndex", 0)]
-        [Indexed("AccountIndex", 0)]
         [NWDNotEditable]
         public NWDVersionType MinVersion
         {
             get; set;
         }
-        [Indexed("DefaultIndex", 0)]
+        [Indexed("GetIndex", 0)]
         [Indexed("EditorIndex", 0)]
-        [Indexed("AccountIndex", 0)]
         [NWDNotEditable]
         public int WebServiceVersion
         {
@@ -91,23 +86,18 @@ namespace NetWorkedData
         {
             get; set;
         }
-
-        [Indexed("DefaultIndex", 1)]
-        [Indexed("AccountIndex", 0)]
+        [Indexed("EditorIndex", 0)]
         public bool AC
         {
             get; set;
         }
-
+        [Indexed("EditorIndex", 0)]
         [NWDNotEditable]
         public int DC
         {
             get; set;
         }
-
-        [Indexed("DefaultIndex", 3)]
         [Indexed("EditorIndex", 0)]
-        [Indexed("AccountIndex", 0)]
         [NWDNotEditable]
         public int DM
         {
@@ -134,16 +124,22 @@ namespace NetWorkedData
             get; set;
         }
         [NWDNotEditable]
+        [Indexed("GetIndex", 3)]
+        [Indexed("UpdateIndex", 3)]
         public int DevSync
         {
             get; set;
         }
         [NWDNotEditable]
+        [Indexed("GetIndex", 2)]
+        [Indexed("UpdateIndex", 2)]
         public int PreprodSync
         {
             get; set;
         }
         [NWDNotEditable]
+        [Indexed("GetIndex", 1)]
+        [Indexed("UpdateIndex", 1)]
         public int ProdSync
         {
             get; set;

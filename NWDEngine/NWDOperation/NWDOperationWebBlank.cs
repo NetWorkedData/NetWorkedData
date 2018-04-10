@@ -93,7 +93,7 @@ namespace NetWorkedData
 		public override void DataUploadPrepare ()
         {
             //Debug.Log("NWDOperationWebBlank DataUploadPrepare()");
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, false);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
 			Data = tData;
 		}
@@ -102,7 +102,7 @@ namespace NetWorkedData
 		{
             //Debug.Log("NWDOperationWebBlank DataDownloadedCompute()");
             // I put null for pull typeList to analyze all NWDClass
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (Environment, sData, null);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null);
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

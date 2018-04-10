@@ -82,6 +82,16 @@ namespace NetWorkedData
             // TODO : remove reference from all tables columns?
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void UpdateDataTable()
+        {
+            List<object> tObjectsListToDelete = new List<object>();
+            foreach (NWDBasis<K> tObject in ObjectsList)
+            {
+                tObject.UpdateMe();
+            }
+            // TODO : remove reference from all tables columns?
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void CreateTable()
         {
             NWDDataManager.SharedInstance().CreateTable(ClassType(), AccountDependent());

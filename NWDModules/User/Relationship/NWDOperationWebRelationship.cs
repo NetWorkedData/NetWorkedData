@@ -110,7 +110,7 @@ namespace NetWorkedData
 		public override void DataUploadPrepare ()
         {
             //Debug.Log("NWDOperationWebRelationship DataUploadPrepare()");
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (Environment, ForceSync, TypeList, false);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
             if (Relationship != null)
             {
@@ -130,7 +130,7 @@ namespace NetWorkedData
 		{
             //Debug.Log("NWDOperationWebRelationship DataDownloadedCompute()");
             // I put null for pull typeList to analyze all NWDClass
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (Environment, sData, null);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null);
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -52,6 +52,7 @@ namespace NetWorkedData
 		public int BuildTimestamp = 0;
 		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
+        public int WebTimeOut = 30;
 
         public float SpeedOfGameTime = 1.0F;
         //public string RescueEmail = "no-reply@my-web-site.com";
