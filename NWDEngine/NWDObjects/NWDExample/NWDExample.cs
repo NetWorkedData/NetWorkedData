@@ -66,7 +66,13 @@ namespace NetWorkedData
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        //PROPERTIES
+        //Example
+        //[NWDGroupStart("Account")]
+        //public NWDReferenceType<NWDAccount> Account { get; set; }
+        //[NWDGroupEnd()]
+        //[NWDGroupSeparator()]
+        //[NWDGroupStart("Other")]
+        //public int Other { get; set; }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

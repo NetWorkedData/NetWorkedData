@@ -34,6 +34,7 @@ namespace NetWorkedData
         public bool RowDataIntegrity = true;
         public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
         public Dictionary<int, string> TagList = new Dictionary<int, string>();
+        public int TagNumberUser = 10;
         public int TagNumber = 20;
         public Dictionary<int, Dictionary<string, string[]>> kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
         public Dictionary<int, Dictionary<string, string[]>> kWebBuildkSLQAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();

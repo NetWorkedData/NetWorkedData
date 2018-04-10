@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine;
+using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -59,19 +60,19 @@ namespace NetWorkedData
             "\t\t\tRowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";\n" +
             "\t\t\t//Debug.Log(\"NWDAppConfiguration Restaure Config\");\n" +
             "\t\t\t//Salts regenerate (Calgon© is back :-p )\n";
-            foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary)
+            foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary.OrderBy(x => x.Key))
             {
                 tConstantsFile += "\t\t\tIntegritySaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
             tConstantsFile += "//Salts Validity\n";
-            foreach (KeyValuePair<string, string> tEntry in GenerateSaltDictionary)
+            foreach (KeyValuePair<string, string> tEntry in GenerateSaltDictionary.OrderBy(x => x.Key))
             {
                 tConstantsFile += "\t\t\tGenerateSaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
 
             tConstantsFile += "\t\t\t//Language regenerate (MultiPass?!)\n";
             tConstantsFile += "\t\t\tProjetcLanguage = \"" + ProjetcLanguage + "\";\n";
-            foreach (KeyValuePair<string, string> tEntry in BundleName)
+            foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
                 tConstantsFile += "\t\t\tBundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
@@ -88,7 +89,7 @@ namespace NetWorkedData
             tConstantsFile += "\t\t\t//WebService regenerate all version of webservice\n";
 
             tConstantsFile += "\t\t\t WSList = new Dictionary<int, bool>();\n";
-            foreach (KeyValuePair<int, bool> tWS in WSList)
+            foreach (KeyValuePair<int, bool> tWS in WSList.OrderBy(x => x.Key))
             {
                 if (tWS.Value == true)
                 {
@@ -113,13 +114,25 @@ namespace NetWorkedData
             //    tConstantsFile += "\t\t\t TagList.Add(" + tTag.Key + ",\"" + tTag.Value + "\");\n";
             //}
             // write in good order
-            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
+            for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
             {
                 if (TagList.ContainsKey(tI) == true)
                 {
                     tConstantsFile += "\t\t\t TagList.Add(" + tI + ",\"" + TagList[tI] + "\");\n";
                 }
             }
+           int tTag = TagNumberUser+1;
+
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 11
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 12
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 13
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 14
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 15
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 16
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Admin Created\");\n"; // 17
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Device Created\");\n"; // 18
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Server Created\");\n"; // 19
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"User Created\");\n"; // 20
 
             tConstantsFile += "//Environments restaure\n";
             // Select the build environnement
@@ -262,14 +275,14 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n";
             tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
             "\t\t{\n";
-            foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkCSVAssemblyOrderArray)
+            foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkCSVAssemblyOrderArray.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
                         tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
-                        foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
                         }
@@ -280,14 +293,14 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepThree() \n" +
             "\t\t{\n";
-            foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkSLQAssemblyOrderArray)
+            foreach (KeyValuePair<int, Dictionary<string, string[]>> tKeyValue in kWebBuildkSLQAssemblyOrderArray.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
                         tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray.Add (" + tKeyValue.Key + ",new Dictionary<string, string[]>());\n";
-                        foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, string[]> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new string[]{\"" + string.Join("\", \"", tSubValue.Value) + "\"});\n";
                         }
@@ -298,14 +311,14 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepFour() \n" +
             "\t\t{\n";
-            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
+            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
                         tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
-                        foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value + "\");\n";
                         }
@@ -316,14 +329,14 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepFive() \n" +
             "\t\t{\n";
-            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityOrder)
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityOrder.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
                         tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
-                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
                         }
@@ -336,14 +349,14 @@ namespace NetWorkedData
             "\t\t{\n" +
             "\t\t\t\t#if UNITY_EDITOR\n" +
             "";
-            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder)
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkSLQIntegrityServerOrder.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
                         tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
-                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
                         }
@@ -356,14 +369,14 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepSeven() \n" +
             "\t\t{\n";
-            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkDataAssemblyPropertiesList)
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in kWebBuildkDataAssemblyPropertiesList.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
                         tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList.Add (" + tKeyValue.Key + ",new Dictionary<string, List<string>>());\n";
-                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, List<string>> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", new List<string>(){\"" + string.Join("\", \"", tSubValue.Value.ToArray()) + "\"});\n";
                         }
@@ -375,13 +388,13 @@ namespace NetWorkedData
             "\t\t public void RestaureStepHeight() \n" +
             "\t\t{\n";
             Dictionary<string, int> tResult = new Dictionary<string, int>();
-            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder)
+            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
             {
                 if (WSList.ContainsKey(tKeyValue.Key) == true)
                 {
                     if (WSList[tKeyValue.Key] == true)
                     {
-                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value)
+                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
                             if (tResult.ContainsKey(tSubKeyValue.Key))
                             {
@@ -398,7 +411,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            foreach (KeyValuePair<string, int> tKeyValue in tResult)
+            foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
             {
                 tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
             }

@@ -143,7 +143,7 @@ namespace NetWorkedData
                 {
                     NWDAppConfiguration.SharedInstance().TagList.Add(tI, "tag " + tI.ToString());
                 }
-                EditorGUI.BeginDisabledGroup(tI < 0);
+                EditorGUI.BeginDisabledGroup(tI < 0 || tI > NWDAppConfiguration.SharedInstance().TagNumberUser);
                 string tV = EditorGUILayout.TextField("tag " + tI.ToString(), NWDAppConfiguration.SharedInstance().TagList[tI]);
                 tTagList[tI] = tV.Replace("\"", "`");
                 EditorGUI.EndDisabledGroup();

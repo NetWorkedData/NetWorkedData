@@ -202,7 +202,10 @@ namespace NetWorkedData
                         string tDescription = "Unknown error (error code " + tInfos.errorCode + ")";
                         if (tInfos.errorDesc != null)
                         {
-                            tDescription = "Error " + tInfos.errorCode + " : " + tInfos.errorDesc.Description.GetLocalString();
+                            if (tInfos.errorDesc.Description != null && tInfos.errorCode!=null)
+                            {
+                                tDescription = "Error " + tInfos.errorCode + " : " + tInfos.errorDesc.Description.GetLocalString();
+                            }
                         }
                         EditorUtility.DisplayDialog("Alert", tDescription, "Ok");
                     }
