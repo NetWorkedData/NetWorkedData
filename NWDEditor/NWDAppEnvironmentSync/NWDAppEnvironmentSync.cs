@@ -436,8 +436,8 @@ namespace NetWorkedData
             float tKoUpload = (float)LastInfos.OctetUpload / 1024.0F;
             float tMoUpload = tKoUpload / 1024.0F;
             EditorGUILayout.LabelField("Octect send", LastInfos.OctetUpload.ToString()+" o = "+tKoUpload.ToString("0.0")+"Ko = "+tMoUpload.ToString("0.0")+"Mo");
-            EditorGUILayout.LabelField("Network Download", tDowloadNetMilliseconds.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Server Perform Request", LastInfos.performRequest.ToString("#0.000") + " s");
+            EditorGUILayout.LabelField("Network Download", tDowloadNetMilliseconds.ToString("#0.000") + " s");
             float tKoDownload = (float)LastInfos.OctetDownload / 1024.0F;
             float tMoDownload = tKoDownload / 1024.0F;
             EditorGUILayout.LabelField("Octect receipt", LastInfos.OctetDownload.ToString()+ " o = " + tKoDownload.ToString("0.0") + "Ko = " + tMoDownload.ToString("0.0") + "Mo");

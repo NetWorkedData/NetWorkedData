@@ -184,7 +184,7 @@ namespace NetWorkedData
                 {
                     ResultInfos.DownloadedDateTime = DateTime.Now;
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
-                    //Debug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+                    NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
                     NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }
