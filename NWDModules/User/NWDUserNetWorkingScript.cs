@@ -9,7 +9,7 @@ public class NWDUserNetWorkingScript : MonoBehaviour {
 	// Use this for initialization
     void Start () {
         Debug.Log("NWDUserNetWorkingScript Start()");
-        NWDUserNetWorking.PrepareUpdate(20, null);
+        NWDUserNetWorking.PrepareUpdate(840, null);
         StartCoroutine(UserNetworkinUpdate());
 	}
 

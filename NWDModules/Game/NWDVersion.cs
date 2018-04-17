@@ -18,6 +18,9 @@ using SQLite4Unity3d;
 
 using BasicToolBox;
 
+using ZXing;
+using ZXing.QrCode;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -151,6 +154,54 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDGroupEndAttribute]
+        [NWDGroupSeparatorAttribute]
+        [NWDGroupStartAttribute("Links by 'Flash By App' module ", true, true, true)]
+        [NWDNotEditable]
+        [NWDTooltips("ID to download App in MacOS AppStore")]
+        public string OSXStoreID
+        {
+            get; set;
+        }
+        [NWDTooltips("ID to download App in iOS AppStore")]
+        public string IOSStoreID
+        {
+            get; set;
+        }
+        [NWDTooltips("ID to download App in iOS AppStore for IPad")]
+        public string IPadStoreID
+        {
+            get; set;
+        }
+        [NWDTooltips("ID to download App in Google Play Store")]
+        public string GooglePlayID
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [NWDTooltips("ID to download App in Google Tablet Play Store")]
+        public string GooglePlayTabID
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [NWDTooltips("ID to download App in Windows Phone Store")]
+        public string WindowsPhoneID
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [NWDTooltips("ID to download App in Windows Store")]
+        public string WindowsStoreID
+        {
+            get; set;
+        }
+        [NWDNotEditable]
+        [NWDTooltips("ID to download App in Steam Store")]
+        public string SteamStoreID
+        {
+            get; set;
+        }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -175,11 +226,14 @@ namespace NetWorkedData
         {
             Debug.Log("NWDVersion RecommendationBy()");
             NWDVersion tVersion = GetMaxVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
+
+            string tToFlash = tVersion.URLMyApp(false);
             switch (sType)
             {
                 case NWDRecommendationType.SMS:
                     {
                         string tText = tVersion.Recommendation.GetLocalString() + "\r\n";
+                        tText += " Magic link : " + tToFlash + "\r\n";
                         if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
                         {
                             tText += " OSX : " + tVersion.OSXStoreURL + "\r\n";
@@ -206,6 +260,7 @@ namespace NetWorkedData
                     {
 
                         string tText = tVersion.Recommendation.GetLocalString() + "\n\r";
+                        tText += " Magic link : " + tToFlash + "\r\n";
                         if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
                         {
                             tText += " OSX : " + tVersion.OSXStoreURL + "\n\r";
@@ -233,6 +288,7 @@ namespace NetWorkedData
                         string tText = "";
                         //tText+= "<HTML><BODY>";
                         tText+= tVersion.Recommendation.GetLocalString() + "</BR>";
+                        tText += " Magic link : <A HREF='" + tToFlash + "'> got to store</A></BR>";
                         if (string.IsNullOrEmpty(tVersion.OSXStoreURL) == false)
                         {
                             tText += " OSX : <A HREF='" + tVersion.OSXStoreURL + "'>Apple Store</A></BR>";
@@ -258,6 +314,80 @@ namespace NetWorkedData
                     }
                     break;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Texture2D FlashMyApp(bool sRedirection, int sDimension)
+        {
+            Texture2D rTexture = new Texture2D(sDimension, sDimension);
+            var color32 = Encode(URLMyApp(sRedirection), rTexture.width, rTexture.height);
+            rTexture.SetPixels32(color32);
+            rTexture.Apply();
+            return rTexture;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static Color32[] Encode(string textForEncoding, int width, int height)
+        {
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Height = height,
+                    Width = width
+                }
+            };
+            return writer.Write(textForEncoding);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string URLMyApp(bool sRedirection)
+        {
+            string tText = NWDAppEnvironment.SelectedEnvironment().ServerHTTPS;
+            tText += NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            if (sRedirection == true)
+            {
+                tText += "/FlashMyApp.php?r=0";
+            }
+            else
+            {
+                tText += "/FlashMyApp.php?r=1";
+            }
+            if (string.IsNullOrEmpty(OSXStoreID) == false)
+            {
+                tText += "&m=" + OSXStoreID ;
+            }
+
+            if (string.IsNullOrEmpty(IOSStoreID) == false)
+            {
+                tText += "&a=" + IOSStoreID;
+            }
+            if (string.IsNullOrEmpty(IPadStoreID) == false)
+            {
+                tText += "&b=" + IPadStoreID;
+            }
+
+            if (string.IsNullOrEmpty(GooglePlayID) == false)
+            {
+                tText += "&g=" + GooglePlayID;
+            };
+            if (string.IsNullOrEmpty(GooglePlayTabID) == false)
+            {
+                tText += "&h=" + GooglePlayTabID;
+            };
+
+            if (string.IsNullOrEmpty(WindowsPhoneID) == false)
+            {
+                tText += "&w=" + WindowsPhoneID;
+            };
+            if (string.IsNullOrEmpty(WindowsStoreID) == false)
+            {
+                tText += "&x=" + WindowsStoreID;
+            };
+
+            if (string.IsNullOrEmpty(SteamStoreID) == false)
+            {
+                tText += "&s=" + SteamStoreID;
+            };
+            return tText;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string GetMaxVersion()
@@ -505,19 +635,43 @@ namespace NetWorkedData
             EditorGUI.LabelField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "Version", PlayerSettings.bundleVersion);
             tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
+            EditorGUI.EndDisabledGroup();
+
+
+            // draw Flash My App
+            EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URL My App", URLMyApp(false));
+            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight),"URL My App without redirection", tMiniButtonStyle))
+            {
+                Application.OpenURL(URLMyApp(false));
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URL My App", URLMyApp(true));
+            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight),"URL My App with redirection", tMiniButtonStyle))
+            {
+                Application.OpenURL(URLMyApp(true));
+            }
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            // Draw QRCode texture
+            Texture2D tTexture = FlashMyApp(false, 256);
+            EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize*2, NWDConstants.kPrefabSize*2),
+                                         tTexture);
+            tYadd += NWDConstants.kPrefabSize*2+ NWDConstants.kFieldMarge;
+
+            // Draw line 
             EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDVersion.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
 
-            EditorGUI.EndDisabledGroup();
-
+            // Draw button choose env
             if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tMiniButtonStyle.fixedHeight), "Environment chooser", tMiniButtonStyle))
             {
                 NWDEditorMenu.EnvironementChooserShow();
             }
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-
             tYadd += NWDConstants.kFieldMarge;
-
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -539,9 +693,16 @@ namespace NetWorkedData
 
             tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
+            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+
             tYadd += NWDConstants.kFieldMarge;
 
             tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+            tYadd += NWDConstants.kPrefabSize*2+NWDConstants.kFieldMarge;
 
             tYadd += NWDConstants.kFieldMarge;
 

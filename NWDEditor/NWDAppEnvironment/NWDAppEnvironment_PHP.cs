@@ -94,6 +94,19 @@ namespace NetWorkedData
                 "\t\t// CONSTANT FOR TEMPORAL SALT\n" +
                 "\t$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";\n" +
                 "\t\t//-------------------- \n" +
+                "\t\t// CONSTANT FOR SMTP\n" +
+                "\t$SMTP_HOST = '" + MailHost.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_PORT = " + MailPort.ToString() + ";\n" +
+                "\t$SMTP_DOMAIN = '" + MailDomain.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_FROM = '" + MailFrom.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_REPLY = '" + MailReplyTo.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_USER = '" + MailUserName.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_PSW = '" + MailPassword.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_AUT = '" + MailAuthentication.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_HOST = '" + MailHost.Replace("'", "\'") + "';\n" +
+                "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT TO CONNECT TO SQL DATABASE\n" +
                 "\t$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';\n" +
                 "\t$SQL_USR = '" + ServerUser.Replace("'", "\'") + "';\n" +
@@ -109,6 +122,7 @@ namespace NetWorkedData
                 "\t\t//-------------------- \n" +
                 //"\t\t// RESCUE EMAIL\n" +
                 //"\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
+                "\t$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';\n" +
                 "\t$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';\n" +
                 "\t\t//-------------------- \n" +
                 "\t\t// SOCIALS APP KEY AND SECRET KEY\n" +

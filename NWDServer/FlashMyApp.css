@@ -1,0 +1,54 @@
+/* @override https://www.partner-keyneosoft.com/externe/boussemart/index.css */
+
+/* @override
+	https://www.partner-keyneosoft.com/externe/boussemart/index.css */
+
+body {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+h2 {
+    border-bottom: 1px solid #f5f4f4;
+}
+
+div.choose {
+    text-align: center;
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+div.choose_cell {
+    text-align: center;
+    width: 165px;
+    height: 160px;
+    float: none;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display: inline-block;
+}
+
+div.choose_cell img{
+    width: 165px;
+}
+
+img.rounded {
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+div.cookies_info {
+    color: #858585;
+    font-size: xx-small;
+}
+
+div.langue_info {
+    color: #e1e1e1;
+    font-size: xx-small;
+} 

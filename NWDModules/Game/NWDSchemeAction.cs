@@ -28,51 +28,23 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDActionConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
+    /// NWDSchemeActionConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
     /// Use like :
     /// public class MyScriptInGame : MonoBehaviour
     /// { 
     /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDActionConnection MyNetWorkedData;
+    /// public NWDSchemeActionConnection MyNetWorkedData;
     /// }
     /// </summary>
     [Serializable]
-    public class NWDActionConnection : NWDConnection<NWDAction>
+    public class NWDSchemeActionConnection : NWDConnection<NWDSchemeAction>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Tracks the referenced object in the notification.
-        /// </summary>
-        /// <param name="sObserver">Observer.</param>
-        /// <param name="sBlockToUse">S block to use.</param>
-        public void TrackBy(object sObserver, BTBNotificationBlock sBlockToUse)
-        {
-            NWDAction tAction = this.GetObject();
-            if (tAction != null)
-            {
-                tAction.TrackBy(sObserver, sBlockToUse);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Untrack the referenced object in the notification.
-        /// </summary>
-        /// <param name="sObserver">Observer.</param>
-        public void UnTrackBy(object sObserver)
-        {
-            NWDAction tAction = this.GetObject();
-            if (tAction != null)
-            {
-                tAction.UnTrackBy(sObserver);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ACT")]
-    [NWDClassDescriptionAttribute("Action by notification")]
-    [NWDClassMenuNameAttribute("Action")]
+    [NWDClassTrigrammeAttribute("URI")]
+    [NWDClassDescriptionAttribute("Action by Scheme URI")]
+    [NWDClassMenuNameAttribute("Scheme Action")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditable]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -81,7 +53,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWD example class. This class is use for (complete description here)
     /// </summary>
-    public partial class NWDAction : NWDBasis<NWDAction>
+    public partial class NWDSchemeAction : NWDBasis<NWDSchemeAction>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
@@ -101,23 +73,13 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string ParamOne
-        {
-            get; set;
-        }
-        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string ParamTwo
-        {
-            get; set;
-        }
-        [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string ParamThree
+        public string Params
         {
             get; set;
         }
         [NWDGroupEnd]
         [NWDGroupSeparator]
-        [NWDGroupStart("Optional Scene", true, true, false)]
+        [NWDGroupStart("Scene", true, true, false)]
         [NWDTooltips("An additional scene to use, it's optional and not used in standard process.")]
         public NWDSceneType UseScene
         {
@@ -128,14 +90,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAction()
+        public NWDSchemeAction()
         {
-            //Debug.Log("NWDAction Constructor");
+            //Debug.Log("NWDSchemeAction Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDSchemeAction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDAction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDSchemeAction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -154,55 +116,47 @@ namespace NetWorkedData
             // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public Texture2D FlashMyApp(bool sRedirection, int sDimension)
-        //{
-        //    Texture2D rTexture = new Texture2D(sDimension, sDimension);
-        //    var color32 = Encode(URISchemePath(""), rTexture.width, rTexture.height);
-        //    rTexture.SetPixels32(color32);
-        //    rTexture.Apply();
-        //    return rTexture;
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //private static Color32[] Encode(string textForEncoding, int width, int height)
-        //{
-        //    var writer = new BarcodeWriter
-        //    {
-        //        Format = BarcodeFormat.QR_CODE,
-        //        Options = new QrCodeEncodingOptions
-        //        {
-        //            Height = height,
-        //            Width = width
-        //        }
-        //    };
-        //    return writer.Write(textForEncoding);
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public string URISchemePath(string sAdditional)
-        //{
-        //    string tText = NWDAppEnvironment.SelectedEnvironment().AppProtocol;
-        //    tText += "do?A=" + WWW.EscapeURL(Reference);
-        //    if (string.IsNullOrEmpty(Message)==false)
-        //    {
-        //        tText += "&M=" + WWW.EscapeURL(Message);
-        //    }
-        //    if (string.IsNullOrEmpty(ParamOne)== false)
-        //    {
-        //        tText += "&1=" + WWW.EscapeURL(ParamOne);
-        //    }
-        //    if (string.IsNullOrEmpty(ParamTwo)== false)
-        //    {
-        //        tText += "&2=" + WWW.EscapeURL(ParamTwo);
-        //    }
-        //    if (string.IsNullOrEmpty(ParamThree)== false)
-        //    {
-        //        tText += "&3=" + WWW.EscapeURL(ParamThree);
-        //    }
-        //    if (string.IsNullOrEmpty(sAdditional)== false)
-        //    {
-        //        tText += "&A=" + WWW.EscapeURL(sAdditional);
-        //    }
-        //    return tText;
-        //}
+        public Texture2D FlashMyApp(bool sRedirection, int sDimension)
+        {
+            Texture2D rTexture = new Texture2D(sDimension, sDimension);
+            var color32 = Encode(URISchemePath(""), rTexture.width, rTexture.height);
+            rTexture.SetPixels32(color32);
+            rTexture.Apply();
+            return rTexture;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static Color32[] Encode(string textForEncoding, int width, int height)
+        {
+            var writer = new BarcodeWriter
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    Height = height,
+                    Width = width
+                }
+            };
+            return writer.Write(textForEncoding);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string URISchemePath(string sAdditional)
+        {
+            string tText = NWDAppEnvironment.SelectedEnvironment().AppProtocol;
+            tText += "do?A=" + WWW.EscapeURL(Reference);
+            if (string.IsNullOrEmpty(Message) == false)
+            {
+                tText += "&M=" + WWW.EscapeURL(Message);
+            }
+            if (string.IsNullOrEmpty(Params) == false)
+            {
+                tText += "&P=" + WWW.EscapeURL(Params);
+            }
+            if (string.IsNullOrEmpty(sAdditional) == false)
+            {
+                tText += "&A=" + WWW.EscapeURL(sAdditional);
+            }
+            return tText;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -211,21 +165,6 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        public void PostNotification()
-        {
-            //BTBNotificationManager.SharedInstance().PostNotification(this, ActionName);
-            BTBNotificationManager.SharedInstance().PostNotification(this, Reference);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void TrackBy(object sObserver, BTBNotificationBlock sBlockToUse)
-        {
-            BTBNotificationManager.SharedInstance().AddObserver(sObserver, Reference, sBlockToUse);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void UnTrackBy(object sObserver)
-        {
-            BTBNotificationManager.SharedInstance().RemoveObserverForSender(sObserver, Reference, this);
-        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -375,27 +314,20 @@ namespace NetWorkedData
             // Draw line 
             EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDVersion.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
-
-            // Draw the interface addon for editor
-            if (GUI.Button(new Rect(sInRect.x, sInRect.y, sInRect.width, NWDConstants.kMiniButtonStyle.fixedHeight), "Post this Action"))
+            // draw Flash My App
+            EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(""));
+            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", tMiniButtonStyle))
             {
-                PostNotification();
+                Application.OpenURL(URISchemePath(""));
             }
-            //tYadd += NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            //// draw Flash My App
-            //EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(""));
-            //tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            //if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI SchemeAction", tMiniButtonStyle))
-            //{
-            //    Application.OpenURL(URISchemePath(""));
-            //}
-            //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            //// Draw QRCode texture
-            //Texture2D tTexture = FlashMyApp(false, 256);
-            //EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize * 2, NWDConstants.kPrefabSize * 2),
-            //                             tTexture);
-            //tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            // Draw QRCode texture
+            Texture2D tTexture = FlashMyApp(false, 256);
+            EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize * 2, NWDConstants.kPrefabSize * 2),
+                                         tTexture);
+            tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------

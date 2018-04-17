@@ -28,6 +28,7 @@ namespace NetWorkedData
             typeof(NWDError),
             typeof(NWDMessage),
             typeof(NWDAction),
+            typeof(NWDSchemeAction),
 			/* Add NWDBasis here*/
 		}
     )]

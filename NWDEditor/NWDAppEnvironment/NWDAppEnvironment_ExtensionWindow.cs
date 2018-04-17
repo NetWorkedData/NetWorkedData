@@ -46,7 +46,8 @@ namespace NetWorkedData
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
 
 			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
-			AppName = EditorGUILayout.TextField ("AppName", AppName);
+            AppName = EditorGUILayout.TextField ("AppName", AppName);
+            AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
 			EditorGUILayout.TextField ("Security of Datas"+ Environment, EditorStyles.boldLabel);
 			DataSHAPassword = EditorGUILayout.TextField ("SHA Password", DataSHAPassword);
 			DataSHAVector = EditorGUILayout.TextField ("SHA Vector", DataSHAVector);
@@ -62,6 +63,18 @@ namespace NetWorkedData
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
+
+            EditorGUILayout.TextField("Mail Params for " + Environment, EditorStyles.boldLabel);
+            MailHost = EditorGUILayout.TextField("Mail Host", MailHost);
+            MailPort = EditorGUILayout.IntField("Mail Port", MailPort);
+            MailDomain = EditorGUILayout.TextField("Mail Domain", MailDomain);
+            MailFrom = EditorGUILayout.TextField("Mail From ", MailFrom);
+            MailReplyTo = EditorGUILayout.TextField("Mail Reply to", MailReplyTo);
+            MailUserName = EditorGUILayout.TextField("Mail User Name", MailUserName);
+            MailPassword = EditorGUILayout.TextField("Mail Password", MailPassword);
+            MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
+            MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
+            MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
 
 
             EditorGUILayout.EndVertical();

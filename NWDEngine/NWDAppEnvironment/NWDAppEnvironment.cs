@@ -36,14 +36,25 @@ namespace NetWorkedData
         public string SaltEnd = "";
 #if UNITY_EDITOR
         public string SaltServer = "";
+        public string MailHost = "";
+        public int MailPort = 465;
+        public string MailUserName = "";
+        public string MailPassword = "";
+        public string MailDomain = "";
+        public string MailAuthentication = "plain";
+        public string MailEnableStarttlsAuto = "true";
+        public string MailOpenSSLVerifyMode = "peer";
+        public string MailFrom = "";
+        public string MailReplyTo = "";
+
+        public string ServerHost = "localhost";
+        public string ServerUser = "user";
+        public string ServerPassword = "";
+        public string ServerBase = "myDatabase";
+        public string AdminKey = "";
 #endif
         public int SaltFrequency = 300;
 		public string ServerHTTPS = "https://www.my-web-site.com/";
-		public string ServerHost = "localhost";
-		public string ServerUser = "user";
-		public string ServerPassword = "";
-		public string ServerBase = "myDatabase";
-		public string AdminKey = "";
 		public string FacebookAppID = "";
 		public string FacebookAppSecret = "";
 		public string GoogleAppKey = "";
@@ -51,7 +62,8 @@ namespace NetWorkedData
 		public string TwitterAppKey = "";
 		public int BuildTimestamp = 0;
 		public int TokenHistoric = 6;
-		public string AppName = "MyGameApp";
+        public string AppName = "MyGameApp";
+        public string AppProtocol = "MyGameApp://";
         public int WebTimeOut = 30;
 
         public float SpeedOfGameTime = 1.0F;
