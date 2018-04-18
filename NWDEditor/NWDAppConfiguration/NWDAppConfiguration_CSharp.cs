@@ -229,6 +229,15 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.ServerHTTPS = \"" + this.PreprodEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
 
 
+            "\t\t\t#if UNITY_EDITOR\n" +
+            "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.ServerHost = \"" + this.PreprodEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.ServerUser = \"" + this.PreprodEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.ServerPassword = \"" + this.PreprodEnvironment.ServerPassword.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.ServerBase = \"" + this.PreprodEnvironment.ServerBase.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
+            //"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString() + ";\n" +
 
                                                                 "\t\t\tthis.PreprodEnvironment.MailHost =  \"" + this.PreprodEnvironment.MailHost + " \";\n" +
                                                                 "\t\t\tthis.PreprodEnvironment.MailPort = " + this.PreprodEnvironment.MailPort.ToString() + ";\n" +
@@ -241,15 +250,6 @@ namespace NetWorkedData
                                                                 "\t\t\tthis.PreprodEnvironment.MailFrom =  \"" + this.PreprodEnvironment.MailFrom + " \";\n" +
                                                                 "\t\t\tthis.PreprodEnvironment.MailReplyTo =  \"" + this.PreprodEnvironment.MailReplyTo + " \";\n" +
 
-            "\t\t\t#if UNITY_EDITOR\n" +
-            "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.ServerHost = \"" + this.PreprodEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.ServerUser = \"" + this.PreprodEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.ServerPassword = \"" + this.PreprodEnvironment.ServerPassword.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.ServerBase = \"" + this.PreprodEnvironment.ServerBase.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
-            //"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString() + ";\n" +
             "\t\t\t#endif\n" +
             "\t\t\tthis.PreprodEnvironment.FacebookAppID = \"" + this.PreprodEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.FacebookAppSecret = \"" + this.PreprodEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +

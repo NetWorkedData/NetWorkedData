@@ -120,7 +120,6 @@ namespace NetWorkedData
 
 #if UNITY_EDITOR
             SaltServer = NWDToolbox.SaltCleaner(SaltServer);
-#endif
             // ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
             AdminKey = NWDToolbox.SaltCleaner (AdminKey);
 			//check salts are not mull
@@ -136,12 +135,10 @@ namespace NetWorkedData
 			if (SaltEnd == "") {
 				SaltEnd = NWDToolbox.RandomString (16);
             }
-#if UNITY_EDITOR
             if (SaltServer == "")
             {
                 SaltServer = NWDToolbox.RandomString(16);
             }
-#endif
             if (SaltFrequency <= 400) {
 				SaltFrequency = UnityEngine.Random.Range (400, 800);
 			}
@@ -153,7 +150,8 @@ namespace NetWorkedData
 			}
 			if (TokenHistoric < 1 || TokenHistoric > 10) {
 				TokenHistoric = 3;
-			}
+            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
