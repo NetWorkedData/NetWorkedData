@@ -157,7 +157,7 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Links by 'Flash By App' module ", true, true, true)]
-        [NWDNotEditable]
+        //[NWDNotEditable]
         [NWDTooltips("ID to download App in MacOS AppStore")]
         public string OSXStoreID
         {
@@ -178,25 +178,25 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDNotEditable]
+        //[NWDNotEditable]
         [NWDTooltips("ID to download App in Google Tablet Play Store")]
         public string GooglePlayTabID
         {
             get; set;
         }
-        [NWDNotEditable]
+        //[NWDNotEditable]
         [NWDTooltips("ID to download App in Windows Phone Store")]
         public string WindowsPhoneID
         {
             get; set;
         }
-        [NWDNotEditable]
+        //[NWDNotEditable]
         [NWDTooltips("ID to download App in Windows Store")]
         public string WindowsStoreID
         {
             get; set;
         }
-        [NWDNotEditable]
+        //[NWDNotEditable]
         [NWDTooltips("ID to download App in Steam Store")]
         public string SteamStoreID
         {

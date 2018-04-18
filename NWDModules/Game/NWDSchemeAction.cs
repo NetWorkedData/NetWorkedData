@@ -77,6 +77,11 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltips("An additional Action, it's optional but used in standard process.")]
+        public NWDReferenceType<NWDAction> ActionReference
+        {
+            get; set;
+        }
         [NWDGroupEnd]
         [NWDGroupSeparator]
         [NWDGroupStart("Scene", true, true, false)]
@@ -142,7 +147,9 @@ namespace NetWorkedData
         public string URISchemePath(string sAdditional)
         {
             string tText = NWDAppEnvironment.SelectedEnvironment().AppProtocol;
-            tText += "do?A=" + WWW.EscapeURL(Reference);
+            tText = tText.Replace(":", "");
+            tText = tText.Replace("/", "");
+            tText += "://do?A=" + WWW.EscapeURL(Reference);
             if (string.IsNullOrEmpty(Message) == false)
             {
                 tText += "&M=" + WWW.EscapeURL(Message);
