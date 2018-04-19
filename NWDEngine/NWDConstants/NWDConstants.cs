@@ -578,7 +578,8 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             if ( EditorGUIUtility.isProSkin)
             {
-                
+                kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
             }
 #endif
         }
