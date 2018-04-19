@@ -159,7 +159,7 @@ namespace NetWorkedData
                                                      sPosition.width - tMargeInspector - tBorder * 2,
                                                      sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
 
-                    EditorGUI.DrawRect(tRectToDrawProperties, kIdentityColor);
+                    EditorGUI.DrawRect(tRectToDrawProperties, NWDConstants.kIdentityColor);
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP(), tBoldLabelStyle);
                     tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);

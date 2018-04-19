@@ -37,9 +37,6 @@ namespace NetWorkedData
         static Type tLastTypeEdited;
         public static Vector2 m_ObjectEditorScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
-        static Color kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 1.0f);
-        static Color kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 1.0f);
-        //-------------------------------------------------------------------------------------------------------------
 
         public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
@@ -1117,7 +1114,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
 
 
-            EditorGUI.DrawRect(new Rect(0, tY - NWDConstants.kFieldMarge, sInRect.width, sInRect.height), kIdentityColor);
+            EditorGUI.DrawRect(new Rect(0, tY - NWDConstants.kFieldMarge, sInRect.width, sInRect.height), NWDConstants.kIdentityColor);
 
             tY += NWDConstants.kFieldMarge;
 
@@ -1407,7 +1404,7 @@ namespace NetWorkedData
                                                  ;
 
             Rect tRectProperty = new Rect(0, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
-            EditorGUI.DrawRect(tRectProperty, kPropertyColor);
+            EditorGUI.DrawRect(tRectProperty, NWDConstants.kPropertyColor);
 
             EditorGUI.DrawRect(new Rect(tX, tY, tWidth, 1), kRowColorLine);
 
@@ -1422,7 +1419,7 @@ namespace NetWorkedData
             //			EditorGUI.indentLevel = 0;
 
             EditorGUI.DrawRect(new Rect(tX, tY, tWidth, 1), kRowColorLine);
-            EditorGUI.DrawRect(new Rect(tX, tY + 1, tWidth, tBottomHeight), kIdentityColor);
+            EditorGUI.DrawRect(new Rect(tX, tY + 1, tWidth, tBottomHeight), NWDConstants.kIdentityColor);
 
 
 

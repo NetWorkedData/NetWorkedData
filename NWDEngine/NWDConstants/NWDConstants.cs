@@ -468,6 +468,9 @@ namespace NetWorkedData
 
         static public Color kNodeLineColor;
         static public Color kNodeOverLineColor;
+        //-------------------------------------------------------------------------------------------------------------
+        static public Color kIdentityColor;
+        static public Color kPropertyColor;
 
 
 
@@ -559,8 +562,25 @@ namespace NetWorkedData
                 kSeparatorStyle.alignment = TextAnchor.MiddleCenter;
                 kSeparatorStyle.fixedHeight = kSeparatorStyle.CalcHeight(new GUIContent("A"), 100.0F);
             }
-            kNodeLineColor = new Color(0.4F,0.4F,0.4F,1.0F);
-            kNodeOverLineColor = new Color(0.7F, 0.7F, 0.7F, 1.0F);
+
+            kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
+            kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
+            kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
+            kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
+
+            K_GREEN_BUTTON_COLOR = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
+            K_BLUE_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
+            K_ORANGE_BUTTON_COLOR = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
+            K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
+            K_DARKGRAY_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+
+
+#if UNITY_EDITOR
+            if ( EditorGUIUtility.isProSkin)
+            {
+                
+            }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadImages()
