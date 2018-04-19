@@ -101,20 +101,6 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void DrawSettingsEditor ()
 		{
-			//GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-//			GUIStyle tFoldoutStyle = new GUIStyle (GUI.skin.GetStyle ("foldout"));
-//			tFoldoutStyle.fontStyle = FontStyle.Bold;
-//			Color myStyleColor = Color.blue;
-//			tFoldoutStyle.normal.textColor = myStyleColor;
-//			tFoldoutStyle.onNormal.textColor = myStyleColor;
-//			tFoldoutStyle.hover.textColor = myStyleColor;
-//			tFoldoutStyle.onHover.textColor = myStyleColor;
-//			tFoldoutStyle.focused.textColor = myStyleColor;
-//			tFoldoutStyle.onFocused.textColor = myStyleColor;
-//			tFoldoutStyle.active.textColor = myStyleColor;
-//			tFoldoutStyle.onActive.textColor = myStyleColor;
-//
-
 			GUIStyle tStyle = EditorStyles.foldout;
 			FontStyle tPreviousStyle = tStyle.fontStyle;
 			tStyle.fontStyle = FontStyle.Bold;

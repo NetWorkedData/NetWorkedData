@@ -151,7 +151,7 @@ namespace NetWorkedData
                                                  sPosition.width - tMargeInspector,
                                                  sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
 
-                    EditorGUI.DrawRect(tRectToDrawHeader, kHeaderColorBackground);
+                    EditorGUI.DrawRect(tRectToDrawHeader, NWDConstants.kHeaderColorBackground);
 
                     Rect tRectToDrawProperties = new Rect(
                                                      tX + tMargeInspector + tBorder,

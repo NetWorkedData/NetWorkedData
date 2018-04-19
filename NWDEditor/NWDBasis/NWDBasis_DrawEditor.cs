@@ -566,7 +566,7 @@ namespace NetWorkedData
                     foreach (NWDGroupSeparatorAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupSeparatorAttribute), true))
                     {
                         //						if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
-                        EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
+                        EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
                         tY += NWDConstants.kFieldMarge * 2;
                     }
 
@@ -627,7 +627,7 @@ namespace NetWorkedData
                             Rect tRect = EditorGUI.IndentedRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1));
                             //float tIndentWidth = tRect.x;
                             //                      if (tProp.GetCustomAttributes (typeof(NWDSeparatorAttribute), true).Length > 0) {
-                            EditorGUI.DrawRect(tRect, kRowColorLine);
+                            EditorGUI.DrawRect(tRect, NWDConstants.kRowColorLine);
                             tY += NWDConstants.kFieldMarge * 2;
                         }
                         // draw space
@@ -1054,7 +1054,7 @@ namespace NetWorkedData
             if (tTestIntegrity == false)
             {
 
-                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), kRowColorError);
+                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
                 tCanBeEdit = false;
 
                 GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_IS_FALSE, tBoldLabelStyle);
@@ -1081,7 +1081,7 @@ namespace NetWorkedData
             else if (XX > 0)
             {
 
-                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), kRowColorError);
+                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
                 tCanBeEdit = false;
 
                 GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_IN_TRASH, tBoldLabelStyle);
@@ -1406,7 +1406,7 @@ namespace NetWorkedData
             Rect tRectProperty = new Rect(0, tY, sInRect.width, sInRect.height - tY - tBottomHeight);
             EditorGUI.DrawRect(tRectProperty, NWDConstants.kPropertyColor);
 
-            EditorGUI.DrawRect(new Rect(tX, tY, tWidth, 1), kRowColorLine);
+            EditorGUI.DrawRect(new Rect(tX, tY, tWidth, 1), NWDConstants.kRowColorLine);
 
             EditorGUI.EndDisabledGroup();
             /*Rect tPropertyRect =*/
@@ -1418,7 +1418,7 @@ namespace NetWorkedData
 
             //			EditorGUI.indentLevel = 0;
 
-            EditorGUI.DrawRect(new Rect(tX, tY, tWidth, 1), kRowColorLine);
+            EditorGUI.DrawRect(new Rect(tX, tY, tWidth, 1), NWDConstants.kRowColorLine);
             EditorGUI.DrawRect(new Rect(tX, tY + 1, tWidth, tBottomHeight), NWDConstants.kIdentityColor);
 
 

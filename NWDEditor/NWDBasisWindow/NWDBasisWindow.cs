@@ -256,9 +256,11 @@ namespace NetWorkedData
                 tHeight += NWDConstants.kFieldMarge * 2;
             }
             // draw background for toolbar
-            EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), new Color(0.6f, 0.6f, 0.6f, 1.0f));
-            EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), new Color(0.6f, 0.6f, 0.6f, 1.0f));
-            EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F), new Color(0.5f, 0.5f, 0.5f, 1.0f));
+
+
+            EditorGUI.DrawRect(new Rect(0, 0, tWidthUsed, tHeight), NWDConstants.KTAB_BAR_BACK_COLOR);
+            EditorGUI.DrawRect(new Rect(0, tHeight, tWidthUsed, 1.0F), NWDConstants.KTAB_BAR_LINE_COLOR);
+            EditorGUI.DrawRect(new Rect(0, tHeight + 1, tWidthUsed, 1.0F),NWDConstants.KTAB_BAR_HIGHLIGHT_COLOR);
             //if (mDescriptionKey != "")
             //{
             //    EditorGUILayout.HelpBox(mDescriptionKey, MessageType.None);

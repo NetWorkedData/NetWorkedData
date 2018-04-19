@@ -373,7 +373,7 @@ namespace NetWorkedData
 
             tYadd += NWDConstants.kFieldMarge;
             // Draw line 
-            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDVersion.kRowColorLine);
+            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDConstants.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
 
             // Draw the interface addon for editor

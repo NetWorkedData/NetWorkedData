@@ -473,6 +473,49 @@ namespace NetWorkedData
         static public Color kPropertyColor;
 
 
+        public static float kHeaderHeight = 20.0f;
+        public static float kHeaderHeightSpace = 6.0f;
+        public static float kHeaderLineStroke = 1.0f;
+        public static Color kHeaderColorBackground = new Color (0.0f, 0.0f, 0.0f, 0.35f);
+        public static Color kHeaderColorLine = new Color (0.0f, 0.0f, 0.0f, 0.55f);
+        //-------------------------------------------------------------------------------------------------------------
+        // Row design
+        public static float kRowOutMarge = 25.0f;
+        public static float kRowHeight = 30.0f;
+        public static float kRowHeightImage = 20.0f;
+        public static float kRowHeightSpace = 5.0f;
+        //static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
+        public static Color kRowColorSelected = new Color (0.55f, 0.55f, 1.00f, 0.25f);
+        public static Color kRowColorError = new Color (1.00f, 0.00f, 0.00f, 0.55f);
+        public static Color kRowColorTrash = new Color (0.00f, 0.00f, 0.00f, 0.45f);
+        public static Color kRowColorDisactive = new Color (0.00f, 0.00f, 0.00f, 0.35f);
+        public static float kRowLineStroke = 2.0f;
+        public static Color kRowColorLine = new Color (0.0f, 0.0f, 0.0f, 0.25f);
+        //-------------------------------------------------------------------------------------------------------------
+        // Columns Size
+        public static float kOriginWidth = 1.0f;
+        public static float kSelectWidth = 20.0f;
+        public static float kIDWidth = 30.0f;
+        public static float kPrefabWidth = 30.0f;
+        public static float kDescriptionMinWidth = 200.0f;
+        public static float kSyncWidth = 40.0f;
+        public static float kDevSyncWidth = 40.0f;
+        public static float kPreprodSyncWidth = 40.0f;
+        public static float kProdSyncWidth = 40.0f;
+        public static float kActiveWidth = 70.0f;
+        public static float kReferenceWidth = 230.0f;
+        //-------------------------------------------------------------------------------------------------------------
+        // Icons for Sync
+        public static Texture2D kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDRed.psd"));
+        public static Texture2D kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
+        public static Texture2D kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
+        public static Texture2D kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
+
+
+        static public Color KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+        static public Color KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
+        static public Color KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+
 
 
         static public GUIStyle kLabelStyle;
@@ -573,6 +616,7 @@ namespace NetWorkedData
             K_ORANGE_BUTTON_COLOR = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
             K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
             K_DARKGRAY_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
+
 
 
 #if UNITY_EDITOR

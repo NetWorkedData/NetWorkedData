@@ -319,7 +319,7 @@ namespace NetWorkedData
 
             tYadd += NWDConstants.kFieldMarge;
             // Draw line 
-            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDVersion.kRowColorLine);
+            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDConstants.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
             // draw Flash My App
             EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(""));

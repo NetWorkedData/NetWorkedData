@@ -31,51 +31,14 @@ namespace NetWorkedData
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		// Header design
-		public static float kHeaderHeight = 20.0f;
-		public static float kHeaderHeightSpace = 6.0f;
-		public static float kHeaderLineStroke = 1.0f;
-		public static Color kHeaderColorBackground = new Color (0.0f, 0.0f, 0.0f, 0.35f);
-		public static Color kHeaderColorLine = new Color (0.0f, 0.0f, 0.0f, 0.55f);
-		//-------------------------------------------------------------------------------------------------------------
-		// Row design
-		public static float kRowOutMarge = 25.0f;
-		public static float kRowHeight = 30.0f;
-		public static float kRowHeightImage = 20.0f;
-		public static float kRowHeightSpace = 5.0f;
-		//static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
-		public static Color kRowColorSelected = new Color (0.55f, 0.55f, 1.00f, 0.25f);
-		public static Color kRowColorError = new Color (1.00f, 0.00f, 0.00f, 0.55f);
-		public static Color kRowColorTrash = new Color (0.00f, 0.00f, 0.00f, 0.45f);
-		public static Color kRowColorDisactive = new Color (0.00f, 0.00f, 0.00f, 0.35f);
-		public static float kRowLineStroke = 2.0f;
-		public static Color kRowColorLine = new Color (0.0f, 0.0f, 0.0f, 0.25f);
-		//-------------------------------------------------------------------------------------------------------------
-		// Columns Size
-		public static float kOriginWidth = 1.0f;
-		public static float kSelectWidth = 20.0f;
-		public static float kIDWidth = 30.0f;
-		public static float kPrefabWidth = 30.0f;
-		public static float kDescriptionMinWidth = 200.0f;
-		public static float kSyncWidth = 40.0f;
-		public static float kDevSyncWidth = 40.0f;
-		public static float kPreprodSyncWidth = 40.0f;
-		public static float kProdSyncWidth = 40.0f;
-		public static float kActiveWidth = 70.0f;
-		public static float kReferenceWidth = 230.0f;
-		//-------------------------------------------------------------------------------------------------------------
-		// Icons for Sync
-		static public Texture2D kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDRed.psd"));
-		static public Texture2D kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
-		static public Texture2D kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
-		static public Texture2D kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
 		//-------------------------------------------------------------------------------------------------------------
 		public static void DrawHeaderInEditor ()
 		{
-			GUILayout.BeginHorizontal (GUILayout.Height (kHeaderHeight));
-			GUILayout.Label (" ", EditorStyles.boldLabel, GUILayout.Width(kOriginWidth));
+			GUILayout.BeginHorizontal (GUILayout.Height (NWDConstants.kHeaderHeight));
+            GUILayout.Label (" ", EditorStyles.boldLabel, GUILayout.Width(NWDConstants.kOriginWidth));
 			Rect tRect = GUILayoutUtility.GetLastRect ();
-			Rect tRectArea = new Rect (tRect.x-kHeaderHeight, tRect.y-kHeaderHeightSpace/2.0f, 4096.0f, kHeaderHeight+kHeaderHeightSpace);
-			EditorGUI.DrawRect (tRectArea, kHeaderColorBackground);
+            Rect tRectArea = new Rect (tRect.x-NWDConstants.kHeaderHeight, tRect.y-NWDConstants.kHeaderHeightSpace/2.0f, 4096.0f, NWDConstants.kHeaderHeight+NWDConstants.kHeaderHeightSpace);
+            EditorGUI.DrawRect (tRectArea, NWDConstants.kHeaderColorBackground);
 
 			GUIStyle tStyleLeft = new GUIStyle (EditorStyles.boldLabel);
 			tStyleLeft.alignment = TextAnchor.MiddleLeft;
@@ -86,20 +49,20 @@ namespace NetWorkedData
 			GUIStyle tStyleRight = new GUIStyle (EditorStyles.boldLabel);
 			tStyleRight.alignment = TextAnchor.MiddleRight;
 
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SELECT, tStyleLeft, GUILayout.Width(kSelectWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_ID, tStyleLeft, GUILayout.Width(kIDWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREFAB, tStyleLeft, GUILayout.Width(kPrefabWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, tStyleLeft, GUILayout.MinWidth(kDescriptionMinWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SELECT, tStyleLeft, GUILayout.Width(NWDConstants.kSelectWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_ID, tStyleLeft, GUILayout.Width(NWDConstants.kIDWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREFAB, tStyleLeft, GUILayout.Width(NWDConstants.kPrefabWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, tStyleLeft, GUILayout.MinWidth(NWDConstants.kDescriptionMinWidth));
 
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, tStyleCenter, GUILayout.Width(kSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, tStyleCenter, GUILayout.Width(kDevSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, tStyleCenter, GUILayout.Width(kPreprodSyncWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO,tStyleCenter, GUILayout.Width(kProdSyncWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, tStyleCenter, GUILayout.Width(NWDConstants.kDevSyncWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, tStyleCenter, GUILayout.Width(NWDConstants.kPreprodSyncWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PRODSYNCHRO,tStyleCenter, GUILayout.Width(NWDConstants.kProdSyncWidth));
 
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_STATUT, tStyleCenter, GUILayout.Width(kActiveWidth));
-			GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_REFERENCE +" ", tStyleRight, GUILayout.Width(kReferenceWidth));
-			Rect tRectLine = new Rect (tRect.x-kHeaderHeight, tRect.y+kHeaderHeight+kHeaderLineStroke, 4096.0f, kHeaderLineStroke);
-			EditorGUI.DrawRect (tRectLine, kHeaderColorLine);
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_STATUT, tStyleCenter, GUILayout.Width(NWDConstants.kActiveWidth));
+            GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_REFERENCE +" ", tStyleRight, GUILayout.Width(NWDConstants.kReferenceWidth));
+            Rect tRectLine = new Rect (tRect.x-NWDConstants.kHeaderHeight, tRect.y+NWDConstants.kHeaderHeight+NWDConstants.kHeaderLineStroke, 4096.0f, NWDConstants.kHeaderLineStroke);
+            EditorGUI.DrawRect (tRectLine, NWDConstants.kHeaderColorLine);
 			GUILayout.EndHorizontal ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -159,53 +122,53 @@ namespace NetWorkedData
             WebserviceVersionCheckMe();
 
 			if (TestIntegrity () == false) {
-				EditorGUI.DrawRect (rRectColored, kRowColorError);
+                EditorGUI.DrawRect (rRectColored, NWDConstants.kRowColorError);
 				ObjectsInEditorTableSelectionList [tIndex] = false;
-				GUILayout.Label ("!!!", GUILayout.Width(kSelectWidth));
+                GUILayout.Label ("!!!", GUILayout.Width(NWDConstants.kSelectWidth));
 				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
 				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
 				tString = "<color=#a52a2aff>" +tString +"</color>";
 			} else if (XX > 0) {
-				EditorGUI.DrawRect (rRectColored, kRowColorTrash);
+                EditorGUI.DrawRect (rRectColored, NWDConstants.kRowColorTrash);
 				ObjectsInEditorTableSelectionList [tIndex] = false;
-				GUILayout.Label ("   ", GUILayout.Width(kSelectWidth));
+                GUILayout.Label ("   ", GUILayout.Width(NWDConstants.kSelectWidth));
 				sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
 				tString = "<color=#444444ff>" +tString +"</color>";
 			} else {
 				if (AC == false) {
-					EditorGUI.DrawRect (rRectColored, kRowColorDisactive);
+                    EditorGUI.DrawRect (rRectColored, NWDConstants.kRowColorDisactive);
 					sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
 					tString = "<color=#555555ff>" +tString +"</color>";
 				}
-				ObjectsInEditorTableSelectionList [tIndex] = EditorGUILayout.ToggleLeft ("", ObjectsInEditorTableSelectionList [tIndex], GUILayout.Width(kSelectWidth));
+                ObjectsInEditorTableSelectionList [tIndex] = EditorGUILayout.ToggleLeft ("", ObjectsInEditorTableSelectionList [tIndex], GUILayout.Width(NWDConstants.kSelectWidth));
 			}
 
-			GUILayout.Label (ID.ToString (), GUILayout.Width(kIDWidth));
-			GUILayout.Label (" ", GUILayout.Width(kPrefabWidth));
+            GUILayout.Label (ID.ToString (), GUILayout.Width(NWDConstants.kIDWidth));
+            GUILayout.Label (" ", GUILayout.Width(NWDConstants.kPrefabWidth));
 			Rect tRectPreview = GUILayoutUtility.GetLastRect ();
 			GUIStyle tStyleForInfos = new GUIStyle (EditorStyles.label);
 			tStyleForInfos.richText = true;
-			GUILayout.Label (tString, tStyleForInfos, GUILayout.MinWidth(kDescriptionMinWidth));
+            GUILayout.Label (tString, tStyleForInfos, GUILayout.MinWidth(NWDConstants.kDescriptionMinWidth));
 			tStyleLeft.alignment = TextAnchor.MiddleRight;
 			// Draw Sync State
-			Texture2D tImageSync = kImageRed; 
+            Texture2D tImageSync = NWDConstants.kImageRed; 
 			if (DS > 0) {
-				tImageSync = kImageGreen; 
+                tImageSync = NWDConstants.kImageGreen; 
 			}
-			GUILayout.Label(tImageSync,tStyleCenter,GUILayout.Width (kSyncWidth),GUILayout.Height (kRowHeightImage));
+            GUILayout.Label(tImageSync,tStyleCenter,GUILayout.Width (NWDConstants.kSyncWidth),GUILayout.Height (NWDConstants.kRowHeightImage));
 			// Draw Dev Sync State
-			Texture2D tImageDevSync = kImageRed; 
+            Texture2D tImageDevSync = NWDConstants.kImageRed; 
 			if (DevSync > 0) {
-				tImageDevSync = kImageGreen;
+                tImageDevSync = NWDConstants.kImageGreen;
 			}
-			GUILayout.Label(tImageDevSync, tStyleCenter,GUILayout.Width (kDevSyncWidth),GUILayout.Height (kRowHeightImage));
+            GUILayout.Label(tImageDevSync, tStyleCenter,GUILayout.Width (NWDConstants.kDevSyncWidth),GUILayout.Height (NWDConstants.kRowHeightImage));
 			// Draw Preprod Sync State
-			Texture2D tImagePreprodSync = kImageRed; 
+            Texture2D tImagePreprodSync = NWDConstants.kImageRed; 
 			if (PreprodSync > 0) {
 				if (PreprodSync > DevSync) {
-					tImagePreprodSync = kImageGreen;
+                    tImagePreprodSync = NWDConstants.kImageGreen;
 				} else {
-					tImagePreprodSync = kImageOrange;
+                    tImagePreprodSync = NWDConstants.kImageOrange;
 				}
 			}
 
@@ -217,31 +180,31 @@ namespace NetWorkedData
 				tDisableProd = true;
 			}
 
-			GUILayout.Label(tImagePreprodSync,tStyleCenter,GUILayout.Width (kPreprodSyncWidth),GUILayout.Height (kRowHeightImage));
+            GUILayout.Label(tImagePreprodSync,tStyleCenter,GUILayout.Width (NWDConstants.kPreprodSyncWidth),GUILayout.Height (NWDConstants.kRowHeightImage));
 			// Draw Prod Sync State
-			Texture2D tImageProdSync = kImageRed; 
+            Texture2D tImageProdSync = NWDConstants.kImageRed; 
 			if (tDisableProd == true) {
-				tImageProdSync = kImageForbidden;
+                tImageProdSync = NWDConstants.kImageForbidden;
 			}
 			else
 			{
 				if (ProdSync > 0) {
 					if (ProdSync > DevSync && ProdSync > PreprodSync) {
-						tImageProdSync = kImageGreen;
+                        tImageProdSync = NWDConstants.kImageGreen;
 					} else {
-						tImageProdSync = kImageOrange;
+                        tImageProdSync = NWDConstants.kImageOrange;
 					}
 				}
 			}
-			GUILayout.Label(tImageProdSync,tStyleCenter,GUILayout.Width (kProdSyncWidth),GUILayout.Height (kRowHeightImage));
+            GUILayout.Label(tImageProdSync,tStyleCenter,GUILayout.Width (NWDConstants.kProdSyncWidth),GUILayout.Height (NWDConstants.kRowHeightImage));
 			// Draw State
-			GUILayout.Label (sStateInfos,tStyleCenter, GUILayout.Width (kActiveWidth));
+            GUILayout.Label (sStateInfos,tStyleCenter, GUILayout.Width (NWDConstants.kActiveWidth));
 			// Draw Reference
-			GUILayout.Label (tStringReference, tStyleRight, GUILayout.Width(kReferenceWidth));
+            GUILayout.Label (tStringReference, tStyleRight, GUILayout.Width(NWDConstants.kReferenceWidth));
 			// Draw prefab preview
 			Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
 			if (tTexture2D != null) {
-				EditorGUI.DrawPreviewTexture (new Rect (tRectPreview.x, tRectPreview.y-3, kPrefabWidth, kPrefabWidth), tTexture2D);
+                EditorGUI.DrawPreviewTexture (new Rect (tRectPreview.x, tRectPreview.y-3, NWDConstants.kPrefabWidth, NWDConstants.kPrefabWidth), tTexture2D);
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -250,15 +213,15 @@ namespace NetWorkedData
 			float tWidthUsed = sEditorWindow.position.width+20; //4096.0f
 //			float tWidthUsed =4096.0f;
 			// start line
-			GUILayout.Space(kRowHeightSpace);
-			GUILayout.BeginHorizontal (GUILayout.Height (kRowHeight));
-			GUILayout.Label ("", GUILayout.Width(kOriginWidth));
+            GUILayout.Space(NWDConstants.kRowHeightSpace);
+            GUILayout.BeginHorizontal (GUILayout.Height (NWDConstants.kRowHeight));
+            GUILayout.Label ("", GUILayout.Width(NWDConstants.kOriginWidth));
 			Rect tRect = GUILayoutUtility.GetLastRect ();
 			// determine rect to select and draw
-			Rect rRect = new Rect (tRect.x, tRect.y-5, tWidthUsed, kRowHeight+5);
-			Rect rRectColored = new Rect (tRect.x-5, tRect.y-5, tWidthUsed+1024, kRowHeight+5);
+            Rect rRect = new Rect (tRect.x, tRect.y-5, tWidthUsed, NWDConstants.kRowHeight+5);
+            Rect rRectColored = new Rect (tRect.x-5, tRect.y-5, tWidthUsed+1024, NWDConstants.kRowHeight+5);
 			// determine rect to analyze
-			Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, tWidthUsed, kRowHeight+10);
+            Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, tWidthUsed, NWDConstants.kRowHeight+10);
 			// check click in rect
 			if (rRectAnalyze.Contains (sMouseClickPosition)) 
 			{
@@ -279,13 +242,13 @@ namespace NetWorkedData
 			// check if object is in edition and draw color rect overlay
 			if (IsObjectInEdition (this) == true)
 			{
-				EditorGUI.DrawRect (rRectColored, kRowColorSelected);
+                EditorGUI.DrawRect (rRectColored, NWDConstants.kRowColorSelected);
 			}
 			// draw informations
 			RowInformation (rRect);
 			// draw line to delimit the rect
-			tRect = new Rect (tRect.x-kRowOutMarge, tRect.y+kRowHeight, tWidthUsed+1024, kRowLineStroke);
-			EditorGUI.DrawRect (tRect, kRowColorLine);
+            tRect = new Rect (tRect.x-NWDConstants.kRowOutMarge, tRect.y+NWDConstants.kRowHeight, tWidthUsed+1024, NWDConstants.kRowLineStroke);
+            EditorGUI.DrawRect (tRect, NWDConstants.kRowColorLine);
 			// finish line
 			GUILayout.EndHorizontal ();
 			return rRect;

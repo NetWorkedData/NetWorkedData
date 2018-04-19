@@ -623,7 +623,7 @@ namespace NetWorkedData
             // darw information about actual bundle 
             EditorGUI.BeginDisabledGroup(true);
 
-            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDVersion.kRowColorLine);
+            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDConstants.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
 
             GUI.Label(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "Environement selected to build", EditorStyles.boldLabel);
@@ -662,7 +662,7 @@ namespace NetWorkedData
             tYadd += NWDConstants.kPrefabSize*2+ NWDConstants.kFieldMarge;
 
             // Draw line 
-            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDVersion.kRowColorLine);
+            EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1),NWDConstants.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
 
             // Draw button choose env
