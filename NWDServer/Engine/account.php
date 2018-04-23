@@ -58,16 +58,32 @@
 							{
 								error('SGN03');
 							}
-							$tResetURL = $HTTP_URL.'/Environment/'.$ENV.'/rescue.php?s='.$s.'&emailrescue='.$emailrescue;
-						
-							$to      = $emailrescue;
-							$subject = $NWD_APP_NAM . ' : forgotten code';
-							$message = "Hello,\r\n You forgot your password for the App $NWD_APP_NAM's account and ask to reset it. If you didn't ask the reset, ignore it.\n\r
-							Else, just click on this link to reset your password and receipt a new password by email: \r\n\r\nreset my password : $tResetURL\r\n\r\n Best regards,\r\n The $NWD_APP_NAM's team.";
-							$headers = 'From: '.$NWD_RES_MAIL.'' . "\r\n" .
-							'Reply-To: '.$NWD_RES_MAIL.'' . "\r\n" .
-							'X-Mailer: NetWorkedData-PHP/' . phpversion();
-							mail($to, $subject, $message, $headers);
+							$tResetURL = $HTTP_URL.'/Environment/'.$ENV.'/rescue.php?lang='.$lang.'&s='.$s.'&emailrescue='.$emailrescue;
+							$tError = errorReference('ERR-RESCUE-01');
+							if (isset($tError['Title']))
+							{
+								$subject = str_replace("{APP}",$NWD_APP_NAM, GetLocalizableString($tError['Title'], $lang));
+							}
+								else
+							{
+									$subject = $NWD_APP_NAM.': Forgotten password';
+							}
+							if (isset($tError['Description']))
+							{
+								$message = str_replace("{URL}",$tResetURL,str_replace("{APP}",$NWD_APP_NAM,GetLocalizableString($tError['Description'], $lang)));
+							}
+							else
+							{
+								$message = 'Click here to reset your password : '.$tResetURL;
+							}
+							include('Mail.php');
+							$headers['From'] = $SMTP_REPLY;
+							$headers['To'] = $emailrescue;
+							$headers['Subject'] =$subject;
+							$params['sendmail_path'] = '/usr/lib/sendmail';
+							// Create the mail object using the Mail::factory method
+							$mail_object = Mail::factory('smtp', array ('host' => $SMTP_HOST, 'auth' => true, 'username' => $SMTP_USER, 'password' => $SMTP_PSW));
+							$mail_object->send($emailrescue, $headers, $message);
 							}
 						}
 						else //or more than one user with this email … strange… I push an error, user must be unique

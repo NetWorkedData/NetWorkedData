@@ -198,6 +198,29 @@
 		$ERR_INF = $sInfos;
 		error($sCode);
 	}
+	//--------------------
+	// return error in database
+	function errorReference($sReference)
+	{
+			global $SQL_CON, $ENV;
+			$tRow = '';
+			$tQuery = 'SELECT * FROM `'.$ENV.'_NWDError` WHERE `Reference` = \''.$SQL_CON->real_escape_string($sReference).'\';';
+			// echo($tQuery);
+			$tResult = $SQL_CON->query($tQuery);
+			if (!$tResult)
+				{
+					error('ERRx33');
+				}
+			else
+				{
+					if ($tResult->num_rows >= 1)
+						{
+							$tRow = $tResult->fetch_assoc();
+						}
+				}
+			mysqli_free_result($tResult);
+			return $tRow;
+	}
 		//--------------------
 		// return true if error in respond
 	function errorDetected()

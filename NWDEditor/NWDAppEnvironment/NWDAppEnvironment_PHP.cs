@@ -99,17 +99,16 @@ namespace NetWorkedData
                 "\t$NWD_SLT_TMP = " + SaltFrequency.ToString() + ";\n" +
                 "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT FOR SMTP\n" +
-                "\t$SMTP_HOST = '" + MailHost.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_HOST = '" + MailHost.Trim().Replace("'", "\'") + "';\n" +
                 "\t$SMTP_PORT = " + MailPort.ToString() + ";\n" +
-                "\t$SMTP_DOMAIN = '" + MailDomain.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_FROM = '" + MailFrom.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_REPLY = '" + MailReplyTo.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_USER = '" + MailUserName.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_PSW = '" + MailPassword.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_AUT = '" + MailAuthentication.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Replace("'", "\'") + "';\n" +
-                "\t$SMTP_HOST = '" + MailHost.Replace("'", "\'") + "';\n" +
+                "\t$SMTP_DOMAIN = '" + MailDomain.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_FROM = '" + MailFrom.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_REPLY = '" + MailReplyTo.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_USER = '" + MailUserName.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_PSW = '" + MailPassword.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_AUT = '" + MailAuthentication.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_STARTTLS = '" + MailEnableStarttlsAuto.Trim().Replace("'", "\'") + "';\n" +
+                "\t$SMTP_OPENSSL = '" + MailOpenSSLVerifyMode.Trim().Replace("'", "\'") + "';\n" +
                 "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT TO CONNECT TO SQL DATABASE\n" +
                 "\t$SQL_HOT = '" + ServerHost.Replace("'", "\'") + "';\n" +

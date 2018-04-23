@@ -69,7 +69,7 @@ namespace NetWorkedData
         [NWDTooltips("Title of error message")]
         public NWDLocalizableStringType Title { get; set; }
         [NWDTooltips("Content of error message")]
-        public NWDLocalizableStringType Description { get; set; }
+        public NWDLocalizableTextType Description { get; set; }
         [NWDTooltips("Validation text of error message")]
         public NWDLocalizableStringType Validation { get; set; }
 		//[NWDGroupEndAttribute]
@@ -137,7 +137,7 @@ namespace NetWorkedData
                 tTitle.AddBaseString(sTitle);
 				tError.Title = tTitle;
 				// description
-				NWDLocalizableStringType tDescription = new NWDLocalizableStringType ();
+                NWDLocalizableTextType tDescription = new NWDLocalizableTextType ();
                 tDescription.AddBaseString(sDescription);
                 tError.Description = tDescription;
                 // description

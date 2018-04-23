@@ -16,6 +16,36 @@
 		// ban account ?
 	$ban = false;
 		//--------------------
+		function GetLocalizableString($sString, $sLang='BASE')
+		{
+			$tLines = explode('•', $sString);
+			foreach ($tLines as $tline)
+				{
+					$tKeyValues = explode(':', $tline);
+					$tResult[$tKeyValues[0]] = $tKeyValues[1];
+				}
+			if (isset($tResult[$sLang]))
+				{
+					return UnprotectLocalizableString($tResult[$sLang]);
+				}
+			else if (isset($tResult['BASE']))
+				{
+					return UnprotectLocalizableString($tResult['BASE']);
+				}
+			else
+				{
+					return '';
+				}
+		}
+		//--------------------
+		function UnprotectLocalizableString($sString)
+		{
+			$tString =	str_replace('@1#','•',$sString);
+			$tString =	str_replace('@2#',':',$tString);
+			$tString =	str_replace('@3#','_',$tString);
+			return $tString;
+		}
+		//--------------------
 	function versionTest($sVersion)
 	{
 		global $ENV;
