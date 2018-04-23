@@ -312,7 +312,7 @@ namespace NetWorkedData
                     tColumn.Name != "XX")
                 {
                     tManagementFile +=
-                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` ADD " + Orm.SqlDecl(tColumn, true).Replace("varchar", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL") + ";';\n" +
+                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` ADD " + Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ") + ";';\n" +
                     "$tResult = $SQL_CON->query($tQuery);\n" +
                     //"if (!$tResult)\n" +
                     //"{\n" +
@@ -322,7 +322,7 @@ namespace NetWorkedData
                     "";
                     tManagementFile +=
                         //					"$tQuery ='ALTER TABLE `'.$ENV.'" + tTableName + "` CHANGE `" + tColumn.Name + "` " + Orm.SqlDecl (tColumn, true).Replace ("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL") + ";';\n" +
-                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " + Orm.SqlDecl(tColumn, true).Replace("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL") + ";';\n" +
+                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " + Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ") + ";';\n" +
                     "$tResult = $SQL_CON->query($tQuery);\n" +
                     //"if (!$tResult)\n" +
                     //"{\n" +

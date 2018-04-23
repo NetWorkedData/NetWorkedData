@@ -68,8 +68,8 @@ namespace NetWorkedData
         public string StringValue {get; set;}
 		public bool BoolValue {get; set;}
 		public int IntValue {get; set;}
-		public float FloatValue {get; set;}
-
+        public float FloatValue {get; set;}
+        //public double DoubleValue {get; set;}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
@@ -329,6 +329,14 @@ namespace NetWorkedData
             rReturn.SaveModifications();
             return rReturn;
         }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserStats ModifyStat(string sInternalKey, double sDouble)
+        //{
+        //    NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+        //    rReturn.DoubleValue = sDouble;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats ModifyStat(string sInternalKey, bool sBool)
         {
