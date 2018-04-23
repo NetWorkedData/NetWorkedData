@@ -1,30 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System.Collections;
 using UnityEngine;
 
-using NetWorkedData;
-
-public class NWDUserNetWorkingScript : MonoBehaviour {
-
-	// Use this for initialization
-    void Start () {
-        Debug.Log("NWDUserNetWorkingScript Start()");
-        NWDUserNetWorking.PrepareUpdate(840, null);
-        StartCoroutine(UserNetworkinUpdate());
-	}
-
-    IEnumerator UserNetworkinUpdate()
+//=====================================================================================================================
+namespace NetWorkedData
+{
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    ///
+    /// </summary>
+    public class NWDUserNetWorkingScript : MonoBehaviour
     {
-        while (true)
+        //-------------------------------------------------------------------------------------------------------------
+        void Start()
         {
-            Debug.Log("NWDUserNetWorkingScript UserNetworkinUpdate()");
-            NWDUserNetWorking.NetworkingUpdate();
-            yield return new WaitForSeconds(NWDUserNetWorking.UpdateDelayInSeconds - 10);
+            Debug.Log("NWDUserNetWorkingScript Start()");
+            NWDUserNetWorking.PrepareUpdate(840, null);
+            StartCoroutine(UserNetworkinUpdate());
         }
+        //-------------------------------------------------------------------------------------------------------------
+        IEnumerator UserNetworkinUpdate()
+        {
+            while (true)
+            {
+                Debug.Log("NWDUserNetWorkingScript UserNetworkinUpdate()");
+                NWDUserNetWorking.NetworkingUpdate();
+                yield return new WaitForSeconds(NWDUserNetWorking.UpdateDelayInSeconds - 10);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
+//=====================================================================================================================

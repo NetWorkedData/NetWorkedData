@@ -210,10 +210,10 @@ namespace NetWorkedData
                         {
                             if (LastInfos.errorDesc.Description != null && LastInfos.errorCode!=null)
                             {
-                                tDescription = "Error " + LastInfos.errorCode + " : " + LastInfos.errorDesc.Description.GetLocalString();
+                                tDescription = LastInfos.errorDesc.InternalKey + " : " + LastInfos.errorDesc.InternalDescription;
                             }
                         }
-                        EditorUtility.DisplayDialog("Alert", tDescription, "Ok");
+                        EditorUtility.DisplayDialog("ERROR", tDescription, "Ok");
                     }
                 }
                 Repaint();
