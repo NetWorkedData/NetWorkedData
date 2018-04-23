@@ -303,7 +303,6 @@ namespace NetWorkedData
         public static NWDUserStats GetStatByInternalKey(string sInternalKey)
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKey(sInternalKey);
-            rReturn.SaveModifications();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
