@@ -84,6 +84,10 @@ namespace NetWorkedData
             }
             tConstantsFile += "" +
                 "\t\t//-------------------- \n" +
+                "\t\t// CONSTANT FOR WEB\n" +
+                "\t$HTTP_URL = '" + ServerHTTPS.TrimEnd('/') +"/"+ NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
+                "\t$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
+                "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT FOR SHA512\n" +
                 "\t$NWD_SHA_SEC = '" + DataSHAPassword.Replace("'", "\'") + "';\n" +
                 "\t$NWD_SHA_VEC = '" + DataSHAVector.Replace("'", "'") + "';\n" +
@@ -121,7 +125,7 @@ namespace NetWorkedData
                 "\t$NWD_ADM_KEY = '" + AdminKey.Replace("'", "\'") + "';\n" +
                 "\t\t//-------------------- \n" +
                 //"\t\t// RESCUE EMAIL\n" +
-                //"\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
+                "\t$NWD_RES_MAIL = '" + RescueEmail + "';\n" +
                 "\t$NWD_APP_PRO = '" + AppProtocol.Replace("'", "\'") + "';\n" +
                 "\t$NWD_APP_NAM = '" + AppName.Replace("'", "\'") + "';\n" +
                 "\t\t//-------------------- \n" +

@@ -88,7 +88,7 @@ namespace NetWorkedData
 			UnityAppKey = EditorGUILayout.TextField ("UnityAppKey", UnityAppKey);
 			TwitterAppKey = EditorGUILayout.TextField ("TwitterAppKey", TwitterAppKey);
 			EditorGUILayout.TextField ("Email to send forgotten code "+ Environment, EditorStyles.boldLabel);
-			//RescueEmail = EditorGUILayout.TextField ("RescueEmail", RescueEmail);
+			RescueEmail = EditorGUILayout.TextField ("RescueEmail", RescueEmail);
 			EditorGUILayout.TextField ("Admin Key for "+ Environment, EditorStyles.boldLabel);
 			AdminKey = EditorGUILayout.TextField ("AdminKey", AdminKey);
 			EditorGUILayout.TextField ("Token Historic limit for "+ Environment, EditorStyles.boldLabel);

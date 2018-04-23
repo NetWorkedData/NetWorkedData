@@ -67,7 +67,7 @@ namespace NetWorkedData
         public int WebTimeOut = 30;
 
         public float SpeedOfGameTime = 1.0F;
-        //public string RescueEmail = "no-reply@my-web-site.com";
+        public string RescueEmail = "no-reply@my-web-site.com";
         //		public string Version = "0.00.00";
 
         public string AccountsForTests = "";

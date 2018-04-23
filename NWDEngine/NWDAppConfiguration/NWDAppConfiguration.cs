@@ -188,7 +188,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string WebServiceFolder()
         {
-            return WebFolder + "_" + WebBuild.ToString("0000");
+            return WebFolder.TrimEnd('/').TrimStart('/') + "_" + WebBuild.ToString("0000");
         }
         //-------------------------------------------------------------------------------------------------------------
 		#endregion

@@ -190,7 +190,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.ServerPassword = \"" + this.ProdEnvironment.ServerPassword.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerBase = \"" + this.ProdEnvironment.ServerBase.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.AdminKey = \"" + this.ProdEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
-            //"\t\t\tthis.ProdEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.TokenHistoric = " + this.ProdEnvironment.TokenHistoric.ToString() + ";\n" +
 
                                                                 "\t\t\tthis.ProdEnvironment.MailHost =  \"" + this.ProdEnvironment.MailHost + " \";\n" +
@@ -236,7 +236,7 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.ServerPassword = \"" + this.PreprodEnvironment.ServerPassword.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerBase = \"" + this.PreprodEnvironment.ServerBase.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
-            //"\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString() + ";\n" +
 
                                                                 "\t\t\tthis.PreprodEnvironment.MailHost =  \"" + this.PreprodEnvironment.MailHost + " \";\n" +
@@ -298,7 +298,7 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.AdminKey = \"" + this.DevEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.AppProtocol = \"" + this.DevEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
-            // "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
+             "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SpeedOfGameTime = " + this.DevEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.DevEnvironment.BuildTimestamp = " + this.DevEnvironment.BuildTimestamp.ToString() + ";\n" +

@@ -46,17 +46,29 @@
 						}
 						else if ($tResult->num_rows == 1)
 						{
+							while($tRow = $tResult->fetch_array())
+							{
 							respondAdd('rescue',true);
+							$s = sha1($TIME_SYNC.$emailrescue.$NWD_SLT_SRV);
 								// ok I have one user
 								//TODO: send an email and process to change the password
+							$tQueryC = 'UPDATE `'.$ENV.'_NWDAccount` SET `ServerHash` = \''.$s.'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($tRow['Reference']).'\' AND `AC` = 1;';
+							$tResultC = $SQL_CON->query($tQueryC);
+							if (!$tResultC)
+							{
+								error('SGN03');
+							}
+							$tResetURL = $HTTP_URL.'/Environment/'.$ENV.'/rescue.php?s='.$s.'&emailrescue='.$emailrescue;
+						
 							$to      = $emailrescue;
 							$subject = $NWD_APP_NAM . ' : forgotten code';
-							$message = 'Bonjour, voici la procédure pour votre nouveau code : achètes un téléphone !' ."\r\n" .
-							' et cliques sur ce lien pour régénérer un nouveau code qui sera envoyé par email à ton oncle'."\r\n";
+							$message = "Hello,\r\n You forgot your password for the App $NWD_APP_NAM's account and ask to reset it. If you didn't ask the reset, ignore it.\n\r
+							Else, just click on this link to reset your password and receipt a new password by email: \r\n\r\nreset my password : $tResetURL\r\n\r\n Best regards,\r\n The $NWD_APP_NAM's team.";
 							$headers = 'From: '.$NWD_RES_MAIL.'' . "\r\n" .
 							'Reply-To: '.$NWD_RES_MAIL.'' . "\r\n" .
 							'X-Mailer: NetWorkedData-PHP/' . phpversion();
 							mail($to, $subject, $message, $headers);
+							}
 						}
 						else //or more than one user with this email … strange… I push an error, user must be unique
 						{
