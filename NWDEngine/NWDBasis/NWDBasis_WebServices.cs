@@ -11,11 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
-
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -53,6 +50,7 @@ namespace NetWorkedData
             {
                 tD = ProdSync;
             }
+
             if (tD > 0)
             {
                 return true;
@@ -88,10 +86,8 @@ namespace NetWorkedData
             {
                 return sEnvironment.PlayerAccountReference + PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
             }
-            else
-            {
-                return PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
-            }
+
+            return PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
@@ -226,7 +222,6 @@ namespace NetWorkedData
         /// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
         public static NWDBasis<K> SynchronizationTryToUse(NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         {
-            //Debug.Log("SynchronizationTryToUse ");
             NWDBasis<K> rReturn = null;
             string[] tDataArray = sData.Split(NWDConstants.kStandardSeparator.ToCharArray());
             for (int tI = 0; tI < tDataArray.Length; tI++)
@@ -238,6 +233,9 @@ namespace NetWorkedData
             if (tIntegrityTest == false)
             {
                 Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE");
+                #if UNITY_EDITOR
+                //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
+                #endif
             }
             if (tIntegrityTest == true || sForceToUse == true)
             {

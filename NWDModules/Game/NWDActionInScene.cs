@@ -1,7 +1,13 @@
-﻿using System.Collections;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2017 
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using BasicToolBox;
 using UnityEngine.Events;
 
@@ -9,6 +15,9 @@ using UnityEngine.Events;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    ///
+    /// </summary>
     public class NWDActionInScene : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------

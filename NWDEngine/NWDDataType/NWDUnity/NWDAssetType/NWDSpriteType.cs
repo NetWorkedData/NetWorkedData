@@ -49,16 +49,15 @@ namespace NetWorkedData
 		public Sprite ToSprite ()
 		{
             Sprite rSprite = null;
-            Debug.LogWarning("rSprite Value " + Value);
-			if (Value != null && Value != "") {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+			if (!string.IsNullOrEmpty(Value))
+            {
+				string tPath = Value.Replace(kAssetDelimiter, "");
 				#if UNITY_EDITOR
-				rSprite = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
-#else
+				rSprite = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
+                #else
                 tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
                 rSprite = Resources.Load (tPath, typeof(Sprite)) as Sprite;
-#endif
-                Debug.LogWarning("rSprite at path " + tPath);
+                #endif
                 if (rSprite == null)
                 {
                     Debug.LogWarning("rSprite is null at path " + tPath);
@@ -80,7 +79,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                    string tPath = Value.Replace(kAssetDelimiter, "");
                     Sprite tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
                     if (tObject == null)
                     {
