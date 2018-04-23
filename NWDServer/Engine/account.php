@@ -66,7 +66,7 @@
 							}
 								else
 							{
-									$subject = $NWD_APP_NAM.': Forgotten password';
+									$subject = $NWD_APP_NAM.': forgotten password';
 							}
 							if (isset($tError['Description']))
 							{
@@ -74,7 +74,13 @@
 							}
 							else
 							{
-								$message = 'Click here to reset your password : '.$tResetURL;
+								$message = "Hello,\n\r\n\r";
+								$message.= "You have requested to reset your password for the ".$NWD_APP_NAM." application.\n\r";
+								$message.= "If this request does not emanate from your action, ignore this email.\n\r";
+								$message.= "If you wish to reset your password, click on the link below:\n\r";
+								$message.= "\n\r".$tResetURL."\n\r\n\r";
+								$message.= "Best regards,\n\r";
+								$message.= "The ".$NWD_APP_NAM." team";
 							}
 							include('Mail.php');
 							$headers['From'] = $SMTP_REPLY;

@@ -75,7 +75,7 @@
 						}
 					else
 						{
-							$subject = $NWD_APP_NAM." : Password resetted";
+							$subject = $NWD_APP_NAM.': password';
 						}
 					if (isset($tError['Description']))
 						{
