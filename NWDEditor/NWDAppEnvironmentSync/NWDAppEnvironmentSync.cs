@@ -205,15 +205,14 @@ namespace NetWorkedData
                     }
                     else
                     {
+                        string tTitle = "ERROR";
                         string tDescription = "Unknown error (error code " + LastInfos.errorCode + ")";
                         if (LastInfos.errorDesc != null)
                         {
-                            if (LastInfos.errorDesc.Description != null && LastInfos.errorCode!=null)
-                            {
-                                tDescription = LastInfos.errorDesc.InternalKey + " : " + LastInfos.errorDesc.InternalDescription;
-                            }
+                            tTitle = LastInfos.errorDesc.Domain;
+                            tDescription = LastInfos.errorDesc.Code + " : " + LastInfos.errorDesc.Description.GetBaseString();
                         }
-                        EditorUtility.DisplayDialog("ERROR", tDescription, "Ok");
+                        EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
                     }
                 }
                 Repaint();
