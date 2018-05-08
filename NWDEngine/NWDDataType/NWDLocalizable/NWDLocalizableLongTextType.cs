@@ -34,13 +34,15 @@ namespace NetWorkedData
         public NWDLocalizableLongTextType()
         {
             Value = "";
+            AddBaseString("");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalizableLongTextType(string sValue = "")
         {
-            if (sValue == null)
+            if (string.IsNullOrEmpty(sValue))
             {
                 Value = "";
+                AddBaseString("");
             }
             else
             {
@@ -50,86 +52,86 @@ namespace NetWorkedData
             DicoPopulate();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NonSerializedAttribute]
-        private Dictionary<string, string> kSplitDico;
-        //-------------------------------------------------------------------------------------------------------------
-        private void DicoPopulate()
-        {
-            if (Value != null && Value != "")
-            {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string tValueArrayLine in tValueArray)
-                {
-                    string[] tLineValue = tValueArrayLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
-                    if (tLineValue.Length == 2)
-                    {
-                        string tLangague = tLineValue[0];
-                        string tText = tLineValue[1];
-                        if (kSplitDico.ContainsKey(tLangague) == false)
-                        {
-                            kSplitDico.Add(tLangague, tText);
-                        }
-                    }
-                    else if (tLineValue.Length == 1)
-                    {
-                        string tLangague = tLineValue[0];
-                        string tText = "";
-                        if (kSplitDico.ContainsKey(tLangague) == false)
-                        {
-                            kSplitDico.Add(tLangague, tText);
-                        }
-                    }
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private string SplitDico(string sKey)
-        {
-            string rReturn = "";
-            if (kSplitDico == null)
-            {
-                kSplitDico = new Dictionary<string, string>();
-                DicoPopulate();
-            }
-            if (kSplitDico.ContainsKey(sKey))
-            {
-                rReturn = kSplitDico[sKey];
-            }
-            else if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
-            {
-                rReturn = kSplitDico[NWDDataLocalizationManager.kBaseDev];
-            }
-            else
-            {
-                rReturn = "no value for key";
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddBaseString(string sValue)
-        {
-            AddValue(NWDDataLocalizationManager.kBaseDev, sValue);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddLocalString(string sValue)
-        {
-            AddValue(NWDDataManager.SharedInstance().PlayerLanguage, sValue);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetLocalString()
-        {
-            return NWDToolbox.TextUnprotect(SplitDico(NWDDataManager.SharedInstance().PlayerLanguage));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetBaseString()
-        {
-            return NWDToolbox.TextUnprotect(SplitDico(NWDDataLocalizationManager.kBaseDev));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetLanguageString(string sLanguage)
-        {
-            return NWDToolbox.TextUnprotect(SplitDico(sLanguage));
-        }
+        //[NonSerializedAttribute]
+        //private Dictionary<string, string> kSplitDico;
+        ////-------------------------------------------------------------------------------------------------------------
+        //private void DicoPopulate()
+        //{
+        //    if (Value != null && Value != "")
+        //    {
+        //        string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //        foreach (string tValueArrayLine in tValueArray)
+        //        {
+        //            string[] tLineValue = tValueArrayLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+        //            if (tLineValue.Length == 2)
+        //            {
+        //                string tLangague = tLineValue[0];
+        //                string tText = tLineValue[1];
+        //                if (kSplitDico.ContainsKey(tLangague) == false)
+        //                {
+        //                    kSplitDico.Add(tLangague, tText);
+        //                }
+        //            }
+        //            else if (tLineValue.Length == 1)
+        //            {
+        //                string tLangague = tLineValue[0];
+        //                string tText = "";
+        //                if (kSplitDico.ContainsKey(tLangague) == false)
+        //                {
+        //                    kSplitDico.Add(tLangague, tText);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //private string SplitDico(string sKey)
+        //{
+        //    string rReturn = "";
+        //    if (kSplitDico == null)
+        //    {
+        //        kSplitDico = new Dictionary<string, string>();
+        //        DicoPopulate();
+        //    }
+        //    if (kSplitDico.ContainsKey(sKey))
+        //    {
+        //        rReturn = kSplitDico[sKey];
+        //    }
+        //    else if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev))
+        //    {
+        //        rReturn = kSplitDico[NWDDataLocalizationManager.kBaseDev];
+        //    }
+        //    else
+        //    {
+        //        rReturn = "no value for key";
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void AddBaseString(string sValue)
+        //{
+        //    AddValue(NWDDataLocalizationManager.kBaseDev, sValue);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void AddLocalString(string sValue)
+        //{
+        //    AddValue(NWDDataManager.SharedInstance().PlayerLanguage, sValue);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string GetLocalString()
+        //{
+        //    return NWDToolbox.TextUnprotect(SplitDico(NWDDataManager.SharedInstance().PlayerLanguage));
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string GetBaseString()
+        //{
+        //    return NWDToolbox.TextUnprotect(SplitDico(NWDDataLocalizationManager.kBaseDev));
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string GetLanguageString(string sLanguage)
+        //{
+        //    return NWDToolbox.TextUnprotect(SplitDico(sLanguage));
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -258,6 +260,10 @@ namespace NetWorkedData
             }
             tResult.Remove("-"); // remove default value
             tResult.Remove(""); // remove empty value
+            if (tResult.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
+            {
+                tResult.Add(NWDDataLocalizationManager.kBaseDev, "");
+            }
             foreach (KeyValuePair<string, string> tKeyValue in tResult)
             {
                 tValueNextList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value);

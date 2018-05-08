@@ -15,6 +15,7 @@ using System.Reflection;
 using SQLite4Unity3d;
 
 using UnityEngine;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -75,11 +76,73 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Methods
         //-------------------------------------------------------------------------------------------------------------
+        public void NotNullChecker()
+        {
+            //Debug.Log("NotNullChecker()");
+            Type tType = ClassType();
+            List<string> tPropertiesList = PropertiesOrderArray();
+            foreach (string tPropertieName in tPropertiesList)
+            {
+                PropertyInfo tProp = tType.GetProperty(tPropertieName);
+                if (tProp != null)
+                {
+                    object tValue = tProp.GetValue(this, null);
+                    if (tValue == null)
+                    {
+                        // What the fuck ... NWD want not null value!
+
+                            Debug.Log(" null detect in " + tProp.Name + " value");
+
+                        if (tProp.PropertyType == typeof(Boolean) ||
+                            tProp.PropertyType == typeof(Byte) ||
+                            tProp.PropertyType == typeof(UInt16) ||
+                            tProp.PropertyType == typeof(SByte) ||
+                            tProp.PropertyType == typeof(Int16) ||
+                            tProp.PropertyType == typeof(Int32) ||
+                            tProp.PropertyType == typeof(UInt32) ||
+                            tProp.PropertyType == typeof(Int64) ||
+                            tProp.PropertyType == typeof(Single) ||
+                            tProp.PropertyType == typeof(Double) ||
+                            tProp.PropertyType == typeof(Decimal) ||
+                            tProp.PropertyType == typeof(TimeSpan) ||
+                            tProp.PropertyType == typeof(DateTime) ||
+                            tProp.PropertyType == typeof(DateTimeOffset)
+                    )
+                        {
+                            tProp.SetValue(this, 0, null);
+#if !NETFX_CORE
+                        } else if (tProp.PropertyType.IsEnum) {
+#else
+                        } else if (tProp.PropertyType.GetTypeInfo().IsEnum) {
+#endif
+                            tProp.SetValue(this, 0 , null);
+                        }
+                        else if (tProp.PropertyType == typeof(byte[]) ||
+                                 tProp.PropertyType == typeof(Guid) ||
+                                 tProp.PropertyType == typeof(string))
+                        {
+                            tProp.SetValue(this, "", null);
+                        }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
+                        {
+                            Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            tProp.SetValue(this, tValue, null);
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Updates the integrity. Set the integrity value of object's data in the field Integrity.
         /// </summary>
         public void UpdateIntegrity()
         {
+            NotNullChecker();
             Integrity = IntegrityValue();
         }
         //-------------------------------------------------------------------------------------------------------------

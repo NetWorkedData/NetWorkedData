@@ -259,6 +259,20 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.CreateTableByType(sType);
             }
+                }
+        //-------------------------------------------------------------------------------------------------------------
+        public void MigrateTable(Type sType, bool sAccountConnected)
+        {
+            ConnectToDatabase();
+
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.MigrateTableByType(sType);
+            }
+            else
+            {
+                SQLiteConnectionEditor.MigrateTableByType(sType);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void EmptyTable(Type sType, bool sAccountConnected)

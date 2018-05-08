@@ -57,6 +57,7 @@ namespace NetWorkedData
         public static int kVeryLongString = 15;
         public static float kPrefabSize = 80.0f;
         public static float kIntWidth = 36.0f;
+        public static float kConWidth = 42.0f;
         public static float kIconWidth = 36.0f;
         public static float kEditWidth = 16.0f;
         public static float kEditWidthHalf = 8.0f;
