@@ -1010,7 +1010,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ee477651322eb41089627e358a78be8d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64d1969fe32d1483094f3436b57691da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1095,8 +1095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ade0c4685ff4c4683235c086bce89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ButtonShowLog: {fileID: 114073285438264472}
-  ButtonShowAccount: {fileID: 114805602479945448}
+  ButtonShowLog: {fileID: 0}
+  ButtonShowAccount: {fileID: 0}
 --- !u!114 &114151713975281466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1743,17 +1743,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398725eaec82d416b97bfd74b5b7bdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextEnvironment: {fileID: 114916924789690828}
-  TextAccount: {fileID: 114706733220317590}
-  TextToken: {fileID: 114229738621979960}
-  TextAnonymousAccount: {fileID: 114174196965570884}
-  TextAnonymousToken: {fileID: 114279148721747456}
-  TextWebResult: {fileID: 114230144933654976}
-  TextNetworkResult: {fileID: 114759436043089710}
-  DropdownAccountList: {fileID: 114599057879445902}
-  TextLogin: {fileID: 114778744760483196}
-  TextLogout: {fileID: 114020189551314158}
-  TextSynchronize: {fileID: 114162639788941846}
+  TextEnvironment: {fileID: 0}
+  TextAccount: {fileID: 0}
+  TextToken: {fileID: 0}
+  TextAnonymousAccount: {fileID: 0}
+  TextAnonymousToken: {fileID: 0}
+  TextWebResult: {fileID: 0}
+  TextNetworkResult: {fileID: 0}
+  DropdownAccountList: {fileID: 0}
+  TextLogin: {fileID: 0}
+  TextLogout: {fileID: 0}
+  TextSynchronize: {fileID: 0}
 --- !u!114 &114430748731456852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1800,7 +1800,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ee477651322eb41089627e358a78be8d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64d1969fe32d1483094f3436b57691da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2467,10 +2467,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Overlay: 1
-  WidthPercent: 1
+  WidthPercent: 0.3
   FontSizePercent: 0.02
-  BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  FontNormalColor: {r: 1, g: 1, b: 1, a: 1}
+  BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.2}
+  FontNormalColor: {r: 0, g: 0, b: 0.5, a: 1}
   FontAlertColor: {r: 1, g: 0, b: 0, a: 1}
   FramePerSecond: 1
   FramePerSecondMinAlert: 25
@@ -3227,7 +3227,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 108.5, y: 28.399992}
+  m_AnchoredPosition: {x: 108.5, y: 28.399994}
   m_SizeDelta: {x: 66, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224034057833865754
@@ -3323,7 +3323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 39, y: 28.4}
+  m_AnchoredPosition: {x: 39, y: 28.399994}
   m_SizeDelta: {x: 66, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224146951988595008
@@ -3559,7 +3559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 254.6, y: 28.4}
+  m_AnchoredPosition: {x: 254.6, y: 28.399994}
   m_SizeDelta: {x: 80.599, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224357732000057228
@@ -3896,7 +3896,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 177.9, y: 28.399992}
+  m_AnchoredPosition: {x: 177.9, y: 28.399994}
   m_SizeDelta: {x: 66, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224720803302322454
