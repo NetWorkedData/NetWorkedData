@@ -17,6 +17,187 @@ namespace NetWorkedData
         public const string kBaseDev = "BASE";
         public string LanguagesString = kBaseDev + ";de;en;es;fr;it;ja;ko;pt;ru;th";
         public Dictionary<string, string> LanguageDico = new Dictionary<string, string>();
+        public const string kLANGUAGE_CHANGED_NOTIFICATION = "kLANGUAGE_CHANGED_NOTIFICATION";
+        static public string SystemLanguageString ()
+        {
+            string tReturn = "";
+            SystemLanguage tLocalLanguage = Application.systemLanguage;
+            switch (tLocalLanguage)
+            {
+                //case SystemLanguage.Afrikaans:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Arabic:
+                    tReturn = "ar";
+                    break;
+
+                //case SystemLanguage.Basque:
+                    //tReturn = "??";
+                    //break;
+
+                //case SystemLanguage.Belarusian:
+                    //tReturn = "??";
+                    //break;
+
+                //case SystemLanguage.Bulgarian:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Catalan:
+                    tReturn = "ca";
+                    break;
+
+                case SystemLanguage.Chinese:
+                    tReturn = "zh";
+                    break;
+
+                case SystemLanguage.Czech:
+                    tReturn = "cs";
+                    break;
+
+                case SystemLanguage.Danish:
+                    tReturn = "da";
+                    break;
+
+                case SystemLanguage.Dutch:
+                    tReturn = "nl";
+                    break;
+
+                case SystemLanguage.English:
+                    tReturn = "en";
+                    break;
+
+                //case SystemLanguage.Estonian:
+                    //tReturn = "??";
+                    //break;
+
+                //case SystemLanguage.Faroese:
+                    //tUserLanguage.Value = "??";
+                    //break;
+
+                case SystemLanguage.Finnish:
+                    tReturn = "fi";
+                    break;
+
+                case SystemLanguage.French:
+                    tReturn = "fr";
+                    break;
+
+                case SystemLanguage.German:
+                    tReturn = "de";
+                    break;
+
+                case SystemLanguage.Greek:
+                    tReturn = "el";
+                    break;
+
+                case SystemLanguage.Hebrew:
+                    tReturn = "he";
+                    break;
+
+                case SystemLanguage.Hungarian:
+                    tReturn = "hu";
+                    break;
+
+                //case SystemLanguage.Icelandic:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Indonesian:
+                    tReturn = "id";
+                    break;
+
+                case SystemLanguage.Italian:
+                    tReturn = "it";
+                    break;
+
+                case SystemLanguage.Japanese:
+                    tReturn = "ja";
+                    break;
+
+                case SystemLanguage.Korean:
+                    tReturn = "ko";
+                    break;
+
+                //case SystemLanguage.Latvian:
+                    //tReturn = "??";
+                    //break;
+
+                //case SystemLanguage.Lithuanian:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Norwegian:
+                    tReturn = "nb";
+                    break;
+
+                case SystemLanguage.Polish:
+                    tReturn = "pl";
+                    break;
+
+                //case SystemLanguage.Portuguese:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Romanian:
+                    tReturn = "ro";
+                    break;
+
+                case SystemLanguage.Russian:
+                    tReturn = "ru";
+                    break;
+
+                //case SystemLanguage.SerboCroatian:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Slovak:
+                    tReturn = "sk";
+                    break;
+
+                //case SystemLanguage.Slovenian:
+                    //tReturn = "??";
+                    //break;
+
+                case SystemLanguage.Spanish:
+                    tReturn = "es";
+                    break;
+
+                case SystemLanguage.Swedish:
+                    tReturn = "sv";
+                    break;
+
+                case SystemLanguage.Thai:
+                    tReturn = "th";
+                    break;
+
+                case SystemLanguage.Turkish:
+                    tReturn = "tr";
+                    break;
+
+                case SystemLanguage.Ukrainian:
+                    tReturn = "uk";
+                    break;
+
+                case SystemLanguage.Vietnamese:
+                    tReturn = "vi";
+                    break;
+
+                case SystemLanguage.ChineseSimplified:
+                    tReturn = "zhs";
+                    break;
+
+                case SystemLanguage.ChineseTraditional:
+                    tReturn = "zht";
+                    break;
+
+                default:
+                    tReturn = "en";
+                    break;
+            }
+            return tReturn;
+        }
 
         public NWDDataLocalizationManager()
         {

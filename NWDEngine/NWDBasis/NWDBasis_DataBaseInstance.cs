@@ -640,7 +640,6 @@ namespace NetWorkedData
         public void DeleteMe()
         {
             NWDDataManager.SharedInstance().DeleteObject(this, AccountDependent());
-
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

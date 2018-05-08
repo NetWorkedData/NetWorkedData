@@ -218,7 +218,8 @@ namespace NetWorkedData
             else
             {
 				#if UNITY_EDITOR
-                EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
+                //EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
+                Debug.LogWarning("AutoLocalize : Text component is null ");
 				#endif
             }
 		}

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using BasicToolBox;
+using System;
 
 //=====================================================================================================================
 
@@ -54,6 +55,10 @@ namespace NetWorkedData
         /// Dropdown menu with list of account
         /// </summary>
         public Dropdown DropdownAccountList;
+        /// <summary>
+        /// Dropdown menu with list of account
+        /// </summary>
+        public Dropdown DropdownLocalizationList;
         /// <summary>
         /// The text for login
         /// </summary>
@@ -175,7 +180,7 @@ namespace NetWorkedData
 					TextNetworkResult.text = "<color=orange><b>UNKNOW</b></color>";
 				}
 			});
-
+            InitLocalizationList();
             InitAccountList();
             SynchronizeTest();
 
@@ -203,7 +208,55 @@ namespace NetWorkedData
 
             TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
 			TextAnonymousToken.text = "????";
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void InitLocalizationList()
+        {
+            // Create List array
+            List<string> tOptions = new List<string>();
+            List<string> tOptionsResult = new List<string>();
+
+            // Clear the menu
+            DropdownLocalizationList.ClearOptions();
+
+            Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
+            foreach (KeyValuePair<string, string> tKeyValue in tLanguageDico)
+            {
+                bool tContains = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Contains(tKeyValue.Value);
+                if (tContains)
+                {
+                    tOptions.Add(tKeyValue.Key);
+                    tOptionsResult.Add(tKeyValue.Value);
+                }
+            }
+
+            // Add options to the menu
+            DropdownLocalizationList.AddOptions(tOptions);
+
+            int tlocalizableIndex = tOptionsResult.IndexOf(NWDDataManager.SharedInstance().PlayerLanguage);
+
+            // Set active option
+            DropdownLocalizationList.value = tlocalizableIndex;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ChangeLanguageAction()
+        {
+            Debug.Log("start with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
+            List<string> tOptionsResult = new List<string>();
+            Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
+            foreach (KeyValuePair<string, string> tKeyValue in tLanguageDico)
+            {
+                bool tContains = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Contains(tKeyValue.Value);
+                if (tContains)
+                {
+                    tOptionsResult.Add(tKeyValue.Value);
+                }
+            }
+            NWDDataManager.SharedInstance().PlayerLanguageSave(tOptionsResult[DropdownLocalizationList.value]);
+            Debug.Log("finish with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
+
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDDataLocalizationManager.kLANGUAGE_CHANGED_NOTIFICATION);
+        }
         //-------------------------------------------------------------------------------------------------------------
         void InitAccountList()
         {

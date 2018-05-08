@@ -50,29 +50,33 @@ namespace NetWorkedData
             return NWDTypeLauncher.IsLaunched;
         }
         //-------------------------------------------------------------------------------------------------------------
+        const string PlayerLanguageKey = "PlayerLanguageKey";
+        //-------------------------------------------------------------------------------------------------------------
+        public void PlayerLanguageSave(string sNewLanguage)
+        {
+            NWDPreferences tUserLanguage = NWDPreferences.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, "");
+            tUserLanguage.Value.SetString(sNewLanguage);
+            tUserLanguage.SaveModifications();
+            PlayerLanguage = sNewLanguage;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string PlayerLanguageLoad()
+        {
+            NWDPreferences tUserLanguage = NWDPreferences.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey,"");
+            if (tUserLanguage.Value.GetString() == "")
+            {
+                tUserLanguage.Value.SetString(NWDDataLocalizationManager.SystemLanguageString());
+                tUserLanguage.SaveModifications();
+            }
+            PlayerLanguage = tUserLanguage.Value.GetString();
+            return PlayerLanguage;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		private NWDDataManager ()
-		{
+        {
+            PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
             //Debug.Log("NWDDataManager private Constructor");
 			//NotificationCenter = BTBNotificationManager.SharedInstance();
-			SystemLanguage tLocalLanguage = Application.systemLanguage;
-			switch (tLocalLanguage) {
-    			case SystemLanguage.Afrikaans:
-    				PlayerLanguage = "aff";
-    				break;
-
-    			case SystemLanguage.French:
-    				PlayerLanguage = "fr";
-    				break;
-
-    			case SystemLanguage.English:
-    				PlayerLanguage = "en";
-    				break;
-
-    			default :
-    				PlayerLanguage = "en";
-    				break;
-			}
-
 			LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 		}
 		//-------------------------------------------------------------------------------------------------------------
