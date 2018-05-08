@@ -26,11 +26,180 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDReferencesQuantityType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public enum NWDConditional : int
+    {
+        EqualTo = 0,
+        UpperThan =1,
+        UpperThanOrEqual = 2,
+        LowerThan = 3,
+        LowerThanOrEqual = 4,
+        DifferentTo = 5,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
+    public class NWDReferenceQuantityConditional<K> : BTBDataType where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesQuantityType()
+        public string Reference;
+        public int Quantity;
+        public NWDConditional Condition;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferenceQuantityConditional(string sValue)
+        {
+            string[] tLineValue = sValue.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+            if (tLineValue.Length == 2)
+            {
+                Reference = tLineValue[0];
+                int.TryParse(tLineValue[1], out Quantity);
+                Condition = NWDConditional.EqualTo;
+            }
+            if (tLineValue.Length == 3)
+            {
+                Reference = tLineValue[0];
+                int.TryParse(tLineValue[1], out Quantity);
+                Condition = (NWDConditional)Enum.Parse(typeof(NWDConditional), tLineValue[2], true);
+            }
+            ReEvalute();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferenceQuantityConditional(string sReference, int sQuantity, NWDConditional sCondition)
+        {
+            Reference = sReference;
+            Quantity = sQuantity;
+            Condition = sCondition;
+            ReEvalute();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ReEvalute()
+        {
+            Value = Reference + NWDConstants.kFieldSeparatorB + Quantity + NWDConstants.kFieldSeparatorB + Condition.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Description()
+        {
+            K tObject = NWDBasis<K>.GetObjectByReference(Reference);
+            string rDescription = Reference;
+            if (tObject == null)
+            {
+                rDescription = Reference+" (in error) ";
+            }
+            else if (tObject.InternalKey == null)
+            {
+                rDescription = tObject.InternalKey;
+            }
+            switch (Condition)
+            {
+                case NWDConditional.DifferentTo:
+                    {
+                        rDescription += " != " + Quantity +"\r\n";
+                    }
+                    break;
+                case NWDConditional.EqualTo:
+                    {
+                        rDescription += " !== " + Quantity+ "\r\n";
+                    }
+                    break;
+                case NWDConditional.UpperThan:
+                    {
+                        rDescription += " > " + Quantity+ "\r\n";
+                    }
+                    break;
+                case NWDConditional.UpperThanOrEqual:
+                    {
+                        rDescription += " >= " + Quantity+ "\r\n";
+                    }
+                    break;
+                case NWDConditional.LowerThan:
+                    {
+
+                        rDescription += " < " + Quantity+ "\r\n";
+                    }
+                    break;
+                case NWDConditional.LowerThanOrEqual:
+                    {
+                        rDescription += " <= " + Quantity+ "\r\n";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return rDescription;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public K GetObject()
+        {
+           return NWDBasis<K>.GetObjectByReference(Reference);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool isValid(int sQuantity)
+        {
+            bool rReturn = true;
+            switch (Condition)
+            {
+                case NWDConditional.DifferentTo :
+                    {
+                        if (sQuantity == Quantity)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    break;
+                case NWDConditional.EqualTo:
+                    {
+                        if (sQuantity != Quantity)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    break;
+                case NWDConditional.UpperThan:
+                    {
+                        if (sQuantity <= Quantity)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    break;
+                case NWDConditional.UpperThanOrEqual:
+                    {
+                        if (sQuantity < Quantity)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    break;
+                case NWDConditional.LowerThan:
+                    {
+                        if (sQuantity >= Quantity)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    break;
+                case NWDConditional.LowerThanOrEqual:
+                    {
+                        if (sQuantity > Quantity)
+                        {
+                            rReturn = false;
+                        }
+                    }
+                    break;
+                default :
+                    break;
+            }
+
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
+    public class NWDReferencesConditionalType<K> : BTBDataType where K : NWDBasis<K>, new()
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesConditionalType()
         {
             Value = "";
         }
@@ -65,137 +234,136 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainedIn(NWDReferencesQuantityType<K> sReferencesQuantity, bool sExceptIfIsEmpty = true)
-        {
-            bool rReturn = true;
-            if (sExceptIfIsEmpty && Value == "")
-            {
-                return false;
-            }
-            // I compare all elemnt
-            Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
+        //public bool ContainedIn(NWDReferencesConditionalType<K> sReferencesQuantity, bool sExceptIfIsEmpty = true)
+        //{
+        //    bool rReturn = true;
+        //    if (sExceptIfIsEmpty && Value == "")
+        //    {
+        //        return false;
+        //    }
+        //    // I compare all elemnt
+        //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
+        //    Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
+        //    foreach (KeyValuePair<string, int> tKeyValue in tThis)
+        //    {
+        //        if (tOther.ContainsKey(tKeyValue.Key) == false)
+        //        {
+        //            rReturn = false;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            if (tKeyValue.Value > tOther[tKeyValue.Key])
+        //            {
+        //                return false;
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool ContainsReferencesQuantity(NWDReferencesConditionalType<K> sReferencesQuantity)
+        //{
+        //    bool rReturn = true;
+        //    // I compare all elemnt
+        //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
+        //    Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
 
-            foreach (KeyValuePair<string, int> tKeyValue in tThis)
-            {
-                if (tOther.ContainsKey(tKeyValue.Key) == false)
-                {
-                    rReturn = false;
-                    break;
-                }
-                else
-                {
-                    if (tKeyValue.Value > tOther[tKeyValue.Key])
-                    {
-                        return false;
-                    }
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReferencesQuantity(NWDReferencesQuantityType<K> sReferencesQuantity)
-        {
-            bool rReturn = true;
-            // I compare all elemnt
-            Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
+        //    foreach (KeyValuePair<string, int> tKeyValue in tOther)
+        //    {
+        //        if (tThis.ContainsKey(tKeyValue.Key) == false)
+        //        {
+        //            rReturn = false;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            if (tKeyValue.Value > tThis[tKeyValue.Key])
+        //            {
+        //                return false;
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public bool RemoveReferencesQuantity(NWDReferencesConditionalType<K> sReferencesQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //{
+        //    //TODO : add comment to explain the used of a boolean
+        //    bool rReturn = ContainsReferencesQuantity(sReferencesQuantity);
+        //    if (rReturn == true)
+        //    {
+        //        Dictionary<string, int> tThis = GetReferenceAndQuantity();
+        //        Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
+        //        foreach (KeyValuePair<string, int> tKeyValue in tOther)
+        //        {
+        //            //TODO : check negative value
+        //            //TODO : use RemoveObjectQuantity
+        //            tThis[tKeyValue.Key] = tThis[tKeyValue.Key] - tKeyValue.Value;
+        //        }
+        //        SetReferenceAndQuantity(tThis);
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void RemoveObjectQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //{
+        //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
+        //    if (tThis.ContainsKey(sObject.Reference) == false)
+        //    {
+        //        tThis.Add(sObject.Reference, -sQuantity);
+        //    }
+        //    else
+        //    {
+        //        tThis[sObject.Reference] = tThis[sObject.Reference] - sQuantity;
+        //    }
 
-            foreach (KeyValuePair<string, int> tKeyValue in tOther)
-            {
-                if (tThis.ContainsKey(tKeyValue.Key) == false)
-                {
-                    rReturn = false;
-                    break;
-                }
-                else
-                {
-                    if (tKeyValue.Value > tThis[tKeyValue.Key])
-                    {
-                        return false;
-                    }
-                }
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool RemoveReferencesQuantity(NWDReferencesQuantityType<K> sReferencesQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
-        {
-            //TODO : add comment to explain the used of a boolean
-            bool rReturn = ContainsReferencesQuantity(sReferencesQuantity);
-            if (rReturn == true)
-            {
-                Dictionary<string, int> tThis = GetReferenceAndQuantity();
-                Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
-                foreach (KeyValuePair<string, int> tKeyValue in tOther)
-                {
-                    //TODO : check negative value
-                    //TODO : use RemoveObjectQuantity
-                    tThis[tKeyValue.Key] = tThis[tKeyValue.Key] - tKeyValue.Value;
-                }
-                SetReferenceAndQuantity(tThis);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjectQuantity(NWDBasis<K> sObject, int sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
-        {
-            Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            if (tThis.ContainsKey(sObject.Reference) == false)
-            {
-                tThis.Add(sObject.Reference, -sQuantity);
-            }
-            else
-            {
-                tThis[sObject.Reference] = tThis[sObject.Reference] - sQuantity;
-            }
+        //    if (sCanBeNegative == false && tThis[sObject.Reference] < 0)
+        //    {
+        //        tThis[sObject.Reference] = 0;
+        //    }
 
-            if (sCanBeNegative == false && tThis[sObject.Reference] < 0)
-            {
-                tThis[sObject.Reference] = 0;
-            }
+        //    if (sRemoveEmpty == true && tThis[sObject.Reference] == 0)
+        //    {
+        //        tThis.Remove(sObject.Reference);
+        //    }
 
-            if (sRemoveEmpty == true && tThis[sObject.Reference] == 0)
-            {
-                tThis.Remove(sObject.Reference);
-            }
-
-            SetReferenceAndQuantity(tThis);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddReferencesQuantity(NWDReferencesQuantityType<K> sReferencesQuantity)
-        {
-            // I compare all element
-            Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
-            foreach (KeyValuePair<string, int> tKeyValue in tOther)
-            {
-                if (tThis.ContainsKey(tKeyValue.Key) == false)
-                {
-                    tThis.Add(tKeyValue.Key, tKeyValue.Value);
-                }
-                else
-                {
-                    tThis[tKeyValue.Key] = tThis[tKeyValue.Key] + tKeyValue.Value;
-                }
-            }
-            SetReferenceAndQuantity(tThis);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectQuantity(NWDBasis<K> sObject, int sQuantity)
-        {
-            // I compare all element
-            Dictionary<string, int> tThis = GetReferenceAndQuantity();
-            if (tThis.ContainsKey(sObject.Reference) == false)
-            {
-                tThis.Add(sObject.Reference, sQuantity);
-            }
-            else
-            {
-                tThis[sObject.Reference] = tThis[sObject.Reference] + sQuantity;
-            }
-            SetReferenceAndQuantity(tThis);
-        }
+        //    SetReferenceAndQuantity(tThis);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void AddReferencesQuantity(NWDReferencesConditionalType<K> sReferencesQuantity)
+        //{
+        //    // I compare all element
+        //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
+        //    Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
+        //    foreach (KeyValuePair<string, int> tKeyValue in tOther)
+        //    {
+        //        if (tThis.ContainsKey(tKeyValue.Key) == false)
+        //        {
+        //            tThis.Add(tKeyValue.Key, tKeyValue.Value);
+        //        }
+        //        else
+        //        {
+        //            tThis[tKeyValue.Key] = tThis[tKeyValue.Key] + tKeyValue.Value;
+        //        }
+        //    }
+        //    SetReferenceAndQuantity(tThis);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void AddObjectQuantity(NWDBasis<K> sObject, int sQuantity)
+        //{
+        //    // I compare all element
+        //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
+        //    if (tThis.ContainsKey(sObject.Reference) == false)
+        //    {
+        //        tThis.Add(sObject.Reference, sQuantity);
+        //    }
+        //    else
+        //    {
+        //        tThis[sObject.Reference] = tThis[sObject.Reference] + sQuantity;
+        //    }
+        //    SetReferenceAndQuantity(tThis);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
@@ -250,12 +418,12 @@ namespace NetWorkedData
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetReferenceAndQuantity(Dictionary<string, int> sDico)
+        public void SetReferenceQuantityConditional(List<NWDReferenceQuantityConditional<K>> sList)
         {
             List<string> tValueList = new List<string>();
-            foreach (KeyValuePair<string, int> tKeyValue in sDico)
+            foreach (NWDReferenceQuantityConditional<K> tKeyValue in sList)
             {
-                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString());
+                tValueList.Add(tKeyValue.Value);
             }
             string[] tNextValueArray = tValueList.Distinct().ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
@@ -263,73 +431,78 @@ namespace NetWorkedData
             Value = tNextValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, int> GetReferenceAndQuantity()
+        public List<NWDReferenceQuantityConditional<K>> GetReferenceQuantityConditional()
         {
-            Dictionary<string, int> tValueDico = new Dictionary<string, int>();
+            List<NWDReferenceQuantityConditional<K>> rList = new List<NWDReferenceQuantityConditional<K>>();
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
                 {
-                    string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
-                    if (tLineValue.Length == 2)
-                    {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
-                        tValueDico.Add(tLineValue[0], tQ);
-                    }
+                    rList.Add(new NWDReferenceQuantityConditional<K>(tLine));
                 }
             }
-            return tValueDico;
+            return rList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantity(string sAccountReference = null)
+        public string Description()
         {
-            Dictionary<K, int> tValueDico = new Dictionary<K, int>();
-            if (Value != null && Value != "")
+            List<NWDReferenceQuantityConditional<K>> tList = GetReferenceQuantityConditional();
+            string rDescription = "";
+            foreach (NWDReferenceQuantityConditional<K> tKeyValue in tList)
             {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string tLine in tValueArray)
-                {
-                    string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
-                    if (tLineValue.Length == 2)
-                    {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
-                        if (tObject != null)
-                        {
-                            tValueDico.Add(tObject, tQ);
-                        }
-                    }
-                }
+                rDescription += tKeyValue.Description();
             }
-            return tValueDico;
+            return rDescription;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, int> GetObjectAndQuantityAbsolute()
-        {
-            Dictionary<K, int> tValueDico = new Dictionary<K, int>();
-            if (Value != null && Value != "")
-            {
-                string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string tLine in tValueArray)
-                {
-                    string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
-                    if (tLineValue.Length == 2)
-                    {
-                        int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
-                        if (tObject != null)
-                        {
-                            tValueDico.Add(tObject, tQ);
-                        }
-                    }
-                }
-            }
-            return tValueDico;
-        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public Dictionary<K, int> GetObjectAndQuantity(string sAccountReference = null)
+        //{
+        //    Dictionary<K, int> tValueDico = new Dictionary<K, int>();
+        //    if (Value != null && Value != "")
+        //    {
+        //        string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //        foreach (string tLine in tValueArray)
+        //        {
+        //            string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+        //            if (tLineValue.Length == 2)
+        //            {
+        //                int tQ = 0;
+        //                int.TryParse(tLineValue[1], out tQ);
+        //                K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
+        //                if (tObject != null)
+        //                {
+        //                    tValueDico.Add(tObject, tQ);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return tValueDico;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public Dictionary<K, int> GetObjectAndQuantityAbsolute()
+        //{
+        //    Dictionary<K, int> tValueDico = new Dictionary<K, int>();
+        //    if (Value != null && Value != "")
+        //    {
+        //        string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+        //        foreach (string tLine in tValueArray)
+        //        {
+        //            string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
+        //            if (tLineValue.Length == 2)
+        //            {
+        //                int tQ = 0;
+        //                int.TryParse(tLineValue[1], out tQ);
+        //                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
+        //                if (tObject != null)
+        //                {
+        //                    tValueDico.Add(tObject, tQ);
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return tValueDico;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public List<K> ExploseInItemsList()
         {
@@ -356,25 +529,6 @@ namespace NetWorkedData
                 }
             }
             return rList;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Description()
-        {
-            string rDescription = "";
-            Dictionary<string, int> tDescDico = GetReferenceAndQuantity();
-            foreach (KeyValuePair<string, int> tKeyValue in tDescDico)
-            {
-                K tObject = NWDBasis<K>.GetObjectByReference(tKeyValue.Key);
-                if (tObject == null)
-                {
-                    rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;
-                }
-                else
-                {
-                    rDescription = tObject.InternalKey + " : " + tKeyValue.Value;
-                }
-            }
-            return rDescription;
         }
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
@@ -410,12 +564,12 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
-        {
-            K tNewObject = NWDBasis<K>.NewObject();
-            this.AddObjectQuantity(tNewObject,1);
-            NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
-        }
+        //public void EditorAddNewObject()
+        //{
+        //    K tNewObject = NWDBasis<K>.NewObject();
+        //    this.AddObjectQuantity(tNewObject,1);
+        //    NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public List<string> ReferenceInError(List<string> sReferencesList)
         {
@@ -469,7 +623,7 @@ namespace NetWorkedData
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
-            NWDReferencesQuantityType<K> tTemporary = new NWDReferencesQuantityType<K>();
+            NWDReferencesConditionalType<K> tTemporary = new NWDReferencesConditionalType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
             Type sFromType = typeof(K);
@@ -479,6 +633,7 @@ namespace NetWorkedData
             float tY = sPosition.position.y;
 
             float tIntWidth = NWDConstants.kIntWidth;
+            float tConWidth = NWDConstants.kConWidth;
             float tEditWidth = NWDConstants.kEditWidth;
 
             bool tConnection = true;
@@ -536,6 +691,7 @@ namespace NetWorkedData
 
                 int tIndex = 0;
                 int tQ = 1;
+                int tC = 0;
                 string tV = "";
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
@@ -545,8 +701,16 @@ namespace NetWorkedData
                     tIndex = tReferenceList.IndexOf(tV);
                     int.TryParse(tLineValue[1], out tQ);
                 }
+                if (tLineValue.Length == 3)
+                {
+                    tV = tLineValue[0];
+                    tIndex = tReferenceList.IndexOf(tV);
+                    int.TryParse(tLineValue[1], out tQ);
+                   // tC = (NWDConditional)Enum.Parse(typeof(NWDConditional), tLineValue[2], true);
+                    int.TryParse(tLineValue[2], out tC);
+                }
 
-                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge*3, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
+                tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tConWidth - tEditWidth - NWDConstants.kFieldMarge*2, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
 
                 if (tValueListERROR.Contains(tV))
                 {
@@ -555,8 +719,12 @@ namespace NetWorkedData
 
                 if (tIndex > 0)
                 {
+                    //tC = (NWDConditional)EditorGUI.EnumPopup(new Rect(tX + tWidth - tIntWidth * 2 - tEditWidth - NWDConstants.kFieldMarge * 4, tY, tIntWidth + NWDConstants.kFieldMarge,NWDConstants.kTextFieldStyle.fixedHeight),
+                                                             //tC);
+                    tC = EditorGUI.Popup(new Rect(tX + tWidth - tIntWidth - tConWidth - tEditWidth - NWDConstants.kFieldMarge * 4, tY, tConWidth + NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight),
+                                         tC, new string[] { "=", ">", ">=", "<", "=<", "!" });
 
-             //remove EditorGUI.indentLevel to draw next controller without indent 
+                    //remove EditorGUI.indentLevel to draw next controller without indent 
                     int tIndentLevel = EditorGUI.indentLevel;
                     EditorGUI.indentLevel = 0;
                     tQ = EditorGUI.IntField(new Rect(tX + tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge * 2, tY, tIntWidth + NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight), tQ);
@@ -575,7 +743,7 @@ namespace NetWorkedData
                     if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tNewContent, NWDConstants.kPopupButtonStyle))
                     {
                         NWDBasis<K> tNewObject = NWDBasis<K>.NewObject();
-                        tNewReferenceQuantity = NWDConstants.kFieldSeparatorA+ tNewObject.Reference + NWDConstants.kFieldSeparatorB + "1";
+                        tNewReferenceQuantity = NWDConstants.kFieldSeparatorA+ tNewObject.Reference + NWDConstants.kFieldSeparatorB + "1"+ tNewObject.Reference + NWDConstants.kFieldSeparatorB + "0";
                         NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
                     }
                 }
@@ -585,11 +753,12 @@ namespace NetWorkedData
                 if (tIndex > 0 && tIndex < tReferenceList.Count)
                 {
                     //if (tQ != 0) {
-                    if (!tValueListReferenceAllReady.Contains(tReferenceList.ElementAt(tIndex)))
-                    {
-                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString();
-                        tValueListReferenceAllReady.Add(tReferenceList.ElementAt(tIndex));
-                    }
+                    // no dupplicate reference
+                   // if (!tValueListReferenceAllReady.Contains(tReferenceList.ElementAt(tIndex)))
+                   // {
+                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString()+ NWDConstants.kFieldSeparatorB + tC.ToString();
+                   //     tValueListReferenceAllReady.Add(tReferenceList.ElementAt(tIndex));
+                   // }
                 }
                 else
                 {
@@ -616,12 +785,25 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
-                    Dictionary<string, int> tDicoClean = GetReferenceAndQuantity();
-                    foreach (string tDeleteReference in tValueListERROR)
+                    List<NWDReferenceQuantityConditional<K>> tListToNanlyze = GetReferenceQuantityConditional();
+                    List<NWDReferenceQuantityConditional<K>> tListCleaned = new List<NWDReferenceQuantityConditional<K>>();
+                    foreach (NWDReferenceQuantityConditional < K > tObject in tListToNanlyze)
                     {
-                        tDicoClean.Remove(tDeleteReference);
+                        bool tInclude = true;
+                        foreach (string tDeleteReference in tValueListERROR)
+                        {
+                            if (tObject.Reference == tDeleteReference)
+                            {
+                                tInclude = false;
+                                break;
+                            }
+                        }
+                        if (tInclude == true)
+                        {
+                            tListCleaned.Add(tObject);
+                        }
                     }
-                    tTemporary.SetReferenceAndQuantity(tDicoClean);
+                    tTemporary.SetReferenceQuantityConditional(tListCleaned);
                 }
                 GUI.backgroundColor = tOldColor;
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
