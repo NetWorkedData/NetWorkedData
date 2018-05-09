@@ -129,6 +129,14 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addon method when untrahs me. Can be ovverride in herited Class.
+        /// </summary>
+        public virtual void AddonDeleteMe()
+        {
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade

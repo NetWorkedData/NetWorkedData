@@ -77,7 +77,7 @@ namespace NetWorkedData
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
             //Debug.Log("NWDDataManager private Constructor");
 			//NotificationCenter = BTBNotificationManager.SharedInstance();
-			LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
+			LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		~NWDDataManager ()

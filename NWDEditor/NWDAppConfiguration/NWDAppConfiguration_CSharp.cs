@@ -127,8 +127,8 @@ namespace NetWorkedData
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 12
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 13
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 14
-            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 15
-            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 16
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Test for Preprod\");\n"; // 15 
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Test for Dev\");\n"; // 16
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Admin Created\");\n"; // 17
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Device Created\");\n"; // 18
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Server Created\");\n"; // 19

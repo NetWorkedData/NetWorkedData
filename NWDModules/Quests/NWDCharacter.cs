@@ -84,19 +84,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds
+        public NWDReferencesListType<NWDWorld> WorldList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDCategory> Categories
+        public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDFamily> Families
+        public NWDReferencesListType<NWDFamily> FamilyList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDKeyword> Keywords
+        public NWDReferencesListType<NWDKeyword> KeywordList
         {
             get; set;
         }

@@ -44,12 +44,12 @@ namespace NetWorkedData
 		[NWDGroupEndAttribute]
 		[NWDGroupSeparatorAttribute]
 		[NWDGroupStartAttribute ("Description", true, true, true)]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set;}
 		[NWDGroupStartAttribute("Classification",true,true,true)]
-		public NWDReferencesListType<NWDWorld> World { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
+        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
+        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
+        public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

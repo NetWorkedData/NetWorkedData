@@ -47,8 +47,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> AccountReference { get; set;}
-		public NWDReferenceType<NWDTipsAndTricks> TipsAndTricksReference { get; set;}
+        public NWDReferenceType<NWDAccount> Account { get; set;}
+        public NWDReferenceType<NWDTipsAndTricks> TipsAndTricks { get; set;}
 		public bool IsActive { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

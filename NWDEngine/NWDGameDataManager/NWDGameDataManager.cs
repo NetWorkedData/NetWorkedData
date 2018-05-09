@@ -43,7 +43,7 @@ namespace NetWorkedData
 		/// Of course it's a patch, but it's working!
 		/// </summary>
 		//-------------------------------------------------------------------------------------------------------------
-		//[ExecuteInEditMode] // I do that to run this object in edit mode too (on scene)
+        //[ExecuteInEditMode] // I do that to run this object in edit mode too (on scene)
 		//-------------------------------------------------------------------------------------------------------------
 		private class SharedInstanceAsSingleton 
 		{
@@ -65,10 +65,10 @@ namespace NetWorkedData
 			/// The shared instance as singleton.
 			/// </summary>
 			static public SharedInstanceAsSingleton kSharedInstaceAsSingleton = new SharedInstanceAsSingleton ();
-			//-------------------------------------------------------------------------------------------------------------
+            //-------------------------------------------------------------------------------------------------------------
 			/// <summary>
 			/// The data manager.
-			/// </summary>
+            /// </summary>
 			public NWDDataManager DataManager;
 			/// <summary>
 			/// The app configuration.
@@ -133,7 +133,9 @@ namespace NetWorkedData
 				return (kSharedInstaceAsSingleton != null);
 			}
 			//-------------------------------------------------------------------------------------------------------------
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public BTBHealthGaugeComplex Gauge;
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Gets the data manager.
@@ -372,6 +374,12 @@ namespace NetWorkedData
         /// </summary>
         void Start()
         {
+            Debug.Log("NWDGameDataManager Start ()");
+            if (Gauge != null)
+            {
+                Debug.Log("Gauge set to 0.0F");
+                Gauge.SetHorizontalValue(0.0F);
+            }
             //Debug.LogVerbose ("NWDGameDataManager Start");
             DataManager = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataManager;
             AppConfiguration = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.AppConfiguration;
@@ -379,8 +387,6 @@ namespace NetWorkedData
 
             //Network is unknow at start
             NetworkStatutChange(NWDNetworkState.Unknow);
-
-
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -388,6 +394,7 @@ namespace NetWorkedData
         /// </summary>
         void OnDestroy()
         {
+            Debug.Log("NWDGameDataManager OnDestroy ()");
             //Debug.LogVerbose ("NWDGameDataManager Destroy");
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -396,6 +403,7 @@ namespace NetWorkedData
         /// </summary>
         void Awake()
         {
+            Debug.Log("NWDGameDataManager Awake ()");
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)

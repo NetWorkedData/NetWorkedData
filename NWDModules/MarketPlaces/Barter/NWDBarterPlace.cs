@@ -51,17 +51,17 @@ namespace NetWorkedData
 		public NWDLocalizableStringType Description { get; set; }
 
 		[NWDGroupStartAttribute("Classification",true, true, true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
+        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
+        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
+        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
+        public NWDReferencesListType<NWDKeyword>  KeywordList { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDGroupStartAttribute("Items Authorization",true, true, true)]
-		public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
-		public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
-		public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
-		public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
+        public NWDReferencesListType<NWDWorld> FilterWorldList { get; set; }
+		public NWDReferencesListType<NWDCategory> FilterCategoryList { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterFamilyList { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterKeywordList { get; set; }
 		[NWDGroupEndAttribute]
 
 		public int OpenDateTime { get; set; }

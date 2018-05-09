@@ -124,7 +124,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke
         {
-            Debug.Log("NWDUserNetWorking Static ClassInitialization()");
+            //Debug.Log("NWDUserNetWorking Static ClassInitialization()");
             //Only on player
             //if (Application.isPlaying == true)
             //{

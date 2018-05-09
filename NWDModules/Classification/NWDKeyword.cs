@@ -44,7 +44,7 @@ namespace NetWorkedData
 		[NWDGroupEndAttribute]
 		[NWDGroupSeparatorAttribute]
 		[NWDGroupStartAttribute ("Description", true, true, true)]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set;}
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set;}
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

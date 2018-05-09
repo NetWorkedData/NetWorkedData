@@ -24,7 +24,7 @@ namespace NetWorkedData
 		new Type[] {
 			typeof(NWDItemGroup), 
 			typeof(NWDItem), 
-			typeof(NWDItemProperties), 
+			typeof(NWDItemProperty), 
 			/* Add NWDBasis here*/
 		}
 	)]

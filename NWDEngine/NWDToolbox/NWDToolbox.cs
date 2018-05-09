@@ -138,7 +138,7 @@ namespace NetWorkedData
                 tCounter = 1;
                 foreach (KeyValuePair<NWDItemGroup, int> tKeyValue in sReplaceItemGroups.GetObjectAndQuantity())
                 {
-                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    NWDItem tItem = tKeyValue.Key.DescriptionItem.GetObject();
                     if (tItem != null)
                     {
                         string tName = "";

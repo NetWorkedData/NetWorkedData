@@ -46,14 +46,14 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDCategory> Parent
+        public NWDReferenceType<NWDCategory> CategoryParent
         {
             get; set;
         } // TODO : NWDHiearchicList
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Description", true, true, true)]
-        public NWDReferenceType<NWDItem> ItemToDescribe
+        public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }

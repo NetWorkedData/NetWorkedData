@@ -228,6 +228,14 @@ namespace NetWorkedData
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addons the delete me.
+        /// </summary>
+        public override void AddonDeleteMe()
+        {
+            // do something when object will be delete from local base
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade

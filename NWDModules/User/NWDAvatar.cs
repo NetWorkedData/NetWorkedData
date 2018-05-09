@@ -65,12 +65,12 @@ namespace NetWorkedData
 
         [NWDGroupStart("Account and final render")]
         [NWDTooltips("The account reference of user")]
-        public NWDReferenceType<NWDAccount> AccountReference
+        public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
         [NWDTooltips("Item used to render Avatar in simple game ")]
-        public NWDReferenceType<NWDItem> ItemReference
+        public NWDReferenceType<NWDItem> RenderItem
         {
             get; set;
         }

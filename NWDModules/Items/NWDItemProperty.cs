@@ -36,14 +36,14 @@ namespace NetWorkedData
 	/// }
 	/// </summary>
 	[Serializable]
-	public class NWDItemPropertiesConnection : NWDConnection <NWDItemProperties> {}
+	public class NWDConnection : NWDConnection <NWDItemProperty> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("ITX")]
 	[NWDClassDescriptionAttribute ("Item Properties descriptions Class")]
 	[NWDClassMenuNameAttribute ("Item Properties")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDItemProperties :NWDBasis <NWDItemProperties>
+	public partial class NWDItemProperty :NWDBasis <NWDItemProperty>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -62,14 +62,14 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDItemProperties()
+		public NWDItemProperty()
         {
-            //Debug.Log("NWDItemProperties Constructor");
+            //Debug.Log("NWDItemProperty Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDItemProperties(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDItemProperty(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDItemProperties Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDItemProperty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

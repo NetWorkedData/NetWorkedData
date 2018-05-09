@@ -222,11 +222,11 @@ namespace NetWorkedData
             Rect rRectColored = new Rect (tRect.x-5, tRect.y-5, tWidthUsed+1024, NWDConstants.kRowHeight+5);
 			// determine rect to analyze
             Rect rRectAnalyze = new Rect (tRect.x-10, tRect.y-5, tWidthUsed, NWDConstants.kRowHeight+10);
-			// check click in rect
+            // check click in rect
+            // verif if object is in error
+            ErrorCheck();
 			if (rRectAnalyze.Contains (sMouseClickPosition)) 
 			{
-                // verif if object is in error
-                ErrorCheck();
 				//NWDDataManager.SharedInstance().UpdateQueueExecute(); // update execute in another place!? in NWDDataManager.SharedInstance() destroyed?
 				GUI.FocusControl (null);
 				SetObjectInEdition (this);

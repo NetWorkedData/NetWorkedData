@@ -35,6 +35,14 @@ namespace NetWorkedData
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
+    public enum NWDQuestImportance : int
+    {
+        Normal = 0,     // normal quest ... 
+        Slave = 1,      // quest is allways slave of another quest
+        Master = 2,     // quest is allways master
+    }
+    //-------------------------------------------------------------------------------------------------------------
+    [Serializable]
     public class NWDQuestConnection : NWDConnection<NWDQuest>
     {
     }
@@ -77,14 +85,41 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
+        [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
+        [NWDEntitled("Title", "Title of the quest in the description")]
+        public NWDLocalizableStringType Title
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType SubTitle
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDItem> ItemToDescribe
+        {
+            get; set;
+        }
+        public NWDLocalizableTextType Description
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparator]
+
         [NWDGroupStartAttribute("Type of quest", true, true, true)]
         [NWDTooltips("Determine if quest is replayable or not")]
         public NWDQuestType Type
         {
             get; set;
         }
+        [NWDTooltips("Determine if quest can be the actual quest , master or slave when user active this quest")]
+        public NWDQuestImportance Importance
+        {
+            get; set;
+        }
         [NWDTooltips("Determine if quest is replayable how much time (if Type = Multiple)")]
-        [NWDIf("Type",1)]
+        [NWDIf("Type", 1)]
         public int Number
         {
             get; set;
@@ -108,55 +143,31 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Quest's Description (in Quest's Book)", true, true, true)]
-        [NWDEntitled("Title", "Title of the quest in the description")]
-        public NWDLocalizableStringType Title
-        {
-            get; set;
-        }
-        public NWDLocalizableStringType SubTitle
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> ItemToDescribe
-        {
-            get; set;
-        }
-        public NWDLocalizableTextType Description
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-
-        [NWDGroupSeparator]
-
         [NWDGroupStartAttribute("Items required to start quest", true, true, true)]
-        [NWDTooltips("Required itemGroup (not removable when quest accepted)")]
-        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
+        [NWDTooltips("Required itemGroup")]
+        public NWDReferencesConditionalType<NWDItemGroup> RequiredItemGroups
         {
             get; set;
         }
-        [NWDTooltips("Required items (removable when quest accepted)")]
-        public NWDReferencesQuantityType<NWDItem> ItemsRequired
+        [NWDTooltips("Required items")]
+        public NWDReferencesConditionalType<NWDItem> RequiredItems
         {
             get; set;
         }
-
-
-        [NWDTooltips("Items required remove when quest is accepted?")]
-        public bool RemoveItemsRequired
+        [NWDTooltips("Remove Required items (removable when quest accepted)")]
+        public NWDReferencesQuantityType<NWDItem> RequiredItemsToRemove
         {
             get; set;
         }
         [NWDTooltips("If you have not the requiered item")]
-        public NWDReferenceType<NWDDialog> NoRequiredDialogReference { get; set; }
+        public NWDReferencesListType<NWDDialog> RequiredDialogsList { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparator]
 
         [NWDGroupStartAttribute("Quest First Dialog", true, true, true)]
         [NWDEntitled("Normal Dialog")]
-        public NWDReferenceType<NWDDialog> DialogReference
+        public NWDReferencesListType<NWDDialog> AvailableDialogsList
         {
             get; set;
         }
@@ -166,24 +177,28 @@ namespace NetWorkedData
 
         [NWDGroupStartAttribute("Items wanted to finish quest", true, true, true)]
         [NWDTooltips("Wanted itemGroup (not removable when quest success)")]
-        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsWanted
+        public NWDReferencesConditionalType<NWDItemGroup> DesiredItemGroups
         {
             get; set;
         }
         [NWDTooltips("Wanted item (removable when quest success)")]
-        public NWDReferencesQuantityType<NWDItem> ItemsWanted
+        public NWDReferencesConditionalType<NWDItem> DesiredItems
         {
             get; set;
         }
-
-        [NWDTooltips("Items wanted remove when quest is success?")]
-        public bool RemoveItemsWanted
+        [NWDTooltips("Wanted item (removable when quest success)")]
+        public NWDReferencesQuantityType<NWDItem> DesiredItemsToRemove
         {
             get; set;
         }
+        //[NWDTooltips("Items wanted remove when quest is success?")]
+        //public bool RemoveItemsWanted
+        //{
+        //    get; set;
+        //}
         [NWDEntitled("Alternate Dialog")]
         [NWDTooltips("If you have allready the wanted item the quest start with this dialog")]
-        public NWDReferenceType<NWDDialog> AlternateDialogReference
+        public NWDReferencesListType<NWDDialog> DesiredDialogsList
         {
             get; set;
         } // to start with ListOfItemsAsked
@@ -192,15 +207,15 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStartAttribute("Quest reward", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemRewards
+        public NWDReferencesQuantityType<NWDItem> RewardsItems
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDItemPack> ItemPackRewards
+        public NWDReferencesQuantityType<NWDItemPack> RewardsItemPack
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDPack> PackRewards
+        public NWDReferencesQuantityType<NWDPack> RewardsPacks
         {
             get; set;
         }
@@ -229,12 +244,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
-            Title = new NWDLocalizableStringType();
-            Title.AddBaseString("");
-            SubTitle = new NWDLocalizableStringType();
-            SubTitle.AddBaseString("");
-            Description = new NWDLocalizableTextType();
-            Description.AddBaseString("");
+            //Title = new NWDLocalizableStringType();
+            ////Title.AddBaseString("");
+            //SubTitle = new NWDLocalizableStringType();
+            ////SubTitle.AddBaseString("");
+            //Description = new NWDLocalizableTextType();
+            ////Description.AddBaseString("");
+            ////CanBecameActualQuest = false;
+            //DesiredItemGroups = new NWDReferencesConditionalType<NWDItemGroup>();
+            //DesiredItems = new NWDReferencesConditionalType<NWDItem>();
+            //DesiredItemsToRemove = new NWDReferencesQuantityType<NWDItem>();
+            //AvailableDialogsList = new NWDReferencesListType<NWDDialog>;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()
@@ -245,6 +265,105 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDialog FirstDialogOnShowQuest(NWDQuestUserAdvancement tQuestUserAdvancement=null)
+        {
+            NWDDialog rDialog = null;
+            if (tQuestUserAdvancement != null)
+            {
+                // I try to get the last dialog reccord in advancement 
+                rDialog = tQuestUserAdvancement.LastDialogReference.GetObject();
+            }
+            if (rDialog == null)
+            {
+                // I return the first dialog of this quest
+                // If first dialog is not an step dialog I found the Dialog to use
+                bool tItemsRequired = NWDOwnership.ConditionalItems(RequiredItems);
+                bool tItemsGroupsRequired = NWDOwnership.ConditionalItemGroups(RequiredItemGroups);
+
+                bool tItemsWanted = NWDOwnership.ConditionalItems(DesiredItems);
+                bool tItemsGroupsWanted = NWDOwnership.ConditionalItemGroups(DesiredItemGroups);
+
+                if (DesiredItems == null)
+                {
+                    DesiredItems = new NWDReferencesConditionalType<NWDItem>();
+                }
+                if (DesiredItemGroups == null)
+                {
+                    DesiredItemGroups = new NWDReferencesConditionalType<NWDItemGroup>();
+                }
+                if (DesiredItems.IsEmpty() && DesiredItemGroups.IsEmpty())
+                {
+                    tItemsWanted = false;
+                    tItemsGroupsWanted = false;
+                }
+                // I need propose the First Dialaog
+                if (tItemsRequired && tItemsGroupsRequired)
+                {
+                    // I have the objects required
+                    if (tItemsWanted && tItemsGroupsWanted)
+                    {
+                        // And I have the object wanted too ... 
+                        if (DesiredDialogsList != null)
+                        {
+                            rDialog = NWDDialog.GetFirstValidDialogs(DesiredDialogsList.GetObjectsList());
+                            if (tQuestUserAdvancement != null)
+                            {
+                                tQuestUserAdvancement.QuestState = NWDQuestState.StartAlternate;
+                                SaveModifications();
+                            }
+                        }
+                        // if I Have no valid dialog ... use the available dialog
+                        if (rDialog == null)
+                        {
+                            if (AvailableDialogsList != null)
+                                {
+                                    rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.GetObjectsList());
+                                    if (tQuestUserAdvancement != null)
+                                        {
+                                            tQuestUserAdvancement.QuestState = NWDQuestState.Start;
+                                            SaveModifications();
+                                        }
+                                }
+                        }
+                    }
+                    else
+                    {
+                        if (AvailableDialogsList != null)
+                        {
+                            //rDialog = DialogReference.GetObject();
+                            rDialog = NWDDialog.GetFirstValidDialogs(AvailableDialogsList.GetObjectsList());
+                            if (tQuestUserAdvancement != null)
+                            {
+                                tQuestUserAdvancement.QuestState = NWDQuestState.Start;
+                                SaveModifications();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Idon't have the objects required
+                    if (RequiredDialogsList != null)
+                    {
+                        rDialog = NWDDialog.GetFirstValidDialogs(RequiredDialogsList.GetObjectsList());
+                        //rDialog = NoRequiredDialogReference.GetObject();
+                        if (tQuestUserAdvancement != null)
+                        {
+                            tQuestUserAdvancement.QuestState = NWDQuestState.None;
+                            SaveModifications();
+                        }
+                    }
+                }
+            }
+            if (rDialog != null)
+            {
+                // analyze this dialog 
+                // is it the real dialog ?
+                rDialog = rDialog.ReturnRealDialog(tQuestUserAdvancement);
+            }
+            return rDialog;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void MyInstanceMethod()
         {
@@ -328,16 +447,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            return 240.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
             tStyle.richText = true;
+
+            if (RequiredItems == null)
+            {
+                RequiredItems = new NWDReferencesConditionalType<NWDItem>();
+            }
+
+            if (RequiredItemGroups == null)
+            {
+                RequiredItemGroups = new NWDReferencesConditionalType<NWDItemGroup>();
+            }
+
+            if (RequiredItemsToRemove == null)
+            {
+                RequiredItemsToRemove = new NWDReferencesQuantityType<NWDItem>();
+            }
             string tQuestTitle = Title.GetBaseString();
             string tQuestDescription = Description.GetBaseString();
-            string tText = "" + InternalDescription + "\n\n<b>Title : </b>\n" + tQuestTitle + "\n\n<b>Description : </b>\n"+ tQuestDescription+"\n";
+            string tRequiredItemsDescription = RequiredItems.Description();
+            string tRequiredItemGroupsDescription = RequiredItemGroups.Description();
+            string tRequiredItemToRemoveDescription = RequiredItemsToRemove.Description();
+            string tText = "" + InternalDescription + "\n\n<b>Title : </b>\n" + tQuestTitle + "\n\n<b>Description : </b>\n"+ tQuestDescription+
+                "\n <b>Required Items : </b>\n" + tRequiredItemsDescription + 
+                "\n <b>Required Items Groups: </b>\n"+ tRequiredItemGroupsDescription+
+                "\n ";
             GUI.Label(sRect, tText, tStyle);
         }
         //-------------------------------------------------------------------------------------------------------------

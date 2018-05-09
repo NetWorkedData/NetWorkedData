@@ -59,7 +59,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[NWDGroupStartAttribute("Description",true, true, true)] // ok
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+		public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDGroupSeparatorAttribute]
@@ -119,28 +119,13 @@ namespace NetWorkedData
 		public override void AddonUpdatedMe ()
 		{
 			// do something when object finish to be updated
-
-			foreach (NWDItem tItem in NWDItem.GetAllObjects()) {
-				if (tItem.ItemGroupList != null) {
-					tItem.ItemGroupList.RemoveObjects (new NWDItemGroup[]{ this });
-					if (tItem.UpdateMeIfModified ()) {
-						Debug.Log ("tItem must be update (remove data)" + tItem.InternalKey );
-					}
-				}
-			}
-			foreach (NWDItem tItem in ItemList.GetObjects()) {
-				Debug.Log ("tItem must be update " + tItem.InternalKey );
-				if (tItem.ItemGroupList == null) {
-					tItem.ItemGroupList = new NWDReferencesListType<NWDItemGroup> ();
-				}
-				tItem.ItemGroupList.AddObject(this);
-				tItem.UpdateMeIfModified();
-			}
+            CheckMyItems();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonDuplicateMe ()
 		{
-			// do something when object will be dupplicate
+            // do something when object will be dupplicate
+            ItemList = new NWDReferencesListType<NWDItem>();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void AddonEnableMe ()
@@ -161,8 +146,50 @@ namespace NetWorkedData
 		public override void AddonUnTrashMe ()
 		{
 			// do something when object will be remove from trash
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDeleteMe()
+        {
+            // do something when object will be delete from local base
+            Debug.Log("AddonDeleteMe()");
+            ItemList = new NWDReferencesListType<NWDItem>();
+            CheckMyItems();
+        }
 		//-------------------------------------------------------------------------------------------------------------
+        public void CheckMyItems()
+        {
+            List<NWDItem> tActualItems = ItemList.GetObjectsList();
+            foreach (NWDItem tItem in NWDItem.GetAllObjects())
+            {
+                if (tActualItems.Contains(tItem))
+                {
+                    if (tItem.ItemGroupList.GetObjectsList().Contains(this) == true)
+                    {
+                        // ok It's contains me
+                    }
+                    else
+                    {
+                        // oh item group not contains me! WHYYYYYYYY
+                        tItem.ItemGroupList.AddObject(this);
+                        tItem.UpdateMe();
+                    }
+                }
+                else
+                {
+                    if (tItem.ItemGroupList.GetObjectsList().Contains(this))
+                    {
+                        // Oh This ItemGroup contains me but I not refere it ... remove me from it
+                        tItem.ItemGroupList.RemoveObjects(new NWDItemGroup[] { this });
+                        tItem.UpdateMe();
+                    }
+                    else
+                    {
+                        // ok i'ts not contains me!
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
 		//Addons for Edition

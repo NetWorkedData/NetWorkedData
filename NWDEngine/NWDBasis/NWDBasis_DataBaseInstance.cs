@@ -21,6 +21,7 @@ using UnityEditor;
 using SQLite4Unity3d;
 
 using BasicToolBox;
+using System.Text.RegularExpressions;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -357,6 +358,7 @@ namespace NetWorkedData
                 this.WebServiceVersion = WebServiceVersionToUse();
                 this.AddonVersionMe(); // call override method
                 this.MinVersion = tVersion;
+                this.DS = 0;
                 this.DevSync = 0;
                 this.PreprodSync = 0;
                 this.ProdSync = 0;
@@ -559,13 +561,11 @@ namespace NetWorkedData
         /// <returns>The me.</returns>
         public NWDBasis<K> DuplicateMe()
         {
-
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
             {
                 tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
-
             // Must reccord object in data base 
             UpdateMe();
             // prepare a request from database to create a new object from original object 
@@ -576,8 +576,31 @@ namespace NetWorkedData
             if (tCount == 1)
             {
                 rReturnObject = tEnumerable.Cast<K>().ElementAt(0);
+                // availbale new reference
                 rReturnObject.Reference = NewReference();
+                // Use the internal key and create a new inetrnal key with ' (copy xxx)' where xx is the first available number
+                // fisrt remove the (copy xxx) if present (copy of copy)
+                string tOriginalKey = ""+InternalKey;
+                string tPattern = "\\(COPY [0-9]*\\)";
+                string tReplacement = "";
+                Regex rgx = new Regex(tPattern);
+                tOriginalKey = rgx.Replace(tOriginalKey, tReplacement);
+                tOriginalKey = tOriginalKey.TrimEnd();
+                // init search
+                int tCounter = 1;
+                string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
+                // search available internal key
+                while (NWDBasis<K>.GetObjectByInternalKey(tCopy) != null)
+                {
+                    tCounter++;
+                    tCopy = tOriginalKey + " (COPY " + tCounter + ")";
+                }
+                // set found internalkey
+                rReturnObject.InternalKey = tCopy;
+                // resert some basic informations
+                // reevaluate the integrity
                 rReturnObject.Integrity = rReturnObject.IntegrityValue();
+                // finish !  insert object!
                 rReturnObject.InsertMe();
             }
             rReturnObject.AddonDuplicateMe(); // call override method
@@ -639,6 +662,7 @@ namespace NetWorkedData
         /// </summary>
         public void DeleteMe()
         {
+            this.AddonDeleteMe();
             NWDDataManager.SharedInstance().DeleteObject(this, AccountDependent());
         }
         //-------------------------------------------------------------------------------------------------------------

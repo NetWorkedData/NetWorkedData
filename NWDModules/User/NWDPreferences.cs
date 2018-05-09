@@ -78,7 +78,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDPreferences GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sValue, string sInternalDescription = "")
+		public static NWDPreferences GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sDefaultValue, string sInternalDescription = "")
 		{
 			Debug.Log ("GetPreferenceByInternalKeyOrCreate");
 			NWDPreferences rObject = GetObjectByInternalKey (sInternalKey) as NWDPreferences;
@@ -90,7 +90,7 @@ namespace NetWorkedData
 				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
 				tAccountReference.SetReference (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference);
 				rObject.AccountReference = tAccountReference;
-				NWDMultiType tValue = new NWDMultiType (sValue);
+                NWDMultiType tValue = new NWDMultiType (sDefaultValue);
 				rObject.Value = tValue;
 				rObject.InternalDescription = sInternalDescription;
 				rObject.UpdateMe ();

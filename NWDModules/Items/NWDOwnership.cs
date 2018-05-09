@@ -76,8 +76,8 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
 		[NWDGroupStart ("Extensions", true, true, true)]
-        public NWDReferencesArrayType<NWDOwnership> ItemsContained { get; set; }
-		public NWDReferencesQuantityType<NWDItemProperties> ItemProperties { get; set; }
+        public NWDReferencesArrayType<NWDOwnership> OwnershipList { get; set; }
+        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
 		[NWDGroupEnd]
 		
         [NWDGroupSeparator]
@@ -137,12 +137,15 @@ namespace NetWorkedData
                 #if UNITY_EDITOR
                 //--------------
                 NWDItem tItem = NWDItem.GetObjectByReference(sItemReference);
-                if (tItem.Name != null)
+                if (tItem != null)
                 {
-                    string tItemNameBase = tItem.Name.GetBaseString();
-                    if (tItemNameBase != null)
+                    if (tItem.Name != null)
                     {
-                        rOwnership.InternalKey = tItemNameBase;
+                        string tItemNameBase = tItem.Name.GetBaseString();
+                        if (tItemNameBase != null)
+                        {
+                            rOwnership.InternalKey = tItemNameBase;
+                        }
                     }
                 }
                 rOwnership.InternalDescription = NWDUserNickname.GetNickName();
@@ -164,7 +167,14 @@ namespace NetWorkedData
         /// <param name="sItem">selected item.</param>
         public static NWDOwnership OwnershipForItem(NWDItem sItem)
         {
-            return OwnershipForItem(sItem.Reference);
+            if (sItem != null)
+            {
+                return OwnershipForItem(sItem.Reference);
+            }
+            else
+            {
+                return null;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -328,7 +338,7 @@ namespace NetWorkedData
                 {
                     foreach (KeyValuePair<NWDItemGroup, int> tItemQuantity in sItemGroupsReferenceQuantity.GetObjectAndQuantity())
                     {
-                        if (ContainsItemGroups(tItemQuantity.Key, tItemQuantity.Value) == false)
+                        if (ContainsItemGroup(tItemQuantity.Key, tItemQuantity.Value) == false)
                         {
                             rReturn = false;
                             break;
@@ -340,7 +350,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Verif this method
-        public static bool ContainsItemGroups(NWDItemGroup sItemGroup, int sQuantity)
+        public static bool ContainsItemGroup(NWDItemGroup sItemGroup, int sQuantity)
         {
             bool rReturn = true;
             if (sItemGroup != null)
@@ -364,6 +374,86 @@ namespace NetWorkedData
                 {
                     rReturn = false;
                 }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ConditionalItems(NWDReferencesConditionalType<NWDItem> sItemsReferenceConditional)
+        {
+            bool rReturn = true;
+            if (sItemsReferenceConditional != null)
+            {
+                if (sItemsReferenceConditional.IsEmpty())
+                {
+                    // No test needed
+                }
+                else
+                {
+                    foreach (NWDReferenceQuantityConditional < NWDItem > tTest in sItemsReferenceConditional.GetReferenceQuantityConditional())
+                    {
+                        if (ConditionalItem(tTest) == false)
+                        {
+                            rReturn = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ConditionalItem(NWDReferenceQuantityConditional<NWDItem> sConditional)
+        {
+            bool rReturn = true;
+            if (sConditional.Reference != null)
+            {
+                NWDOwnership rOwnershipToUse = OwnershipForItem(sConditional.Reference);
+                rReturn = sConditional.isValid(rOwnershipToUse.Quantity);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : Verif this method
+        public static bool ConditionalItemGroups(NWDReferencesConditionalType<NWDItemGroup> sItemGroupsReferenceQuantity)
+        {
+            bool rReturn = true;
+            if (sItemGroupsReferenceQuantity != null)
+            {
+                if (sItemGroupsReferenceQuantity.IsEmpty())
+                {
+                    // No test needed
+                }
+                else
+                {
+                    foreach (NWDReferenceQuantityConditional<NWDItemGroup> tTest in sItemGroupsReferenceQuantity.GetReferenceQuantityConditional())
+                    {
+                        if (ConditionalItemGroup(tTest) == false)
+                        {
+                            rReturn = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+       // TODO : Verif this method
+        public static bool ConditionalItemGroup(NWDReferenceQuantityConditional<NWDItemGroup> sConditional)
+        {
+            bool rReturn = true;
+            NWDItemGroup tItemGroup = NWDItemGroup.GetObjectByReference(sConditional.Reference);
+            if (tItemGroup != null)
+            {
+                rReturn = false;
+                int tQ = 0;
+                foreach (NWDItem tItem in tItemGroup.ItemList.GetObjects())
+                {
+                    NWDOwnership tOwnership = OwnershipForItem(tItem);
+                    tQ = tQ + tOwnership.Quantity;
+                }
+                // I Got the quantity
+                rReturn = sConditional.isValid(tQ);
             }
             return rReturn;
         }

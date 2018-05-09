@@ -49,7 +49,7 @@ namespace NetWorkedData
 		#region Instance Properties
 		//-------------------------------------------------------------------------------------------------------------
 		[NWDGroupStartAttribute ("Description", true, true, true)] // ok
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDGroupSeparatorAttribute]
@@ -57,7 +57,7 @@ namespace NetWorkedData
 		[NWDGroupStartAttribute ("Recipe attribut", true, true, true)] // ok
 		public bool OrderIsImportant { get; set; }
 		public NWDReferenceType<NWDRecipientGroup> RecipientGroup { get; set; }
-		public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
+        public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
 		public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
 		[NWDGroupEndAttribute]
 
@@ -136,19 +136,19 @@ namespace NetWorkedData
                         HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
                     }
                     // ItemByCraftDictionary
-                    if (sCraftBook.ItemToDescribe.Value != "")
+                    if (sCraftBook.DescriptionItem.Value != "")
                     {
                         if (ItemByCraftDictionary.ContainsValue(sCraftBook))
                         {
                             string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
                             ItemByCraftDictionary.Remove(tKey);
                         }
-                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.ItemToDescribe.Value) == true)
+                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
                         {
                         }
                         else
                         {
-                            ItemByCraftDictionary.Add(sCraftBook.ItemToDescribe.Value, sCraftBook);
+                            ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
                         }
                     }
                 }
@@ -166,9 +166,9 @@ namespace NetWorkedData
 				HashByCraftDictionary.Remove (sCraftBook.RecipeHash);
 			}
 			//ItemByCraftDictionary
-			if (sCraftBook.ItemToDescribe.Value != "") {
-				if (ItemByCraftDictionary.ContainsKey (sCraftBook.ItemToDescribe.Value) == true) {
-					ItemByCraftDictionary.Remove (sCraftBook.ItemToDescribe.Value);
+			if (sCraftBook.DescriptionItem.Value != "") {
+				if (ItemByCraftDictionary.ContainsKey (sCraftBook.DescriptionItem.Value) == true) {
+					ItemByCraftDictionary.Remove (sCraftBook.DescriptionItem.Value);
 				}
 			}
 		}
@@ -190,14 +190,14 @@ namespace NetWorkedData
 				HashByCraftDictionary.Add (sCraftBook.RecipeHash, sCraftBook);
 			}
 			// ItemByCraftDictionary
-			if (sCraftBook.ItemToDescribe.Value != "") {
+			if (sCraftBook.DescriptionItem.Value != "") {
 				if (ItemByCraftDictionary.ContainsValue (sCraftBook)) {
 					string tKey = ItemByCraftDictionary.FirstOrDefault (x => x.Value == sCraftBook).Key;
 					ItemByCraftDictionary.Remove (tKey);
 				} 
-				if (ItemByCraftDictionary.ContainsKey (sCraftBook.ItemToDescribe.Value) == true) {
+				if (ItemByCraftDictionary.ContainsKey (sCraftBook.DescriptionItem.Value) == true) {
 				} else {
-					ItemByCraftDictionary.Add (sCraftBook.ItemToDescribe.Value, sCraftBook);
+					ItemByCraftDictionary.Add (sCraftBook.DescriptionItem.Value, sCraftBook);
 				}
 			}
 		}
@@ -276,9 +276,9 @@ namespace NetWorkedData
 			// Add Craftbook to ownership
 			if (tCraftBook != null) {
 				// Add to ownership  :-)
-				if (tCraftBook.ItemToDescribe.GetObject () != null) {
+				if (tCraftBook.DescriptionItem.GetObject () != null) {
 				}
-				NWDOwnership.SetItemToOwnership (tCraftBook.ItemToDescribe.GetObject (), 1);
+				NWDOwnership.SetItemToOwnership (tCraftBook.DescriptionItem.GetObject (), 1);
 			}
 			return tCraftBook;
 		}
@@ -308,9 +308,9 @@ namespace NetWorkedData
 			// Add Craftbook to ownership
 			if (tCraftBook != null) {
 				// Add to ownership  :-)
-				if (tCraftBook.ItemToDescribe.GetObject () != null) {
+				if (tCraftBook.DescriptionItem.GetObject () != null) {
 				}
-				NWDOwnership.SetItemToOwnership (tCraftBook.ItemToDescribe.GetObject (), 1);
+				NWDOwnership.SetItemToOwnership (tCraftBook.DescriptionItem.GetObject (), 1);
 			}
 			return tCraftBook;
 		}
@@ -419,9 +419,9 @@ namespace NetWorkedData
 					// Add Craftbook to ownership
 					if (tReturnPrimary != null) {
 						// Add to ownership  :-)
-						if (tReturnPrimary.ItemToDescribe.GetObject () != null) {
+						if (tReturnPrimary.DescriptionItem.GetObject () != null) {
 						}
-						NWDOwnership.SetItemToOwnership (tReturnPrimary.ItemToDescribe.GetObject (), 1);
+						NWDOwnership.SetItemToOwnership (tReturnPrimary.DescriptionItem.GetObject (), 1);
 					}
 				}
 				// I check all possibilities in rest of recipeint element by element (destructive mode?)
@@ -445,9 +445,9 @@ namespace NetWorkedData
 									// Add Craftbook to ownership
 									if (tCraft != null) {
 										// Add to ownership  :-)
-										if (tCraft.ItemToDescribe.GetObject () != null) {
+										if (tCraft.DescriptionItem.GetObject () != null) {
 										}
-										NWDOwnership.SetItemToOwnership (tCraft.ItemToDescribe.GetObject (), 1);
+										NWDOwnership.SetItemToOwnership (tCraft.DescriptionItem.GetObject (), 1);
 									}
 									break;
 								}

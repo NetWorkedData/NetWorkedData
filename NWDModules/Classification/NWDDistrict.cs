@@ -55,7 +55,7 @@ namespace NetWorkedData
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Desription", true, true, true)]
-        public NWDReferenceType<NWDItem> ItemToDescribe
+        public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
@@ -63,23 +63,23 @@ namespace NetWorkedData
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Classification", true, true, true)]
         //public string Kind { get; set; }
-        public NWDReferencesListType<NWDWorld> World
+        public NWDReferencesListType<NWDWorld> WorldList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDDistrict> District
+        public NWDReferencesListType<NWDDistrict> DistrictList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDCategory> Categories
+        public NWDReferencesListType<NWDCategory> CategoryList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDFamily> Families
+        public NWDReferencesListType<NWDFamily> FamilyList
         {
             get; set;
         }
-        public NWDReferencesListType<NWDKeyword> Keywords
+        public NWDReferencesListType<NWDKeyword> KeywordList
         {
             get; set;
         }

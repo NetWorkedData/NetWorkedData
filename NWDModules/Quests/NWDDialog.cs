@@ -46,6 +46,8 @@ namespace NetWorkedData
         Sequent = 1,    // sequent dialog ... the dialog is reccord as last dialog and try to navigate to the next dialog on restart
         Step = 2,       // step dialog ... the dialog is reccord as last dialog and used on restart
         Reset = 3,      // the last dialog will be reset
+
+       // Cross = 4,      // Go to the next dialog immediatly
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
@@ -106,12 +108,12 @@ namespace NetWorkedData
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Reply for previous Dialog (optional)", true, true, true)]
         [NWDTooltipsAttribute("The list and quantity of ItemGroup required to show this answer and this dialog")]
-        public NWDReferencesQuantityType<NWDItemGroup> ItemGroupsRequired
+        public NWDReferencesConditionalType<NWDItemGroup> RequiredItemGroups
         {
             get; set;
         }
         [NWDTooltipsAttribute("The list and quantity of Item required to show this answer and this dialog")]
-        public NWDReferencesQuantityType<NWDItem> ItemsRequired
+        public NWDReferencesConditionalType<NWDItem> RequiredItems
         {
             get; set;
         }
@@ -287,12 +289,12 @@ namespace NetWorkedData
         public override void Initialization()
         {
             RandomFrequency = 1.0F;
-            Answer = new NWDLocalizableStringType();
-            Answer.AddBaseString("");
-            Dialog = new NWDLocalizableTextType();
-            Dialog.AddBaseString("");
-            Resume = new NWDLocalizableTextType();
-            Resume.AddBaseString("");
+            //Answer = new NWDLocalizableStringType();
+            //Answer.AddBaseString("");
+            //Dialog = new NWDLocalizableTextType();
+            //Dialog.AddBaseString("");
+            //Resume = new NWDLocalizableTextType();
+            //Resume.AddBaseString("");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()
@@ -304,16 +306,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDialog[] GetNextDialogs()
+        public NWDDialog ReturnRealDialog(NWDQuestUserAdvancement tQuestUserAdvancement = null)
+        {
+            NWDDialog rDialog = this;
+            if (string.IsNullOrEmpty(Dialog.GetBaseString()) || this.AnswerState == NWDDialogState.Sequent)
+            {
+                // Sequent dialog
+                // no dialog .. it's strange, perhaps dialog is use to fork dialog to another dialog or to fork quest to another quest 
+                List<NWDDialog> tNextDialog = GetNextDialogs();
+                if (tNextDialog.Count() > 0)
+                {
+                    rDialog = tNextDialog[0];
+                }
+            }
+            return rDialog;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public List<NWDDialog> GetValidDialogs(List<NWDDialog> sDialogsList)
         {
             List<NWDDialog> rDialogList = new List<NWDDialog>();
-            foreach (NWDDialog tDialog in NextDialogs.GetObjects())
+            foreach (NWDDialog tDialog in sDialogsList)
             {
                 if (tDialog.AvailabilitySchedule.AvailableNowInGameTime())
                 {
-                    if (NWDOwnership.ContainsItemGroups(tDialog.ItemGroupsRequired))
+                    if (NWDOwnership.ConditionalItemGroups(tDialog.RequiredItemGroups))
                     {
-                        if (NWDOwnership.ContainsItems(tDialog.ItemsRequired))
+                        if (NWDOwnership.ConditionalItems(tDialog.RequiredItems))
                         {
                             if (tDialog.RandomFrequency < 1.0F)
                             {
@@ -332,16 +350,34 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWDQuest tNextQuest = NextQuest.GetObject();
-            if (tNextQuest != null)
+            return rDialogList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDDialog GetFirstValidDialogs(List<NWDDialog> sDialogsList)
+        {
+            NWDDialog rDialog = null;
+            List<NWDDialog> tDialogPossibilities = GetValidDialogs(sDialogsList);
+            if (tDialogPossibilities.Count() > 0)
             {
-                NWDDialog tDialogQuest = NWDQuestUserAdvancement.FirstDialogOnShowQuest(tNextQuest);
-                if (tDialogQuest != null)
-                {
-                    rDialogList.Add(tDialogQuest);
-                }
+                rDialog = tDialogPossibilities[0];
             }
-            return rDialogList.ToArray();
+            return rDialog;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<NWDDialog> GetNextDialogs()
+        {
+            List<NWDDialog> rDialogList = GetValidDialogs(NextDialogs.GetObjectsList());
+            // check if Next quest is valid ... and if Quest is master or not 
+            NWDQuest tNextQuest = NextQuest.GetObject();
+            //if (tNextQuest != null)
+            //{
+            //    NWDDialog tDialogQuest = NWDQuestUserAdvancement.FirstDialogOnShowQuest(tNextQuest);
+            //    if (tDialogQuest != null)
+            //    {
+            //        rDialogList.Add(tDialogQuest);
+            //    }
+            //}
+            return rDialogList;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AnswerRichText(bool sBold = true)
@@ -646,10 +682,10 @@ namespace NetWorkedData
             }
             // if (string.IsNullOrEmpty(tAnswer) == false)
             {
-                if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
-                {
-                    NWDDataInspector.InspectNetWorkedData(this, false, false);
-                }
+                //if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
+                //{
+                //    NWDDataInspector.InspectNetWorkedData(this, false, false);
+                //}
             }
             GUI.backgroundColor = tBackgroundColor;
         }

@@ -47,10 +47,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		[NWDGroupStartAttribute("Classification", false , true ,true)]
-		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
-		public NWDReferencesListType<NWDCategory> Categories { get; set; }
-		public NWDReferencesListType<NWDFamily> Families { get; set; }
-		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
+        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
+        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
+        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
+        public NWDReferencesListType<NWDKeyword>  KeywordList { get; set; }
 		[NWDGroupEndAttribute]
 
 		[NWDGroupStartAttribute("Tips and Tricks", false , true ,true)]
@@ -64,7 +64,7 @@ namespace NetWorkedData
 		public NWDSpriteType Icon { get; set; }
 
 		[NWDHeaderAttribute("Items required to be visible")]
-		public NWDReferencesQuantityType<NWDItem> ItemsRequired{ get; set; }
+        public NWDReferencesConditionalType<NWDItem> ItemConditional{ get; set; }
 
 		[NWDHeaderAttribute("Weighting")]
 		[NWDIntSliderAttribute(1,9)]
