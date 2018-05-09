@@ -23,179 +23,191 @@ using System.Threading;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	/// <summary>
-	/// NWD game data manager.
-	/// The GameObject monobehaviour connection
-	/// Use in game to acces to specific method and create a simulate singleton instance 
-	/// The sigleton instance was connect to :
-	/// Data Manager
-	/// App Configuration
-	/// Notification Center
-	/// </summary>
-	[ExecuteInEditMode] // We use this only in playmode so don't attribut ExecuteInEditMode
-	public partial class NWDGameDataManager : MonoBehaviour
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// SharedInstanceAsSingleton. Class to create a ShareInstance use as Singleton by All NWDGameDataManager
-		/// Declare as private, all NWDGameDataManager instance call this class's shared instance.
-		/// So, instances connected to private sharedinstance, if I don't create otehr instance, nobody can : I have a singleton simulation
-		/// Of course it's a patch, but it's working!
-		/// </summary>
-		//-------------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// NWD game data manager.
+    /// The GameObject monobehaviour connection
+    /// Use in game to acces to specific method and create a simulate singleton instance 
+    /// The sigleton instance was connect to :
+    /// Data Manager
+    /// App Configuration
+    /// Notification Center
+    /// </summary>
+    [ExecuteInEditMode] // We use this only in playmode so don't attribut ExecuteInEditMode
+    public partial class NWDGameDataManager : MonoBehaviour
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// SharedInstanceAsSingleton. Class to create a ShareInstance use as Singleton by All NWDGameDataManager
+        /// Declare as private, all NWDGameDataManager instance call this class's shared instance.
+        /// So, instances connected to private sharedinstance, if I don't create otehr instance, nobody can : I have a singleton simulation
+        /// Of course it's a patch, but it's working!
+        /// </summary>
+        //-------------------------------------------------------------------------------------------------------------
         //[ExecuteInEditMode] // I do that to run this object in edit mode too (on scene)
-		//-------------------------------------------------------------------------------------------------------------
-		private class SharedInstanceAsSingleton 
-		{
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// The instance's counter.
-			/// </summary>
-			static int InstanceCounter = 0;
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// Log the counter of instance of this Class.
-			/// </summary>
-			static void InstanceCounterLog ()
-			{
-				//Debug.LogVerbose ("(NWDGameDataManager SharedInstanceAsSingleton number of instance : "+InstanceCounter+")");
-			}
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// The shared instance as singleton.
-			/// </summary>
-			static public SharedInstanceAsSingleton kSharedInstaceAsSingleton = new SharedInstanceAsSingleton ();
+        //-------------------------------------------------------------------------------------------------------------
+        private class SharedInstanceAsSingleton
+        {
             //-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// The data manager.
+            /// <summary>
+            /// The instance's counter.
             /// </summary>
-			public NWDDataManager DataManager;
-			/// <summary>
-			/// The app configuration.
-			/// </summary>
-			public NWDAppConfiguration AppConfiguration;
-			/// <summary>
-			/// The notification center.
-			/// </summary>
-			public BTBNotificationManager NotificationCenter;
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// The initialization state.
-			/// </summary>
-			private bool Initialized = false;
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// The data need update state.
-			/// </summary>
-			public bool DataWasUpdated;
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// Initializes a new instance of the <see cref="NetWorkedData.NWDGameDataManager+SharedInstanceAsSingleton"/> class.
-			/// </summary>
-			public SharedInstanceAsSingleton ()
-			{
-				Interlocked.Increment(ref InstanceCounter);
-				if (Initialized == false) {
-					// memorize the shared instance
-					DataManager = NWDDataManager.SharedInstance();
-					AppConfiguration = NWDAppConfiguration.SharedInstance();
-					NotificationCenter = BTBNotificationManager.SharedInstance();
-					// ready to launch database
-					DataManager.ConnectToDatabase ();
-					// finish init
-					Initialized = true;
-					//Debug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton InitInstance finished ("+InstanceCounter+")");
-				}
-				InstanceCounterLog ();
-			}
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// Releases unmanaged resources and performs other cleanup operations before the
-			/// <see cref="NetWorkedData.NWDGameDataManager+SharedInstanceAsSingleton"/> is reclaimed by garbage collection.
-			/// </summary>
-			~SharedInstanceAsSingleton()
-			{
-				Interlocked.Decrement(ref InstanceCounter);
-				//Debug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton destroy ... IT NEVER POSSIBLE IN RUNTIME");
-				if (NotificationCenter != null) {
-					NotificationCenter.RemoveAll ();
-					NotificationCenter = null;
-				}
-				InstanceCounterLog ();
-			}
-			//-------------------------------------------------------------------------------------------------------------
-			/// <summary>
-			/// Determines if Singleton is active.
-			/// </summary>
-			/// <returns><c>true</c> if is active; otherwise, <c>false</c>.</returns>
-			public static bool IsActive ()
-			{
-				return (kSharedInstaceAsSingleton != null);
-			}
-			//-------------------------------------------------------------------------------------------------------------
+            static int InstanceCounter = 0;
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Log the counter of instance of this Class.
+            /// </summary>
+            static void InstanceCounterLog()
+            {
+                //Debug.LogVerbose ("(NWDGameDataManager SharedInstanceAsSingleton number of instance : "+InstanceCounter+")");
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// The shared instance as singleton.
+            /// </summary>
+            static public SharedInstanceAsSingleton kSharedInstaceAsSingleton = new SharedInstanceAsSingleton();
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// The data manager.
+            /// </summary>
+            public NWDDataManager DataManager;
+            /// <summary>
+            /// The app configuration.
+            /// </summary>
+            public NWDAppConfiguration AppConfiguration;
+            /// <summary>
+            /// The notification center.
+            /// </summary>
+            public BTBNotificationManager NotificationCenter;
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// The initialization state.
+            /// </summary>
+            private bool Initialized = false;
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// The data need update state.
+            /// </summary>
+            public bool DataWasUpdated;
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Initializes a new instance of the <see cref="NetWorkedData.NWDGameDataManager+SharedInstanceAsSingleton"/> class.
+            /// </summary>
+            public SharedInstanceAsSingleton()
+            {
+                Interlocked.Increment(ref InstanceCounter);
+                if (Initialized == false)
+                {
+                    // memorize the shared instance
+                    DataManager = NWDDataManager.SharedInstance();
+                    AppConfiguration = NWDAppConfiguration.SharedInstance();
+                    NotificationCenter = BTBNotificationManager.SharedInstance();
+                    // ready to launch database
+                    DataManager.ConnectToDatabase();
+                    // finish init
+                    Initialized = true;
+                    //Debug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton InitInstance finished ("+InstanceCounter+")");
+                }
+                InstanceCounterLog();
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Releases unmanaged resources and performs other cleanup operations before the
+            /// <see cref="NetWorkedData.NWDGameDataManager+SharedInstanceAsSingleton"/> is reclaimed by garbage collection.
+            /// </summary>
+            ~SharedInstanceAsSingleton()
+            {
+                Interlocked.Decrement(ref InstanceCounter);
+                //Debug.LogVerbose ("NWDGameDataManager SharedInstanceAsSingleton destroy ... IT NEVER POSSIBLE IN RUNTIME");
+                if (NotificationCenter != null)
+                {
+                    NotificationCenter.RemoveAll();
+                    NotificationCenter = null;
+                }
+                InstanceCounterLog();
+            }
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Determines if Singleton is active.
+            /// </summary>
+            /// <returns><c>true</c> if is active; otherwise, <c>false</c>.</returns>
+            public static bool IsActive()
+            {
+                return (kSharedInstaceAsSingleton != null);
+            }
+            //-------------------------------------------------------------------------------------------------------------
         }
         //-------------------------------------------------------------------------------------------------------------
         public BTBHealthGaugeComplex Gauge;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the data manager.
-		/// </summary>
-		/// <value>The data manager.</value>
-		public NWDDataManager DataManager { get; private set;}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the app configuration.
-		/// </summary>
-		/// <value>The app configuration.</value>
-		public NWDAppConfiguration AppConfiguration { get; private set;}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Gets the notification center.
-		/// </summary>
-		/// <value>The notification center.</value>
-		public BTBNotificationManager NotificationCenter { get; private set;}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="NetWorkedData.NWDGameDataManager"/> class.
-		/// </summary>
-		public NWDGameDataManager () {
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Releases unmanaged resources and performs other cleanup operations before the
-		/// <see cref="NetWorkedData.NWDGameDataManager"/> is reclaimed by garbage collection.
-		/// </summary>
-		~NWDGameDataManager()
-		{
-			//Debug.LogVerbose ("NWDGameDataManager Destroyed");
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Set needs the synchronize data to true.
-		/// </summary>
-		public void NeedSynchronizeData ()
-		{
-			SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataWasUpdated = true;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Player's account reference.
-		/// </summary>
-		/// <returns>The account reference.</returns>
-		public string PlayerAccountReference() {
-			return AppConfiguration.SelectedEnvironment().PlayerAccountReference;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDErrorBlock ErrorDelegate;
-		//-------------------------------------------------------------------------------------------------------------
-		public void ErrorManagement (NWDError sError) {
-			if (ErrorDelegate != null) {
-				ErrorDelegate (sError);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-
-
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the data manager.
+        /// </summary>
+        /// <value>The data manager.</value>
+        public NWDDataManager DataManager
+        {
+            get; private set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the app configuration.
+        /// </summary>
+        /// <value>The app configuration.</value>
+        public NWDAppConfiguration AppConfiguration
+        {
+            get; private set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the notification center.
+        /// </summary>
+        /// <value>The notification center.</value>
+        public BTBNotificationManager NotificationCenter
+        {
+            get; private set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NetWorkedData.NWDGameDataManager"/> class.
+        /// </summary>
+        public NWDGameDataManager()
+        {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Releases unmanaged resources and performs other cleanup operations before the
+        /// <see cref="NetWorkedData.NWDGameDataManager"/> is reclaimed by garbage collection.
+        /// </summary>
+        ~NWDGameDataManager()
+        {
+            //Debug.LogVerbose ("NWDGameDataManager Destroyed");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set needs the synchronize data to true.
+        /// </summary>
+        public void NeedSynchronizeData()
+        {
+            SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataWasUpdated = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Player's account reference.
+        /// </summary>
+        /// <returns>The account reference.</returns>
+        public string PlayerAccountReference()
+        {
+            return AppConfiguration.SelectedEnvironment().PlayerAccountReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDErrorBlock ErrorDelegate;
+        //-------------------------------------------------------------------------------------------------------------
+        public void ErrorManagement(NWDError sError)
+        {
+            if (ErrorDelegate != null)
+            {
+                ErrorDelegate(sError);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public const string NOTIFICATION_USER_CHANGE = "NOTIFICATION_USER_CHANGE";
         //-------------------------------------------------------------------------------------------------------------
@@ -267,9 +279,9 @@ namespace NetWorkedData
         /// Raises the runtime method load event.
         /// </summary>
         [RuntimeInitializeOnLoadMethod]
-        static void OnRuntimeMethodLoad()
+        static void RuntimeInitializeOnLoad()
         {
-            Debug.Log("NWDGameDataManager OnRuntimeMethodLoad");
+            Debug.Log("NWDGameDataManager RuntimeInitializeOnLoad");
             UnitySingleton();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -308,11 +320,14 @@ namespace NetWorkedData
                     //spawn object
                     tObjToSpawn = new GameObject("NWDGameDataManagerUnitySingleton");
                     //Add Components
-                    tObjToSpawn.AddComponent<NWDGameDataManager>();
-                    tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
-
+                    NWDGameDataManager tGameDataManager = tObjToSpawn.AddComponent<NWDGameDataManager>();
+                    NWDUserNetWorkingScript tUserNetWorkingScript = tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
+                    BTBHealthGaugeComplex tHealthGaugeComplex = tObjToSpawn.AddComponent<BTBHealthGaugeComplex>();
+                    tGameDataManager.Gauge = tHealthGaugeComplex;
                     // keep k_Singleton
-                    kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
+                    //kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
+                    kUnitySingleton = tGameDataManager;
+
                 }
                 else if (tOtherList.Count == 1)
                 {
@@ -370,40 +385,11 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Start this instance.
-        /// </summary>
-        void Start()
-        {
-            Debug.Log("NWDGameDataManager Start ()");
-            if (Gauge != null)
-            {
-                Debug.Log("Gauge set to 0.0F");
-                Gauge.SetHorizontalValue(0.0F);
-            }
-            //Debug.LogVerbose ("NWDGameDataManager Start");
-            DataManager = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataManager;
-            AppConfiguration = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.AppConfiguration;
-            NotificationCenter = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.NotificationCenter;
-
-            //Network is unknow at start
-            NetworkStatutChange(NWDNetworkState.Unknow);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Raises the destroy event.
-        /// </summary>
-        void OnDestroy()
-        {
-            Debug.Log("NWDGameDataManager OnDestroy ()");
-            //Debug.LogVerbose ("NWDGameDataManager Destroy");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
         /// Awake this instance.
         /// </summary>
         void Awake()
         {
-            Debug.Log("NWDGameDataManager Awake ()");
+            //Debug.Log("NWDGameDataManager Awake ()");
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)
@@ -435,13 +421,91 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// On enable. call every times is necessary.
+        /// </summary>
         void OnEnable()
         {
-            //Debug.OnEnable ("NWDGameDataManager Destroy");
-            //if (Application.isPlaying == true)
-            //{
-            //    NWDUserNetWorking.StartUpdate(60, null);
-            //}
+            BTBNotificationManager.SharedInstance().AddObserver(this, NWDDataManager.NOTIFICATION_DATAS_START_LOADING, delegate (BTBNotification sNotification)
+            {
+                Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
+                if (Gauge != null)
+                {
+                    Gauge.IsVisible = true;
+                    Gauge.SetHorizontalValue(0.0F);
+                }
+            });
+
+            BTBNotificationManager.SharedInstance().AddObserver(this, NWDDataManager.NOTIFICATION_DATAS_PARTIAL_LOADED, delegate (BTBNotification sNotification)
+            {
+                Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
+                if (Gauge != null)
+                {
+                    Gauge.IsVisible = true;
+                    float tValue = (float)NWDTypeLauncher.ClassesDataLoaded / (float)NWDTypeLauncher.ClassesExpected;
+                    //Debug.Log("DataLoader ASYNC () Gauge set to " + tValue);
+                    Gauge.SetHorizontalValue(tValue);
+                }
+            });
+            BTBNotificationManager.SharedInstance().AddObserver(this, NWDDataManager.NOTIFICATION_DATAS_LOADED, delegate (BTBNotification sNotification)
+            {
+                Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
+                if (Gauge != null)
+                {
+                    Gauge.IsVisible = false;
+                    //Gauge.Draw();
+                }
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Start this instance. Called once.
+        /// </summary>
+        void Start()
+        {
+            Debug.Log("NWDGameDataManager Start()");
+            //Debug.LogVerbose ("NWDGameDataManager Start");
+            DataManager = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.DataManager;
+            AppConfiguration = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.AppConfiguration;
+            NotificationCenter = SharedInstanceAsSingleton.kSharedInstaceAsSingleton.NotificationCenter;
+            //Network is unknow at start
+            NetworkStatutChange(NWDNetworkState.Unknow);
+
+            if (NWDTypeLauncher.DataLoaded == false)
+            {
+                Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
+                StartCoroutine(NWDDataManager.SharedInstance().AsyncReloadAllObjects());
+            }
+            else
+            {
+                Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
+                if (Gauge != null)
+                {
+                    Gauge.IsVisible = false;
+                }
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        void OnGUI()
+        {
+            //Debug.Log ("NWDGameDataManager OnGUI()");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the destroy event.
+        /// </summary>
+        void OnDisable()
+        {
+            BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Raises the destroy event.
+        /// </summary>
+        void OnDestroy()
+        {
+            
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -479,6 +543,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 
-	}
+    }
 }
 //=====================================================================================================================

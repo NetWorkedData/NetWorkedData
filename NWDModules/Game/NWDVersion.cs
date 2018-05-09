@@ -456,7 +456,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetMaxVersionStringForEnvironemt(NWDAppEnvironment sEnvironment)
         {
-            Debug.Log("NWDVersion GetMaxVersionStringForEnvironemt()");
+            //Debug.Log("NWDVersion GetMaxVersionStringForEnvironemt()");
             string tVersionString = "0.00.00";
             NWDVersion tVersion = GetMaxVersionForEnvironemt(sEnvironment);
             if (tVersion != null)

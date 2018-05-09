@@ -58,6 +58,7 @@ namespace NetWorkedData
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
             "\t\t\tWebBuild = " + WebBuild + ";\n" +
             "\t\t\tRowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";\n" +
+            "\t\t\tPreloadDatas = " + PreloadDatas.ToString().ToLower() + ";\n" +
             "\t\t\t//Debug.Log(\"NWDAppConfiguration Restaure Config\");\n" +
             "\t\t\t//Salts regenerate (Calgon© is back :-p )\n";
             foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary.OrderBy(x => x.Key))

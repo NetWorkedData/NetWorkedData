@@ -36,12 +36,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsLaunching = false;// to protect dupplicate launch editor/player
         public static bool IsLaunched = false;// to protect dupplicate launch editor/player
+        public static bool DataLoaded = false;
+        public static int ClassesExpected = 0;
+        public static int ClassesDataLoaded = 0;
         //-------------------------------------------------------------------------------------------------------------
         static NWDTypeLauncher()
         {
-            Debug.Log("NWDTypeLauncher Class Constructor NWDTypeLauncher()");
-            Debug.Log("screen Screen.width = " + Screen.width.ToString());
-            Debug.Log("screen Screen.height = " + Screen.height.ToString());
+            //Debug.Log("NWDTypeLauncher Class Constructor NWDTypeLauncher()");
+            //Debug.Log("screen Screen.width = " + Screen.width.ToString());
+            //Debug.Log("screen Screen.height = " + Screen.height.ToString());
             //if (Application.isPlaying == true)
             //{
             //    Debug.Log("create a scene ? ");
@@ -62,7 +65,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Launcher()
         {
-            Debug.Log("NWDTypeLauncher Launcher()");
+            //Debug.Log("NWDTypeLauncher Launcher()");
+           double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             if (IsLaunched == false && IsLaunching == false)
             {
                 IsLaunching = true;
@@ -126,7 +130,6 @@ namespace NetWorkedData
                                 tMenuName = tType.Name + " menu";
                             }
                         }
-
                         var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                         if (tMethodDeclare != null)
                         {
@@ -139,13 +142,57 @@ namespace NetWorkedData
                         //                            tMethodInfo.Invoke (null, new object[]{ "Launcher " });
                         //                        }
                         /* DEBUG */
-                        //double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
-                        //Debug.Log("tOperationsNeeded = " + tOPerationInProgress.ToString() + "/" + tOperationsNeeded.ToString() + " at "+ tTimeStamp.ToString("0000#00"));
-                        //Thread.Sleep(100);
+                        double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        //Debug.Log("tOperationsNeeded = " + tOPerationInProgress.ToString() + "/" + tOperationsNeeded.ToString() + " at "+ tTimeStamp.ToString());
                     }
                     tIndexOfActualClass++;
                 }
+                double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                double tDelta = tFinishTimestamp - tStartTimestamp;
+                Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
+
+                //if (Application.isEditor == true && Application.isPlaying == false)
+                //{
+                //    Debug.Log("NWD => Preload Datas for Editor");
+                //    tShareInstance.ReloadAllObjects();
+                //}
+
+                //if (Application.isEditor == true)
+                //{
+                //    Debug.Log("NWD =>  I AM IN EDITOR ");
+                //    if (Application.isPlaying == true)
+                //    {
+                //        Debug.Log("NWD =>  I AM IN PLAYER ");
+                //    }
+                //    else
+                //    {
+                //        Debug.Log("NWD =>  I AM ---NOT--- IN PLAYER ");
+                //    }
+                //}
+                //else
+                //{
+                //    Debug.Log("NWD =>  I AM ---NOT--- IN EDITOR ");
+                //    if (Application.isPlaying == true)
+                //    {
+                //        Debug.Log("NWD =>  I AM IN PLAYER ");
+                //    }
+                //    else
+                //    {
+                //        Debug.Log("NWD =>  I AM ---NOT--- IN PLAYER ");
+                //    }
+                //}
+
+
+                if (DataLoaded == false)
+                {
+                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == true)
+                    {
+                        Debug.Log("NWD => Preload Datas");
+                        tShareInstance.ReloadAllObjects();
+                    }
+                }
                 IsLaunched = true;
+
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
         }

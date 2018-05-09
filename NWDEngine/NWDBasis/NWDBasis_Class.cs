@@ -398,7 +398,11 @@ namespace NetWorkedData
             {
                 tMethodInfo.Invoke(null, null);
             }
-            LoadTableEditor();
+
+
+
+
+            //LoadTableEditor();
 #if UNITY_EDITOR
             FilterTableEditor();
             PrefSave();

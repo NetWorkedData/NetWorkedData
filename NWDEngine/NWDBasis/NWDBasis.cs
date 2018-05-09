@@ -651,6 +651,7 @@ namespace NetWorkedData
                     AddObjectInListOfEdition(tItem);
                 }
             }
+            Debug.Log("Load " + ObjectsList.Count + " object(s) in " + ClassName());
         }
         //-------------------------------------------------------------------------------------------------------------
     }

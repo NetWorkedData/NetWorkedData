@@ -152,7 +152,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetLocalString()
         {
-            Debug.Log("GetLocalString() for language = "+NWDDataManager.SharedInstance().PlayerLanguage);
+            //Debug.Log("GetLocalString() for language = "+NWDDataManager.SharedInstance().PlayerLanguage);
             return NWDToolbox.TextUnprotect(SplitDico(NWDDataManager.SharedInstance().PlayerLanguage));
         }
         //-------------------------------------------------------------------------------------------------------------
