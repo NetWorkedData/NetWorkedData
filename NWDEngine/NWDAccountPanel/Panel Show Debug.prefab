@@ -1095,8 +1095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ade0c4685ff4c4683235c086bce89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ButtonShowLog: {fileID: 0}
-  ButtonShowAccount: {fileID: 0}
+  ButtonShowLog: {fileID: 114073285438264472}
+  ButtonShowAccount: {fileID: 114805602479945448}
 --- !u!114 &114151713975281466
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1743,17 +1743,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 398725eaec82d416b97bfd74b5b7bdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TextEnvironment: {fileID: 0}
-  TextAccount: {fileID: 0}
-  TextToken: {fileID: 0}
-  TextAnonymousAccount: {fileID: 0}
-  TextAnonymousToken: {fileID: 0}
-  TextWebResult: {fileID: 0}
-  TextNetworkResult: {fileID: 0}
-  DropdownAccountList: {fileID: 0}
-  TextLogin: {fileID: 0}
-  TextLogout: {fileID: 0}
-  TextSynchronize: {fileID: 0}
+  TextEnvironment: {fileID: 114916924789690828}
+  TextAccount: {fileID: 114268996345669806}
+  TextToken: {fileID: 114229738621979960}
+  TextAnonymousAccount: {fileID: 114174196965570884}
+  TextAnonymousToken: {fileID: 114279148721747456}
+  TextWebResult: {fileID: 114230144933654976}
+  TextNetworkResult: {fileID: 114759436043089710}
+  DropdownAccountList: {fileID: 114599057879445902}
+  TextLogin: {fileID: 114778744760483196}
+  TextLogout: {fileID: 114020189551314158}
+  TextSynchronize: {fileID: 114162639788941846}
 --- !u!114 &114430748731456852
 MonoBehaviour:
   m_ObjectHideFlags: 1
