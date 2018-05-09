@@ -137,7 +137,9 @@ namespace NetWorkedData
             //-------------------------------------------------------------------------------------------------------------
         }
         //-------------------------------------------------------------------------------------------------------------
-        public BTBHealthGaugeComplex Gauge;
+        public BTBHealthGaugeComplex LoadingDatasGauge;
+        //-------------------------------------------------------------------------------------------------------------
+        public BTBHealthGaugeComplex OperationGauge;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the data manager.
@@ -323,7 +325,9 @@ namespace NetWorkedData
                     NWDGameDataManager tGameDataManager = tObjToSpawn.AddComponent<NWDGameDataManager>();
                     NWDUserNetWorkingScript tUserNetWorkingScript = tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
                     BTBHealthGaugeComplex tHealthGaugeComplex = tObjToSpawn.AddComponent<BTBHealthGaugeComplex>();
-                    tGameDataManager.Gauge = tHealthGaugeComplex;
+                    BTBHealthGaugeComplex tHealthGaugeComplexB = tObjToSpawn.AddComponent<BTBHealthGaugeComplex>();
+                    tGameDataManager.LoadingDatasGauge = tHealthGaugeComplex;
+                    tGameDataManager.OperationGauge = tHealthGaugeComplexB;
                     // keep k_Singleton
                     //kUnitySingleton = tObjToSpawn.GetComponent<NWDGameDataManager>();
                     kUnitySingleton = tGameDataManager;
@@ -429,30 +433,30 @@ namespace NetWorkedData
             BTBNotificationManager.SharedInstance().AddObserver(this, NWDDataManager.NOTIFICATION_DATAS_START_LOADING, delegate (BTBNotification sNotification)
             {
                 Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
-                if (Gauge != null)
+                if (LoadingDatasGauge != null)
                 {
-                    Gauge.IsVisible = true;
-                    Gauge.SetHorizontalValue(0.0F);
+                    LoadingDatasGauge.IsVisible = true;
+                    LoadingDatasGauge.SetHorizontalValue(0.0F);
                 }
             });
 
             BTBNotificationManager.SharedInstance().AddObserver(this, NWDDataManager.NOTIFICATION_DATAS_PARTIAL_LOADED, delegate (BTBNotification sNotification)
             {
                 Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
-                if (Gauge != null)
+                if (LoadingDatasGauge != null)
                 {
-                    Gauge.IsVisible = true;
+                    LoadingDatasGauge.IsVisible = true;
                     float tValue = (float)NWDTypeLauncher.ClassesDataLoaded / (float)NWDTypeLauncher.ClassesExpected;
                     //Debug.Log("DataLoader ASYNC () Gauge set to " + tValue);
-                    Gauge.SetHorizontalValue(tValue);
+                    LoadingDatasGauge.SetHorizontalValue(tValue);
                 }
             });
             BTBNotificationManager.SharedInstance().AddObserver(this, NWDDataManager.NOTIFICATION_DATAS_LOADED, delegate (BTBNotification sNotification)
             {
                 Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
-                if (Gauge != null)
+                if (LoadingDatasGauge != null)
                 {
-                    Gauge.IsVisible = false;
+                    LoadingDatasGauge.IsVisible = false;
                     //Gauge.Draw();
                 }
             });
@@ -479,9 +483,9 @@ namespace NetWorkedData
             else
             {
                 Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
-                if (Gauge != null)
+                if (LoadingDatasGauge != null)
                 {
-                    Gauge.IsVisible = false;
+                    LoadingDatasGauge.IsVisible = false;
                 }
             }
         }
