@@ -1230,7 +1230,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ee477651322eb41089627e358a78be8d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64d1969fe32d1483094f3436b57691da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2122,7 +2122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TextEnvironment: {fileID: 114916924789690828}
-  TextAccount: {fileID: 114706733220317590}
+  TextAccount: {fileID: 114268996345669806}
   TextToken: {fileID: 114229738621979960}
   TextAnonymousAccount: {fileID: 114174196965570884}
   TextAnonymousToken: {fileID: 114279148721747456}
@@ -2179,7 +2179,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ee477651322eb41089627e358a78be8d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64d1969fe32d1483094f3436b57691da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3038,10 +3038,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Overlay: 1
-  WidthPercent: 1
+  WidthPercent: 0.3
   FontSizePercent: 0.02
-  BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  FontNormalColor: {r: 1, g: 1, b: 1, a: 1}
+  BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.2}
+  FontNormalColor: {r: 0, g: 0, b: 0.5, a: 1}
   FontAlertColor: {r: 1, g: 0, b: 0, a: 1}
   FramePerSecond: 1
   FramePerSecondMinAlert: 25

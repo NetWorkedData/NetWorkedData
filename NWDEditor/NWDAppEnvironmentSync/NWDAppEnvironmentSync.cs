@@ -210,7 +210,11 @@ namespace NetWorkedData
                         if (LastInfos.errorDesc != null)
                         {
                             tTitle = LastInfos.errorDesc.Domain;
-                            tDescription = LastInfos.errorDesc.Code + " : " + LastInfos.errorDesc.Description.GetBaseString();
+                            tDescription = LastInfos.errorDesc.Code;
+                            if (LastInfos.errorDesc.Description != null)
+                            {
+                                tDescription += " : " + LastInfos.errorDesc.Description.GetBaseString();
+                            }
                         }
                         EditorUtility.DisplayDialog(tTitle, tDescription, "Ok");
                     }
