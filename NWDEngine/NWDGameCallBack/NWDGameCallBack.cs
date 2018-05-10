@@ -24,241 +24,249 @@ namespace NetWorkedData
 	/// Use in game object to connect the other gameobject to action in the NetWorkedData package 
 	/// Each scene can be connect independently
 	/// </summary>
-	public partial class NWDGameCallBack : MonoBehaviour
+    public partial class NWDGameCallBack : NWDCallBack
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Installs the observer in the BTBNotification manager
-		/// </summary>
-		void InstallObserver ()
-		{
-			// get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-			BTBNotificationManager tNotificationManager = NWDGameDataManager.UnitySingleton ().NotificationCenter;
-
-			// Add all notifictions keys to observe for this 
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				DataUpdatedAction (tDicoInformations);
-			});
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_DATAS_SYNCHRONIZE_START, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				DataSynchronizeStartAction (tDicoInformations);
-			});
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_DATAS_SYNCHRONIZE_ERROR, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				DataSynchronizeErrorAction (tDicoInformations);
-			});
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_DATAS_SYNCHRONIZE_SUCCESS, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				DataSynchronizeSuccessAction (tDicoInformations);
-			});
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_ACCOUNT_REQUEST_START, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				AccountRequestStartAction (tDicoInformations);
-			});
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_ACCOUNT_REQUEST_ERROR, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				AccountRequestErrorAction (tDicoInformations);
-			});
-			tNotificationManager.AddObserver (this, NWDNotificationConstants.K_ACCOUNT_REQUEST_SUCCESS, delegate (BTBNotification sNotification) {
-				Dictionary<string,object> tDicoInformations = new Dictionary<string,object> ();
-				if (sNotification.Datas != null) {
-					tDicoInformations.Add (NWDNotificationConstants.K_NOTIFICATION_KEY, sNotification.Datas);
-				}
-				AccountRequestSuccessAction (tDicoInformations);
-			});
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		void RemoveObserver ()
-		{
-			// get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
-			BTBNotificationManager tNotificationManager = NWDGameDataManager.UnitySingleton ().NotificationCenter;
-
-			// remove this from BTBNotificationManager
-			tNotificationManager.RemoveObserverEveryWhere (this);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Start this instance.
-		/// </summary>
-		void Start ()
-		{
-//			InstallObserver ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Awake this instance.
-		/// </summary>
-		void Awake ()
-		{
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Raises the destroy event.
-		/// </summary>
-		void OnDestroy ()
-		{
-			//RemoveObserver ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The data updated Event 
-		/// </summary>
-		public NWDGameDatasUpdated DataUpdated;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Datas updated action.
-		/// </summary>
-		/// <param name="sDicoInformations">dico informations.</param>
-		public void DataUpdatedAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (DataUpdated != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-				DataUpdated.Invoke (sDicoInformations);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The data synchronize start event.
-		/// </summary>
-		public NWDGameDatasStart DataSynchronizeStart;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Datas synchronize start action.
-		/// </summary>
-		/// <param name="sDicoInformations">dico informations.</param>
-		public void DataSynchronizeStartAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (DataSynchronizeStart != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-				DataSynchronizeStart.Invoke (sDicoInformations);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The data synchronize error event.
-		/// </summary>
-		public NWDGameDatasError DataSynchronizeError;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Datas the synchronize error action.
-		/// </summary>
-		/// <param name="sDicoInformations">S dico informations.</param>
-		public void DataSynchronizeErrorAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (DataSynchronizeError != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-                //TODO : implement the error from data synchronize
-                NWDError sError = new NWDError();
-				DataSynchronizeError.Invoke (sDicoInformations, sError);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The data synchronize success event.
-		/// </summary>
-		public NWDGameDatasSuccess DataSynchronizeSuccess;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Datas the synchronize success action.
-		/// </summary>
-		/// <param name="sDicoInformations">S dico informations.</param>
-		public void DataSynchronizeSuccessAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (DataSynchronizeSuccess != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-				DataSynchronizeSuccess.Invoke (sDicoInformations);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The account request start event.
-		/// </summary>
-		public NWDGameAccountStart AccountRequestStart;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Account request start action.
-		/// </summary>
-		/// <param name="sDicoInformations">S dico informations.</param>
-		public void AccountRequestStartAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (AccountRequestStart != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerStatut;
-				AccountRequestStart.Invoke (sDicoInformations, tPlayerStatut);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The account request error event.
-		/// </summary>
-		public NWDGameAccountError AccountRequestError;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Account request error action.
-		/// </summary>
-		/// <param name="sDicoInformations">S dico informations.</param>
-		public void AccountRequestErrorAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (AccountRequestError != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-				//TODO : implement the error from data synchronize
-				NWDError sError = new NWDError();
-				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerStatut;
-				AccountRequestError.Invoke (sDicoInformations, tPlayerStatut, sError);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The account request success event.
-		/// </summary>
-		public NWDGameAccountSuccess AccountRequestSuccess;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Account request success action.
-		/// </summary>
-		/// <param name="sDicoInformations">S dico informations.</param>
-		public void AccountRequestSuccessAction (Dictionary<string,object> sDicoInformations = null)
-		{
-			if (AccountRequestSuccess != null) {
-				if (sDicoInformations == null) {
-					sDicoInformations = new Dictionary<string,object> ();
-				}
-				NWDAppEnvironmentPlayerStatut tPlayerStatut = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerStatut;
-				AccountRequestSuccess.Invoke (sDicoInformations, tPlayerStatut);
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent EngineLaunchEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationEngineLaunch(BTBNotification sNotification)
+        {
+            if(EngineLaunchEvent!=null)
+            {
+                EngineLaunchEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DatasStartLoadingEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            if ( DatasStartLoadingEvent!= null)
+            {
+                DatasStartLoadingEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DatasPartialLoadedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
+        {
+            if ( DatasPartialLoadedEvent!= null)
+            {
+                DatasPartialLoadedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DatasLoadedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            if ( DatasLoadedEvent!= null)
+            {
+                DatasLoadedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent LanguageChangedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationLanguageChanged(BTBNotification sNotification)
+        {
+            if ( LanguageChangedEvent!= null)
+            {
+                LanguageChangedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DataLocalUpdateEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDataLocalUpdate(BTBNotification sNotification)
+        {
+            if ( DataLocalUpdateEvent!= null)
+            {
+                DataLocalUpdateEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DataLocalInsertEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDataLocalInsert(BTBNotification sNotification)
+        {
+            if ( DataLocalInsertEvent!= null)
+            {
+                DataLocalInsertEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DataLocalDeleteEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDataLocalDelete(BTBNotification sNotification)
+        {
+            if ( DataLocalDeleteEvent!= null)
+            {
+                DataLocalDeleteEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent DatasWebUpdateEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasWebUpdate(BTBNotification sNotification)
+        {
+            if ( DatasWebUpdateEvent!= null)
+            {
+                DatasWebUpdateEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent ErrorEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationError(BTBNotification sNotification)
+        {
+            if ( ErrorEvent!= null)
+            {
+                ErrorEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent AccountChangedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationAccountChanged(BTBNotification sNotification)
+        {
+            if ( AccountChangedEvent!= null)
+            {
+                AccountChangedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent AccountSessionExpiredEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationAccountSessionExpired(BTBNotification sNotification)
+        {
+            if ( AccountSessionExpiredEvent!= null)
+            {
+                AccountSessionExpiredEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent AccountBannedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationAccountBanned(BTBNotification sNotification)
+        {
+            if ( AccountBannedEvent!= null)
+            {
+                AccountBannedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent NetworkOffLineEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationNetworkOffLine(BTBNotification sNotification)
+        {
+            if ( NetworkOffLineEvent!= null)
+            {
+                NetworkOffLineEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent NetworkOnLineEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationNetworkOnLine(BTBNotification sNotification)
+        {
+            if ( NetworkOnLineEvent!= null)
+            {
+                NetworkOnLineEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent NetworkUnknowEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationNetworkUnknow(BTBNotification sNotification)
+        {
+            if ( NetworkUnknowEvent!= null)
+            {
+                NetworkUnknowEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationErrorEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationError(BTBNotification sNotification)
+        {
+            if ( WebOperationErrorEvent!= null)
+            {
+                WebOperationErrorEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationUploadInProgressEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationUploadInProgress(BTBNotification sNotification)
+        {
+            if ( WebOperationUploadInProgressEvent!= null)
+            {
+                WebOperationUploadInProgressEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationDownloadInProgressEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationDownloadInProgress(BTBNotification sNotification)
+        {
+            if ( WebOperationDownloadInProgressEvent!= null)
+            {
+                WebOperationDownloadInProgressEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationDownloadIsDoneEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
+        {
+            if ( WebOperationDownloadIsDoneEvent!= null)
+            {
+                WebOperationDownloadIsDoneEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationDownloadFailedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
+        {
+            if ( WebOperationDownloadFailedEvent!= null)
+            {
+                WebOperationDownloadFailedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationDownloadErrorEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationDownloadError(BTBNotification sNotification)
+        {
+            if ( WebOperationDownloadErrorEvent!= null)
+            {
+                WebOperationDownloadErrorEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent WebOperationDownloadSuccessedEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
+        {
+            if ( WebOperationDownloadSuccessedEvent!= null)
+            {
+                WebOperationDownloadSuccessedEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDCallBackEvent GenericEvent;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationGeneric(BTBNotification sNotification)
+        {
+            if ( GenericEvent!=null)
+            {
+                GenericEvent.Invoke(sNotification);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
 	}
 }
 //=====================================================================================================================

@@ -114,8 +114,18 @@ namespace NetWorkedData
 				}
 			}
 			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDError PostNotificationErrorWithDomainAndCode(string sDomain, string sCode)
+        {
+            NWDError rReturn = NWDError.GetErrorWithDomainAndCode(sDomain, sCode);
+            if (rReturn != null)
+            {
+                rReturn.PostNotificationError();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sValidation , NWDErrorType sType = NWDErrorType.Verbose)
@@ -163,9 +173,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            BTBNotificationManager.SharedInstance().PostNotification(this,NWDNotificationConstants.K_ERROR,this);
         }
 		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
+        public void PostNotificationError ()
 		{
 			// do something with this object
 		}

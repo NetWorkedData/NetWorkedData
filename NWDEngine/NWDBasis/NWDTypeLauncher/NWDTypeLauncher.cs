@@ -150,39 +150,9 @@ namespace NetWorkedData
                 double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 double tDelta = tFinishTimestamp - tStartTimestamp;
                 Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
-
-                //if (Application.isEditor == true && Application.isPlaying == false)
-                //{
-                //    Debug.Log("NWD => Preload Datas for Editor");
-                //    tShareInstance.ReloadAllObjects();
-                //}
-
-                //if (Application.isEditor == true)
-                //{
-                //    Debug.Log("NWD =>  I AM IN EDITOR ");
-                //    if (Application.isPlaying == true)
-                //    {
-                //        Debug.Log("NWD =>  I AM IN PLAYER ");
-                //    }
-                //    else
-                //    {
-                //        Debug.Log("NWD =>  I AM ---NOT--- IN PLAYER ");
-                //    }
-                //}
-                //else
-                //{
-                //    Debug.Log("NWD =>  I AM ---NOT--- IN EDITOR ");
-                //    if (Application.isPlaying == true)
-                //    {
-                //        Debug.Log("NWD =>  I AM IN PLAYER ");
-                //    }
-                //    else
-                //    {
-                //        Debug.Log("NWD =>  I AM ---NOT--- IN PLAYER ");
-                //    }
-                //}
-
-
+                // Notify NWD is launch
+                IsLaunched = true;
+                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
                 if (DataLoaded == false)
                 {
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true)
@@ -191,8 +161,6 @@ namespace NetWorkedData
                         tShareInstance.ReloadAllObjects();
                     }
                 }
-                IsLaunched = true;
-
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
         }

@@ -88,7 +88,7 @@ namespace NetWorkedData
             PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
-            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetPlayerSession()
@@ -99,7 +99,7 @@ namespace NetWorkedData
             PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
-            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAnonymousSession()
@@ -109,7 +109,7 @@ namespace NetWorkedData
             AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
             SavePreferences();
             // add notification
-            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RestaureAnonymousSession()
@@ -121,7 +121,7 @@ namespace NetWorkedData
             // TODO :  must connect to server
             SavePreferences();
             // add notification
-            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

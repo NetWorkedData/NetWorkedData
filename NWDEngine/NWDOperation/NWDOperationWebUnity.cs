@@ -167,14 +167,14 @@ namespace NetWorkedData
 
                     if (Request.uploadProgress < 1.0f)
                     {
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_UPLOAD_IN_PROGRESS, this));
+                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, this));
                         ResultInfos.UploadedDateTime = DateTime.Now;
                         ResultInfos.DownloadedDateTime = ResultInfos.UploadedDateTime;
                         ResultInfos.FinishDateTime = ResultInfos.UploadedDateTime;
                     }
                     if (Request.downloadProgress < 1.0f)
                     {
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_IN_PROGRESS, this));
+                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, this));
                     }
 
                     yield return null;
@@ -185,13 +185,13 @@ namespace NetWorkedData
                     ResultInfos.DownloadedDateTime = DateTime.Now;
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
                     NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_IS_DONE, this));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
                     NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }
 
                 if (Request.isNetworkError)
                 {
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
                     NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OffLine);
 
@@ -207,7 +207,7 @@ namespace NetWorkedData
                 else if (Request.isHttpError)
                 {
                     // Error
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
                     NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OnLine);
 
@@ -230,7 +230,7 @@ namespace NetWorkedData
                     Dictionary<string, object> tData = new Dictionary<string, object>();
                     if (Request.downloadHandler.text.Equals(""))
                     {
-                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
+                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
                         Statut = BTBOperationState.Error;
                         ResultInfos.SetErrorCode("WEB03");
@@ -248,7 +248,7 @@ namespace NetWorkedData
                         // TODO : TOKEN IS FAILED : DISCONNECT AND RESET DATA FOR THIS USER... NO SYNC AUTHORIZED... DELETE LOCAL DATA... RESTAURE FROM LOGIN
                         if (tData == null)
                         {
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_ERROR, this));
+                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
                             Statut = BTBOperationState.Error;
                             ResultInfos.SetErrorCode("WEB04");
@@ -284,16 +284,25 @@ namespace NetWorkedData
                                     ResultInfos.errorCode == "RQT93" ||
                                     ResultInfos.errorCode == "RQT94")
                                 {
-                                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_SESSION_EXPIRED, ResultInfos));
+                                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
 
                                     // TODO : Change for anonymous account
                                     NWDAppConfiguration.SharedInstance().SelectedEnvironment().RestaureAnonymousSession();
                                 }
                                 else
                                 {
-                                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_ERROR, ResultInfos));
+                                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_OPERATION_WEB_ERROR, ResultInfos));
+                                    if (ResultInfos.errorDesc != null)
+                                    {
+                                        ResultInfos.errorDesc.PostNotificationError();
+                                            NWDError tBanA = NWDError.GetErrorWithDomainAndCode("account", "ACC98");
+                                            NWDError tBanB = NWDError.GetErrorWithDomainAndCode("account", "ACC99");
+                                        if (ResultInfos.errorDesc == tBanA || ResultInfos.errorDesc == tBanB)
+                                        {
+                                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
+                                        }
+                                    }
                                 }
-
                                 FailInvoke(Request.downloadProgress, ResultInfos);
                                 if (Application.isPlaying == true)
                                 {
@@ -374,7 +383,7 @@ namespace NetWorkedData
 
                                 DataDownloadedCompute(ResultInfos);
 
-                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_DOWNLOAD_SUCCESSED, ResultInfos));
+                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
                                 SuccessInvoke(Request.downloadProgress, ResultInfos);
                             }
                         }
@@ -388,7 +397,7 @@ namespace NetWorkedData
 
                 if (tUserChange == true)
                 {
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDGameDataManager.NOTIFICATION_USER_CHANGE, null));
+                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_CHANGE, null));
                 }
 
                 Finish();

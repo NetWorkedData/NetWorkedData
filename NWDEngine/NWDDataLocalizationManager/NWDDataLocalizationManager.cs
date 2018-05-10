@@ -12,12 +12,14 @@ using UnityEngine;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataLocalizationManager
     {
+        //-------------------------------------------------------------------------------------------------------------
         public const string kBaseDev = "BASE";
         public string LanguagesString = kBaseDev + ";de;en;es;fr;it;ja;ko;pt;ru;th";
         public Dictionary<string, string> LanguageDico = new Dictionary<string, string>();
-        public const string kLANGUAGE_CHANGED_NOTIFICATION = "kLANGUAGE_CHANGED_NOTIFICATION";
+        //-------------------------------------------------------------------------------------------------------------
         static public string SystemLanguageString ()
         {
             string tReturn = "";
@@ -198,7 +200,7 @@ namespace NetWorkedData
             }
             return tReturn;
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager()
         {
             // LanguageDico.Add ("Base Dev", kBaseDev);
@@ -261,7 +263,7 @@ namespace NetWorkedData
             //LanguageDico.Add("Arabic(Uae)", "ar_AE");
             //LanguageDico.Add("Arabic(Yemen)", "ar_YE");
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         public string ISOValue(string sValue)
         {
             if (sValue == "fr")
@@ -397,6 +399,8 @@ namespace NetWorkedData
                 return sValue;
             }
         }
+        //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

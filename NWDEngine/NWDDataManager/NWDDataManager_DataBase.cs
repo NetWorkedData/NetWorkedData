@@ -134,6 +134,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InsertObject(object sObject, bool sAccountConnected)
         {
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Insert(sObject);
@@ -146,6 +147,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateObject(object sObject, bool sAccountConnected)
         {
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Update(sObject);
@@ -158,6 +160,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteObject(object sObject, bool sAccountConnected)
         {
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             //  update disable with date to delete
             if (sAccountConnected)
             {
@@ -214,9 +217,9 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                 }
             }
-                }
+        }
         //-------------------------------------------------------------------------------------------------------------
-                public void UpdateAllTablesLocal()
+        public void UpdateAllTablesLocal()
         {
             foreach (Type tType in mTypeList)
             {
@@ -259,7 +262,7 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.CreateTableByType(sType);
             }
-                }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void MigrateTable(Type sType, bool sAccountConnected)
         {

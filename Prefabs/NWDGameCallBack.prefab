@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4554125632419208}
-  - component: {fileID: 114892399637952940}
+  - component: {fileID: 114742539207733046}
   m_Layer: 0
   m_Name: NWDGameCallBack
   m_TagString: Untagged
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114892399637952940
+--- !u!114 &114742539207733046
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,38 +51,123 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a61c2ec2b13460abe9fa9e09afdef0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UserBanned:
+  EngineLaunchEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  UserNew:
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DatasStartLoadingEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  UserLogIn:
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DatasPartialLoadedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  UserLogOut:
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DatasLoadedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  DataSynchronized:
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  LanguageChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  DataBlocked:
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DataLocalUpdateEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  AppNeedToBeUpdated:
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DataLocalInsertEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: NetWorkedData.NWDGameEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DataLocalDeleteEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  DatasWebUpdateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  AccountChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  AccountSessionExpiredEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  AccountBannedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  NetworkOffLineEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  NetworkOnLineEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  NetworkUnknowEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationUploadInProgressEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationDownloadInProgressEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationDownloadIsDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationDownloadFailedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationDownloadErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  WebOperationDownloadSuccessedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  GenericEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

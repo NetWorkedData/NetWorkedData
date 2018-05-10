@@ -159,21 +159,21 @@ namespace NetWorkedData
 		void Start()
 		{
 			Debug.Log("START NWDAccountPanel");
-			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_ONLINE, delegate (BTBNotification sNotification)
+            BTBNotificationManager.SharedInstance().AddObserver (this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
             {
 				if (TextNetworkResult!=null)
 				{
                     TextNetworkResult.text = "<color=green><b>ON LINE</b></color>";
 				}
 			});
-			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
+            BTBNotificationManager.SharedInstance().AddObserver (this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
             {
 				if (TextNetworkResult!=null)
 				{
 				    TextNetworkResult.text = "<color=red><b>OFF LINE</b></color>";
 				}
 			});
-			BTBNotificationManager.SharedInstance().AddObserver (this, NWDGameDataManager.NOTIFICATION_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
+            BTBNotificationManager.SharedInstance().AddObserver (this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
             {
 				if (TextNetworkResult!=null)
 				{
@@ -254,8 +254,6 @@ namespace NetWorkedData
             }
             NWDDataManager.SharedInstance().PlayerLanguageSave(tOptionsResult[DropdownLocalizationList.value]);
             Debug.Log("finish with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
-
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDDataLocalizationManager.kLANGUAGE_CHANGED_NOTIFICATION);
         }
         //-------------------------------------------------------------------------------------------------------------
         void InitAccountList()

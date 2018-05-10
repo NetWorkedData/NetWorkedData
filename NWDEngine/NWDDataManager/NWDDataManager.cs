@@ -25,12 +25,6 @@ namespace NetWorkedData
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
-        public const string NOTIFICATION_DATAS_START_LOADING = "NOTIFICATION_DATAS_START_LOADING"; //NWDDataManager.NOTIFICATION_DATAS_START_LOADING
-        //-------------------------------------------------------------------------------------------------------------
-        public const string NOTIFICATION_DATAS_PARTIAL_LOADED = "NOTIFICATION_DATAS_PARTIAL_LOADED"; //NWDDataManager.NOTIFICATION_DATAS_PARTIAL_LOADED
-        //-------------------------------------------------------------------------------------------------------------
-        public const string NOTIFICATION_DATAS_LOADED = "NOTIFICATION_DATAS_LOADED"; //NWDDataManager.NOTIFICATION_DATAS_LOADED
-        //-------------------------------------------------------------------------------------------------------------
         private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
         private bool kConnectedToDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -64,6 +58,8 @@ namespace NetWorkedData
             tUserLanguage.Value.SetString(sNewLanguage);
             tUserLanguage.SaveModifications();
             PlayerLanguage = sNewLanguage;
+            // notify the change
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()

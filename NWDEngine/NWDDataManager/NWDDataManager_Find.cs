@@ -27,18 +27,18 @@ namespace NetWorkedData
         {
             Debug.Log("NWDDataManager AsyncReloadAllObjects()");
             NWDTypeLauncher.DataLoaded = false;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDDataManager.NOTIFICATION_DATAS_START_LOADING);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             NWDTypeLauncher.ClassesExpected = mTypeList.Count();
             NWDTypeLauncher.ClassesDataLoaded = 0;
             while (NWDTypeLauncher.ClassesDataLoaded < NWDTypeLauncher.ClassesExpected)
             {
                 NWDDataManager.SharedInstance().ReloadAllObjectsByClass(NWDTypeLauncher.ClassesDataLoaded);
                 NWDTypeLauncher.ClassesDataLoaded++;
-                BTBNotificationManager.SharedInstance().PostNotification(NWDDataManager.SharedInstance(), NWDDataManager.NOTIFICATION_DATAS_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
                 yield return null;
             }
             NWDTypeLauncher.DataLoaded = true;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDDataManager.NOTIFICATION_DATAS_LOADED);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClass(int sCounter)
@@ -61,7 +61,7 @@ namespace NetWorkedData
         {
             double tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             NWDTypeLauncher.DataLoaded = false;
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDDataManager.NOTIFICATION_DATAS_START_LOADING);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             NWDTypeLauncher.ClassesExpected = mTypeList.Count();
             NWDTypeLauncher.ClassesDataLoaded = 0;
 			foreach( Type tType in mTypeList)
@@ -74,10 +74,10 @@ namespace NetWorkedData
                 //double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 //Debug.Log("ReloadAllObjects () => tOperationsNeeded = " + NWDTypeLauncher.ClassesDataLoaded.ToString() + "/" + NWDTypeLauncher.ClassesExpected.ToString() + " (reload datas for '"+tType.Name+"') at " + tTimeStamp.ToString());
                 NWDTypeLauncher.ClassesDataLoaded++;
-                BTBNotificationManager.SharedInstance().PostNotification(NWDDataManager.SharedInstance(), NWDDataManager.NOTIFICATION_DATAS_PARTIAL_LOADED);
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
             }
             NWDTypeLauncher.DataLoaded = true;
-            BTBNotificationManager.SharedInstance().PostNotification(this,NWDDataManager.NOTIFICATION_DATAS_LOADED);
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
 
             double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             double tDelta = tFinishTimestamp - tStartTimestamp;

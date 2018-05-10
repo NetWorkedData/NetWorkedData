@@ -53,7 +53,7 @@ namespace NetWorkedData
             //Debug.Log("NetWorkedData Awake");
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
-            BTBNotificationManager.SharedInstance().AddObserver(this, NWDNotificationConstants.K_DATAS_UPDATED, delegate (BTBNotification sNotification)
+            BTBNotificationManager.SharedInstance().AddObserver(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
             {
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });
