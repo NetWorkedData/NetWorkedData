@@ -1,6 +1,6 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -16,12 +16,10 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
-    //	TODO : finish implementation  : add notifications key and callback method : Must be test
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWD game call back.
-    /// Use in game object to connect the other gameobject to action in the NetWorkedData package 
+    /// NWD call back.
+    /// Use in game object to connect the other gameobject to notification from NetWorkedData Engine 
     /// Each scene can be connect independently
     /// </summary>
     public partial class NWDCallBack : MonoBehaviour
@@ -30,7 +28,7 @@ namespace NetWorkedData
         /// <summary>
         /// Installs the observer in the BTBNotification manager
         /// </summary>
-        void InstallObserver()
+        protected void InstallObserver()
         {
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
@@ -123,11 +121,13 @@ namespace NetWorkedData
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
-                NotificationWebOperationUploadInProgress(sNotification);
+                NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
+                NotificationWebOperationUploadInProgress(sNotification, tSender.Request.uploadProgress);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
-                NotificationWebOperationDownloadInProgress(sNotification);
+                NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
+                NotificationWebOperationDownloadInProgress(sNotification, tSender.Request.downloadProgress);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (BTBNotification sNotification)
             {
@@ -153,7 +153,7 @@ namespace NetWorkedData
             });
         }
         //-------------------------------------------------------------------------------------------------------------
-        void RemoveObserver()
+        protected void RemoveObserver()
         {
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
@@ -185,21 +185,24 @@ namespace NetWorkedData
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
         }
         //-------------------------------------------------------------------------------------------------------------
-        void Awake()
-        {
-        }
+        //protected void Awake()
+        //{
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        void OnEnable()
+        protected void OnEnable()
         {
+            // Install observer for ecah NWD Notification Key
             InstallObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
-        void Start()
-        {
-        }
+        //protected void Start()
+        //{
+
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        void OnDisable()
+        protected void OnDisable()
         {
+            // Remove observer()
             RemoveObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -294,12 +297,12 @@ namespace NetWorkedData
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification)
+        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
         {
             // create your method by override
         }
@@ -330,5 +333,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

@@ -81,7 +81,6 @@ namespace NetWorkedData
         {
             get; set;
         }
-        //[NWDEnumString(new string[] {"Temporary","Anonymous","LoginPassword","Facebook","Google","Unknow"})]
         public NWDAppEnvironmentPlayerStatut AccountType
         {
             get; set;

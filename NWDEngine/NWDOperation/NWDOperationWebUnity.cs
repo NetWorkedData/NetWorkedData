@@ -24,6 +24,7 @@ using BTBMiniJSON;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [ExecuteInEditMode]
     public partial class NWDOperationWebUnity : BTBOperation
     {
@@ -193,7 +194,7 @@ namespace NetWorkedData
                 {
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
-                    NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OffLine);
+                    //NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OffLine);
 
                     Statut = BTBOperationState.Error;
                     ResultInfos.SetErrorCode("WEB01");
@@ -209,7 +210,7 @@ namespace NetWorkedData
                     // Error
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
-                    NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OnLine);
+                    //NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OnLine);
 
                     Statut = BTBOperationState.Error;
                     ResultInfos.SetErrorCode("WEB02");
@@ -225,7 +226,7 @@ namespace NetWorkedData
                     // Success
                     ProgressInvoke(1.0f, ResultInfos);
 
-                    NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OnLine);
+                    //NWDGameDataManager.UnitySingleton().NetworkStatutChange(NWDNetworkState.OnLine);
 
                     Dictionary<string, object> tData = new Dictionary<string, object>();
                     if (Request.downloadHandler.text.Equals(""))
@@ -575,6 +576,7 @@ namespace NetWorkedData
             return tBodyData;
         }
         //-------------------------------------------------------------------------------------------------------------
-    }
+            }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
