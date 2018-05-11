@@ -20,7 +20,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool IsActive = true;
         //-------------------------------------------------------------------------------------------------------------
-        public void CheckNow()
+        public void CheckNow() // TODO TEST
         {
             //NWDUserNetWorking.NetworkingUpdate();
             // but need to chnage the waiting seconds? 
@@ -28,12 +28,12 @@ namespace NetWorkedData
             StartCoroutine(UserNetworkinUpdate());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CheckStart()
+        public void CheckStart() // TODO TEST
         {
             StartCoroutine(UserNetworkinUpdate());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CheckStop()
+        public void CheckStop() // TODO TEST
         {
             StopCoroutine(UserNetworkinUpdate());
         }
