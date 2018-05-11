@@ -318,7 +318,9 @@ namespace NetWorkedData
                     tGameDataManager.NetWorkCheck = tNetWorkCheckScript;
                     // Add GUI component to draw some basic element : gauge, spinner, alert... not in canvas! For canvas element use prefab NWDCanvasDataManager
                     BTBScreenGaugeComplex tHealthGaugeComplex = tObjToSpawn.AddComponent<BTBScreenGaugeComplex>();
+                    tHealthGaugeComplex.IsVisible = false;
                     BTBScreenGaugeComplex tHealthGaugeComplexB = tObjToSpawn.AddComponent<BTBScreenGaugeComplex>();
+                    tHealthGaugeComplexB.IsVisible = false;
                     tGameDataManager.LoadingDatasGauge = tHealthGaugeComplex;
                     tGameDataManager.OperationGauge = tHealthGaugeComplexB;
 
@@ -418,6 +420,11 @@ namespace NetWorkedData
                 {
                     LoadingDatasGauge.IsVisible = false;
                 }
+            }
+            // push gauge for web opeartion to invisible
+            if (OperationGauge != null)
+            {
+                OperationGauge.IsVisible = false;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -2129,6 +2129,7 @@ MonoBehaviour:
   TextWebResult: {fileID: 114230144933654976}
   TextNetworkResult: {fileID: 114759436043089710}
   DropdownAccountList: {fileID: 114599057879445902}
+  DropdownLocalizationList: {fileID: 114629446907953116}
   TextLogin: {fileID: 114778744760483196}
   TextLogout: {fileID: 114020189551314158}
   TextSynchronize: {fileID: 114162639788941846}
