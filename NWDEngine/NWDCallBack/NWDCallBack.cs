@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using BasicToolBox;
+using UnityEngine.Networking;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -123,11 +124,13 @@ namespace NetWorkedData
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
-                NotificationWebOperationUploadInProgress(sNotification);
+                NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
+                NotificationWebOperationUploadInProgress(sNotification,tSender.Request.uploadProgress);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
-                NotificationWebOperationDownloadInProgress(sNotification);
+                NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
+                NotificationWebOperationDownloadInProgress(sNotification, tSender.Request.downloadProgress);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (BTBNotification sNotification)
             {
@@ -282,12 +285,12 @@ namespace NetWorkedData
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification)
+        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification)
+        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
         {
             // create your method by override
         }
