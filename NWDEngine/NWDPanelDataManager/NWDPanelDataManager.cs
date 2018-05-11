@@ -52,6 +52,10 @@ namespace NetWorkedData
             {
                 DatasLoadGauge.SetHidden(true);
             }
+            if (WebSyncGauge != null)
+            {
+                WebSyncGauge.SetHidden(true);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDCallBackEvent EngineLaunchEvent;
@@ -264,7 +268,7 @@ namespace NetWorkedData
             if (WebSyncGauge != null)
             {
                 WebSyncGauge.SetHidden(false);
-                WebSyncGauge.SetVerticalValue(sPurcent/2.0F);
+                WebSyncGauge.SetHorizontalValue(sPurcent/2.0F);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -279,7 +283,7 @@ namespace NetWorkedData
             if (WebSyncGauge != null)
             {
                 WebSyncGauge.SetHidden(false);
-                WebSyncGauge.SetVerticalValue(0.5F+sPurcent / 2.0F);
+                WebSyncGauge.SetHorizontalValue(0.5F+sPurcent / 2.0F);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -293,7 +297,7 @@ namespace NetWorkedData
             }
             if (WebSyncGauge != null)
             {
-                WebSyncGauge.SetVerticalValue(1.0F);
+                WebSyncGauge.SetHorizontalValue(1.0F);
                 WebSyncGauge.SetHidden(true);
             }
         }

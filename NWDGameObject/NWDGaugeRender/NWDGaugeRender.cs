@@ -36,17 +36,21 @@ namespace NetWorkedData
         public float HorizontalValue = 1.0f;
         [Range(0.0F, 1.0F)]
         public float VerticalValue = 1.0f;
+        private bool IsHidden = true;
         //-------------------------------------------------------------------------------------------------------------
         public void SetHidden(bool sValue)
         {
-            //gameObject.SetActive(!sValue);
-            if (sValue == false)
+            if (IsHidden != sValue)
             {
-                Anim.SetTrigger("Start");
-            }
-            else
-            {
-                Anim.SetTrigger("Finish");
+                IsHidden = sValue;
+                if (IsHidden == false)
+                {
+                    Anim.SetTrigger("Start");
+                }
+                else
+                {
+                    Anim.SetTrigger("Finish");
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

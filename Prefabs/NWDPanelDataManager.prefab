@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114482505689767520}
   - component: {fileID: 114665454635378636}
   - component: {fileID: 225874942034971216}
+  - component: {fileID: 95283650587378774}
   m_Layer: 5
   m_Name: NWDNetworkCheck
   m_TagString: Untagged
@@ -225,6 +226,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95283650587378774
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1010929641877348}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0b611f9dc82744b2f8e8c27f1ad87f46, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95992690761170182
 Animator:
   serializedVersion: 3
@@ -281,8 +299,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1868435329171096}
-        m_MethodName: 
+      - m_Target: {fileID: 114392853488475400}
+        m_MethodName: ReloadDatasAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -558,7 +576,7 @@ MonoBehaviour:
   ImageOnline: {fileID: 21300000, guid: 5c160dbaed1da4d9f9bf065952fb345f, type: 3}
   ImageOffline: {fileID: 21300000, guid: a6bbd8af7955540ecbdcba39fd3b9775, type: 3}
   ImageUnknow: {fileID: 21300000, guid: a7e9963a459a84d56b0c16a96d8279ea, type: 3}
-  ImageCheck: {fileID: 21300000, guid: 9b4eed9a346b946918899b756a6c73a7, type: 3}
+  ImageCheck: {fileID: 21300000, guid: 9806f0d25c3f54571a824e3471ef76e1, type: 3}
 --- !u!114 &114506839567712474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1104,7 +1122,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1569091410731880}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1115,7 +1133,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1367205876627416}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
