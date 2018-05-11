@@ -1,6 +1,6 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2017 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -16,10 +16,12 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //-------------------------------------------------------------------------------------------------------------
+    //	TODO : finish implementation  : add notifications key and callback method : Must be test
+    //-------------------------------------------------------------------------------------------------------------
     /// <summary>
-    /// NWD call back.
-    /// Use in game object to connect the other gameobject to notification from NetWorkedData Engine 
+    /// NWD game call back.
+    /// Use in game object to connect the other gameobject to action in the NetWorkedData package 
     /// Each scene can be connect independently
     /// </summary>
     public partial class NWDCallBack : MonoBehaviour
@@ -28,15 +30,17 @@ namespace NetWorkedData
         /// <summary>
         /// Installs the observer in the BTBNotification manager
         /// </summary>
-        protected void InstallObserver()
+        void InstallObserver()
         {
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+
             // Launch engine
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
             {
                 NotificationEngineLaunch(sNotification);
             });
+
             // load datas
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATAS_START_LOADING, delegate (BTBNotification sNotification)
             {
@@ -51,11 +55,13 @@ namespace NetWorkedData
             {
                 NotificationDatasLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
             });
+
             // change language
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_LANGUAGE_CHANGED, delegate (BTBNotification sNotification)
             {
                 NotificationLanguageChanged(sNotification);
             });
+
             // change data
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT, delegate (BTBNotification sNotification)
             {
@@ -69,16 +75,19 @@ namespace NetWorkedData
             {
                 NotificationDataLocalDelete(sNotification);
             });
+
             // change from web data
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
             {
                 NotificationDatasWebUpdate(sNotification);
             });
+
             // error
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ERROR, delegate (BTBNotification sNotification)
             {
                 NotificationError(sNotification);
             });
+
             // player/user change
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ACCOUNT_CHANGE, delegate (BTBNotification sNotification)
             {
@@ -92,6 +101,7 @@ namespace NetWorkedData
             {
                 NotificationAccountBanned(sNotification);
             });
+
             // Network statut
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
             {
@@ -105,6 +115,7 @@ namespace NetWorkedData
             {
                 NotificationNetworkUnknow(sNotification);
             });
+
             // Operation Web
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR, delegate (BTBNotification sNotification)
             {
@@ -112,13 +123,11 @@ namespace NetWorkedData
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
-                NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
-                NotificationWebOperationUploadInProgress(sNotification, tSender.Request.uploadProgress);
+                NotificationWebOperationUploadInProgress(sNotification);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
-                NWDOperationWebUnity tSender = sNotification.Sender as NWDOperationWebUnity;
-                NotificationWebOperationDownloadInProgress(sNotification, tSender.Request.downloadProgress);
+                NotificationWebOperationDownloadInProgress(sNotification);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (BTBNotification sNotification)
             {
@@ -136,6 +145,7 @@ namespace NetWorkedData
             {
                 NotificationWebOperationDownloadSuccessed(sNotification);
             });
+
             // generic
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NOTIFICATION_KEY, delegate (BTBNotification sNotification)
             {
@@ -143,38 +153,49 @@ namespace NetWorkedData
             });
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected void RemoveObserver()
+        void RemoveObserver()
         {
             // get BTBNotificationManager shared instance from the NWDGameDataManager Singleton
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
-            // remove this from BTBNotificationManager
-            tNotificationManager.RemoveObserverEveryWhere(this);
+
+			// remove this from BTBNotificationManager
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_BANNED);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_CHANGE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_START_LOADING);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ENGINE_LAUNCH);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NOTIFICATION_KEY);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED);
+			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
         }
         //-------------------------------------------------------------------------------------------------------------
-        //protected void Awake()
-        //{
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        protected void OnEnable()
+        void OnEnable()
         {
-            // Install observer for ecah NWD Notification Key
             InstallObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
-        //protected void Start()
-        //{
-
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        protected void OnDisable()
+        void OnDisable()
         {
-            // Remove observer()
             RemoveObserver();
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //protected void OnDestroy()
-        //{
-        //}
+		//=============================================================================================================
+        // VIRTUAL METHOD        
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationEngineLaunch(BTBNotification sNotification)
         {
@@ -261,12 +282,12 @@ namespace NetWorkedData
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
+        public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification)
         {
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
+        public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification)
         {
             // create your method by override
         }
@@ -297,6 +318,5 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
