@@ -25,6 +25,12 @@ namespace NetWorkedData
         public Button ButtonShowLog;
         public Button ButtonShowAccount;
         //-------------------------------------------------------------------------------------------------------------
+        public void ReloadDatasAction()
+        {
+            //NWDDataManager.SharedInstance().ReloadAllObjects();
+            NWDGameDataManager.UnitySingleton().ReloadAllDatas();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         // Use this for initialization
         void Start()
         {

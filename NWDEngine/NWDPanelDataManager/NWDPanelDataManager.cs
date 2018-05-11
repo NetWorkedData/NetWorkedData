@@ -34,12 +34,6 @@ namespace NetWorkedData
         public GameObject AlertPanel;
 
         //-------------------------------------------------------------------------------------------------------------
-        public void ReloadDatasAction()
-        {
-            //NWDDataManager.SharedInstance().ReloadAllObjects();
-            NWDGameDataManager.UnitySingleton().ReloadAllDatas();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void NetworkStatutTestAction()
         {
             NetworkStatutRender.SetNetworkState(NWDNetworkState.Check);
