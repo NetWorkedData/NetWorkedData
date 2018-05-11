@@ -456,7 +456,7 @@ namespace NetWorkedData
             // object was updated
             this.AddonUpdatedMe(); // call override method
                                    // I have one or more uploaded datas to synchronize;
-            NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
+            //NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
             //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -504,7 +504,7 @@ namespace NetWorkedData
             this.AddonUpdatedMe(); // call override method
 
             // I have one or more uploaded datas to synchronize;
-            NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
+            //NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
             //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
             //NWDDataManager.SharedInstance().DatasMustBeSync = true;
         }

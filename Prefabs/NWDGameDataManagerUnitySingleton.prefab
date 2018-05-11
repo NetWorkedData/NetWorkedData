@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4748268464594618}
   - component: {fileID: 114851336511019738}
   - component: {fileID: 114060426804862190}
-  - component: {fileID: 114704097226867984}
-  - component: {fileID: 114737126370240192}
+  - component: {fileID: 114107347638845664}
+  - component: {fileID: 114727233570549202}
+  - component: {fileID: 114000357802723428}
   m_Layer: 0
   m_Name: NWDGameDataManagerUnitySingleton
   m_TagString: Untagged
@@ -43,6 +44,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114000357802723428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1968141525719734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 047a7a736e9f5499fabbcfe4a8dc8cc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TestEverySeconds: 60
+  NetworkState: 0
 --- !u!114 &114060426804862190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -54,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d474e914e6b46c58d6446538a9d9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114704097226867984
+--- !u!114 &114107347638845664
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -62,14 +76,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1968141525719734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7256c05d62ff46c589142f19f04f0d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6038819985645411bbd6666972b1e98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 0
-  DistanceMax: 1000
-  ColorBackground: {r: 0.5514706, g: 0.5514706, b: 0.5514706, a: 1}
-  ColorFill: {r: 0.083044976, g: 0.35294116, b: 0, a: 1}
-  Size: {x: 300, y: 5}
+  ColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  ColorFill: {r: 1, g: 0, b: 0, a: 1}
+  Size: {x: 200, y: 5}
+  AlignHorizontal: 2
+  AlignVertical: 2
+  Offset: {x: 0, y: 0}
   Reverse: 1
   HorizontalValue: 1
   VerticalValue: 1
@@ -80,7 +96,6 @@ MonoBehaviour:
   TextureBackground: {fileID: 0}
   TextureFill: {fileID: 0}
   TextureOverLay: {fileID: 0}
-  Offset: {x: 0, y: 0}
   ColorLimit: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   BorderLimit: 1
   ShowText: 1
@@ -91,7 +106,7 @@ MonoBehaviour:
   OverlaySize: 10
   OverlayColor: {r: 0, g: 0, b: 0, a: 1}
   OverlayTextAnchor: 4
---- !u!114 &114737126370240192
+--- !u!114 &114727233570549202
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -99,16 +114,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1968141525719734}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7256c05d62ff46c589142f19f04f0d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6038819985645411bbd6666972b1e98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 0
-  DistanceMax: 1000
-  ColorBackground: {r: 0.5514706, g: 0.5514706, b: 0.5514706, a: 1}
-  ColorFill: {r: 0, g: 0.53827864, b: 0.9632353, a: 1}
-  Size: {x: 300, y: 5}
+  ColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  ColorFill: {r: 1, g: 0, b: 0, a: 1}
+  Size: {x: 200, y: 20}
+  AlignHorizontal: 2
+  AlignVertical: 2
+  Offset: {x: 0, y: 0}
   Reverse: 1
-  HorizontalValue: 1
+  HorizontalValue: 0
   VerticalValue: 1
   HorizontalMin: 0
   VerticalMin: 0
@@ -117,7 +134,6 @@ MonoBehaviour:
   TextureBackground: {fileID: 0}
   TextureFill: {fileID: 0}
   TextureOverLay: {fileID: 0}
-  Offset: {x: 0, y: -60}
   ColorLimit: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   BorderLimit: 1
   ShowText: 1
@@ -139,6 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e12019099c2453383e763bede76f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingDatasGauge: {fileID: 114704097226867984}
-  OperationGauge: {fileID: 114737126370240192}
-  NetworkStatut: 0
+  LoadingDatasGauge: {fileID: 114107347638845664}
+  OperationGauge: {fileID: 114727233570549202}
+  NetWorkCheck: {fileID: 114000357802723428}

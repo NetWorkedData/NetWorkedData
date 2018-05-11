@@ -16,9 +16,7 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	//	TODO : finish implementation  : add notifications key and callback method : Must be test
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
 	/// NWD game call back.
 	/// Use in game object to connect the other gameobject to action in the NetWorkedData package 
@@ -199,7 +197,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDCallBackEvent WebOperationUploadInProgressEvent;
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationUploadInProgress(BTBNotification sNotification)
+        public override void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
         {
             if ( WebOperationUploadInProgressEvent!= null)
             {
@@ -209,7 +207,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDCallBackEvent WebOperationDownloadInProgressEvent;
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationWebOperationDownloadInProgress(BTBNotification sNotification)
+        public override void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
         {
             if ( WebOperationDownloadInProgressEvent!= null)
             {
@@ -267,6 +265,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

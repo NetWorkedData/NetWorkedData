@@ -118,7 +118,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static int UpdateDelayInSeconds = 600;
+        private static int UpdateDelayInSeconds = 600;
         static bool Started = false;
         static List<Type> OtherData = new List<Type>();
         //-------------------------------------------------------------------------------------------------------------
@@ -166,7 +166,10 @@ namespace NetWorkedData
         //        NWDUserNetWorkingTimer.Enabled = true;
         //    }
         //}
-
+        public static float DelayInSeconds()
+        {
+            return (float)UpdateDelayInSeconds;
+        }
 
         public static void PrepareUpdate(int sUpdateDelayInSeconds, List<Type> sOtherData)
         {
@@ -174,10 +177,9 @@ namespace NetWorkedData
             if (Started == false)
             {
                 Started = true;
-                UpdateDelayInSeconds = sUpdateDelayInSeconds;
-                if (UpdateDelayInSeconds < 60)
+                if (sUpdateDelayInSeconds >= 60)
                 {
-                    UpdateDelayInSeconds = 60;
+                    UpdateDelayInSeconds = sUpdateDelayInSeconds;
                 }
                 if (sOtherData != null)
                 {
@@ -216,6 +218,7 @@ namespace NetWorkedData
                     tUserNetWorking.NextUpdate.SetDateTime(tDateTime);
                     tUserNetWorking.SaveModifications();
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(OtherData, true);
+                // use AddWebRequestSynchronizationWithBlock?
                 }
         }
 
@@ -248,6 +251,7 @@ namespace NetWorkedData
             SaveModifications();
             //NWDDataManager.SharedInstance().AddWebRequestSynchronization(OtherData, true);
             NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserNetWorking) }, true);
+            // use AddWebRequestSynchronizationWithBlock?
         }
         //-------------------------------------------------------------------------------------------------------------
         //~NWDUserNetWorking()

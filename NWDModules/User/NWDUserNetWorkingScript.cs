@@ -18,20 +18,43 @@ namespace NetWorkedData
     public class NWDUserNetWorkingScript : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
+        public bool IsActive = true;
+        //-------------------------------------------------------------------------------------------------------------
+        public void CheckNow()
+        {
+            //NWDUserNetWorking.NetworkingUpdate();
+            // but need to chnage the waiting seconds? 
+            StopCoroutine(UserNetworkinUpdate());
+            StartCoroutine(UserNetworkinUpdate());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CheckStart()
+        {
+            StartCoroutine(UserNetworkinUpdate());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CheckStop()
+        {
+            StopCoroutine(UserNetworkinUpdate());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
             Debug.Log("NWDUserNetWorkingScript Start()");
-            NWDUserNetWorking.PrepareUpdate(840, null);
-            StartCoroutine(UserNetworkinUpdate());
+            NWDUserNetWorking.PrepareUpdate(0, null);
+            CheckStart();
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator UserNetworkinUpdate()
         {
             while (true)
             {
-                Debug.Log("NWDUserNetWorkingScript UserNetworkinUpdate()");
-                NWDUserNetWorking.NetworkingUpdate();
-                yield return new WaitForSeconds(NWDUserNetWorking.UpdateDelayInSeconds - 10);
+                if (IsActive == true)
+                {
+                    Debug.Log("NWDUserNetWorkingScript UserNetworkinUpdate()");
+                    NWDUserNetWorking.NetworkingUpdate();
+                }
+                yield return new WaitForSeconds(NWDUserNetWorking.DelayInSeconds());
             }
         }
         //-------------------------------------------------------------------------------------------------------------
