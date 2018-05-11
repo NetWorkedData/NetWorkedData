@@ -282,7 +282,7 @@ namespace NetWorkedData
             }
             if (WebSyncGauge != null)
             {
-                WebSyncGauge.SetHidden(false);
+                //WebSyncGauge.SetHidden(false);
                 WebSyncGauge.SetHorizontalValue(0.5F+sPurcent / 2.0F);
             }
         }

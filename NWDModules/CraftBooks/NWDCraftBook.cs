@@ -118,24 +118,101 @@ namespace NetWorkedData
 		/// <param name="sCraftBook">S craft book.</param>
 		private static void AddCraftBookInHashDictionary (NWDCraftBook sCraftBook)
 		{
-            if (HashByCraftDictionary != null)
+            if (sCraftBook!=null)
             {
-                if (sCraftBook.RecipeHash != null)
+                if (HashByCraftDictionary != null)
                 {
-                    //HashByCraftDictionary
-                    if (HashByCraftDictionary.ContainsValue(sCraftBook))
+                    if (sCraftBook.RecipeHash != null)
                     {
-                        string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-                        HashByCraftDictionary.Remove(tKey);
+                        //HashByCraftDictionary
+                        if (HashByCraftDictionary.ContainsValue(sCraftBook))
+                        {
+                            string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+                            HashByCraftDictionary.Remove(tKey);
+                        }
+                        if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+                        {
+                        }
+                        else
+                        {
+                            HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
+                        }
+                        // ItemByCraftDictionary
+                        if (sCraftBook.DescriptionItem != null)
+                        {
+                            if (sCraftBook.DescriptionItem.Value != "")
+                            {
+                                if (ItemByCraftDictionary.ContainsValue(sCraftBook))
+                                {
+                                    string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+                                    ItemByCraftDictionary.Remove(tKey);
+                                }
+                                if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
+                                {
+                                }
+                                else
+                                {
+                                    ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
+                                }
+                            }
+                        }
                     }
-                    if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+                }
+            }
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Remove the craft book in dictionary of hash.
+		/// </summary>
+		/// <param name="sCraftBook">S craft book.</param>
+		private static void RemoveCraftBookInHashDictionary (NWDCraftBook sCraftBook)
+		{
+            if (sCraftBook != null)
+            {
+                //HashByCraftDictionary
+                if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+                {
+                    HashByCraftDictionary.Remove(sCraftBook.RecipeHash);
+                }
+                //ItemByCraftDictionary
+                if (sCraftBook.DescriptionItem != null)
+                {
+                    if (sCraftBook.DescriptionItem.Value != "")
                     {
+                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
+                        {
+                            ItemByCraftDictionary.Remove(sCraftBook.DescriptionItem.Value);
+                        }
                     }
-                    else
-                    {
-                        HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
-                    }
-                    // ItemByCraftDictionary
+                }
+            }
+		}
+		//-------------------------------------------------------------------------------------------------------------
+		/// <summary>
+		/// Update the craft book dictionary of hash.
+		/// </summary>
+		/// <param name="sCraftBook">S craft book.</param>
+		private static void UpdateCraftBookInHashDictionary (NWDCraftBook sCraftBook)
+        {
+            if (sCraftBook != null)
+            {
+                if (HashByCraftDictionary.ContainsValue(sCraftBook))
+                {
+                    // TODO : remove old key/value ... but which key to used?
+                    string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+                    HashByCraftDictionary.Remove(tKey);
+                }
+                if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+                {
+                    // BIG ERROR Hash is not unique!
+                }
+                else
+                {
+                    HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
+                }
+                // ItemByCraftDictionary
+                if (sCraftBook.DescriptionItem != null)
+                {
                     if (sCraftBook.DescriptionItem.Value != "")
                     {
                         if (ItemByCraftDictionary.ContainsValue(sCraftBook))
@@ -153,53 +230,6 @@ namespace NetWorkedData
                     }
                 }
             }
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Remove the craft book in dictionary of hash.
-		/// </summary>
-		/// <param name="sCraftBook">S craft book.</param>
-		private static void RemoveCraftBookInHashDictionary (NWDCraftBook sCraftBook)
-		{
-			//HashByCraftDictionary
-			if (HashByCraftDictionary.ContainsKey (sCraftBook.RecipeHash) == true) {
-				HashByCraftDictionary.Remove (sCraftBook.RecipeHash);
-			}
-			//ItemByCraftDictionary
-			if (sCraftBook.DescriptionItem.Value != "") {
-				if (ItemByCraftDictionary.ContainsKey (sCraftBook.DescriptionItem.Value) == true) {
-					ItemByCraftDictionary.Remove (sCraftBook.DescriptionItem.Value);
-				}
-			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Update the craft book dictionary of hash.
-		/// </summary>
-		/// <param name="sCraftBook">S craft book.</param>
-		private static void UpdateCraftBookInHashDictionary (NWDCraftBook sCraftBook)
-		{
-			if (HashByCraftDictionary.ContainsValue (sCraftBook)) {
-				// TODO : remove old key/value ... but which key to used?
-				string tKey = HashByCraftDictionary.FirstOrDefault (x => x.Value == sCraftBook).Key;
-				HashByCraftDictionary.Remove (tKey);
-			}
-			if (HashByCraftDictionary.ContainsKey (sCraftBook.RecipeHash) == true) {
-				// BIG ERROR Hash is not unique!
-			} else {
-				HashByCraftDictionary.Add (sCraftBook.RecipeHash, sCraftBook);
-			}
-			// ItemByCraftDictionary
-			if (sCraftBook.DescriptionItem.Value != "") {
-				if (ItemByCraftDictionary.ContainsValue (sCraftBook)) {
-					string tKey = ItemByCraftDictionary.FirstOrDefault (x => x.Value == sCraftBook).Key;
-					ItemByCraftDictionary.Remove (tKey);
-				} 
-				if (ItemByCraftDictionary.ContainsKey (sCraftBook.DescriptionItem.Value) == true) {
-				} else {
-					ItemByCraftDictionary.Add (sCraftBook.DescriptionItem.Value, sCraftBook);
-				}
-			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
