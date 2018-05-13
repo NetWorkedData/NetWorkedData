@@ -64,10 +64,26 @@ namespace NetWorkedData
         {
             get; private set;
         }
-        public bool isGoogleSignIn
+        public bool isSignUp
         {
             get; private set;
         }
+        //public bool isGoogleSignIn
+        //{
+        //    get; private set;
+        //}
+        //public bool isGoogleSignUp
+        //{
+        //    get; private set;
+        //}
+        //public bool isFacebookSignIn
+        //{
+        //    get; private set;
+        //}
+        //public bool isFacebookSignUp
+        //{
+        //    get; private set;
+        //}
         public bool isCreateAnonymous
         {
             get; private set;
@@ -139,14 +155,30 @@ namespace NetWorkedData
             {
                 isSignIn = (bool)data["signin"];
             }
-            if (data.ContainsKey("signou"))
+            if (data.ContainsKey("signout"))
             {
-                isSignOut = (bool)data["signou"];
+                isSignOut = (bool)data["signout"];
             }
-            if (data.ContainsKey("google_signin"))
+            if (data.ContainsKey("signup"))
             {
-                isGoogleSignIn = (bool)data["google_signin"];
+                isSignUp = (bool)data["signup"];
             }
+            //if (data.ContainsKey("google_signin"))
+            //{
+            //    isGoogleSignIn = (bool)data["google_signin"];
+            //}
+            //if (data.ContainsKey("google_signup"))
+            //{
+            //    isGoogleSignUp = (bool)data["google_signup"];
+            //}
+            //if (data.ContainsKey("facebook_signin"))
+            //{
+            //    isFacebookSignIn = (bool)data["facebook_signin"];
+            //}
+            //if (data.ContainsKey("facebook_signup"))
+            //{
+            //    isFacebookSignUp = (bool)data["facebook_signup"];
+            //}
             if (data.ContainsKey("create-anonymous"))
             {
                 isCreateAnonymous = (bool)data["create-anonymous"];
@@ -198,7 +230,7 @@ namespace NetWorkedData
                 int tWSBuildEditor = NWDAppConfiguration.SharedInstance().WebBuild;
                 if (wsBuild != tWSBuildEditor)
                 {
-                    //TODO Error if Ws service is not the good version ? perhaps Error is not necessary ?!
+                    // TODO : Error if Ws service is not the good version ? perhaps Error is not necessary ?!
                     // imagine ws are conciliant!?
                     // let's go... no error for this moment
                 }
@@ -236,7 +268,10 @@ namespace NetWorkedData
             token = "";
             isSignIn = false;
             isSignOut = false;
-            isGoogleSignIn = false;
+            //isGoogleSignIn = false;
+            //isGoogleSignUp = false;
+            //isFacebookSignIn = false;
+            //isFacebookSignUp = false;
             isCreateAnonymous = false;
             signkey = "";
             sign = NWDAppEnvironmentPlayerStatut.Unknow;

@@ -344,6 +344,13 @@ namespace NetWorkedData
                                     NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                                     Environment.PlayerStatut = ResultInfos.sign;
                                     tActiveUser.AccountType = ResultInfos.sign;
+
+                                    if (ResultInfos.isSignUp == true)
+                                    {
+                                        // I need recreate a anonymous count for connexion ?
+                                        Environment.ResetAnonymousSession();
+                                    }
+
                                     if (ResultInfos.sign == NWDAppEnvironmentPlayerStatut.Unknow)
                                     {
                                     }

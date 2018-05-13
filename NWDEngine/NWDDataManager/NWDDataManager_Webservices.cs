@@ -530,6 +530,42 @@ namespace NetWorkedData
             SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
+
+
+
+
+
+
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebAccount AddWebRequestRemoveFacebookWithBlock(string sSocialToken,
+                                                                         BTBOperationBlock sSuccessBlock = null,
+                                                                         BTBOperationBlock sErrorBlock = null,
+                                                                         BTBOperationBlock sCancelBlock = null,
+                                                                         BTBOperationBlock sProgressBlock = null,
+                                                                         bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            Debug.Log("AddWebRequestLogFacebookWithBlock");
+            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Disocciate Facebook with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "facebook_remove";
+            sOperation.SocialToken = sSocialToken;
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebAccount AddWebRequestRemoveGoogleWithBlock(string sSocialToken,
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            Debug.Log("AddWebRequestLogGoogleWithBlock");
+            NWDOperationWebAccount sOperation = NWDOperationWebAccount.Create("Disocciate Google with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "google_remove";
+            sOperation.SocialToken = sSocialToken;
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void WebRequestFlush (NWDAppEnvironment sEnvironment = null)
 		{

@@ -97,10 +97,97 @@ namespace NetWorkedData
 				}
 			);
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Use to test Log-in
-		/// </summary>
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to test Log-in
+        /// </summary>
+        public void FacebookTest()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestLogFacebookWithBlock("FACEBOOK",
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Sign Up/In Success " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Sign Up/In Error " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Sign Up/In Cancel " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Sign Up/In Progress " + ShowError(sResult);
+                    });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GoogleTest()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestLogGoogleWithBlock("GOOGLE",
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Sign Up/In Success " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Sign Up/In Error " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Sign Up/In Cancel " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Sign Up/In Progress " + ShowError(sResult);
+                    });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to test Log-in
+        /// </summary>
+        public void FacebookRemoveTest()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestRemoveFacebookWithBlock("FACEBOOK",
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Remove Success " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Remove Error " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Remove Cancel " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Facebook Remove Progress " + ShowError(sResult);
+                    });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void GoogleRemoveTest()
+        {
+            NWDDataManager.SharedInstance().AddWebRequestRemoveGoogleWithBlock("GOOGLE",
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                        TextWebResult.text = "Google Remove Success " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Remove Error " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Remove Cancel " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                TextWebResult.text = "Google Remove Progress " + ShowError(sResult);
+                    });
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		public void LogInTest()
 		{
             // Get selected account
@@ -187,7 +274,14 @@ namespace NetWorkedData
         {
             gameObject.SetActive(!gameObject.activeInHierarchy);
         }
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            InitLocalizationList();
+            InitAccountList();
+            SynchronizeTest();
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		// Use this for initialization
 		void Start()
 		{

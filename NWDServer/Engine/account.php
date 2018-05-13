@@ -14,7 +14,7 @@
 	$ereg_unity = '/^(.*)$/';
 	$ereg_twitter = '/^(.*)$/';
 	$ereg_social_force = '/^(yes|no)$/';
-	$ereg_action = '/^(signanonymous|rescue|session|signin|signup|signout|modify|reinitialize|delete|facebook|twitter|google|unity|joker)$/';
+	$ereg_action = '/^(signanonymous|rescue|session|signin|signup|signout|modify|reinitialize|delete|facebook|twitter|google|unity|joker|google_remove|facebook_remove)$/';
 	$ereg_email = '/^([A-Z0-9a-z\.\_\%\+\-]+@[A-Z0-9a-z\.\_\%\+\-]+\.[A-Za-z]{2,6})$/';
 	$ereg_password = '/^(.{24,64})$/';
 	$ereg_emailHash = '/^(.{24,64})$/';
@@ -590,7 +590,7 @@
 						}
 						else if ($tResult->num_rows == 1)
 						{
-								// Oh ... facebookID allready present
+								// Oh ... googleID allready present
 							while($tRow = $tResult->fetch_array())
 							{
 								if ($tRow['Reference'] == $uuid)
@@ -599,7 +599,7 @@
 								}
 								else
 								{
-									if ($tRow['Ban'] > 0)
+									if ($tRow['ban'] > 0)
 									{
 										$ban = true;
 										error('ACC98');
@@ -634,6 +634,141 @@
 					}
 				}
 			}
+
+
+				//---- ADD ACCOUNT FACEBOOK ID ----
+				// I connect this account with facebook ID
+				if ($action == 'facebook_remove')
+				{
+					if (paramValue ('id', 'id', $ereg_facebook, 'ACC81', 'ACC82')) // I test facebook id
+					{
+						
+						require_once($PATH_BASE.'/Facebook/autoload.php');
+						require_once($PATH_BASE.'/Facebook/Facebook.php');
+						
+						myLog( '$sAppKey: ' . $NWD_FCB_AID, __FILE__, __FUNCTION__, __LINE__ );
+						myLog( '$sAppSecret: ' . $NWD_FCB_SRT, __FILE__, __FUNCTION__, __LINE__ );
+						myLog( '$sFacebookToken: ' . $id, __FILE__, __FUNCTION__, __LINE__ );
+						
+						$fb = new Facebook\Facebook(['app_id' => $NWD_FCB_AID,'app_secret' => $NWD_FCB_SRT,'default_graph_version' => 'v2.2',]);
+						
+						try {
+								// Returns a `Facebook\FacebookResponse` object
+							$response = $fb->get('/me?fields=id,name', $id);
+						} catch(Facebook\Exceptions\FacebookResponseException $e) {
+							errorInfos('ACC83','Graph returned an error: ' . $e->getMessage());
+						} catch(Facebook\Exceptions\FacebookSDKException $e) {
+							errorAdd('ACC84','Facebook SDK returned an error: ' . $e->getMessage());
+						}
+						
+						$user = $response->getGraphUser();
+							// myLog ( 'Name: ' . $user['name'], __FILE__, __FUNCTION__, __LINE__);
+							// myLog ( 'ID: ' . $user['id'], __FILE__, __FUNCTION__, __LINE__);
+						$tFacebookID = $user['id'];
+							// Ok I test the facebook ID in my database
+							// I need to find the facebookID in my database and check if the UUID is the good
+						$tQuery = 'SELECT `Reference`, `ban` FROM `'.$ENV.'_NWDAccount` WHERE `FacebookID` LIKE \''.$SQL_CON->real_escape_string($tFacebookID).'\' AND `AC` = 1;';
+						$tResult = $SQL_CON->query($tQuery);
+						if (!$tResult)
+						{
+							myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);
+							error('ACC85');
+						}
+						else
+						{
+							if ($tResult->num_rows == 1)
+							{
+									// Oh ... facebookID allready present
+								
+								// Oh ... googleID allready present
+							while($tRow = $tResult->fetch_array())
+							{
+								if ($tRow['Reference'] == $uuid)
+								{
+					
+									$tQueryD = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `FacebookID` = \'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
+									$tResultD = $SQL_CON->query($tQueryD);
+									if (!$tResultD)
+									{
+										myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryD.'', __FILE__, __FUNCTION__, __LINE__);
+										//error('ACC76');
+									}
+									else
+									{
+											// Good
+										IntegrityNWDAccountReevalue ($uuid);
+										myLog('User is modified and social google was remove', __FILE__, __FUNCTION__, __LINE__);
+										respondAdd('facebook_remove',true);
+									}
+								}
+							}
+							}
+							else //or more than one user with this facebook id … strange… I push an error, user must be unique
+							{
+								error('ACC87');
+							}
+							mysqli_free_result($tResult);
+						}
+						
+					}
+				}
+
+
+			// REMOVE SOCIAL CONNECT
+			if ($action == 'google_remove')
+			{
+				if (paramValue ('id', 'id', $ereg_google, 'ACC71', 'ACC72')) // I test google id
+				{
+					$tGoogleID = $id;
+						// Ok I test the facebook ID in my database
+						// I need to find the GoogleID in my database and check if the UUID is the good
+					$tQuery = 'SELECT `Reference`, `ban` FROM `'.$ENV.'_NWDAccount` WHERE `GoogleID` LIKE \''.$SQL_CON->real_escape_string($tGoogleID).'\' AND `AC` = 1;';
+					$tResult = $SQL_CON->query($tQuery);
+					if (!$tResult)
+					{
+						myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);
+						error('ACC75');
+					}
+					else
+					{
+						if ($tResult->num_rows == 1)
+						{
+								// Oh ... googleID allready present
+							while($tRow = $tResult->fetch_array())
+							{
+								if ($tRow['Reference'] == $uuid)
+								{
+					
+									$tQueryD = 'UPDATE `'.$ENV.'_NWDAccount` SET `DM` = \''.$TIME_SYNC.'\', `GoogleID` = \'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($uuid).'\';';
+									$tResultD = $SQL_CON->query($tQueryD);
+									if (!$tResultD)
+									{
+										myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryD.'', __FILE__, __FUNCTION__, __LINE__);
+										//error('ACC76');
+									}
+									else
+									{
+											// Good
+										IntegrityNWDAccountReevalue ($uuid);
+										myLog('User is modified and social google was remove', __FILE__, __FUNCTION__, __LINE__);
+										respondAdd('google_remove',true);
+									}
+								}
+							}
+						}
+						else //or more than one user with this google id … strange… I push an error, user must be unique
+						{
+							error('ACC77');
+						}
+						mysqli_free_result($tResult);
+					}
+				}
+			}
+
+
+
+
+
 				//---- SIGN OUT ----
 				// I sign in with the good value
 			if ($action == 'signout')

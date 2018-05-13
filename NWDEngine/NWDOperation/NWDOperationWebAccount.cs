@@ -201,7 +201,6 @@ namespace NetWorkedData
 			if (Action == "signout")
             {
 				Environment.AnonymousVerification ();
-
 				// prepare data for relog anonymous 
 				if (Environment.AnonymousPlayerAccountReference != null)
                 {
