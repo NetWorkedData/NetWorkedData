@@ -10,6 +10,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using BasicToolBox;
 using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 
@@ -20,7 +23,7 @@ namespace NetWorkedData
 	/// NWD account panel. A script for NWDAccountPanel refab to show the informations about wiwh account is use in the 
 	/// game. 
 	/// </summary>
-	public class NWDAccountPanel : MonoBehaviour
+    public class NWDAccountPanel : NWDCallBack
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -102,23 +105,30 @@ namespace NetWorkedData
 		{
             // Get selected account
             int key = DropdownAccountList.value;
-            NWDAccounTest tAccount = AccountList[key];
-            string Login = tAccount.EmailHash;
-            string Password = tAccount.PasswordHash;
+            if (key > 0)
+            {
+                NWDAccounTest tAccount = AccountList[key];
+                string Login = tAccount.EmailHash;
+                string Password = tAccount.PasswordHash;
 
-            NWDDataManager.SharedInstance().AddWebRequestSignTestWithBlock (Login, Password,
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign In Success " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign In Error " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign In Cancel " + ShowError(sResult);
-				},
-				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
-                    TextWebResult.text = " Sign In Progress " + ShowError(sResult);
-				});
+                NWDDataManager.SharedInstance().AddWebRequestSignTestWithBlock(Login, Password,
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                        TextWebResult.text = " Sign In Success " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                        TextWebResult.text = " Sign In Error " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                        TextWebResult.text = " Sign In Cancel " + ShowError(sResult);
+                    },
+                    delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult)
+                    {
+                        TextWebResult.text = " Sign In Progress " + ShowError(sResult);
+                    });
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -139,7 +149,30 @@ namespace NetWorkedData
 				delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
                    TextWebResult.text = " Sign Out Progress " + ShowError(sResult);
 				});
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Use to test Log-out
+        /// </summary>
+        public void SignUpTest()
+        {
+            string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
+            string tPassword = "Pass" + UnityEngine.Random.Range(100000, 999999).ToString();
+            Debug.Log("Sign-up with " + tEmail + " and " + tPassword);
+            NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail,tPassword,tPassword,
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                    TextWebResult.text = " Sign Up Success " + ShowError(sResult);
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                    TextWebResult.text = " Sign Up Error " + ShowError(sResult);
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                    TextWebResult.text = " Sign Up Cancel " + ShowError(sResult);
+                },
+                delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
+                    TextWebResult.text = " Sign Up Progress " + ShowError(sResult);
+                });
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Create a Temporary Account
@@ -184,9 +217,9 @@ namespace NetWorkedData
             InitAccountList();
             SynchronizeTest();
 
-            NWDLocalization.AutoLocalize(TextLogin);
-            NWDLocalization.AutoLocalize(TextSynchronize);
-            NWDLocalization.AutoLocalize(TextLogout);
+            //NWDLocalization.AutoLocalize(TextLogin);
+            //NWDLocalization.AutoLocalize(TextSynchronize);
+            //NWDLocalization.AutoLocalize(TextLogout);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		// Use this for destroy
@@ -291,6 +324,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WebOffLineAction()
         {
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SelectAccountInEditorAction()
+        {
+            #if UNITY_EDITOR
+            EditorWindow tEditorWindow = EditorWindow.focusedWindow;
+            string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
+            Debug.Log("tAccountReference = " + tAccountReference);
+            NWDAccount tAccount = NWDAccount.GetObjectAbsoluteByReference(tAccountReference);
+            NWDAccount.SetObjectInEdition(tAccount);
+            tEditorWindow.Focus();
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void WebBlankAction()

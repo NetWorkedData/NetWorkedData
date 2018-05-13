@@ -465,7 +465,7 @@ namespace NetWorkedData
             // Find the good webservice version
             int tWebBuildUsed = WebServiceVersionToUse();
             // test the web service version
-            if (WebServiceVersion < tWebBuildUsed)
+            if (WebServiceVersion < tWebBuildUsed && WebServiceVersion!=0)
             {
                 this.AddonWebversionUpgradeMe(WebServiceVersion, tWebBuildUsed);
                 // use to update NWDBasis when push to server.
@@ -515,9 +515,12 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if me if modified was updated, <c>false</c> otherwise.</returns>
         public bool UpdateMeIfModified()
         {
+
+            Debug.Log("UpdateMeIfModified () ?");
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
             {
+                Debug.Log("UpdateMeIfModified () YES UPDATE ME");
                 tReturn = true;
                 UpdateMe();
             }

@@ -116,7 +116,8 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
 
-            EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            //EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            NWDAppConfiguration.SharedInstance().WebBuild = EditorGUILayout.IntField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));

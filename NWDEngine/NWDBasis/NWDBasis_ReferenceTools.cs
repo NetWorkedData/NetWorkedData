@@ -209,18 +209,23 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void ChangeUser(string sOldUser, string sNewUser)
 		{
-			if (AccountDependent () == true)
+            if (TestIntegrity() == true)
             {
-				foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                if (AccountDependent() == true)
                 {
-					NWDReferenceType<NWDAccount> tObject = tProp.GetValue (this, null) as NWDReferenceType<NWDAccount>;
-                    if (tObject != null)
+                    Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
+                    foreach (PropertyInfo tProp in PropertiesAccountConnect())
                     {
-                        tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
+                        NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
+                        if (tObject != null)
+                        {
+                            tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
+                        }
                     }
-				}
-				UpdateMeIfModified ();
-			}
+                    UpdateMeIfModified();
+                    Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
+                }
+            }
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

@@ -66,7 +66,7 @@ namespace NetWorkedData
         }
         [NWDGroupEnd]
         [NWDGroupSeparator]
-        [NWDGroupStart("Account sign ip/up")]
+        [NWDGroupStart("Account sign-in/up")]
         /// <summary>
         /// Gets or sets the SecretKey to restaure anonymous account.
         /// </summary>

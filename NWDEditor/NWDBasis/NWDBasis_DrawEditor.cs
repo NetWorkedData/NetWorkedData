@@ -1178,6 +1178,9 @@ namespace NetWorkedData
             if (kSyncAndMoreInformations)
             {
 
+                EditorGUI.EndDisabledGroup();
+
+
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DC + NWDToolbox.TimeStampToDateTime(DC).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
@@ -1202,6 +1205,16 @@ namespace NetWorkedData
 
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ac + AC.ToString(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight),"integrity seq",DataAssembly(), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity val",Integrity, tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity req", IntegrityValue(), tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                EditorGUI.BeginDisabledGroup(tCanBeEdit == false);
             }
 
             tX = NWDConstants.kFieldMarge;

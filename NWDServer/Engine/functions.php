@@ -261,21 +261,60 @@
 		{
 			global $SQL_CON;
 			global $token, $uuid;
-			global $ENV;
+			global $ENV, $WSBUILD;
 			
 			$tInternalKey = '';
 			$tInternalDescription = '';
 			if ($ENV == 'Dev')
 			{
-				$tInternalKey = 'Anonymous';
+				$tInternalKey = 'Anonymous 45';
 				$tInternalDescription = 'dev account';
 			}
 			
 			$tNewUUID = referenceGenerate ('ACC', $ENV.'_NWDAccount', 'Reference');
 			$tNewSecretKey = referenceGenerate ('SHS', $ENV.'_NWDAccount', 'SecretKey');
-			$tInsert = $SQL_CON->query('INSERT INTO `'.$ENV.'_NWDAccount` (`Reference`, `SecretKey`, `DC`, `DM`, `AC`, `Ban`, `DevSync`, `PreprodSync`, `ProdSync`, `InternalKey`, `InternalDescription`) VALUES (\''.$SQL_CON->real_escape_string($tNewUUID).'\', \''.$SQL_CON->real_escape_string($tNewSecretKey).'\', \''.$TIME_SYNC.'\', \''.$TIME_SYNC.'\', \'1\', \'0\', \''.$TIME_SYNC.'\', \''.$TIME_SYNC.'\', \''.$TIME_SYNC.'\',\''.$SQL_CON->real_escape_string($tInternalKey).'\',\''.$SQL_CON->real_escape_string($tInternalDescription).'\');');
+			$tInsertSQL='';
+			$tInsertSQLValue='';
+			//`Reference`, `DM`, `DS`, `DevSync`, `PreprodSync`, `ProdSync`, `AC`, `AppleNotificationToken`, `Ban`, `DC`, `DD`,
+			// `Email`, `FacebookID`, `GoogleID`, `GoogleNotificationToken`, `InError`, 
+			//`InternalDescription`, `InternalKey`, `MinVersion`, `Password`, `Preview`, `SecretKey`, `Tag`, `UseInEnvironment`, `WebServiceVersion`, `XX`
+			$tInsertSQL.='INSERT INTO `'.$ENV.'_NWDAccount` (';
+			$tInsertSQL.='`Reference`, '; $tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tNewUUID).'\', ';
+
+			$tInsertSQL.='`ServerHash`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`ServerLog`, ';$tInsertSQLValue.= '\'\', ';
+
+			$tInsertSQL.='`DM`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			$tInsertSQL.='`DS`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			$tInsertSQL.='`AC`, ';$tInsertSQLValue.= '\'1\', ';
+			$tInsertSQL.='`AppleNotificationToken`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`Ban`, ';$tInsertSQLValue.= '\'0\', ';
+			$tInsertSQL.='`DC`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			$tInsertSQL.='`DD`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', '; 
+			$tInsertSQL.='`Email`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`FacebookID`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`GoogleID`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`GoogleNotificationToken`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`InError`, ';$tInsertSQLValue.= '\'0\', ';
+			$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tInternalDescription).'\', ';
+			$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tInternalKey).'\', ';
+			$tInsertSQL.='`MinVersion`, ';$tInsertSQLValue.= '\'0.00.00\', ';
+			$tInsertSQL.='`Password`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`Preview`, ';$tInsertSQLValue.= '\'\', ';
+			$tInsertSQL.='`SecretKey`, '; $tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tNewSecretKey).'\', ';
+			$tInsertSQL.='`Tag`, ';$tInsertSQLValue.= '\'0\', ';
+			$tInsertSQL.='`UseInEnvironment`, ';$tInsertSQLValue.= '\'0\', ';
+			$tInsertSQL.='`WebServiceVersion`, ';$tInsertSQLValue.= '\''.$WSBUILD.'\', ';
+			$tInsertSQL.='`XX` ';$tInsertSQLValue.= '\'0\'';
+			$tInsertSQL.=')';
+			$tInsertSQL.=' VALUES ('.$tInsertSQLValue.');';
+			$tInsert = $SQL_CON->query($tInsertSQL);
 			if (!$tInsert)
 			{
+				respondAdd('sql', $tInsertSQL);
 				error('ACC91');
 			}
 			else
@@ -288,7 +327,7 @@
 				respondAdd('sign', 'anonymous');
 				respondAdd('signkey', $tNewSecretKey);
 				respondAdd('reloaddatas', true);
-				NWDRequestTokenIsValid($tNewUUID,'');
+				NWDRequestTokenIsValid($uuid,'');
 				$rReturn = true;
 				$ACC_TMP = false;
 				if ($sExit==true)

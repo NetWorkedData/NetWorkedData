@@ -618,10 +618,13 @@ namespace NetWorkedData
 			sEnvironment.PlayerAccountReference = sNewAccountReference;
 
 			#if UNITY_EDITOR
-			NWDBasis<NWDAccount>.NewObjectWithReference (sEnvironment.PlayerAccountReference);
-			#endif
+            // NEVER DO THAT!!!!
+            //NWDAccount tAccount = NWDBasis<NWDAccount>.NewObjectWithReference (sEnvironment.PlayerAccountReference);
+            //tAccount.SaveModifications();
+            #endif
 
-			SavePreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            //SavePreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            SavePreferences(sEnvironment);
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)

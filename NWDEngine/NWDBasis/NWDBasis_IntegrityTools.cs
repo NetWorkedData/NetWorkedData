@@ -91,7 +91,7 @@ namespace NetWorkedData
                     {
                         // What the fuck ... NWD want not null value!
 
-                            Debug.Log(" null detect in " + tProp.Name + " value");
+                            //Debug.Log(" null detect in " + tProp.Name + " value");
 
                         if (tProp.PropertyType == typeof(Boolean) ||
                             tProp.PropertyType == typeof(Byte) ||
@@ -174,6 +174,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
+            //Debug.Log("DataAssembly() = "+DataAssembly()+"");
             // use salts to interfere with data assembly in the hash sum computing
             return HashSum(PrefSaltA() + DataAssembly() + PrefSaltB());
         }

@@ -11,6 +11,9 @@ using UnityEngine.UI;
 using ColoredAdvancedDebug;
 #endif
 using BasicToolBox;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -19,11 +22,13 @@ namespace NetWorkedData
     /// <summary>
     /// 
     /// </summary>
-    public class ShowLog : MonoBehaviour
+    public class NWDShowDebugPanel : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
         public Button ButtonShowLog;
         public Button ButtonShowAccount;
+        public Button ButtonAddStats;
+        public Button ButtonReloadDatas;
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
@@ -31,18 +36,29 @@ namespace NetWorkedData
             NWDGameDataManager.UnitySingleton().ReloadAllDatas();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AddStatsAction()
+        {
+            NWDUserStats tStats = NWDUserStats.NewObject();
+            tStats.SaveModificationsIfModified();
+#if UNITY_EDITOR
+            EditorWindow tEditorWindow = EditorWindow.focusedWindow;
+            NWDUserStats.SetObjectInEdition(tStats);
+            tEditorWindow.Focus();
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
         // Use this for initialization
         void Start()
         {
             // Show log button
-            Text tText = ButtonShowLog.GetComponentInChildren<Text>();
-            ButtonShowLog.gameObject.SetActive(NWDConfiguration.GetBool(tText.text, true));
-            tText.text = NWDConfiguration.GetLocalString(tText.text, tText.text);
+            //Text tText = ButtonShowLog.GetComponentInChildren<Text>();
+            //ButtonShowLog.gameObject.SetActive(NWDConfiguration.GetBool(tText.text, true));
+            //tText.text = NWDConfiguration.GetLocalString(tText.text, tText.text);
 
-            // Show account button
-            tText = ButtonShowAccount.GetComponentInChildren<Text>();
-            ButtonShowAccount.gameObject.SetActive(NWDConfiguration.GetBool(tText.text, true));
-            tText.text = NWDConfiguration.GetLocalString(tText.text, tText.text);
+            //// Show account button
+            //tText = ButtonShowAccount.GetComponentInChildren<Text>();
+            //ButtonShowAccount.gameObject.SetActive(NWDConfiguration.GetBool(tText.text, true));
+            //tText.text = NWDConfiguration.GetLocalString(tText.text, tText.text);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if COLORED_ADVANCED_DEBUG
