@@ -286,7 +286,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
-            string rText = NWDToolbox.Enrichment(sText, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            string rText = NWDUserToolbox.Enrichment(sText, sLanguage, sBold);
             string tBstart = "<b>";
             string tBend = "</b>";
             if (sBold == false)

@@ -74,12 +74,12 @@ namespace NetWorkedData
             NWDReferencesArrayType<NWDItem> tTestArrayExpected = new NWDReferencesArrayType<NWDItem>();
             tTestArrayExpected.SetReferences(new string[] { "A", "C", "D", "E", "A", "A" });
 
-            Debug.Log("tTestArray.Value = " + tTestArray.Value);
-            Debug.Log("tTestArrayExpected.Value = " + tTestArrayExpected.Value);
+            //Debug.Log("tTestArray.Value = " + tTestArray.Value);
+            //Debug.Log("tTestArrayExpected.Value = " + tTestArrayExpected.Value);
             Assert.AreEqual(tTestArray.Value, tTestArrayExpected.Value);
 
-            Debug.Log("tTestArray.ToStringSorted () = " + tTestArray.ToStringSorted());
-            Debug.Log("tTestArrayExpected.ToStringSorted () = " + tTestArrayExpected.ToStringSorted());
+            //Debug.Log("tTestArray.ToStringSorted () = " + tTestArray.ToStringSorted());
+            //Debug.Log("tTestArrayExpected.ToStringSorted () = " + tTestArrayExpected.ToStringSorted());
             Assert.AreEqual(tTestArray.ToStringSorted(), tTestArrayExpected.ToStringSorted());
 
         }
@@ -99,12 +99,12 @@ namespace NetWorkedData
             NWDReferencesArrayType<NWDItem> tTestArrayExpected = new NWDReferencesArrayType<NWDItem>();
             tTestArrayExpected.SetReferences(new string[] { "A", "A", "A", "B", "C" });
 
-            Debug.Log("tTestArray.Value = " + tTestArray.Value);
-            Debug.Log("tTestArrayExpected.Value = " + tTestArrayExpected.Value);
+            //Debug.Log("tTestArray.Value = " + tTestArray.Value);
+            //Debug.Log("tTestArrayExpected.Value = " + tTestArrayExpected.Value);
             Assert.AreNotEqual(tTestArray.Value, tTestArrayExpected.Value);
 
-            Debug.Log("tTestArray.ToStringSorted () = " + tTestArray.ToStringSorted());
-            Debug.Log("tTestArrayExpected.ToStringSorted () = " + tTestArrayExpected.ToStringSorted());
+            //Debug.Log("tTestArray.ToStringSorted () = " + tTestArray.ToStringSorted());
+            //Debug.Log("tTestArrayExpected.ToStringSorted () = " + tTestArrayExpected.ToStringSorted());
             Assert.AreEqual(tTestArray.ToStringSorted(), tTestArrayExpected.ToStringSorted());
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -123,12 +123,12 @@ namespace NetWorkedData
             NWDReferencesArrayType<NWDItem> tTestArrayExpected = new NWDReferencesArrayType<NWDItem>();
             tTestArrayExpected.SetReferences(new string[] { "A", "A", "B" });
 
-            Debug.Log("tTestArray.Value = " + tTestArray.Value);
-            Debug.Log("tTestArrayExpected.Value = " + tTestArrayExpected.Value);
+            //Debug.Log("tTestArray.Value = " + tTestArray.Value);
+            //Debug.Log("tTestArrayExpected.Value = " + tTestArrayExpected.Value);
             Assert.AreNotEqual(tTestArray.Value, tTestArrayExpected.Value);
 
-            Debug.Log("tTestArray.ToStringSorted () = " + tTestArray.ToStringSorted());
-            Debug.Log("tTestArrayExpected.ToStringSorted () = " + tTestArrayExpected.ToStringSorted());
+            //Debug.Log("tTestArray.ToStringSorted () = " + tTestArray.ToStringSorted());
+            //Debug.Log("tTestArrayExpected.ToStringSorted () = " + tTestArrayExpected.ToStringSorted());
             Assert.AreEqual(tTestArray.ToStringSorted(), tTestArrayExpected.ToStringSorted());
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -383,28 +383,28 @@ namespace NetWorkedData
         public string AnswerRichText(bool sBold = true)
         {
             string rReturn = Answer.GetLocalString();
-            rReturn = NWDToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AnswerRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = Answer.GetLanguageString(sLanguage);
-            rReturn = NWDToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string DialogRichText(bool sBold = true)
         {
             string rReturn = Dialog.GetLocalString();
-            rReturn = NWDToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string DialogRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = Dialog.GetLanguageString(sLanguage);
-            rReturn = NWDToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -240,7 +240,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
+			//Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
             if (sData.isSignIn)
             {
 				foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
@@ -254,7 +254,7 @@ namespace NetWorkedData
 			}
 
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList);
-			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
+			//Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 		}
         //-------------------------------------------------------------------------------------------------------------
 	}

@@ -270,7 +270,7 @@ namespace NetWorkedData
         [RuntimeInitializeOnLoadMethod]
         static void RuntimeInitializeOnLoad()
         {
-            Debug.Log("NWDGameDataManager RuntimeInitializeOnLoad");
+            //Debug.Log("NWDGameDataManager RuntimeInitializeOnLoad");
             UnitySingleton();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -342,12 +342,12 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                         if (EditorApplication.isPlaying == true)
                         {
-                            Debug.Log("NWDGameDataManager A");
+                            //Debug.Log("NWDGameDataManager A");
                             Destroy(tLast.gameObject);
                         }
                         else
                         {
-                            Debug.Log("NWDGameDataManager B");
+                            //Debug.Log("NWDGameDataManager B");
                             DestroyImmediate(tLast.gameObject);
                         }
 #else
@@ -407,15 +407,15 @@ namespace NetWorkedData
         /// </summary>
         void Start()
         {
-            Debug.Log("NWDGameDataManager Start()");
+            //Debug.Log("NWDGameDataManager Start()");
             if (NWDTypeLauncher.DataLoaded == false)
             {
-                Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
+                //Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
                 ReloadAllDatas();
             }
             else
             {
-                Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
+                //Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
                 if (LoadingDatasGauge != null)
                 {
                     LoadingDatasGauge.IsVisible = false;
@@ -494,7 +494,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
+               //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = true;
@@ -504,7 +504,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.SetHorizontalValue(sPurcent);
@@ -513,7 +513,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
-            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = false;

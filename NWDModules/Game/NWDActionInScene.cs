@@ -27,7 +27,7 @@ namespace NetWorkedData
         // Use this for initialization
         void Start()
         {
-            Debug.Log("NWDActionInScene Start()");
+            //Debug.Log("NWDActionInScene Start()");
             BTBNotificationBlock tListener = delegate (BTBNotification sNotification)
             {
                 ReceiptNotification((NWDAction)sNotification.Sender);
@@ -41,7 +41,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PostNotification() // use in demo
         {
-            Debug.Log("NWDActionInScene PostNotification()");
+            //Debug.Log("NWDActionInScene PostNotification()");
             NWDAction tAction = ActionReference.GetObject();
             if (tAction != null)
             {
@@ -51,7 +51,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void ReceiptNotification(NWDAction sAction)
         {
-            Debug.Log("NWDActionInScene ReceiptNotification()");
+            //Debug.Log("NWDActionInScene ReceiptNotification()");
             if (ActionToSceneEvent != null)
             {
                 ActionToSceneEvent.Invoke();
@@ -60,12 +60,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DoSceneAction() // use in demo
         {
-            Debug.Log("NWDActionInScene DoSceneAction()");
+            //Debug.Log("NWDActionInScene DoSceneAction()");
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
-            Debug.Log("NWDActionInScene OnDestroy()");
+            //Debug.Log("NWDActionInScene OnDestroy()");
             NWDAction tAction = ActionReference.GetObject();
             if (tAction != null)
             {

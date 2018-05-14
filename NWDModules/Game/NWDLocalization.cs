@@ -219,7 +219,7 @@ namespace NetWorkedData
             {
 				#if UNITY_EDITOR
                 //EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
-                Debug.LogWarning("AutoLocalize : Text component is null ");
+                //Debug.LogWarning("AutoLocalize : Text component is null ");
 				#endif
             }
 		}

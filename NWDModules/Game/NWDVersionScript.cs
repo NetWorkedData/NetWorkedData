@@ -16,20 +16,20 @@ public class NWDVersionScript : MonoBehaviour {
     //-------------------------------------------------------------------------------------------------------------
     public void SendAppLinksByEmail ()
     {
-        Debug.Log("NWDVersionScript SendAppLinksByEmail()");
+        //Debug.Log("NWDVersionScript SendAppLinksByEmail()");
         NWDVersion.RecommendationBy(NWDRecommendationType.Email);
     }
     //-------------------------------------------------------------------------------------------------------------
     public void SendAppLinksByEmailHTML()
     {
-        Debug.Log("NWDVersionScript SendAppLinksByEmailHTML()");
-        Debug.Log("NWDVersionScript SendAppLinksByEmailHTML() NOT AVAILABLE !!!!!!!!");
+        //Debug.Log("NWDVersionScript SendAppLinksByEmailHTML()");
+        //Debug.Log("NWDVersionScript SendAppLinksByEmailHTML() NOT AVAILABLE !!!!!!!!");
         //NWDVersion.RecommendationBy(NWDRecommendationType.EmailHTML);
     }
     //-------------------------------------------------------------------------------------------------------------
     public void SendAppLinksBySMS()
     {
-        Debug.Log("NWDVersionScript SendAppLinksBySMS()");
+        //Debug.Log("NWDVersionScript SendAppLinksBySMS()");
         NWDVersion.RecommendationBy(NWDRecommendationType.SMS);
     }
     //-------------------------------------------------------------------------------------------------------------

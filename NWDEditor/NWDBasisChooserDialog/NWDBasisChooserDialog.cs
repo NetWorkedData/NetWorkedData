@@ -52,7 +52,7 @@ namespace NetWorkedData
                                          string sActualValue, 
                                          int sIndexValue)
         {
-            Debug.Log("NWDBasisChooserDialog SelectObject()");
+            //Debug.Log("NWDBasisChooserDialog SelectObject()");
             string rReturn = null;
             NWDBasisChooserDialog tWindow = SharedInstance();
             tWindow.ClassToShow = sClassToShow;
@@ -81,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void SelectBasis(NWDTypeClass tObject)
         {
-            Debug.Log("NWDBasisChooserDialog SelectBasis()");
+            //Debug.Log("NWDBasisChooserDialog SelectBasis()");
             if (Mode == NWDBasisChooserMode.Add)
             {
                 // Add object in reference list
@@ -95,17 +95,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            Debug.Log("NWDBasisChooserDialog Start()");
+            //Debug.Log("NWDBasisChooserDialog Start()");
         }
         //-------------------------------------------------------------------------------------------------------------
         void Update()
         {
-            Debug.Log("NWDBasisChooserDialog Update()");
+            //Debug.Log("NWDBasisChooserDialog Update()");
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnGUI()
         {
-            Debug.Log("NWDBasisChooserDialog OnGUI()");
+            //Debug.Log("NWDBasisChooserDialog OnGUI()");
             // Draw filer zone
 
             // Draw table with data filter
@@ -114,19 +114,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void OnFocus()
         {
-            Debug.Log("NWDBasisChooserDialog OnFocus()");
+            //Debug.Log("NWDBasisChooserDialog OnFocus()");
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnLostFocus()
         {
-            Debug.Log("NWDBasisChooserDialog OnLostFocus()");
+            //Debug.Log("NWDBasisChooserDialog OnLostFocus()");
             Loop = true;
             Close();
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnClose()
         {
-            Debug.Log("NWDBasisChooserDialog OnClose()");
+            //Debug.Log("NWDBasisChooserDialog OnClose()");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

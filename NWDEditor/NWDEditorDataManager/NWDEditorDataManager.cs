@@ -24,7 +24,7 @@ namespace NetWorkedData
             {
                 if (NWDTypeLauncher.DataLoaded == false)
                 {
-                    Debug.Log("NWD => Load data for editor");
+                    //Debug.Log("NWD => Load data for editor");
                     NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
                     tShareInstance.ReloadAllObjects();
                 }

@@ -60,7 +60,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTypeLauncher()
         {
-            Debug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
+            //Debug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void Launcher()
@@ -149,7 +149,7 @@ namespace NetWorkedData
                 }
                 double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 double tDelta = tFinishTimestamp - tStartTimestamp;
-                Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
+                   //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
                 // Notify NWD is launch
                 IsLaunched = true;
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
@@ -157,7 +157,7 @@ namespace NetWorkedData
                 {
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true)
                     {
-                        Debug.Log("NWD => Preload Datas");
+                        //Debug.Log("NWD => Preload Datas");
                         tShareInstance.ReloadAllObjects();
                     }
                 }

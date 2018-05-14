@@ -185,9 +185,9 @@ namespace NetWorkedData
                 {
                     ResultInfos.DownloadedDateTime = DateTime.Now;
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
-                    NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+                    //NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
-                    NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+                    //NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }
 
                 if (Request.isNetworkError)
@@ -434,7 +434,7 @@ namespace NetWorkedData
             ResultInfos.FinishDateTime = DateTime.Now;
             if (Statut == BTBOperationState.ReStart)
             {
-                Debug.Log("I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT");
+                //Debug.Log("I MUST RESTART THE REQUEST BECAUSE BEFORE I WAS TEMPORARY ACCOUNT");
                 Parent.ReplayOperation(this.QueueName);
             }
             else

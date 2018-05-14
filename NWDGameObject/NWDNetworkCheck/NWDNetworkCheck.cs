@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            Debug.Log("NWDNetworkCheck Start()");
+            //Debug.Log("NWDNetworkCheck Start()");
             StartCoroutine(CheckUpdate());
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace NetWorkedData
         {
             while (true)
             {
-                Debug.Log("NWDNetWorkCheck CheckUpdate()");
+                //Debug.Log("NWDNetWorkCheck CheckUpdate()");
                 PingTest();
                 yield return new WaitForSeconds(TestEverySeconds);
             }
@@ -41,7 +41,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PingTest()
         {
-            Debug.Log("NWDNetworkCheck PingTest()");
+            //Debug.Log("NWDNetworkCheck PingTest()");
             // NetworkStatutChange(NWDNetworkState.OnLine);
             Ping tPing = new Ping("8.8.8.8");
             if (tPing.isDone)
@@ -56,7 +56,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TestNetwork()
         {
-            Debug.Log("NWDNetworkCheck TestNetwork()");
+            //Debug.Log("NWDNetworkCheck TestNetwork()");
             PingTest();
         }
 
@@ -122,7 +122,7 @@ namespace NetWorkedData
         // Test network connection
         public void NetworkStatutChange(NWDNetworkState sNewNetWorkStatut)
         {
-            Debug.Log("NWDNetworkCheck NetworkStatutChange()");
+            //Debug.Log("NWDNetworkCheck NetworkStatutChange()");
             if (sNewNetWorkStatut != NetworkState)
             {
                 NetworkState = sNewNetWorkStatut;

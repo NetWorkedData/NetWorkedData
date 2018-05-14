@@ -359,7 +359,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AdvancementDialog(NWDDialog sDialog)
         {
-            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ")");
+            //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ")");
             NWDQuest tQuest = QuestActualReference.GetObject();
             // If Dialog == null I need determine wich dialog I need to Use
             if (sDialog == null)
@@ -375,7 +375,7 @@ namespace NetWorkedData
                     case NWDQuestState.Accept:
                         if (QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
-                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Accept");
+                            //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Accept");
                             // I must remove the required object or Not?
                             NWDOwnership.RemoveItemToOwnership(tQuest.RequiredItemsToRemove);
                             // put quest in accept
@@ -389,7 +389,7 @@ namespace NetWorkedData
                     case NWDQuestState.Refuse:
                         if (QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
-                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Refuse");
+                            //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Refuse");
                             // put quest in cancel
                             QuestState = NWDQuestState.Refuse;
                             // increment counters
@@ -401,7 +401,7 @@ namespace NetWorkedData
                     case NWDQuestState.Cancel:
                         if (QuestState == NWDQuestState.Accept)
                         {
-                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Cancel");
+                            //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Cancel");
                             // put quest in cancel
                             QuestState = NWDQuestState.Cancel;
                             // increment counters
@@ -413,7 +413,7 @@ namespace NetWorkedData
                     case NWDQuestState.Success:
                         if (QuestState == NWDQuestState.Accept || QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
-                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Success");
+                            //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Success");
                             bool tItemsWanted = NWDOwnership.ConditionalItems(tQuest.DesiredItems);
                             bool tItemsGroupsWanted = NWDOwnership.ConditionalItemGroups(tQuest.DesiredItemGroups);
                             if (tItemsWanted && tItemsGroupsWanted)
@@ -461,7 +461,7 @@ namespace NetWorkedData
                             else
                             {
                                 // Error
-                                Debug.LogWarning("Quest " + QuestActualReference.GetReference() + " must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!");
+                                //Debug.LogWarning("Quest " + QuestActualReference.GetReference() + " must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!");
 #if UNITY_EDITOR
                                 EditorUtility.DisplayDialog("ERROR", "Quest " + QuestActualReference.GetReference() + " must be changed to 'success' but items wanted not presents! Fix the quest dialog storyboard by limit dialog by items required!", "OK");
 #endif
@@ -471,7 +471,7 @@ namespace NetWorkedData
                     case NWDQuestState.Fail:
                         //if (QuestState == NWDQuestState.Accept)
                         {
-                            Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Fail");
+                            //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Fail");
                             // put quest in fail
                             QuestState = NWDQuestState.Fail;
                             // increment counters

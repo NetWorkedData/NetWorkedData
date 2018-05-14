@@ -73,10 +73,10 @@ namespace NetWorkedData
 		public void InstallMacro (BuildTargetGroup sBuildTarget)
 		{
 			if (PlayerSettings.GetScriptingDefineSymbolsForGroup (sBuildTarget).Contains (kMacro) == false) {
-				Debug.Log ("Install macro " + kMacro + " in " + sBuildTarget + " player settings");
+				//Debug.Log ("Install macro " + kMacro + " in " + sBuildTarget + " player settings");
 				PlayerSettings.SetScriptingDefineSymbolsForGroup (sBuildTarget, PlayerSettings.GetScriptingDefineSymbolsForGroup (sBuildTarget) + ";" + kMacro);
 				if (PlayerSettings.GetScriptingDefineSymbolsForGroup (sBuildTarget).Contains (kMacro) == false) {
-					Debug.LogError ("Fail to install macro " + kMacro + " in " + sBuildTarget + " player settings!");
+					//Debug.LogError ("Fail to install macro " + kMacro + " in " + sBuildTarget + " player settings!");
 				}
 			}
 		}

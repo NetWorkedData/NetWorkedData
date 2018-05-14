@@ -224,7 +224,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RecommendationBy(NWDRecommendationType sType)
         {
-            Debug.Log("NWDVersion RecommendationBy()");
+            //Debug.Log("NWDVersion RecommendationBy()");
             NWDVersion tVersion = GetMaxVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
 
             string tToFlash = tVersion.URLMyApp(false);
@@ -252,7 +252,7 @@ namespace NetWorkedData
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
                         tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
                         string tSMS = "sms:?body=" + tText;
-                        Debug.Log("NWDVersion RecommendationBy SMS => " + tSMS);
+                        //Debug.Log("NWDVersion RecommendationBy SMS => " + tSMS);
                         Application.OpenURL(tSMS);
                     }
                     break;
@@ -279,7 +279,7 @@ namespace NetWorkedData
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
                         tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
                         string tEmail = "mailto:?subject=" + tSubject + "&body=" + tText;
-                        Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
+                        //Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
                         Application.OpenURL(tEmail);
                     }
                     break;
@@ -309,7 +309,7 @@ namespace NetWorkedData
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
                         tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
                         string tEmail = "mailto:?subject=" + tSubject + "&body=" + tText;
-                        Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
+                        //Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
                         Application.OpenURL(tEmail);
                     }
                     break;
@@ -392,7 +392,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetMaxVersion()
         {
-            Debug.Log("NWDVersion GetMaxVersion()");
+            //Debug.Log("NWDVersion GetMaxVersion()");
             return GetMaxVersionStringForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -428,13 +428,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDVersion GetActualVersion()
         {
-            Debug.Log("NWDVersion GetActualVersion()");
+            //Debug.Log("NWDVersion GetActualVersion()");
             return GetActualVersionForEnvironemt(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDVersion GetActualVersionForEnvironemt(NWDAppEnvironment sEnvironment)
         {
-            Debug.Log("NWDVersion GetActualVersionForEnvironemt()");
+            //Debug.Log("NWDVersion GetActualVersionForEnvironemt()");
             NWDVersion tVersion = null;
             foreach (NWDVersion tVersionObject in NWDVersion.ObjectsList)
             {
@@ -470,7 +470,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateVersionBundle()
         {
-            Debug.Log("NWDVersion UpdateVersionBundle()");
+            //Debug.Log("NWDVersion UpdateVersionBundle()");
             if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == false &&
                 NWDAppConfiguration.SharedInstance().IsProdEnvironement() == false

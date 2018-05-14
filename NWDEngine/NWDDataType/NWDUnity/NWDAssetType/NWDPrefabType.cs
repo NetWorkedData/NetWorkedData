@@ -58,7 +58,7 @@ namespace NetWorkedData
                 tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
                 tObject = Resources.Load (tPath, typeof(GameObject)) as GameObject;
                 #endif
-                Debug.LogWarning("tObject at path " + tPath);
+                //Debug.LogWarning("tObject at path " + tPath);
             }
 			return tObject;
 		}

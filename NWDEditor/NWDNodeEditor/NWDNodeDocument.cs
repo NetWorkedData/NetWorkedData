@@ -325,11 +325,11 @@ namespace NetWorkedData
             // I must creat new object (prevent collection modified)
             if (tTypeToCreate != null)
             {
-                Debug.Log("try NewObject " + tTypeToCreate.Name);
+                //Debug.Log("try NewObject " + tTypeToCreate.Name);
                 var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tDataTypeNewObject != null)
                 {
-                    Debug.Log("NewObject is Ok ");
+                    //Debug.Log("NewObject is Ok ");
                     object tObject = tDataTypeNewObject.Invoke(null, null);
                     NWDDataInspector.InspectNetWorkedData(tObject);
                     this.SetData(tObject as NWDTypeClass, true);

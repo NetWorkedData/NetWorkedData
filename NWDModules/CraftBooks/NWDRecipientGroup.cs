@@ -168,7 +168,7 @@ namespace NetWorkedData
         public override void AddonDeleteMe()
         {
             // do something when object will be delete from local base
-            Debug.Log("AddonDeleteMe()");
+            //Debug.Log("AddonDeleteMe()");
             ItemList = new NWDReferencesListType<NWDItem>();
             CheckMyItems();
         }

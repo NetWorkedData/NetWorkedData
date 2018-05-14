@@ -31,7 +31,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void OnPostprocessBuild(BuildTarget target, string path)
 		{
-			Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
+			//Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
 			BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
 			switch (tBuildTarget) {
                 case BuildTarget.StandaloneOSX: 

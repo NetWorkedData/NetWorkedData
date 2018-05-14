@@ -245,7 +245,7 @@ namespace NetWorkedData
         {
             string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
             string tPassword = "Pass" + UnityEngine.Random.Range(100000, 999999).ToString();
-            Debug.Log("Sign-up with " + tEmail + " and " + tPassword);
+            //Debug.Log("Sign-up with " + tEmail + " and " + tPassword);
             NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail,tPassword,tPassword,
                 delegate (BTBOperation bOperation, float bProgress, BTBOperationResult sResult) {
                     TextWebResult.text = " Sign Up Success " + ShowError(sResult);
@@ -285,7 +285,7 @@ namespace NetWorkedData
 		// Use this for initialization
 		void Start()
 		{
-			Debug.Log("START NWDAccountPanel");
+			//Debug.Log("START NWDAccountPanel");
             BTBNotificationManager.SharedInstance().AddObserver (this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
             {
 				if (TextNetworkResult!=null)
@@ -368,7 +368,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeLanguageAction()
         {
-            Debug.Log("start with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
+            //Debug.Log("start with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
             List<string> tOptionsResult = new List<string>();
             Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
             foreach (KeyValuePair<string, string> tKeyValue in tLanguageDico)
@@ -380,7 +380,7 @@ namespace NetWorkedData
                 }
             }
             NWDDataManager.SharedInstance().PlayerLanguageSave(tOptionsResult[DropdownLocalizationList.value]);
-            Debug.Log("finish with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
+            //Debug.Log("finish with NWDDataManager.SharedInstance().PlayerLanguage = " + NWDDataManager.SharedInstance().PlayerLanguage);
         }
         //-------------------------------------------------------------------------------------------------------------
         void InitAccountList()
@@ -425,7 +425,7 @@ namespace NetWorkedData
             #if UNITY_EDITOR
             EditorWindow tEditorWindow = EditorWindow.focusedWindow;
             string tAccountReference = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
-            Debug.Log("tAccountReference = " + tAccountReference);
+            //Debug.Log("tAccountReference = " + tAccountReference);
             NWDAccount tAccount = NWDAccount.GetObjectAbsoluteByReference(tAccountReference);
             NWDAccount.SetObjectInEdition(tAccount);
             tEditorWindow.Focus();
@@ -434,21 +434,21 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WebBlankAction()
         {
-            Debug.Log("WebBlankAction()");
+            //Debug.Log("WebBlankAction()");
             NWDDataManager.SharedInstance().AddWebRequestBlankWithBlock();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void FalseTokenAction()
         {
-            Debug.Log("NWDAppEnvironment.SelectedEnvironment().RequesToken = " + NWDAppEnvironment.SelectedEnvironment().RequesToken);
+            //Debug.Log("NWDAppEnvironment.SelectedEnvironment().RequesToken = " + NWDAppEnvironment.SelectedEnvironment().RequesToken);
             NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDToolbox.RandomStringUnix(16);
-            Debug.Log("NWDAppEnvironment.SelectedEnvironment().RequesToken FALSIFIED = " + NWDAppEnvironment.SelectedEnvironment().RequesToken);
+            //Debug.Log("NWDAppEnvironment.SelectedEnvironment().RequesToken FALSIFIED = " + NWDAppEnvironment.SelectedEnvironment().RequesToken);
             SynchronizeTest();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void HttpErrorAction()
         {
-            Debug.Log("HttpErrorAction()");
+            //Debug.Log("HttpErrorAction()");
             NWDDataManager.SharedInstance().AddWebRequestNoPageWithBlock();
         }
         //-------------------------------------------------------------------------------------------------------------

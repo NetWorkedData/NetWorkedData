@@ -173,7 +173,7 @@ namespace NetWorkedData
 
         public static void PrepareUpdate(int sUpdateDelayInSeconds, List<Type> sOtherData)
         {
-            Debug.Log("NWDUserNetWorking Static StartUpdate()");
+            //Debug.Log("NWDUserNetWorking Static StartUpdate()");
             if (Started == false)
             {
                 Started = true;
@@ -205,7 +205,7 @@ namespace NetWorkedData
         //{
         public static void NetworkingUpdate()
             {
-                Debug.Log("NWDUserNetWorking Static NetworkingUpdate()");
+                //Debug.Log("NWDUserNetWorking Static NetworkingUpdate()");
                 Started = true;
                 NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstObject();
                 if (tUserNetWorking != null)
@@ -225,7 +225,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void NetworkingOffline()
         {
-            Debug.Log("NWDUserNetWorking Static NetworkingOffline()");
+            //Debug.Log("NWDUserNetWorking Static NetworkingOffline()");
             if (Started == true)
             {
                 Started = false;

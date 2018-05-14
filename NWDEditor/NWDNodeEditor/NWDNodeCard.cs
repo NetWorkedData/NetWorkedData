@@ -332,10 +332,10 @@ namespace NetWorkedData
 
                     if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDConstants.kEditWidth - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
                     {
-                        Debug.Log("ADD REFERENCE FROM NODE EDITOR");
+                        //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
                         // call the method EditorAddNewObject();
 
-                        Debug.Log("tTypeProperty = " + tTypeProperty.Name);
+                        //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
                         var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                         if (tMethodProperty != null)
                         {
@@ -345,14 +345,14 @@ namespace NetWorkedData
                             var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                             if (tDataTypeUpdate != null)
                             {
-                                Debug.Log("UpdateMe is Ok ");
+                                //Debug.Log("UpdateMe is Ok ");
                                 tDataTypeUpdate.Invoke(Data, new object[] { true });
                                 ParentDocument.ReAnalyze();
                             }
                         }
                         else
                         {
-                            Debug.Log("NO tMethodProperty ");
+                            //Debug.Log("NO tMethodProperty ");
                         }
                     }
                 }

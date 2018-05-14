@@ -354,7 +354,7 @@ namespace NetWorkedData
                 tMousePosition = Event.current.mousePosition;
                 if (Event.current.alt == true)
                 {
-                    Debug.Log("alt and select");
+                    //Debug.Log("alt and select");
                     tSelectAndClick = true;
                 }
             }
