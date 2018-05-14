@@ -36,7 +36,7 @@ namespace NetWorkedData
                                         NWDReferencesQuantityType<NWDPack> sReplacePacks = null,
                                         bool sBold = true)
         {
-            string rText = NWDUserToolbox.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDUserToolbox.Enrichment(sText, sLanguage, sBold); // add nickname, nickname id etc...  
             int tCounter = 0;
             string tBstart = "<b>";
             string tBend = "</b>";

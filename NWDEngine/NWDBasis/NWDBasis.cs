@@ -584,27 +584,17 @@ namespace NetWorkedData
         {
             if (ObjectsList.Contains(sObject) == true)
             {
-
-                //int tIndexInGame = InGameObjectsList.IndexOf(sObject);
-                //// InGameObjectsList doesn't change
-                //InGameObjectsList.RemoveAt(tIndexInGame);
-                //InGameObjectsList.Insert(tIndexInGame, sObject.Reference);
-                //InGameObjectsByKey.RemoveAt(tIndexInGame);
-                //InGameObjectsByKey.Insert(tIndexInGame, sObject.InternalKey);
-
-
                 int tIndex = ObjectsList.IndexOf(sObject);
-                // ObjectsList doesn't change
                 ObjectsByReferenceList.RemoveAt(tIndex);
                 ObjectsByReferenceList.Insert(tIndex, sObject.Reference);
                 ObjectsByKeyList.RemoveAt(tIndex);
                 ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
 #if UNITY_EDITOR
-                ObjectsInEditorTableKeyList.RemoveAt(tIndex);
-                ObjectsInEditorTableKeyList.Insert(tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
-                ObjectsInEditorTableList.RemoveAt(tIndex);
-                ObjectsInEditorTableList.Insert(tIndex, sObject.Reference);
-                // ObjectsInEditorTableSelectionList don't change
+                int tIndexB = ObjectsInEditorTableList.IndexOf(sObject.Reference);
+                ObjectsInEditorTableList.RemoveAt(tIndexB);
+                ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
+                ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
+                ObjectsInEditorTableKeyList.Insert(tIndexB, sObject.InternalKey + " <" + sObject.Reference + ">");
 #endif
             }
         }
