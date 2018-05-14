@@ -55,6 +55,9 @@ namespace NetWorkedData
                 sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             }
             GameObject tGameObjectToSpawn = new GameObject(sName);
+            // Add sync in the unitySingleton
+            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+            // 
             rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
             rReturn.GameObjectToSpawn = tGameObjectToSpawn;
             rReturn.Environment = sEnvironment;
