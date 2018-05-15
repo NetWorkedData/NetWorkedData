@@ -329,198 +329,214 @@ namespace NetWorkedData
 
             // -------------------------------------------
             GUILayout.EndHorizontal();
-           
+
 
             //EditorGUILayout.HelpBox(NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_A + " " +
             //NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_B + " " +
             //NWDConstants.K_APP_TABLE_SHORTCUT_ZONE_C, MessageType.Info);
 
             // ===========================================
-            DrawPagesTab();
-
-
-            DrawHeaderInEditor();
-
-            m_ScrollPositionList = EditorGUILayout.BeginScrollView(m_ScrollPositionList, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-            // ===========================================
-
-            //m_ItemList.Count
-
-            // EVENT USE
-            bool tSelectAndClick = false;
-            Vector2 tMousePosition = new Vector2(-200, -200);
-            if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+            if (NWDTypeLauncher.DataLoaded == true)
             {
-                tMousePosition = Event.current.mousePosition;
-                if (Event.current.alt == true)
-                {
-                    //Debug.Log("alt and select");
-                    tSelectAndClick = true;
-                }
+                DrawPagesTab();
             }
 
-            //
-            // TODO: add instruction in tab view
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.S)
+
+
+            /// DRAW SCROLLVIEW
+            if (NWDTypeLauncher.DataLoaded == false)
             {
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-                if (tSelected != null)
+
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(NWDConstants.K_APP_TABLE_DATAS_ARE_LOADING_ZONE, tCenterLabel);
+                GUILayout.FlexibleSpace();
+            }
+            else
+            {
+
+                DrawHeaderInEditor();
+
+                m_ScrollPositionList = EditorGUILayout.BeginScrollView(m_ScrollPositionList, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+                // ===========================================
+
+                //m_ItemList.Count
+
+                // EVENT USE
+                bool tSelectAndClick = false;
+                Vector2 tMousePosition = new Vector2(-200, -200);
+                if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
                 {
-                    if (ObjectsByReferenceList.Contains(tSelected.Reference))
+                    tMousePosition = Event.current.mousePosition;
+                    if (Event.current.alt == true)
                     {
-                        if (tSelected.XX == 0 && tSelected.TestIntegrity())
+                        //Debug.Log("alt and select");
+                        tSelectAndClick = true;
+                    }
+                }
+
+                //
+                // TODO: add instruction in tab view
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.S)
+                {
+                    NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                    if (tSelected != null)
+                    {
+                        if (ObjectsByReferenceList.Contains(tSelected.Reference))
                         {
-                            int tIndex = ObjectsByReferenceList.IndexOf(tSelected.Reference);
-                            ObjectsInEditorTableSelectionList[tIndex] = !ObjectsInEditorTableSelectionList[tIndex];
-                            Event.current.Use();
+                            if (tSelected.XX == 0 && tSelected.TestIntegrity())
+                            {
+                                int tIndex = ObjectsByReferenceList.IndexOf(tSelected.Reference);
+                                ObjectsInEditorTableSelectionList[tIndex] = !ObjectsInEditorTableSelectionList[tIndex];
+                                Event.current.Use();
+                            }
                         }
                     }
                 }
-            }
-            // TODO: add instruction in tab view
-            // KEY DOWN ARROW
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
-            {
-                //Debug.LogVerbose ("KeyDown DownArrow", DebugResult.Success);
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-                if (tSelected != null)
+                // TODO: add instruction in tab view
+                // KEY DOWN ARROW
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.DownArrow)
                 {
-                    if (ObjectsInEditorTableList.Contains(tSelected.Reference))
+                    //Debug.LogVerbose ("KeyDown DownArrow", DebugResult.Success);
+                    NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                    if (tSelected != null)
                     {
-                        int tIndexSelected = ObjectsInEditorTableList.IndexOf(tSelected.Reference);
-                        if (tIndexSelected < ObjectsInEditorTableList.Count - 1)
+                        if (ObjectsInEditorTableList.Contains(tSelected.Reference))
                         {
-                            string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected + 1);
-                            int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                            SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
-                            float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
-                            int tPageExpected = (int)Math.Floor(tNumberPage);
-                            m_PageSelected = tPageExpected;
-                            Event.current.Use();
-                            sEditorWindow.Focus();
+                            int tIndexSelected = ObjectsInEditorTableList.IndexOf(tSelected.Reference);
+                            if (tIndexSelected < ObjectsInEditorTableList.Count - 1)
+                            {
+                                string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected + 1);
+                                int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
+                                SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                                float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
+                                int tPageExpected = (int)Math.Floor(tNumberPage);
+                                m_PageSelected = tPageExpected;
+                                Event.current.Use();
+                                sEditorWindow.Focus();
+                            }
                         }
+                        else
+                        {
+                        }
+                    }
+                }
+
+                // TODO: add instruction in tab view
+                // KEY UP ARROW
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
+                {
+                    //Debug.LogVerbose ("KeyDown UpArrow", DebugResult.Success);
+                    NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
+                    if (tSelected != null)
+                    {
+                        if (ObjectsInEditorTableList.Contains(tSelected.Reference))
+                        {
+                            int tIndexSelected = ObjectsInEditorTableList.IndexOf(tSelected.Reference);
+                            if (tIndexSelected > 0)
+                            {
+                                string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected - 1);
+                                int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
+                                float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
+                                int tPageExpected = (int)Math.Floor(tNumberPage);
+                                m_PageSelected = tPageExpected;
+                                SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                                Event.current.Use();
+                                sEditorWindow.Focus();
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                }
+
+                float tNumberOfPage = ObjectsInEditorTableList.Count / m_ItemPerPage;
+                int tPagesExpected = (int)Math.Floor(tNumberOfPage);
+
+                // TODO: add instruction in tab view
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
+                {
+                    //Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
+                    if (m_PageSelected < tPagesExpected)
+                    {
+                        m_PageSelected++;
+                        // TODO : reselect first object
+                        string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
+                        int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
+                        SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                        Event.current.Use();
+                        sEditorWindow.Focus();
                     }
                     else
                     {
                     }
                 }
-            }
 
-            // TODO: add instruction in tab view
-            // KEY UP ARROW
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.UpArrow)
-            {
-                //Debug.LogVerbose ("KeyDown UpArrow", DebugResult.Success);
-                NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
-                if (tSelected != null)
+
+                // TODO: add instruction in tab view
+                if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
                 {
-                    if (ObjectsInEditorTableList.Contains(tSelected.Reference))
+                    //Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
+                    if (m_PageSelected > 0)
                     {
-                        int tIndexSelected = ObjectsInEditorTableList.IndexOf(tSelected.Reference);
-                        if (tIndexSelected > 0)
-                        {
-                            string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected - 1);
-                            int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                            float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
-                            int tPageExpected = (int)Math.Floor(tNumberPage);
-                            m_PageSelected = tPageExpected;
-                            SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
-                            Event.current.Use();
-                            sEditorWindow.Focus();
-                        }
+                        m_PageSelected--;
+                        // TODO : reselect first object
+                        string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
+                        int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
+                        SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                        Event.current.Use();
+                        sEditorWindow.Focus();
                     }
                     else
                     {
                     }
                 }
-            }
 
-            float tNumberOfPage = ObjectsInEditorTableList.Count / m_ItemPerPage;
-            int tPagesExpected = (int)Math.Floor(tNumberOfPage);
 
-            // TODO: add instruction in tab view
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
-            {
-                //Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
-                if (m_PageSelected < tPagesExpected)
+                if (m_PageSelected < 0)
                 {
-                    m_PageSelected++;
-                    // TODO : reselect first object
-                    string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
-                    int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                    SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
-                    Event.current.Use();
-                    sEditorWindow.Focus();
+                    m_PageSelected = 0;
                 }
-                else
+                if (m_PageSelected > tPagesExpected)
                 {
+                    m_PageSelected = tPagesExpected;
                 }
-            }
 
-
-            // TODO: add instruction in tab view
-            if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
-            {
-                //Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
-                if (m_PageSelected > 0)
+                for (int i = 0; i < m_ItemPerPage; i++)
                 {
-                    m_PageSelected--;
-                    // TODO : reselect first object
-                    string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
-                    int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                    SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
-                    Event.current.Use();
-                    sEditorWindow.Focus();
-                }
-                else
-                {
-                }
-            }
-
-
-            if (m_PageSelected < 0)
-            {
-                m_PageSelected = 0;
-            }
-            if (m_PageSelected > tPagesExpected)
-            {
-                m_PageSelected = tPagesExpected;
-            }
-
-            for (int i = 0; i < m_ItemPerPage; i++)
-            {
-                int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
-                if (tItemIndexInPage < ObjectsInEditorTableList.Count)
-                {
-                    string tReference = ObjectsInEditorTableList.ElementAt(tItemIndexInPage);
-                    int tObjectIndex = ObjectsByReferenceList.IndexOf(tReference);
-                    if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                    int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
+                    if (tItemIndexInPage < ObjectsInEditorTableList.Count)
                     {
-                        NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
-                        if (tObject != null)
+                        string tReference = ObjectsInEditorTableList.ElementAt(tItemIndexInPage);
+                        int tObjectIndex = ObjectsByReferenceList.IndexOf(tReference);
+                        if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
                         {
-                            tObject.DrawRowInEditor(tMousePosition, sEditorWindow, tSelectAndClick);
+                            NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                            if (tObject != null)
+                            {
+                                tObject.DrawRowInEditor(tMousePosition, sEditorWindow, tSelectAndClick);
+                            }
                         }
                     }
                 }
+
+
+                // ===========================================
+                EditorGUILayout.EndScrollView();
+
             }
+                // -------------------------------------------
 
+                GUILayout.Space(5.0f);
 
-            // ===========================================
-            EditorGUILayout.EndScrollView();
-            // -------------------------------------------
+                Rect tRect = GUILayoutUtility.GetLastRect();
+                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
+                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
 
-            GUILayout.Space(5.0f);
-
-            Rect tRect = GUILayoutUtility.GetLastRect();
-            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
-            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
-
-
-            DrawPagesTab();
-
-
-
+            if (NWDTypeLauncher.DataLoaded == true)
+            {
+                DrawPagesTab();
+            }
 
             GUILayout.Space(5.0f);
 

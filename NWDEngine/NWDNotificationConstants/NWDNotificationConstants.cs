@@ -25,6 +25,8 @@ namespace NetWorkedData
         public const string K_DATAS_PARTIAL_LOADED = "K_DATAS_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify
         public const string K_DATAS_LOADED = "K_DATAS_LOADED_er468rez"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_EDITOR_REFRESH = "K_EDITOR_REFRESH_g54D55hs"; // OK Needed by test & verify
+        //-------------------------------------------------------------------------------------------------------------
         // Change language in game
         public const string K_LANGUAGE_CHANGED = "K_LANGUAGE_CHANGED"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------

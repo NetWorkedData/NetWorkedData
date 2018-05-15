@@ -39,6 +39,13 @@ namespace NetWorkedData
             }
             NWDTypeLauncher.DataLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
+            #if UNITY_EDITOR
+            foreach (Type tType in mTypeList)
+            {
+                RepaintWindowsInManager(tType); // Test
+            }
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ReloadAllObjectsByClass(int sCounter)
@@ -53,6 +60,10 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                     rReturn = true;
                 }
+                #if UNITY_EDITOR
+                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+                RepaintWindowsInManager(tType);
+                #endif
             }
             return rReturn;
         }
@@ -78,6 +89,13 @@ namespace NetWorkedData
             }
             NWDTypeLauncher.DataLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
+            #if UNITY_EDITOR
+            foreach (Type tType in mTypeList)
+            {
+                RepaintWindowsInManager(tType); // Test
+            }
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+            #endif
 
             double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             double tDelta = tFinishTimestamp - tStartTimestamp;
@@ -86,7 +104,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RestaureObjectInEdition()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             foreach (Type tType in mTypeList)
             {
                 var tMethodInfo = tType.GetMethod("RestaureObjectInEdition", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -95,7 +113,8 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                 }
             }
-#endif
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }
