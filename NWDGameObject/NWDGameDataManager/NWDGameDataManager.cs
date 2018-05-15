@@ -255,6 +255,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool DatasIsLoaded()
+		{
+			return NWDTypeLauncher.DataLoaded;
+		}
+		//-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The unity singleton. (destroy other instance)
         /// </summary>
