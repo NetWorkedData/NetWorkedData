@@ -596,10 +596,25 @@ namespace NetWorkedData
                 ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
 #if UNITY_EDITOR
                 int tIndexB = ObjectsInEditorTableList.IndexOf(sObject.Reference);
-                ObjectsInEditorTableList.RemoveAt(tIndexB);
-                ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
-                ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
-                ObjectsInEditorTableKeyList.Insert(tIndexB, sObject.InternalKey + " <" + sObject.Reference + ">");
+                if (tIndexB >= 0 && tIndexB < ObjectsInEditorTableList.Count())
+                {
+                    ObjectsInEditorTableList.RemoveAt(tIndexB);
+                    ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
+                    // Active to auto remove on filter
+                   // if (sObject.Tag == (int)m_SearchTag)
+                    {
+                        ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
+                        ObjectsInEditorTableKeyList.Insert(tIndexB, sObject.InternalKey + " <" + sObject.Reference + ">");
+                    }
+                }
+                else
+                {
+                    if (sObject.Tag == (int)m_SearchTag)
+                    {
+                        ObjectsInEditorTableList.Add(sObject.Reference);
+                        ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+                    }
+                }
 #endif
             }
         }

@@ -22,6 +22,18 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataManager
     {
+        //------------------------------------------------------------------------------------------------------------- 
+        #if UNITY_EDITOR
+        public void EditorRefresh()
+        {
+            foreach (Type tType in mTypeList)
+            {
+                RepaintWindowsInManager(tType); // Test
+            }
+            NWDDataInspector.ShareInstance().Repaint();
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+        }
+        #endif
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjects()
         {
@@ -40,11 +52,7 @@ namespace NetWorkedData
             NWDTypeLauncher.DataLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
             #if UNITY_EDITOR
-            foreach (Type tType in mTypeList)
-            {
-                RepaintWindowsInManager(tType); // Test
-            }
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+            EditorRefresh();
             #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -60,10 +68,6 @@ namespace NetWorkedData
                     tMethodInfo.Invoke(null, null);
                     rReturn = true;
                 }
-                #if UNITY_EDITOR
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
-                RepaintWindowsInManager(tType);
-                #endif
             }
             return rReturn;
         }
@@ -90,11 +94,7 @@ namespace NetWorkedData
             NWDTypeLauncher.DataLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
             #if UNITY_EDITOR
-            foreach (Type tType in mTypeList)
-            {
-                RepaintWindowsInManager(tType); // Test
-            }
-            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
+            EditorRefresh();
             #endif
 
             double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
