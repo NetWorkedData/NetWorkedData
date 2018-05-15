@@ -84,6 +84,20 @@ namespace NetWorkedData
             //Debug.Log("NWD => NetWorkeData load all datas in " + tDelta.ToString() + " seconds");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RestaureObjectInEdition()
+        {
+#if UNITY_EDITOR
+            foreach (Type tType in mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("RestaureObjectInEdition", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, null);
+                }
+            }
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

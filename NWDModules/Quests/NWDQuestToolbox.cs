@@ -49,22 +49,6 @@ namespace NetWorkedData
             {
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             }
-            // Replace the nickname
-            NWDUserNickname tNickNameObject = NWDUserNickname.GetFirstObject();
-            string tNickname = "";
-            string tNicknameID = "";
-            if (tNickNameObject != null)
-            {
-                tNickname = tNickNameObject.Nickname;
-                tNicknameID = tNickNameObject.UniqueNickname;
-            }
-
-            rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
-            rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
-
-            rText = rText.Replace("#Nickname#", tBstart + tNickname + tBend);
-            rText = rText.Replace("#Nicknameid#", tBstart + tNicknameID + tBend);
-
             // // replace referecen in text
             if (sReplaceCharacters != null)
             {

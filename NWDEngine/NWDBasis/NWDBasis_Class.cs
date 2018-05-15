@@ -100,6 +100,7 @@ namespace NetWorkedData
                 kClassType[ClassID()] = sType;
             }
         }
+
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> kClassName = new Dictionary<string, string>();
         //-------------------------------------------------------------------------------------------------------------
@@ -124,6 +125,21 @@ namespace NetWorkedData
             {
                 kClassName[ClassID()] = sClassName;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string MyClassName()
+        {
+            return ClassName();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string MyClassNamePHP()
+        {
+            return ClassNamePHP();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string ClassNameUsedValue()
+        {
+            return ClassNamePHP();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> kTableName = new Dictionary<string, string>();

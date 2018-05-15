@@ -52,6 +52,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public override string ReferenceUsedValue()
+        {
+            return Reference;
+        }
         [NWDNotEditable]
         public NWDVersionType MinVersion
         {
@@ -549,6 +553,7 @@ namespace NetWorkedData
                     ObjectsByKeyList.Add(sObject.InternalKey);
 #if UNITY_EDITOR
                     sObject.ErrorCheck();
+
                     // add load object in editor table
                     ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
                     ObjectsInEditorTableList.Add(sObject.Reference);

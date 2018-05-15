@@ -27,6 +27,8 @@ namespace NetWorkedData
                     //Debug.Log("NWD => Load data for editor");
                     NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
                     tShareInstance.ReloadAllObjects();
+                    tShareInstance.RestaureObjectInEdition();
+
                 }
             }
         }

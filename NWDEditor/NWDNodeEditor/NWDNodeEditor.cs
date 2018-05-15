@@ -63,6 +63,42 @@ namespace NetWorkedData
             }
             return kNodeEditorSharedInstance;
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public const string K_NODE_EDITOR_LAST_TYPE_KEY = "K_NODE_EDITOR_LAST_TYPE_KEY_5fdshjktr";
+        public const string K_NODE_EDITOR_LAST_REFERENCE_KEY = "K_NODE_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
+        //-------------------------------------------------------------------------------------------------------------
+        public static void RestaureObjectInEdition()
+        {
+            string tTypeEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_TYPE_KEY);
+            string tLastReferenceEdited = EditorPrefs.GetString(K_NODE_EDITOR_LAST_REFERENCE_KEY);
+
+            if (!string.IsNullOrEmpty(tTypeEdited) && !string.IsNullOrEmpty(tLastReferenceEdited))
+            {
+                NWDTypeClass tSelection = null;
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+                {
+                    // TODO : find the good classes and the good object
+                    //NWDBasis<K> ObjectInEditionReccord(string sClassPHP, string sReference)
+                    // restaure if not null
+                }
+                SetObjectInNodeWindow(tSelection);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SaveObjectInEdition(NWDTypeClass sSelection)
+        {
+            if (sSelection == null)
+            {
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, "");
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, "");
+            }
+            else
+            {
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, sSelection.ClassNameUsedValue());
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.ReferenceUsedValue());
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Sets the object in node window.

@@ -431,6 +431,8 @@ namespace NetWorkedData
                         rReturn = "YES";
 
 #if UNITY_EDITOR
+
+
                         FilterTableEditor();
                         RepaintTableEditor();
                         NWDDataInspector.ShareInstance().Repaint();
