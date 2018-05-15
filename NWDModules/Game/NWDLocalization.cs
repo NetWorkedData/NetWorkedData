@@ -197,31 +197,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "")
         {
-            if (sText != null)
-            {
-                if (sDefault.Equals(""))
-                {
-                    sDefault = sText.text;
-                }
+			if (NWDTypeLauncher.DataLoaded)
+			{
+				if (sText != null)
+				{
+					if (sDefault.Equals(""))
+					{
+						sDefault = sText.text;
+					}
 
-                NWDLocalization tObject = GetObjectByInternalKey(sText.text, true) as NWDLocalization;
-                if (tObject != null)
-                {
-                    string tText = tObject.TextValue.GetLocalString();
-                    sText.text = tText.Replace("<br>", "\n");
-                }
-                else
-                {
-                    CreateLocalizationTextValue(sText.text, sDefault);
-                }
-            }
-            else
-            {
+					NWDLocalization tObject = GetObjectByInternalKey(sText.text, true) as NWDLocalization;
+					if (tObject != null)
+					{
+						string tText = tObject.TextValue.GetLocalString();
+						sText.text = tText.Replace("<br>", "\n");
+					}
+					else
+					{
+						CreateLocalizationTextValue(sText.text, sDefault);
+					}
+				}
+				else
+				{
+                    #if UNITY_EDITOR
+					EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
+                    #endif
+				}
+			}
+			else
+			{
 				#if UNITY_EDITOR
-                //EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
-                Debug.LogWarning("AutoLocalize : Text component is null ");
-				#endif
-            }
+                EditorUtility.DisplayDialog("AutoLocalize", "NWD engine not loaded", "OK");
+                #endif
+			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
