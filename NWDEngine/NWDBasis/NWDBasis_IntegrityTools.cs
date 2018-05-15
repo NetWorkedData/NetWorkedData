@@ -125,7 +125,7 @@ namespace NetWorkedData
                         }
                         else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
                         {
-                            Debug.Log("must implement "+tProp.Name + " value");
+                            //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
                             tProp.SetValue(this, tValue, null);
                         }

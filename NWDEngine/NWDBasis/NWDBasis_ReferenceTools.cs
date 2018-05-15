@@ -213,7 +213,7 @@ namespace NetWorkedData
             {
                 if (AccountDependent() == true)
                 {
-                    Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
+                    //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
                     foreach (PropertyInfo tProp in PropertiesAccountConnect())
                     {
                         NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
@@ -223,7 +223,7 @@ namespace NetWorkedData
                         }
                     }
                     UpdateMeIfModified();
-                    Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
+                    //Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
                 }
             }
 		}

@@ -59,12 +59,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDRequestToken()
         {
-            Debug.Log("NWDRequestToken Constructor");
+            //Debug.Log("NWDRequestToken Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDRequestToken(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDRequestToken Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDRequestToken Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

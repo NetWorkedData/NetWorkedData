@@ -476,7 +476,7 @@ namespace NetWorkedData
             {
                 if (Value.Contains(sOldReference))
                 {
-                    Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
+                    //Debug.Log("I CHANGE " + sOldReference + " FOR " + sNewReference + "");
                     Value = Value.Replace(sOldReference, sNewReference);
                     rReturn = "YES";
                 }

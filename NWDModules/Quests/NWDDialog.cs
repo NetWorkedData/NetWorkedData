@@ -130,11 +130,10 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltipsAttribute("The type of answer " +
-                              "\n •Sequent (just continue next, perhaps not show button)," +
                               "\n •Normal (choose answer),  " +
+                              "\n •Sequent (just continue next, perhaps not show button)," +
                               "\n •Step ( the next time restart quest here), " +
-                              //"\n •Stop (stop the dialog after this answer), " +
-                              "\n •Random (randomly show answer)" +
+                              "\n •Reset delete the last refertence answer used" +
                               "")]
         public NWDDialogState AnswerState
         {
@@ -204,7 +203,12 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDTooltipsAttribute("Select language and write your dialog in this language")]
+        [NWDTooltipsAttribute("Select language and write your dialog in this language " +
+                              "\nreplace by user : @nickname@ (old system)" +
+                              "\nreplace by user : @nicknameid@ (old system)" +
+                              "\nreplace by user : #Nickname#" +
+                              "\nreplace by user : #Nicknameid#" +
+                              "")]
         public NWDLocalizableTextType Dialog
         {
             get; set;
@@ -220,7 +224,8 @@ namespace NetWorkedData
         }
 
         [NWDTooltipsAttribute("Select items to use in message by these tags" +
-                              "\n •for item name #I1# #I2# …" +
+                              "\n •for item name singular #I1# #I2# …" +
+                              "\n •for item name plural #I1s# #I2s# …" +
                               "\n •for quantity and item name #xI1# #xI2# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItem> ReplaceItems
@@ -228,7 +233,8 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
-                              "\n •for item to describe name #G1# #G2# …" +
+                              "\n •for item to describe name singular #G1# #G2# …" +
+                              "\n •for item to describe name plural #G1s# #G2s# …" +
                               "\n •for quantity and item to describe name #xG1# #xG2# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups
@@ -236,7 +242,8 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
-                              "\n •for item to describe name #P1# #P2# …" +
+                              "\n •for item to describe name singular #P1# #P2# …" +
+                              "\n •for item to describe name plural #P1s# #P2s# …" +
                               "\n •for quantity and item to describe name #xP1# #xP2# …" +
                               "")]
         public NWDReferencesQuantityType<NWDPack> ReplacePacks
@@ -383,28 +390,28 @@ namespace NetWorkedData
         public string AnswerRichText(bool sBold = true)
         {
             string rReturn = Answer.GetLocalString();
-            rReturn = NWDToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string AnswerRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = Answer.GetLanguageString(sLanguage);
-            rReturn = NWDToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string DialogRichText(bool sBold = true)
         {
             string rReturn = Dialog.GetLocalString();
-            rReturn = NWDToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string DialogRichTextForLanguage(string sLanguage, bool sBold = true)
         {
             string rReturn = Dialog.GetLanguageString(sLanguage);
-            rReturn = NWDToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
+            rReturn = NWDQuestToolbox.Enrichment(rReturn, sLanguage, ReplaceCharacters, ReplaceItems, ReplaceItemGroups, ReplacePacks, sBold);
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

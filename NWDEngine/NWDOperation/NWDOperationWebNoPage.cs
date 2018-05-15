@@ -67,7 +67,10 @@ namespace NetWorkedData
 			}
 
 			// IF BTBOperationUnity
-			GameObject tGameObjectToSpawn = new GameObject (sName);
+            GameObject tGameObjectToSpawn = new GameObject (sName);
+            // Add sync in the unitySingleton
+            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+            // 
             rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebNoPage> ();
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 

@@ -60,7 +60,7 @@ namespace NetWorkedData
                 #endif
                 if (rSprite == null)
                 {
-                    Debug.LogWarning("rSprite is null at path " + tPath);
+                    //Debug.LogWarning("rSprite is null at path " + tPath);
                 }
 			}
 			return rSprite;

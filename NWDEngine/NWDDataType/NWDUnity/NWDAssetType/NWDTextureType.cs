@@ -58,10 +58,10 @@ namespace NetWorkedData
                 tPath = BTBPathResources.PathAbsoluteToPathDB(tPath);
                 rTexture = Resources.Load(tPath, typeof(Texture2D)) as Texture2D;
                 #endif
-                Debug.LogWarning("rTexture at path " + tPath);
+                //Debug.LogWarning("rTexture at path " + tPath);
                 if (rTexture == null)
                 {
-                    Debug.LogWarning("rTexture is null at path " + tPath);
+                    //Debug.LogWarning("rTexture is null at path " + tPath);
                 }
             }
             return rTexture;

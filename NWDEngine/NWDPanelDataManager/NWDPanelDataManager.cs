@@ -199,7 +199,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkOffLine(BTBNotification sNotification)
         {
-            Debug.Log("NWDPanelDataManager NotificationNetworkOffLine()");
+            //Debug.Log("NWDPanelDataManager NotificationNetworkOffLine()");
             if ( NetworkOffLineEvent!= null)
             {
                 NetworkOffLineEvent.Invoke(sNotification);
@@ -214,7 +214,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkOnLine(BTBNotification sNotification)
         {
-            Debug.Log("NWDPanelDataManager NotificationNetworkOnLine()");
+            //Debug.Log("NWDPanelDataManager NotificationNetworkOnLine()");
             if ( NetworkOnLineEvent!= null)
             {
                 NetworkOnLineEvent.Invoke(sNotification);
@@ -229,7 +229,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkUnknow(BTBNotification sNotification)
         {
-            Debug.Log("NWDPanelDataManager NotificationNetworkUnknow()");
+            //Debug.Log("NWDPanelDataManager NotificationNetworkUnknow()");
             if ( NetworkUnknowEvent!= null)
             {
                 NetworkUnknowEvent.Invoke(sNotification);

@@ -40,7 +40,7 @@ namespace NetWorkedData
             // update build timestamp
             if (tBuild == true)
             {
-                Debug.LogWarning("NWDBuildPreProcess Update the build timestamp in NetWorkedData lib !!!");
+                //Debug.LogWarning("NWDBuildPreProcess Update the build timestamp in NetWorkedData lib !!!");
                 int tTimeStamp = NWDToolbox.Timestamp();
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;

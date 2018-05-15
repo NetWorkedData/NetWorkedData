@@ -54,7 +54,7 @@ namespace NetWorkedData
                                                                 bool sForceSync = false, 
                                                                 bool sPriority = false)
         {
-            Debug.Log("NWDOperationWebRelationship AddOperation()");
+            //Debug.Log("NWDOperationWebRelationship AddOperation()");
             NWDOperationWebRelationship rReturn = NWDOperationWebRelationship.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sAdditionalTypes, sEnvironment, sForceSync);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;

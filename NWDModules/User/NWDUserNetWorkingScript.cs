@@ -40,7 +40,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            Debug.Log("NWDUserNetWorkingScript Start()");
+            //Debug.Log("NWDUserNetWorkingScript Start()");
             NWDUserNetWorking.PrepareUpdate(0, null);
             CheckStart();
         }
@@ -51,7 +51,7 @@ namespace NetWorkedData
             {
                 if (IsActive == true)
                 {
-                    Debug.Log("NWDUserNetWorkingScript UserNetworkinUpdate()");
+                    //Debug.Log("NWDUserNetWorkingScript UserNetworkinUpdate()");
                     NWDUserNetWorking.NetworkingUpdate();
                 }
                 yield return new WaitForSeconds(NWDUserNetWorking.DelayInSeconds());

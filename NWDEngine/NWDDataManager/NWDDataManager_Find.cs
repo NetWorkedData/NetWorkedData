@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public IEnumerator AsyncReloadAllObjects()
         {
-            Debug.Log("NWDDataManager AsyncReloadAllObjects()");
+            //Debug.Log("NWDDataManager AsyncReloadAllObjects()");
             NWDTypeLauncher.DataLoaded = false;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             NWDTypeLauncher.ClassesExpected = mTypeList.Count();
@@ -81,7 +81,7 @@ namespace NetWorkedData
 
             double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             double tDelta = tFinishTimestamp - tStartTimestamp;
-            Debug.Log("NWD => NetWorkeData load all datas in " + tDelta.ToString() + " seconds");
+            //Debug.Log("NWD => NetWorkeData load all datas in " + tDelta.ToString() + " seconds");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

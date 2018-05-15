@@ -83,7 +83,10 @@ namespace NetWorkedData
 			}
 
 			// IF BTBOperationUnity
-			GameObject tGameObjectToSpawn = new GameObject (sName);
+            GameObject tGameObjectToSpawn = new GameObject (sName);
+            // Add sync in the unitySingleton
+            tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
+            // 
 			rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebAccount> ();
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 
@@ -240,7 +243,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
+			//Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
             if (sData.isSignIn)
             {
 				foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
@@ -254,7 +257,7 @@ namespace NetWorkedData
 			}
 
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList);
-			Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
+			//Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 		}
         //-------------------------------------------------------------------------------------------------------------
 	}

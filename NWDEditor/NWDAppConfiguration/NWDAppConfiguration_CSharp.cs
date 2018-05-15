@@ -32,7 +32,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment">S environment.</param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            Debug.LogWarning("GenerateCSharpFile !!!");
+            //Debug.LogWarning("GenerateCSharpFile !!!");
             //string tEngineRootFolder = "Assets";
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");

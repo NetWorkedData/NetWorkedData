@@ -85,12 +85,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLevelScore()
         {
-            Debug.Log("NWDLevelScore Constructor");
+            //Debug.Log("NWDLevelScore Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDLevelScore(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            Debug.Log("NWDLevelScore Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDLevelScore Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

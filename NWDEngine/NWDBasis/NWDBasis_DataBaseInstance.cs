@@ -516,11 +516,11 @@ namespace NetWorkedData
         public bool UpdateMeIfModified()
         {
 
-            Debug.Log("UpdateMeIfModified () ?");
+            //Debug.Log("UpdateMeIfModified () ?");
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
             {
-                Debug.Log("UpdateMeIfModified () YES UPDATE ME");
+                //Debug.Log("UpdateMeIfModified () YES UPDATE ME");
                 tReturn = true;
                 UpdateMe();
             }
