@@ -24,6 +24,7 @@ namespace NetWorkedData
         new Type[] {
             typeof(NWDVersion),
             typeof(NWDConfiguration),
+            typeof(NWDAssetBundle),
             typeof(NWDLocalization),
             typeof(NWDError),
             typeof(NWDMessage),
