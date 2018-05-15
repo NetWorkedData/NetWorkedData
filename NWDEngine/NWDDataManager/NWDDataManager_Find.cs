@@ -30,7 +30,7 @@ namespace NetWorkedData
             {
                 RepaintWindowsInManager(tType); // Test
             }
-            NWDDataInspector.ShareInstance().Repaint();
+            //NWDDataInspector.ShareInstance().Repaint();
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
         }
         #endif
