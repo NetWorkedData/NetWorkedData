@@ -561,10 +561,10 @@ namespace NetWorkedData
                         // if (sObject.Tag == (int)m_SearchTag)
                         {
                             ObjectsInEditorTableList.Add(sObject.Reference);
-                            ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
-                            ObjectsInEditorTableSelectionList.Add(false);
                         }
                     }
+                    ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+                    ObjectsInEditorTableSelectionList.Add(false);
 #endif
                 }
             }
@@ -589,9 +589,9 @@ namespace NetWorkedData
                 if (tIndexB >= 0 && tIndexB < ObjectsInEditorTableList.Count())
                 {
                     ObjectsInEditorTableList.RemoveAt(tIndexB);
-                    ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
-                    ObjectsInEditorTableSelectionList.RemoveAt(tIndexB);
                 }
+                    ObjectsInEditorTableKeyList.RemoveAt(tIndex);
+                    ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
 #endif
             }
         }
@@ -606,18 +606,21 @@ namespace NetWorkedData
                 ObjectsByKeyList.RemoveAt(tIndex);
                 ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
 #if UNITY_EDITOR
+
+                ObjectsInEditorTableKeyList.RemoveAt(tIndex);
+                ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
+
+                ObjectsInEditorTableKeyList.Insert(tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
+                ObjectsInEditorTableSelectionList.Insert(tIndex, false);
+
                 int tIndexB = ObjectsInEditorTableList.IndexOf(sObject.Reference);
                 if (tIndexB >= 0 && tIndexB < ObjectsInEditorTableList.Count())
                 {
                     ObjectsInEditorTableList.RemoveAt(tIndexB);
-                    ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
-                    ObjectsInEditorTableSelectionList.RemoveAt(tIndexB);
                     // Active to auto remove on filter
                    // if (sObject.Tag == (int)m_SearchTag)
                     {
                         ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
-                        ObjectsInEditorTableKeyList.Insert(tIndexB, sObject.InternalKey + " <" + sObject.Reference + ">");
-                        ObjectsInEditorTableSelectionList.Insert(tIndexB, false);
                     }
                 }
                 else
@@ -625,8 +628,6 @@ namespace NetWorkedData
                     if (sObject.Tag == (int)m_SearchTag)
                     {
                         ObjectsInEditorTableList.Add(sObject.Reference);
-                        ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
-                        ObjectsInEditorTableSelectionList.Add(false);
                     }
                 }
 #endif
