@@ -555,9 +555,16 @@ namespace NetWorkedData
                     sObject.ErrorCheck();
 
                     // add load object in editor table
-                    ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
-                    ObjectsInEditorTableList.Add(sObject.Reference);
-                    ObjectsInEditorTableSelectionList.Add(false);
+                    if (ObjectsInEditorTableList.Contains(sObject.Reference) == false)
+                    {
+                        // Active to auto remove on filter
+                        // if (sObject.Tag == (int)m_SearchTag)
+                        {
+                            ObjectsInEditorTableList.Add(sObject.Reference);
+                            ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+                            ObjectsInEditorTableSelectionList.Add(false);
+                        }
+                    }
 #endif
                 }
             }
@@ -578,9 +585,13 @@ namespace NetWorkedData
                 ObjectsByReferenceList.RemoveAt(tIndex);
                 ObjectsByKeyList.RemoveAt(tIndex);
 #if UNITY_EDITOR
-                ObjectsInEditorTableKeyList.RemoveAt(tIndex);
-                ObjectsInEditorTableList.Remove(sObject.Reference);
-                ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
+                int tIndexB = ObjectsInEditorTableList.IndexOf(sObject.Reference);
+                if (tIndexB >= 0 && tIndexB < ObjectsInEditorTableList.Count())
+                {
+                    ObjectsInEditorTableList.RemoveAt(tIndexB);
+                    ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
+                    ObjectsInEditorTableSelectionList.RemoveAt(tIndexB);
+                }
 #endif
             }
         }
@@ -600,11 +611,13 @@ namespace NetWorkedData
                 {
                     ObjectsInEditorTableList.RemoveAt(tIndexB);
                     ObjectsInEditorTableKeyList.RemoveAt(tIndexB);
+                    ObjectsInEditorTableSelectionList.RemoveAt(tIndexB);
                     // Active to auto remove on filter
                    // if (sObject.Tag == (int)m_SearchTag)
                     {
                         ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
                         ObjectsInEditorTableKeyList.Insert(tIndexB, sObject.InternalKey + " <" + sObject.Reference + ">");
+                        ObjectsInEditorTableSelectionList.Insert(tIndexB, false);
                     }
                 }
                 else
@@ -613,6 +626,7 @@ namespace NetWorkedData
                     {
                         ObjectsInEditorTableList.Add(sObject.Reference);
                         ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+                        ObjectsInEditorTableSelectionList.Add(false);
                     }
                 }
 #endif
