@@ -464,7 +464,7 @@ namespace Babaoo
             {
                 PanelAnim.SetTrigger("HideDialogue");
             }
-            if (InputManager.GetInstance() != null && SceneManager.GetSceneByName("MainWorld").IsValid())
+            if (InputManager.GetInstance() != null && SceneManager.GetSceneByName("MainWorld_Demo").IsValid())
             {
                 InputManager.GetInstance().SetInputMode(InputManager.EInputMode.NONE);
                 InputManager.GetInstance().SetNextInputMode(InputManager.EInputMode.GAME);
