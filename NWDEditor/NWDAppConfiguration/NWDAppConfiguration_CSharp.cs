@@ -213,6 +213,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.UnityAppKey = \"" + this.ProdEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.TwitterAppKey = \"" + this.ProdEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.ProdEnvironment.PreProdTimeFormat = \"" + this.ProdEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.AppProtocol = \"" + this.ProdEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
@@ -257,7 +258,8 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.GoogleAppKey = \"" + this.PreprodEnvironment.GoogleAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.UnityAppKey = \"" + this.PreprodEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.TwitterAppKey = \"" + this.PreprodEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.PreprodEnvironment.PreProdTimeFormat = \"" + this.PreprodEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.AppProtocol = \"" + this.PreprodEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SpeedOfGameTime = " + this.PreprodEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + this.PreprodEnvironment.BuildTimestamp.ToString() + ";\n" +
@@ -297,7 +299,8 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.UnityAppKey = \"" + this.DevEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.TwitterAppKey = \"" + this.DevEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.AdminKey = \"" + this.DevEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+			"\t\t\tthis.DevEnvironment.PreProdTimeFormat = \"" + this.DevEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.AppProtocol = \"" + this.DevEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
              "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +

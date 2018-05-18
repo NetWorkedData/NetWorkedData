@@ -57,7 +57,8 @@ namespace NetWorkedData
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
 			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
-            AppName = EditorGUILayout.TextField ("AppName", AppName);
+			AppName = EditorGUILayout.TextField ("AppName", AppName);
+			PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
 			EditorGUILayout.TextField ("Security of Datas"+ Environment, EditorStyles.boldLabel);
 			DataSHAPassword = EditorGUILayout.TextField ("SHA Password", DataSHAPassword);
