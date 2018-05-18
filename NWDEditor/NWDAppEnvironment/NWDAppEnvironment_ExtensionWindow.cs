@@ -36,14 +36,25 @@ namespace NetWorkedData
 		/// </summary>
 		public void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
-			// TODO use NWDConstants for these strings
-			// TODO use GUI without layout
+            // TODO use NWDConstants for these strings
+            // TODO use GUI without layout
+
+            float tMinWidht = 270.0F;
+            float tScrollMarge = 20.0f;
+            int tColum = 1;
+            if (sEditorWindow.position.width-tScrollMarge >= tMinWidht*2)
+            {
+                tColum = 2;
+            }
+
 
 			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connection with server", MessageType.None);
+            if (tColum > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
 
-            EditorGUILayout.BeginHorizontal();
-
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
 			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
             AppName = EditorGUILayout.TextField ("AppName", AppName);
@@ -79,7 +90,7 @@ namespace NetWorkedData
 
             EditorGUILayout.EndVertical();
 
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
 			EditorGUILayout.TextField ("Social Params for "+ Environment, EditorStyles.boldLabel);
 			FacebookAppID = EditorGUILayout.TextField ("FacebookAppID", FacebookAppID);
@@ -100,17 +111,21 @@ namespace NetWorkedData
 
 			EditorGUILayout.EndVertical();
 
-            EditorGUILayout.EndHorizontal();
-
+            if (tColum > 1)
+            {
+                EditorGUILayout.EndHorizontal();
+            }
 
 
 
             EditorGUILayout.HelpBox("Webservice app config (all environements)", MessageType.None);
 
             EditorGUILayout.LabelField("Webservice app config (all environements)", EditorStyles.boldLabel);
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+            if (tColum > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
             NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
@@ -120,7 +135,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().WebBuild = EditorGUILayout.IntField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild);
 
             EditorGUILayout.EndVertical();
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
 
@@ -139,16 +154,20 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
             }
             EditorGUILayout.EndVertical();
-            EditorGUILayout.EndHorizontal();
-
+            if (tColum > 1)
+            {
+                EditorGUILayout.EndHorizontal();
+            }
 
 
 
 
             EditorGUILayout.LabelField("Tag managment (all environements)", EditorStyles.boldLabel);
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(280.0F));
+            if (tColum > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
             NWDAppConfiguration.SharedInstance().TagList[-1] = "No Tag";
 
@@ -166,8 +185,10 @@ namespace NetWorkedData
             }
             NWDAppConfiguration.SharedInstance().TagList = tTagList;
             EditorGUILayout.EndVertical();
-            EditorGUILayout.EndHorizontal();
-
+            if (tColum > 1)
+            {
+                EditorGUILayout.EndHorizontal();
+            }
 			FormatVerification ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

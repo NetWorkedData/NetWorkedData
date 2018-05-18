@@ -292,8 +292,8 @@ namespace NetWorkedData
             //bool tFlushWebQueue = false;
 
 
-            this.minSize = new Vector2(300, 330);
-            this.maxSize = new Vector2(300, 380);
+            this.minSize = new Vector2(300, 500);
+            this.maxSize = new Vector2(300, 4096);
             // set title of window
             titleContent = new GUIContent(NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE);
             // show helpbox

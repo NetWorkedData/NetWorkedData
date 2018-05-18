@@ -32,8 +32,8 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
-			this.minSize = new Vector2 (300, 60);
-			this.maxSize = new Vector2 (300, 150);
+			this.minSize = new Vector2 (300, 150);
+			this.maxSize = new Vector2 (300, 4096);
 			// set title of window
 			titleContent = new GUIContent (NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE);
 			// show helpbox
