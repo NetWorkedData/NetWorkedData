@@ -420,6 +420,8 @@ namespace NetWorkedData
             }
             else
             {
+                // hello every body DATA ARE LOADED
+                //BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
                 //Debug.LogWarning("NWD => Datas ARE ALLREADY LOADED");
                 if (LoadingDatasGauge != null)
                 {

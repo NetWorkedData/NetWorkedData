@@ -18,30 +18,16 @@ namespace NetWorkedData
     /// <summary>
     ///
     /// </summary>
-    public class NWDActionInScene : MonoBehaviour
+    public class NWDActionInScene : NWDCallBack
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDActionConnection ActionReference;
         public UnityEvent ActionToSceneEvent;
-        //-------------------------------------------------------------------------------------------------------------
-        // Use this for initialization
-        void Start()
-        {
-            //Debug.Log("NWDActionInScene Start()");
-            BTBNotificationBlock tListener = delegate (BTBNotification sNotification)
-            {
-                ReceiptNotification((NWDAction)sNotification.Sender);
-            };
-            NWDAction tAction = ActionReference.GetObject();
-            if (tAction!=null)
-            {
-                tAction.TrackBy(this, tListener);
-            }
-        }
+        private bool ActionIsInstalled = false;
         //-------------------------------------------------------------------------------------------------------------
         public void PostNotification() // use in demo
         {
-            //Debug.Log("NWDActionInScene PostNotification()");
+            Debug.Log("NWDActionInScene PostNotification()");
             NWDAction tAction = ActionReference.GetObject();
             if (tAction != null)
             {
@@ -51,26 +37,75 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void ReceiptNotification(NWDAction sAction)
         {
-            //Debug.Log("NWDActionInScene ReceiptNotification()");
+            Debug.Log("NWDActionInScene ReceiptNotification()");
             if (ActionToSceneEvent != null)
             {
                 ActionToSceneEvent.Invoke();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DoSceneAction() // use in demo
+        private void InstallAction()
         {
-            //Debug.Log("NWDActionInScene DoSceneAction()");
+            Debug.Log("NWDActionInScene InstallAction()");
+            if (ActionIsInstalled == false)
+            {
+                if (NWDTypeLauncher.DataLoaded == true)
+                {
+                    BTBNotificationBlock tListener = delegate (BTBNotification sNotification)
+                    {
+                        ReceiptNotification((NWDAction)sNotification.Sender);
+                    };
+                    NWDAction tAction = ActionReference.GetObject();
+                    if (tAction != null)
+                    {
+                        tAction.TrackBy(this, tListener);
+                        ActionIsInstalled = true;
+                    }
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        void OnDestroy()
+        private void RemoveAction()
         {
-            //Debug.Log("NWDActionInScene OnDestroy()");
+            Debug.Log("NWDActionInScene RemoveAction()");
             NWDAction tAction = ActionReference.GetObject();
             if (tAction != null)
             {
                 tAction.UnTrackBy(this);
+                ActionIsInstalled = false;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DoSceneAction() // use in demo
+        {
+            Debug.Log("NWDActionInScene DoSceneAction()");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnDestroy()
+        {
+            Debug.Log("NWDActionInScene OnDestroy()");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Use this for initialization
+        protected void OnEnable()
+        {
+            Debug.Log("NWDActionInScene OnEnable()");
+            base.OnEnable(); // onstall notifi from other 
+            InstallAction();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("NWDActionInScene NotificationDatasLoaded()");
+            // create your method by override
+            InstallAction();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        protected void OnDisable()
+        {
+            Debug.Log("NWDActionInScene OnDisable()");
+            RemoveAction();
+            base.OnDisable();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
