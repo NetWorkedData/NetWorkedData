@@ -74,11 +74,18 @@ namespace NetWorkedData
             {
                 NotificationNetworkUnknow(sNotification);
             });
-
+            tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NETWORK_CHECK, delegate (BTBNotification sNotification)
+            {
+                NotificationNetworkCheck(sNotification);
+            });
             // Operation Web
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR, delegate (BTBNotification sNotification)
             {
                 NotificationWebOperationError(sNotification);
+            });
+            tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, delegate (BTBNotification sNotification)
+            {
+                NotificationWebOperationUploadStart(sNotification);
             });
             tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
             {
@@ -123,16 +130,18 @@ namespace NetWorkedData
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_ERROR);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE);
-			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE);
-			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_CHECK);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NOTIFICATION_KEY);
-			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS);
 			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE);
-			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED);
-			tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED);
         }
         //-------------------------------------------------------------------------------------------------------------
         protected void OnEnable()
@@ -227,7 +236,17 @@ namespace NetWorkedData
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationNetworkCheck(BTBNotification sNotification)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationError(BTBNotification sNotification)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationWebOperationUploadStart(BTBNotification sNotification)
         {
             // create your method by override
         }

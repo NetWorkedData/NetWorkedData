@@ -114,7 +114,7 @@ namespace NetWorkedData
                 float.TryParse(tFloats[1], out tEnd);
             }
 
-			float tX = sPos.x + EditorGUIUtility.labelWidth;
+			//float tX = sPos.x + EditorGUIUtility.labelWidth;
             EditorGUI.MinMaxSlider(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
                                     tContent,
                                    ref tStart,

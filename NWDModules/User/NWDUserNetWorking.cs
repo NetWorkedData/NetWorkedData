@@ -132,7 +132,7 @@ namespace NetWorkedData
             //}
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static Timer NWDUserNetWorkingTimer;
+        //private static Timer NWDUserNetWorkingTimer;
         //-------------------------------------------------------------------------------------------------------------
         //public static void StartUpdate(int sUpdateDelayInSeconds, List<Type> sOtherData)
         //{

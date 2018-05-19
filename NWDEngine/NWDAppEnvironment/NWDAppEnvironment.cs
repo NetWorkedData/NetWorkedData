@@ -46,7 +46,7 @@ namespace NetWorkedData
         public string MailOpenSSLVerifyMode = "peer";
         public string MailFrom = "";
         public string MailReplyTo = "";
-
+        public string RescueEmail = "no-reply@my-web-site.com";
         public string ServerHost = "localhost";
         public string ServerUser = "user";
         public string ServerPassword = "";
@@ -54,6 +54,7 @@ namespace NetWorkedData
         public string AdminKey = "";
 #endif
         public int SaltFrequency = 300;
+        public string AddressPing = "8.8.8.8";
 		public string ServerHTTPS = "https://www.my-web-site.com/";
 		public string FacebookAppID = "";
 		public string FacebookAppSecret = "";
@@ -68,10 +69,11 @@ namespace NetWorkedData
         public int WebTimeOut = 30;
 
         public float SpeedOfGameTime = 1.0F;
-        public string RescueEmail = "no-reply@my-web-site.com";
-        //		public string Version = "0.00.00";
+        //public string Version = "0.00.00";
 
         public string AccountsForTests = "";
+
+        public string BuildDate = "";
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		#region constructor

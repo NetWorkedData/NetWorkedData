@@ -27,16 +27,14 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDNetworkStatutRender NetworkStatutRender;
+        public NWDNetworkWebStatutRender NetworkWebStatutRender;
         public NWDGaugeRender DatasLoadGauge;
         public NWDGaugeRender WebSyncGauge;
-
         public GameObject WebSyncSpinner;
         public GameObject AlertPanel;
-
         //-------------------------------------------------------------------------------------------------------------
         public void NetworkStatutTestAction()
         {
-            NetworkStatutRender.SetNetworkState(NWDNetworkState.Check);
             NWDGameDataManager.UnitySingleton().TestNetWork();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -52,8 +50,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent EngineLaunchEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationEngineLaunch(BTBNotification sNotification)
         {
             if(EngineLaunchEvent!=null)
@@ -61,8 +57,6 @@ namespace NetWorkedData
                 EngineLaunchEvent.Invoke(sNotification);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DatasStartLoadingEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
@@ -77,8 +71,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DatasPartialLoadedEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
             if ( DatasPartialLoadedEvent!= null)
@@ -90,8 +82,6 @@ namespace NetWorkedData
                 DatasLoadGauge.SetHorizontalValue(sPurcent);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DatasLoadedEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
@@ -105,8 +95,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent LanguageChangedEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationLanguageChanged(BTBNotification sNotification)
         {
             if ( LanguageChangedEvent!= null)
@@ -114,8 +102,6 @@ namespace NetWorkedData
                 LanguageChangedEvent.Invoke(sNotification);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DataLocalUpdateEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDataLocalUpdate(BTBNotification sNotification)
         {
@@ -125,8 +111,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DataLocalInsertEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDataLocalInsert(BTBNotification sNotification)
         {
             if ( DataLocalInsertEvent!= null)
@@ -134,8 +118,6 @@ namespace NetWorkedData
                 DataLocalInsertEvent.Invoke(sNotification);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DataLocalDeleteEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDataLocalDelete(BTBNotification sNotification)
         {
@@ -145,8 +127,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent DatasWebUpdateEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasWebUpdate(BTBNotification sNotification)
         {
             if ( DatasWebUpdateEvent!= null)
@@ -154,8 +134,6 @@ namespace NetWorkedData
                 DatasWebUpdateEvent.Invoke(sNotification);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent ErrorEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationError(BTBNotification sNotification)
         {
@@ -165,8 +143,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent AccountChangedEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationAccountChanged(BTBNotification sNotification)
         {
             if ( AccountChangedEvent!= null)
@@ -174,8 +150,6 @@ namespace NetWorkedData
                 AccountChangedEvent.Invoke(sNotification);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent AccountSessionExpiredEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationAccountSessionExpired(BTBNotification sNotification)
         {
@@ -185,8 +159,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent AccountBannedEvent;
-        //-------------------------------------------------------------------------------------------------------------
         public override void NotificationAccountBanned(BTBNotification sNotification)
         {
             if ( AccountBannedEvent!= null)
@@ -194,8 +166,6 @@ namespace NetWorkedData
                 AccountBannedEvent.Invoke(sNotification);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent NetworkOffLineEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkOffLine(BTBNotification sNotification)
         {
@@ -208,9 +178,11 @@ namespace NetWorkedData
             {
                 NetworkStatutRender.SetNetworkState(NWDNetworkState.OffLine);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SetNetworkState(NWDNetworkState.OffLine);
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent NetworkOnLineEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkOnLine(BTBNotification sNotification)
         {
@@ -223,9 +195,11 @@ namespace NetWorkedData
             {
                 NetworkStatutRender.SetNetworkState(NWDNetworkState.OnLine);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SetNetworkState(NWDNetworkState.OnLine);
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent NetworkUnknowEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkUnknow(BTBNotification sNotification)
         {
@@ -238,9 +212,28 @@ namespace NetWorkedData
             {
                 NetworkStatutRender.SetNetworkState(NWDNetworkState.Unknow);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Unknow);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationErrorEvent;
+        public override void NotificationNetworkCheck(BTBNotification sNotification)
+        {
+            //Debug.Log("NWDPanelDataManager NotificationNetworkCheck()");
+            if (NetworkCheckEvent != null)
+            {
+                NetworkCheckEvent.Invoke(sNotification);
+            }
+            if (NetworkStatutRender != null)
+            {
+                NetworkStatutRender.SetNetworkState(NWDNetworkState.Check);
+            }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Check);
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationError(BTBNotification sNotification)
         {
@@ -248,9 +241,29 @@ namespace NetWorkedData
             {
                 WebOperationErrorEvent.Invoke(sNotification);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                //NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Check);
+                NetworkWebStatutRender.SyncError();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationUploadInProgressEvent;
+        public override void NotificationWebOperationUploadStart(BTBNotification sNotification)
+        {
+            if (WebOperationUploadStartEvent != null)
+            {
+                WebOperationUploadStartEvent.Invoke(sNotification);
+            }
+            if (WebSyncGauge != null)
+            {
+                WebSyncGauge.SetHidden(false);
+                WebSyncGauge.SetHorizontalValue(0.0F);
+            }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SyncStart();
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
         {
@@ -258,15 +271,15 @@ namespace NetWorkedData
             {
                 WebOperationUploadInProgressEvent.Invoke(sNotification);
             }
-
             if (WebSyncGauge != null)
             {
-                WebSyncGauge.SetHidden(false);
                 WebSyncGauge.SetHorizontalValue(sPurcent/2.0F);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SyncStep();
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationDownloadInProgressEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
         {
@@ -276,12 +289,13 @@ namespace NetWorkedData
             }
             if (WebSyncGauge != null)
             {
-                //WebSyncGauge.SetHidden(false);
                 WebSyncGauge.SetHorizontalValue(0.5F+sPurcent / 2.0F);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                NetworkWebStatutRender.SyncStep();
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationDownloadIsDoneEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
         {
@@ -294,9 +308,12 @@ namespace NetWorkedData
                 WebSyncGauge.SetHorizontalValue(1.0F);
                 WebSyncGauge.SetHidden(true);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                //NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Check);
+                NetworkWebStatutRender.SyncSucess();
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationDownloadFailedEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
         {
@@ -308,9 +325,12 @@ namespace NetWorkedData
             {
                 WebSyncGauge.SetHidden(true);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                //NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Check);
+                NetworkWebStatutRender.SyncError();
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationDownloadErrorEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationDownloadError(BTBNotification sNotification)
         {
@@ -322,9 +342,12 @@ namespace NetWorkedData
             {
                 WebSyncGauge.SetHidden(true);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                //NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Check);
+                NetworkWebStatutRender.SyncError();
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent WebOperationDownloadSuccessedEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
         {
@@ -336,9 +359,12 @@ namespace NetWorkedData
             {
                 WebSyncGauge.SetHidden(true);
             }
+            if (NetworkWebStatutRender != null)
+            {
+                //NetworkWebStatutRender.SetNetworkState(NWDNetworkState.Check);
+                NetworkWebStatutRender.SyncSucess();
+            }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDCallBackEvent GenericEvent;
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationGeneric(BTBNotification sNotification)
         {

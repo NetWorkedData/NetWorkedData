@@ -662,7 +662,7 @@ namespace NetWorkedData
             }
 
             List<string> tValueList = new List<string>();
-            List<string> tValueListReferenceAllReady = new List<string>();
+            //List<string> tValueListReferenceAllReady = new List<string>();
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);

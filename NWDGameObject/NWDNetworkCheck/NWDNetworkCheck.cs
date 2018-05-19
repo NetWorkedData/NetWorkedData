@@ -5,7 +5,13 @@
 //
 //=====================================================================================================================
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Threading;
 using BasicToolBox;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -14,19 +20,63 @@ using UnityEngine.Networking;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDNetworkCheckType : int
+    {
+        UnityHLAPI,
+        UnityLLAPI,
+        UnityLLAPI_Head,
+        Ping,
+        Net,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     ///
     /// </summary>
     public class NWDNetworkCheck : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        public int TestEverySeconds = 60;
+        public int TestEverySeconds = 5;
         public NWDNetworkState NetworkState = NWDNetworkState.Unknow;
+        public bool DebugLog = false;
+        public NWDNetworkCheckType RequestType = NWDNetworkCheckType.Ping;
+        string URL = "";
+        string AddressPing = "";
+        private bool IsPaused = false;
+        UnityWebRequest Request;
+        //-------------------------------------------------------------------------------------------------------------
+        private IEnumerator CheckCoroutine;
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnApplicationPause(bool pause)
+        {
+            //Debug.Log("NWDNetworkCheck OnApplicationPause()");
+            IsPaused = true;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnApplicationFocus(bool focus)
+        {
+            //Debug.Log("NWDNetworkCheck OnApplicationFocus()");
+            IsPaused = false;
+        }
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
             //Debug.Log("NWDNetworkCheck Start()");
-            StartCoroutine(CheckUpdate());
+            CheckCoroutine = CheckUpdate();
+            NetworkStatutChange(NWDNetworkState.Unknow);
+            string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            //URL = tEnvironment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + tEnvironment.Environment + "/index.php";
+            URL = tEnvironment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/index.php";
+            AddressPing = tEnvironment.AddressPing;
+            if (string.IsNullOrEmpty(URL))
+            {
+                RequestType = NWDNetworkCheckType.Ping;
+            }
+            if (string.IsNullOrEmpty(AddressPing))
+            {
+                AddressPing = "8.8.8.8";
+            }
+            StartCoroutine(CheckCoroutine);
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator CheckUpdate()
@@ -34,91 +84,262 @@ namespace NetWorkedData
             while (true)
             {
                 //Debug.Log("NWDNetWorkCheck CheckUpdate()");
-                PingTest();
+                if (IsPaused == false)
+                {
+                    NetworkTest();
+                }
                 yield return new WaitForSeconds(TestEverySeconds);
             }
+            yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PingTest()
+        public void NetworkTest()
         {
             //Debug.Log("NWDNetworkCheck PingTest()");
-            // NetworkStatutChange(NWDNetworkState.OnLine);
-            Ping tPing = new Ping("8.8.8.8");
-            if (tPing.isDone)
+            NetworkStatutChange(NWDNetworkState.Check);
+            switch (RequestType)
             {
-                NetworkStatutChange(NWDNetworkState.OnLine);
-            }
-            else
-            {
-                NetworkStatutChange(NWDNetworkState.OffLine);
+                case NWDNetworkCheckType.UnityLLAPI:
+                    {
+                        StartCoroutine(UnityRequestAsync());
+                    }
+                    break;
+                case NWDNetworkCheckType.UnityHLAPI:
+                    {
+                        StartCoroutine(UnityRequestAsync());
+                    }
+                    break;
+                case NWDNetworkCheckType.UnityLLAPI_Head:
+                    {
+                        StartCoroutine(UnityRequestAsync());
+                    }
+                    break;
+                case NWDNetworkCheckType.Ping:
+                    {
+                        StartCoroutine(PingAsync());
+                    }
+                    break;
+                case NWDNetworkCheckType.Net:
+                    {
+                        HttpRequestAsync();
+                    }
+                    break;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TestNetwork()
         {
             //Debug.Log("NWDNetworkCheck TestNetwork()");
-            PingTest();
+            NetworkTest();
         }
+        //-------------------------------------------------------------------------------------------------------------
+        IEnumerator PingAsync()
+        {
+            double tStartTimestamp = 0;
+            double tFinishTimestamp = 0;
+            double tDelta = -1;
+            if (DebugLog == true)
+            {
+                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            }
+            const float timeout = 10f;
+            float startTime = Time.timeSinceLevelLoad;
+            var ping = new Ping(AddressPing);
+            while (true)
+            {
+                if (ping.isDone)
+                {
+                    NetworkStatutChange(NWDNetworkState.OnLine);
 
+                    if (DebugLog == true)
+                    {
+                        tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        tDelta = tFinishTimestamp - tStartTimestamp;
+                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") : " + tDelta.ToString("F3") + " seconds");
+                    }
+                    yield break;
+                }
+                if (Time.timeSinceLevelLoad - startTime > timeout)
+                {
+                    NetworkStatutChange(NWDNetworkState.OffLine);
 
+                    if (DebugLog == true)
+                    {
+                        tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        tDelta = tFinishTimestamp - tStartTimestamp;
+                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + AddressPing + ") : " + tDelta.ToString("F3") + " seconds");
+                    }
+                    yield break;
+                }
+                //yield return new WaitForEndOfFrame();
+                yield return null;
+            }
+            yield break;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        IEnumerator UnityRequestAsync()
+        {
+            //Debug.Log("NWDNetworkCheck UnityRequestAsync()");
+            double tStartTimestamp = 0;
+            if (DebugLog == true)
+            {
+                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            }
+            switch (RequestType)
+            {
+                case NWDNetworkCheckType.UnityLLAPI:
+                    {
+                        Request = new UnityWebRequest();
+                        Request.url = URL;
+                        Request.method = UnityWebRequest.kHttpVerbGET;   // can be set to any custom method, common constants privided
+                        Request.useHttpContinue = false;
+                        Request.chunkedTransfer = false;
+                        Request.redirectLimit = 0;  // disable redirects
+                        Request.timeout = 10;
+                        using (Request)
+                        {
+                            //Request.timeout = tEnvironment.WebTimeOut;
+                            Request.SendWebRequest();
+                            while (!Request.isDone)
+                            {
+                                //yield return new WaitForEndOfFrame();
+                                yield return null;
+                            }
+                            if (Request.isDone == true)
+                            {
+                                NetworkStatutChange(NWDNetworkState.OnLine);
+                                //yield break;
+                            }
+                            else
+                            {
+                                NetworkStatutChange(NWDNetworkState.OffLine);
+                                //yield break;
+                            }
+                        }
+                    }
+                    break;
+                case NWDNetworkCheckType.UnityLLAPI_Head:
+                    {
+                        Request = new UnityWebRequest();
+                        Request.url = URL;
+                        Request.method = UnityWebRequest.kHttpVerbHEAD;   // can be set to any custom method, common constants privided
+                        Request.useHttpContinue = false;
+                        Request.chunkedTransfer = false;
+                        Request.redirectLimit = 0;  // disable redirects
+                        Request.timeout = 10;
+                        using (Request)
+                        {
+                            //Request.timeout = tEnvironment.WebTimeOut;
+                            Request.SendWebRequest();
+                            while (!Request.isDone)
+                            {
+                                //yield return new WaitForEndOfFrame();
+                                yield return null;
+                            }
+                            if (Request.isDone == true)
+                            {
+                                NetworkStatutChange(NWDNetworkState.OnLine);
+                               //yield break;
+                            }
+                            else
+                            {
+                                NetworkStatutChange(NWDNetworkState.OffLine);
+                                //yield break;
+                            }
+                        }
+                    }
+                    break;
+                case NWDNetworkCheckType.UnityHLAPI:
+                    {
 
-
-
-
-
-        ////-------------------------------------------------------------------------------------------------------------
-        //public int TestEverySeconds = 60;
-        //public NWDNetworkState NetworkState = NWDNetworkState.Unknow;
-        //private ConnectionTesterStatus connectionTestResult = ConnectionTesterStatus.Undetermined;
-        //public bool doneTesting = false;
-        //public bool probingPublicIP = false;
-        //public int serverPort = 443;
-        //public bool useNat = false;
-        //float timer = 0.0f;
-        ////-------------------------------------------------------------------------------------------------------------
-        //string testStatus = "Testing network connection capabilities.";
-        //string testMessage = "Test in progress";
-        //string shouldEnableNatMessage = "";
-        ////-------------------------------------------------------------------------------------------------------------
-        //void Start()
-        //{
-        //    Debug.Log("NWDNetworkCheck Start()");
-        //    StartCoroutine(CheckUpdate());
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //IEnumerator CheckUpdate()
-        //{
-        //    while (true)
-        //    {
-        //        Debug.Log("NWDNetWorkCheck UserNetworkinUpdate()");
-        //        TestNetwork();
-        //        yield return new WaitForSeconds(TestEverySeconds);
-        //    }
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void TestNetwork()
-        //{
-        //    Debug.Log("NWDNetWorkCheck TestNetwork()");
-        //    doneTesting = false;
-        //    connectionTestResult = ConnectionTesterStatus.Undetermined;
-        //    Network.();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //void OnGUI()
-        //{
-        //    Debug.Log("NWDNetWorkCheck OnGUI()");
-
-        //    GUI.color = Color.blue;
-        //    GUILayout.Label("Current Status: " + testStatus);
-        //    GUILayout.Label("Test result : " + testMessage);
-        //    GUILayout.Label(shouldEnableNatMessage);
-
-        //    if (!doneTesting)
-        //    {
-        //        TestConnection();
-        //    }
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
+                        using (Request = UnityWebRequest.Get(URL))
+                        {
+                            //Request.timeout = tEnvironment.WebTimeOut;
+                            Request.SendWebRequest();
+                            while (!Request.isDone)
+                            {
+                                //yield return new WaitForEndOfFrame();
+                                yield return null;
+                            }
+                            if (Request.isDone == true)
+                            {
+                                NetworkStatutChange(NWDNetworkState.OnLine);
+                                //yield break;
+                            }
+                            else
+                            {
+                                NetworkStatutChange(NWDNetworkState.OffLine);
+                                //yield break;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    //yield return null;
+                    break;
+            }
+            if (DebugLog == true)
+            {
+                double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                double tDelta = tFinishTimestamp - tStartTimestamp;
+                Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
+            }
+            yield break;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void HttpRequestAsync()
+        {
+            Debug.Log("NWDNetworkCheck HttpRequestAsync()");
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(MakeRequest));
+            MakeRequest(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void MakeRequest(object a)
+        {
+            double tStartTimestamp = 0;
+            double tFinishTimestamp = 0;
+            double tDelta = -1;
+            if (DebugLog == true)
+            {
+                tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            }
+            var tRequest = (HttpWebRequest)WebRequest.Create(URL);
+            tRequest.Method = "HEAD";
+            HttpWebResponse tResponse = null;
+            NWDNetworkState tNetworkState = NWDNetworkState.Unknow;
+            try
+            {
+                tResponse = (HttpWebResponse)tRequest.GetResponse();
+            }
+            catch (WebException tWebException)
+            {
+                Debug.Log(URL + " doesn't exist: " + tWebException.Message);
+                tNetworkState = NWDNetworkState.OffLine;
+            }
+            finally
+            {
+                if (tResponse != null)
+                {
+                    if (tResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        tNetworkState = NWDNetworkState.OnLine;
+                    }
+                    else
+                    {
+                        tNetworkState = NWDNetworkState.OffLine;
+                    }
+                    tResponse.Close();
+                }
+            }
+            NetworkStatutChange(tNetworkState);
+            if (DebugLog == true)
+            {
+                tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                tDelta = tFinishTimestamp - tStartTimestamp;
+                Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         // Test network connection
         public void NetworkStatutChange(NWDNetworkState sNewNetWorkStatut)
         {
@@ -126,136 +347,32 @@ namespace NetWorkedData
             if (sNewNetWorkStatut != NetworkState)
             {
                 NetworkState = sNewNetWorkStatut;
-                if (NetworkState == NWDNetworkState.OffLine)
+                switch (NetworkState)
                 {
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
-                }
-                else if (NetworkState == NWDNetworkState.OnLine)
-                {
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
-                }
-                else
-                {
-                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
+                    case NWDNetworkState.Check :
+                        {
+                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_CHECK, null));
+                        }
+                        break;
+                    case NWDNetworkState.OnLine:
+                        {
+                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_ONLINE, null));
+                        }
+                        break;
+                    case NWDNetworkState.OffLine:
+                        {
+                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_OFFLINE, null));
+                        }
+                        break;
+                    case NWDNetworkState.Unknow:
+                    default :
+                        {
+                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_NETWORK_UNKNOW, null));
+                        }
+                    break;
                 }
             }
         }
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void TestConnection()
-        //{
-        //    Debug.Log("NWDNetWorkCheck TestConnection()");
-        //    // Start/Poll the connection test, report the results in a label and
-        //    // react to the results accordingly
-        //    connectionTestResult = Network.TestConnection();
-        //    switch (connectionTestResult)
-        //    {
-        //        case ConnectionTesterStatus.Error:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.Error");
-        //            testMessage = "Problem determining NAT capabilities";
-        //            NetworkStatutChange(NWDNetworkState.OffLine);
-        //            doneTesting = true;
-        //            break;
-
-        //        case ConnectionTesterStatus.Undetermined:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.Undetermined");
-        //            testMessage = "Undetermined NAT capabilities";
-        //            NetworkStatutChange(NWDNetworkState.Unknow);
-        //            doneTesting = false;
-        //            break;
-
-        //        case ConnectionTesterStatus.PublicIPIsConnectable:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.PublicIPIsConnectable");
-        //            testMessage = "Directly connectable public IP address.";
-        //            NetworkStatutChange(NWDNetworkState.OnLine);
-        //            useNat = false;
-        //            doneTesting = true;
-        //            break;
-
-        //        // This case is a bit special as we now need to check if we can
-        //        // circumvent the blocking by using NAT punchthrough
-        //        case ConnectionTesterStatus.PublicIPPortBlocked:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.PublicIPPortBlocked");
-        //            testMessage = "Non-connectable public IP address (port " + serverPort + " blocked), running a server is impossible.";
-        //            NetworkStatutChange(NWDNetworkState.OffLine);
-        //            useNat = false;
-        //            // If no NAT punchthrough test has been performed on this public
-        //            // IP, force a test
-        //            if (!probingPublicIP)
-        //            {
-        //                connectionTestResult = Network.TestConnectionNAT();
-        //                probingPublicIP = true;
-        //                testStatus = "Testing if blocked public IP can be circumvented";
-        //                timer = Time.time + 10;
-        //            }
-        //            // NAT punchthrough test was performed but we still get blocked
-        //            else if (Time.time > timer)
-        //            {
-        //                probingPublicIP = false;        // reset
-        //                useNat = true;
-        //                doneTesting = true;
-        //            }
-        //            break;
-
-        //        case ConnectionTesterStatus.PublicIPNoServerStarted:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.PublicIPNoServerStarted");
-        //            testMessage = "Public IP address but server not initialized, " +
-        //                "it must be started to check server accessibility. Restart " +
-        //                "connection test when ready.";
-        //            NetworkStatutChange(NWDNetworkState.OffLine);
-        //            break;
-
-        //        case ConnectionTesterStatus.LimitedNATPunchthroughPortRestricted:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.LimitedNATPunchthroughPortRestricted");
-        //            testMessage = "Limited NAT punchthrough capabilities. Cannot " +
-        //                "connect to all types of NAT servers. Running a server " +
-        //                "is ill advised as not everyone can connect.";
-        //            NetworkStatutChange(NWDNetworkState.OnLine);
-        //            useNat = true;
-        //            doneTesting = true;
-        //            break;
-
-        //        case ConnectionTesterStatus.LimitedNATPunchthroughSymmetric:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.LimitedNATPunchthroughSymmetric");
-        //            testMessage = "Limited NAT punchthrough capabilities. Cannot " +
-        //                "connect to all types of NAT servers. Running a server " +
-        //                "is ill advised as not everyone can connect.";
-        //            NetworkStatutChange(NWDNetworkState.OnLine);
-        //            useNat = true;
-        //            doneTesting = true;
-        //            break;
-
-        //        case ConnectionTesterStatus.NATpunchthroughAddressRestrictedCone:
-        //        case ConnectionTesterStatus.NATpunchthroughFullCone:
-        //            Debug.Log("NWDNetWorkCheck TestConnection() ConnectionTesterStatus.NATpunchthroughAddressRestrictedCone");
-        //            testMessage = "NAT punchthrough capable. Can connect to all " +
-        //                "servers and receive connections from all clients. Enabling " +
-        //                "NAT punchthrough functionality.";
-        //            NetworkStatutChange(NWDNetworkState.OnLine);
-        //            useNat = true;
-        //            doneTesting = true;
-        //            break;
-
-        //        default:
-        //            testMessage = "Error in test routine, got " + connectionTestResult;
-        //            Debug.Log("NWDNetWorkCheck TestConnection() default");
-        //            NetworkStatutChange(NWDNetworkState.Unknow);
-        //            break;
-        //    }
-
-        //    if (doneTesting)
-        //    {
-        //        if (useNat)
-        //        {
-        //            shouldEnableNatMessage = "When starting a server the NAT " +
-        //                "punchthrough feature should be enabled (useNat parameter)";
-        //        }
-        //        else
-        //        {
-        //            shouldEnableNatMessage = "NAT punchthrough not needed";
-        //        }
-        //        testStatus = "Done testing";
-        //    }
-        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

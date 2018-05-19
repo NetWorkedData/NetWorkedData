@@ -647,7 +647,7 @@ namespace NetWorkedData
 
             string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
 
-            float tButtonWidth = 150.0F;
+            //float tButtonWidth = 150.0F;
 
             Color tBackgroundColor = GUI.backgroundColor;
 

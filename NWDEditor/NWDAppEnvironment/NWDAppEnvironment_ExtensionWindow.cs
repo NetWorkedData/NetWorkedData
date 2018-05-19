@@ -69,7 +69,8 @@ namespace NetWorkedData
             SaltServer = EditorGUILayout.TextField("Salt server", SaltServer);
 			SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
 			EditorGUILayout.TextField ("Server Params for "+ Environment, EditorStyles.boldLabel);
-            ServerHTTPS = EditorGUILayout.TextField ("Server (https://…)", ServerHTTPS);
+            AddressPing = EditorGUILayout.TextField ("Address Ping (8.8.8.8)", AddressPing);
+            ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);

@@ -87,7 +87,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // Use this for initialization
-        protected void OnEnable()
+        protected override void OnEnable()
         {
             Debug.Log("NWDActionInScene OnEnable()");
             base.OnEnable(); // onstall notifi from other 
@@ -101,7 +101,7 @@ namespace NetWorkedData
             InstallAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected void OnDisable()
+        protected override void OnDisable()
         {
             Debug.Log("NWDActionInScene OnDisable()");
             RemoveAction();

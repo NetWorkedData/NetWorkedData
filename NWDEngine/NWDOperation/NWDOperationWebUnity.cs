@@ -163,7 +163,8 @@ namespace NetWorkedData
 
                 Request.SendWebRequest();
                 //Debug.Log("Request URL " + Request.url);
-
+                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
+                        
                 while (!Request.isDone)
                 {
                     Statut = BTBOperationState.InProgress;

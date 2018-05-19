@@ -110,7 +110,7 @@ namespace NetWorkedData
 		/// <summary>
 		/// The private shared instance.
 		/// </summary>
-		private static NWDLayoutClass cSharedInstance;
+		//private static NWDLayoutClass cSharedInstance;
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion

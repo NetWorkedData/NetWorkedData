@@ -47,6 +47,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Web operation
         public const string K_OPERATION_WEB_ERROR = "K_OPERATION_WEB_ERROR_Oz6kk4eS"; // OK Needed by test & verify
+        public const string K_WEB_OPERATION_UPLOAD_START = "K_OPERATION_WEB_UPLOAD_START_ee8yd4e"; // OK Needed by test & verify
         public const string K_WEB_OPERATION_UPLOAD_IN_PROGRESS = "K_OPERATION_WEB_UPLOAD_IN_PROGRESS_geuydhfe"; // OK Needed by test & verify
         public const string K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS = "K_OPERATION_WEB_DOWNLOAD_IN_PROGRESS_ujehdtss"; // OK Needed by test & verify
         public const string K_WEB_OPERATION_DOWNLOAD_IS_DONE = "K_OPERATION_WEB_DOWNLOAD_IS_DONE_perleifhgss"; // OK Needed by test & verify
@@ -55,9 +56,10 @@ namespace NetWorkedData
         public const string K_WEB_OPERATION_DOWNLOAD_SUCCESSED = "K_OPERATION_WEB_DOWNLOAD_SUCCESSED_ruaashg4"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Network statut
-        public const string K_NETWORK_OFFLINE = "K_NETWORK_OFFLINE"; // OK Needed by test & verify
-        public const string K_NETWORK_ONLINE = "K_NETWORK_ONLINE"; // OK Needed by test & verify
-        public const string K_NETWORK_UNKNOW = "K_NETWORK_UNKNOW"; // OK Needed by test & verify
+        public const string K_NETWORK_OFFLINE = "K_NETWORK_OFFLINE_ds87s744r"; // OK Needed by test & verify
+        public const string K_NETWORK_ONLINE = "K_NETWORK_ONLINE_FHGCve4e"; // OK Needed by test & verify
+        public const string K_NETWORK_UNKNOW = "K_NETWORK_UNKNOW_za9a4z77"; // OK Needed by test & verify
+        public const string K_NETWORK_CHECK = "K_NETWORK_CHECK_Ag8a8aq4"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // generic notification
         public const string K_NOTIFICATION_KEY = "K_NOTIFICATION_KEY_87zffzer"; // OK Needed by test & verify

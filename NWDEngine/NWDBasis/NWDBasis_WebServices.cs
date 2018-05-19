@@ -256,11 +256,15 @@ namespace NetWorkedData
         public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
         {
             //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (AccountDependent())
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
+            //SQLiteConnection tSQLiteConnection = null;
+            //if (AccountDependent())
+            //{
+            //    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            //}
+            //else
+            //{
+            //    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            //}
             // create respond object
             Dictionary<string, object> rSend = new Dictionary<string, object>();
             // create dictionnary for this tablename and insert in the respond

@@ -66,7 +66,7 @@ namespace NetWorkedData
         public static void Launcher()
         {
             //Debug.Log("NWDTypeLauncher Launcher()");
-           double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+           //double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             if (IsLaunched == false && IsLaunching == false)
             {
                 IsLaunching = true;
@@ -84,12 +84,12 @@ namespace NetWorkedData
                 //int tNumberOfClasses = tAllNWDTypes.Count ();
                 int tIndexOfActualClass = 0;
 
-                int tOperationsNeeded = tAllNWDTypes.Count();
-                int tOPerationInProgress = 0;
+                //int tOperationsNeeded = tAllNWDTypes.Count();
+                //int tOPerationInProgress = 0;
 
                 foreach (Type tType in tAllNWDTypes)
                 {
-                    tOPerationInProgress++;
+                    //tOPerationInProgress++;
                     tTrigrammeAbstract++;
                     if (tType.ContainsGenericParameters == false)
                     {
@@ -142,13 +142,13 @@ namespace NetWorkedData
                         //                            tMethodInfo.Invoke (null, new object[]{ "Launcher " });
                         //                        }
                         /* DEBUG */
-                        double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                        //double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                         //Debug.Log("tOperationsNeeded = " + tOPerationInProgress.ToString() + "/" + tOperationsNeeded.ToString() + " at "+ tTimeStamp.ToString());
                     }
                     tIndexOfActualClass++;
                 }
-                double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
-                double tDelta = tFinishTimestamp - tStartTimestamp;
+                //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+                //double tDelta = tFinishTimestamp - tStartTimestamp;
                    //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
                 // Notify NWD is launch
                 IsLaunched = true;

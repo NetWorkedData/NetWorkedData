@@ -122,7 +122,7 @@ namespace NetWorkedData
                     tConstantsFile += "\t\t\t TagList.Add(" + tI + ",\"" + TagList[tI] + "\");\n";
                 }
             }
-           int tTag = TagNumberUser+1;
+            int tTag = TagNumberUser + 1;
 
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 11
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 12
@@ -134,7 +134,6 @@ namespace NetWorkedData
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Device Created\");\n"; // 18
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Server Created\");\n"; // 19
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"User Created\");\n"; // 20
-
             tConstantsFile += "//Environments restaure\n";
             // Select the build environnement
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
@@ -173,8 +172,8 @@ namespace NetWorkedData
                 "\t\t\tthis.DevEnvironment.AccountsForTests = \"\";\n" +
                 "";
             }
-
             tConstantsFile += "" +
+                // PRODUCTION
             "\t\t\t// Prod environment\n" +
             "\t\t\tthis.ProdEnvironment.Environment = \"" + this.ProdEnvironment.Environment.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.DataSHAPassword = \"" + this.ProdEnvironment.DataSHAPassword.Replace("\"", "\\\"") + "\";\n" +
@@ -183,7 +182,20 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.SaltEnd = \"" + this.ProdEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.WebTimeOut = " + this.ProdEnvironment.WebTimeOut.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.SaltFrequency = " + this.ProdEnvironment.SaltFrequency.ToString() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.AddressPing = \"" + this.ProdEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHTTPS = \"" + this.ProdEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.BuildDate = \"" + this.ProdEnvironment.BuildDate.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.FacebookAppID = \"" + this.ProdEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.FacebookAppSecret = \"" + this.ProdEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.GoogleAppKey = \"" + this.ProdEnvironment.GoogleAppKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.UnityAppKey = \"" + this.ProdEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.TwitterAppKey = \"" + this.ProdEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.PreProdTimeFormat = \"" + this.ProdEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.AppProtocol = \"" + this.ProdEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
+            "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
+            //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.ProdEnvironment.SaltServer = \"" + this.ProdEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHost = \"" + this.ProdEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
@@ -193,33 +205,21 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.AdminKey = \"" + this.ProdEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.RescueEmail = \"" + this.ProdEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.TokenHistoric = " + this.ProdEnvironment.TokenHistoric.ToString() + ";\n" +
-
-                                                                "\t\t\tthis.ProdEnvironment.MailHost =  \"" + this.ProdEnvironment.MailHost + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailPort = " + this.ProdEnvironment.MailPort.ToString() + ";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailUserName =  \"" + this.ProdEnvironment.MailUserName + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailPassword =  \"" + this.ProdEnvironment.MailPassword + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailDomain =  \"" + this.ProdEnvironment.MailDomain + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailAuthentication =  \"" + this.ProdEnvironment.MailAuthentication + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailEnableStarttlsAuto =  \"" + this.ProdEnvironment.MailEnableStarttlsAuto + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailOpenSSLVerifyMode =  \"" + this.ProdEnvironment.MailOpenSSLVerifyMode+ " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailOpenSSLVerifyMode =  \"" + this.ProdEnvironment.MailOpenSSLVerifyMode + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailFrom =  \"" + this.ProdEnvironment.MailFrom + " \";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.MailReplyTo =  \"" + this.ProdEnvironment.MailReplyTo + " \";\n" +
-
+            "\t\t\tthis.ProdEnvironment.MailHost =  \"" + this.ProdEnvironment.MailHost + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailPort = " + this.ProdEnvironment.MailPort.ToString() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.MailUserName =  \"" + this.ProdEnvironment.MailUserName + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailPassword =  \"" + this.ProdEnvironment.MailPassword + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailDomain =  \"" + this.ProdEnvironment.MailDomain + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailAuthentication =  \"" + this.ProdEnvironment.MailAuthentication + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailEnableStarttlsAuto =  \"" + this.ProdEnvironment.MailEnableStarttlsAuto + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailOpenSSLVerifyMode =  \"" + this.ProdEnvironment.MailOpenSSLVerifyMode + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailOpenSSLVerifyMode =  \"" + this.ProdEnvironment.MailOpenSSLVerifyMode + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailFrom =  \"" + this.ProdEnvironment.MailFrom + " \";\n" +
+            "\t\t\tthis.ProdEnvironment.MailReplyTo =  \"" + this.ProdEnvironment.MailReplyTo + " \";\n" +
             "\t\t\t#endif\n" +
-            "\t\t\tthis.ProdEnvironment.FacebookAppID = \"" + this.ProdEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.FacebookAppSecret = \"" + this.ProdEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.GoogleAppKey = \"" + this.ProdEnvironment.GoogleAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.UnityAppKey = \"" + this.ProdEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.TwitterAppKey = \"" + this.ProdEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.AppName = \"" + this.ProdEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.ProdEnvironment.PreProdTimeFormat = \"" + this.ProdEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.AppProtocol = \"" + this.ProdEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
-            "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
-            //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.ProdEnvironment.FormatVerification ();\n" +
+            // PREPRODUCTION
             "\t\t\t// Preprod environment\n" +
             "\t\t\tthis.PreprodEnvironment.Environment = \"" + this.PreprodEnvironment.Environment.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.DataSHAPassword = \"" + this.PreprodEnvironment.DataSHAPassword.Replace("\"", "\\\"") + "\";\n" +
@@ -228,9 +228,20 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.SaltEnd = \"" + this.PreprodEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.WebTimeOut = " + this.PreprodEnvironment.WebTimeOut.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.SaltFrequency = " + this.PreprodEnvironment.SaltFrequency.ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.AddressPing = \"" + this.PreprodEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerHTTPS = \"" + this.PreprodEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
-
-
+            "\t\t\tthis.PreprodEnvironment.BuildDate = \"" + this.PreprodEnvironment.BuildDate.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.FacebookAppID = \"" + this.PreprodEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.FacebookAppSecret = \"" + this.PreprodEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.GoogleAppKey = \"" + this.PreprodEnvironment.GoogleAppKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.UnityAppKey = \"" + this.PreprodEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.TwitterAppKey = \"" + this.PreprodEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.PreProdTimeFormat = \"" + this.PreprodEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.AppProtocol = \"" + this.PreprodEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.SpeedOfGameTime = " + this.PreprodEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
+            "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + this.PreprodEnvironment.BuildTimestamp.ToString() + ";\n" +
+            //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerHost = \"" + this.PreprodEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
@@ -240,33 +251,20 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.AdminKey = \"" + this.PreprodEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.RescueEmail = \"" + this.PreprodEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.TokenHistoric = " + this.PreprodEnvironment.TokenHistoric.ToString() + ";\n" +
-
-                                                                "\t\t\tthis.PreprodEnvironment.MailHost =  \"" + this.PreprodEnvironment.MailHost + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailPort = " + this.PreprodEnvironment.MailPort.ToString() + ";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailUserName =  \"" + this.PreprodEnvironment.MailUserName + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailPassword =  \"" + this.PreprodEnvironment.MailPassword + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailDomain =  \"" + this.PreprodEnvironment.MailDomain + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailAuthentication =  \"" + this.PreprodEnvironment.MailAuthentication + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailEnableStarttlsAuto =  \"" + this.PreprodEnvironment.MailEnableStarttlsAuto + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailOpenSSLVerifyMode =  \"" + this.PreprodEnvironment.MailOpenSSLVerifyMode + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailFrom =  \"" + this.PreprodEnvironment.MailFrom + " \";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.MailReplyTo =  \"" + this.PreprodEnvironment.MailReplyTo + " \";\n" +
-
+            "\t\t\tthis.PreprodEnvironment.MailHost =  \"" + this.PreprodEnvironment.MailHost + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailPort = " + this.PreprodEnvironment.MailPort.ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailUserName =  \"" + this.PreprodEnvironment.MailUserName + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailPassword =  \"" + this.PreprodEnvironment.MailPassword + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailDomain =  \"" + this.PreprodEnvironment.MailDomain + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailAuthentication =  \"" + this.PreprodEnvironment.MailAuthentication + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailEnableStarttlsAuto =  \"" + this.PreprodEnvironment.MailEnableStarttlsAuto + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailOpenSSLVerifyMode =  \"" + this.PreprodEnvironment.MailOpenSSLVerifyMode + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailFrom =  \"" + this.PreprodEnvironment.MailFrom + " \";\n" +
+            "\t\t\tthis.PreprodEnvironment.MailReplyTo =  \"" + this.PreprodEnvironment.MailReplyTo + " \";\n" +
             "\t\t\t#endif\n" +
-            "\t\t\tthis.PreprodEnvironment.FacebookAppID = \"" + this.PreprodEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.FacebookAppSecret = \"" + this.PreprodEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.GoogleAppKey = \"" + this.PreprodEnvironment.GoogleAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.UnityAppKey = \"" + this.PreprodEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.TwitterAppKey = \"" + this.PreprodEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.PreprodEnvironment.AppName = \"" + this.PreprodEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.PreprodEnvironment.PreProdTimeFormat = \"" + this.PreprodEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.AppProtocol = \"" + this.PreprodEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.PreprodEnvironment.SpeedOfGameTime = " + this.PreprodEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
-            "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + this.PreprodEnvironment.BuildTimestamp.ToString() + ";\n" +
-            //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.PreprodEnvironment.FormatVerification ();\n" +
-            "#if UNITY_EDITOR\n" +
+            // DEVELOPMENT
             "\t\t\t// Dev environment\n" +
             "\t\t\tthis.DevEnvironment.Environment = \"" + this.DevEnvironment.Environment.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.DataSHAPassword = \"" + this.DevEnvironment.DataSHAPassword.Replace("\"", "\\\"") + "\";\n" +
@@ -275,41 +273,42 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.SaltEnd = \"" + this.DevEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.WebTimeOut = " + this.DevEnvironment.WebTimeOut.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SaltFrequency = " + this.DevEnvironment.SaltFrequency.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.AddressPing = \"" + this.DevEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerHTTPS = \"" + this.DevEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
-
-                                                                "\t\t\tthis.DevEnvironment.MailHost =  \"" + this.DevEnvironment.MailHost + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailPort = " + this.DevEnvironment.MailPort.ToString() + ";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailUserName =  \"" + this.DevEnvironment.MailUserName + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailPassword =  \"" + this.DevEnvironment.MailPassword + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailDomain =  \"" + this.DevEnvironment.MailDomain + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailAuthentication =  \"" + this.DevEnvironment.MailAuthentication + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailEnableStarttlsAuto =  \"" + this.DevEnvironment.MailEnableStarttlsAuto + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailOpenSSLVerifyMode =  \"" + this.DevEnvironment.MailOpenSSLVerifyMode + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailFrom =  \"" + this.DevEnvironment.MailFrom + " \";\n" +
-                                                                "\t\t\tthis.DevEnvironment.MailReplyTo =  \"" + this.DevEnvironment.MailReplyTo + " \";\n" +
-
-            "\t\t\tthis.DevEnvironment.SaltServer = \"" + this.DevEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.ServerHost = \"" + this.DevEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.ServerUser = \"" + this.DevEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.ServerPassword = \"" + this.DevEnvironment.ServerPassword.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.ServerBase = \"" + this.DevEnvironment.ServerBase.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.BuildDate = \"" + this.DevEnvironment.BuildDate.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.FacebookAppID = \"" + this.DevEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.FacebookAppSecret = \"" + this.DevEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.GoogleAppKey = \"" + this.DevEnvironment.GoogleAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.UnityAppKey = \"" + this.DevEnvironment.UnityAppKey.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.TwitterAppKey = \"" + this.DevEnvironment.TwitterAppKey.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.AdminKey = \"" + this.DevEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
-			"\t\t\tthis.DevEnvironment.PreProdTimeFormat = \"" + this.DevEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.AppName = \"" + this.DevEnvironment.AppName.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.PreProdTimeFormat = \"" + this.DevEnvironment.PreProdTimeFormat.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.AppProtocol = \"" + this.DevEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
-             "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
-            "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SpeedOfGameTime = " + this.DevEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.DevEnvironment.BuildTimestamp = " + this.DevEnvironment.BuildTimestamp.ToString() + ";\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
+            "#if UNITY_EDITOR\n" +
+            "\t\t\tthis.DevEnvironment.SaltServer = \"" + this.DevEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.ServerHost = \"" + this.DevEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.ServerUser = \"" + this.DevEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.ServerPassword = \"" + this.DevEnvironment.ServerPassword.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.ServerBase = \"" + this.DevEnvironment.ServerBase.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.AdminKey = \"" + this.DevEnvironment.AdminKey.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.RescueEmail = \"" + this.DevEnvironment.RescueEmail.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.TokenHistoric = " + this.DevEnvironment.TokenHistoric.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.MailHost =  \"" + this.DevEnvironment.MailHost + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailPort = " + this.DevEnvironment.MailPort.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.MailUserName =  \"" + this.DevEnvironment.MailUserName + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailPassword =  \"" + this.DevEnvironment.MailPassword + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailDomain =  \"" + this.DevEnvironment.MailDomain + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailAuthentication =  \"" + this.DevEnvironment.MailAuthentication + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailEnableStarttlsAuto =  \"" + this.DevEnvironment.MailEnableStarttlsAuto + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailOpenSSLVerifyMode =  \"" + this.DevEnvironment.MailOpenSSLVerifyMode + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailFrom =  \"" + this.DevEnvironment.MailFrom + " \";\n" +
+            "\t\t\tthis.DevEnvironment.MailReplyTo =  \"" + this.DevEnvironment.MailReplyTo + " \";\n" +
+            "#endif\n" +
             "\t\t\tthis.DevEnvironment.LoadPreferences ();\n" +
             "\t\t\tthis.DevEnvironment.FormatVerification ();\n" +
-            "#endif\n" +
             "\n" +
             "\t\t\t// Restaure languages \n" +
             "\t\t\tthis.DataLocalizationManager.LanguagesString = \"" + this.DataLocalizationManager.LanguagesString + "\";\n" +

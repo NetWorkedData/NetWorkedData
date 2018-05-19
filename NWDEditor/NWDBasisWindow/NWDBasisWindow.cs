@@ -224,7 +224,7 @@ namespace NetWorkedData
 		public void OnGUI ()
         {
             // prepare the style
-            GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
+            //GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
             GUIStyle tToolbarStyle = new GUIStyle(EditorStyles.toolbar);
             GUIStyle tPopupStyle = new GUIStyle(EditorStyles.popup);
             // prepare the GUIContent of title for window

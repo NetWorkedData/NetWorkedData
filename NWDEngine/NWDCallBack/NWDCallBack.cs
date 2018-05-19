@@ -29,38 +29,66 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [Header("Track NetWorkedData Engine")]
-        public bool Track_ENGINE_LAUNCH = true;
+        public bool TrackEngineLaunch = true;
+        public NWDCallBackEvent EngineLaunchEvent;
         [Header("Track NetWorkedData Data load")]
-        public bool Track_DATAS_LOADED = true;
-        public bool Track_DATAS_PARTIAL_LOADED = true;
-        public bool Track_DATAS_START_LOADING = true;
+        public bool TrackDatasStartLoading = true;
+        public NWDCallBackEvent DatasStartLoadingEvent;
+        public bool TrackDatasPartialLoaded = true;
+        public NWDCallBackEvent DatasPartialLoadedEvent;
+        public bool TrackDatasLoaded = true;
+        public NWDCallBackEvent DatasLoadedEvent;
         [Header("Track NetWorkedData Language change")]
-        public bool Track_LANGUAGE_CHANGED = true;
+        public bool TrackLanguageChanged = true;
+        public NWDCallBackEvent LanguageChangedEvent;
         [Header("Track NetWorkedData Account")]
-        public bool Track_ACCOUNT_BANNED = true;
-        public bool Track_ACCOUNT_CHANGE = true;
-        public bool Track_ACCOUNT_SESSION_EXPIRED = true;
+        public bool TrackAccountBanned = true;
+        public NWDCallBackEvent AccountBannedEvent;
+        public bool TrackAccountChanged = true;
+        public NWDCallBackEvent AccountChangedEvent;
+        public bool TrackAccountSessionExpired = true;
+        public NWDCallBackEvent AccountSessionExpiredEvent;
         [Header("Track NetWorkedData Local change")]
-        public bool Track_DATA_LOCAL_DELETE = true;
-        public bool Track_DATA_LOCAL_INSERT = true;
-        public bool Track_DATA_LOCAL_UPDATE = true;
+        public bool TrackDataLocalDelete = true;
+        public NWDCallBackEvent DataLocalDeleteEvent;
+        public bool TrackDataLocalInsert = true;
+        public NWDCallBackEvent DataLocalInsertEvent;
+        public bool TrackDataLocalUpdate = true;
+        public NWDCallBackEvent DataLocalUpdateEvent;
         [Header("Track NetWorkedData Web change")]
-        public bool Track_DATAS_WEB_UPDATE = true;
-        public bool Track_OPERATION_WEB_ERROR = true;
-        public bool Track_WEB_OPERATION_DOWNLOAD_ERROR = true;
-        public bool Track_WEB_OPERATION_DOWNLOAD_FAILED = true;
-        public bool Track_WEB_OPERATION_DOWNLOAD_IN_PROGRESS = true;
-        public bool Track_WEB_OPERATION_DOWNLOAD_IS_DONE = true;
-        public bool Track_WEB_OPERATION_DOWNLOAD_SUCCESSED = true;
-        public bool Track_WEB_OPERATION_UPLOAD_IN_PROGRESS = true;
+        public bool TrackDatasWebUpdate = true;
+        public NWDCallBackEvent DatasWebUpdateEvent;
+        public bool TrackWebOperationError = true;
+        public NWDCallBackEvent WebOperationErrorEvent;
+        public bool TrackWebOperationUploadStart = true;
+        public NWDCallBackEvent WebOperationUploadStartEvent;
+        public bool TrackWebOperationUploadInProgress = true;
+        public NWDCallBackEvent WebOperationUploadInProgressEvent;
+        public bool TrackWebOperationDownloadError = true;
+        public NWDCallBackEvent WebOperationDownloadErrorEvent;
+        public bool TrackWebOperationDownloadFailed = true;
+        public NWDCallBackEvent WebOperationDownloadFailedEvent;
+        public bool TrackWebOperationDownloadInProgress = true;
+        public NWDCallBackEvent WebOperationDownloadInProgressEvent;
+        public bool TrackWebOperationDownloadIsDone = true;
+        public NWDCallBackEvent WebOperationDownloadIsDoneEvent;
+        public bool TrackWebOperationDownloadSuccessed = true;
+        public NWDCallBackEvent WebOperationDownloadSuccessedEvent;
         [Header("Track NetWorkedData Error")]
-        public bool Track_ERROR = true;
+        public bool TrackError = true;
+        public NWDCallBackEvent ErrorEvent;
         [Header("Track NetWorkedData Network change")]
-        public bool Track_NETWORK_OFFLINE = true;
-        public bool Track_NETWORK_ONLINE = true;
-        public bool Track_NETWORK_UNKNOW = true;
+        public bool TrackNetworkOffLine = true;
+        public NWDCallBackEvent NetworkOffLineEvent;
+        public bool TrackNetworkOnLine = true;
+        public NWDCallBackEvent NetworkOnLineEvent;
+        public bool TrackNetworkUnknow = true;
+        public NWDCallBackEvent NetworkUnknowEvent;
+        public bool TrackNetworkCheck = true;
+        public NWDCallBackEvent NetworkCheckEvent;
         [Header("Track NetWorkedData Generic")]
-        public bool Track_NOTIFICATION_KEY = true;
+        public bool TrackGeneric = true;
+        public NWDCallBackEvent GenericEvent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Installs the observer in the BTBNotification manager
@@ -71,7 +99,7 @@ namespace NetWorkedData
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
 
             // Launch engine
-            if (Track_ENGINE_LAUNCH == true)
+            if (TrackEngineLaunch == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ENGINE_LAUNCH, delegate (BTBNotification sNotification)
                 {
@@ -80,14 +108,14 @@ namespace NetWorkedData
             }
 
             // load datas
-            if (Track_DATAS_START_LOADING == true)
+            if (TrackDatasStartLoading == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATAS_START_LOADING, delegate (BTBNotification sNotification)
                 {
                     NotificationDatasStartLoading(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas);
                 });
             }
-            if (Track_DATAS_PARTIAL_LOADED == true)
+            if (TrackDatasPartialLoaded == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATAS_PARTIAL_LOADED, delegate (BTBNotification sNotification)
                 {
@@ -95,7 +123,7 @@ namespace NetWorkedData
                     NotificationDatasPartialLoaded(sNotification, NWDAppConfiguration.SharedInstance().PreloadDatas, tPurcent);
                 });
             }
-            if (Track_DATAS_LOADED == true)
+            if (TrackDatasLoaded == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
                 {
@@ -104,7 +132,7 @@ namespace NetWorkedData
             }
             // change language
 
-            if (Track_LANGUAGE_CHANGED == true)
+            if (TrackLanguageChanged == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_LANGUAGE_CHANGED, delegate (BTBNotification sNotification)
                 {
@@ -114,14 +142,14 @@ namespace NetWorkedData
 
             // change data
 
-            if (Track_DATA_LOCAL_INSERT == true)
+            if (TrackDataLocalInsert == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT, delegate (BTBNotification sNotification)
                 {
                     NotificationDataLocalInsert(sNotification);
                 });
             }
-            if (Track_DATA_LOCAL_UPDATE == true)
+            if (TrackDataLocalUpdate == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATA_LOCAL_UPDATE, delegate (BTBNotification sNotification)
                 {
@@ -129,7 +157,7 @@ namespace NetWorkedData
                 });
             }
 
-            if (Track_DATA_LOCAL_DELETE == true)
+            if (TrackDataLocalDelete == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE, delegate (BTBNotification sNotification)
                 {
@@ -139,7 +167,7 @@ namespace NetWorkedData
 
             // change from web data
 
-            if (Track_DATAS_WEB_UPDATE == true)
+            if (TrackDatasWebUpdate == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
                 {
@@ -148,7 +176,7 @@ namespace NetWorkedData
             }
             // error
 
-            if (Track_ERROR == true)
+            if (TrackError == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ERROR, delegate (BTBNotification sNotification)
                 {
@@ -157,14 +185,14 @@ namespace NetWorkedData
             }
             // player/user change
 
-            if (Track_ACCOUNT_CHANGE == true)
+            if (TrackAccountChanged == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ACCOUNT_CHANGE, delegate (BTBNotification sNotification)
                 {
                     NotificationAccountChanged(sNotification);
                 });
             }
-            if (Track_ACCOUNT_SESSION_EXPIRED == true)
+            if (TrackAccountSessionExpired == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, delegate (BTBNotification sNotification)
                 {
@@ -172,7 +200,7 @@ namespace NetWorkedData
                 });
             }
 
-            if (Track_ACCOUNT_BANNED == true)
+            if (TrackAccountBanned == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_ACCOUNT_BANNED, delegate (BTBNotification sNotification)
                 {
@@ -181,28 +209,35 @@ namespace NetWorkedData
             }
 
             // Network statut
-            if (Track_NETWORK_OFFLINE == true)
+            if (TrackNetworkOffLine == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NETWORK_OFFLINE, delegate (BTBNotification sNotification)
                 {
                     NotificationNetworkOffLine(sNotification);
                 });
             }
-            if (Track_NETWORK_ONLINE == true)
+            if (TrackNetworkOnLine == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
                 {
                     NotificationNetworkOnLine(sNotification);
                 });
             }
-            if (Track_NETWORK_UNKNOW == true)
+            if (TrackNetworkUnknow == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NETWORK_UNKNOW, delegate (BTBNotification sNotification)
                 {
                     NotificationNetworkUnknow(sNotification);
                 });
             }
-            if (Track_OPERATION_WEB_ERROR == true)
+            if (TrackNetworkCheck == true)
+            {
+                tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NETWORK_CHECK, delegate (BTBNotification sNotification)
+                {
+                    NotificationNetworkCheck(sNotification);
+                });
+            }
+            if (TrackWebOperationError == true)
             {
 
                 // Operation Web
@@ -211,7 +246,14 @@ namespace NetWorkedData
                     NotificationWebOperationError(sNotification);
                 });
             }
-            if (Track_WEB_OPERATION_UPLOAD_IN_PROGRESS == true)
+            if (TrackWebOperationUploadStart == true)
+            {
+                tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, delegate (BTBNotification sNotification)
+                {
+                    NotificationWebOperationUploadStart(sNotification);
+                });
+            }
+            if (TrackWebOperationUploadInProgress == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
                 {
@@ -219,7 +261,7 @@ namespace NetWorkedData
                     NotificationWebOperationUploadInProgress(sNotification, tSender.Request.uploadProgress);
                 });
             }
-            if (Track_WEB_OPERATION_DOWNLOAD_IN_PROGRESS == true)
+            if (TrackWebOperationDownloadInProgress == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS, delegate (BTBNotification sNotification)
                 {
@@ -227,28 +269,28 @@ namespace NetWorkedData
                     NotificationWebOperationDownloadInProgress(sNotification, tSender.Request.downloadProgress);
                 });
             }
-            if (Track_WEB_OPERATION_DOWNLOAD_IS_DONE == true)
+            if (TrackWebOperationDownloadIsDone == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, delegate (BTBNotification sNotification)
                 {
                     NotificationWebOperationDownloadIsDone(sNotification);
                 });
             }
-            if (Track_WEB_OPERATION_DOWNLOAD_FAILED == true)
+            if (TrackWebOperationDownloadFailed == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED, delegate (BTBNotification sNotification)
                 {
                     NotificationWebOperationDownloadFailed(sNotification);
                 });
             }
-            if (Track_WEB_OPERATION_DOWNLOAD_ERROR == true)
+            if (TrackWebOperationDownloadError == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, delegate (BTBNotification sNotification)
                 {
                     NotificationWebOperationDownloadError(sNotification);
                 });
             }
-            if (Track_WEB_OPERATION_DOWNLOAD_SUCCESSED == true)
+            if (TrackWebOperationDownloadSuccessed == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, delegate (BTBNotification sNotification)
                 {
@@ -257,7 +299,7 @@ namespace NetWorkedData
             }
 
             // generic
-            if (Track_NOTIFICATION_KEY == true)
+            if (TrackGeneric == true)
             {
                 tNotificationManager.AddObserver(this, NWDNotificationConstants.K_NOTIFICATION_KEY, delegate (BTBNotification sNotification)
                 {
@@ -288,14 +330,16 @@ namespace NetWorkedData
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_OFFLINE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_ONLINE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_UNKNOW);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NETWORK_CHECK);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_NOTIFICATION_KEY);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_IN_PROGRESS);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TrackReset()
@@ -304,12 +348,12 @@ namespace NetWorkedData
             InstallObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected void OnEnable()
+        protected virtual void OnEnable()
         {
             InstallObserver();
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected void OnDisable()
+        protected virtual void OnDisable()
         {
             RemoveObserver();
         }
@@ -396,7 +440,17 @@ namespace NetWorkedData
             // create your method by override
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationNetworkCheck(BTBNotification sNotification)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationError(BTBNotification sNotification)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void NotificationWebOperationUploadStart(BTBNotification sNotification)
         {
             // create your method by override
         }

@@ -21,9 +21,10 @@ namespace NetWorkedData
     public class NWDNetworkStatutRender : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        private NWDNetworkState NetworkState;
-        private Image SpriteImage; 
+        protected NWDNetworkState NetworkState;
+        protected Image SpriteImage; 
         //-------------------------------------------------------------------------------------------------------------
+        [HeaderAttribute("NetWork Analyze")]
         public Sprite ImageOnline;
         public Sprite ImageOffline;
         public Sprite ImageUnknow;

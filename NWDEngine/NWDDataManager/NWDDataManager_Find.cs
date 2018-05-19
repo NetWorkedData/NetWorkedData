@@ -74,7 +74,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public void ReloadAllObjects ()
         {
-            double tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            //double tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             NWDTypeLauncher.DataLoaded = false;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             NWDTypeLauncher.ClassesExpected = mTypeList.Count();
@@ -97,8 +97,8 @@ namespace NetWorkedData
             EditorRefresh();
             #endif
 
-            double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
-            double tDelta = tFinishTimestamp - tStartTimestamp;
+            //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            //double tDelta = tFinishTimestamp - tStartTimestamp;
             //Debug.Log("NWD => NetWorkeData load all datas in " + tDelta.ToString() + " seconds");
         }
         //-------------------------------------------------------------------------------------------------------------

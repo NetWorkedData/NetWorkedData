@@ -92,7 +92,7 @@ namespace NetWorkedData
         public static void UpdateDataTable()
         {
             NWDDataManager.SharedInstance().MigrateTable(ClassType(), AccountDependent());
-            List<object> tObjectsListToDelete = new List<object>();
+            //List<object> tObjectsListToDelete = new List<object>();
             foreach (NWDBasis<K> tObject in ObjectsList)
             {
                 tObject.UpdateMe();

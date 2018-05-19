@@ -20,13 +20,30 @@ GameObject:
   m_Component:
   - component: {fileID: 224885513400357054}
   - component: {fileID: 222078099632489932}
+  - component: {fileID: 114105439340330730}
   - component: {fileID: 114443023166927130}
-  - component: {fileID: 114482505689767520}
   - component: {fileID: 114665454635378636}
   - component: {fileID: 225874942034971216}
   - component: {fileID: 95283650587378774}
   m_Layer: 5
-  m_Name: NWDNetworkCheck
+  m_Name: NWDNetworkWebStatutRender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1094050193030504
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224002409234229448}
+  - component: {fileID: 222492981743466326}
+  - component: {fileID: 114887085021215678}
+  m_Layer: 5
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,6 +154,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1518036417472894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224134468733011564}
+  - component: {fileID: 222813510354179032}
+  - component: {fileID: 114826374397280788}
+  - component: {fileID: 114482505689767520}
+  - component: {fileID: 114094479151558990}
+  - component: {fileID: 225948111635978848}
+  - component: {fileID: 95305479895894554}
+  m_Layer: 5
+  m_Name: NWDNetworkStatutRender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1540902092651676
 GameObject:
   m_ObjectHideFlags: 1
@@ -242,6 +280,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95305479895894554
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518036417472894}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0b611f9dc82744b2f8e8c27f1ad87f46, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95992690761170182
 Animator:
   serializedVersion: 3
@@ -259,6 +314,81 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114094479151558990
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518036417472894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 114826374397280788}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114392853488475400}
+        m_MethodName: NetworkStatutTestAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114105439340330730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1010929641877348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f9aab8f825a4699b5a4d7d70820696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImageOnline: {fileID: 21300000, guid: 5c160dbaed1da4d9f9bf065952fb345f, type: 3}
+  ImageOffline: {fileID: 21300000, guid: a6bbd8af7955540ecbdcba39fd3b9775, type: 3}
+  ImageUnknow: {fileID: 21300000, guid: a7e9963a459a84d56b0c16a96d8279ea, type: 3}
+  ImageCheck: {fileID: 21300000, guid: 9806f0d25c3f54571a824e3471ef76e1, type: 3}
+  ImageError: {fileID: 21300000, guid: ff326a919c6a04ecebad530438c45569, type: 3}
+  ImageSucces: {fileID: 21300000, guid: 916085345540f44a3b6a0ea38586d74c, type: 3}
+  ImageSyncArray:
+  - {fileID: 21300000, guid: 897f4c7ec5d7449788de7de8d1c588a3, type: 3}
+  - {fileID: 21300000, guid: ff2bb97f3b0a5432888aa1f122971d3e, type: 3}
+  - {fileID: 21300000, guid: 37f98f4ebcfe8412480e07c1bd2b6c36, type: 3}
+  - {fileID: 21300000, guid: d5ede55d5596a43c38d4d18ac4fcd128, type: 3}
+  Speed: 0.25
 --- !u!114 &114225862828137120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -357,131 +487,168 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 145589e5a80e54355a6a0cd8f9dd8d89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkStatutRender: {fileID: 114482505689767520}
-  DatasLoadGauge: {fileID: 114506839567712474}
-  WebSyncGauge: {fileID: 114982135724139222}
-  WebSyncSpinner: {fileID: 0}
-  AlertPanel: {fileID: 0}
+  TrackEngineLaunch: 1
   EngineLaunchEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackDatasStartLoading: 1
   DatasStartLoadingEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackDatasPartialLoaded: 1
   DatasPartialLoadedEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackDatasLoaded: 1
   DatasLoadedEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackLanguageChanged: 1
   LanguageChangedEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  DataLocalUpdateEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  DataLocalInsertEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  DataLocalDeleteEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  DatasWebUpdateEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  ErrorEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  AccountChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  AccountSessionExpiredEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  TrackAccountBanned: 1
   AccountBannedEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  NetworkOffLineEvent:
+  TrackAccountChanged: 1
+  AccountChangedEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  NetworkOnLineEvent:
+  TrackAccountSessionExpired: 1
+  AccountSessionExpiredEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  NetworkUnknowEvent:
+  TrackDataLocalDelete: 1
+  DataLocalDeleteEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackDataLocalInsert: 1
+  DataLocalInsertEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDataLocalUpdate: 1
+  DataLocalUpdateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDatasWebUpdate: 1
+  DatasWebUpdateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationError: 1
   WebOperationErrorEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackWebOperationUploadStart: 1
+  WebOperationUploadStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationUploadInProgress: 1
   WebOperationUploadInProgressEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  WebOperationDownloadInProgressEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  WebOperationDownloadIsDoneEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  WebOperationDownloadFailedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadError: 1
   WebOperationDownloadErrorEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadFailed: 1
+  WebOperationDownloadFailedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadInProgress: 1
+  WebOperationDownloadInProgressEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadIsDone: 1
+  WebOperationDownloadIsDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadSuccessed: 1
   WebOperationDownloadSuccessedEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  TrackError: 1
+  ErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkOffLine: 1
+  NetworkOffLineEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkOnLine: 1
+  NetworkOnLineEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkUnknow: 1
+  NetworkUnknowEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkCheck: 1
+  NetworkCheckEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackGeneric: 1
   GenericEvent:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  NetworkStatutRender: {fileID: 114482505689767520}
+  NetworkWebStatutRender: {fileID: 114105439340330730}
+  DatasLoadGauge: {fileID: 114506839567712474}
+  WebSyncGauge: {fileID: 114982135724139222}
+  WebSyncSpinner: {fileID: 0}
+  AlertPanel: {fileID: 0}
 --- !u!114 &114403674566460136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -568,7 +735,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1010929641877348}
+  m_GameObject: {fileID: 1518036417472894}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72687d74ce9204c8d9b0749dee99a587, type: 3}
@@ -589,16 +756,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b6ac4c55009452f83055ba7db9dfe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImageBackground: {fileID: 114937446929895480}
-  ImageFill: {fileID: 114282824960410736}
-  ImageOverLay: {fileID: 114225862828137120}
+  ImageBackground: {fileID: 0}
+  ImageFill: {fileID: 0}
+  ImageOverLay: {fileID: 0}
   Anim: {fileID: 95016857851273596}
   Group: {fileID: 225643244825519788}
   HorizontalExpand: 1
   HorizontalMin: 30
   VerticalExpand: 0
   VerticalMin: 30
-  HorizontalValue: 0
+  HorizontalValue: 1
   VerticalValue: 1
 --- !u!114 &114586634725116854
 MonoBehaviour:
@@ -706,6 +873,66 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114826374397280788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518036417472894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 9b4eed9a346b946918899b756a6c73a7, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!114 &114887085021215678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1094050193030504}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Button
 --- !u!114 &114925195094610088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -771,9 +998,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b6ac4c55009452f83055ba7db9dfe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImageBackground: {fileID: 114406955374548876}
-  ImageFill: {fileID: 114925195094610088}
-  ImageOverLay: {fileID: 114735367082906896}
+  ImageBackground: {fileID: 0}
+  ImageFill: {fileID: 0}
+  ImageOverLay: {fileID: 0}
   Anim: {fileID: 95992690761170182}
   Group: {fileID: 225398083576007612}
   HorizontalExpand: 1
@@ -781,7 +1008,7 @@ MonoBehaviour:
   VerticalExpand: 0
   VerticalMin: 30
   HorizontalValue: 1
-  VerticalValue: 0
+  VerticalValue: 1
 --- !u!222 &222078099632489932
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -812,6 +1039,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1569091410731880}
+--- !u!222 &222492981743466326
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1094050193030504}
 --- !u!222 &222564575979367724
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -836,6 +1069,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1226762463333576}
+--- !u!222 &222813510354179032
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518036417472894}
 --- !u!222 &222980571973840550
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -848,6 +1087,24 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1474399104111456}
+--- !u!224 &224002409234229448
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1094050193030504}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224134468733011564}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224089694750954468
 RectTransform:
   m_ObjectHideFlags: 1
@@ -884,6 +1141,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 30, y: 14}
   m_Pivot: {x: 0, y: 0}
+--- !u!224 &224134468733011564
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518036417472894}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 224002409234229448}
+  m_Father: {fileID: 224325601553734698}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -20, y: 20}
+  m_SizeDelta: {x: 24, y: 24}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224325601553734698
 RectTransform:
   m_ObjectHideFlags: 1
@@ -894,6 +1170,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 224134468733011564}
   - {fileID: 224885513400357054}
   - {fileID: 224342338854992704}
   - {fileID: 224341467230965156}
@@ -919,7 +1196,7 @@ RectTransform:
   - {fileID: 224503800108062940}
   - {fileID: 224849023008835418}
   m_Father: {fileID: 224325601553734698}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -940,7 +1217,7 @@ RectTransform:
   - {fileID: 224639265008006632}
   - {fileID: 224105248444149262}
   m_Father: {fileID: 224325601553734698}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1017,7 +1294,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 799.8798, y: 14}
+  m_SizeDelta: {x: 932, y: 14}
   m_Pivot: {x: 0, y: 0}
 --- !u!224 &224885513400357054
 RectTransform:
@@ -1031,11 +1308,11 @@ RectTransform:
   m_Children:
   - {fileID: 224782577433096264}
   m_Father: {fileID: 224325601553734698}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -20, y: 20}
+  m_AnchoredPosition: {x: -20, y: 80}
   m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224974364583609914
@@ -1084,6 +1361,17 @@ CanvasGroup:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1010929641877348}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!225 &225948111635978848
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1518036417472894}
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
