@@ -81,8 +81,8 @@ namespace NetWorkedData
 				tPropertiesLinearize += "\t\tpublic " + tKeyValue.Value + " " + tKeyValue.Key + " {get; set;}\n";
 			}
 			tClassExample = tClassExample.Replace ("//PROPERTIES", tPropertiesLinearize);
-			// find the owner classes folder
-			string tFolderPath = NWDToolbox.FindClassFolder ("NWDFindOwnerClasses", "NetWorkedDataClasses");
+            // find the owner classes folder
+            string tFolderPath = NWDToolbox.FindClassFolder("NWDFindOwnerClasses", "NetWorkedDataClasses");
 			// write file
 			string tFilePath = tFolderPath + "/" + ClassName + ".cs";
 			File.WriteAllText (tFilePath, tClassExample);

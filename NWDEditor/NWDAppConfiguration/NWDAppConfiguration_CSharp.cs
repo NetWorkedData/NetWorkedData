@@ -472,9 +472,12 @@ namespace NetWorkedData
             // File.WriteAllText(tEngineRootFolder + "/NWDConfigurations.cs", tConstantsFile);
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset (tEngineRootFolder + "/NWDConfigurations.cs");
-
             //string tPath = NWDFindPackage.PathOfPackage("/NWDConfigurations.cs");
-            string tPath = "Assets/NWDConfigurations.cs";
+
+            //string tFolderPath = NWDToolbox.FindClassFolder("NWDFindWorkflow", "NetWorkedDataWorkflow"");
+            string tFolderPath = NWDToolbox.FindClassFolder("NWDFindConfiguration", "NetWorkedDataConfiguration");
+            //tFolderPath = "Assets";
+            string tPath = tFolderPath +"/NWDConfigurations.cs";
             File.WriteAllText(tPath, tConstantsFile);
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tPath);
