@@ -206,16 +206,28 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Quest reward", true, true, true)]
+        [NWDGroupStartAttribute("Quest auto reward", true, true, true)]
+        [NWDTooltips("The list of auto increment rewards at success of quest")]
         public NWDReferencesQuantityType<NWDItem> RewardsItems
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDItemPack> RewardsItemPack
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStartAttribute("Quest reward by choose ", true, true, true)]
+        //public NWDReferencesQuantityType<NWDItemPack> RewardsItemPack
+        //{
+        //    get; set;
+        //}
+        [NWDTooltips("The list of possible rewards")]
+        public NWDReferencesQuantityType<NWDPack> RewardsPacks
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDPack> RewardsPacks
+        [NWDTooltips("The number of reward to choose (traditionnal 1 of them)")]
+        public int RewardsPacksNumber
         {
             get; set;
         }

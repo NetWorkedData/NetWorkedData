@@ -425,21 +425,21 @@ namespace NetWorkedData
                                 // Add items
                                 NWDOwnership.AddItemToOwnership(tQuest.RewardsItems);
                                 // Add Items by itemPacks
-                                foreach (KeyValuePair<NWDItemPack, int> tKeyValue in tQuest.RewardsItemPack.GetObjectAndQuantity())
-                                {
-                                    for (int tI = 0; tI < tKeyValue.Value; tI++)
-                                    {
-                                        NWDOwnership.AddItemToOwnership(tKeyValue.Key.Items);
-                                    }
-                                }
-                                // Add items by Pack
-                                foreach (KeyValuePair<NWDPack, int> tKeyValue in tQuest.RewardsPacks.GetObjectAndQuantity())
-                                {
-                                    for (int tI = 0; tI < tKeyValue.Value; tI++)
-                                    {
-                                        NWDOwnership.AddItemToOwnership(tKeyValue.Key.GetAllItemReferenceAndQuantity());
-                                    }
-                                }
+                                //foreach (KeyValuePair<NWDItemPack, int> tKeyValue in tQuest.RewardsItemPack.GetObjectAndQuantity())
+                                //{
+                                //    for (int tI = 0; tI < tKeyValue.Value; tI++)
+                                //    {
+                                //        NWDOwnership.AddItemToOwnership(tKeyValue.Key.Items);
+                                //    }
+                                //}
+                                //// Add items by Pack
+                                //foreach (KeyValuePair<NWDPack, int> tKeyValue in tQuest.RewardsPacks.GetObjectAndQuantity())
+                                //{
+                                //    for (int tI = 0; tI < tKeyValue.Value; tI++)
+                                //    {
+                                //        NWDOwnership.AddItemToOwnership(tKeyValue.Key.GetAllItemReferenceAndQuantity());
+                                //    }
+                                //}
                                 // increment counters
                                 SuccessCounter++;
                                 NWDQuest tNextQuest = sDialog.NextQuest.GetObject();

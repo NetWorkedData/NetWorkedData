@@ -126,6 +126,20 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Enrichment the specified sText, with sLanguage and sBold.
+        /// </summary>
+        /// <returns>The enrichment.</returns>
+        /// <param name="sText">S text.</param>
+        /// <param name="sLanguage">S language.</param>
+        /// <param name="sBold">If set to <c>true</c> s bold.</param>
+        public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
+        {
+            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
+            rText = NWDLocalization.Enrichment(rText, sLanguage, sBold);
+            return rText;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sValidation , NWDErrorType sType = NWDErrorType.Verbose)

@@ -103,6 +103,48 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Enrichment the specified sText, with sLanguage and sBold.
+        /// </summary>
+        /// <returns>The enrichment.</returns>
+        /// <param name="sText">S text.</param>
+        /// <param name="sLanguage">S language.</param>
+        /// <param name="sBold">If set to <c>true</c> s bold.</param>
+        public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
+        {
+            string rText = sText;
+            string tBstart = "<b>";
+            string tBend = "</b>";
+            if (sBold == false)
+            {
+                tBstart = "";
+                tBend = "";
+            }
+            if (sLanguage == null)
+            {
+                sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
+            }
+            // Replace the nickname
+            NWDUserNickname tNickNameObject = NWDUserNickname.GetFirstObject();
+            string tNickname = "";
+            string tNicknameID = "";
+            if (tNickNameObject != null)
+            {
+                tNickname = tNickNameObject.Nickname;
+                tNicknameID = tNickNameObject.UniqueNickname;
+            }
+            // Replace the old tag nickname
+            //rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
+            //rText = rText.Replace("@nicknameid@", tBstart + tNicknameID + tBend);
+            // Replace the new tag nickname
+            rText = rText.Replace("#Nickname#", tBstart + tNickname + tBend);
+            rText = rText.Replace("#UniqueNickname#", tBstart + tNicknameID + tBend);
+            //// Replace the standard tag nickname
+            //rText = rText.Replace("{Nickname}", tBstart + tNickname + tBend);
+            //rText = rText.Replace("{UniqueNickname}", tBstart + tNicknameID + tBend);
+            return rText;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserNickname NewNickName(string name)
         {
             NWDUserNickname rNickName = NewObject();

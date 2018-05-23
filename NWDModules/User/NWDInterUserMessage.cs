@@ -286,7 +286,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
-            string rText = NWDUserToolbox.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
             string tBstart = "<b>";
             string tBend = "</b>";
             if (sBold == false)
@@ -303,8 +303,15 @@ namespace NetWorkedData
                 tPublisherID = tPublisherObject.UniqueNickname;
             }
 
-            rText = rText.Replace("@publisher@", tBstart + tPublisher + tBend);
-            rText = rText.Replace("@publisherid@", tBstart + tPublisherID + tBend);
+            //// Replace the old tag nickname
+            //rText = rText.Replace("@publisher@", tBstart + tPublisher + tBend);
+            //rText = rText.Replace("@publisherid@", tBstart + tPublisherID + tBend);
+            // Replace the new tag nickname
+            rText = rText.Replace("#SenderNickname#", tBstart + tPublisher + tBend);
+            rText = rText.Replace("#SenderUniqueNickname#", tBstart + tPublisherID + tBend);
+            //// Replace the standard tag nickname
+            //rText = rText.Replace("{PublisherNickname}", tBstart + tPublisher + tBend);
+            //rText = rText.Replace("{PublisherUniqueNickname}", tBstart + tPublisherID + tBend);
 
             NWDUserNickname tReceiverObject = ReceiverNickname();
             string tReceiver = "";
@@ -314,9 +321,15 @@ namespace NetWorkedData
                 tReceiver = tReceiverObject.Nickname;
                 tReceiverID = tReceiverObject.UniqueNickname;
             }
-
-            rText = rText.Replace("@receiver@", tBstart + tReceiver + tBend);
-            rText = rText.Replace("@receiverid@", tBstart + tReceiverID + tBend);
+            //// Replace the old tag nickname
+            //rText = rText.Replace("@receiver@", tBstart + tReceiver + tBend);
+            //rText = rText.Replace("@receiverid@", tBstart + tReceiverID + tBend);
+            // Replace the new tag nickname
+            rText = rText.Replace("#ReceiverNickname#", tBstart + tReceiver + tBend);
+            rText = rText.Replace("#ReceiverUniqueNickname#", tBstart + tReceiverID + tBend);
+            //// Replace the standard tag nickname
+            //rText = rText.Replace("{ReceiverNickname}", tBstart + tReceiver + tBend);
+            //rText = rText.Replace("{ReceiverUniqueNickname}", tBstart + tReceiverID + tBend);
 
             return rText;
         }
