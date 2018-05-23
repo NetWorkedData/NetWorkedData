@@ -21,11 +21,6 @@ namespace Babaoo
     /// </summary>
     public class PanelQuestGiver : MonoBehaviour
     {
-        void HandleBTBNotificationBlock(BTBNotification sNotification)
-        {
-        }
-
-
         //-------------------------------------------------------------------------------------------------------------
         [Header("GameObject's connections")]
         public GameObject PanelShowQuestList;
@@ -64,6 +59,10 @@ namespace Babaoo
         public Text NicknameNPCLeft;
         public Text NicknameNPCMiddle;
         public Text NicknameNPCRight;
+		//-------------------------------------------------------------------------------------------------------------
+        // Panel Add Relationship delegate
+        public delegate void questGiverCloseBlock();
+        public questGiverCloseBlock questGiverCloseBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         private NWDCharacter CharacterLeft = null;
         private NWDCharacter CharacterMiddle = null;
@@ -464,15 +463,15 @@ namespace Babaoo
             {
                 PanelAnim.SetTrigger("HideDialogue");
             }
-            if (GameManager.GetInstance().CurrentPortal == null && InputManager.GetInstance() != null && SceneManager.GetSceneByName("MainWorld_Demo").IsValid())
-            {
-                InputManager.GetInstance().SetInputMode(InputManager.EInputMode.NONE);
-                InputManager.GetInstance().SetNextInputMode(InputManager.EInputMode.GAME);
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DestroyPanel()
-        {
+        {         
+            if (questGiverCloseBlockDelegate != null)
+            {
+                questGiverCloseBlockDelegate();
+            }
+
             gameObject.SetActive(false);
             if (DestroyAfterClosing)
             {
