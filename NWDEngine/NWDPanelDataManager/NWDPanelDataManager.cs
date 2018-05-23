@@ -323,6 +323,7 @@ namespace NetWorkedData
             }
             if (WebSyncGauge != null)
             {
+                WebSyncGauge.SetHorizontalValue(1.0F);
                 WebSyncGauge.SetHidden(true);
             }
             if (NetworkWebStatutRender != null)
@@ -340,6 +341,7 @@ namespace NetWorkedData
             }
             if (WebSyncGauge != null)
             {
+                WebSyncGauge.SetHorizontalValue(1.0F);
                 WebSyncGauge.SetHidden(true);
             }
             if (NetworkWebStatutRender != null)
@@ -357,6 +359,7 @@ namespace NetWorkedData
             }
             if (WebSyncGauge != null)
             {
+                WebSyncGauge.SetHorizontalValue(1.0F);
                 WebSyncGauge.SetHidden(true);
             }
             if (NetworkWebStatutRender != null)

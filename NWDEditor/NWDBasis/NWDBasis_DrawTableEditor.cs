@@ -785,14 +785,17 @@ namespace NetWorkedData
             var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
             tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
 
+
+            float twPPD = 90.0F; 
+
             // SYNCHRO ENVIRONMENT (TIMESTAMP as date in tooltips)
             GUILayout.BeginHorizontal();
             GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
-            GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(60)); 
+            GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(twPPD)); 
             GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
-            GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(60));         
+            GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(twPPD));         
             GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
-            GUILayout.Label(tProdContent, tStyleBoldCenter,GUILayout.Width(60));
+            GUILayout.Label(tProdContent, tStyleBoldCenter,GUILayout.Width(twPPD));
             GUILayout.EndHorizontal();
 
 
@@ -806,7 +809,7 @@ namespace NetWorkedData
 
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -815,7 +818,7 @@ namespace NetWorkedData
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
 
-            if (GUILayout.Button("Sync this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -825,7 +828,7 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Sync this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 tSyncProd = true;
             }
@@ -835,7 +838,7 @@ namespace NetWorkedData
 
             // FORCE SYNCHRO
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Force this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Force this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -843,7 +846,7 @@ namespace NetWorkedData
                 }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Force this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Force this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -853,7 +856,7 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncForceProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Force this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Force this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 tSyncForceProd = true;
             }
@@ -865,7 +868,7 @@ namespace NetWorkedData
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
             // FORCE SYNCHRO And Clean
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Clean this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -873,7 +876,7 @@ namespace NetWorkedData
                 }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Clean this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -884,7 +887,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(tDisableProd);
 
             bool tSyncCleanProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Clean this table", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {

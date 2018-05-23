@@ -67,9 +67,10 @@ namespace NetWorkedData
 			SaltStart = EditorGUILayout.TextField ("Salt start", SaltStart);
             SaltEnd = EditorGUILayout.TextField ("Salt end", SaltEnd);
             SaltServer = EditorGUILayout.TextField("Salt server", SaltServer);
-			SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
-			EditorGUILayout.TextField ("Server Params for "+ Environment, EditorStyles.boldLabel);
-            AddressPing = EditorGUILayout.TextField ("Address Ping (8.8.8.8)", AddressPing);
+            SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
+            EditorGUILayout.TextField("Network Ping tester " + Environment, EditorStyles.boldLabel);
+            AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
+            EditorGUILayout.TextField("Server Params for " + Environment, EditorStyles.boldLabel);
             ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);

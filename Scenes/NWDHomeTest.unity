@@ -113,6 +113,312 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &162007592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 162007598}
+  - component: {fileID: 162007597}
+  - component: {fileID: 162007596}
+  - component: {fileID: 162007595}
+  - component: {fileID: 162007594}
+  - component: {fileID: 162007593}
+  m_Layer: 0
+  m_Name: NWDGameDataManagerUnitySingleton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &162007593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162007592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6038819985645411bbd6666972b1e98b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsVisible: 0
+  ColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  ColorFill: {r: 1, g: 0, b: 0, a: 1}
+  Size: {x: 200, y: 20}
+  AlignHorizontal: 2
+  AlignVertical: 2
+  Offset: {x: 0, y: 0}
+  Reverse: 1
+  HorizontalValue: 1
+  VerticalValue: 1
+  HorizontalMin: 0
+  VerticalMin: 0
+  ColorBorder: {r: 0, g: 0, b: 0, a: 1}
+  Border: 1
+  TextureBackground: {fileID: 0}
+  TextureFill: {fileID: 0}
+  TextureOverLay: {fileID: 0}
+  ColorLimit: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  BorderLimit: 1
+  ShowText: 1
+  OverlayText: 
+  OverlayTextOffset: {x: 0, y: 0}
+  OverlayTextOverset: {x: 0, y: 0}
+  OverlayFont: {fileID: 0}
+  OverlaySize: 10
+  OverlayColor: {r: 0, g: 0, b: 0, a: 1}
+  OverlayTextAnchor: 4
+--- !u!114 &162007594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162007592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6038819985645411bbd6666972b1e98b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsVisible: 0
+  ColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  ColorFill: {r: 1, g: 0, b: 0, a: 1}
+  Size: {x: 200, y: 20}
+  AlignHorizontal: 2
+  AlignVertical: 2
+  Offset: {x: 0, y: 0}
+  Reverse: 1
+  HorizontalValue: 1
+  VerticalValue: 1
+  HorizontalMin: 0
+  VerticalMin: 0
+  ColorBorder: {r: 0, g: 0, b: 0, a: 1}
+  Border: 1
+  TextureBackground: {fileID: 0}
+  TextureFill: {fileID: 0}
+  TextureOverLay: {fileID: 0}
+  ColorLimit: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  BorderLimit: 1
+  ShowText: 1
+  OverlayText: 
+  OverlayTextOffset: {x: 0, y: 0}
+  OverlayTextOverset: {x: 0, y: 0}
+  OverlayFont: {fileID: 0}
+  OverlaySize: 10
+  OverlayColor: {r: 0, g: 0, b: 0, a: 1}
+  OverlayTextAnchor: 4
+--- !u!114 &162007595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162007592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 047a7a736e9f5499fabbcfe4a8dc8cc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TestEverySeconds: 5
+  NetworkState: 0
+  DebugLog: 0
+  RequestType: 3
+--- !u!114 &162007596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162007592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d474e914e6b46c58d6446538a9d9d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsActive: 1
+--- !u!114 &162007597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162007592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e12019099c2453383e763bede76f48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TrackEngineLaunch: 1
+  EngineLaunchEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDatasStartLoading: 1
+  DatasStartLoadingEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDatasPartialLoaded: 1
+  DatasPartialLoadedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDatasLoaded: 1
+  DatasLoadedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackLanguageChanged: 1
+  LanguageChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackAccountBanned: 1
+  AccountBannedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackAccountChanged: 1
+  AccountChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackAccountSessionExpired: 1
+  AccountSessionExpiredEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDataLocalDelete: 1
+  DataLocalDeleteEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDataLocalInsert: 1
+  DataLocalInsertEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDataLocalUpdate: 1
+  DataLocalUpdateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackDatasWebUpdate: 1
+  DatasWebUpdateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationError: 1
+  WebOperationErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationUploadStart: 1
+  WebOperationUploadStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationUploadInProgress: 1
+  WebOperationUploadInProgressEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadError: 1
+  WebOperationDownloadErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadFailed: 1
+  WebOperationDownloadFailedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadInProgress: 1
+  WebOperationDownloadInProgressEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadIsDone: 1
+  WebOperationDownloadIsDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackWebOperationDownloadSuccessed: 1
+  WebOperationDownloadSuccessedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackError: 1
+  ErrorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkOffLine: 1
+  NetworkOffLineEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkOnLine: 1
+  NetworkOnLineEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkUnknow: 1
+  NetworkUnknowEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackNetworkCheck: 1
+  NetworkCheckEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  TrackGeneric: 1
+  GenericEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: NetWorkedData.NWDCallBackEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  LoadingDatasGauge: {fileID: 162007594}
+  OperationGauge: {fileID: 162007593}
+  NetWorkCheck: {fileID: 162007595}
+--- !u!4 &162007598
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 162007592}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &179220022 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224947371630646960, guid: 66f8d189a9a3e407a993e04239520073,
@@ -463,11 +769,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 633847653}
     m_Modifications:
-    - target: {fileID: 114105439340330730, guid: eb0dd8611491e40ed84a065634199e77,
-        type: 2}
-      propertyPath: ImageSyncArray.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 224325601553734698, guid: eb0dd8611491e40ed84a065634199e77,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -558,30 +859,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114105439340330730, guid: eb0dd8611491e40ed84a065634199e77,
-        type: 2}
-      propertyPath: ImageSyncArray.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 897f4c7ec5d7449788de7de8d1c588a3,
-        type: 3}
-    - target: {fileID: 114105439340330730, guid: eb0dd8611491e40ed84a065634199e77,
-        type: 2}
-      propertyPath: ImageSyncArray.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: ff2bb97f3b0a5432888aa1f122971d3e,
-        type: 3}
-    - target: {fileID: 114105439340330730, guid: eb0dd8611491e40ed84a065634199e77,
-        type: 2}
-      propertyPath: ImageSyncArray.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 37f98f4ebcfe8412480e07c1bd2b6c36,
-        type: 3}
-    - target: {fileID: 114105439340330730, guid: eb0dd8611491e40ed84a065634199e77,
-        type: 2}
-      propertyPath: ImageSyncArray.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: d5ede55d5596a43c38d4d18ac4fcd128,
-        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: eb0dd8611491e40ed84a065634199e77, type: 2}
   m_IsPrefabParent: 0

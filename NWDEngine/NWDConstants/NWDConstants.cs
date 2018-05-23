@@ -491,13 +491,13 @@ namespace NetWorkedData
         public static Color kRowColorError = new Color (1.00f, 0.00f, 0.00f, 0.55f);
         public static Color kRowColorTrash = new Color (0.00f, 0.00f, 0.00f, 0.45f);
         public static Color kRowColorDisactive = new Color (0.00f, 0.00f, 0.00f, 0.35f);
-        public static float kRowLineStroke = 2.0f;
+        public static float kRowLineStroke = 1.0f;
         public static Color kRowColorLine = new Color (0.0f, 0.0f, 0.0f, 0.25f);
         //-------------------------------------------------------------------------------------------------------------
         // Columns Size
         public static float kOriginWidth = 1.0f;
         public static float kSelectWidth = 20.0f;
-        public static float kIDWidth = 30.0f;
+        public static float kIDWidth = 45.0f;
         public static float kPrefabWidth = 30.0f;
         public static float kDescriptionMinWidth = 200.0f;
         public static float kSyncWidth = 40.0f;

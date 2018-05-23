@@ -83,7 +83,7 @@
 						}
 					else
 						{
-							$message ="Your password was resseted to : $NewPassWord";
+							$message ="Your password was resseted to : $NewPassWord";
 						}
 					include('Mail.php');
 					$headers['From'] = $SMTP_REPLY;
@@ -104,11 +104,11 @@
 					<title><?php
 					if (isset($tHTML['Title']))
 						{
-							echo(GetLocalizableString($tHTML['Title'], $lang));
+							echo(str_replace("{APP}",$NWD_APP_NAM,GetLocalizableString($tHTML['Title'], $lang)));
 						}
 						else
 						{
-							echo('Title');
+							echo('Your password was reseted!');
 						}?></title>
 						<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 						<meta http-equiv="Content-Language" content="en" />
@@ -119,11 +119,11 @@
 					<?php 
 					if (isset($tHTML['Description']))
 						{
-							echo(GetLocalizableString($tHTML['Description'], $lang));
+							echo(str_replace("{APP}",$NWD_APP_NAM,GetLocalizableString($tHTML['Description'], $lang)));
 						}
 						else
 						{
-							echo('Description');
+							echo('Your password was reseted!');
 						}?>
 					</div>
 					</body>
