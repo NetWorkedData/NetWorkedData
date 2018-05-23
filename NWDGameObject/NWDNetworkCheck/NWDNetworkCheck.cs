@@ -35,7 +35,7 @@ namespace NetWorkedData
     public class NWDNetworkCheck : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        public int TestEverySeconds = 5;
+        public int TestEverySeconds = 300;
         public NWDNetworkState NetworkState = NWDNetworkState.Unknow;
         public bool DebugLog = false;
         public NWDNetworkCheckType RequestType = NWDNetworkCheckType.Ping;
@@ -90,7 +90,7 @@ namespace NetWorkedData
                 }
                 yield return new WaitForSeconds(TestEverySeconds);
             }
-            yield break;
+            //yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void NetworkTest()
@@ -174,7 +174,7 @@ namespace NetWorkedData
                 //yield return new WaitForEndOfFrame();
                 yield return null;
             }
-            yield break;
+            //yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator UnityRequestAsync()

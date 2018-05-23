@@ -35,7 +35,7 @@ namespace Babaoo
         public void SetQuest(NWDQuestUserAdvancement data)
         {
             NWDQuest tQuest = data.QuestReference.GetObject();
-            NWDDialog tDialog = data.LastDialogReference.GetObject();
+            //NWDDialog tDialog = data.LastDialogReference.GetObject();
 
             // Set quest title
             TextQuestTitle.text = tQuest.Title.GetLocalString() + " :";

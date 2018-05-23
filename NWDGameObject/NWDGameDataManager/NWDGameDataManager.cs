@@ -317,7 +317,7 @@ namespace NetWorkedData
                     // Add component NWDGameDatManager to easly manage data from NWD
                     NWDGameDataManager tGameDataManager = tObjToSpawn.AddComponent<NWDGameDataManager>();
                     // Add component to check user online
-                    NWDUserNetWorkingScript tUserNetWorkingScript = tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
+                    /*NWDUserNetWorkingScript tUserNetWorkingScript = */tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
                     // Add component to check the network state
                     NWDNetworkCheck tNetWorkCheckScript = tObjToSpawn.AddComponent<NWDNetworkCheck>();
                     tGameDataManager.NetWorkCheck = tNetWorkCheckScript;
@@ -583,6 +583,11 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationNetworkUnknow(BTBNotification sNotification)
+        {
+            // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationNetworkCheck(BTBNotification sNotification)
         {
             // create your method by override
         }

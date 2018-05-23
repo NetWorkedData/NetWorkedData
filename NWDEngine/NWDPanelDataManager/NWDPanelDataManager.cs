@@ -23,7 +23,7 @@ namespace NetWorkedData
 	/// Use in game object to connect the other gameobject to action in the NetWorkedData package 
 	/// Each scene can be connect independently
 	/// </summary>
-    public partial class NWDPanelDataManager : NWDCallBack
+    public partial class NWDPanelDataManager : NWDGameCallBack
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDNetworkStatutRender NetworkStatutRender;

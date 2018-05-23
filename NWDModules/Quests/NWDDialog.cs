@@ -47,7 +47,7 @@ namespace NetWorkedData
         Step = 2,       // step dialog ... the dialog is reccord as last dialog and used on restart
         Reset = 3,      // the last dialog will be reset
 
-       // Cross = 4,      // Go to the next dialog immediatly
+        // Cross = 4,      // Go to the next dialog immediatly
     }
     //-------------------------------------------------------------------------------------------------------------
     [Serializable]
@@ -375,7 +375,7 @@ namespace NetWorkedData
         {
             List<NWDDialog> rDialogList = GetValidDialogs(NextDialogs.GetObjectsList());
             // check if Next quest is valid ... and if Quest is master or not 
-            NWDQuest tNextQuest = NextQuest.GetObject();
+            //NWDQuest tNextQuest = NextQuest.GetObject();
             //if (tNextQuest != null)
             //{
             //    NWDDialog tDialogQuest = NWDQuestUserAdvancement.FirstDialogOnShowQuest(tNextQuest);
@@ -668,25 +668,27 @@ namespace NetWorkedData
 
             //string tAnswer = Answer.GetLanguageString(tLangue);
             string tAnswer = AnswerRichTextForLanguage(tLangue, false);
-            GUIContent tContent = new GUIContent(tAnswer);
-            switch (AnswerState)
-            {
-                case NWDDialogState.Sequent:
-                    {
-                        tContent = new GUIContent(tAnswer, kImageSequent);
-                    }
-                    break;
-                case NWDDialogState.Step:
-                    {
-                        tContent = new GUIContent(tAnswer, kImageStep);
-                    }
-                    break;
-                case NWDDialogState.Normal:
-                    {
-                        tContent = new GUIContent(tAnswer, kImageNormal);
-                    }
-                    break;
-            }
+            //GUIContent tContent = new GUIContent(tAnswer);
+            //GUIContent tContent = null;
+            //switch (AnswerState)
+            //{
+            //    case NWDDialogState.Sequent:
+            //        {
+            //            tContent = new GUIContent(tAnswer, kImageSequent);
+            //        }
+            //        break;
+            //    case NWDDialogState.Step:
+            //        {
+            //            tContent = new GUIContent(tAnswer, kImageStep);
+            //        }
+            //        break;
+            //    default:
+            //    case NWDDialogState.Normal:
+            //        {
+            //            tContent = new GUIContent(tAnswer, kImageNormal);
+            //        }
+            //        break;
+            //}
             // if (string.IsNullOrEmpty(tAnswer) == false)
             {
                 //if (GUI.Button(new Rect(sRect.x + sRect.width - tButtonWidth - NWDConstants.kFieldMarge, sRect.y, tButtonWidth, NWDConstants.HeightButton), tContent))
@@ -699,7 +701,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override Color AddOnNodeColor()
         {
-            
+
             return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------

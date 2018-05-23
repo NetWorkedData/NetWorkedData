@@ -30,65 +30,65 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [Header("Track NetWorkedData Engine")]
         public bool TrackEngineLaunch = true;
-        public NWDCallBackEvent EngineLaunchEvent;
+        //public NWDCallBackEvent EngineLaunchEvent;
         [Header("Track NetWorkedData Data load")]
         public bool TrackDatasStartLoading = true;
-        public NWDCallBackEvent DatasStartLoadingEvent;
+        //public NWDCallBackEvent DatasStartLoadingEvent;
         public bool TrackDatasPartialLoaded = true;
-        public NWDCallBackEvent DatasPartialLoadedEvent;
+        //public NWDCallBackEvent DatasPartialLoadedEvent;
         public bool TrackDatasLoaded = true;
-        public NWDCallBackEvent DatasLoadedEvent;
+        //public NWDCallBackEvent DatasLoadedEvent;
         [Header("Track NetWorkedData Language change")]
         public bool TrackLanguageChanged = true;
-        public NWDCallBackEvent LanguageChangedEvent;
+        //public NWDCallBackEvent LanguageChangedEvent;
         [Header("Track NetWorkedData Account")]
         public bool TrackAccountBanned = true;
-        public NWDCallBackEvent AccountBannedEvent;
+        //public NWDCallBackEvent AccountBannedEvent;
         public bool TrackAccountChanged = true;
-        public NWDCallBackEvent AccountChangedEvent;
+        //public NWDCallBackEvent AccountChangedEvent;
         public bool TrackAccountSessionExpired = true;
-        public NWDCallBackEvent AccountSessionExpiredEvent;
+        //public NWDCallBackEvent AccountSessionExpiredEvent;
         [Header("Track NetWorkedData Local change")]
         public bool TrackDataLocalDelete = true;
-        public NWDCallBackEvent DataLocalDeleteEvent;
+        //public NWDCallBackEvent DataLocalDeleteEvent;
         public bool TrackDataLocalInsert = true;
-        public NWDCallBackEvent DataLocalInsertEvent;
+        //public NWDCallBackEvent DataLocalInsertEvent;
         public bool TrackDataLocalUpdate = true;
-        public NWDCallBackEvent DataLocalUpdateEvent;
+        //public NWDCallBackEvent DataLocalUpdateEvent;
         [Header("Track NetWorkedData Web change")]
         public bool TrackDatasWebUpdate = true;
-        public NWDCallBackEvent DatasWebUpdateEvent;
+        //public NWDCallBackEvent DatasWebUpdateEvent;
         public bool TrackWebOperationError = true;
-        public NWDCallBackEvent WebOperationErrorEvent;
+        //public NWDCallBackEvent WebOperationErrorEvent;
         public bool TrackWebOperationUploadStart = true;
-        public NWDCallBackEvent WebOperationUploadStartEvent;
+        //public NWDCallBackEvent WebOperationUploadStartEvent;
         public bool TrackWebOperationUploadInProgress = true;
-        public NWDCallBackEvent WebOperationUploadInProgressEvent;
+        //public NWDCallBackEvent WebOperationUploadInProgressEvent;
         public bool TrackWebOperationDownloadError = true;
-        public NWDCallBackEvent WebOperationDownloadErrorEvent;
+        //public NWDCallBackEvent WebOperationDownloadErrorEvent;
         public bool TrackWebOperationDownloadFailed = true;
-        public NWDCallBackEvent WebOperationDownloadFailedEvent;
+        //public NWDCallBackEvent WebOperationDownloadFailedEvent;
         public bool TrackWebOperationDownloadInProgress = true;
-        public NWDCallBackEvent WebOperationDownloadInProgressEvent;
+        //public NWDCallBackEvent WebOperationDownloadInProgressEvent;
         public bool TrackWebOperationDownloadIsDone = true;
-        public NWDCallBackEvent WebOperationDownloadIsDoneEvent;
+        //public NWDCallBackEvent WebOperationDownloadIsDoneEvent;
         public bool TrackWebOperationDownloadSuccessed = true;
-        public NWDCallBackEvent WebOperationDownloadSuccessedEvent;
+        //public NWDCallBackEvent WebOperationDownloadSuccessedEvent;
         [Header("Track NetWorkedData Error")]
         public bool TrackError = true;
-        public NWDCallBackEvent ErrorEvent;
+        //public NWDCallBackEvent ErrorEvent;
         [Header("Track NetWorkedData Network change")]
         public bool TrackNetworkOffLine = true;
-        public NWDCallBackEvent NetworkOffLineEvent;
+        //public NWDCallBackEvent NetworkOffLineEvent;
         public bool TrackNetworkOnLine = true;
-        public NWDCallBackEvent NetworkOnLineEvent;
+        //public NWDCallBackEvent NetworkOnLineEvent;
         public bool TrackNetworkUnknow = true;
-        public NWDCallBackEvent NetworkUnknowEvent;
+        //public NWDCallBackEvent NetworkUnknowEvent;
         public bool TrackNetworkCheck = true;
-        public NWDCallBackEvent NetworkCheckEvent;
+        //public NWDCallBackEvent NetworkCheckEvent;
         [Header("Track NetWorkedData Generic")]
         public bool TrackGeneric = true;
-        public NWDCallBackEvent GenericEvent;
+        //public NWDCallBackEvent GenericEvent;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Installs the observer in the BTBNotification manager

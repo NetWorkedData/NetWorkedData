@@ -473,7 +473,7 @@ namespace NetWorkedData
             string tQuestDescription = Description.GetBaseString();
             string tRequiredItemsDescription = RequiredItems.Description();
             string tRequiredItemGroupsDescription = RequiredItemGroups.Description();
-            string tRequiredItemToRemoveDescription = RequiredItemsToRemove.Description();
+            //string tRequiredItemToRemoveDescription = RequiredItemsToRemove.Description();
             string tText = "" + InternalDescription + "\n\n<b>Title : </b>\n" + tQuestTitle + "\n\n<b>Description : </b>\n"+ tQuestDescription+
                 "\n <b>Required Items : </b>\n" + tRequiredItemsDescription + 
                 "\n <b>Required Items Groups: </b>\n"+ tRequiredItemGroupsDescription+
