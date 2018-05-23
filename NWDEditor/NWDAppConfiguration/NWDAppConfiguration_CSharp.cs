@@ -100,7 +100,9 @@ namespace NetWorkedData
                 {
                     // TODO remove the web folder 
                     string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-                    if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == true)
+
+                    string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
+                    if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath+"/" + tWebServiceFolder) == true)
                     {
                         //AssetDatabase.DeleteAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder);
 
@@ -469,15 +471,10 @@ namespace NetWorkedData
             "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
             "}\n" +
             "//=====================================================================================================================\n";
-            // File.WriteAllText(tEngineRootFolder + "/NWDConfigurations.cs", tConstantsFile);
             // force to import this file by Unity3D
-            // AssetDatabase.ImportAsset (tEngineRootFolder + "/NWDConfigurations.cs");
-            //string tPath = NWDFindPackage.PathOfPackage("/NWDConfigurations.cs");
-
-            //string tFolderPath = NWDToolbox.FindClassFolder("NWDFindWorkflow", "NetWorkedDataWorkflow"");
-            string tFolderPath = NWDToolbox.FindClassFolder("NWDFindConfiguration", "NetWorkedDataConfiguration");
+            string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();
             //tFolderPath = "Assets";
-            string tPath = tFolderPath +"/NWDConfigurations.cs";
+            string tPath = tOwnerConfigurationFolderPath +"/NWDConfigurations.cs";
             File.WriteAllText(tPath, tConstantsFile);
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tPath);

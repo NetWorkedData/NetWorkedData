@@ -35,31 +35,28 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
             // Create folders
-            string tServerRootFolder = "Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + Environment;
+            string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
+            string tServerRootFolder = tOwnerServerFolderPath+ "/" + tWebServiceFolder + "/Environment/" + Environment;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine";
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer") == false)
+            if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder) == false)
             {
-                AssetDatabase.CreateFolder("Assets", "NetWorkedDataServer");
+                AssetDatabase.CreateFolder(tOwnerServerFolderPath, tWebServiceFolder);
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == false)
+            if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment") == false)
             {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/", tWebServiceFolder);
+                AssetDatabase.CreateFolder(tOwnerServerFolderPath + "/" + tWebServiceFolder, "/Environment");
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment") == false)
+            if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment/" + Environment) == false)
             {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/"+ tWebServiceFolder, "/Environment");
+                AssetDatabase.CreateFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment", Environment);
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + Environment) == false)
+            if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment/" + Environment + "/Engine") == false)
             {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment", Environment);
+                AssetDatabase.CreateFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment/" + Environment, "Engine");
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + Environment + "/Engine") == false)
+            if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment/" + Environment + "/Engine/Database") == false)
             {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + Environment, "Engine");
-            }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + Environment + "/Engine/Database") == false)
-            {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + Environment + "/Engine", "Database");
+                AssetDatabase.CreateFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment/" + Environment + "/Engine", "Database");
             }
             //========= CONSTANTS FILE
             string tConstantsFile = "";

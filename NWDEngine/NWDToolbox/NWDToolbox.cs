@@ -332,8 +332,29 @@ namespace NetWorkedData
 		{
 			return BTBSecurityTools.GenerateSha (sAdminKey + GenerateSALT (sFrequence), BTBSecurityShaTypeEnum.Sha1);
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public static string FindOwnerServerFolder()
+        {
+            string tPath = NWDToolbox.FindClassFolder("NWDFindOwnerServer", "NetWorkedDataServer");
+            if (AssetDatabase.IsValidFolder(tPath + "/Editor") == false)
+            {
+                AssetDatabase.CreateFolder(tPath, "Editor");
+                AssetDatabase.ImportAsset(tPath + "/Editor");
+            }
+            return tPath + "/Editor";
+        }
+        //------------------------------------------------------------------------------------------------------------- 
+        public static string FindOwnerClassesFolder()
+        {
+            return NWDToolbox.FindClassFolder("NWDFindOwnerClasses", "NetWorkedDataClasses");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string FindOwnerConfigurationFolder()
+        {
+            return NWDToolbox.FindClassFolder("NWDFindOwnerConfiguration", "NetWorkedDataConfiguration");
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Find the folder with FindClassName (ScriptableObject) or create the folder and the script FindClassName to find the folder if not found.

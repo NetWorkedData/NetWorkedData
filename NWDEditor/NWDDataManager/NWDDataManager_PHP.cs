@@ -165,15 +165,17 @@ namespace NetWorkedData
             NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert);
             NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert);
 
-            CreateAllPHP();
-            foreach (Type tType in mTypeList)
+            if (CreateAllEnvironmentPHP())
             {
-                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
-                tOperation++;
-                var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                foreach (Type tType in mTypeList)
                 {
-                    tMethodInfo.Invoke(null, null);
+                    EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
+                    tOperation++;
+                    var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
                 }
             }
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
@@ -183,13 +185,18 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreateAllPHP()
+        public bool CreateAllEnvironmentPHP()
         {
-            CopyEnginePHP();
-            foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
+            bool rReturn = false;
+            if (CopyEnginePHP())
             {
-                tEnvironement.CreatePHP();
+                foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
+                {
+                    tEnvironement.CreatePHP();
+                }
+                rReturn = true;
             }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         //static private int kCounterExport=0;
@@ -211,31 +218,40 @@ namespace NetWorkedData
                 }
                 if (Directory.Exists(tPath + "/" + tFolder + "_AllVersions") == true)
                 {
-                    NWDToolbox.ExportCopyFolderFiles("Assets/NetWorkedDataServer/", tPath + "/" + tFolder + "_AllVersions");
+
+                    string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
+
+                    NWDToolbox.ExportCopyFolderFiles(tOwnerFolderServer + "/", tPath + "/" + tFolder + "_AllVersions");
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CopyEnginePHP()
+        public bool  CopyEnginePHP()
         {
+           bool rReturn  = false;
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
             string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer";
+            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
             //Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer") == false)
+
+            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
             {
-                //Debug.Log("Assets/NetWorkedDataServer MUST BE CREATE");
-                AssetDatabase.CreateFolder("Assets", "NetWorkedDataServer");
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer");
+                Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " MUST BE CREATE !!!");
+                AssetDatabase.CreateFolder(tOwnerFolderServer, tWebServiceFolder);
+                AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder);
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == false)
+            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == true)
             {
-                //Debug.Log("Assets/NetWorkedDataServer/"+tWebServiceFolder+" MUST BE CREATE");
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer", tWebServiceFolder);
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/"+ tWebServiceFolder);
+                NWDToolbox.CopyFolderFiles(tFolderScript, tOwnerFolderServer + "/" + tWebServiceFolder);
+                rReturn = true;
             }
-           NWDToolbox.CopyFolderFiles(tFolderScript, "Assets/NetWorkedDataServer/" + tWebServiceFolder);
-            // TODO Copy the Special file too ?
+            else
+            {
+                Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " NOT CREATED !!!");
+            }
+            // TODO Copy the Special file too 
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
 

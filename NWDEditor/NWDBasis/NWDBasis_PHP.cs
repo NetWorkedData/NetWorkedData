@@ -84,28 +84,23 @@ namespace NetWorkedData
 
             // Create folders
 
-            string tServerRootFolder = "Assets/NetWorkedDataServer/"+tWebServiceFolder+"/Environment/" + tEnvironmentFolder;
+            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
+            string tServerRootFolder = tOwnerFolderServer +"/"+tWebServiceFolder+"/Environment/" + tEnvironmentFolder;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
-
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer") == false)
+            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
             {
-                AssetDatabase.CreateFolder("Assets/", "NetWorkedDataServer");
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer");
+                AssetDatabase.CreateFolder(tOwnerFolderServer, tWebServiceFolder);
+                AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder);
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder) == false)
+            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment") == false)
             {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer", tWebServiceFolder);
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder);
+                AssetDatabase.CreateFolder(tOwnerFolderServer + "/" + tWebServiceFolder, "Environment");
+                AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment");
             }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment") == false)
+            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder) == false)
             {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder, "Environment");
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment");
-            }
-            if (AssetDatabase.IsValidFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder) == false)
-            {
-                AssetDatabase.CreateFolder("Assets/NetWorkedDataServer/" + tWebServiceFolder+ "/Environment/", tEnvironmentFolder);
-                AssetDatabase.ImportAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder);
+                AssetDatabase.CreateFolder(tOwnerFolderServer + "/" + tWebServiceFolder+ "/Environment/", tEnvironmentFolder);
+                AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder);
             }
             // tServerRootFolder is created 
             if (AssetDatabase.IsValidFolder(tServerRootFolder + "/Engine") == false)

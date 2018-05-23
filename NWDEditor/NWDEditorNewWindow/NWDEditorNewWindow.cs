@@ -49,9 +49,9 @@ namespace NetWorkedData
 			}
 			tClassExample = tClassExample.Replace ("typeof(NWDExample),", tClassesLinearize);
 			// find the owner classes folder
-			string tFolderPath = NWDToolbox.FindClassFolder ("NWDFindOwnerClasses", "NetWorkedDataClasses");
+            string tOwnerClassesFolderPath = NWDToolbox.FindOwnerClassesFolder();
 			// write file
-			string tFilePath = tFolderPath + "/" + WindowName + ".cs";
+            string tFilePath = tOwnerClassesFolderPath + "/" + WindowName + ".cs";
 			File.WriteAllText (tFilePath, tClassExample);
 			// flush params
 			WindowName = "";
