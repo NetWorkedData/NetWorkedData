@@ -49,7 +49,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
-            Debug.Log(NWDGDPR.Extract());
+            Debug.Log(NWDGDPR.ExtractAndSave());
         }
         //-------------------------------------------------------------------------------------------------------------
         // Use this for initialization

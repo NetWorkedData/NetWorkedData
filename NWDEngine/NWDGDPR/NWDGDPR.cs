@@ -10,8 +10,9 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public string DGPRLinearization(bool sAsssemblyAsCSV = false)
+        public string DGPRLinearization(bool sAsssemblyAsCSV = true)
         {
+            Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = "";
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
@@ -80,13 +81,14 @@ namespace NetWorkedData
                 rReturn = Reference + NWDConstants.kStandardSeparator +
                 DM + NWDConstants.kStandardSeparator +
                 DS + NWDConstants.kStandardSeparator +
-                DevSync + NWDConstants.kStandardSeparator +
-                PreprodSync + NWDConstants.kStandardSeparator +
-                ProdSync + NWDConstants.kStandardSeparator +
+                //DevSync + NWDConstants.kStandardSeparator +
+                //PreprodSync + NWDConstants.kStandardSeparator +
+                //ProdSync + NWDConstants.kStandardSeparator +
                 // Todo Add WebServiceVersion ?
                 //WebServiceVersion + NWDConstants.kStandardSeparator +
-                rReturn +
-                Integrity;
+                rReturn 
+                // + Integrity
+                                                  ;
                 //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
             }
             else
@@ -100,6 +102,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string DGPRExtract()
         {
+            Debug.Log("NWDBasis<K> DGPRExtract()");
             string rExtract = "{\"" + ClassNamePHP() + "\"" + " : [\n\r";
             List<string> tList = new List<string>();
             foreach (K tObject in GetAllObjects())
@@ -119,6 +122,7 @@ namespace NetWorkedData
         // Use this for extract GDPR
         public static string Extract(List<Type> tListAddon = null)
         {
+            Debug.Log("NWDGDPR Extract()");
             List<string> tList = new List<string>();
             // the list to use
             List<Type> tListClasses = new List<Type>();
@@ -177,11 +181,16 @@ namespace NetWorkedData
         // Use this for delete account GDPR
         public static void DeleteAccountAndDatas()
         {
-
+            Debug.Log("NWDGDPR DeleteAccountAndDatas()");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ExtractAndSave()
+        public static string ExtractAndSave(List<Type> tListAddon = null)
         {
+            Debug.Log("NWDGDPR ExtractAndSave()");
+            string rReturn = Extract(tListAddon);
+            string tEmail = "mailto:?subject=DGPR%20Export&body=" + WWW.EscapeURL(rReturn.Replace(" ","%20")).Replace("%20", " ");
+            Application.OpenURL(tEmail);
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
