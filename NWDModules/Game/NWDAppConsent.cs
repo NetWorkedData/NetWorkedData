@@ -95,6 +95,11 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDTooltips("Expected state to continue the game. If 'Unknow' any value is ok")]
+        public NWDConsentAuthorizationState ExpectedState
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -113,6 +118,7 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
             DefaultState = NWDConsentAuthorizationState.Refused;
+            ExpectedState = NWDConsentAuthorizationState.Unknow;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -288,7 +294,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -374,7 +380,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+        #endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
