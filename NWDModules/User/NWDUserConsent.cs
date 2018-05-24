@@ -39,7 +39,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UCS")]
+    [NWDClassTrigrammeAttribute("UAU")]
     [NWDClassDescriptionAttribute("User consent for RGPD")]
     [NWDClassMenuNameAttribute("User consent")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
