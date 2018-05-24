@@ -24,6 +24,13 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDConsentAuthorizationState : int
+    {
+        Accepted = 1,
+        Refused = 0,
+        Unknow = -1,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDAppConsentConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
     /// Use like :
@@ -51,11 +58,6 @@ namespace NetWorkedData
     /// </summary>
     public partial class NWDAppConsent : NWDBasis<NWDAppConsent>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -66,18 +68,33 @@ namespace NetWorkedData
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        //Example
-        //[NWDGroupStart("Account")]
-        //public NWDReferenceType<NWDAccount> Account { get; set; }
-        //[NWDGroupEnd()]
-        //[NWDGroupSeparator()]
-        //[NWDGroupStart("Other")]
-        //public int Other { get; set; }
-
-        //PROPERTIES
-		public NWDLocalizableStringType Title {get; set;}
-        public NWDLocalizableTextType Description {get; set;}
-        public NWDVersionType Version { get; set;  }
+        [NWDGroupStart("Consent description")]
+        public NWDLocalizableStringType Title
+        {
+            get; set;
+        }
+        public NWDLocalizableTextType Description
+        {
+            get; set;
+        }
+        public string LawReferences
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Consent version")]
+        public NWDVersionType Version
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Consent default state proposition")]
+        public NWDConsentAuthorizationState DefaultState
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -95,6 +112,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+            DefaultState = NWDConsentAuthorizationState.Refused;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -123,6 +141,26 @@ namespace NetWorkedData
         public void MyInstanceMethod()
         {
             // do something with this object
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserConsent GetUserConsent (bool sCreateIfNull = false)
+        {
+            return  NWDUserConsent.UserConsentForAppConsent(this, sCreateIfNull);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDConsentAuthorizationState GetUserAuthorization(bool sCreateIfNull = false)
+        {
+            NWDConsentAuthorizationState rReturn = NWDConsentAuthorizationState.Unknow;
+            NWDUserConsent tUserConsent = NWDUserConsent.UserConsentForAppConsent(this, sCreateIfNull);
+            if (tUserConsent == null)
+            {
+                rReturn = NWDConsentAuthorizationState.Unknow;
+            }
+            else
+            {
+                rReturn = tUserConsent.Authorization;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -250,7 +288,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -336,7 +374,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

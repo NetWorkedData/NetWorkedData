@@ -311,6 +311,11 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDRelationshipInformations GetInformations(bool sCreateIfNull = false)
+        {
+            return NWDRelationshipInformations.InformationsForRelationship(this, sCreateIfNull);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SendMessage(NWDMessage sMessage,
                                 bool sNow = true,
                                 NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
