@@ -30,6 +30,7 @@ namespace NetWorkedData
             typeof(NWDMessage),
             typeof(NWDAction),
             typeof(NWDSchemeAction),
+            typeof(NWDAppConsent),
 			/* Add NWDBasis here*/
 		}
     )]

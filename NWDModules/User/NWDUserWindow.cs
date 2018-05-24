@@ -33,6 +33,7 @@ namespace NetWorkedData
             typeof(NWDUserNetWorking),
             typeof(NWDUserConsolidatedStats),
             typeof(NWDInterUserMessage),
+            typeof(NWDUserConsent),
 			/* Add NWDBasis here*/
 		}
     )]
