@@ -47,27 +47,13 @@ namespace NetWorkedData
 
 #else
 				// Get saved App version from pref
-				int tBuildTimeStamp = NWDAppConfiguration.SharedInstance().SelectedEnvironment ().BuildTimestamp;
-				int tBuildTimeStampActual = BTBPrefsManager.ShareInstance ().getInt ("APP_VERSION");
-
-				// Check build version
-				bool tForceCopy = false;
-				if (tBuildTimeStamp > tBuildTimeStampActual)
-                {
-					NeedCopy = true;
-					tForceCopy = true;
-				}
-
 				// check if file exists in Application.persistentDataPath
 				string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
 				string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
-
-                //Debug.Log("tPathEditor = " + tPathEditor);
-                //Debug.Log("tPathAccount = " + tPathAccount);
-
                 // if must be update by build version : delete old editor data!
-                if (tForceCopy == true)
+                if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
+                    Debug.Log("Application must be updated with the bundle database!");
                     File.Delete(tPathEditor);
                 }
                 // Write editor database
@@ -118,7 +104,7 @@ namespace NetWorkedData
 				    File.Copy(loadDb, tPathEditor);
 #endif
 					// Save App version in pref for futur used
-					BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
+					//BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
 				}
 
 				string tDatabasePathEditor = tPathEditor;
@@ -130,6 +116,31 @@ namespace NetWorkedData
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool UpdateBuildTimestamp()
+        {
+            bool rReturn = false;
+            // Get saved App version from pref
+            int tBuildTimeStamp = NWDAppConfiguration.SharedInstance().SelectedEnvironment().BuildTimestamp;
+            int tBuildTimeStampActual = BTBPrefsManager.ShareInstance().getInt("APP_VERSION");
+            // test version
+            if (tBuildTimeStamp > tBuildTimeStampActual)
+            {
+                rReturn = true;
+                // delete all sync of data 
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
+                {
+                    var tMethodInfo = tType.GetMethod("SynchronizationUpadteTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
+                }
+                BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
+            }
+            // Save App version in pref for futur used
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InsertObject(object sObject, bool sAccountConnected)

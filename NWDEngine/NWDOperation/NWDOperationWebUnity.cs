@@ -64,7 +64,7 @@ namespace NetWorkedData
             rReturn.QueueName = sEnvironment.Environment;
 #if UNITY_EDITOR
 #else
-            DontDestroyOnLoad (tGameObjectToSpawn);
+            //DontDestroyOnLoad (tGameObjectToSpawn);
 #endif
             return rReturn;
         }
@@ -189,7 +189,7 @@ namespace NetWorkedData
                 {
                     ResultInfos.DownloadedDateTime = DateTime.Now;
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
-                    //NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+                    NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
                     //NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }

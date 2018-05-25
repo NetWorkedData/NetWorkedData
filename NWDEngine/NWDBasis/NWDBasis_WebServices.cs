@@ -90,6 +90,12 @@ namespace NetWorkedData
             return PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizationUpadteTimestamp()
+        {
+            Debug.Log(ClassNamePHP() + " must be reset the timestamp of last sync to the build tiemstamp");
+            SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationResetTimestamp(NWDAppEnvironment sEnvironment)
         {
 #if UNITY_EDITOR
@@ -429,7 +435,10 @@ namespace NetWorkedData
                             NWDBasis<K> tObject = SynchronizationTryToUse(sEnvironment, tCsvValueString, tForceToUse);
 
                             // trash this object ?
-                            FlushTrash(tObject);
+                            if (tObject != null)
+                            {
+                                FlushTrash(tObject);
+                            }
                         }
 
                         rReturn = "YES";
