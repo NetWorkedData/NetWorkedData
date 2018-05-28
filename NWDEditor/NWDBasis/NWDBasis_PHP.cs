@@ -826,8 +826,19 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\telse\n" +
             "\t\t\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET ";
-            tSynchronizationFile += string.Join(", ", tModify.ToArray()) + " " +
-            "WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' AND `'.$ENV.'Sync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            tSynchronizationFile += string.Join(", ", tModify.ToArray()) + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' ";
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
+            {
+                tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') ";
+            }
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            {
+                tSynchronizationFile += "AND (`DevSync`>= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' || `PreprodSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') ";
+            }
+            else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                tSynchronizationFile += "AND (`DevSync`>= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' || `PreprodSync`>= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' || `ProdSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') ";
+            }
             tSynchronizationFile += "';\n";
             if (tAccountReference.Count == 0)
             {

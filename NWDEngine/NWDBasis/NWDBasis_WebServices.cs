@@ -113,6 +113,7 @@ namespace NetWorkedData
         {
             int rReturn = sEnvironment.BuildTimestamp;
 #if UNITY_EDITOR
+            rReturn = 0;
             if (EditorPrefs.HasKey(SynchronizationPrefsKey(sEnvironment)))
             {
                 rReturn = EditorPrefs.GetInt(SynchronizationPrefsKey(sEnvironment));
