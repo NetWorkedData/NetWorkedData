@@ -26,8 +26,11 @@ namespace NetWorkedData
 		public int callbackOrder { get { return 0; } }
 		//-------------------------------------------------------------------------------------------------------------
 		public void OnPreprocessBuild(BuildTarget target, string path)
-		{
-			//Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
+        {
+            //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
+            //Force all datas to be write in database
+            NWDDataManager.SharedInstance().UpdateQueueExecute();
+            //Get all infos
 			string tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
 			string tHisto = NWDAppConfiguration.SharedInstance().DevEnvironment.PreProdTimeFormat;
             DateTime tDateTime = DateTime.Now;
