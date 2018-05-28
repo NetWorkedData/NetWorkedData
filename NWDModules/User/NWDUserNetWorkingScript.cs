@@ -42,7 +42,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDUserNetWorkingScript Start()");
             NWDUserNetWorking.PrepareUpdate(0, null);
-            CheckStart();
+            //CheckStart();
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator UserNetworkinUpdate()

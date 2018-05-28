@@ -32,7 +32,7 @@ namespace NetWorkedData
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
                 // must check the accounts for test
-                //Debug.Log("Play Mode State must recompile NWDConfigurations.cs file!");
+                //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
 			NWDVersion.UpdateVersionBundle ();

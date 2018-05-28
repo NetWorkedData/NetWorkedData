@@ -27,21 +27,21 @@ namespace NetWorkedData
 {
 	//-------------------------------------------------------------------------------------------------------------
 	[Serializable]
-	public class NWDConfigurationConnection : NWDConnection <NWDConfiguration> {}
+	public class NWDParameterConnection : NWDConnection <NWDParameter> {}
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("CNF")]
-	[NWDClassDescriptionAttribute ("Configurations of game. You can use this class to create configurations of your game. \n" +
-                                   "Configurations are set for all user. Use InternalKey to find them and use them. \n" +
+	[NWDClassTrigrammeAttribute ("PRM")]
+    [NWDClassDescriptionAttribute ("Parameters of game. You can use this class to create Parameters of your game. \n" +
+                                   "Parameters are set for all user. Use InternalKey to find them and use them. \n" +
                                    "")]
-	[NWDClassMenuNameAttribute ("Configurations")]
+    [NWDClassMenuNameAttribute ("Parameters")]
 	//-------------------------------------------------------------------------------------------------------------
 //	[NWDTypeClassInPackageAttribute]
 	//-------------------------------------------------------------------------------------------------------------
 	/// <summary>
 	/// NWD configuration NetWorkedData class. Use to configure the game throught NetWorkedData.
 	/// </summary>
-	public partial class NWDConfiguration : NWDBasis <NWDConfiguration>
+	public partial class NWDParameter : NWDBasis <NWDParameter>
 	{
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
@@ -59,25 +59,22 @@ namespace NetWorkedData
 		/// Gets or sets the value string.
 		/// </summary>
 		/// <value>The value string.</value>
-		public NWDLocalizableStringType ValueString { get; set; }
-
-		/// <summary>
-		/// Gets or sets the value int.
-		/// </summary>
-		/// <value>The value int.</value>
-		public int ValueInt { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NetWorkedData.NWDConfiguration"/> value bool.
-		/// </summary>
-		/// <value><c>true</c> if value bool; otherwise, <c>false</c>.</value>
-		public bool ValueBool { get; set; }
-
-		/// <summary>
-		/// Gets or sets the value float.
-		/// </summary>
-		/// <value>The value float.</value>
-		public float ValueFloat { get; set; }
+        public NWDLocalizableStringType ValueString { get; set; }
+		///// <summary>
+		///// Gets or sets the value int.
+		///// </summary>
+		///// <value>The value int.</value>
+		//public int ValueInt { get; set; }
+		///// <summary>
+		///// Gets or sets a value indicating whether this <see cref="NetWorkedData.NWDParameter"/> value bool.
+		///// </summary>
+		///// <value><c>true</c> if value bool; otherwise, <c>false</c>.</value>
+		//public bool ValueBool { get; set; }
+		///// <summary>
+		///// Gets or sets the value float.
+		///// </summary>
+		///// <value>The value float.</value>
+		//public float ValueFloat { get; set; }
 		//[NWDGroupEndAttribute]
 		//-------------------------------------------------------------------------------------------------------------
 
@@ -87,14 +84,14 @@ namespace NetWorkedData
 
         #region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDConfiguration ()
+		public NWDParameter ()
         {
-           //Debug.Log("NWDConfiguration Constructor");
+            //Debug.Log("NWDParameter Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDConfiguration(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDParameter(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-           //Debug.Log("NWDConfiguration Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDParameter Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -117,7 +114,7 @@ namespace NetWorkedData
 		/// <param name="sDefault">default value.</param>
 		public static string GetLocalString (string sKey, string sDefault = "")
 		{
-			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
+			NWDParameter tObject = NWDBasis<NWDParameter>.GetObjectByInternalKey (sKey) as NWDParameter;
 			string rReturn = sDefault;
 			if (tObject != null) {
 				rReturn = tObject.ValueString.GetLocalString ();
@@ -131,47 +128,47 @@ namespace NetWorkedData
 		/// <returns>The int.</returns>
 		/// <param name="sKey">key.</param>
 		/// <param name="sDefault">default value.</param>
-		public static int GetInt (string sKey, int sDefault = 0)
-		{
-			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
-			int rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.ValueInt;
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get the bool value for internal key.
-		/// </summary>
-		/// <returns><c>true</c>, if bool was gotten, <c>false</c> otherwise.</returns>
-		/// <param name="sKey">key.</param>
-		/// <param name="sDefault">If set to <c>true</c> default value.</param>
-		public static bool GetBool (string sKey, bool sDefault = false)
-		{
-			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
-			bool rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.ValueBool;
-			}
-			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Get the float value for internal key.
-		/// </summary>
-		/// <returns>The float.</returns>
-		/// <param name="sKey">key.</param>
-		/// <param name="sDefault">default value.</param>
-		public static float GetFloat (string sKey, float sDefault = 0.0F)
-		{
-			NWDConfiguration tObject = NWDBasis<NWDConfiguration>.GetObjectByInternalKey (sKey) as NWDConfiguration;
-			float rReturn = sDefault;
-			if (tObject != null) {
-				rReturn = tObject.ValueFloat;
-			}
-			return rReturn;
-		}
+		//public static int GetInt (string sKey, int sDefault = 0)
+		//{
+		//	NWDParameter tObject = NWDBasis<NWDParameter>.GetObjectByInternalKey (sKey) as NWDParameter;
+		//	int rReturn = sDefault;
+		//	if (tObject != null) {
+		//		rReturn = tObject.ValueInt;
+		//	}
+		//	return rReturn;
+		//}
+		////-------------------------------------------------------------------------------------------------------------
+		///// <summary>
+		///// Get the bool value for internal key.
+		///// </summary>
+		///// <returns><c>true</c>, if bool was gotten, <c>false</c> otherwise.</returns>
+		///// <param name="sKey">key.</param>
+		///// <param name="sDefault">If set to <c>true</c> default value.</param>
+		//public static bool GetBool (string sKey, bool sDefault = false)
+		//{
+		//	NWDParameter tObject = NWDBasis<NWDParameter>.GetObjectByInternalKey (sKey) as NWDParameter;
+		//	bool rReturn = sDefault;
+		//	if (tObject != null) {
+		//		rReturn = tObject.ValueBool;
+		//	}
+		//	return rReturn;
+		//}
+		////-------------------------------------------------------------------------------------------------------------
+		///// <summary>
+		///// Get the float value for internal key.
+		///// </summary>
+		///// <returns>The float.</returns>
+		///// <param name="sKey">key.</param>
+		///// <param name="sDefault">default value.</param>
+		//public static float GetFloat (string sKey, float sDefault = 0.0F)
+		//{
+		//	NWDParameter tObject = NWDBasis<NWDParameter>.GetObjectByInternalKey (sKey) as NWDParameter;
+		//	float rReturn = sDefault;
+		//	if (tObject != null) {
+		//		rReturn = tObject.ValueFloat;
+		//	}
+		//	return rReturn;
+		//}
 		//-------------------------------------------------------------------------------------------------------------
 
 		#endregion

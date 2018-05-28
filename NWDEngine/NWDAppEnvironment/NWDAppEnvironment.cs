@@ -64,7 +64,7 @@ namespace NetWorkedData
 		public int BuildTimestamp = 0;
 		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
-		public string PreProdTimeFormat = "(yyyy-MM-dd <HHmmss>)";
+        public string PreProdTimeFormat = "_yyyy_MM_dd_HHmmss";
         public string AppProtocol = "MyGameApp://";
         public int WebTimeOut = 30;
 

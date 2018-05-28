@@ -34,6 +34,7 @@ namespace NetWorkedData
                                    "BuildTimestamp : " + tEnvironment.BuildTimestamp + "\n" +
                                    "BuildTimestamp => " + tDate.ToString("yyyy/MM/dd HH:mm:ss") + "\n" +
                                    "BuildDate : " + tEnvironment.BuildDate + "\n" +
+                                   "Web Service : " + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "\n" +
                                    "Account : "+tEnvironment.PlayerAccountReference+"\n" +
                                    "_______________\n";
 			foreach (Type tType in mTypeLoadedList) 

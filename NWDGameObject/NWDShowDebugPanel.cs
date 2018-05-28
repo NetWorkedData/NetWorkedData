@@ -22,13 +22,15 @@ namespace NetWorkedData
     /// <summary>
     /// 
     /// </summary>
-    public class NWDShowDebugPanel : MonoBehaviour
+    public class NWDShowDebugPanel : NWDCallBack
     {
         //-------------------------------------------------------------------------------------------------------------
         public Button ButtonShowLog;
         public Button ButtonShowAccount;
         public Button ButtonAddStats;
         public Button ButtonReloadDatas;
+        public NWDParameterConnection ParamOfApp;
+        public Text ParamText;
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
@@ -55,15 +57,27 @@ namespace NetWorkedData
         // Use this for initialization
         void Start()
         {
+            Debug.Log("NWDShowDebugPanel Start()");
+            if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
+            {
+                // loaded (preloaded?) 
+                Debug.Log("NWDShowDebugPanel Start() PreLoaded");
+                UpdateParameterText();
+            }
+            else
+            {
+                Debug.Log("NWDShowDebugPanel Start() Async Loading");
+                //load async ?
+            }
             // Show log button
             //Text tText = ButtonShowLog.GetComponentInChildren<Text>();
-            //ButtonShowLog.gameObject.SetActive(NWDConfiguration.GetBool(tText.text, true));
-            //tText.text = NWDConfiguration.GetLocalString(tText.text, tText.text);
+            //ButtonShowLog.gameObject.SetActive(NWDParameter.GetBool(tText.text, true));
+            //tText.text = NWDParameter.GetLocalString(tText.text, tText.text);
 
             //// Show account button
             //tText = ButtonShowAccount.GetComponentInChildren<Text>();
-            //ButtonShowAccount.gameObject.SetActive(NWDConfiguration.GetBool(tText.text, true));
-            //tText.text = NWDConfiguration.GetLocalString(tText.text, tText.text);
+            //ButtonShowAccount.gameObject.SetActive(NWDParameter.GetBool(tText.text, true));
+            //tText.text = NWDParameter.GetLocalString(tText.text, tText.text);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if COLORED_ADVANCED_DEBUG
@@ -99,6 +113,40 @@ namespace NetWorkedData
             //Debug.Log("Remove CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
             #endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void UpdateParameterText()
+        {
+            Debug.Log("NWDShowDebugPanel UpdateParameterText()");
+            if (ParamOfApp != null)
+            {
+                NWDParameter tParam = ParamOfApp.GetObject();
+                if (tParam != null && ParamText != null)
+                {
+                    ParamText.text = ParamOfApp.GetObject().ValueString.GetLocalString();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        {
+            Debug.Log("NWDShowDebugPanel NotificationDatasLoaded()");
+            // create your method by override
+            UpdateParameterText();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationDatasWebUpdate(BTBNotification sNotification)
+        {
+            Debug.Log("NWDShowDebugPanel NotificationDatasWebUpdate()");
+            // create your method by override
+            UpdateParameterText();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationWebOperationDownloadSuccessed (BTBNotification sNotification)
+        {
+            Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()"); 
+            // create your method by override
+            UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

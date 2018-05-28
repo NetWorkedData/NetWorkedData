@@ -30,11 +30,11 @@ namespace NetWorkedData
 		{
 			int tCount = ObjectsList.Count;
 			if (tCount == 0) {
-				return "" + ClassNamePHP () + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + "\n";
+                return "" + ClassNamePHP () + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment())+  ")\n";
 			} else if (tCount == 1) {
-				return "" + ClassNamePHP () + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + "\n";
+                return "" + ClassNamePHP () + " : " + tCount + " " + NWDConstants.K_APP_BASIS_ONE_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
 			} else {
-				return "" + ClassNamePHP () + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + "\n";
+                return "" + ClassNamePHP () + " : " + tCount + " " + NWDConstants.K_APP_BASIS_X_OBJECTS + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment()) + ")\n";
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

@@ -23,7 +23,7 @@ namespace NetWorkedData
         "NWDIcons_02",
         new Type[] {
             typeof(NWDVersion),
-            typeof(NWDConfiguration),
+            typeof(NWDParameter),
             typeof(NWDAssetBundle),
             typeof(NWDLocalization),
             typeof(NWDError),
