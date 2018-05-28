@@ -29,12 +29,9 @@ namespace NetWorkedData
         public Button ButtonShowAccount;
         public Button ButtonAddStats;
         public Button ButtonReloadDatas;
-<<<<<<< HEAD
         public NWDParameterConnection ParamOfApp;
         public Text ParamText;
-=======
         public GameObject PanelShowDebug;
->>>>>>> 364550919c4bd6ee3395677d1737814e4a0f7687
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
