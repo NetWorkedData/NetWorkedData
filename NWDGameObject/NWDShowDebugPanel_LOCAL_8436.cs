@@ -29,12 +29,8 @@ namespace NetWorkedData
         public Button ButtonShowAccount;
         public Button ButtonAddStats;
         public Button ButtonReloadDatas;
-<<<<<<< HEAD
         public NWDParameterConnection ParamOfApp;
         public Text ParamText;
-=======
-        public GameObject PanelShowDebug;
->>>>>>> 364550919c4bd6ee3395677d1737814e4a0f7687
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
@@ -53,23 +49,12 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowHidePanel()
-        {
-            if (PanelShowDebug.activeInHierarchy)
-            {
-                PanelShowDebug.SetActive(false);
-            }
-            else
-            {
-                PanelShowDebug.SetActive(true);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
             Debug.Log(NWDGDPR.ExtractAndSave());
         }
         //-------------------------------------------------------------------------------------------------------------
+        // Use this for initialization
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
