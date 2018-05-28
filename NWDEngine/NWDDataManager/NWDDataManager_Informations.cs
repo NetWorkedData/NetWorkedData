@@ -14,18 +14,28 @@ using System.Reflection;
 using UnityEngine;
 
 using SQLite4Unity3d;
+using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataManager
-	{
-		private string InformationsString;
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        private string InformationsString;
+        //-------------------------------------------------------------------------------------------------------------
 		public void InformationsUpdate ()
 		{
-			//			Debug.Log ("NWDDataManager Informations");
-			NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
-			string tInformations = "Environment : "+tEnvironment.Environment+" account "+tEnvironment.PlayerAccountReference+"\n_______________\n";
+            //			Debug.Log ("NWDDataManager Informations");
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+            DateTime tDate = BTBDateHelper.ConvertFromTimestamp(tEnvironment.BuildTimestamp);
+            string tInformations = "Environment : "+tEnvironment.Environment+"\n" +
+                                   "BuildTimestamp : " + tEnvironment.BuildTimestamp + "\n" +
+                                   "BuildTimestamp => " + tDate.ToString("yyyy/MM/dd HH:mm:ss") + "\n" +
+                                   "BuildDate : " + tEnvironment.BuildDate + "\n" +
+                                   "Account : "+tEnvironment.PlayerAccountReference+"\n" +
+                                   "_______________\n";
 			foreach (Type tType in mTypeLoadedList) 
 			{
 				var tMethodInfo = tType.GetMethod ("Informations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -38,12 +48,14 @@ namespace NetWorkedData
 				}
 			}
 			InformationsString = tInformations;
-		}
-
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		public string Informations ()
 		{
 			return InformationsString;
-		}
-	}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
