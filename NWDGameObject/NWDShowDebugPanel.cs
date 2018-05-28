@@ -29,6 +29,7 @@ namespace NetWorkedData
         public Button ButtonShowAccount;
         public Button ButtonAddStats;
         public Button ButtonReloadDatas;
+        public GameObject PanelShowDebug;
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
@@ -47,12 +48,23 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void ShowHidePanel()
+        {
+            if (PanelShowDebug.activeInHierarchy)
+            {
+                PanelShowDebug.SetActive(false);
+            }
+            else
+            {
+                PanelShowDebug.SetActive(true);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
             Debug.Log(NWDGDPR.ExtractAndSave());
         }
         //-------------------------------------------------------------------------------------------------------------
-        // Use this for initialization
         void Start()
         {
             // Show log button
