@@ -1457,6 +1457,70 @@ namespace NetWorkedData
             }
 
 
+
+            // Toogle Dev Prepprod Prod and operation associated
+            float tWidthTiers = tWidth / 3.0f;
+            bool tDevLockAnalyze = false;
+            if (DevSync >= 0)
+            {
+                tDevLockAnalyze = true;
+            }
+            bool tDevLock = EditorGUI.ToggleLeft(new Rect(tX, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Dev", tDevLockAnalyze);
+            bool tPreprodLockAnalyze = false;
+            if (PreprodSync >= 0)
+            {
+                tPreprodLockAnalyze = true;
+            }
+            bool tPreprodLock = EditorGUI.ToggleLeft(new Rect(tX+tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Preprod", tPreprodLockAnalyze);
+            bool tProdLockAnalyze = false;
+            if (ProdSync >= 0)
+            {
+                tProdLockAnalyze = true;
+            }
+            bool tProdLock = EditorGUI.ToggleLeft(new Rect(tX+tWidthTiers+tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Prod", tProdLockAnalyze);
+            if (tDevLockAnalyze != tDevLock)
+            {
+                if (tDevLock == false)
+                {
+                    DevSync = -1;
+                }
+                else
+                {
+                    DevSync = 0;
+                }
+                UpdateMe();
+                RepaintTableEditor();
+            }
+            if (tPreprodLockAnalyze != tPreprodLock)
+            {
+                if (tPreprodLock == false)
+                {
+                    PreprodSync = -1;
+                }
+                else
+                {
+                    PreprodSync = 0;
+                }
+                UpdateMe();
+                RepaintTableEditor();
+            }
+            if (tProdLockAnalyze != tProdLock)
+            {
+                if (tProdLock == false)
+                {
+                    ProdSync = -1;
+                }
+                else
+                {
+                    ProdSync = 0;
+                }
+                UpdateMe();
+                RepaintTableEditor();
+            }
+            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+
             //  Action Zone + Warning Zone Height
             float tBottomHeight = tBoldLabelStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3
                                   + tMiniButtonStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 3

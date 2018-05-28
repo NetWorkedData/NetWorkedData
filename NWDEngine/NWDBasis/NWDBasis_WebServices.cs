@@ -156,7 +156,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The insert in base.</returns>
         /// <param name="sDataArray">S data array.</param>
-        public static NWDBasis<K> SynchronizationInsertInBase(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        public static NWDBasis<K> SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
             // Debug.Log("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV(sDataArray);
@@ -166,11 +166,21 @@ namespace NetWorkedData
                 //  Debug.Log("SynchronizationInsertInBase NEW OBJECT DETECTED");
                 // TODO : IS RELATIONSHIP OBJECT?
                 // IF NOT ... INSERT IN DATABASE
+                sInfos.RowUpdatedCounter++;
                 tObject = NewInstanceFromCSV(sEnvironment, sDataArray);
                 AddObjectInListOfEdition(tObject);
             }
             else
             {
+
+#if UNITY_EDITOR
+                string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
+                if (tObject.Integrity != tActualIntegrity)
+                {
+                    // Ok integrity is != I will update data
+                    sInfos.RowUpdatedCounter++; 
+                }
+#endif
                 // test if Modification is older than actual object
                 //  Debug.Log("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
                 // if (tObject.DM <= GetDMValueFromCSV(sDataArray))
@@ -227,7 +237,7 @@ namespace NetWorkedData
         /// <returns>The try to use.</returns>
         /// <param name="sData">S data.</param>
         /// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
-        public static NWDBasis<K> SynchronizationTryToUse(NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
+        public static NWDBasis<K> SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         {
             NWDBasis<K> rReturn = null;
             string[] tDataArray = sData.Split(NWDConstants.kStandardSeparator.ToCharArray());
@@ -246,7 +256,7 @@ namespace NetWorkedData
             }
             if (tIntegrityTest == true || sForceToUse == true)
             {
-                rReturn = SynchronizationInsertInBase(sEnvironment, tDataArray);
+                rReturn = SynchronizationInsertInBase(sInfos, sEnvironment, tDataArray);
             }
             return rReturn;
         }
@@ -254,6 +264,49 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Synchronization Push Pull methods
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations the push data.
+        /// </summary>
+        /// <returns>The push data.</returns>
+        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        public static Dictionary<string, object> PullPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
+        {
+            //Debug.Log("NWDBasis PullPushData() " + ClassName());
+            //SQLiteConnection tSQLiteConnection = null;
+            //if (AccountDependent())
+            //{
+            //    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            //}
+            //else
+            //{
+            //    tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            //}
+            // create respond object
+            Dictionary<string, object> rSend = new Dictionary<string, object>();
+            // create dictionnary for this tablename and insert in the respond
+            Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
+            rSend.Add(TableName(), rSendDatas);
+            // create List with all object to synchron on the server
+            // create List 
+            List<object> tDatas = new List<object>();
+            // get last synchro
+            int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
+            // I get force or not
+            if (sForceAll == true)
+            {
+                tLastSynchronization = 0;
+            }
+            //IEnumerable<K> tResults = null;
+            if (sClean == true)
+            {
+                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString());
+            }
+            rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
+            // return the data
+            //Debug.Log ("SynchronizationPushData for table " + TableName () +" rSend = " + rSend.ToString ());
+            return rSend;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the push data.
@@ -292,9 +345,25 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.DM >= tLastSynchronization);
                 foreach (K tO in ObjectsList)
                 {
-                    if (tO.DM >= tLastSynchronization)
+                    bool tAddEnv = true;
+                    if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tO.DevSync < 0)
                     {
-                        tResults.Add(tO);
+                        tAddEnv = false;
+                    }
+                    if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment && tO.PreprodSync < 0)
+                    {
+                        tAddEnv = false;
+                    }
+                    if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment && tO.ProdSync < 0)
+                    {
+                        tAddEnv = false;
+                    }
+                    if (tAddEnv == true)
+                    {
+                        //if (tO.DM >= tLastSynchronization)
+                        {
+                            tResults.Add(tO);
+                        }
                     }
                 }
             }
@@ -433,7 +502,7 @@ namespace NetWorkedData
                             #endif
                             sInfos.RowPullCounter++;
 
-                            NWDBasis<K> tObject = SynchronizationTryToUse(sEnvironment, tCsvValueString, tForceToUse);
+                            NWDBasis<K> tObject = SynchronizationTryToUse(sInfos, sEnvironment, tCsvValueString, tForceToUse);
 
                             // trash this object ?
                             if (tObject != null)
@@ -520,6 +589,54 @@ namespace NetWorkedData
                                                                                      sPriority,
                                                                                      sEnvironment);
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        public static bool PullFromWebService(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
+#if UNITY_EDITOR
+            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
+            if (Application.isPlaying == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestPull(ClasseInThisSync(), true, sEnvironment);
+            }
+            else
+            {
+                NWDEditorMenu.EnvironementSync().Pull(ClasseInThisSync(), sEnvironment);
+            }
+#else
+                NWDDataManager.SharedInstance().AddWebRequestPull (new List<Type>{ClassType ()}, true, sEnvironment);
+#endif
+            rReturn = true;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        public static bool PullFromWebServiceForce(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
+#if UNITY_EDITOR
+            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
+            if (Application.isPlaying == true)
+            {
+                NWDDataManager.SharedInstance().AddWebRequestPullForce(ClasseInThisSync(), true, sEnvironment);
+            }
+            else
+            {
+                NWDEditorMenu.EnvironementSync().PullForce(ClasseInThisSync(), sEnvironment);
+            }
+#else
+            NWDDataManager.SharedInstance().AddWebRequestPullForce (new List<Type>{ClassType ()}, true, sEnvironment);
+#endif
+            rReturn = true;
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

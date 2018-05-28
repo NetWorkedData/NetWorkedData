@@ -124,6 +124,7 @@ namespace NetWorkedData
         public int ClassPullCounter = 0;
         public int ClassPushCounter = 0;
         public int RowPullCounter = 0;
+        public int RowUpdatedCounter = 0;
         public int RowPushCounter = 0;
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationResult()

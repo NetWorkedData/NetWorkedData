@@ -178,7 +178,7 @@ namespace NetWorkedData
             m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
             m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, m_SearchInternalName, GUILayout.Width(300));
             m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, m_SearchInternalDescription, GUILayout.Width(300));
-           
+
 
 
 
@@ -191,7 +191,7 @@ namespace NetWorkedData
             }
 
             m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
-                                                                (int)m_SearchTag,tTagStringList.ToArray(),
+                                                                (int)m_SearchTag, tTagStringList.ToArray(),
                                                                 tTagIntList.ToArray(),
                                                                 GUILayout.Width(300));
 
@@ -525,13 +525,13 @@ namespace NetWorkedData
                 EditorGUILayout.EndScrollView();
 
             }
-                // -------------------------------------------
+            // -------------------------------------------
 
-                GUILayout.Space(5.0f);
+            GUILayout.Space(5.0f);
 
-                Rect tRect = GUILayoutUtility.GetLastRect();
-                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
-                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
+            Rect tRect = GUILayoutUtility.GetLastRect();
+            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
+            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
 
             if (NWDTypeLauncher.DataLoaded == true)
             {
@@ -781,21 +781,21 @@ namespace NetWorkedData
 
             // SYNCHRONIZATION
             // no big title
-           // GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
+            // GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
             var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
             tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
 
 
-            float twPPD = 90.0F; 
+            float twPPD = 110.0F;
 
             // SYNCHRO ENVIRONMENT (TIMESTAMP as date in tooltips)
             GUILayout.BeginHorizontal();
-            GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
-            GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(twPPD)); 
-            GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
-            GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(twPPD));         
-            GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME,NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss")); 
-            GUILayout.Label(tProdContent, tStyleBoldCenter,GUILayout.Width(twPPD));
+            GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+            GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+            GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+            GUILayout.Label(tProdContent, tStyleBoldCenter, GUILayout.Width(twPPD));
             GUILayout.EndHorizontal();
 
 
@@ -808,8 +808,27 @@ namespace NetWorkedData
             //GUILayout.EndHorizontal();
 
 
+            GUILayout.BeginHorizontal(GUILayout.Width(120));
+
+            EditorGUI.BeginDisabledGroup(true);
+            if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+            }
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                PrepareToPreprodPublish();
+            }
+            if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                
+                PrepareToProdPublish();
+            }
+
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -818,7 +837,7 @@ namespace NetWorkedData
                 SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
 
-            if (GUILayout.Button("Sync this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -828,7 +847,7 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Sync this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 tSyncProd = true;
             }
@@ -838,7 +857,7 @@ namespace NetWorkedData
 
             // FORCE SYNCHRO
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Force this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -846,7 +865,7 @@ namespace NetWorkedData
                 }
                 SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Force this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -856,9 +875,66 @@ namespace NetWorkedData
             }
             EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncForceProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Force this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 tSyncForceProd = true;
+            }
+            EditorGUI.EndDisabledGroup();
+            GUILayout.EndHorizontal();
+
+
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            }
+
+            if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            }
+            EditorGUI.BeginDisabledGroup(tDisableProd);
+            bool tPullProd = false; //prevent GUIlayout error
+            if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                tPullProd = true;
+            }
+            EditorGUI.EndDisabledGroup();
+            GUILayout.EndHorizontal();
+
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            }
+
+            if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            }
+            EditorGUI.BeginDisabledGroup(tDisableProd);
+            bool tPullProdForce = false; //prevent GUIlayout error
+            if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                tPullProdForce = true;
             }
             EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
@@ -868,7 +944,7 @@ namespace NetWorkedData
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
             // FORCE SYNCHRO And Clean
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Clean this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -876,7 +952,7 @@ namespace NetWorkedData
                 }
                 SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Clean this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -887,7 +963,7 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(tDisableProd);
 
             bool tSyncCleanProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Clean this table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
                 {
@@ -907,6 +983,35 @@ namespace NetWorkedData
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
+
+
+            //GUILayout.BeginVertical(GUILayout.Width(120));
+            //if (GUILayout.Button("prepare publish to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            //{
+            //    foreach (K tOb in ObjectsList)
+            //    {
+            //        if (tOb.PreprodSync <= tOb.DevSync)
+            //        {
+            //            tOb.PreprodSync = 0;
+            //            tOb.UpdateMe();
+            //        }
+            //    }
+            //    RepaintTableEditor();
+            //}
+            //if (GUILayout.Button("prepare publish to prod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            //{
+            //    foreach (K tOb in ObjectsList)
+            //    {
+            //        if (tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync)
+            //        {
+            //            tOb.ProdSync = 0;
+            //            tOb.UpdateMe();
+            //        }
+            //    }
+            //    RepaintTableEditor();
+            //}
+
+            //GUILayout.EndVertical();
 
 
 
@@ -1041,6 +1146,35 @@ namespace NetWorkedData
                 }
             }
 
+            if (tPullProd == true)
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                //        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                //        NWDConstants.K_SYNC_ALERT_OK,
+                //        NWDConstants.K_SYNC_ALERT_CANCEL))
+                //{
+                PullFromWebService(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                //}
+            }
+            if (tPullProdForce == true)
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                //if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                //        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                //        NWDConstants.K_SYNC_ALERT_OK,
+                //        NWDConstants.K_SYNC_ALERT_CANCEL))
+                //{
+                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                //}
+            }
+
             if (tSyncProd == true)
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
@@ -1097,7 +1231,30 @@ namespace NetWorkedData
                 }
             }
         }
-
+        //-------------------------------------------------------------------------------------------------------------
+        public static void PrepareToPreprodPublish()
+        {
+                foreach (K tOb in ObjectsList)
+                {
+                if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
+                    {
+                        tOb.UpdateMe();
+                    }
+                }
+                RepaintTableEditor();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void PrepareToProdPublish()
+        {
+            foreach (K tOb in ObjectsList)
+            {
+                if ((tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync) && tOb.ProdSync >= 0)
+                {
+                    tOb.UpdateMe();
+                }
+            }
+            RepaintTableEditor();
+        }
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------

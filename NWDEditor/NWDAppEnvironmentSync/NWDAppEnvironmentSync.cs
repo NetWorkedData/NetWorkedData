@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BasicToolBox;
+using System.Reflection;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,10 +31,10 @@ namespace NetWorkedData
         /// <summary>
         /// The send octects.
         /// </summary>
-  //      public double SendOctects = 0;
-  //      /// <summary>
-  //      /// The receipt octects.
-  //      /// </summary>
+        //      public double SendOctects = 0;
+        //      /// <summary>
+        //      /// The receipt octects.
+        //      /// </summary>
         //public double ReceiptOctects = 0;
         ///// <summary>
         ///// The class pull counter.
@@ -92,7 +93,7 @@ namespace NetWorkedData
         /// </summary>
         bool ProdSessionExpired = false;
 
-        NWDOperationResult LastInfos = new NWDOperationResult(); 
+        NWDOperationResult LastInfos = new NWDOperationResult();
         //-------------------------------------------------------------------------------------------------------------
         private BTBOperationBlock SuccessBlock = null;
         private BTBOperationBlock FailBlock = null;
@@ -287,7 +288,10 @@ namespace NetWorkedData
             bool tUpdateTable = false;
             bool tSync = false;
             bool tSyncForce = false;
+            bool tPull = false;
+            bool tPullForce = false;
             bool tSyncClean = false;
+            bool tPublish = false;
             //bool tResethToken = false;
             //bool tFlushWebQueue = false;
 
@@ -310,27 +314,31 @@ namespace NetWorkedData
 
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Dev", tStyleBoldCenter);
-            GUILayout.Label("Preprod", tStyleBoldCenter);
-            GUILayout.Label("Prod", tStyleBoldCenter);
+            GUILayout.Label("Dev Database", tStyleBoldCenter);
+            GUILayout.Label("Preprod Database", tStyleBoldCenter);
+            GUILayout.Label("Prod Database", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-
+            //GUILayout.BeginHorizontal();
+            //GUILayout.Label("Database", tStyleBoldCenter);
+            //GUILayout.Label("Database", tStyleBoldCenter);
+            //GUILayout.Label("Database", tStyleBoldCenter);
+            //GUILayout.EndHorizontal();
 
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Upgrade Database", EditorStyles.miniButton))
+            if (GUILayout.Button("Upgrade", EditorStyles.miniButton))
             {
                 tUpdateTable = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
                 //CreateTable (NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Upgrade Database", EditorStyles.miniButton))
+            if (GUILayout.Button("Upgrade", EditorStyles.miniButton))
             {
                 tUpdateTable = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 //CreateTable (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
-            if (GUILayout.Button("Upgrade Database", EditorStyles.miniButton))
+            if (GUILayout.Button("Upgrade", EditorStyles.miniButton))
             {
                 tUpdateTable = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
@@ -339,19 +347,43 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync all tables", EditorStyles.miniButton))
+            EditorGUI.BeginDisabledGroup(true);
+            if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
+            {
+                tPublish = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                //AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
+            }
+            EditorGUI.EndDisabledGroup();
+            if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
+            {
+                tPublish = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                //AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            }
+            if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
+            {
+                tPublish = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                //AllSynchronization (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
+            GUILayout.EndHorizontal();
+
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Sync all", EditorStyles.miniButton))
             {
                 tSync = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
                 //AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Sync all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync all", EditorStyles.miniButton))
             {
                 tSync = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 //AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
-            if (GUILayout.Button("Sync all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Sync all", EditorStyles.miniButton))
             {
                 tSync = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
@@ -360,19 +392,19 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Force all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Force Sync all", EditorStyles.miniButton))
             {
                 tSyncForce = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
                 //AllSynchronizationForce (NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Force all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Force Sync all ", EditorStyles.miniButton))
             {
                 tSyncForce = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 //AllSynchronizationForce (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
-            if (GUILayout.Button("Force all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Force Sync all ", EditorStyles.miniButton))
             {
                 tSyncForce = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
@@ -381,22 +413,71 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
 
 
+
+
+
+
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Pull all", EditorStyles.miniButton))
+            {
+                tPull = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                //AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
+            }
+            if (GUILayout.Button("Pull all", EditorStyles.miniButton))
+            {
+                tPull = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                //AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            }
+            if (GUILayout.Button("Pull all", EditorStyles.miniButton))
+            {
+                tPull = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                //AllSynchronization (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Force Pull all", EditorStyles.miniButton))
+            {
+                tPullForce = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                //AllSynchronizationForce (NWDAppConfiguration.SharedInstance().DevEnvironment);
+            }
+            if (GUILayout.Button("Force Pull all", EditorStyles.miniButton))
+            {
+                tPullForce = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                //AllSynchronizationForce (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            }
+            if (GUILayout.Button("Force Pull all", EditorStyles.miniButton))
+            {
+                tPullForce = true;
+                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+                //AllSynchronizationForce (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            }
+            GUILayout.EndHorizontal();
+
+
+
             Color tOldColor = GUI.backgroundColor;
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Clean all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean all", EditorStyles.miniButton))
             {
                 tSyncClean = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
                 //AllSynchronizationClean (NWDAppConfiguration.SharedInstance().DevEnvironment);
             }
-            if (GUILayout.Button("Clean all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean all", EditorStyles.miniButton))
             {
                 tSyncClean = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
                 //AllSynchronizationClean (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
             }
-            if (GUILayout.Button("Clean all tables", EditorStyles.miniButton))
+            if (GUILayout.Button("Clean all", EditorStyles.miniButton))
             {
                 tSyncClean = true;
                 tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
@@ -414,9 +495,9 @@ namespace NetWorkedData
             double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
             double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
             double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
-           EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
             if (LastInfos.RowPushCounter == 0)
-            { 
+            {
                 EditorGUILayout.LabelField("Rows pused", LastInfos.RowPushCounter.ToString() + " no row (no class)");
             }
             else if (LastInfos.RowPushCounter == 1)
@@ -438,12 +519,13 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Network Upload", tUploadNetMilliseconds.ToString("#0.000") + " s");
             float tKoUpload = (float)LastInfos.OctetUpload / 1024.0F;
             float tMoUpload = tKoUpload / 1024.0F;
-            EditorGUILayout.LabelField("Octect send", LastInfos.OctetUpload.ToString()+" o = "+tKoUpload.ToString("0.0")+"Ko = "+tMoUpload.ToString("0.0")+"Mo");
+            EditorGUILayout.LabelField("Octect send", LastInfos.OctetUpload.ToString() + " o = " + tKoUpload.ToString("0.0") + "Ko = " + tMoUpload.ToString("0.0") + "Mo");
             EditorGUILayout.LabelField("Server Perform Request", LastInfos.performRequest.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Network Download", tDowloadNetMilliseconds.ToString("#0.000") + " s");
             float tKoDownload = (float)LastInfos.OctetDownload / 1024.0F;
             float tMoDownload = tKoDownload / 1024.0F;
-            EditorGUILayout.LabelField("Octect receipt", LastInfos.OctetDownload.ToString()+ " o = " + tKoDownload.ToString("0.0") + "Ko = " + tMoDownload.ToString("0.0") + "Mo");
+            EditorGUILayout.LabelField("Octect receipt", LastInfos.OctetDownload.ToString() + " o = " + tKoDownload.ToString("0.0") + "Ko = " + tMoDownload.ToString("0.0") + "Mo");
+            //RowPullCounter
             if (LastInfos.RowPullCounter == 0)
             {
                 EditorGUILayout.LabelField("Rows pulled", " no row (no class)");
@@ -462,6 +544,19 @@ namespace NetWorkedData
                 {
                     EditorGUILayout.LabelField("Rows pulled", LastInfos.RowPullCounter.ToString() + " rows (" + LastInfos.ClassPullCounter.ToString() + " classes)");
                 }
+            }
+            //RowUpdatedCounter
+            if (LastInfos.RowUpdatedCounter == 0)
+            {
+                EditorGUILayout.LabelField("Rows updated", " no row");
+            }
+            else if (LastInfos.RowUpdatedCounter == 1)
+            {
+                EditorGUILayout.LabelField("Rows updated", LastInfos.RowUpdatedCounter.ToString() + " row ");
+            }
+            else
+            {
+                 EditorGUILayout.LabelField("Rows pulled", LastInfos.RowUpdatedCounter.ToString() + " rows");
             }
             EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
@@ -565,6 +660,22 @@ namespace NetWorkedData
                 }
                 AllSynchronizationForce(tEnvironment);
             }
+            if (tPull == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                AllSynchronizationPull(tEnvironment);
+            }
+            if (tPullForce == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                AllSynchronizationPullForce(tEnvironment);
+            }
             if (tSyncClean == true)
             {
                 if (Application.isPlaying == true)
@@ -572,6 +683,14 @@ namespace NetWorkedData
                     EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
                 AllSynchronizationClean(tEnvironment);
+            }
+            if (tPublish == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                AllPrepareToPublish(tEnvironment);
             }
 
         }
@@ -648,6 +767,54 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AllSynchronizationPull(NWDAppEnvironment sEnvironment)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                        NWDConstants.K_SYNC_ALERT_OK,
+                        NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                StartProcess(sEnvironment);
+                NWDOperationWebPull.AddOperation("All Pull", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, false, false);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AllSynchronizationPullForce(NWDAppEnvironment sEnvironment)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                        NWDConstants.K_SYNC_ALERT_OK,
+                        NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                StartProcess(sEnvironment);
+                NWDOperationWebPull.AddOperation("All Pull Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, false);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AllSynchronizationClean(NWDAppEnvironment sEnvironment)
         {
             bool tOk = false;
@@ -669,6 +836,98 @@ namespace NetWorkedData
             {
                 StartProcess(sEnvironment);
                 NWDOperationWebSynchronisation.AddOperation("All Synchronization Clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, true, true);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AllPrepareToPublish(NWDAppEnvironment sEnvironment)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                    NWDConstants.K_SYNC_ALERT_MESSAGE,
+                    NWDConstants.K_SYNC_ALERT_OK,
+                    NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+                {
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+                    {
+                        var tMethodInfo = tType.GetMethod("PrepareToProdPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        if (tMethodInfo != null)
+                        {
+                            tMethodInfo.Invoke(null, null);
+                        }
+                    }
+                }
+                else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+                {
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+                    {
+                        var tMethodInfo = tType.GetMethod("PrepareToPreprodPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        if (tMethodInfo != null)
+                        {
+                            tMethodInfo.Invoke(null, null);
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Pull(List<Type> sTypeList, NWDAppEnvironment sEnvironment)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                        NWDConstants.K_SYNC_ALERT_OK,
+                        NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                StartProcess(sEnvironment);
+                NWDOperationWebPull.AddOperation("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void PullForce(List<Type> sTypeList, NWDAppEnvironment sEnvironment)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                        NWDConstants.K_SYNC_ALERT_OK,
+                        NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                StartProcess(sEnvironment);
+                NWDOperationWebPull.AddOperation("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

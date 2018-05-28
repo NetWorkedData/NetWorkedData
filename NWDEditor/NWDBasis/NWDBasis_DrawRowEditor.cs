@@ -380,6 +380,10 @@ namespace NetWorkedData
             {
                 tImageDevSync = NWDConstants.kImageGreen;
             }
+            else if (DevSync < 0)
+            {
+                tImageDevSync = NWDConstants.kImageForbidden;
+            }
             GUILayout.Label(tImageDevSync, tStyleCenter, GUILayout.Width(NWDConstants.kDevSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Preprod Sync State
             Texture2D tImagePreprodSync = NWDConstants.kImageRed;
@@ -393,6 +397,10 @@ namespace NetWorkedData
                 {
                     tImagePreprodSync = NWDConstants.kImageOrange;
                 }
+            }
+            else if (PreprodSync < 0)
+            {
+                tImagePreprodSync = NWDConstants.kImageForbidden;
             }
 
             bool tDisableProd = false;
@@ -424,6 +432,10 @@ namespace NetWorkedData
                     {
                         tImageProdSync = NWDConstants.kImageOrange;
                     }
+                }
+                else if (ProdSync < 0)
+                {
+                    tImageProdSync = NWDConstants.kImageForbidden;
                 }
             }
             GUILayout.Label(tImageProdSync, tStyleCenter, GUILayout.Width(NWDConstants.kProdSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));

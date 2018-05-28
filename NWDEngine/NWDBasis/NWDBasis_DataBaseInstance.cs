@@ -491,9 +491,18 @@ namespace NetWorkedData
                 this.DM = NWDToolbox.Timestamp();
             }
             //			this.DS = 0;
-            this.DevSync = 0;
-            this.PreprodSync = 0;
-            this.ProdSync = 0;
+            if (this.DevSync >= 0)
+            {
+                this.DevSync = 0;
+            }
+            if (this.PreprodSync >= 0)
+            {
+                this.PreprodSync = 0;
+            }
+            if (this.ProdSync >= 0)
+            {
+                this.ProdSync = 0;
+            }
             this.ServerHash = "";
             this.WebServiceVersion = WebServiceVersionToUse();
             this.AddonVersionMe(); // call override method
