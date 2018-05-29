@@ -191,6 +191,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public int UpdateQueueCounter()
+        {
+            return kObjectToUpdateQueue.Count();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecute()
         {
             foreach (object tObject in kObjectToUpdateQueue)

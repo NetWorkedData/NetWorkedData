@@ -380,9 +380,13 @@ namespace NetWorkedData
             {
                 tImageDevSync = NWDConstants.kImageGreen;
             }
-            else if (DevSync < 0)
+            else if (DevSync == -1)
             {
                 tImageDevSync = NWDConstants.kImageForbidden;
+            }
+            else if (DevSync < -1)
+            {
+                tImageDevSync = NWDConstants.kImageForbiddenOrange;
             }
             GUILayout.Label(tImageDevSync, tStyleCenter, GUILayout.Width(NWDConstants.kDevSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Preprod Sync State
@@ -398,9 +402,13 @@ namespace NetWorkedData
                     tImagePreprodSync = NWDConstants.kImageOrange;
                 }
             }
-            else if (PreprodSync < 0)
+            else if (PreprodSync == -1)
             {
                 tImagePreprodSync = NWDConstants.kImageForbidden;
+            }
+            else if (PreprodSync < -1)
+            {
+                tImagePreprodSync = NWDConstants.kImageForbiddenOrange;
             }
 
             bool tDisableProd = false;
@@ -433,9 +441,13 @@ namespace NetWorkedData
                         tImageProdSync = NWDConstants.kImageOrange;
                     }
                 }
-                else if (ProdSync < 0)
+                else if (ProdSync == -1)
                 {
                     tImageProdSync = NWDConstants.kImageForbidden;
+                }
+                else if (ProdSync < -1)
+                {
+                    tImageProdSync = NWDConstants.kImageForbiddenOrange;
                 }
             }
             GUILayout.Label(tImageProdSync, tStyleCenter, GUILayout.Width(NWDConstants.kProdSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));

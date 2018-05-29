@@ -52,14 +52,14 @@ namespace NetWorkedData
         public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDBasis<K>  RestaureObjectInEdition()
+        public static NWDBasis<K> RestaureObjectInEdition()
         {
             string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
             string tLastReferenceEdited = EditorPrefs.GetString(K_EDITOR_LAST_REFERENCE_KEY);
             NWDBasis<K> rObject = ObjectInEditionReccord(tTypeEdited, tLastReferenceEdited);
-            if (rObject!=null)
+            if (rObject != null)
             {
-                    SetObjectInEdition(rObject);
+                SetObjectInEdition(rObject);
             }
             return rObject;
         }
@@ -1473,22 +1473,36 @@ namespace NetWorkedData
             {
                 tPreprodLockAnalyze = true;
             }
-            bool tPreprodLock = EditorGUI.ToggleLeft(new Rect(tX+tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Preprod", tPreprodLockAnalyze);
+            bool tPreprodLock = EditorGUI.ToggleLeft(new Rect(tX + tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Preprod", tPreprodLockAnalyze);
             bool tProdLockAnalyze = false;
             if (ProdSync >= 0)
             {
                 tProdLockAnalyze = true;
             }
-            bool tProdLock = EditorGUI.ToggleLeft(new Rect(tX+tWidthTiers+tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Prod", tProdLockAnalyze);
+            bool tProdLock = EditorGUI.ToggleLeft(new Rect(tX + tWidthTiers + tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Prod", tProdLockAnalyze);
             if (tDevLockAnalyze != tDevLock)
             {
                 if (tDevLock == false)
                 {
-                    DevSync = -1;
+                    if (DevSync == 0)
+                    {
+                        DevSync = -1;
+                    }
+                    else
+                    {
+                        DevSync = -DevSync;
+                    }
                 }
                 else
                 {
-                    DevSync = 0;
+                    if (DevSync == -1)
+                    {
+                        DevSync = 0;
+                    }
+                    else
+                    {
+                        DevSync = -DevSync;
+                    }
                 }
                 UpdateMe();
                 RepaintTableEditor();
@@ -1497,11 +1511,25 @@ namespace NetWorkedData
             {
                 if (tPreprodLock == false)
                 {
-                    PreprodSync = -1;
+                    if (PreprodSync == 0)
+                    {
+                        PreprodSync = -1;
+                    }
+                    else
+                    {
+                        PreprodSync = -PreprodSync;
+                    }
                 }
                 else
                 {
-                    PreprodSync = 0;
+                    if (PreprodSync == -1)
+                    {
+                        PreprodSync = 0;
+                    }
+                    else
+                    {
+                        PreprodSync = -PreprodSync;
+                    }
                 }
                 UpdateMe();
                 RepaintTableEditor();
@@ -1510,11 +1538,25 @@ namespace NetWorkedData
             {
                 if (tProdLock == false)
                 {
-                    ProdSync = -1;
+                    if (ProdSync == 0)
+                    {
+                        ProdSync = -1;
+                    }
+                    else
+                    {
+                        ProdSync = -ProdSync;
+                    }
                 }
                 else
                 {
-                    ProdSync = 0;
+                    if (ProdSync == -1)
+                    {
+                        ProdSync = 0;
+                    }
+                    else
+                    {
+                        ProdSync = -ProdSync;
+                    }
                 }
                 UpdateMe();
                 RepaintTableEditor();
@@ -1691,7 +1733,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ErrorCheck()
         {
-          //  Debug.Log("NWDBasis ErrorCheck()");
+            //  Debug.Log("NWDBasis ErrorCheck()");
             bool tNewValue = false;
             Type tType = ClassType();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
