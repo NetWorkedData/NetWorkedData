@@ -502,7 +502,7 @@ namespace NetWorkedData
                     Type tTypeOfThis = tProp.PropertyType;
 
                     // Actif to debug the integrity
-                    rReturn += "|-" + tPropertieName + ":";
+                    //rReturn += "|-" + tPropertieName + ":";
                     // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
                     string tValueString = "";
