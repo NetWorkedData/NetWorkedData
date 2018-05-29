@@ -523,8 +523,10 @@ namespace NetWorkedData
             }
             else
             {
-                 EditorGUILayout.LabelField("Rows pulled", LastInfos.RowUpdatedCounter.ToString() + " rows");
+                EditorGUILayout.LabelField("Rows updated", LastInfos.RowUpdatedCounter.ToString() + " rows");
             }
+
+
             EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
 
