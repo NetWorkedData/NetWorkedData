@@ -161,6 +161,13 @@ namespace NetWorkedData
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void NotificationLanguageChanged(BTBNotification sNotification)
+        {
+            Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()");
+            // create your method by override
+            UpdateParameterText();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

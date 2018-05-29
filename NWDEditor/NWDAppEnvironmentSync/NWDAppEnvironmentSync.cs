@@ -29,46 +29,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// The send octects.
-        /// </summary>
-        //      public double SendOctects = 0;
-        //      /// <summary>
-        //      /// The receipt octects.
-        //      /// </summary>
-        //public double ReceiptOctects = 0;
-        ///// <summary>
-        ///// The class pull counter.
-        ///// </summary>
-        //public int ClassPullCounter = 0;
-        ///// <summary>
-        ///// The class push counter.
-        ///// </summary>
-        //public int ClassPushCounter = 0;
-        ///// <summary>
-        ///// The row pull counter.
-        ///// </summary>
-        //public int RowPullCounter = 0;
-        ///// <summary>
-        ///// The row push counter.
-        ///// </summary>
-        //public int RowPushCounter = 0;
-        /// <summary>
-        /// The start time.
-        ///// </summary>
-        //DateTime StartTime;
-        ///// <summary>
-        ///// The middle time.
-        ///// </summary>
-        //DateTime MiddleTime;
-        ///// <summary>
-        ///// The middle time.
-        ///// </summary>
-        //DateTime MiddleTimeB;
-        ///// <summary>
-        ///// The end time.
-        ///// </summary>
-        //DateTime EndTime;
-        /// <summary>
         /// The dev icon.
         /// </summary>
         Texture2D DevIcon;
@@ -92,7 +52,7 @@ namespace NetWorkedData
         /// The prod session expired.
         /// </summary>
         bool ProdSessionExpired = false;
-
+        //-------------------------------------------------------------------------------------------------------------
         NWDOperationResult LastInfos = new NWDOperationResult();
         //-------------------------------------------------------------------------------------------------------------
         private BTBOperationBlock SuccessBlock = null;
@@ -101,13 +61,12 @@ namespace NetWorkedData
         private BTBOperationBlock ProgressBlock = null;
         //-------------------------------------------------------------------------------------------------------------
         // Icons for Sync
-        private Texture2D kImageRed;
-        private Texture2D kImageGreen;
+        //private Texture2D kImageRed;
+        //private Texture2D kImageGreen;
         //private Texture2D kImageOrange;
-        private Texture2D kImageForbidden;
-        private Texture2D kImageEmpty;
-        private Texture2D kImageWaiting;
-
+        //private Texture2D kImageForbidden;
+        //private Texture2D kImageEmpty;
+        //private Texture2D kImageWaiting;
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAppEnvironmentSync SharedInstance()
         {
@@ -127,18 +86,26 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
+            NWDConstants.LoadImages();
+
             //    Debug.Log ("NWDAppEnvironmentSync OnEnable");
+            //kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDRed.psd"));
+            //kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
+            ////kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
+            //kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
+            //kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
+            //kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
 
-            kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDRed.psd"));
-            kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
-            //kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
-            kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
-            kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
-            kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
+            //kImageRed = NWDConstants.kImageRed;
+            //kImageGreen = NWDConstants.kImageGreen;
+            //kImageOrange = NWDConstants.kImageOrange;
+            //kImageForbidden = NWDConstants.kImageForbidden;
+            //kImageEmpty = NWDConstants.kImageEmpty;
+            //kImageWaiting = NWDConstants.kImageWaiting;
 
-            DevIcon = kImageEmpty;
-            PreProdIcon = kImageEmpty;
-            ProdIcon = kImageEmpty;
+            DevIcon = NWDConstants.kImageEmpty;
+            PreProdIcon = NWDConstants.kImageEmpty;
+            ProdIcon = NWDConstants.kImageEmpty;
             // SUCCESS BLOCK
             SuccessBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
@@ -149,17 +116,17 @@ namespace NetWorkedData
                 //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
-                    DevIcon = kImageGreen;
+                    DevIcon = NWDConstants.kImageGreen;
                     DevSessionExpired = false;
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
                 {
-                    PreProdIcon = kImageGreen;
+                    PreProdIcon = NWDConstants.kImageGreen;
                     PreProdSessionExpired = false;
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
                 {
-                    ProdIcon = kImageGreen;
+                    ProdIcon = NWDConstants.kImageGreen;
                     ProdSessionExpired = false;
                 }
                 Repaint();
@@ -175,7 +142,7 @@ namespace NetWorkedData
                 //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
-                    DevIcon = kImageRed;
+                    DevIcon = NWDConstants.kImageRed;
                     if (tErrorCode.Contains("RQT"))
                     {
                         DevSessionExpired = true;
@@ -183,7 +150,7 @@ namespace NetWorkedData
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
                 {
-                    PreProdIcon = kImageRed;
+                    PreProdIcon = NWDConstants.kImageRed;
                     if (tErrorCode.Contains("RQT"))
                     {
                         PreProdSessionExpired = true;
@@ -191,7 +158,7 @@ namespace NetWorkedData
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
                 {
-                    ProdIcon = kImageRed;
+                    ProdIcon = NWDConstants.kImageRed;
                     if (tErrorCode.Contains("RQT"))
                     {
                         ProdSessionExpired = true;
@@ -233,15 +200,15 @@ namespace NetWorkedData
                 //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
-                    DevIcon = kImageForbidden;
+                    DevIcon = NWDConstants.kImageForbidden;
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
                 {
-                    PreProdIcon = kImageForbidden;
+                    PreProdIcon = NWDConstants.kImageForbidden;
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
                 {
-                    ProdIcon = kImageForbidden;
+                    ProdIcon = NWDConstants.kImageForbidden;
                 }
                 Repaint();
             };
@@ -261,15 +228,15 @@ namespace NetWorkedData
                 //}
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
-                    DevIcon = kImageWaiting;
+                    DevIcon = NWDConstants.kImageWaiting;
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment)
                 {
-                    PreProdIcon = kImageWaiting;
+                    PreProdIcon = NWDConstants.kImageWaiting;
                 }
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment)
                 {
-                    ProdIcon = kImageWaiting;
+                    ProdIcon = NWDConstants.kImageWaiting;
                 }
                 Repaint();
             };
@@ -787,7 +754,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebPull.AddOperation("All Pull", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, false, false);
+                NWDOperationWebCheckout.AddOperation("All Pull", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, false, false);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -811,7 +778,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebPull.AddOperation("All Pull Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, false);
+                NWDOperationWebCheckout.AddOperation("All Pull Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, false);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -903,7 +870,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebPull.AddOperation("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false);
+                NWDOperationWebCheckout.AddOperation("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -927,7 +894,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebPull.AddOperation("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true);
+                NWDOperationWebCheckout.AddOperation("Synchronization", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1010,17 +977,17 @@ namespace NetWorkedData
             // TODO : add message in window
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-                DevIcon = kImageEmpty;
+                DevIcon = NWDConstants.kImageEmpty;
                 DevSessionExpired = false;
             }
             if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
-                PreProdIcon = kImageEmpty;
+                PreProdIcon = NWDConstants.kImageEmpty;
                 PreProdSessionExpired = false;
             }
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
-                ProdIcon = kImageEmpty;
+                ProdIcon = NWDConstants.kImageEmpty;
                 ProdSessionExpired = false;
             }
         }
@@ -1034,23 +1001,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void StartProcess(NWDAppEnvironment sEnvironment)
         {
-            DevIcon = kImageEmpty;
-            PreProdIcon = kImageEmpty;
-            ProdIcon = kImageEmpty;
+            DevIcon = NWDConstants.kImageEmpty;
+            PreProdIcon = NWDConstants.kImageEmpty;
+            ProdIcon = NWDConstants.kImageEmpty;
 
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-                DevIcon = kImageEmpty;
+                DevIcon = NWDConstants.kImageEmpty;
                 DevSessionExpired = false;
             }
             if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
-                PreProdIcon = kImageEmpty;
+                PreProdIcon = NWDConstants.kImageEmpty;
                 PreProdSessionExpired = false;
             }
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
-                ProdIcon = kImageEmpty;
+                ProdIcon = NWDConstants.kImageEmpty;
                 ProdSessionExpired = false;
             }
         }

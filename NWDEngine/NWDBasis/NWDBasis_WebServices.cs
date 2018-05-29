@@ -270,9 +270,9 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> PullPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
+        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
         {
-            //Debug.Log("NWDBasis PullPushData() " + ClassName());
+            //Debug.Log("NWDBasis CheckoutPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
             //if (AccountDependent())
             //{

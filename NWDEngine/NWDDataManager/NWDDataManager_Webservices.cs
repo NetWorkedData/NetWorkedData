@@ -190,13 +190,13 @@ namespace NetWorkedData
 			return AddWebRequestSynchronizationWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebPull AddWebRequestPull(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebCheckout AddWebRequestPull(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronization");
             return AddWebRequestPullWithBlock(sTypeList, null, null, null, null, sPriority, sEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebPull AddWebRequestPullForce(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        public NWDOperationWebCheckout AddWebRequestPullForce(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
             //Debug.Log ("AddWebRequestSynchronization");
             return AddWebRequestPullForceWithBlock(sTypeList, null, null, null, null, sPriority, sEnvironment);
@@ -360,7 +360,7 @@ namespace NetWorkedData
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebPull AddWebRequestPullWithBlock(List<Type> sTypeList,
+        public NWDOperationWebCheckout AddWebRequestPullWithBlock(List<Type> sTypeList,
                                                                                      BTBOperationBlock sSuccessBlock = null,
                                                                                      BTBOperationBlock sErrorBlock = null,
                                                                                      BTBOperationBlock sCancelBlock = null,
@@ -369,10 +369,10 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
             /*BTBOperationSynchronisation sOperation = */
-            return NWDOperationWebPull.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
+            return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOperationWebPull AddWebRequestPullForceWithBlock(List<Type> sTypeList,
+        public NWDOperationWebCheckout AddWebRequestPullForceWithBlock(List<Type> sTypeList,
                                                                                      BTBOperationBlock sSuccessBlock = null,
                                                                                      BTBOperationBlock sErrorBlock = null,
                                                                                      BTBOperationBlock sCancelBlock = null,
@@ -381,7 +381,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddWebRequestSynchronizationWithBlock");
             /*BTBOperationSynchronisation sOperation = */
-            return NWDOperationWebPull.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
+            return NWDOperationWebCheckout.AddOperation("Pull", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, true, sPriority);
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationForceWithBlock (List<Type> sTypeList,
@@ -765,7 +765,7 @@ namespace NetWorkedData
 			return rSend;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> PullPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
+        public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
         {
 
             //#if UNITY_EDITOR 
@@ -780,7 +780,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in sTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("PullPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    var tMethodInfo = tType.GetMethod("CheckoutPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
                         Dictionary<string, object> rSendPartial = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;

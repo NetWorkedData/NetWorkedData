@@ -27,14 +27,14 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public class NWDOperationWebPull : NWDOperationWebUnity
+    public class NWDOperationWebCheckout : NWDOperationWebUnity
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public List<Type> TypeList;
 		public bool ForceSync = false;
 		public bool FlushTrash = false;
 		//-------------------------------------------------------------------------------------------------------------
-		static public NWDOperationWebPull AddOperation (string sName,
+		static public NWDOperationWebCheckout AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
 		                                                           BTBOperationBlock sFailBlock = null, 
 		                                                           BTBOperationBlock sCancelBlock = null,
@@ -42,19 +42,19 @@ namespace NetWorkedData
 		                                                           NWDAppEnvironment sEnvironment = null,
 			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false)
 		{
-			NWDOperationWebPull rReturn = NWDOperationWebPull.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean);
+			NWDOperationWebCheckout rReturn = NWDOperationWebCheckout.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		static public NWDOperationWebPull Create (string sName,
+		static public NWDOperationWebCheckout Create (string sName,
 		                                                     BTBOperationBlock sSuccessBlock = null, 
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
 			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, bool sClean = false)
 		{
-			NWDOperationWebPull rReturn = null;
+			NWDOperationWebCheckout rReturn = null;
 			if (sName == null) {
 				sName = "UnNamed Web Operation Synchronisation";
 			}
@@ -67,7 +67,7 @@ namespace NetWorkedData
             // Add sync in the unitySingleton
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
             // 
-			rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebPull> ();
+			rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebCheckout> ();
             rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
@@ -91,7 +91,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().PullPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().CheckoutPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash);
 			tData.Add ("action", "sync");
 			Data = tData;
 		}
