@@ -51,7 +51,12 @@ namespace NetWorkedData
 		public object Unlinearize ()
 		{
 			return null;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void Linearize(List<object> sList)
 		{

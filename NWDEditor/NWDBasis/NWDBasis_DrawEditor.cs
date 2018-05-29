@@ -1254,9 +1254,11 @@ namespace NetWorkedData
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
-                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity seq", DataAssembly(), tMiniLabelStyle);
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "server log ", ServerLog, tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity val", Integrity, tMiniLabelStyle);
+                tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity seq", DataAssembly(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity req", IntegrityValue(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1689,7 +1691,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ErrorCheck()
         {
-            //Debug.Log("NWDBasis ErrorCheck()");
+          //  Debug.Log("NWDBasis ErrorCheck()");
             bool tNewValue = false;
             Type tType = ClassType();
             foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))

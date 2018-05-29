@@ -34,7 +34,12 @@ namespace NetWorkedData
 		public NWDReferencesListType ()
 		{
 			Value = "";
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public bool ContainsReference (string sReference)
 		{

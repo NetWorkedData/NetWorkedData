@@ -35,6 +35,11 @@ namespace NetWorkedData
             Value = "";
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool ContainsObject(K sObject)
         {
             return Value.Contains(sObject.Reference);

@@ -49,6 +49,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector3 sVector)
         {
             Value = sVector.x + NWDConstants.kFieldSeparatorA +

@@ -140,6 +140,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = NWDDataLocalizationManager.kBaseDev+NWDConstants.kFieldSeparatorB;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddBaseString(string sValue)
         {
             AddValue(NWDDataLocalizationManager.kBaseDev, sValue);

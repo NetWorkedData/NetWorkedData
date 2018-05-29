@@ -133,6 +133,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
@@ -172,6 +173,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
                 rReturn.Insert(0, "DM");
@@ -210,6 +212,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
@@ -249,6 +252,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 rReturn.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.Ordinal));
                 // add the good order for this element
@@ -283,6 +287,7 @@ namespace NetWorkedData
                 rReturn.Remove("DevSync");
                 rReturn.Remove("PreprodSync");
                 rReturn.Remove("ProdSync");
+                rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
 
                 // I remove this to be able to trash and untrash object without break server integrity (perhaps bad solution ?)
@@ -329,6 +334,9 @@ namespace NetWorkedData
                 rReturn.Remove("PreprodSync");// not include in integrity
                 rReturn.Remove("ProdSync");// not include in integrity
                 rReturn.Remove("ProdSync");// not include in integrity
+
+                // to prevent integrity error in check InError
+                rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 //rReturn.Add("WebServiceVersion");
                 kDataAssemblyPropertiesList[ClassID()] = rReturn;
@@ -493,6 +501,8 @@ namespace NetWorkedData
                 {
                     Type tTypeOfThis = tProp.PropertyType;
 
+                    // Actif to debug the integrity
+                    rReturn += "|-" + tPropertieName + ":";
                     // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
                     string tValueString = "";

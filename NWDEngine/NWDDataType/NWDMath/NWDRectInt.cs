@@ -49,6 +49,11 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetRectInt(RectInt sRectInt)
         {
             Value = sRectInt.x + NWDConstants.kFieldSeparatorA +

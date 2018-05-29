@@ -35,6 +35,11 @@ namespace NetWorkedData
             Value = "";
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool ContainsReference(string sReference)
         {
             if (sReference == null)

@@ -78,9 +78,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NotNullChecker()
         {
-            //Debug.Log("NotNullChecker()");
+           //Debug.Log("NWDBasis<K> NotNullChecker()");
             Type tType = ClassType();
-            List<string> tPropertiesList = PropertiesOrderArray();
+            //List<string> tPropertiesList = PropertiesOrderArray();
+            List<string> tPropertiesList = SLQIntegrityOrder();
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
@@ -91,7 +92,7 @@ namespace NetWorkedData
                     {
                         // What the fuck ... NWD want not null value!
 
-                            //Debug.Log(" null detect in " + tProp.Name + " value");
+                        Debug.Log(" null detect in " + tProp.Name + " value");
 
                         if (tProp.PropertyType == typeof(Boolean) ||
                             tProp.PropertyType == typeof(Byte) ||
@@ -127,6 +128,8 @@ namespace NetWorkedData
                         {
                             //Debug.Log("must implement "+tProp.Name + " value");
                             tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataType tValueBTBDataType = (BTBDataType)tValue;
+                            tValueBTBDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
                         else
@@ -142,7 +145,9 @@ namespace NetWorkedData
         /// </summary>
         public void UpdateIntegrity()
         {
+            //Debug.Log("NWDBasis<K> UpdateIntegrity()");
             NotNullChecker();
+            ServerLog = DataAssembly();
             Integrity = IntegrityValue();
         }
         //-------------------------------------------------------------------------------------------------------------

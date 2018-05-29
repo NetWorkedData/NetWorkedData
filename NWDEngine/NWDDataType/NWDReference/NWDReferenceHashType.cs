@@ -34,7 +34,12 @@ namespace NetWorkedData
 		public NWDReferenceHashType ()
 		{
 			Value = "";
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Default()
+        {
+            Value = "";
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public bool ContainsObject (K sObject)
 		{

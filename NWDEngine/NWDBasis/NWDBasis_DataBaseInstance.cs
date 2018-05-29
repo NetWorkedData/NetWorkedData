@@ -78,14 +78,14 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis <K> NewNetWorkedData()");
             this.InstanceInit();
-            this.AC = true;
-            this.DM = NWDToolbox.Timestamp();
-            this.DC = NWDToolbox.Timestamp();
-            this.DS = 0;
-            this.DD = 0;
-            this.DevSync = 0;
-            this.PreprodSync = 0;
-            this.ProdSync = 0;
+            //this.AC = true;
+            //this.DM = NWDToolbox.Timestamp();
+            //this.DC = NWDToolbox.Timestamp();
+            //this.DS = 0;
+            //this.DD = 0;
+            //this.DevSync = 0;
+            //this.PreprodSync = 0;
+            //this.ProdSync = 0;
             this.Reference = this.NewReference();
             foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
             {
@@ -125,14 +125,14 @@ namespace NetWorkedData
                 // rReturnObject = new NWDBasis<K> (false);
                 //rReturnObject.InitInstanceWithReference(sReference);
                 rReturnObject.InstanceInit();
-                rReturnObject.AC = true;
-                rReturnObject.DM = NWDToolbox.Timestamp();
-                rReturnObject.DC = NWDToolbox.Timestamp();
-                rReturnObject.DS = 0;
-                rReturnObject.DD = 0;
-                rReturnObject.DevSync = 0;
-                rReturnObject.PreprodSync = 0;
-                rReturnObject.ProdSync = 0;
+                //rReturnObject.AC = true;
+                //rReturnObject.DM = NWDToolbox.Timestamp();
+                //rReturnObject.DC = NWDToolbox.Timestamp();
+                //rReturnObject.DS = 0;
+                //rReturnObject.DD = 0;
+                //rReturnObject.DevSync = 0;
+                //rReturnObject.PreprodSync = 0;
+                //rReturnObject.ProdSync = 0;
                 if (sReference == null || sReference == "")
                 {
                     rReturnObject.Reference = rReturnObject.NewReference();
@@ -193,6 +193,24 @@ namespace NetWorkedData
         /// </summary>
         public void InstanceInit()
         {
+            AC = true;
+            DM = NWDToolbox.Timestamp();
+            DC = NWDToolbox.Timestamp();
+            DS = 0;
+            DD = 0;
+
+            DevSync = 0;
+            PreprodSync = 0;
+            ProdSync = 0;
+
+            ServerHash = "";
+            ServerLog = "";
+
+            InternalKey = "";
+            InternalDescription = "";
+            Preview = "";
+
+            WebServiceVersion = WebServiceVersionToUse();
             //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
             Type tType = ClassType();
             foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
