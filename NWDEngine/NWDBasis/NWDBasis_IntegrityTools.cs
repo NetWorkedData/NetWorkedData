@@ -112,11 +112,13 @@ namespace NetWorkedData
                         {
                             tProp.SetValue(this, 0, null);
 #if !NETFX_CORE
-                        } else if (tProp.PropertyType.IsEnum) {
+                        }
+                        else if (tProp.PropertyType.IsEnum)
+                        {
 #else
                         } else if (tProp.PropertyType.GetTypeInfo().IsEnum) {
 #endif
-                            tProp.SetValue(this, 0 , null);
+                            tProp.SetValue(this, 0, null);
                         }
                         else if (tProp.PropertyType == typeof(byte[]) ||
                                  tProp.PropertyType == typeof(Guid) ||
@@ -134,6 +136,16 @@ namespace NetWorkedData
                         }
                         else
                         {
+                        }
+                    }
+                    else
+                    {
+                        // verif if value is conforme for localization
+                        if (tProp.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
+                        {
+                            NWDLocalizableType tValueBTBDataType = (NWDLocalizableType)tValue;
+                            tValueBTBDataType.BaseVerif();
+                            tProp.SetValue(this, tValue, null);
                         }
                     }
                 }

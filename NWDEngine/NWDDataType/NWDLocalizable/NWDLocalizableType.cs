@@ -145,6 +145,20 @@ namespace NetWorkedData
             Value = NWDDataLocalizationManager.kBaseDev+NWDConstants.kFieldSeparatorB;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void BaseVerif()
+        {
+            if (kSplitDico == null)
+            {
+                kSplitDico = new Dictionary<string, string>();
+                DicoPopulate();
+            }
+            if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
+            {
+                AddBaseString("");
+            }
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
         public void AddBaseString(string sValue)
         {
             AddValue(NWDDataLocalizationManager.kBaseDev, sValue);

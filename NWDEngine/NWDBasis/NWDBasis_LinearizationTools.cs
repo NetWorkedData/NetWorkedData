@@ -385,21 +385,21 @@ namespace NetWorkedData
             string[] tValue = sDataArray;
             // Short circuit the sync date
             // not replace the date from the other environment
-            if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
-            {
-                tValue[4] = PreprodSync.ToString();
-                tValue[5] = ProdSync.ToString();
-            }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-            {
-                tValue[3] = DevSync.ToString();
-                tValue[5] = ProdSync.ToString();
-            }
-            else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
-            {
-                tValue[3] = DevSync.ToString();
-                tValue[4] = PreprodSync.ToString();
-            }
+            //if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
+            //{
+            //    tValue[4] = PreprodSync.ToString();
+            //    tValue[5] = ProdSync.ToString();
+            //}
+            //else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+            //{
+            //    tValue[3] = DevSync.ToString();
+            //    tValue[5] = ProdSync.ToString();
+            //}
+            //else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            //{
+            //    tValue[3] = DevSync.ToString();
+            //    tValue[4] = PreprodSync.ToString();
+            //}
             // process to insertion
             Type tType = ClassType();
             for (int tI = 0; tI < tKey.Count(); tI++)
