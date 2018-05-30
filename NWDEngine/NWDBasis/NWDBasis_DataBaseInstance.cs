@@ -601,7 +601,7 @@ namespace NetWorkedData
             // prepare a request from database to create a new object from original object 
             //(so , don't need to copy actual object if updated)
             NWDBasis<K> rReturnObject = null;
-            IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(x => x.ID == this.ID);
+            IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(x => x.ID == this.ID); // Normal but execeptional using of SQLITE
             int tCount = tEnumerable.Cast<K>().Count<K>();
             if (tCount == 1)
             {

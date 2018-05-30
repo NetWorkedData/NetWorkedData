@@ -317,34 +317,34 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO: must be tested
-        public static K[] Where(Expression<Func<K, bool>> predExpr, string sAccountReference = null)
-        {
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (AccountDependent())
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(predExpr);
-            List<K> tAllReferences = new List<K>();
-            foreach (K tItem in tEnumerable)
-            {
-                int tIndex = ObjectsByReferenceList.IndexOf(tItem.Reference);
-                K tObject = ObjectsList.ElementAt(tIndex) as K;
-                if (tObject.IsReacheableByAccount(sAccountReference))
-                {
-                    tAllReferences.Add(tObject);
-                }
-            }
-            return tAllReferences.ToArray();
-        }
+        //public static K[] Where(Expression<Func<K, bool>> predExpr, string sAccountReference = null)
+        //{
+        //    SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //    if (AccountDependent())
+        //    {
+        //        tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //    }
+        //    IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(predExpr);
+        //    List<K> tAllReferences = new List<K>();
+        //    foreach (K tItem in tEnumerable)
+        //    {
+        //        int tIndex = ObjectsByReferenceList.IndexOf(tItem.Reference);
+        //        K tObject = ObjectsList.ElementAt(tIndex) as K;
+        //        if (tObject.IsReacheableByAccount(sAccountReference))
+        //        {
+        //            tAllReferences.Add(tObject);
+        //        }
+        //    }
+        //    return tAllReferences.ToArray();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] SelectOrderedList(K[] sArray, Comparison<K> sComparison)
-        {
-            List<K> tList = new List<K>();
-            tList.AddRange(sArray);
-            tList.Sort(sComparison);
-            return tList.ToArray();
-        }
+        //public static K[] SelectOrderedList(K[] sArray, Comparison<K> sComparison)
+        //{
+        //    List<K> tList = new List<K>();
+        //    tList.AddRange(sArray);
+        //    tList.Sort(sComparison);
+        //    return tList.ToArray();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

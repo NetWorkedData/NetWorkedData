@@ -39,6 +39,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         //public bool NWDInserted = false;
+        protected bool InDatabase = false;
+        //-------------------------------------------------------------------------------------------------------------
         [PrimaryKey, AutoIncrement, NWDNotEditable]
         public int ID
         {
@@ -303,7 +305,7 @@ namespace NetWorkedData
             }
             if (string.IsNullOrEmpty(sReference) && string.IsNullOrEmpty(sInternalKey) && string.IsNullOrEmpty(sInternalDescription) && (int)sTag < 0)
             {
-                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
             }
             else
             {
@@ -321,7 +323,7 @@ namespace NetWorkedData
                                                                           && x.InternalKey.Contains(sInternalKey)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
@@ -329,7 +331,7 @@ namespace NetWorkedData
                                                                           x.Reference.Contains(sReference)
                                                                           && x.InternalKey.Contains(sInternalKey)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                         else
@@ -340,13 +342,13 @@ namespace NetWorkedData
                                                                           x.Reference.Contains(sReference)
                                                                           && x.InternalKey.Contains(sInternalKey)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                           && x.InternalKey.Contains(sInternalKey)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                     }
@@ -359,13 +361,13 @@ namespace NetWorkedData
                                 return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                         else
@@ -374,12 +376,12 @@ namespace NetWorkedData
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                     }
@@ -396,14 +398,14 @@ namespace NetWorkedData
                                                                            x.InternalKey.Contains(sInternalKey)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
                                 return tSQLiteConnection.Table<K>().Where(x =>
                                                                            x.InternalKey.Contains(sInternalKey)
                                                                           && x.InternalDescription.Contains(sInternalDescription)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                         else
@@ -413,12 +415,12 @@ namespace NetWorkedData
                                 return tSQLiteConnection.Table<K>().Where(x =>
                                                                            x.InternalKey.Contains(sInternalKey)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                     }
@@ -430,12 +432,12 @@ namespace NetWorkedData
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)
                                                                           && x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                         else
@@ -443,11 +445,11 @@ namespace NetWorkedData
                             if ((int)sTag >= 0)
                             {
                                 return tSQLiteConnection.Table<K>().Where(x => x.Tag.Equals((int)sTag)
-                                                                         ).OrderBy(x => x.InternalKey);
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                             else
                             {
-                                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+                                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
                             }
                         }
                     }
@@ -646,7 +648,7 @@ namespace NetWorkedData
 
 
 #if UNITY_EDITOR
-            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // Normal using of SQLITE
 #else
             //TODO Modify request for release
 			//IEnumerable tEnumerable = NWDDataManager.SharedInstance().SQLiteConnection.Table<K> ().Where (x => x.AC.Equals (bool.TrueString)).OrderBy(x => x.InternalKey);
@@ -673,6 +675,7 @@ namespace NetWorkedData
             {
                 foreach (NWDBasis<K> tItem in tEnumerable)
                 {
+                    tItem.InDatabase = true;
                     AddObjectInListOfEdition(tItem);
                 }
             }

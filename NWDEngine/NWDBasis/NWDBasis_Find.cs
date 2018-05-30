@@ -70,7 +70,7 @@ namespace NetWorkedData
             }
 
             NWDBasis<K> rReturnObject = null;
-            IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(x => x.Reference == sReference);
+            IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(x => x.Reference == sReference); // Normal but exceptional using of SQLITE
             int tCount = tEnumerable.Cast<K>().Count<K>();
             if (tCount == 1)
             {
