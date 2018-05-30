@@ -470,19 +470,10 @@ namespace NetWorkedData
         /// <param name="sData">S data.</param>
         public static string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData)
         {
-
-            //if (AccountDependent())
-            //{
-            //    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-            //}
-            //else
-            //{
-            //    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-            //}
-
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
+            BTBBenchmark.Start();
+            BTBBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";
-
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
             {
@@ -502,7 +493,7 @@ namespace NetWorkedData
                     sInfos.ClassPullCounter++;
                     //#endif
                     List<object> tListOfRows = sData.param[tTableName] as List<object>;
-
+                    BTBBenchmark.Increment(tListOfRows.Count);
                     if (tListOfRows.Count > 0)
                     {
                         //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
@@ -526,12 +517,8 @@ namespace NetWorkedData
                                 FlushTrash(tObject);
                             }
                         }
-
                         rReturn = "YES";
-
 #if UNITY_EDITOR
-
-
                         FilterTableEditor();
                         RepaintTableEditor();
                         NWDDataInspector.ShareInstance().Repaint();
@@ -539,15 +526,7 @@ namespace NetWorkedData
                     }
                 }
             }
-
-            //if (AccountDependent())
-            //{
-            //    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-            //}
-            //else
-            //{
-            //    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-            //}
+            BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
