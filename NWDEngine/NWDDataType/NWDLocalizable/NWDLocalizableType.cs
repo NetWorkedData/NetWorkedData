@@ -154,6 +154,7 @@ namespace NetWorkedData
             }
             if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
+                Debug.Log("no base in localizable string");
                 AddBaseString("");
             }
         }
@@ -221,9 +222,16 @@ namespace NetWorkedData
 		{
 			Dictionary<string,string> tResult = GetDictionary ();
 			if (sValue != null) {
-                tResult.Add(sKey, NWDToolbox.TextProtect(sValue));
+                if (tResult.ContainsKey(sKey) == false)
+                {
+                    tResult.Add(sKey, NWDToolbox.TextProtect(sValue));
+                }
+                else
+                {
+                    tResult[sKey] = NWDToolbox.TextProtect(sValue);
+                }
             } else {
-				if (tResult.ContainsKey (sKey)) {
+				if (tResult.ContainsKey (sKey) == true) {
 					tResult.Remove (sKey);
 				}
 			}
