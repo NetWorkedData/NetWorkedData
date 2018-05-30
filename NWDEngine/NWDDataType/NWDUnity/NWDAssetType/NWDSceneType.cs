@@ -125,11 +125,16 @@ namespace NetWorkedData
             }
             int tSceneIndex = tScenesInBuildList.IndexOf(Value);
             int tNextSceneIndex = EditorGUI.Popup (new Rect (tX, tY, tWidth, tPopupFieldStyle.fixedHeight), tContent,tSceneIndex,tScenesInContentList.ToArray(), tPopupFieldStyle);
+            {
+                tNextSceneIndex = 0;
+            }
+            if (tNextSceneIndex<0 || tNextSceneIndex>=tScenesInBuildList.Count())
             tTemporary.Value = tScenesInBuildList[tNextSceneIndex];
             if (tTemporary.Value == " ")
             {
                 tTemporary.Value = "";
             }
+            tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
             if (IsInError() == true) {
 				tTemporary.Value = Value;
 				Color tOldColor = GUI.backgroundColor;
