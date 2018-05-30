@@ -166,7 +166,7 @@ namespace NetWorkedData
                 //  Debug.Log("SynchronizationInsertInBase NEW OBJECT DETECTED");
                 // TODO : IS RELATIONSHIP OBJECT?
                 // IF NOT ... INSERT IN DATABASE
-                sInfos.RowUpdatedCounter++;
+                sInfos.RowAddedCounter++;
                 tObject = NewInstanceFromCSV(sEnvironment, sDataArray);
                 AddObjectInListOfEdition(tObject);
             }

@@ -476,6 +476,10 @@ namespace NetWorkedData
             double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
             double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+
+
+            // add separator please
+
             if (LastInfos.RowPushCounter == 0)
             {
                 EditorGUILayout.LabelField("Rows pused", LastInfos.RowPushCounter.ToString() + " no row (no class)");
@@ -525,6 +529,7 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField("Rows pulled", LastInfos.RowPullCounter.ToString() + " rows (" + LastInfos.ClassPullCounter.ToString() + " classes)");
                 }
             }
+
             //RowUpdatedCounter
             if (LastInfos.RowUpdatedCounter == 0)
             {
@@ -539,6 +544,19 @@ namespace NetWorkedData
                 EditorGUILayout.LabelField("Rows updated", LastInfos.RowUpdatedCounter.ToString() + " rows");
             }
 
+            //RowUpdatedCounter
+            if (LastInfos.RowAddedCounter == 0)
+            {
+                EditorGUILayout.LabelField("Rows added", " no row");
+            }
+            else if (LastInfos.RowAddedCounter == 1)
+            {
+                EditorGUILayout.LabelField("Rows added", LastInfos.RowAddedCounter.ToString() + " row ");
+            }
+            else
+            {
+                EditorGUILayout.LabelField("Rows added", LastInfos.RowAddedCounter.ToString() + " rows");
+            }
 
             EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
