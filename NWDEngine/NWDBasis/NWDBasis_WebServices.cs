@@ -173,14 +173,18 @@ namespace NetWorkedData
             else
             {
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
+//                string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
+//                if (tObject.Integrity != tActualIntegrity)
+//                {
+//                    // Ok integrity is != I will update data
+//                    sInfos.RowUpdatedCounter++; 
+//                }
+//#endif
                 string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
                     // Ok integrity is != I will update data
-                    sInfos.RowUpdatedCounter++; 
-                }
-#endif
                 // test if Modification is older than actual object
                 //  Debug.Log("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
                 // if (tObject.DM <= GetDMValueFromCSV(sDataArray))
@@ -191,7 +195,9 @@ namespace NetWorkedData
                 // else
                 // {
                 //     Debug.LogWarning("OBJECT IS MORE RECENT THAN SYNC RECEIPT!!!!!!!!!!!!!!");
-                // }
+                    // }
+                    sInfos.RowUpdatedCounter++;
+                }
             }
             #if UNITY_EDITOR
             tObject.ErrorCheck();

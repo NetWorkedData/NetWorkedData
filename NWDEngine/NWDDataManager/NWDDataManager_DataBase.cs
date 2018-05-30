@@ -32,6 +32,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
+            BTBBenchmark.Start();
             if (kConnectedToDatabase == false)
             {
                 kConnectedToDatabase = true;
@@ -116,6 +117,7 @@ namespace NetWorkedData
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateBuildTimestamp()
@@ -145,6 +147,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InsertObject(object sObject, bool sAccountConnected)
         {
+            BTBBenchmark.Start();
             BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             if (sAccountConnected)
             {
@@ -154,10 +157,12 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Insert(sObject);
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateObject(object sObject, bool sAccountConnected)
         {
+            BTBBenchmark.Start();
             BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
             if (sAccountConnected)
             {
@@ -167,10 +172,12 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Update(sObject);
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteObject(object sObject, bool sAccountConnected)
         {
+            BTBBenchmark.Start();
             BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             //  update disable with date to delete
             if (sAccountConnected)
@@ -181,14 +188,17 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Delete(sObject);
             }
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddObjectToUpdateQueue(object sObject)
         {
+            //BTBBenchmark.Start();
             if (kObjectToUpdateQueue.Contains(sObject) == false)
             {
                 kObjectToUpdateQueue.Add(sObject);
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public int UpdateQueueCounter()
@@ -198,6 +208,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecute()
         {
+            //BTBBenchmark.Start();
             NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
             NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
             foreach (object tObject in kObjectToUpdateQueue)
@@ -212,6 +223,7 @@ namespace NetWorkedData
             kObjectToUpdateQueue = new List<object>();
             NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
             NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         // Table management
