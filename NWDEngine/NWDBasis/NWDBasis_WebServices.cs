@@ -464,6 +464,16 @@ namespace NetWorkedData
         /// <param name="sData">S data.</param>
         public static string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData)
         {
+
+            //if (AccountDependent())
+            //{
+            //    NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+            //}
+            //else
+            //{
+            //    NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+            //}
+
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
             string rReturn = "NO";
 
@@ -524,6 +534,14 @@ namespace NetWorkedData
                 }
             }
 
+            //if (AccountDependent())
+            //{
+            //    NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+            //}
+            //else
+            //{
+            //    NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+            //}
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

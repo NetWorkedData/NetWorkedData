@@ -703,6 +703,9 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
+           
+            NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+            NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
 
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
@@ -734,6 +737,8 @@ namespace NetWorkedData
 				}
 			}
 
+            NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+            NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
 			if (sUpdateData == true)
             {
                 BTBNotificationManager.SharedInstance().PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
