@@ -198,6 +198,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecute()
         {
+            NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+            NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
             foreach (object tObject in kObjectToUpdateQueue)
             {
                 Type tType = tObject.GetType();
@@ -208,6 +210,8 @@ namespace NetWorkedData
                 }
             }
             kObjectToUpdateQueue = new List<object>();
+            NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+            NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
         }
         //-------------------------------------------------------------------------------------------------------------
         // Table management
