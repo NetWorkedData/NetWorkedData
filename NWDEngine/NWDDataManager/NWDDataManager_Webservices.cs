@@ -701,8 +701,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public void SynchronizationPullClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData, List<Type> sTypeList)
         {
-            BTBBenchmark.Start();
-            BTBBenchmark.Increment(sTypeList.Count());
+            //BTBBenchmark.Start();
+            //BTBBenchmark.Increment(sTypeList.Count());
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas()");
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
             NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -741,7 +741,7 @@ namespace NetWorkedData
             {
                 BTBNotificationManager.SharedInstance().PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public Dictionary<string, object> SynchronizationPushClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)

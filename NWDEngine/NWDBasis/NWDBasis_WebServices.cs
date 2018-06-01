@@ -449,8 +449,8 @@ namespace NetWorkedData
         public static string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData)
         {
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
-            BTBBenchmark.Start();
-            BTBBenchmark.Tag(ClassNamePHP());
+            //BTBBenchmark.Start();
+            //BTBBenchmark.Tag(ClassNamePHP());
             string rReturn = "NO";
             // Ok I receive data ... so I can reccord the last waiting timestamp as the good sync date
             if (sData.isError)
@@ -471,7 +471,7 @@ namespace NetWorkedData
                     sInfos.ClassPullCounter++;
                     //#endif
                     List<object> tListOfRows = sData.param[tTableName] as List<object>;
-                    BTBBenchmark.Increment(tListOfRows.Count);
+                    //BTBBenchmark.Increment(tListOfRows.Count);
                     if (tListOfRows.Count > 0)
                     {
                         //Debug.Log("NWDBasis SynchronizationPullData() find "+tListOfRows.Count+" row for " + ClassName());
@@ -504,7 +504,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

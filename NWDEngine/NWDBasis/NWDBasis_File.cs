@@ -48,20 +48,20 @@ namespace NetWorkedData
 		public static void WriteFile()
 		{
             Debug.Log("NWDBasis<K> WriteFile()");
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
 			if (cFileMustBeWrite==true)
 			{
                 string rFinal = "";
                 Type tType = ClassType();
                 List<string> tPropertiesList = DataAssemblyPropertiesList();
-                BTBBenchmark.Increment(ObjectsList.Count());
+                //BTBBenchmark.Increment(ObjectsList.Count());
 			foreach(K tObject in ObjectsList)
 			{
                     rFinal+= tObject.DataLinearization(tType, tPropertiesList, true);
 			}
 			}         
             cFileMustBeWrite = false;
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
 		}      
         //-------------------------------------------------------------------------------------------------------------
         static void DataEss()

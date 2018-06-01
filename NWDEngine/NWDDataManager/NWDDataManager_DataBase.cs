@@ -34,7 +34,7 @@ namespace NetWorkedData
         {
             if (kConnectedToDatabase == false)
             {
-                BTBBenchmark.Start();
+                //BTBBenchmark.Start();
                 kConnectedToDatabase = true;
 #if UNITY_EDITOR
                 // create the good folder
@@ -116,7 +116,7 @@ namespace NetWorkedData
 #endif
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-                BTBBenchmark.Finish();
+                //BTBBenchmark.Finish();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InsertObject(object sObject, bool sAccountConnected)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             if (sAccountConnected)
             {
@@ -157,12 +157,12 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Insert(sObject);
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateObject(object sObject, bool sAccountConnected)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
             if (sAccountConnected)
             {
@@ -172,12 +172,12 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Update(sObject);
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteObject(object sObject, bool sAccountConnected)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             //  update disable with date to delete
             if (sAccountConnected)
@@ -188,7 +188,7 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Delete(sObject);
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddObjectToUpdateQueue(object sObject)
