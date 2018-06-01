@@ -160,6 +160,28 @@ namespace NetWorkedData
         public NWDRelationship(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDRelationship Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+#if UNITY_EDITOR
+            NWDError.CreateGenericError("relation ship", "RLSw01", "Action error", "Action is empty", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw11", "Action error", "Action is not conform", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw02", "Reference error", "Reference is empty", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw12", "Reference error", "Reference is not conform", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw23", "PinCode error", "PinCode Length is empty", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw24", "PinCode error", "PinCode Length is not conform", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw25", "Nickname error", "Nickname is empty", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw26", "Nickname error", "Nickname is not conform", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw80", "Nickname error", "PinCode is empty", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw81", "Nickname error", "PinCode is not conform", "OK", NWDErrorType.Alert);
+
+
+            NWDError.CreateGenericError("relation ship", "RLSw92", "Pin Code error", "Select error", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw93", "Pin Code error", "Update error", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw98", "Pin Code error", "Select error", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw99", "Pin Code error", "Update error", "OK", NWDErrorType.Alert);
+
+            NWDError.CreateGenericError("relation ship", "RLSw101", "Select error", "Select error", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw981", "Update error", "Update error", "OK", NWDErrorType.Alert);
+            NWDError.CreateGenericError("relation ship", "RLSw999", "Security", "Security error", "OK", NWDErrorType.Alert);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -174,6 +196,9 @@ namespace NetWorkedData
         static NWDRelationship()
         {
             //NWDMessage.CreateGenericMessage("TEST DOMAIN", "CODE", "TITLE", "DESCRIPTION");
+
+
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)

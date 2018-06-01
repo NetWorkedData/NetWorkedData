@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 114543102339851948}
   - component: {fileID: 95456322608130350}
   m_Layer: 5
-  m_Name: Panel Quest Giver
+  m_Name: NWDPanelQuestGiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
