@@ -169,6 +169,41 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void Localize(UnityEngine.UI.Text sText, string sDefault = "")
+        {
+            if (NWDTypeLauncher.DataLoaded)
+            {
+                if (sText != null)
+                {
+                    if (sDefault.Equals(""))
+                    {
+                        sDefault = sText.text;
+                    }
+
+                    NWDAppConsent tObject = GetObjectByInternalKey(sText.text, true) as NWDAppConsent;
+                    if (tObject != null)
+                    {
+                        string tText = tObject.Title.GetLocalString();
+                        sText.text = tText.Replace("<br>", "\n");
+                        tText = tObject.Description.GetLocalString();
+                        sText.text += tText.Replace("<br>", "\n");
+                    }
+                }
+                else
+                {
+#if UNITY_EDITOR
+                    EditorUtility.DisplayDialog("Localize", "Text component is null", "OK");
+#endif
+                }
+            }
+            else
+            {
+#if UNITY_EDITOR
+                EditorUtility.DisplayDialog("Localize", "NWD engine not loaded", "OK");
+#endif
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
