@@ -32,9 +32,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
-            BTBBenchmark.Start();
             if (kConnectedToDatabase == false)
             {
+                BTBBenchmark.Start();
                 kConnectedToDatabase = true;
 #if UNITY_EDITOR
                 // create the good folder
@@ -116,8 +116,8 @@ namespace NetWorkedData
 #endif
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                BTBBenchmark.Finish();
             }
-            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateBuildTimestamp()

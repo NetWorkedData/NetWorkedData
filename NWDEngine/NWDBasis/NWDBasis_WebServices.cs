@@ -163,41 +163,19 @@ namespace NetWorkedData
             NWDBasis<K> tObject = InstanceByReference(tReference);
             if (tObject == null)
             {
-                //  Debug.Log("SynchronizationInsertInBase NEW OBJECT DETECTED");
-                // TODO : IS RELATIONSHIP OBJECT?
-                // IF NOT ... INSERT IN DATABASE
                 sInfos.RowAddedCounter++;
                 tObject = NewInstanceFromCSV(sEnvironment, sDataArray);
                 AddObjectInListOfEdition(tObject);
             }
             else
             {
-
-//#if UNITY_EDITOR
-//                string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
-//                if (tObject.Integrity != tActualIntegrity)
-//                {
-//                    // Ok integrity is != I will update data
-//                    sInfos.RowUpdatedCounter++; 
-//                }
-//#endif
                 string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
                     // Ok integrity is != I will update data
-                // test if Modification is older than actual object
-                //  Debug.Log("SynchronizationInsertInBase JUST UPDATE OBJECT DETECTED");
-                // if (tObject.DM <= GetDMValueFromCSV(sDataArray))
-                //  {
-                //      Debug.Log("OBJECT IS OLDER THAN SYNC RECEIPT");
-                tObject.UpdateWithCSV(sEnvironment, sDataArray);
-                // }
-                // else
-                // {
-                //     Debug.LogWarning("OBJECT IS MORE RECENT THAN SYNC RECEIPT!!!!!!!!!!!!!!");
-                    // }
-                    sInfos.RowUpdatedCounter++;
+                    sInfos.RowUpdatedCounter++; 
                 }
+                tObject.UpdateWithCSV(sEnvironment, sDataArray);
             }
             #if UNITY_EDITOR
             tObject.ErrorCheck();
@@ -209,33 +187,33 @@ namespace NetWorkedData
         /// Synchronizations the insert in memory.
         /// </summary>
         /// <param name="sDataArray">S data array.</param>
-        public static void SynchronizationInsertInMemory(NWDAppEnvironment sEnvironment, string[] sDataArray)
-        {
-            //Debug.Log ("SynchronizationInsertInMemory ");
-            // if NWDject.reference allready in memory I must replace this object and distroy old object
-            NWDBasis<K> tFindObject = null;
-            string tReference = GetReferenceValueFromCSV(sDataArray);
-            foreach (NWDBasis<K> tObject in ObjectsList)
-            {
-                if (tObject.Reference == tReference)
-                {
-                    tFindObject = tObject;
-                }
-            }
-            if (tFindObject != null)
-            {
-                if (tFindObject.DM <= GetDMValueFromCSV(sDataArray))
-                {
-                    tFindObject.UpdateWithCSV(sEnvironment, sDataArray);
-                }
-            }
-            else
-            {
-                tFindObject = NewInstanceFromCSV(sEnvironment, sDataArray);
-                tFindObject.UpdateWithCSV(sEnvironment, sDataArray);
-                AddObjectInListOfEdition(tFindObject);
-            }
-        }
+        //public static void SynchronizationInsertInMemory(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        //{
+        //    //Debug.Log ("SynchronizationInsertInMemory ");
+        //    // if NWDject.reference allready in memory I must replace this object and distroy old object
+        //    NWDBasis<K> tFindObject = null;
+        //    string tReference = GetReferenceValueFromCSV(sDataArray);
+        //    foreach (NWDBasis<K> tObject in ObjectsList)
+        //    {
+        //        if (tObject.Reference == tReference)
+        //        {
+        //            tFindObject = tObject;
+        //        }
+        //    }
+        //    if (tFindObject != null)
+        //    {
+        //        if (tFindObject.DM <= GetDMValueFromCSV(sDataArray))
+        //        {
+        //            tFindObject.UpdateWithCSV(sEnvironment, sDataArray);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        tFindObject = NewInstanceFromCSV(sEnvironment, sDataArray);
+        //        tFindObject.UpdateWithCSV(sEnvironment, sDataArray);
+        //        AddObjectInListOfEdition(tFindObject);
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the try to use.
