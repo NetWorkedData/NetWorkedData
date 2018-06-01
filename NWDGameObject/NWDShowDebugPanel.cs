@@ -33,6 +33,8 @@ namespace NetWorkedData
         public Text ParamText;
         public GameObject PanelShowDebug;
         //-------------------------------------------------------------------------------------------------------------
+        private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
+        //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
             //NWDDataManager.SharedInstance().ReloadAllObjects();
@@ -55,10 +57,12 @@ namespace NetWorkedData
             if (PanelShowDebug.activeInHierarchy)
             {
                 PanelShowDebug.SetActive(false);
+                PlayerPrefs.SetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
             }
             else
             {
                 PanelShowDebug.SetActive(true);
+                PlayerPrefs.SetInt(K_NWD_SHOW_DEBUG_PANEL, 1);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -81,6 +85,17 @@ namespace NetWorkedData
                 Debug.Log("NWDShowDebugPanel Start() Async Loading");
                 //load async ?
             }
+
+            int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
+            if (tShowPanel == 0)
+            {
+                PanelShowDebug.SetActive(false);
+            }
+            else
+            {
+                PanelShowDebug.SetActive(true);
+            }
+
             // Show log button
             //Text tText = ButtonShowLog.GetComponentInChildren<Text>();
             //ButtonShowLog.gameObject.SetActive(NWDParameter.GetBool(tText.text, true));
