@@ -147,18 +147,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void BaseVerif()
         {
-            if (kSplitDico == null)
-            {
-                kSplitDico = new Dictionary<string, string>();
-                DicoPopulate();
-            }
+            // Need to check with a new dictionary each time
+            kSplitDico = new Dictionary<string, string>();
+            DicoPopulate();
+
             if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
                 Debug.Log("no base in localizable string");
                 AddBaseString("");
             }
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public void AddBaseString(string sValue)
         {

@@ -254,16 +254,16 @@ namespace NetWorkedData
                 }
                 else
                 {
-#if UNITY_EDITOR
+                    #if UNITY_EDITOR
                     EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
-#endif
+                    #endif
                 }
             }
             else
             {
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 EditorUtility.DisplayDialog("AutoLocalize", "NWD engine not loaded", "OK");
-#endif
+                #endif
             }
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -24,13 +24,6 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDConsentAuthorizationState : int
-    {
-        Accepted = 1,
-        Refused = 0,
-        Unknow = -1,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDAppConsentConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
     /// Use like :
@@ -91,12 +84,12 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Consent default state proposition")]
-        public NWDConsentAuthorizationState DefaultState
+        public BTBSwitchState DefaultState
         {
             get; set;
         }
         [NWDTooltips("Expected state to continue the game. If 'Unknow' any value is ok")]
-        public NWDConsentAuthorizationState ExpectedState
+        public BTBSwitchState ExpectedState
         {
             get; set;
         }
@@ -117,8 +110,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            DefaultState = NWDConsentAuthorizationState.Refused;
-            ExpectedState = NWDConsentAuthorizationState.Unknow;
+            DefaultState = BTBSwitchState.Off;
+            ExpectedState = BTBSwitchState.Unknow;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -154,13 +147,13 @@ namespace NetWorkedData
             return  NWDUserConsent.UserConsentForAppConsent(this, sCreateIfNull);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDConsentAuthorizationState GetUserAuthorization(bool sCreateIfNull = false)
+        public BTBSwitchState GetUserAuthorization(bool sCreateIfNull = false)
         {
-            NWDConsentAuthorizationState rReturn = NWDConsentAuthorizationState.Unknow;
+            BTBSwitchState rReturn = BTBSwitchState.Unknow;
             NWDUserConsent tUserConsent = NWDUserConsent.UserConsentForAppConsent(this, sCreateIfNull);
             if (tUserConsent == null)
             {
-                rReturn = NWDConsentAuthorizationState.Unknow;
+                rReturn = BTBSwitchState.Unknow;
             }
             else
             {
@@ -171,7 +164,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Localize(UnityEngine.UI.Text sText, string sDefault = "")
         {
-            if (NWDTypeLauncher.DataLoaded)
+            /*if (NWDTypeLauncher.DataLoaded)
             {
                 if (sText != null)
                 {
@@ -183,25 +176,74 @@ namespace NetWorkedData
                     NWDAppConsent tObject = GetObjectByInternalKey(sText.text, true) as NWDAppConsent;
                     if (tObject != null)
                     {
+                        // Title
                         string tText = tObject.Title.GetLocalString();
                         sText.text = tText.Replace("<br>", "\n");
+                        sText.text += "\n";
+
+                        // Description
                         tText = tObject.Description.GetLocalString();
                         sText.text += tText.Replace("<br>", "\n");
                     }
                 }
                 else
                 {
-#if UNITY_EDITOR
+                    #if UNITY_EDITOR
                     EditorUtility.DisplayDialog("Localize", "Text component is null", "OK");
-#endif
+                    #endif
                 }
             }
             else
             {
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 EditorUtility.DisplayDialog("Localize", "NWD engine not loaded", "OK");
-#endif
+                #endif
+            }*/
+
+            sText.text = Localize(sText.text, sDefault);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string Localize(string sText, string sDefault = "")
+        {
+            string rLocalizeText = "";
+
+            if (NWDTypeLauncher.DataLoaded)
+            {
+                if (sText != null)
+                {
+                    if (sDefault.Equals(""))
+                    {
+                        sDefault = sText;
+                    }
+
+                    NWDAppConsent tObject = GetObjectByInternalKey(sText, true) as NWDAppConsent;
+                    if (tObject != null)
+                    {
+                        // Title
+                        string tText = tObject.Title.GetLocalString();
+                        rLocalizeText = tText.Replace("<br>", "\n");
+                        rLocalizeText += "\n";
+
+                        // Description
+                        tText = tObject.Description.GetLocalString();
+                        rLocalizeText += tText.Replace("<br>", "\n");
+                    }
+                }
+                else
+                {
+                    #if UNITY_EDITOR
+                    EditorUtility.DisplayDialog("Localize", "String is null", "OK");
+                    #endif
+                }
             }
+            else
+            {
+                #if UNITY_EDITOR
+                EditorUtility.DisplayDialog("Localize", "NWD engine not loaded", "OK");
+                #endif
+            }
+
+            return rLocalizeText;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
