@@ -89,11 +89,17 @@ namespace NetWorkedData
             int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
             if (tShowPanel == 0)
             {
-                PanelShowDebug.SetActive(false);
+                if (PanelShowDebug != null)
+                {
+                    PanelShowDebug.SetActive(false);
+                }
             }
             else
             {
-                PanelShowDebug.SetActive(true);
+                if (PanelShowDebug != null)
+                {
+                    PanelShowDebug.SetActive(true);
+                }
             }
 
             // Show log button
@@ -121,7 +127,7 @@ namespace NetWorkedData
             //Debug.Log("NetWorkedData Awake");
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
-            BTBNotificationManager.SharedInstance().AddObserver(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
+            BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
             {
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });

@@ -103,6 +103,42 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool ConsentIsValid()
+        {
+            bool rReturn = true;
+            NWDAppConsent tAppConsent = Consent.GetObject();
+            if (tAppConsent != null)
+            {
+                switch (Consent.GetObject().ExpectedState)
+                {
+                    case BTBSwitchState.On:
+                        {
+                            if (Authorization != BTBSwitchState.On)
+                            {
+                                rReturn = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case BTBSwitchState.Off:
+                        {
+                            if (Authorization != BTBSwitchState.Off)
+                            {
+                                rReturn = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case BTBSwitchState.Unknow:
+                        {
+                            // no necessary spect
+                        }
+                        break;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
@@ -116,7 +152,7 @@ namespace NetWorkedData
             NWDUserConsent rUserConsent = null;
             foreach (NWDUserConsent tAuthorization in GetAllObjects())
             {
-                if (tAuthorization.Consent.GetObject() == sAppConsent && tAuthorization.VersionOfConsent.ToString() == sAppConsent.Version.ToString())
+                if (tAuthorization.Consent.GetObject() == sAppConsent && tAuthorization.VersionOfConsent.GetString() == sAppConsent.Version.GetString())
                 {
                     rUserConsent = tAuthorization;
                     break;
@@ -151,6 +187,7 @@ namespace NetWorkedData
         {
             Authorization = sStat;
             SaveModifications();
+            BTBNotificationManager.SharedInstance().PostNotification(null, NWDAppConsent.K_APPCONSENTS_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

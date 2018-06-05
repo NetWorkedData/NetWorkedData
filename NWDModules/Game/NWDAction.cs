@@ -219,7 +219,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void TrackBy(object sObserver, BTBNotificationBlock sBlockToUse)
         {
-            BTBNotificationManager.SharedInstance().AddObserver(sObserver, Reference, sBlockToUse);
+            BTBNotificationManager.SharedInstance().AddObserverForAll(sObserver, Reference, sBlockToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UnTrackBy(object sObserver)

@@ -51,6 +51,13 @@ namespace NetWorkedData
             Value = "";
         }
         //-------------------------------------------------------------------------------------------------------------
+        public int ToInt()
+        {
+            int rVersionInteger = 0;
+            int.TryParse(ToString().Replace(".", ""), out rVersionInteger);
+            return rVersionInteger;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()

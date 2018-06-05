@@ -77,6 +77,10 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Consent version")]
+        public string KeyOfConsent
+        {
+            get; set;
+        }
         public NWDVersionType Version
         {
             get; set;
@@ -125,9 +129,73 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public static void MyClassMethod()
+        public static NWDAppConsent[] GetAllLastVersionObjects()
         {
-            // do something with this class
+            List<NWDAppConsent> rList = new List<NWDAppConsent>();
+            Dictionary<string, NWDAppConsent> tDico = new Dictionary<string, NWDAppConsent>();
+            NWDAppConsent[] tConsentList = NWDAppConsent.GetAllObjects();
+            foreach (NWDAppConsent tConsent in tConsentList)
+            {
+                if (tDico.ContainsKey(tConsent.KeyOfConsent) == false)
+                {
+                    tDico.Add(tConsent.KeyOfConsent, tConsent);
+                }
+                else
+                {
+                    if (tDico[tConsent.KeyOfConsent].Version.ToInt() < tConsent.Version.ToInt())
+                    {
+                        tDico[tConsent.KeyOfConsent] = tConsent;
+                    }
+                }
+            }
+            foreach (KeyValuePair<string, NWDAppConsent> tConsentKeyValue in tDico)
+            {
+                rList.Add(tConsentKeyValue.Value);
+            }
+            return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ConsentsAreValid(NWDAppConsent[] sConsentsArray)
+        {
+            bool rReturn = true;
+            foreach (NWDAppConsent tConsent in sConsentsArray)
+            {
+                NWDUserConsent tUserConsent = NWDUserConsent.UserConsentForAppConsent(tConsent, false);
+                if (tUserConsent == null)
+                {
+                    rReturn = false;
+                    break;
+                }
+                else
+                {
+                    if (tUserConsent.ConsentIsValid() == false)
+                    {
+                        rReturn = false;
+                        break;
+                    }
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ConsentsAreAllValid()
+        {
+            bool rReturn = ConsentsAreValid(GetAllLastVersionObjects());
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // Load datas
+        public const string K_APPCONSENTS_NEED_VALIDATION = "K_APPCONSENTS_NEED_VALIDATION_Je7dY5z"; // OK Need to test & verify
+        public const string K_APPCONSENTS_CHANGED = "K_APPCONSENTS_CHANGED_rhjge4ez"; // OK Need to test & verify
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ConsentsCheck()
+        {
+            bool rReturn = ConsentsAreValid(GetAllLastVersionObjects());
+            if (rReturn == false)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(null, NWDAppConsent.K_APPCONSENTS_NEED_VALIDATION);
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
