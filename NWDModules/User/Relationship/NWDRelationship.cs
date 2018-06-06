@@ -364,8 +364,8 @@ namespace NetWorkedData
         /// </summary>
         public void RemoveRelationship()
         {
-            // Trash relationship
-            TrashMe();
+            // Disable relationship
+            DisableMe();
 
             // Sync with the server
             List<Type> tList = new List<Type>

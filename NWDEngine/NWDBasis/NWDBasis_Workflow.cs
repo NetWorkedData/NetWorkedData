@@ -90,12 +90,39 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetAllEnableObjects(string sAccountReference = null)
+        {
+            List<K> rReturn = new List<K>();
+            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            {
+                if (tObject.IsReacheableByAccount(sAccountReference) && tObject.IsEnable())
+                {
+                    rReturn.Add(tObject);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static K GetFirstObject(string sAccountReference = null)
         {
             K rReturn = null;
             foreach (K tObject in NWDBasis<K>.ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
+                {
+                    rReturn = tObject;
+                    break;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K GetFirstEnableObject(string sAccountReference = null)
+        {
+            K rReturn = null;
+            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            {
+                if (tObject.IsReacheableByAccount(sAccountReference) && tObject.IsEnable())
                 {
                     rReturn = tObject;
                     break;

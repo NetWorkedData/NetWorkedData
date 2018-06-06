@@ -227,7 +227,7 @@
             errorDeclaration('RLSw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
-                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$TIME_SYNC.'\', `ServerHash`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.$TIME_SYNC.'\ ';
+                    $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `'.$ENVSYNC.'` = \''.$TIME_SYNC.'\', `ServerHash`= \'\', `RelationState` = \'5\', `AC` = \'0\', `XX` = \''.$TIME_SYNC.'\ , `DD` = \''.$TIME_SYNC.'\ ';
                     $tQueryUpdate.= 'WHERE `Reference` = \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' ';//AND `RelationState` = 3';
                     myLog('$tQueryUpdate', __FILE__, __FUNCTION__, __LINE__);
                     myLog($tQueryUpdate, __FILE__, __FUNCTION__, __LINE__);
@@ -280,6 +280,11 @@
                                 $tReferenceBilateral = referenceGenerate ('RLS', $ENV.'_NWDRelationship', 'Reference');
                                  myLog('tReferenceBilateral='.$tReferenceBilateral, __FILE__, __FUNCTION__, __LINE__);
                                 // I will insert reciprocity in database 
+                                //$tQuery = 'SELECT `Reference`, `DM`, `DS`, `DevSync`, `PreprodSync`, `ProdSync`,
+                                //  `AC`, `DC`, `DD`, `FirstSync`, `InternalDescription`, `InternalKey`, `MinVersion`, `PinCode`, `PinLimit`,
+                                //   `Preview`, `PublisherClassesShared`, `PublisherNickname`, `PublisherReference`, `ReaderClassesAccepted`, `ReaderNickname`, `ReaderReference`,
+                                //    `Reciprocity`, `RelationState`, `Tag`, `WebServiceVersion`, `XX`, `Integrity` FROM `'.$ENV.'_NWDRelationship` WHERE Reference IN ( \''.implode('\', \'', $sReferences).'\') AND `WebServiceVersion` <= '.$WSBUILD.';';
+		
                                 $tInsert = 'INSERT INTO `'.$ENV.'_NWDRelationship` (';
                                 $tInsert.= '`Reference`, ';
                                 $tInsert.= '`DM`, ';
@@ -449,7 +454,7 @@
                             $tPublisherReference = $tRow['PublisherReference'];
                             $tReference = $tRow['Reference'];
                                 // recherche si une relation existe déjà
-                            $tQueryAllready = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PublisherReference` LIKE \''.$tPublisherReference.'\' AND `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND `AC` = 1 AND `XX` = 0 ';// AND `PinLimit` > '.$tTime.'';
+                            $tQueryAllready = 'SELECT `Reference` FROM `'.$ENV.'_NWDRelationship` WHERE `PublisherReference` LIKE \''.$tPublisherReference.'\' AND `ReaderReference` = \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND `AC` = 1 AND `DD` = 0 ';// AND `PinLimit` > '.$tTime.'';
                             $tResultAllready = $SQL_CON->query($tQueryAllready);
                             if ($tResultAllready->num_rows > 0)
                                 {
@@ -519,7 +524,7 @@
                  while($tRow = $tResult->fetch_array())
                  {
                  $tReference = $tRow['Reference'];
-                 $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `XX` = \''.$TIME_SYNC.'\', `DM` = \''.$TIME_SYNC.'\', `PinCode` = \'\', `RelationState` = 6 WHERE `Reference` LIKE \''.$SQL_CON->real_escape_string($tReference).'\' and `RelationState` > 0';
+                 $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `XX` = \''.$TIME_SYNC.'\', `DD` = \''.$TIME_SYNC.'\', `DM` = \''.$TIME_SYNC.'\', `PinCode` = \'\', `RelationState` = 6 WHERE `Reference` LIKE \''.$SQL_CON->real_escape_string($tReference).'\' and `RelationState` > 0';
                  $tResultUpdate = $SQL_CON->query($tQueryUpdate);
                  if (!$tResultUpdate)
                  {
@@ -549,7 +554,7 @@
         if ($action == 'Sync')
             {
                 // just return the update relationship object's
-            $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `ReaderReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND XX = \'0\'';
+            $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `ReaderReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND DD = \'0\'';
             $tResult = $SQL_CON->query($tQuery);
             if (!$tResult)
                 {
