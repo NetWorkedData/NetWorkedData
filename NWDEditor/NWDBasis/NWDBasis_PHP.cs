@@ -135,6 +135,15 @@ namespace NetWorkedData
                                     "$SQL_" + tClassName + "_SaltA = '" + PrefSaltA() + "';\n" +
                                     "$SQL_" + tClassName + "_SaltB = '" + PrefSaltB() + "';\n" +
                                     "//-------------------- \n";
+            
+            int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
+            if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
+            {
+                tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
+            }
+            tConstantsFile+= "$SQL_" + tClassName + "_WebService = "+tWebBuildUsed+";\n" +
+                "//-------------------- \n";
+
             //string tGlobal = "global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, ";
 
             //			// TO DO  : Change the name insertion in all file and COMMENT LATER {
@@ -642,7 +651,7 @@ namespace NetWorkedData
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
                 "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -659,7 +668,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
+                ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -760,7 +769,7 @@ namespace NetWorkedData
             tSynchronizationFile += "function Integrity" + tClassName + "ValidateByRow ($sRow)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\t$tCalculate =Integrity" + tClassName + "Generate ($sRow);\n" +
             "\t\tif ($tCalculate == $sRow['Integrity'])\n" +
             "\t\t\t{\n" +
@@ -788,7 +797,7 @@ namespace NetWorkedData
             tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $admin;\n" +
             "\t\tif (Integrity" + tClassName + "Test ($sCsv) == true)\n" +
             "\t\t\t{\n" +
@@ -851,7 +860,7 @@ namespace NetWorkedData
             tSynchronizationFile += "" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$WSBUILD.'';\n" +
+                "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.'';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -892,10 +901,10 @@ namespace NetWorkedData
             "function GetDatas" + tClassName + "ByReference ($sReference)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
+                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -938,7 +947,7 @@ namespace NetWorkedData
             "function GetDatas" + tClassName + "ByReferences ($sReferences)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
                 "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\') AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
@@ -965,7 +974,7 @@ namespace NetWorkedData
             "function GetDatas" + tClassName + " ($sTimeStamp, $sAccountReference)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
             "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
@@ -978,7 +987,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "AND (" + string.Join("OR ", tAccountReference.ToArray()) + ") ";
             }
-            tSynchronizationFile += " AND `WebServiceVersion` <= '.$WSBUILD.';';\n";
+            tSynchronizationFile += " AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n";
             // I do the result operation
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -1004,7 +1013,7 @@ namespace NetWorkedData
             "function GetDatas" + tClassName + "ByAccounts ($sTimeStamp, $sAccountReferences)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
             "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
@@ -1017,7 +1026,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "AND (" + string.Join("OR ", tAccountReferences.ToArray()) + ") ";
             }
-            tSynchronizationFile += " AND `WebServiceVersion` <= '.$WSBUILD.';';\n";
+            tSynchronizationFile += " AND `WebServiceVersion` <= '.$$SQL_" + tClassName + "_WebService.';';\n";
             // I do the result operation
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +

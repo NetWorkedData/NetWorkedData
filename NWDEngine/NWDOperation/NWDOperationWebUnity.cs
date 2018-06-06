@@ -94,7 +94,9 @@ namespace NetWorkedData
         public virtual string ServerBase()
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
+            string rURL = Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
+            NWDDebug.Log("URL : " + rURL);
+            return rURL;
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
@@ -191,7 +193,7 @@ namespace NetWorkedData
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
                     NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
-                    //NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+                    NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }
 
                 if (Request.isNetworkError)
