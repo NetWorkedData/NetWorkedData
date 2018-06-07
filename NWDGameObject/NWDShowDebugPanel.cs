@@ -75,7 +75,7 @@ namespace NetWorkedData
         {
             //Debug.Log("AlertTestAction()");
             BTBAlert tMessage = new BTBAlert("test", "Messsage", "Ok", 
-                                             delegate (MessageState state) {
+                                             delegate (BTBMessageState state) {
                                                 Debug.Log("YESSS ALERT IS FINISH");
                                              });
         }

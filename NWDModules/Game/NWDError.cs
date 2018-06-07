@@ -235,7 +235,7 @@ namespace NetWorkedData
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowNativeAlert()
+        public void ShowNativeAlert(BTBAlertOnCompleteBlock sCompleteBlock = null)
         {
             NWDErrorType tType = Type;
             // Override in some compile context
@@ -256,12 +256,12 @@ namespace NetWorkedData
             {
                 case NWDErrorType.Alert:
                     {
-                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString());
+                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Critical:
                     {
-                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString());
+                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
                         // Quit app
                     }
                     break;
