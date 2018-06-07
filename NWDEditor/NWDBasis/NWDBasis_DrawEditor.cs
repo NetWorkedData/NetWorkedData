@@ -1449,9 +1449,9 @@ namespace NetWorkedData
                                                                        (int)Tag,
                                                                        tTagStringList.ToArray(), tTagIntList.ToArray());
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            if ((int)tInternalTag != Tag)
+            if (tInternalTag != Tag)
             {
-                Tag = (int)tInternalTag;
+                Tag = tInternalTag;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);

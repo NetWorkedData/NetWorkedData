@@ -150,7 +150,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public int Tag
+        public NWDBasisTag Tag
         {
             get; set;
         }
@@ -627,7 +627,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (sObject.Tag == (int)m_SearchTag)
+                    if (sObject.Tag == m_SearchTag)
                     {
                         ObjectsInEditorTableList.Add(sObject.Reference);
                     }

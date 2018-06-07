@@ -101,7 +101,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ErrorRegenerate()
         {
+#if UNITY_EDITOR
             NWDError.CreateGenericError("NWDExample BasicError", "NWDExample_Triz01", "Internal error", "Internal error to test", "OK", NWDErrorType.Verbose, NWDBasisTag.TagInternal);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke

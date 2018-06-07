@@ -161,7 +161,7 @@ namespace NetWorkedData
 				tError.Reference = tReference;
 				// tError.InternalKey = Domain + " : " + sCode;
 				tError.InternalDescription = sDescription;
-                tError.Tag = (int)sTag;
+                tError.Tag = sTag;
 				// domain code
 				tError.Domain = sDomain;
 				tError.Code = sCode;

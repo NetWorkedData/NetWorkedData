@@ -153,7 +153,7 @@ namespace NetWorkedData
                 #endif
                 //--------------
                 rOwnership.Item.SetReference(sItemReference);
-                rOwnership.Tag = 20;
+                rOwnership.Tag = NWDBasisTag.TagUserCreated;
                 rOwnership.Quantity = 0;
                 rOwnership.SaveModifications();
             }

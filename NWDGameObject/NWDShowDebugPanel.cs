@@ -71,6 +71,12 @@ namespace NetWorkedData
             Debug.Log(NWDGDPR.ExtractAndSave());
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AlertTestAction()
+        {
+            Debug.Log("AlertTestAction()");
+            NativeMessage tMessage = new NativeMessage("test", "Messsage", "Ok");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
