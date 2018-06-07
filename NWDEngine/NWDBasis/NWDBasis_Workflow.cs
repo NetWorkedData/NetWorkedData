@@ -32,6 +32,7 @@ namespace NetWorkedData
     public enum NWDBasisTag : int
     {
         NoTag = -1,
+
         TagZero = 0,
         TagOne = 1,
         TagTwo = 2,
@@ -43,16 +44,20 @@ namespace NetWorkedData
         TagHeight = 8,
         TagNine = 9,
         TagTen = 10,
-        TagEleven = 11,
-        TagTwelve = 12,
-        TagThirteen = 13,
-        TagFourteen = 14,
-        TagFifteen = 15,
-        TagSixteen = 16,
-        TagSeventeen = 17,
-        TagHeighteen = 18,
-        TagNineteen = 19,
-        TagTwenty = 20,
+
+        TagInternal = 11,
+
+        TagTwelve = 12, // unused but reserved
+        TagThirteen = 13, // unused but reserved
+        TagFourteen = 14, // unused but reserved
+
+        TagTestForPreprod = 15,
+        TagTestForDev = 16,
+
+        TagAdminCreated = 17,
+        TagDeviceCreated = 18,
+        TagServerCreated = 19,
+        TagUserCreated = 20,
     }
     //-------------------------------------------------------------------------------------------------------------
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()

@@ -28,10 +28,14 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDErrorType : int
     {
-        Verbose = 0,
+        Verbose = 0, // No alert but write in log
 
-        Alert = 8, 
-        Critical= 9, 
+        InGame = 10, // Use in game alert 
+
+        Alert = 20, // System Dialog
+        Critical= 30,  // System Dialog and Quit
+
+        Ignore = 99, // Do Nothing
     }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
@@ -142,7 +146,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
-        public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sValidation , NWDErrorType sType = NWDErrorType.Verbose)
+        public static NWDError CreateGenericError (string sDomain, string sCode, string sTitle, string sDescription, string sValidation , NWDErrorType sType = NWDErrorType.Verbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
 		{
 			string tReference = "ERR-"+sDomain + "-" + sCode;
 			// TODO: alert if reference is too long for ereg / or substring if too long
@@ -157,6 +161,7 @@ namespace NetWorkedData
 				tError.Reference = tReference;
 				// tError.InternalKey = Domain + " : " + sCode;
 				tError.InternalDescription = sDescription;
+                tError.Tag = (int)sTag;
 				// domain code
 				tError.Domain = sDomain;
 				tError.Code = sCode;

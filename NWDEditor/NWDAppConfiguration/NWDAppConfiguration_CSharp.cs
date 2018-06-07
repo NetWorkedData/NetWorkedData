@@ -126,7 +126,7 @@ namespace NetWorkedData
             }
             int tTag = TagNumberUser + 1;
 
-            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 11
+            tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Internal Created\");\n"; // 11
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 12
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 13
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 14

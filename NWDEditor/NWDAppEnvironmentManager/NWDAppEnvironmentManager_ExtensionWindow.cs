@@ -51,7 +51,7 @@ namespace NetWorkedData
 			// Draw warning if salt for class is false
 			if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass () == false) {
 				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
-                if (GUILayout.Button("Regenerate"))
+                if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
