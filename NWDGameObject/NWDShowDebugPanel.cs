@@ -73,8 +73,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()
         {
-            Debug.Log("AlertTestAction()");
-            BTBAlert tMessage = new BTBAlert("test", "Messsage", "Ok");
+            //Debug.Log("AlertTestAction()");
+            BTBAlert tMessage = new BTBAlert("test", "Messsage", "Ok", 
+                                             delegate (MessageState state) {
+                                                Debug.Log("YESSS ALERT IS FINISH");
+                                             });
         }
         //-------------------------------------------------------------------------------------------------------------
         void Start()
