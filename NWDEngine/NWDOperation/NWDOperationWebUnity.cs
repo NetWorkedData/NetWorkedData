@@ -302,6 +302,7 @@ namespace NetWorkedData
                                     if (ResultInfos.errorDesc != null)
                                     {
                                         ResultInfos.errorDesc.PostNotificationError();
+                                        // TODO Refactor  ....
                                             NWDError tBanA = NWDError.GetErrorWithDomainAndCode("account", "ACC98");
                                             NWDError tBanB = NWDError.GetErrorWithDomainAndCode("account", "ACC99");
                                         if (ResultInfos.errorDesc == tBanA || ResultInfos.errorDesc == tBanB)
@@ -314,6 +315,11 @@ namespace NetWorkedData
                                 if (Application.isPlaying == true)
                                 {
                                     NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
+                                }
+                                //Show alert
+                                if (ResultInfos.errorDesc != null)
+                                {
+                                    ResultInfos.errorDesc.ShowAlert();
                                 }
                             }
                             else if (ResultInfos.isNewUser && ResultInfos.isUserTransfert)

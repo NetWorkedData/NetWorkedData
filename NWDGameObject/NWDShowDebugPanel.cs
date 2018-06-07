@@ -74,7 +74,7 @@ namespace NetWorkedData
         public void AlertTestAction()
         {
             Debug.Log("AlertTestAction()");
-            NativeMessage tMessage = new NativeMessage("test", "Messsage", "Ok");
+            BTBAlert tMessage = new BTBAlert("test", "Messsage", "Ok");
         }
         //-------------------------------------------------------------------------------------------------------------
         void Start()

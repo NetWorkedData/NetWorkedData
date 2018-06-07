@@ -241,6 +241,11 @@ namespace NetWorkedData
             if (isError)
             {
                 errorDesc = NWDError.GetErrorWithCode(errorCode) as NWDError;
+                // Move to the good place
+                //if (errorDesc != null)
+                //{
+                //    errorDesc.ShowAlert();
+                //}
             }
 
             param = new Dictionary<string, object>(data);
