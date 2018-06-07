@@ -99,6 +99,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        public static void ErrorRegenerate()
+        {
+            NWDError.CreateGenericError("NWDExample BasicError", "NWDExample_Triz01", "Internal error", "Internal error to test", "OK", NWDErrorType.Verbose);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke
         {
         }

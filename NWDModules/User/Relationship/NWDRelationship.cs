@@ -38,7 +38,7 @@ namespace NetWorkedData
 
 
         TimeOut = 6, // put in trash...
-        AllReadyFriends = 7, // put in trash...
+        AlreadyFriends = 7, // put in trash...
         Error = 9, // put in trash...  TODO
 
         Banned = 98, // banned this user to my friends TODO
@@ -160,6 +160,10 @@ namespace NetWorkedData
         public NWDRelationship(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDRelationship Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ErrorRegenerate()
+        {
 #if UNITY_EDITOR
             NWDError.CreateGenericError("relation ship", "RLSw01", "Action error", "Action is empty", "OK", NWDErrorType.Alert);
             NWDError.CreateGenericError("relation ship", "RLSw11", "Action error", "Action is not conform", "OK", NWDErrorType.Alert);

@@ -58,6 +58,16 @@ namespace NetWorkedData
             {
                 AssetDatabase.CreateFolder(tOwnerServerFolderPath + "/"  + tWebServiceFolder + "/Environment/" + Environment + "/Engine", "Database");
             }
+
+            //========= ERROR NWDERROR REGENERATE
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("ErrorRegenerate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                   tMethodInfo.Invoke(null, null);
+                }
+            }
             //========= CONSTANTS FILE
             string tConstantsFile = "";
             tConstantsFile += "<?php\n" +

@@ -147,11 +147,15 @@ namespace NetWorkedData
 			string tReference = "ERR-"+sDomain + "-" + sCode;
 			// TODO: alert if reference is too long for ereg / or substring if too long
 			NWDError tError = InstanceByReference (tReference) as NWDError;
-			if (tError == null) {
+            if (tError != null && tError.IsTrashed())
+            {
+                tError = null;
+            }
+            if (tError == null) {
 				tError = NWDBasis<NWDError>.NewObject ();
 				RemoveObjectInListOfEdition (tError);
 				tError.Reference = tReference;
-				//				tError.InternalKey = Domain + " : " + sCode;
+				// tError.InternalKey = Domain + " : " + sCode;
 				tError.InternalDescription = sDescription;
 				// domain code
 				tError.Domain = sDomain;
