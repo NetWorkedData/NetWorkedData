@@ -251,12 +251,12 @@ namespace NetWorkedData
             {
                 case NWDErrorType.Alert:
                     {
-                        new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString());
+                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString());
                     }
                     break;
                 case NWDErrorType.Critical:
                     {
-                        new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString());
+                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString());
                         // Quit app
                     }
                     break;
@@ -267,7 +267,7 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.InGame:
                     {
-                        BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR);
+                        BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
                     }
                     break;
                 case NWDErrorType.LogVerbose:
