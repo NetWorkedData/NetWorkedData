@@ -144,7 +144,6 @@ namespace NetWorkedData
 	//	}
 	//
 	//	#endif
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDNetworkState
     {
@@ -566,12 +565,6 @@ namespace NetWorkedData
             SharedInstance().WebOperationQueue.AddOperation (sOperation, sPriority);
 			return sOperation;
 		}
-
-
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public NWDOperationWebAccount AddWebRequestRemoveFacebookWithBlock(string sSocialToken,
                                                                          BTBOperationBlock sSuccessBlock = null,
