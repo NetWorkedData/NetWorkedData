@@ -230,7 +230,12 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void ShowAlert()
+        public void PostAlert()
+        {
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ShowNativeAlert()
         {
             NWDErrorType tType = Type;
             // Override in some compile context
@@ -267,7 +272,6 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.InGame:
                     {
-                        BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
                     }
                     break;
                 case NWDErrorType.LogVerbose:

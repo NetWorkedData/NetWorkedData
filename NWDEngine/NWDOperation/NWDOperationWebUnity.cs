@@ -319,7 +319,7 @@ namespace NetWorkedData
                                 //Show alert
                                 if (ResultInfos.errorDesc != null)
                                 {
-                                    ResultInfos.errorDesc.ShowAlert();
+                                    ResultInfos.errorDesc.PostAlert();
                                 }
                             }
                             else if (ResultInfos.isNewUser && ResultInfos.isUserTransfert)
