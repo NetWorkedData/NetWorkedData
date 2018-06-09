@@ -54,7 +54,7 @@ namespace NetWorkedData
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
-                    Debug.Log("Application must be updated with the bundle database!");
+                    //Debug.Log("Application must be updated with the database from bundle! Copy the New database");
                     File.Delete(tPathEditor);
                 }
                 // Write editor database

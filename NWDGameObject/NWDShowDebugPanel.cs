@@ -32,6 +32,7 @@ namespace NetWorkedData
         public NWDParameterConnection ParamOfApp;
         public Text ParamText;
         public GameObject PanelShowDebug;
+        public Text TestAlertText;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         //-------------------------------------------------------------------------------------------------------------
@@ -77,6 +78,10 @@ namespace NetWorkedData
             BTBAlert tMessage = new BTBAlert("test", "Messsage", "Ok", 
                                              delegate (BTBMessageState state) {
                                                 Debug.Log("YESSS ALERT IS FINISH");
+                                                 if (TestAlertText != null)
+                                                 {
+                    TestAlertText.text = "TEST YES";
+                                                 }
                                              });
         }
         //-------------------------------------------------------------------------------------------------------------
