@@ -461,11 +461,15 @@ namespace NetWorkedData
                     {
                         m_PageSelected++;
                         // TODO : reselect first object
-                        string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
-                        int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                        SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
-                        Event.current.Use();
-                        sEditorWindow.Focus();
+                        int tIndexSel = m_ItemPerPage * m_PageSelected;
+                        if (tIndexSel < ObjectsInEditorTableList.Count)
+                        {
+                            string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSel);
+                            int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
+                            SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                            Event.current.Use();
+                            sEditorWindow.Focus();
+                        }
                     }
                     else
                     {
