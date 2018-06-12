@@ -249,7 +249,9 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        CreateLocalizationTextValue(sText.text, sDefault);
+                        tObject = CreateLocalizationTextValue(sText.text, sDefault);
+                        tObject.Tag = NWDBasisTag.TagInternal;
+                        tObject.SaveModifications();
                     }
                 }
                 else

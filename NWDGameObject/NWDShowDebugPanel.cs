@@ -7,12 +7,10 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using BasicToolBox;
+
 #if COLORED_ADVANCED_DEBUG
 using ColoredAdvancedDebug;
-#endif
-using BasicToolBox;
-#if UNITY_EDITOR
-using UnityEditor;
 #endif
 
 //=====================================================================================================================
@@ -32,13 +30,19 @@ namespace NetWorkedData
         public NWDParameterConnection ParamOfApp;
         public Text ParamText;
         public GameObject PanelShowDebug;
+        //-------------------------------------------------------------------------------------------------------------
         public Text TestAlertText;
+        public Text TextAccount;
+        public Text TextReloadData;
+        public Text TextAddStat;
+        public Text TextGRPD;
+        public Text TextShowLog;
+        public Text TextTestAlert;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
-            //NWDDataManager.SharedInstance().ReloadAllObjects();
             NWDGameDataManager.UnitySingleton().ReloadAllDatas();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -47,7 +51,7 @@ namespace NetWorkedData
             NWDUserStats tStats = NWDUserStats.NewObject();
             tStats.SaveModificationsIfModified();
 #if UNITY_EDITOR
-            EditorWindow tEditorWindow = EditorWindow.focusedWindow;
+            UnityEditor.EditorWindow tEditorWindow = UnityEditor.EditorWindow.focusedWindow;
             NWDUserStats.SetObjectInEdition(tStats);
             tEditorWindow.Focus();
 #endif
@@ -74,15 +78,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()
         {
-            //Debug.Log("AlertTestAction()");
-            BTBAlert tMessage = new BTBAlert("test", "Messsage", "Ok", 
-                                             delegate (BTBMessageState state) {
-                                                Debug.Log("YESSS ALERT IS FINISH");
-                                                 if (TestAlertText != null)
-                                                 {
-                    TestAlertText.text = "TEST YES";
-                                                 }
-                                             });
+            TestAlertText.text = "TEST ALERT : NOK";
+            BTBAlert tMessage = new BTBAlert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
+                TestAlertText.text = "TEST ALERT : OK";
+            });
         }
         //-------------------------------------------------------------------------------------------------------------
         void Start()
@@ -90,14 +89,7 @@ namespace NetWorkedData
             Debug.Log("NWDShowDebugPanel Start()");
             if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
             {
-                // loaded (preloaded?) 
-                Debug.Log("NWDShowDebugPanel Start() PreLoaded");
                 UpdateParameterText();
-            }
-            else
-            {
-                Debug.Log("NWDShowDebugPanel Start() Async Loading");
-                //load async ?
             }
 
             int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
@@ -115,49 +107,34 @@ namespace NetWorkedData
                     PanelShowDebug.SetActive(true);
                 }
             }
-
-            // Show log button
-            //Text tText = ButtonShowLog.GetComponentInChildren<Text>();
-            //ButtonShowLog.gameObject.SetActive(NWDParameter.GetBool(tText.text, true));
-            //tText.text = NWDParameter.GetLocalString(tText.text, tText.text);
-
-            //// Show account button
-            //tText = ButtonShowAccount.GetComponentInChildren<Text>();
-            //ButtonShowAccount.gameObject.SetActive(NWDParameter.GetBool(tText.text, true));
-            //tText.text = NWDParameter.GetLocalString(tText.text, tText.text);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if COLORED_ADVANCED_DEBUG
         void CADDebugOverlayAddOnCallBack(CADDebugOverlay sDebug)
         {
-            //Debug.Log("ShowLog CADDebugOverlayAddOnCallBack()");
-            //Debug.Log("ShowLog Add this string " + NWDDataManager.SharedInstance().Informations());
             sDebug.AddString(NWDDataManager.SharedInstance().Informations());
         }
         #endif 
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
-            //Debug.Log("NetWorkedData Awake");
             // Add notification for NetWokedData update
             NWDDataManager.SharedInstance().InformationsUpdate();
             BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDNotificationConstants.K_DATAS_WEB_UPDATE, delegate (BTBNotification sNotification)
             {
                 NWDDataManager.SharedInstance().InformationsUpdate();
             });
+
             // Add callback to 
             #if COLORED_ADVANCED_DEBUG
-            //Debug.Log("Add CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
             #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
         {
-            //Debug.Log("NetWorkedData OnDestroy");
             BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
             #if COLORED_ADVANCED_DEBUG
-            //Debug.Log("Remove CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
             #endif
         }
@@ -173,6 +150,14 @@ namespace NetWorkedData
                     ParamText.text = ParamOfApp.GetObject().ValueString.GetLocalString();
                 }
             }
+
+            // Localize Text
+            NWDLocalization.AutoLocalize(TextAccount);
+            NWDLocalization.AutoLocalize(TextReloadData);
+            NWDLocalization.AutoLocalize(TextAddStat);
+            NWDLocalization.AutoLocalize(TextGRPD);
+            NWDLocalization.AutoLocalize(TextShowLog);
+            NWDLocalization.AutoLocalize(TextTestAlert);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)

@@ -41,7 +41,7 @@ namespace NetWorkedData
         public const string K_ERROR = "K_ERROR_Okk4ez6S";
         //-------------------------------------------------------------------------------------------------------------
         // player/user change
-        public const string K_ACCOUNT_CHANGE = "ACCOUNT_CHANGE_jhGe45di";// OK Needed by test & verify
+        public const string K_ACCOUNT_CHANGE = "K_ACCOUNT_CHANGE_jhGe45di";// OK Needed by test & verify
         public const string K_ACCOUNT_SESSION_EXPIRED = "K_ACCOUNT_SESSION_EXPIRED_Kiue44Q9"; // OK Needed by test & verify
         public const string K_ACCOUNT_BANNED = "K_ACCOUNT_BANNED_o4dH1dKJ"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
