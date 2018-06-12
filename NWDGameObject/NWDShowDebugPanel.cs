@@ -40,6 +40,7 @@ namespace NetWorkedData
         public Text TextGRPD;
         public Text TextShowLog;
         public Text TextTestAlert;
+        public Text TextTestDialog;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         //-------------------------------------------------------------------------------------------------------------
@@ -80,9 +81,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()
         {
-            TestAlertText.text = "TEST ALERT : NOK";
+            TestAlertText.text = "TEST ALERT : ???";
             BTBAlert tMessage = new BTBAlert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
                 TestAlertText.text = "TEST ALERT : OK";
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DialogTestAction()
+        {
+            TextTestDialog.text = "TEST DIALOG: ???";
+            BTBDialog tMessage = new BTBDialog("Test Dialog", "Choose", "YES", "NO", delegate (BTBMessageState state) {
+                if (state == BTBMessageState.OK)
+                {
+                    TextTestDialog.text = "TEST DIALOG: YES";
+                }
+                else if (state == BTBMessageState.NOK)
+                {
+                    TextTestDialog.text = "TEST DIALOG: NO";
+                }
+                else
+                {
+                    TextTestDialog.text = "TEST DIALOG: ERROR";
+                }
             });
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -169,6 +189,7 @@ namespace NetWorkedData
             NWDLocalization.AutoLocalize(TextGRPD);
             NWDLocalization.AutoLocalize(TextShowLog);
             NWDLocalization.AutoLocalize(TextTestAlert);
+            NWDLocalization.AutoLocalize(TextTestDialog);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
