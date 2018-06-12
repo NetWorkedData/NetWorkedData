@@ -1791,7 +1791,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114136474378566264}
-        m_MethodName: AlertTestAction
+        m_MethodName: DialogTestAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

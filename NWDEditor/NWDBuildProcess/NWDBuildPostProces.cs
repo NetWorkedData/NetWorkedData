@@ -20,6 +20,9 @@ using UnityEditor.Build;
 #if UNITY_IOS
 using UnityEditor.iOS.Xcode;
 #endif
+#if UNITY_STANDALONE_OSX
+using UnityEditor.iOS.Xcode;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -36,7 +39,7 @@ namespace NetWorkedData
 			switch (tBuildTarget) {
                 case BuildTarget.StandaloneOSX: 
 				{
-                        #if UNITY_IOS
+                        #if UNITY_STANDALONE_OSX
                         // TODO : change project localization 
                         string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
                         // Get plist
