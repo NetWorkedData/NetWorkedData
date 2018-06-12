@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -32,6 +32,8 @@ namespace NetWorkedData
         public GameObject PanelShowDebug;
         //-------------------------------------------------------------------------------------------------------------
         public Text TestAlertText;
+        public Image CartridgeImage;
+        public Text CartridgeText;
         public Text TextAccount;
         public Text TextReloadData;
         public Text TextAddStat;
@@ -128,7 +130,16 @@ namespace NetWorkedData
             // Add callback to 
             #if COLORED_ADVANCED_DEBUG
             CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
-            #endif
+#endif
+
+            if (CartridgeImage != null)
+            {
+                CartridgeImage.color = NWDAppEnvironment.SelectedEnvironment().CartridgeColor;
+            }
+            if (CartridgeText != null)
+            {
+                CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version + " WS"+ NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+" ©Unity3D " + Application.unityVersion + "";
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()

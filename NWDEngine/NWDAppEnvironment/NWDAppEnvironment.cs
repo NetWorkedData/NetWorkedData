@@ -74,6 +74,8 @@ namespace NetWorkedData
         public string AccountsForTests = "";
 
         public string BuildDate = "";
+
+        public Color CartridgeColor = new Color(1.0F,1.0F,1.0F);
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		#region constructor
