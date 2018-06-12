@@ -33,6 +33,8 @@ namespace NetWorkedData
         public Text ParamText;
         public GameObject PanelShowDebug;
         public Text TestAlertText;
+        public Image CartridgeImage;
+        public Text CartridgeText;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         //-------------------------------------------------------------------------------------------------------------
@@ -149,7 +151,16 @@ namespace NetWorkedData
             #if COLORED_ADVANCED_DEBUG
             //Debug.Log("Add CADDebugOverlayAddOnCallBack()");
             CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
-            #endif
+#endif
+
+            if (CartridgeImage != null)
+            {
+                CartridgeImage.color = NWDAppEnvironment.SelectedEnvironment().CartridgeColor;
+            }
+            if (CartridgeText != null)
+            {
+                CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version + " WS"+ NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+" ©Unity3D " + Application.unityVersion + "";
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         void OnDestroy()
