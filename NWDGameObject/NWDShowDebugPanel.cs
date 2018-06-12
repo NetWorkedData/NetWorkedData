@@ -89,10 +89,10 @@ namespace NetWorkedData
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
-            if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
+            /*if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
             {
                 UpdateParameterText();
-            }
+            }*/
 
             int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
             if (tShowPanel == 0)
