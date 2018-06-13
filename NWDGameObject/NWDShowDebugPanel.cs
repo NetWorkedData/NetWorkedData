@@ -28,10 +28,9 @@ namespace NetWorkedData
         public Button ButtonAddStats;
         public Button ButtonReloadDatas;
         public NWDParameterConnection ParamOfApp;
-        public Text ParamText;
+        //public Text ParamText;
         public GameObject PanelShowDebug;
         //-------------------------------------------------------------------------------------------------------------
-        public Text TestAlertText;
         public Image CartridgeImage;
         public Text CartridgeText;
         public Text TextAccount;
@@ -40,8 +39,10 @@ namespace NetWorkedData
         public Text TextGRPD;
         public Text TextShowLog;
         public Text TextTestAlert;
+        public Text TextDebug;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
+        private bool IsAutoLocalize = false;
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
@@ -52,11 +53,11 @@ namespace NetWorkedData
         {
             NWDUserStats tStats = NWDUserStats.NewObject();
             tStats.SaveModificationsIfModified();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             UnityEditor.EditorWindow tEditorWindow = UnityEditor.EditorWindow.focusedWindow;
             NWDUserStats.SetObjectInEdition(tStats);
             tEditorWindow.Focus();
-#endif
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ShowHidePanel()
@@ -80,19 +81,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()
         {
-            TestAlertText.text = "TEST ALERT : NOK";
+            TextDebug.text = "TEST ALERT : NOK";
             BTBAlert tMessage = new BTBAlert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
-                TestAlertText.text = "TEST ALERT : OK";
+                TextDebug.text = "TEST ALERT : OK";
             });
         }
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
             Debug.Log("NWDShowDebugPanel Start()");
-            /*if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
+            if (NWDGameDataManager.UnitySingleton().DatasIsLoaded() == true)
             {
                 UpdateParameterText();
-            }*/
+            }
 
             int tShowPanel = PlayerPrefs.GetInt(K_NWD_SHOW_DEBUG_PANEL, 0);
             if (tShowPanel == 0)
@@ -130,7 +131,7 @@ namespace NetWorkedData
             // Add callback to 
             #if COLORED_ADVANCED_DEBUG
             CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
-#endif
+            #endif
 
             if (CartridgeImage != null)
             {
@@ -156,19 +157,23 @@ namespace NetWorkedData
             if (ParamOfApp != null)
             {
                 NWDParameter tParam = ParamOfApp.GetObject();
-                if (tParam != null && ParamText != null)
+                if (tParam != null)
                 {
-                    ParamText.text = ParamOfApp.GetObject().ValueString.GetLocalString();
+                    TextDebug.text = tParam.ValueString.GetLocalString();
                 }
             }
 
             // Localize Text
-            NWDLocalization.AutoLocalize(TextAccount);
-            NWDLocalization.AutoLocalize(TextReloadData);
-            NWDLocalization.AutoLocalize(TextAddStat);
-            NWDLocalization.AutoLocalize(TextGRPD);
-            NWDLocalization.AutoLocalize(TextShowLog);
-            NWDLocalization.AutoLocalize(TextTestAlert);
+            if (!IsAutoLocalize)
+            {
+                NWDLocalization.AutoLocalize(TextAccount);
+                NWDLocalization.AutoLocalize(TextReloadData);
+                NWDLocalization.AutoLocalize(TextAddStat);
+                NWDLocalization.AutoLocalize(TextGRPD);
+                NWDLocalization.AutoLocalize(TextShowLog);
+                NWDLocalization.AutoLocalize(TextTestAlert);
+                IsAutoLocalize = true;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
