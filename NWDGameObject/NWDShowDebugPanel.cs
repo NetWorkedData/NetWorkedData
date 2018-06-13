@@ -27,8 +27,7 @@ namespace NetWorkedData
         public Button ButtonShowAccount;
         public Button ButtonAddStats;
         public Button ButtonReloadDatas;
-        public NWDParameterConnection ParamOfApp;
-        //public Text ParamText;
+        public NWDParameterConnection ParameterConnection;
         public GameObject PanelShowDebug;
         //-------------------------------------------------------------------------------------------------------------
         public Image CartridgeImage;
@@ -39,8 +38,9 @@ namespace NetWorkedData
         public Text TextGRPD;
         public Text TextShowLog;
         public Text TextTestAlert;
-        public Text TextDebug;
         public Text TextTestDialog;
+        public Text TextDebug;
+        public Text TextParameters;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         private bool IsAutoLocalize = false;
@@ -75,6 +75,18 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void ParametersTestAction()
+        {
+            if (ParameterConnection != null)
+            {
+                NWDParameter tParam = ParameterConnection.GetObject();
+                if (tParam != null)
+                {
+                    TextDebug.text = tParam.ValueString.GetLocalString();
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
             Debug.Log(NWDGDPR.ExtractAndSave());
@@ -90,19 +102,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DialogTestAction()
         {
-            TextTestDialog.text = "TEST DIALOG: ???";
+            TextDebug.text = "TEST DIALOG: NOK";
             BTBDialog tMessage = new BTBDialog("Test Dialog", "Choose", "YES", "NO", delegate (BTBMessageState state) {
                 if (state == BTBMessageState.OK)
                 {
-                    TextTestDialog.text = "TEST DIALOG: YES";
+                    TextDebug.text = "TEST DIALOG: YES";
                 }
                 else if (state == BTBMessageState.NOK)
                 {
-                    TextTestDialog.text = "TEST DIALOG: NO";
+                    TextDebug.text = "TEST DIALOG: NO";
                 }
                 else
                 {
-                    TextTestDialog.text = "TEST DIALOG: ERROR";
+                    TextDebug.text = "TEST DIALOG: ERROR";
                 }
             });
         }
@@ -173,15 +185,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateParameterText()
         {
-            Debug.Log("NWDShowDebugPanel UpdateParameterText()");
-            if (ParamOfApp != null)
-            {
-                NWDParameter tParam = ParamOfApp.GetObject();
-                if (tParam != null)
-                {
-                    TextDebug.text = tParam.ValueString.GetLocalString();
-                }
-            }
+            ParametersTestAction();
 
             // Localize Text
             if (!IsAutoLocalize)
@@ -192,6 +196,8 @@ namespace NetWorkedData
                 NWDLocalization.AutoLocalize(TextGRPD);
                 NWDLocalization.AutoLocalize(TextShowLog);
                 NWDLocalization.AutoLocalize(TextTestAlert);
+                NWDLocalization.AutoLocalize(TextTestDialog);
+                NWDLocalization.AutoLocalize(TextParameters);
                 IsAutoLocalize = true;
             }
         }
@@ -199,28 +205,24 @@ namespace NetWorkedData
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
             Debug.Log("NWDShowDebugPanel NotificationDatasLoaded()");
-            // create your method by override
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasWebUpdate(BTBNotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationDatasWebUpdate()");
-            // create your method by override
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationWebOperationDownloadSuccessed (BTBNotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()"); 
-            // create your method by override
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationLanguageChanged(BTBNotification sNotification)
         {
             Debug.Log("NWDShowDebugPanel NotificationWebOperationDownloadSuccessed()");
-            // create your method by override
             UpdateParameterText();
         }
         //-------------------------------------------------------------------------------------------------------------

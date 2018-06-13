@@ -285,7 +285,6 @@ namespace NetWorkedData
 		// Use this for initialization
 		void Start()
 		{
-			//Debug.Log("START NWDAccountPanel");
             BTBNotificationManager.SharedInstance().AddObserverForAll (this, NWDNotificationConstants.K_NETWORK_ONLINE, delegate (BTBNotification sNotification)
             {
 				if (TextNetworkResult!=null)
