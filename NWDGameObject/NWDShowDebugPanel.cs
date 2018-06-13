@@ -40,6 +40,7 @@ namespace NetWorkedData
         public Text TextShowLog;
         public Text TextTestAlert;
         public Text TextDebug;
+        public Text TextTestDialog;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
         private bool IsAutoLocalize = false;
@@ -84,6 +85,25 @@ namespace NetWorkedData
             TextDebug.text = "TEST ALERT : NOK";
             BTBAlert tMessage = new BTBAlert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
                 TextDebug.text = "TEST ALERT : OK";
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DialogTestAction()
+        {
+            TextTestDialog.text = "TEST DIALOG: ???";
+            BTBDialog tMessage = new BTBDialog("Test Dialog", "Choose", "YES", "NO", delegate (BTBMessageState state) {
+                if (state == BTBMessageState.OK)
+                {
+                    TextTestDialog.text = "TEST DIALOG: YES";
+                }
+                else if (state == BTBMessageState.NOK)
+                {
+                    TextTestDialog.text = "TEST DIALOG: NO";
+                }
+                else
+                {
+                    TextTestDialog.text = "TEST DIALOG: ERROR";
+                }
             });
         }
         //-------------------------------------------------------------------------------------------------------------

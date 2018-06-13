@@ -121,10 +121,10 @@ namespace NetWorkedData
             // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Texture2D FlashMyApp(bool sRedirection, int sDimension)
+        public Texture2D FlashMyApp(string sProto, bool sRedirection, int sDimension)
         {
             Texture2D rTexture = new Texture2D(sDimension, sDimension);
-            var color32 = Encode(URISchemePath(""), rTexture.width, rTexture.height);
+            var color32 = Encode(URISchemePath(sProto, ""), rTexture.width, rTexture.height);
             rTexture.SetPixels32(color32);
             rTexture.Apply();
             return rTexture;
@@ -144,9 +144,9 @@ namespace NetWorkedData
             return writer.Write(textForEncoding);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string URISchemePath(string sAdditional)
+        public string URISchemePath(string sProtocol, string sAdditional)
         {
-            string tText = NWDAppEnvironment.SelectedEnvironment().AppProtocol;
+            string tText = sProtocol;
             tText = tText.Replace(":", "");
             tText = tText.Replace("/", "");
             tText += "://do?A=" + WWW.EscapeURL(Reference);
@@ -322,19 +322,24 @@ namespace NetWorkedData
             EditorGUI.DrawRect(new Rect(tX, tY + tYadd, tWidth, 1), NWDConstants.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge;
             // draw Flash My App
-            EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(""));
-            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", tMiniButtonStyle))
-            {
-                Application.OpenURL(URISchemePath(""));
-            }
-            tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            // Draw QRCode texture
-            Texture2D tTexture = FlashMyApp(false, 256);
-            EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize * 2, NWDConstants.kPrefabSize * 2),
-                                         tTexture);
-            tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                string tProto = tProtocol.Replace("://", "");
+                EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(tProto,""));
+                tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", tMiniButtonStyle))
+                {
+                    Application.OpenURL(URISchemePath(tProto,""));
+                }
+                tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                // Draw QRCode texture
+                Texture2D tTexture = FlashMyApp(tProto,false, 256);
+                EditorGUI.DrawPreviewTexture(new Rect(tX, tY + tYadd, NWDConstants.kPrefabSize * 2, NWDConstants.kPrefabSize * 2),
+                                             tTexture);
+                tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            }
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -347,11 +352,15 @@ namespace NetWorkedData
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
             // Height calculate for the interface addon for editor
-            float tYadd = NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += NWDConstants.kFieldMarge;
-            tYadd += NWDConstants.kFieldMarge;
-            tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-            tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            float tYadd = 0.0F;
+            foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                tYadd = NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tYadd += NWDConstants.kFieldMarge;
+                tYadd += NWDConstants.kFieldMarge;
+                tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                tYadd += NWDConstants.kPrefabSize * 2 + NWDConstants.kFieldMarge;
+            }
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
