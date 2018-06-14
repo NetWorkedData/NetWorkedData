@@ -51,11 +51,6 @@ namespace NetWorkedData
     /// </summary>
     public partial class NWDCreditsMember : NWDBasis<NWDCreditsMember>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -75,11 +70,37 @@ namespace NetWorkedData
         //public int Other { get; set; }
 
         //PROPERTIES
-		public NWDLocalizableStringType Post {get; set;}
-		public NWDReferencesListType<NWDCharacter> Character {get; set;}
-		public NWDLocalizableStringType Lastname {get; set;}
-		public NWDLocalizableStringType Firstname {get; set;}
-		public NWDLocalizableStringType Nickname {get; set;}
+        [NWDGroupStart("Member Informations")]
+        public NWDLocalizableStringType Lastname
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType Firstname
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType Nickname
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Member post")]
+        public NWDLocalizableStringType Office
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Member Actor")]
+        public NWDReferencesListType<NWDCharacter> Character
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType Role
+        {
+            get; set;
+        }
 
 
         //-------------------------------------------------------------------------------------------------------------
@@ -261,7 +282,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -347,7 +368,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

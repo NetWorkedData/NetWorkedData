@@ -51,11 +51,6 @@ namespace NetWorkedData
     /// </summary>
     public partial class NWDCredits : NWDBasis<NWDCredits>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -75,12 +70,47 @@ namespace NetWorkedData
         //public int Other { get; set; }
 
         //PROPERTIES
-		public NWDReferenceType<NWDCreditsCompany> Company {get; set;}
-		public NWDLocalizableStringType Title {get; set;}
-		public NWDReferencesListType<NWDCreditsStuff> StuffList {get; set;}
-		public NWDReferencesListType<NWDCreditsCompany> CompanyList {get; set;}
-		public NWDLocalizableTextType LegalFooter {get; set;}
-		public NWDLocalizableTextType Copyright {get; set;}
+        [NWDGroupStart("Your company")]
+        public NWDLocalizableStringType Title
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDCreditsCompany> Company
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Your stuff")]
+        public NWDReferencesListType<NWDCreditsStuff> StuffList
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Associated companies")]
+        public NWDReferencesListType<NWDCreditsCompany> CompanyList
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Legal Informations")]
+        public NWDLocalizableTextType LegalFooter
+        {
+            get; set;
+        }
+        public NWDLocalizableTextType Copyright
+        {
+            get; set;
+        }
+        public float ScrollSpeed
+        {
+            get; set;
+        }
+        //[NWDGroupEnd()]
+        //[NWDGroupSeparator()]
+        //[NWDGroupStart("other")]
 
 
         //-------------------------------------------------------------------------------------------------------------
@@ -262,7 +292,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -348,7 +378,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

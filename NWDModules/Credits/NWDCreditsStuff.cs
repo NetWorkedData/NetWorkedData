@@ -51,11 +51,6 @@ namespace NetWorkedData
     /// </summary>
     public partial class NWDCreditsStuff : NWDBasis<NWDCreditsStuff>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -75,11 +70,33 @@ namespace NetWorkedData
         //public int Other { get; set; }
 
         //PROPERTIES
-		public NWDLocalizableStringType Title {get; set;}
-		public NWDColorType Tint {get; set;}
-		public bool ShowPost {get; set;}
-		public bool ShowCharacter {get; set;}
-        public NWDReferencesArrayType<NWDCreditsMember> MemberList {get; set;}
+        [NWDGroupStart("Stuff description")]
+        public NWDLocalizableStringType Title
+        {
+            get; set;
+        }
+        public NWDColorType Tint
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Members")]
+        public NWDReferencesArrayType<NWDCreditsMember> MemberList
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Show options")]
+        public bool ShowPost
+        {
+            get; set;
+        }
+        public bool ShowCharacter
+        {
+            get; set;
+        }
 
 
         //-------------------------------------------------------------------------------------------------------------
@@ -261,7 +278,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -347,7 +364,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

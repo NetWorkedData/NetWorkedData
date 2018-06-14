@@ -212,16 +212,19 @@ namespace NetWorkedData
             //kCounterExport++;
             if (tPath != null)
             {
-                if (Directory.Exists(tPath + "/" + tFolder + "_AllVersions") == false)
+                if (tPath.Length != 0)
                 {
-                    Directory.CreateDirectory(tPath + "/" + tFolder + "_AllVersions");
-                }
-                if (Directory.Exists(tPath + "/" + tFolder + "_AllVersions") == true)
-                {
+                    if (Directory.Exists(tPath + "/" + tFolder + "_AllVersions") == false)
+                    {
+                        Directory.CreateDirectory(tPath + "/" + tFolder + "_AllVersions");
+                    }
+                    if (Directory.Exists(tPath + "/" + tFolder + "_AllVersions") == true)
+                    {
 
-                    string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
+                        string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
 
-                    NWDToolbox.ExportCopyFolderFiles(tOwnerFolderServer + "/", tPath + "/" + tFolder + "_AllVersions");
+                        NWDToolbox.ExportCopyFolderFiles(tOwnerFolderServer + "/", tPath + "/" + tFolder + "_AllVersions");
+                    }
                 }
             }
         }
