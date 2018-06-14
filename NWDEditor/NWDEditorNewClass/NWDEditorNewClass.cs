@@ -229,7 +229,7 @@ namespace NetWorkedData
 				tListOfType.Add ("NWDReferencesListType<K>/"+tType.Name);
 				tListOfType.Add ("NWDReferencesQuantityType<K>/"+tType.Name);
                 tListOfType.Add ("NWDReferenceType<K>/"+tType.Name);
-                tListOfType.Add("NWDReferenceArray<K>/" + tType.Name);
+                tListOfType.Add("NWDReferencesArray<K>/" + tType.Name);
 			}
 			// prepare result properties
 			List<KeyValuePair<string,string>> tNextClassNameProperties = new List<KeyValuePair<string,string>> ();
