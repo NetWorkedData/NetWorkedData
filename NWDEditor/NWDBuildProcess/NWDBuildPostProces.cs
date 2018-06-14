@@ -180,15 +180,15 @@ namespace NetWorkedData
                                 if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tKeyValue.Value))
                                 {
                                     // todo create the InfoPlist.strings and add to project ?!
-                                    string tBundleName = NWDAppConfiguration.SharedInstance().BundleName[tKeyValue.Value];
-                                    if (string.IsNullOrEmpty(tBundleName) == false)
+                                    string tBundleNameLocalized = NWDAppConfiguration.SharedInstance().BundleName[tKeyValue.Value];
+                                    if (string.IsNullOrEmpty(tBundleNameLocalized) == false)
                                     {
 
                                         if (Directory.Exists(path + "/" + tV + ".lproj") == false)
                                         {
                                             Directory.CreateDirectory(path + "/" + tV + ".lproj");
                                         }
-                                        File.WriteAllText(path + "/" + tV + ".lproj/InfoPlist.strings", "\n\"CFBundleDisplayName\" = \"" + tBundleName + "\";\n");
+                                        File.WriteAllText(path + "/" + tV + ".lproj/InfoPlist.strings", "\n\"CFBundleDisplayName\" = \"" + tBundleNameLocalized + "\";\n");
                                         tPBXProject.AddFile(path + "/" + tV + ".lproj/InfoPlist.strings", "InfoPlist.strings", PBXSourceTree.Source);
                                     }
                                 }

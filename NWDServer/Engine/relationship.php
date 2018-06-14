@@ -32,6 +32,7 @@
     $ereg_pindelay = '/^([0-9]{1,2})$/';
     $ereg_nickname = '/^(.{3,48})$/';
     $ereg_nicknameID = '/^(.{3,48})$/';
+    $ereg_classes = '/^(.*)$/';
         //--------------------
     function PinCodeRandom (int $sSize)
     {
@@ -368,7 +369,7 @@
                     else
                         {
                             IntegrityNWDRelationshipReevalue ($reference);
-                            IntegrityServerNWDRelationshipValidate ($reference);
+                            // IntegrityServerNWDRelationshipValidate ($reference);
                         }
 
                     }
@@ -399,27 +400,93 @@
                 }
                 //$action = 'Sync';
             }
-        if ($action == 'ChangeClassByMaster')
+        if ($action == 'ChangeClassByPublisher')
             {
                 // just return the update relationship object's
             errorDeclaration('RLSw02', 'Reference empty');
             errorDeclaration('RLSw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
-                
-                    IntegrityNWDRelationshipReevalue ($reference);
+                    errorDeclaration('RLSw40', 'Classes empty');
+                    errorDeclaration('RLSw41', 'Classes ereg');
+                    if (paramValue ('classes', 'classes', $ereg_classes, 'RLSw40', 'RLSw41')) // I test Classes
+                    {
+
+                        $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `Reference` LIKE \''.$SQL_CON->real_escape_string($reference).'\' AND `PublisherReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND DD = \'0\'';
+                        $tResult = $SQL_CON->query($tQuery);
+                        if (!$tResult)
+                            {
+                            myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                            errorDeclaration('RLSw101', 'error in select relationship');
+                            error('RLSw101');
+                            }
+                        else
+                            {
+                            while($tRow = $tResult->fetch_array())
+                                {
+                                    IntegrityServerNWDRelationshipValidate($tRow['Reference']);
+                                if (IntegrityServerNWDRelationshipValidateByRow ($tRow) == true)
+                                    {
+                                            $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `PublisherClassesShared` = \''.$SQL_CON->real_escape_string($classes).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($tRow['Reference']).'\'';
+                                            $tResultUpdate = $SQL_CON->query($tQueryUpdate);
+                                            if (!$tResultUpdate)
+                                                {
+                                                errorDeclaration('RLSw981', 'error in update reference object');
+                                                error('RLSw981');
+                                                }
+                                            else
+                                                {
+                                                IntegrityNWDRelationshipReevalue ($tRow['Reference']);
+                                                // IntegrityServerNWDRelationshipValidate ($tRow['Reference']);
+                                                }
+                                    }
+                                }
+                            }
+                    }
                 }
-                //$action = 'Sync';
             }
-        if ($action == 'ChangeClassBySlave')
+        if ($action == 'ChangeClassByReader')
             {
                 // just return the update relationship object's
             errorDeclaration('RLSw02', 'Reference empty');
             errorDeclaration('RLSw12', 'Reference ereg');
             if (paramValue ('reference', 'reference', $ereg_reference, 'RLSw02', 'RLSw12')) // I test Reference
                 {
-                
-                    IntegrityNWDRelationshipReevalue ($reference);
+                    errorDeclaration('RLSw40', 'Classes empty');
+                    errorDeclaration('RLSw41', 'Classes ereg');
+                    if (paramValue ('classes', 'classes', $ereg_classes, 'RLSw40', 'RLSw41')) // I test Classes
+                    {
+                        $tQuery = 'SELECT * FROM `'.$ENV.'_NWDRelationship` WHERE  `Reference` LIKE \''.$SQL_CON->real_escape_string($reference).'\' AND `ReaderReference` LIKE \''.$SQL_CON->real_escape_string($uuid).'\' AND `RelationState` = 4 AND AC = \'1\' AND DD = \'0\'';
+                        $tResult = $SQL_CON->query($tQuery);
+                        if (!$tResult)
+                            {
+                            myLog($SQL_CON->error, __FILE__, __FUNCTION__, __LINE__);
+                            errorDeclaration('RLSw101', 'error in select relationship');
+                            error('RLSw101');
+                            }
+                        else
+                            {
+                            while($tRow = $tResult->fetch_array())
+                                {
+                                    IntegrityServerNWDRelationshipValidate($tRow['Reference']);
+                                if (IntegrityServerNWDRelationshipValidateByRow ($tRow) == true)
+                                    {
+                                            $tQueryUpdate = 'UPDATE `'.$ENV.'_NWDRelationship` SET `ReaderClassesShared` = \''.$SQL_CON->real_escape_string($classes).'\' WHERE `Reference` = \''.$SQL_CON->real_escape_string($tRow['Reference']).'\'';
+                                            $tResultUpdate = $SQL_CON->query($tQueryUpdate);
+                                            if (!$tResultUpdate)
+                                                {
+                                                errorDeclaration('RLSw981', 'error in update reference object');
+                                                error('RLSw981');
+                                                }
+                                            else
+                                                {
+                                                IntegrityNWDRelationshipReevalue ($tRow['Reference']);
+                                                // IntegrityServerNWDRelationshipValidate ($tRow['Reference']);
+                                                }
+                                    }
+                                }
+                            }
+                    }
                 }
                 //$action = 'Sync';
             }
@@ -581,12 +648,13 @@
                                 $tResultUpdate = $SQL_CON->query($tQueryUpdate);
                                 if (!$tResultUpdate)
                                     {
-                                    errorDeclaration('RLSw981', 'error in update reference object with uuid and pincode');
+                                    errorDeclaration('RLSw981', 'error in update reference object');
                                     error('RLSw981');
                                     }
                                 else
                                     {
                                     IntegrityNWDRelationshipReevalue ($tRow['Reference']);
+                                    // IntegrityServerNWDRelationshipValidate ($tRow['Reference']);
                                     }
                             }
 

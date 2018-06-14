@@ -186,6 +186,10 @@ namespace NetWorkedData
             NWDError.CreateGenericError("NWDRelationship", "RLSw101", "Select error", "Select error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("NWDRelationship", "RLSw981", "Update error", "Update error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("NWDRelationship", "RLSw999", "Security", "Security error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+            NWDError.CreateGenericError("NWDRelationship", "RLSw40", "Classes", "Classes empty", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("NWDRelationship", "RLSw41", "Classes", "Classe ereg", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -630,6 +634,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddClassesToPublisher(Type sClass)
         {
+            string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -637,19 +642,18 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    PublisherClassesShared = "," + PublisherClassesShared + ",";
-                    PublisherClassesShared = PublisherClassesShared.Replace("," + tClassName + ",", ",");
-                    PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
-                    // add
-                    PublisherClassesShared = PublisherClassesShared + "," + tClassName;
-                    PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
-                    SaveModificationsIfModified();
+                    sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
+                    sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
+                    sPublisherClassesShared = sPublisherClassesShared + "," + tClassName;
                 }
             }
+            sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
+            AskChangeClassByPublisher(sPublisherClassesShared);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveClassesToPublisher(Type sClass)
         {
+            string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -657,17 +661,38 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    PublisherClassesShared = "," + PublisherClassesShared + ",";
-                    PublisherClassesShared = PublisherClassesShared.Replace("," + tClassName + ",", ",");
-                    PublisherClassesShared = PublisherClassesShared.Trim(new char[] { ',' });
-                    // save modifications
-                    SaveModificationsIfModified();
+                    sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
                 }
             }
+            sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
+            AskChangeClassByPublisher(sPublisherClassesShared);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ChangeClassesToPublisher(Type[] sClasses)
+        {
+            string sPublisherClassesShared = "";
+            foreach (Type sClass in sClasses)
+            {
+                if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
+                {
+                    var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                        // remove if exists
+                        sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
+                        sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
+                        sPublisherClassesShared = sPublisherClassesShared + "," + tClassName;
+                    }
+                }
+            }
+            sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
+            AskChangeClassByPublisher(sPublisherClassesShared);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddClassesToReader(Type sClass)
         {
+            string sReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -675,20 +700,18 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    ReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
-                    ReaderClassesAccepted = ReaderClassesAccepted.Replace("," + tClassName + ",", ",");
-                    ReaderClassesAccepted = ReaderClassesAccepted.Trim(new char[] { ',' });
-                    // add
-                    ReaderClassesAccepted = ReaderClassesAccepted + "," + tClassName;
-                    ReaderClassesAccepted = ReaderClassesAccepted.Trim(new char[] { ',' });
-                    // save modifications
-                    SaveModificationsIfModified();
+                    sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
+                    sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
+                    sReaderClassesAccepted = sReaderClassesAccepted + "," + tClassName;
                 }
             }
+            sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
+            AskChangeClassByReader(sReaderClassesAccepted);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveClassesToReader(Type sClass)
         {
+            string sReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -696,16 +719,73 @@ namespace NetWorkedData
                 {
                     string tClassName = tMethodInfo.Invoke(null, null) as string;
                     // remove if exists
-                    ReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
-                    ReaderClassesAccepted = ReaderClassesAccepted.Replace("," + tClassName + ",", ",");
-                    ReaderClassesAccepted = ReaderClassesAccepted.Trim(new char[] { ',' });
-                    // save modifications
-                    SaveModificationsIfModified();
+                    sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
+                    sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
                 }
             }
+            sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
+            AskChangeClassByReader(sReaderClassesAccepted);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void ChangeClassesToReader(Type[] sClasses)
+        {
+            string sReaderClassesAccepted = "";
+            foreach (Type sClass in sClasses)
+            {
+                if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
+                {
+                    var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                        // remove if exists
+                        sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
+                        sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
+                        sReaderClassesAccepted = sReaderClassesAccepted + "," + tClassName;
+                    }
+                }
+            }
+            sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
+            AskChangeClassByReader(sReaderClassesAccepted);
         }
         //-------------------------------------------------------------------------------------------------------------
         #region WebServices
+        //-------------------------------------------------------------------------------------------------------------
+        public void AskChangeClassByPublisher(string sPublisherClassesShared, 
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                       NWDAppEnvironment sEnvironment = null)
+        {
+            RelationState = NWDRelationshipPinState.CreatePin;
+            SaveModificationsIfModified();
+            // Start webrequest
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
+            sOperation.Action = "ChangeClassByPublisher";
+            sOperation.Classes = sPublisherClassesShared;
+            sOperation.Relationship = this;
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void AskChangeClassByReader(string sReaderClassesShared,
+                                                                       BTBOperationBlock sSuccessBlock = null,
+                                                                       BTBOperationBlock sErrorBlock = null,
+                                                                       BTBOperationBlock sCancelBlock = null,
+                                                                       BTBOperationBlock sProgressBlock = null,
+                                                                       bool sPriority = true,
+                                                                       NWDAppEnvironment sEnvironment = null)
+        {
+            RelationState = NWDRelationshipPinState.CreatePin;
+            SaveModificationsIfModified();
+            // Start webrequest
+            NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
+            sOperation.Action = "ChangeClassByReader";
+            sOperation.Classes = sReaderClassesShared;
+            sOperation.Relationship = this;
+            NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void AskPinCodeFromServer(string sNickname = "no nickname", int sSeconds = 60,
                                          int sPinSize = 6,
@@ -962,33 +1042,75 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship)
+        public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
+            if (sLimitByRelationAuthorization ==true && 
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP())== false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP())== false)
+               )
+            {
+                return new K[0];
+            }
             return GetAllObjects(sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship)
+        public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return null;
+            }
             return GetObjectByReference(sReference, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship)
+        public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return new K[0];
+            }
             return GetObjectsByReferences(sReferences, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
+        public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return null;
+            }
             return GetObjectByInternalKey(sInternalKey, false, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship)
+        public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return new K[0];
+            }
             return GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship)
+        public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return new K[0];
+            }
             return GetObjectsByInternalKeys(sInternalKeys, false, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
