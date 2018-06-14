@@ -137,10 +137,46 @@ namespace NetWorkedData
                                     "//-------------------- \n";
             
             int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
+
+            Dictionary<string, int> tResult = new Dictionary<string, int>();
+            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
             {
-                tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
+                if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tKeyValue.Key) == true)
+                {
+                    if (NWDAppConfiguration.SharedInstance().WSList[tKeyValue.Key] == true)
+                    {
+                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
+                        {
+                            if (tResult.ContainsKey(tSubKeyValue.Key))
+                            {
+                                if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
+                                {
+                                    tResult[tSubKeyValue.Key] = tKeyValue.Key;
+                                }
+                            }
+                            else
+                            {
+                                tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
+                            }
+                        }
+                    }
+                }
             }
+            NWDAppConfiguration.SharedInstance().kLastWebBuildClass = new Dictionary<Type, int>();
+            foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
+            {
+                if (tKeyValue.Key == ClassNamePHP())
+                {
+                    tWebBuildUsed = tKeyValue.Value;
+                }
+            }
+
+
+            //if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
+            //{
+            //    tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
+            //}
+
             tConstantsFile+= "$SQL_" + tClassName + "_WebService = "+tWebBuildUsed+";\n" +
                 "//-------------------- \n";
 
@@ -908,7 +944,7 @@ namespace NetWorkedData
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
             "\t\t\t{\n" +
@@ -954,7 +990,7 @@ namespace NetWorkedData
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
             "\t\t\t{\n" +
@@ -992,7 +1028,7 @@ namespace NetWorkedData
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
             "\t\t\t{\n" +
@@ -1031,7 +1067,7 @@ namespace NetWorkedData
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x33');" +
+            "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
             "\t\t\t{\n" +

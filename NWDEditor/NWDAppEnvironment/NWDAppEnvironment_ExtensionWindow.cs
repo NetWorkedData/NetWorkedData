@@ -159,8 +159,16 @@ namespace NetWorkedData
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
-                bool tV = EditorGUILayout.Toggle("WebService " + tWS.Key.ToString() + " in config", tWS.Value);
-                NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+                if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tWS.Key)==false)
+                {
+                    bool tV = EditorGUILayout.Toggle("(WebService " + tWS.Key.ToString() + " unused)", tWS.Value);
+                    NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+                }
+                else
+                {
+                    bool tV = EditorGUILayout.Toggle("WebService " + tWS.Key.ToString() + " in config", tWS.Value);
+                    NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
+                }
                 EditorGUI.EndDisabledGroup();
             }
             EditorGUILayout.EndVertical();
