@@ -390,6 +390,10 @@ namespace NetWorkedData
 
             EditorGUI.BeginDisabledGroup(!tConnection);
 
+            bool tUp = false;
+            bool tDown = false;
+            int tIndexToMove = -1;
+
             tValueList.Add("");
             string tNewReference = "";
             for (int i = 0; i < tValueList.Count; i++)
@@ -416,6 +420,24 @@ namespace NetWorkedData
                     {
                         NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(tIndex)), false);
                     }
+                    if (i > 0)
+                    {
+                        GUIContent tUpContent = new GUIContent(NWDConstants.kImageUp, "up");
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDConstants.kFieldMarge) * 2, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tUpContent, NWDConstants.kPopupButtonStyle))
+                        {
+                            tUp = true;
+                            tIndexToMove = i;
+                        }
+                    }
+                    if (i < tValueList.Count - 2)
+                    {
+                        GUIContent tDownContent = new GUIContent(NWDConstants.kImageDown, "down");
+                        if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth - (tEditWidth + NWDConstants.kFieldMarge), tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDownContent, NWDConstants.kPopupButtonStyle))
+                        {
+                            tDown = true;
+                            tIndexToMove = i;
+                        }
+                    }
                 }
                 else
                 {
@@ -436,6 +458,32 @@ namespace NetWorkedData
                 {
                     tValueList[i] = "";
                 }
+            }
+            if (tDown == true)
+            {
+                int tNewIndex = tIndexToMove + 1;
+                string tP = tValueList[tIndexToMove];
+                tValueList.RemoveAt(tIndexToMove);
+                if (tNewIndex >= tValueList.Count)
+                {
+                    tNewIndex = tValueList.Count - 1;
+                }
+                if (tNewIndex < 0)
+                {
+                    tNewIndex = 0;
+                }
+                tValueList.Insert(tNewIndex, tP);
+            }
+            if (tUp == true)
+            {
+                int tNewIndex = tIndexToMove - 1;
+                string tP = tValueList[tIndexToMove];
+                tValueList.RemoveAt(tIndexToMove);
+                if (tNewIndex < 0)
+                {
+                    tNewIndex = 0;
+                }
+                tValueList.Insert(tNewIndex, tP);
             }
             string[] tNextValueArray = tValueList.ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray)+tNewReference;

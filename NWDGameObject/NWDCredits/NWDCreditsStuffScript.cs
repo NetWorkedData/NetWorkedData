@@ -10,6 +10,7 @@ public class NWDCreditsStuffScript : MonoBehaviour {
     private NWDCreditsStuff Stuff;
     public Text Title;
     public GameObject PanelGrid;
+    public Image PanelImage;
 	// Use this for initialization
 	void Start () {
         Stuff = StuffReference.GetObject();
@@ -24,7 +25,7 @@ public class NWDCreditsStuffScript : MonoBehaviour {
         {
             Title.text = sStuff.Title.GetLocalString();
             // install the member
-
+            PanelImage.color = sStuff.Tint.GetColor();
             foreach (NWDCreditsMember tMember in sStuff.MemberList.GetObjects())
             {
                 GameObject tPrefab = Instantiate(sMemberPrefab, PanelGrid.transform, false);

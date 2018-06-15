@@ -82,7 +82,7 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Members")]
-        public NWDReferencesArrayType<NWDCreditsMember> MemberList
+        public NWDReferencesListType<NWDCreditsMember> MemberList
         {
             get; set;
         }
