@@ -1,16 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using NetWorkedData;
 
 public class NWDCreditsMemberScript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public Text Names;
+    public Text Office;
+    public Image Character;
+    // Use this for initialization
+    private void Start()
+    {
+        
+    }
+    public void Install(NWDCreditsMember sMember)
+    {
+        if (sMember != null)
+        {
+            Office.text = sMember.Office.GetLocalString();
+            if (string.IsNullOrEmpty(sMember.Nickname.GetLocalString()))
+            {
+                Names.text = sMember.Lastname.GetLocalString() + " " + sMember.Firstname.GetLocalString();
+            }
+            else
+            {
+                Names.text = sMember.Lastname.GetLocalString() + " " + sMember.Firstname.GetLocalString() + "(" + sMember.Nickname.GetLocalString() + ")";
+            }
+        }
+    }
 	
 	// Update is called once per frame
-	void Update () {
+    private void Update () {
 		
 	}
 }
