@@ -75,13 +75,17 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDColorType Tint
+        public NWDPrefabType Prefab
         {
             get; set;
         }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Members")]
+        public NWDPrefabType MemberPrefab
+        {
+            get; set;
+        }
         public NWDReferencesListType<NWDCreditsMember> MemberList
         {
             get; set;
@@ -89,6 +93,10 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Show options")]
+        public NWDColorType Tint
+        {
+            get; set;
+        }
         public bool ShowPost
         {
             get; set;
@@ -97,6 +105,8 @@ namespace NetWorkedData
         {
             get; set;
         }
+
+
 
 
         //-------------------------------------------------------------------------------------------------------------

@@ -21,7 +21,7 @@ public class NWDCreditsStuffScript : MonoBehaviour {
     }
     public void Install(NWDCreditsStuff sStuff, GameObject sMemberPrefab)
     {
-        if (sStuff != null)
+        if (sStuff != null && sMemberPrefab!=null && PanelGrid!=null)
         {
             Title.text = sStuff.Title.GetLocalString();
             // install the member
@@ -30,7 +30,7 @@ public class NWDCreditsStuffScript : MonoBehaviour {
             {
                 GameObject tPrefab = Instantiate(sMemberPrefab, PanelGrid.transform, false);
                 NWDCreditsMemberScript tMemberScript = tPrefab.GetComponent<NWDCreditsMemberScript>() as NWDCreditsMemberScript;
-                tMemberScript.Install(tMember);
+                tMemberScript.Install(tMember,sStuff.Tint.GetColor());
             }
         }
     }

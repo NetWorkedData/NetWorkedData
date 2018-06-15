@@ -13,11 +13,12 @@ public class NWDCreditsMemberScript : MonoBehaviour {
     {
         
     }
-    public void Install(NWDCreditsMember sMember)
+    public void Install(NWDCreditsMember sMember, Color sTint)
     {
         if (sMember != null)
         {
             Office.text = sMember.Office.GetLocalString();
+            Office.color = sTint;
             if (string.IsNullOrEmpty(sMember.Nickname.GetLocalString()))
             {
                 Names.text = sMember.Lastname.GetLocalString() + " " + sMember.Firstname.GetLocalString();
