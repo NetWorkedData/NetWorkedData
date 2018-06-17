@@ -524,6 +524,7 @@ namespace NetWorkedData
 
 
         static public GUIStyle kLabelStyle;
+        static public GUIStyle kLabelRightStyle;
         static public GUIStyle kBoldLabelStyle;
         static public GUIStyle kPopupdStyle;
         static public GUIStyle kTextFieldStyle;
@@ -573,6 +574,11 @@ namespace NetWorkedData
 
                 kLabelStyle = new GUIStyle(EditorStyles.label);
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
+                kLabelRightStyle = new GUIStyle(EditorStyles.label);
+                kLabelRightStyle.alignment = TextAnchor.MiddleRight;
+                kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
                 kBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
                 kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
 
