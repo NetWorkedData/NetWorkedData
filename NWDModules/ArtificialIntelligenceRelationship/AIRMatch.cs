@@ -170,7 +170,27 @@ namespace NetWorkedData
                 Dictionary<AIRDimension, AIRRange> tDimensionAverage = new Dictionary<AIRDimension, AIRRange>();
                 foreach (AIRDimension tD in tKeys)
                 {
-                    tDimensionAverage.Add(tD, tDimensionAverageOld[tD]);
+                    NWDItem[] tItemsToShow = tD.ItemToShow.GetObjects();
+                    bool iSVisible = sEditorMode;
+                    if (tItemsToShow.Length > 0)
+                    {
+                        foreach (NWDItem tItem in tItemsToShow)
+                        {
+                            if (NWDOwnership.QuantityForItem(tItem.Reference) > 0)
+                            {
+                                iSVisible = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        iSVisible = true;
+                    }
+                    if (iSVisible == true)
+                    {
+                        tDimensionAverage.Add(tD, tDimensionAverageOld[tD]);
+                    }
                 }
                 // draw
                 int tDimNumber = tDimensionAverage.Count;
@@ -382,6 +402,7 @@ namespace NetWorkedData
             // Draw the interface addon for editor
             float tYadd = 250.0F;
             DrawAreaInRect(new Rect(sInRect.x, sInRect.y, 250.0F, 250.0F), true);
+            DrawAreaInRect(new Rect(sInRect.x, sInRect.y + 250.0F + NWDConstants.kFieldMarge, 250.0F, 250.0F), false);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -392,7 +413,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 250.0F + NWDConstants.kFieldMarge;
+            float tYadd = 250.0F + NWDConstants.kFieldMarge + 250.0F;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------

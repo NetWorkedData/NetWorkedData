@@ -372,6 +372,7 @@ namespace NetWorkedData
                 // Draw the interface addon for editor
             float tYadd = 250.0F;
             DrawAreaInRect(new Rect(sInRect.x, sInRect.y, 250.0F, 250.0F), true);
+            DrawAreaInRect(new Rect(sInRect.x, sInRect.y + 250.0F + NWDConstants.kFieldMarge, 250.0F, 250.0F), false);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -382,7 +383,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 250.0F;
+            float tYadd = 250.0F + NWDConstants.kFieldMarge + 250.0F;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -89,6 +89,13 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDSpriteType Icon {
+            get; set;
+        }
+        public NWDColorType Tint
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Influence")]
