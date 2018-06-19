@@ -254,7 +254,8 @@ namespace NetWorkedData
                             tList.Add(tObject);
                         }
                     }
-                    tList.Sort((x, y) => y.DM.CompareTo(x.DM));
+                    //tList.Sort((x, y) => y.DM.CompareTo(x.DM));  //older is delete
+                    tList.Sort((x, y) => x.DM.CompareTo(y.DM)); // newer is delete
                     for (int i = 1; i < tList.Count; i++)
                     {
                         tList[i].TrashMe();

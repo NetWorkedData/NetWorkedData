@@ -27,72 +27,62 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDAIRverage
+    public enum AIRRangeEnum : int
+    {
+    Intolerance = 0,
+    Indifference = 1,
+    Friendship = 2,
+    Affinity= 3, 
+    Admiration=4,
+    Jealousy=5,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class AIRRange
     {
         //-------------------------------------------------------------------------------------------------------------
-        public float Intolerance;
-        public float Indifference;
-        public float Friendship;
-        public float Affinity;
-        public float Admiration;
-        public float Jealousy;
+        public AIRRangeEnum Min;
+        public AIRRangeEnum Max;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAIRverage()
+        public void CheckValues()
         {
-            Intolerance = 0.0F;
-            Indifference = 0.0F;
-            Friendship = 0.0F;
-            Affinity = 0.0F;
-            Admiration = 0.0F;
-            Jealousy = 0.0F;
+            if ((int)Max < (int)Min)
+            {
+                Max = Min;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAIRverage(string sString)
+        public AIRRange()
+        {
+            Min = AIRRangeEnum.Intolerance;
+            Max = AIRRangeEnum.Jealousy;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public AIRRange(string sString)
         {
             string[] tValueArray = sString.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
             if (tValueArray.Length > 0)
             {
-                float.TryParse(tValueArray[0], out Intolerance);
+                Min = (AIRRangeEnum)Enum.Parse(typeof(AIRRangeEnum),tValueArray[0]);
             }
             if (tValueArray.Length > 1)
             {
-                float.TryParse(tValueArray[1], out Indifference);
-            }
-            if (tValueArray.Length > 2)
-            {
-                float.TryParse(tValueArray[2], out Friendship);
-            }
-            if (tValueArray.Length > 3)
-            {
-                float.TryParse(tValueArray[3], out Affinity);
-            }
-            if (tValueArray.Length > 4)
-            {
-                float.TryParse(tValueArray[4], out Admiration);
-            }
-            if (tValueArray.Length > 5)
-            {
-                float.TryParse(tValueArray[5], out Jealousy);
+                Max = (AIRRangeEnum)Enum.Parse(typeof(AIRRangeEnum), tValueArray[1]);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Intolerance.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                   Indifference.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                   Friendship.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                   Affinity.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                   Admiration.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                   Jealousy.ToString("F5");
+            return Min.ToString() + NWDConstants.kFieldSeparatorC +
+                   Max.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    public class NWDReferencesAIRType<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class AIRReferencesRangeType<K> : BTBDataType where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferencesAIRType()
+        public AIRReferencesRangeType()
         {
             Value = "";
         }
@@ -132,7 +122,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public bool ContainedIn(NWDReferencesAIRType<K> sReferencesProportion, bool sExceptIfIsEmpty = true)
+        //public bool ContainedIn(AIRReferencesRangeType<K> sReferencesProportion, bool sExceptIfIsEmpty = true)
         //{
         //    bool rReturn = true;
         //    if (sExceptIfIsEmpty && Value == "")
@@ -140,10 +130,10 @@ namespace NetWorkedData
         //        return false;
         //    }
         //    // I compare all elemnt
-        //    Dictionary<string, NWDAIRverage> tThis = GetReferenceAndProportion();
-        //    Dictionary<string, NWDAIRverage> tOther = sReferencesProportion.GetReferenceAndProportion();
+        //    Dictionary<string, AIRRange> tThis = GetReferenceAndProportion();
+        //    Dictionary<string, AIRRange> tOther = sReferencesProportion.GetReferenceAndProportion();
 
-        //    foreach (KeyValuePair<string, NWDAIRverage> tKeyValue in tThis)
+        //    foreach (KeyValuePair<string, AIRRange> tKeyValue in tThis)
         //    {
         //        if (tOther.ContainsKey(tKeyValue.Key) == false)
         //        {
@@ -161,7 +151,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public bool ContainsReferencesProportion(NWDReferencesAIRType<K> sReferencesProportion)
+        //public bool ContainsReferencesProportion(AIRReferencesRangeType<K> sReferencesProportion)
         //{
         //    bool rReturn = true;
         //    // I compare all elemnt
@@ -186,7 +176,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public bool RemoveReferencesQuantity(NWDReferencesAIRType<K> sReferencesProportion, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        //public bool RemoveReferencesQuantity(AIRReferencesRangeType<K> sReferencesProportion, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         //{
         //    //TODO : add comment to explain the used of a boolean
         //    bool rReturn = ContainsReferencesProportion(sReferencesProportion);
@@ -230,7 +220,7 @@ namespace NetWorkedData
         //    SetReferenceAndQuantity(tThis);
         //}
         //-------------------------------------------------------------------------------------------------------------
-        //public void AddReferencesQuantity(NWDReferencesAIRType<K> sReferencesProportion)
+        //public void AddReferencesQuantity(AIRReferencesRangeType<K> sReferencesProportion)
         //{
         //    // I compare all element
         //    Dictionary<string, float> tThis = GetReferenceAndProportion();
@@ -252,10 +242,10 @@ namespace NetWorkedData
         public void AddObjectValue(NWDBasis<K> sObject)
         {
             // I compare all element
-            Dictionary<string, NWDAIRverage> tThis = GetReferenceAndAverage();
+            Dictionary<string, AIRRange> tThis = GetReferenceAndAverage();
             if (tThis.ContainsKey(sObject.Reference) == false)
             {
-                tThis.Add(sObject.Reference, new NWDAIRverage());
+                tThis.Add(sObject.Reference, new AIRRange());
             }
             SetReferenceAndAverage(tThis);
         }
@@ -313,10 +303,10 @@ namespace NetWorkedData
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetReferenceAndAverage(Dictionary<string, NWDAIRverage> sDico)
+        public void SetReferenceAndAverage(Dictionary<string, AIRRange> sDico)
         {
             List<string> tValueList = new List<string>();
-            foreach (KeyValuePair<string, NWDAIRverage> tKeyValue in sDico)
+            foreach (KeyValuePair<string, AIRRange> tKeyValue in sDico)
             {
                 tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString());
             }
@@ -326,9 +316,9 @@ namespace NetWorkedData
             Value = tNextValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, NWDAIRverage> GetReferenceAndAverage()
+        public Dictionary<string, AIRRange> GetReferenceAndAverage()
         {
-            Dictionary<string, NWDAIRverage> tValueDico = new Dictionary<string, NWDAIRverage>();
+            Dictionary<string, AIRRange> tValueDico = new Dictionary<string, AIRRange>();
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -337,7 +327,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        NWDAIRverage tQ = new NWDAIRverage(tLineValue[1]);
+                        AIRRange tQ = new AIRRange(tLineValue[1]);
                         tValueDico.Add(tLineValue[0], tQ);
                     }
                 }
@@ -345,9 +335,9 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, NWDAIRverage> GetObjectAndAverage(string sAccountReference = null)
+        public Dictionary<K, AIRRange> GetObjectAndAverage(string sAccountReference = null)
         {
-            Dictionary<K, NWDAIRverage> tValueDico = new Dictionary<K, NWDAIRverage>();
+            Dictionary<K, AIRRange> tValueDico = new Dictionary<K, AIRRange>();
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -356,7 +346,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        NWDAIRverage tQ = new NWDAIRverage(tLineValue[1]);
+                        AIRRange tQ = new AIRRange(tLineValue[1]);
                         K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
@@ -368,9 +358,9 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, NWDAIRverage> GetObjectAndAverageAbsolute()
+        public Dictionary<K, AIRRange> GetObjectAndAverageAbsolute()
         {
-            Dictionary<K, NWDAIRverage> tValueDico = new Dictionary<K, NWDAIRverage>();
+            Dictionary<K, AIRRange> tValueDico = new Dictionary<K, AIRRange>();
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
@@ -379,7 +369,7 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        NWDAIRverage tQ = new NWDAIRverage(tLineValue[1]);
+                        AIRRange tQ = new AIRRange(tLineValue[1]);
                         K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
@@ -394,8 +384,8 @@ namespace NetWorkedData
         public string Description()
         {
             string rDescription = "";
-            Dictionary<string, NWDAIRverage> tDescDico = GetReferenceAndAverage();
-            foreach (KeyValuePair<string, NWDAIRverage> tKeyValue in tDescDico)
+            Dictionary<string, AIRRange> tDescDico = GetReferenceAndAverage();
+            foreach (KeyValuePair<string, AIRRange> tKeyValue in tDescDico)
             {
                 K tObject = NWDBasis<K>.GetObjectByReference(tKeyValue.Key);
                 if (tObject == null)
@@ -481,7 +471,7 @@ namespace NetWorkedData
             {
                 tRow--;
             }
-            float tHeight = (NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge) *7* tRow - NWDConstants.kFieldMarge +
+            float tHeight = (NWDConstants.kTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge) *3* tRow - NWDConstants.kFieldMarge +
                 tConnection * (NWDConstants.kRedLabelStyle.fixedHeight + NWDConstants.kFieldMarge +
                                //tLabelAssetStyle.fixedHeight+NWDConstants.kFieldMarge+
                                NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
@@ -502,7 +492,7 @@ namespace NetWorkedData
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
-            NWDReferencesAIRType<K> tTemporary = new NWDReferencesAIRType<K>();
+            AIRReferencesRangeType<K> tTemporary = new AIRReferencesRangeType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
             Type sFromType = typeof(K);
@@ -571,14 +561,14 @@ namespace NetWorkedData
                 }
 
                 int tIndex = 0;
-                NWDAIRverage tQ = new NWDAIRverage("");
+                AIRRange tQ = new AIRRange("");
                 string tV = "";
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                 if (tLineValue.Length == 2)
                 {
                     tV = tLineValue[0];
-                    tQ = new NWDAIRverage(tLineValue[1]);
+                    tQ = new AIRRange(tLineValue[1]);
                     tIndex = tReferenceList.IndexOf(tV);
                 }
 
@@ -608,32 +598,17 @@ namespace NetWorkedData
         //public float Affinity;
         //public float Admiration;
         //public float Jealousy;
-                    EditorGUI.LabelField(new Rect(tX , tYb, EditorGUIUtility.labelWidth-NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Intolerance",NWDConstants.kLabelRightStyle);
-                    tQ.Intolerance = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Intolerance);
+                    EditorGUI.LabelField(new Rect(tX , tYb, EditorGUIUtility.labelWidth-NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Min",NWDConstants.kLabelRightStyle);
+                    tQ.Min = (AIRRangeEnum)EditorGUI.EnumPopup(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Min);
                     tYb += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Indifference", NWDConstants.kLabelRightStyle);
-                    tQ.Indifference = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Indifference);
-                    tYb += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Friendship", NWDConstants.kLabelRightStyle);
-                    tQ.Friendship = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Friendship);
-                    tYb += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Affinity", NWDConstants.kLabelRightStyle);
-                    tQ.Affinity = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Affinity);
-                    tYb += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Admiration", NWDConstants.kLabelRightStyle);
-                    tQ.Admiration = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Admiration);
-                    tYb += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Jealousy", NWDConstants.kLabelRightStyle);
-                    tQ.Jealousy = EditorGUI.FloatField(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Jealousy);
+                    EditorGUI.LabelField(new Rect(tX, tYb, EditorGUIUtility.labelWidth - NWDConstants.kFieldMarge, NWDConstants.kLabelRightStyle.fixedHeight), "Max", NWDConstants.kLabelRightStyle);
+                    tQ.Max = (AIRRangeEnum)EditorGUI.EnumPopup(new Rect(tXb, tYb, tTiersWidthB, NWDConstants.kTextFieldStyle.fixedHeight), tQ.Max);
                     tYb += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 
 
 
+                    tQ.CheckValues();
 
                     EditorGUI.indentLevel = tIndentLevel;
                     //if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, tPopupdStyle.fixedHeight), "!"))
@@ -673,7 +648,7 @@ namespace NetWorkedData
                     }
                 }
 
-                tY += (NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge)*6;
+                tY += (NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge)*2;
                 tY += NWDConstants.kPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
 
                 if (tIndex > 0 && tIndex < tReferenceList.Count)
@@ -738,7 +713,7 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
-                    Dictionary<string, NWDAIRverage> tDicoClean = GetReferenceAndAverage();
+                    Dictionary<string, AIRRange> tDicoClean = GetReferenceAndAverage();
                     foreach (string tDeleteReference in tValueListERROR)
                     {
                         tDicoClean.Remove(tDeleteReference);

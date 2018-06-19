@@ -104,6 +104,16 @@ namespace NetWorkedData
         {
             get; set;
         }
+        //[NWDGroupEnd()]
+        //[NWDGroupSeparator()]
+        //[NWDGroupStart("other Informations")]
+        //public NWDLocalizableLongTextType Thanks
+        //{
+        //    get; set;
+        //}
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Options")]
         public float ScrollSpeed
         {
             get; set;

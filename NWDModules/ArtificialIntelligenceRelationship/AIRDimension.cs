@@ -27,6 +27,9 @@ namespace NetWorkedData
     public enum AIRDimensionAlgorithm
     {
         Linear,
+        Amortissable,
+        Exponential, 
+        Parabolic, 
         Sine,
         Neural,
         Statistical,
@@ -61,12 +64,6 @@ namespace NetWorkedData
     /// </summary>
     public partial class AIRDimension : NWDBasis<AIRDimension>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
@@ -88,6 +85,10 @@ namespace NetWorkedData
         [NWDGroupStart("Informations")]
 		public NWDLocalizableStringType Name {get; set;}
         public NWDLocalizableTextType Description {get; set;}
+        public int Order
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Influence")]
@@ -98,7 +99,36 @@ namespace NetWorkedData
         [NWDGroupStart("Weighting")]
         public NWDReferencesAmountType<AIRDimension> DependencyInfluence {get; set;}
 
-
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Item to be visible")]
+        public NWDReferencesListType<NWDItem> ItemToShow // on doit ajouter la notion d'équipée ou non, On doit ajouter la notion de durée ? !
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Item Interactions")]
+        public NWDReferencesAmountType<NWDItem> InteractionPermanent // on doit ajouter la notion d'équipée ou non
+        {
+            get; set;
+        }
+        public NWDReferencesAmountType<NWDItem> InteractionOnUsed // On doit ajouter la notion de durée ? !
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDItem> ItemToReset // On doit mettre qu'elle valeur? celle de la personne en cours?
+        {
+            get; set;
+        }
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Item jumper")]
+        public NWDReferencesListType<NWDItem> Intolerance { get; set; } // by pass pour imposer le niveau à intolérance on doit ajouter la notion d'équipée ou non,  la notion de durée ? !
+        public NWDReferencesListType<NWDItem> Friendship { get; set; } // by pass pour imposer le niveau à intolérance on doit ajouter la notion d'équipée ou non,  la notion de durée ? !
+        public NWDReferencesListType<NWDItem> Affinity { get; set; } // by pass pour imposer le niveau à intolérance on doit ajouter la notion d'équipée ou non,  la notion de durée ? !
+        public NWDReferencesListType<NWDItem> Admiration { get; set; } // by pass pour imposer le niveau à intolérance on doit ajouter la notion d'équipée ou non,  la notion de durée ? !
+        public NWDReferencesListType<NWDItem> Jealousy { get; set; } // by pass pour imposer le niveau à intolérance on doit ajouter la notion d'équipée ou non,  la notion de durée ? !
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -326,7 +356,7 @@ namespace NetWorkedData
         /// <param name="sDocumentWidth">S document width.</param>
         public override float AddOnNodeDrawWidth(float sDocumentWidth)
         {
-            return 250.0f;
+            return 300.0F;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -335,7 +365,7 @@ namespace NetWorkedData
         /// <returns>The on node draw height.</returns>
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            return 350.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

@@ -51,12 +51,6 @@ namespace NetWorkedData
     /// </summary>
     public partial class AIRRelationship : NWDBasis<AIRRelationship>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
@@ -83,7 +77,18 @@ namespace NetWorkedData
 		public NWDReferenceType<AIRSurface> Surface {get; set;}
         public NWDReferencesAverageType<AIRDimension> DimensionScore {get; set;}
 
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Options")]
 
+        public NWDColorType BadColor
+        {
+            get; set;
+        }
+        public NWDColorType GoodColor
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -124,6 +129,82 @@ namespace NetWorkedData
         public static void MyClassMethod()
         {
             // do something with this class
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawAreaInRect(Rect sRect, bool sEditorMode = false)
+        {
+            if (Event.current.type.Equals(EventType.Repaint))
+            {
+                AirDraw.DrawRect(sRect, Color.white);
+
+                AIRSurface tSurface = Surface.GetObject();
+                if (tSurface != null)
+                {
+                    tSurface.DrawAreaInRect(sRect);
+                }
+
+                // get value
+                Dictionary<AIRDimension, NWDAverage> tDimensionAverageOld = DimensionScore.GetObjectAndAverage();
+                // order
+                List<AIRDimension> tKeys = tDimensionAverageOld.Keys.ToList();
+                tKeys.Sort((x, y) => x.Order.CompareTo(y.Order));
+                Dictionary<AIRDimension, NWDAverage> tDimensionAverage = new Dictionary<AIRDimension, NWDAverage>();
+                foreach (AIRDimension tD in tKeys)
+                {
+                    tDimensionAverage.Add(tD, tDimensionAverageOld[tD]);
+                }
+                // draw
+                int tDimNumber = tDimensionAverage.Count;
+                float tAngleIncrement = Mathf.PI * 2 / tDimNumber;
+                float tAngleUsed = -Mathf.PI / 2.0f;
+                //Debug.Log("tDimNumber = " + tDimNumber.ToString());
+                Vector2[] tZeroArray = new Vector2[tDimNumber];
+                Vector2[] tLimitArray = new Vector2[tDimNumber];
+                Vector2[] tOneArray = new Vector2[tDimNumber];
+                int tCounter = 0;
+                foreach (KeyValuePair<AIRDimension, NWDAverage> tDimension in tDimensionAverage)
+                {
+                    //Debug.Log("tAngleUsed = " + tAngleUsed.ToString());
+                    AirDraw.DrawLine(sRect.center,
+                    new Vector2((float)(sRect.center.x + Math.Cos(tAngleUsed) * sRect.width / 2.0F), (float)(sRect.center.y + Math.Sin(tAngleUsed) * sRect.width / 2.0F)),
+                    //new Vector2(sRect.x + sRect.width, sRect.y),
+                    Color.black,
+                    1.0F,
+                             true);
+                    tZeroArray[tCounter] = new Vector2((float)(sRect.center.x),
+                                                              (float)(sRect.center.y));
+                    tLimitArray[tCounter] = new Vector2((float)(sRect.center.x + Math.Cos(tAngleUsed) * tDimension.Value.Average * sRect.width / 2.0F),
+                                                              (float)(sRect.center.y + Math.Sin(tAngleUsed) * tDimension.Value.Average * sRect.width / 2.0F));
+                    tOneArray[tCounter] = new Vector2((float)(sRect.center.x + Math.Cos(tAngleUsed) * sRect.width / 2.0F),
+                                                          (float)(sRect.center.y + Math.Sin(tAngleUsed) * sRect.width / 2.0F));
+
+                    tCounter++;
+                    tAngleUsed += tAngleIncrement;
+                }
+                AirDraw.DrawPeri(tLimitArray, Color.red, 1.0F, true);
+
+                AirDraw.DrawPeriArea(tZeroArray, tLimitArray, BadColor.GetColor());
+                AirDraw.DrawPeriArea(tLimitArray, tOneArray, GoodColor.GetColor());
+
+
+                //OVERRIDE THE LINE 
+                tAngleUsed = -Mathf.PI / 2.0f;
+                tCounter = 0;
+                foreach (KeyValuePair<AIRDimension, NWDAverage> tDimension in tDimensionAverage)
+                {
+                    //Debug.Log("tAngleUsed = " + tAngleUsed.ToString());
+                    AirDraw.DrawLine(sRect.center,
+                    new Vector2((float)(sRect.center.x + Math.Cos(tAngleUsed) * sRect.width / 2.0F), (float)(sRect.center.y + Math.Sin(tAngleUsed) * sRect.width / 2.0F)),
+                    //new Vector2(sRect.x + sRect.width, sRect.y),
+                    Color.black,
+                    1.0F,
+                             true);
+                    tCounter++;
+                    tAngleUsed += tAngleIncrement;
+                }
+
+
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -288,8 +369,9 @@ namespace NetWorkedData
         /// <param name="sInRect">S in rect.</param>
         public override float AddonEditor(Rect sInRect)
         {
-            // Draw the interface addon for editor
-            float tYadd = 0.0f;
+                // Draw the interface addon for editor
+            float tYadd = 250.0F;
+            DrawAreaInRect(new Rect(sInRect.x, sInRect.y, 250.0F, 250.0F), true);
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -300,7 +382,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = 250.0F;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -311,7 +393,7 @@ namespace NetWorkedData
         /// <param name="sDocumentWidth">S document width.</param>
         public override float AddOnNodeDrawWidth(float sDocumentWidth)
         {
-            return 250.0f;
+            return 300.0F;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -320,7 +402,7 @@ namespace NetWorkedData
         /// <returns>The on node draw height.</returns>
         public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            return 130.0f;
+            return 300.0f;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -329,7 +411,7 @@ namespace NetWorkedData
         /// <param name="sRect">S rect.</param>
         public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
-
+            DrawAreaInRect(sRect, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
