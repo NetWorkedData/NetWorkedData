@@ -70,12 +70,21 @@ namespace NetWorkedData
 
         //PROPERTIES
         [NWDGroupStart("Account")]
-        public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Score")]
-		public NWDReferenceType<AIRSurface> Surface {get; set;}
-        public NWDReferencesAverageType<AIRDimension> DimensionScore {get; set;}
+        public NWDReferenceType<AIRSurface> Surface
+        {
+            get; set;
+        }
+        public NWDReferencesAverageType<AIRDimension> DimensionScore
+        {
+            get; set;
+        }
 
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
@@ -131,6 +140,41 @@ namespace NetWorkedData
             // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void CheckDimensions()
+        {
+            Debug.Log("AIRRelationship CheckDimensions()");
+            AIRSurface tSurface = Surface.GetObject();
+            if (tSurface != null)
+            {
+                string[] tDimensionsNeed = tSurface.DimensionArea.GetReferences();
+                string[] tDimensionsUsed = DimensionScore.GetReferences();
+                Debug.Log("AIRRelationship CheckDimensions() test "+tDimensionsNeed.Length+" need dimension with "+tDimensionsUsed.Length+" used dimensions ");
+                foreach (string tStr in tDimensionsNeed)
+                {
+                    if (tDimensionsUsed.Contains(tStr) == false)
+                    {
+                        AIRDimension tDimension = AIRDimension.GetObjectByReference(tStr);
+                        if (tDimension != null)
+                        {
+                            DimensionScore.AddObjectValue(tDimension, tDimension.DefaultValue);
+                        }
+                    }
+                }
+                foreach (string tStr in tDimensionsUsed)
+                {
+                    if (tDimensionsNeed.Contains(tStr) == false)
+                    {
+                        AIRDimension tDimension = AIRDimension.GetObjectByReference(tStr);
+                        if (tDimension != null)
+                        {
+                            Debug.Log("AIRRelationship CheckDimensions() Remove dimension " + tDimension.InternalKey);
+                            DimensionScore.RemoveObject(tDimension);
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void DrawAreaInRect(Rect sRect, bool sEditorMode = false)
         {
             if (Event.current.type.Equals(EventType.Repaint))
@@ -140,7 +184,7 @@ namespace NetWorkedData
                 AIRSurface tSurface = Surface.GetObject();
                 if (tSurface != null)
                 {
-                    tSurface.DrawAreaInRect(sRect);
+                    tSurface.DrawAreaInRect(sRect, sEditorMode);
                 }
 
                 // get value
@@ -151,7 +195,27 @@ namespace NetWorkedData
                 Dictionary<AIRDimension, NWDAverage> tDimensionAverage = new Dictionary<AIRDimension, NWDAverage>();
                 foreach (AIRDimension tD in tKeys)
                 {
-                    tDimensionAverage.Add(tD, tDimensionAverageOld[tD]);
+                    NWDItem[] tItemsToShow = tD.ItemToShow.GetObjects();
+                    bool iSVisible = sEditorMode;
+                    if (tItemsToShow.Length > 0)
+                    {
+                        foreach (NWDItem tItem in tItemsToShow)
+                        {
+                            if (NWDOwnership.QuantityForItem(tItem.Reference) > 0)
+                            {
+                                iSVisible = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        iSVisible = true;
+                    }
+                    if (iSVisible == true)
+                    {
+                        tDimensionAverage.Add(tD, tDimensionAverageOld[tD]);
+                    }
                 }
                 // draw
                 int tDimNumber = tDimensionAverage.Count;
@@ -260,6 +324,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            CheckDimensions();
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -344,7 +409,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -369,7 +434,7 @@ namespace NetWorkedData
         /// <param name="sInRect">S in rect.</param>
         public override float AddonEditor(Rect sInRect)
         {
-                // Draw the interface addon for editor
+            // Draw the interface addon for editor
             float tYadd = 250.0F;
             DrawAreaInRect(new Rect(sInRect.x, sInRect.y, 250.0F, 250.0F), true);
             DrawAreaInRect(new Rect(sInRect.x, sInRect.y + 250.0F + NWDConstants.kFieldMarge, 250.0F, 250.0F), false);
@@ -432,7 +497,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

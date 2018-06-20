@@ -207,6 +207,17 @@ namespace NetWorkedData
             SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RemoveObject(NWDBasis<K> sObject)
+        {
+            // I compare all element
+            Dictionary<string, float> tThis = GetReferenceAndAmount();
+            if (tThis.ContainsKey(sObject.Reference) == true)
+            {
+                tThis.Remove(sObject.Reference);
+            }
+            SetReferenceAndAmount(tThis);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
             List<K> tList = new List<K>();

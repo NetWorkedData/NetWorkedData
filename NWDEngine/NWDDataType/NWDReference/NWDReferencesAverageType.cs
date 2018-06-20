@@ -290,6 +290,17 @@ namespace NetWorkedData
             SetReferenceAndAverage(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void RemoveObject(NWDBasis<K> sObject)
+        {
+            // I compare all element
+            Dictionary<string, NWDAverage> tThis = GetReferenceAndAverage();
+            if (tThis.ContainsKey(sObject.Reference) == true)
+            {
+                tThis.Remove(sObject.Reference);
+            }
+            SetReferenceAndAverage(tThis);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
             List<K> tList = new List<K>();

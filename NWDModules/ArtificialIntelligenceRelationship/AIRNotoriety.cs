@@ -128,6 +128,40 @@ namespace NetWorkedData
             // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void CheckDimensions()
+        {
+            Debug.Log("AIRNotoriety CheckDimensions()");
+            AIRGroup tGroup = Group.GetObject();
+            if (tGroup != null)
+            {
+                string[] tDimensionsNeed = tGroup.DimensionArea.GetReferences();
+                string[] tDimensionsUsed = DimensionScore.GetReferences();
+
+                foreach (string tStr in tDimensionsNeed)
+                {
+                    if (tDimensionsUsed.Contains(tStr) == false)
+                    {
+                        AIRDimension tDimension = AIRDimension.GetObjectByReference(tStr);
+                        if (tDimension != null)
+                        {
+                            DimensionScore.AddObjectValue(tDimension, tDimension.DefaultValue);
+                        }
+                    }
+                }
+                foreach (string tStr in tDimensionsUsed)
+                {
+                    if (tDimensionsNeed.Contains(tStr) == false)
+                    {
+                        AIRDimension tDimension = AIRDimension.GetObjectByReference(tStr);
+                        if (tDimension != null)
+                        {
+                            DimensionScore.RemoveObject(tDimension);
+                        }
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void DrawAreaInRect(Rect sRect,bool sEditorMode = false)
         {
             if (Event.current.type.Equals(EventType.Repaint))
@@ -138,7 +172,7 @@ namespace NetWorkedData
                 AIRGroup tGroup = Group.GetObject();
                 if (tGroup != null)
                 {
-                    tGroup.DrawAreaInRect(sRect);
+                    tGroup.DrawAreaInRect(sRect, sEditorMode);
                 }
                 // get value
                 Dictionary<AIRDimension, NWDAverage> tDimensionAverageOld = DimensionScore.GetObjectAndAverage();
@@ -272,6 +306,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
+            CheckDimensions();
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }

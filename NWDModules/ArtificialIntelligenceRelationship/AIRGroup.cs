@@ -189,8 +189,6 @@ namespace NetWorkedData
                         tDimensionAverage.Add(tD, tDimensionAverageOld[tD]);
                     }
                 }
-
-
                 // draw
                 int tDimNumber = tDimensionAverage.Count;
                 float tAngleIncrement = Mathf.PI * 2 / tDimNumber;

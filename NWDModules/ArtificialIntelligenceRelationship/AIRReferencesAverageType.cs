@@ -323,7 +323,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            Debug.Log("AIRReferencesAverageType GetReferences() return count =" + tValueList.Count);
+            //Debug.Log("AIRReferencesAverageType GetReferences() return count =" + tValueList.Count);
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -101,6 +101,10 @@ namespace NetWorkedData
         [NWDGroupStart("Influence")]
         public AIRDimensionAlgorithm Algorithm { get; set; }
         public float Influence { get; set; }
+        [NWDFloatSlider(0.0F, 1.0F)]
+        public float DefaultValue {
+            get; set;
+        }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Weighting")]
