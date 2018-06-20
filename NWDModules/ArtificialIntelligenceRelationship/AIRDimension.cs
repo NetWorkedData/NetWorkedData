@@ -83,7 +83,7 @@ namespace NetWorkedData
 
         //PROPERTIES
         [NWDGroupStart("Informations")]
-		public NWDLocalizableStringType Name {get; set;}
+        public NWDLocalizableStringType Name {get; set;}
         public NWDLocalizableTextType Description {get; set;}
         public int Order
         {
@@ -113,6 +113,10 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Item to be visible")]
+        public bool IsVisible
+        {
+            get; set;
+        }
         public NWDReferencesListType<NWDItem> ItemToShow // on doit ajouter la notion d'équipée ou non, On doit ajouter la notion de durée ? !
         {
             get; set;
@@ -157,6 +161,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+            IsVisible = true;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

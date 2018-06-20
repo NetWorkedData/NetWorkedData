@@ -70,8 +70,14 @@ namespace NetWorkedData
 
         //PROPERTIES
         [NWDGroupStart("Informations")]
-		public NWDLocalizableStringType Name {get; set;}
-        public NWDLocalizableTextType Description {get; set;}
+        public NWDLocalizableStringType Name
+        {
+            get; set;
+        }
+        public NWDLocalizableTextType Description
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Options")]
@@ -103,11 +109,17 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Group Surface")]
-        public AIRReferencesAverageType<AIRDimension> DimensionArea {get; set;}
+        public AIRReferencesAverageType<AIRDimension> DimensionArea
+        {
+            get; set;
+        }
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Member Influence")]
-        public NWDReferencesAmountType<AIRSurface> MemberInfluence {get; set;}
+        public NWDReferencesAmountType<AIRSurface> MemberInfluence
+        {
+            get; set;
+        }
 
 
         //-------------------------------------------------------------------------------------------------------------
@@ -167,9 +179,10 @@ namespace NetWorkedData
                 Dictionary<AIRDimension, AIRAverage> tDimensionAverage = new Dictionary<AIRDimension, AIRAverage>();
                 foreach (AIRDimension tD in tKeys)
                 {
+
                     NWDItem[] tItemsToShow = tD.ItemToShow.GetObjects();
                     bool iSVisible = sEditorMode;
-                    if (tItemsToShow.Length > 0)
+                    if (tD.IsVisible == false)
                     {
                         foreach (NWDItem tItem in tItemsToShow)
                         {
@@ -401,7 +414,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -489,7 +502,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -159,7 +159,7 @@ namespace NetWorkedData
                 {
                     NWDItem[] tItemsToShow = tD.ItemToShow.GetObjects();
                     bool iSVisible = sEditorMode;
-                    if (tItemsToShow.Length > 0)
+                    if (tD.IsVisible == false)
                     {
                         foreach (NWDItem tItem in tItemsToShow)
                         {
