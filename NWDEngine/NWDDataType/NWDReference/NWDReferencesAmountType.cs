@@ -72,10 +72,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DistinctReference()
         {
-            SetReferenceAndQuantity(GetReferenceAndProportion());
+            SetReferenceAndAmount(GetReferenceAndAmount());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainedIn(NWDReferencesAmountType<K> sReferencesProportion, bool sExceptIfIsEmpty = true)
+        public bool ContainedIn(NWDReferencesAmountType<K> sReferencesAmount, bool sExceptIfIsEmpty = true)
         {
             bool rReturn = true;
             if (sExceptIfIsEmpty && Value == "")
@@ -83,8 +83,8 @@ namespace NetWorkedData
                 return false;
             }
             // I compare all elemnt
-            Dictionary<string, float> tThis = GetReferenceAndProportion();
-            Dictionary<string, float> tOther = sReferencesProportion.GetReferenceAndProportion();
+            Dictionary<string, float> tThis = GetReferenceAndAmount();
+            Dictionary<string, float> tOther = sReferencesAmount.GetReferenceAndAmount();
 
             foreach (KeyValuePair<string, float> tKeyValue in tThis)
             {
@@ -104,12 +104,12 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool ContainsReferencesProportion(NWDReferencesAmountType<K> sReferencesProportion)
+        public bool ContainsReferencesAmount(NWDReferencesAmountType<K> sReferencesAmount)
         {
             bool rReturn = true;
             // I compare all elemnt
-            Dictionary<string, float> tThis = GetReferenceAndProportion();
-            Dictionary<string, float> tOther = sReferencesProportion.GetReferenceAndProportion();
+            Dictionary<string, float> tThis = GetReferenceAndAmount();
+            Dictionary<string, float> tOther = sReferencesAmount.GetReferenceAndAmount();
 
             foreach (KeyValuePair<string, float> tKeyValue in tOther)
             {
@@ -129,35 +129,35 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool RemoveReferencesQuantity(NWDReferencesAmountType<K> sReferencesProportion, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public bool RemoveReferencesAmount(NWDReferencesAmountType<K> sReferencesAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
             //TODO : add comment to explain the used of a boolean
-            bool rReturn = ContainsReferencesProportion(sReferencesProportion);
+            bool rReturn = ContainsReferencesAmount(sReferencesAmount);
             if (rReturn == true)
             {
-                Dictionary<string, float> tThis = GetReferenceAndProportion();
-                Dictionary<string, float> tOther = sReferencesProportion.GetReferenceAndProportion();
+                Dictionary<string, float> tThis = GetReferenceAndAmount();
+                Dictionary<string, float> tOther = sReferencesAmount.GetReferenceAndAmount();
                 foreach (KeyValuePair<string, float> tKeyValue in tOther)
                 {
                     //TODO : check negative value
                     //TODO : use RemoveObjectQuantity
                     tThis[tKeyValue.Key] = tThis[tKeyValue.Key] - tKeyValue.Value;
                 }
-                SetReferenceAndQuantity(tThis);
+                SetReferenceAndAmount(tThis);
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void RemoveObjectQuantity(NWDBasis<K> sObject, float sQuantity, bool sCanBeNegative = true, bool sRemoveEmpty = true)
+        public void RemoveObjectAmount(NWDBasis<K> sObject, float sAmount, bool sCanBeNegative = true, bool sRemoveEmpty = true)
         {
-            Dictionary<string, float> tThis = GetReferenceAndProportion();
+            Dictionary<string, float> tThis = GetReferenceAndAmount();
             if (tThis.ContainsKey(sObject.Reference) == false)
             {
-                tThis.Add(sObject.Reference, -sQuantity);
+                tThis.Add(sObject.Reference, -sAmount);
             }
             else
             {
-                tThis[sObject.Reference] = tThis[sObject.Reference] - sQuantity;
+                tThis[sObject.Reference] = tThis[sObject.Reference] - sAmount;
             }
 
             if (sCanBeNegative == false && tThis[sObject.Reference] < 0)
@@ -170,14 +170,14 @@ namespace NetWorkedData
                 tThis.Remove(sObject.Reference);
             }
 
-            SetReferenceAndQuantity(tThis);
+            SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddReferencesQuantity(NWDReferencesAmountType<K> sReferencesProportion)
+        public void AddReferencesAmount(NWDReferencesAmountType<K> sReferencesAmount)
         {
             // I compare all element
-            Dictionary<string, float> tThis = GetReferenceAndProportion();
-            Dictionary<string, float> tOther = sReferencesProportion.GetReferenceAndProportion();
+            Dictionary<string, float> tThis = GetReferenceAndAmount();
+            Dictionary<string, float> tOther = sReferencesAmount.GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tOther)
             {
                 if (tThis.ContainsKey(tKeyValue.Key) == false)
@@ -189,22 +189,22 @@ namespace NetWorkedData
                     tThis[tKeyValue.Key] = tThis[tKeyValue.Key] + tKeyValue.Value;
                 }
             }
-            SetReferenceAndQuantity(tThis);
+            SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AddObjectQuantity(NWDBasis<K> sObject, float sQuantity)
+        public void AddObjectAmount(NWDBasis<K> sObject, float sAmount)
         {
             // I compare all element
-            Dictionary<string, float> tThis = GetReferenceAndProportion();
+            Dictionary<string, float> tThis = GetReferenceAndAmount();
             if (tThis.ContainsKey(sObject.Reference) == false)
             {
-                tThis.Add(sObject.Reference, sQuantity);
+                tThis.Add(sObject.Reference, sAmount);
             }
             else
             {
-                tThis[sObject.Reference] = tThis[sObject.Reference] + sQuantity;
+                tThis[sObject.Reference] = tThis[sObject.Reference] + sAmount;
             }
-            SetReferenceAndQuantity(tThis);
+            SetReferenceAndAmount(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
@@ -248,19 +248,14 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        float tCount = 0;
-                        float.TryParse(tLineValue[1], out tCount);
-                        for (int tJ = 0; tJ < tCount; tJ++)
-                        {
                             tValueList.Add(tLineValue[0]);
-                        }
                     }
                 }
             }
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetReferenceAndQuantity(Dictionary<string, float> sDico)
+        public void SetReferenceAndAmount(Dictionary<string, float> sDico)
         {
             List<string> tValueList = new List<string>();
             foreach (KeyValuePair<string, float> tKeyValue in sDico)
@@ -273,7 +268,7 @@ namespace NetWorkedData
             Value = tNextValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, float> GetReferenceAndProportion()
+        public Dictionary<string, float> GetReferenceAndAmount()
         {
             Dictionary<string, float> tValueDico = new Dictionary<string, float>();
             if (Value != null && Value != "")
@@ -296,7 +291,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, float> GetObjectAndProportion(string sAccountReference = null)
+        public Dictionary<K, float> GetObjectAndAmount(string sAccountReference = null)
         {
             Dictionary<K, float> tValueDico = new Dictionary<K, float>();
             if (Value != null && Value != "")
@@ -323,7 +318,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, float> GetObjectAndProportionAbsolute()
+        public Dictionary<K, float> GetObjectAndAmountAbsolute()
         {
             Dictionary<K, float> tValueDico = new Dictionary<K, float>();
             if (Value != null && Value != "")
@@ -380,7 +375,7 @@ namespace NetWorkedData
         public string Description()
         {
             string rDescription = "";
-            Dictionary<string, float> tDescDico = GetReferenceAndProportion();
+            Dictionary<string, float> tDescDico = GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tDescDico)
             {
                 K tObject = NWDBasis<K>.GetObjectByReference(tKeyValue.Key);
@@ -432,7 +427,7 @@ namespace NetWorkedData
         public void EditorAddNewObject()
         {
             K tNewObject = NWDBasis<K>.NewObject();
-            this.AddObjectQuantity(tNewObject,1);
+            this.AddObjectAmount(tNewObject,1);
             NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -686,12 +681,12 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
-                    Dictionary<string, float> tDicoClean = GetReferenceAndProportion();
+                    Dictionary<string, float> tDicoClean = GetReferenceAndAmount();
                     foreach (string tDeleteReference in tValueListERROR)
                     {
                         tDicoClean.Remove(tDeleteReference);
                     }
-                    tTemporary.SetReferenceAndQuantity(tDicoClean);
+                    tTemporary.SetReferenceAndAmount(tDicoClean);
                 }
                 GUI.backgroundColor = tOldColor;
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;

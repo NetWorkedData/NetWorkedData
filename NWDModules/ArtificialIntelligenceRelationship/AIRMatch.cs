@@ -163,7 +163,7 @@ namespace NetWorkedData
             {
                 AirDraw.DrawRect(sRect, Color.white);
                 // get value
-                Dictionary<AIRDimension, AIRRange> tDimensionAverageOld = DimensionMatch.GetObjectAndAverage();
+                Dictionary<AIRDimension, AIRRange> tDimensionAverageOld = DimensionMatch.GetObjectAndRange();
                 // order
                 List<AIRDimension> tKeys = tDimensionAverageOld.Keys.ToList();
                 tKeys.Sort((x, y) => x.Order.CompareTo(y.Order));

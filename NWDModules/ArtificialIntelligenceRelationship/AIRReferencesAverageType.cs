@@ -319,15 +319,11 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        float tCount = 0;
-                        float.TryParse(tLineValue[1], out tCount);
-                        for (int tJ = 0; tJ < tCount; tJ++)
-                        {
-                            tValueList.Add(tLineValue[0]);
-                        }
+                        tValueList.Add(tLineValue[0]);
                     }
                 }
             }
+            Debug.Log("AIRReferencesAverageType GetReferences() return count =" + tValueList.Count);
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -455,6 +451,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K[] EditorGetObjects()
         {
+            Debug.Log("AIRReferencesAverageType EditorGetObjects()");
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
@@ -467,6 +464,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            Debug.Log("AIRReferencesAverageType EditorGetObjects() return count ="+rReturn.Count);
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------

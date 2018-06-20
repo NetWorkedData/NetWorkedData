@@ -124,7 +124,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DistinctReference()
         {
-            SetReferenceAndAverage(GetReferenceAndAverage());
+            SetReferenceAndRange(GetReferenceAndRange());
         }
         //-------------------------------------------------------------------------------------------------------------
         //public bool ContainedIn(AIRReferencesRangeType<K> sReferencesProportion, bool sExceptIfIsEmpty = true)
@@ -247,12 +247,12 @@ namespace NetWorkedData
         public void AddObjectValue(NWDBasis<K> sObject)
         {
             // I compare all element
-            Dictionary<string, AIRRange> tThis = GetReferenceAndAverage();
+            Dictionary<string, AIRRange> tThis = GetReferenceAndRange();
             if (tThis.ContainsKey(sObject.Reference) == false)
             {
                 tThis.Add(sObject.Reference, new AIRRange());
             }
-            SetReferenceAndAverage(tThis);
+            SetReferenceAndRange(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
@@ -296,19 +296,14 @@ namespace NetWorkedData
                     string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                     if (tLineValue.Length == 2)
                     {
-                        float tCount = 0;
-                        float.TryParse(tLineValue[1], out tCount);
-                        for (int tJ = 0; tJ < tCount; tJ++)
-                        {
-                            tValueList.Add(tLineValue[0]);
-                        }
+                        tValueList.Add(tLineValue[0]);
                     }
                 }
             }
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetReferenceAndAverage(Dictionary<string, AIRRange> sDico)
+        public void SetReferenceAndRange(Dictionary<string, AIRRange> sDico)
         {
             List<string> tValueList = new List<string>();
             foreach (KeyValuePair<string, AIRRange> tKeyValue in sDico)
@@ -321,7 +316,7 @@ namespace NetWorkedData
             Value = tNextValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, AIRRange> GetReferenceAndAverage()
+        public Dictionary<string, AIRRange> GetReferenceAndRange()
         {
             Dictionary<string, AIRRange> tValueDico = new Dictionary<string, AIRRange>();
             if (Value != null && Value != "")
@@ -343,7 +338,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, AIRRange> GetObjectAndAverage(string sAccountReference = null)
+        public Dictionary<K, AIRRange> GetObjectAndRange(string sAccountReference = null)
         {
             Dictionary<K, AIRRange> tValueDico = new Dictionary<K, AIRRange>();
             if (Value != null && Value != "")
@@ -369,7 +364,7 @@ namespace NetWorkedData
             return tValueDico;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<K, AIRRange> GetObjectAndAverageAbsolute()
+        public Dictionary<K, AIRRange> GetObjectAndRangeAbsolute()
         {
             Dictionary<K, AIRRange> tValueDico = new Dictionary<K, AIRRange>();
             if (Value != null && Value != "")
@@ -398,7 +393,7 @@ namespace NetWorkedData
         public string Description()
         {
             string rDescription = "";
-            Dictionary<string, AIRRange> tDescDico = GetReferenceAndAverage();
+            Dictionary<string, AIRRange> tDescDico = GetReferenceAndRange();
             foreach (KeyValuePair<string, AIRRange> tKeyValue in tDescDico)
             {
                 K tObject = NWDBasis<K>.GetObjectByReference(tKeyValue.Key);
@@ -728,12 +723,12 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
-                    Dictionary<string, AIRRange> tDicoClean = GetReferenceAndAverage();
+                    Dictionary<string, AIRRange> tDicoClean = GetReferenceAndRange();
                     foreach (string tDeleteReference in tValueListERROR)
                     {
                         tDicoClean.Remove(tDeleteReference);
                     }
-                    tTemporary.SetReferenceAndAverage(tDicoClean);
+                    tTemporary.SetReferenceAndRange(tDicoClean);
                 }
                 GUI.backgroundColor = tOldColor;
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;

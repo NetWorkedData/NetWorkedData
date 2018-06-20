@@ -86,7 +86,18 @@ namespace NetWorkedData
                                 if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                                   
+
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceQuantityConditional<>)
+
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
+                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
+                                   
+                                   )
                                 {
 
 
@@ -133,6 +144,10 @@ namespace NetWorkedData
                                                     tConType = NWDNodeConnectionReferenceType.ReferenceQuantityType;
                                                 }
                                                 else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>))
+                                                {
+                                                    tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
+                                                }
+                                                else
                                                 {
                                                     tConType = NWDNodeConnectionReferenceType.ReferencesArrayType;
                                                 }
