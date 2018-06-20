@@ -70,6 +70,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void DistinctReference()
+        {
+            SetReferenceAndQuantity(GetReferenceAndProportion());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool ContainedIn(NWDReferencesAmountType<K> sReferencesProportion, bool sExceptIfIsEmpty = true)
         {
             bool rReturn = true;
@@ -281,7 +286,10 @@ namespace NetWorkedData
                     {
                         float tQ = 0;
                         float.TryParse(tLineValue[1], out tQ);
-                        tValueDico.Add(tLineValue[0], tQ);
+                        if (tValueDico.ContainsKey(tLineValue[0]) == false)
+                        {
+                            tValueDico.Add(tLineValue[0], tQ);
+                        }
                     }
                 }
             }
@@ -304,7 +312,10 @@ namespace NetWorkedData
                         K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
-                            tValueDico.Add(tObject, tQ);
+                            if (tValueDico.ContainsKey(tObject) == false)
+                            {
+                                tValueDico.Add(tObject, tQ);
+                            }
                         }
                     }
                 }
@@ -328,7 +339,10 @@ namespace NetWorkedData
                         K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
-                            tValueDico.Add(tObject, tQ);
+                            if (tValueDico.ContainsKey(tObject) == false)
+                            {
+                                tValueDico.Add(tObject, tQ);
+                            }
                         }
                     }
                 }
@@ -656,6 +670,7 @@ namespace NetWorkedData
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
             tTemporary.Value = tNextValue;
 
+            tTemporary.DistinctReference();
 
             EditorGUI.EndDisabledGroup();
 

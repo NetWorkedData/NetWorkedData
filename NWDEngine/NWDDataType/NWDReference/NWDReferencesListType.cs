@@ -303,7 +303,6 @@ namespace NetWorkedData
 				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
 			}
 
-
             List<GUIContent> tContentFuturList = new List<GUIContent>();
             foreach (string tS in tInternalNameList.ToArray())
             {
