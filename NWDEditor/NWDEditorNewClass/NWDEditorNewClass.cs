@@ -104,7 +104,7 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnEnable ()
 		{
-			titleContent = new GUIContent ("New NWDBasis Class generator");
+			titleContent = new GUIContent ("New NWDBasis Class generator");
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -113,7 +113,7 @@ namespace NetWorkedData
 		public void OnGUI ()
 		{
 
-			titleContent = new GUIContent ("New NWDBasis Class generator");
+			titleContent = new GUIContent ("New NWDBasis Class generator");
 			//Prepare the form varaible 
 			Regex tRegExpression = new Regex ("[^a-zA-Z]");
 			Regex tRegExpressionProperties = new Regex ("[^a-zA-Z0-9]");
@@ -121,15 +121,15 @@ namespace NetWorkedData
 			// validate the form ?
 			bool tCanCreate = true;
 			// start Layout
-			EditorGUILayout.LabelField ("Easy NWDBasis Class Generator", EditorStyles.boldLabel);
-			EditorGUILayout.HelpBox ("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.", MessageType.Info);
+			EditorGUILayout.LabelField ("Easy NWDBasis Class Generator", EditorStyles.boldLabel);
+			EditorGUILayout.HelpBox ("Helper to create a new NWDBasis herited class. NWDBasis is the class of data in NetWorkedData framework.", MessageType.Info);
 			// futur class infos
-			EditorGUILayout.LabelField ("Class informations", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("Class informations", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
-			ClassName = EditorGUILayout.TextField ("Name ", ClassName);
+			ClassName = EditorGUILayout.TextField ("Name ", ClassName);
 			ClassName = tRegExpression.Replace (ClassName, "");
 			if (ClassName.Length < 3) {
-				EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
+				EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
 				tCanCreate = false;
 			} else {
 //				TODO: find if Type exists for generic
@@ -139,53 +139,53 @@ namespace NetWorkedData
 					}
 				}
 				if (tCanCreate == false) {
-					EditorGUILayout.LabelField (" ", "this class allready exists");
+					EditorGUILayout.LabelField (" ", "this class allready exists");
 				} else {
-					EditorGUILayout.LabelField (" ", "class name is Ok!");
+					EditorGUILayout.LabelField (" ", "class name is Ok!");
 				}
 			}
-			ClassNameTrigramme = EditorGUILayout.TextField ("Trigramme", ClassNameTrigramme);
+			ClassNameTrigramme = EditorGUILayout.TextField ("Trigramme", ClassNameTrigramme);
 			ClassNameTrigramme = tRegExpression.Replace (ClassNameTrigramme, "");
 			ClassNameTrigramme = ClassNameTrigramme.ToUpper ();
 			if (ClassNameTrigramme.Length < 2) {
-				EditorGUILayout.LabelField (" ", "trigramme must be longer than 1 characters");
+				EditorGUILayout.LabelField (" ", "trigramme must be longer than 1 characters");
 				tCanCreate = false;
 			} else if (ClassNameTrigramme.Length > 5) {
-				EditorGUILayout.LabelField (" ", "trigramme must be shorter than 5 characters");
+				EditorGUILayout.LabelField (" ", "trigramme must be shorter than 5 characters");
 				tCanCreate = false;
 			} else {
 				//  but Trigramme already exists ?
 				if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey (ClassNameTrigramme)) {
 					tCanCreate = false;
-					EditorGUILayout.LabelField (" ", "trigramme allready used by '" + NWDDataManager.SharedInstance().mTrigramTypeDictionary [ClassNameTrigramme].Name + "'!");
+					EditorGUILayout.LabelField (" ", "trigramme allready used by '" + NWDDataManager.SharedInstance().mTrigramTypeDictionary [ClassNameTrigramme].Name + "'!");
 				} else {
-					EditorGUILayout.LabelField (" ", "trigramme is Ok!");
+					EditorGUILayout.LabelField (" ", "trigramme is Ok!");
 				}
 			}
 			EditorGUI.indentLevel--;
 			// futur class description
-			EditorGUILayout.LabelField ("Class description", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("Class description", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
-			ClassNameDescription = EditorGUILayout.TextField ("Description", ClassNameDescription);
+			ClassNameDescription = EditorGUILayout.TextField ("Description", ClassNameDescription);
 			ClassNameDescription = ClassNameDescription.Replace ("\\", "");
 			EditorGUI.indentLevel--;
-			EditorGUILayout.LabelField ("Menu in interface", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("Menu in interface", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 			// futur class menu name
-			ClassNameMenuName = EditorGUILayout.TextField ("Menu name", ClassNameMenuName);
+			ClassNameMenuName = EditorGUILayout.TextField ("Menu name", ClassNameMenuName);
 			ClassNameMenuName = ClassNameMenuName.Replace ("\\", "");
 			if (ClassNameMenuName.Length < 3) {
-				EditorGUILayout.LabelField (" ", "menu name must be longer than 2 characters");
+				EditorGUILayout.LabelField (" ", "menu name must be longer than 2 characters");
 				tCanCreate = false;
 			} else if (ClassNameMenuName.Length > 16) {
-				EditorGUILayout.LabelField (" ", "menu name must be shorter than 16 characters");
+				EditorGUILayout.LabelField (" ", "menu name must be shorter than 16 characters");
 				tCanCreate = false;
 			} else {
-				EditorGUILayout.LabelField (" ", "menu name is Ok!");
+				EditorGUILayout.LabelField (" ", "menu name is Ok!");
 			}
 			EditorGUI.indentLevel--;
 			// the futur properties
-			EditorGUILayout.LabelField ("Properties", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("Properties", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 			// create properties type
 			List<string> tListOfType = new List<string> ();
@@ -225,11 +225,15 @@ namespace NetWorkedData
             tListOfType.Add("          "); // use as separator remove by ereg
             tListOfType.Add("NWDVersionType");
             tListOfType.Add("           "); // use as separator remove by ereg
-			foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
+                tListOfType.Add("NWDReferenceType<K>/" + tType.Name);
+                tListOfType.Add("NWDReferencesArrayType<K>/" + tType.Name);
 				tListOfType.Add ("NWDReferencesListType<K>/"+tType.Name);
-				tListOfType.Add ("NWDReferencesQuantityType<K>/"+tType.Name);
-                tListOfType.Add ("NWDReferenceType<K>/"+tType.Name);
-                tListOfType.Add("NWDReferencesArray<K>/" + tType.Name);
+                tListOfType.Add ("NWDReferencesQuantityType<K>/"+tType.Name);
+                tListOfType.Add("NWDReferencesAmountType<K>/" + tType.Name);
+                tListOfType.Add("NWDReferencesAverageType<K>/" + tType.Name);
+                tListOfType.Add("NWDReferencesConditionalType<K>/" + tType.Name);
+                tListOfType.Add("NWDReferencesRangeType<K>/" + tType.Name);
 			}
 			// prepare result properties
 			List<KeyValuePair<string,string>> tNextClassNameProperties = new List<KeyValuePair<string,string>> ();
@@ -241,7 +245,7 @@ namespace NetWorkedData
 				if (tIndex < 0 || tIndex > tListOfType.Count) {
 					tIndex = 0;
 				}
-				tIndex = EditorGUILayout.Popup ("Property " + tCounter, tIndex, tListOfType.ToArray ());
+				tIndex = EditorGUILayout.Popup ("Property " + tCounter, tIndex, tListOfType.ToArray ());
 				string tPropertyType = tListOfType [tIndex];
 				tPropertyType = tRegExpressionEmptyType.Replace (tPropertyType, " ");
 				string tPropertyName = tKeyValue.Key;
@@ -256,7 +260,7 @@ namespace NetWorkedData
 			// add New property
 			GUILayout.BeginHorizontal ();
 			int tNextIndex = 0;
-			tNextIndex = EditorGUILayout.Popup ("New Property", tNextIndex, tListOfType.ToArray ());
+			tNextIndex = EditorGUILayout.Popup ("New Property", tNextIndex, tListOfType.ToArray ());
 			string tNextPropertyType = tListOfType [tNextIndex];
 			tNextPropertyType = tRegExpressionEmptyType.Replace (tNextPropertyType, " ");
 			string tNextPropertyName = "";
@@ -275,9 +279,9 @@ namespace NetWorkedData
 			// Generate Button
 			EditorGUILayout.Space ();
 			// if ok continue else disable
-			EditorGUILayout.LabelField ("Generate", EditorStyles.boldLabel);
+			EditorGUILayout.LabelField ("Generate", EditorStyles.boldLabel);
 			EditorGUI.BeginDisabledGroup (!tCanCreate);
-			if (GUILayout.Button ("generate class")) {
+			if (GUILayout.Button ("generate class")) {
 				// ok generate!
 				GenerateNewClass ();
 			}

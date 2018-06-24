@@ -26,10 +26,19 @@ namespace NetWorkedData
             EditorApplication.playModeStateChanged -= PlayModeStateChangedCallback; // remove old callback from compile for this class
             EditorApplication.playModeStateChanged += PlayModeStateChangedCallback;
 #if UNITY_2018
-            EditorApplication.quitting -= PlayModeStateChangedCallback;
-            EditorApplication.quitting += PlayModeStateChangedCallback;
+            EditorApplication.quitting -= Quit;
+            EditorApplication.quitting += Quit;
 #endif
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void Quit()
+        {
+            //Force all datas to be write in database
+            NWDDataManager.SharedInstance().UpdateQueueExecute();
+            //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
+            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            NWDVersion.UpdateVersionBundle();
+        }
 		//-------------------------------------------------------------------------------------------------------------
         public static void PlayModeStateChangedCallback (PlayModeStateChange sState)
         {
