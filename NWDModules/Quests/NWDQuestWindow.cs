@@ -27,6 +27,7 @@ namespace NetWorkedData
             typeof(NWDCharacter),
             typeof(NWDAction),
 			typeof(NWDQuestUserAdvancement),
+        typeof(NWDYoghurtLyric),
 			/* Add NWDBasis here*/
 		}
 	)]

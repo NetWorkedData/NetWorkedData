@@ -251,7 +251,9 @@ namespace NetWorkedData
         {
             get; set;
         }
-
+        public NWDReferenceType<NWDYoghurtLyric> YoghurtLyric {
+            get; set;
+        }
         [NWDGroupEndAttribute]
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("List of next dialogs (and replies)", true, true, true)]
