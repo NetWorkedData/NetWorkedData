@@ -230,7 +230,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "")
+        public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "", GameObject tParent = null)
         {
             if (NWDTypeLauncher.DataLoaded)
             {
@@ -256,8 +256,19 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    #if UNITY_EDITOR
-                    EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK");
+#if UNITY_EDITOR
+                    if (tParent != null)
+                    {
+                        Debug.LogWarning("AutoLocalize : Text component is null", tParent);
+                    }
+                    if (EditorUtility.DisplayDialog("AutoLocalize", "Text component is null", "OK"))
+                    {
+                        if (tParent != null)
+                        {
+                            Selection.activeObject = tParent;
+                        }
+                    }
+
                     #endif
                 }
             }
