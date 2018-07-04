@@ -83,7 +83,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
-            return new K[] { NWDBasis<K>.GetObjectByReference(Value, sAccountReference) as K };
+            K tObject = NWDBasis<K>.GetObjectByReference(Value, sAccountReference) as K;
+            if (tObject != null)
+            {
+                return new K[] {tObject};
+            }
+            else
+            {
+                return new K[] { };
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public K GetObjectAbsolute(string sAccountReference = null)
@@ -93,7 +101,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjectsAbsolute(string sAccountReference = null)
         {
-            return new K[] { NWDBasis<K>.GetObjectAbsoluteByReference(Value) as K };
+            K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(Value) as K;
+            if (tObject != null)
+            {
+                return new K[] { tObject };
+            }
+            else
+            {
+                return new K[] { };
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetObject(K sObject)
