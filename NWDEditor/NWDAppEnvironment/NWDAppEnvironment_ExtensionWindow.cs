@@ -118,6 +118,10 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);
             DateTime tDate = BTBDateHelper.ConvertFromTimestamp(this.BuildTimestamp);
             EditorGUILayout.LabelField("Build Timestamp string ", tDate.ToString("yyyy/MM/dd HH:mm:ss"), EditorStyles.boldLabel);
+            if (GUILayout.Button("Reset Build Timestamp"))
+            {
+                BuildTimestamp = 0;
+            }
             CartridgeColor = EditorGUILayout.ColorField("Cartridge Color",CartridgeColor);
 			EditorGUILayout.EndVertical();
 
