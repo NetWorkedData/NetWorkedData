@@ -676,6 +676,21 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
+        /// Trash this instance. It's not a real delete operation because the server must be informated about the "deleted" 
+        /// state of this object.
+        /// </summary>
+        public void TrashMeLater()
+        {
+            int tTimestamp = NWDToolbox.Timestamp();
+            this.DD = tTimestamp;
+            this.XX = tTimestamp;
+            this.AC = false;
+            //          this.UpdateIntegrity ();
+            this.AddonTrashMe(); // call override method
+            this.UpdateMeLaterIfModified();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
         /// Remove from trash this instance.
         /// </summary>
         public void UnTrashMe()
