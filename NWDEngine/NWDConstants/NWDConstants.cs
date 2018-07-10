@@ -348,6 +348,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_ROW_OBJECT_OK = " ";
         public const string K_APP_TABLE_ROW_OBJECT_ERROR = "Error";
         public const string K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR = "Corrupted!";
+        public const string K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR = "OverGrade";
         public const string K_APP_TABLE_ROW_OBJECT_TRASH = "Trashed";
         public const string K_APP_TABLE_ROW_OBJECT_DISACTIVE = "Desactived";
         //-------------------------------------------------------------------------------------------------------------
@@ -489,6 +490,7 @@ namespace NetWorkedData
         //static Color kRowColorNormal = new Color (0.0f, 0.0f, 0.0f, 0.30f);
         public static Color kRowColorSelected = new Color (0.55f, 0.55f, 1.00f, 0.25f);
         public static Color kRowColorError = new Color (1.00f, 0.00f, 0.00f, 0.55f);
+        public static Color kRowColorWarning = new Color(1.00f, 0.50f, 0.00f, 0.55f);
         public static Color kRowColorTrash = new Color (0.00f, 0.00f, 0.00f, 0.45f);
         public static Color kRowColorDisactive = new Color (0.00f, 0.00f, 0.00f, 0.35f);
         public static float kRowLineStroke = 1.0f;
@@ -515,6 +517,7 @@ namespace NetWorkedData
         public static Texture2D kImageForbiddenOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbiddenOrange.psd"));
         public static Texture2D kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
         public static Texture2D kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
+        public static Texture2D kImageWarning = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWarning.psd"));
 
 
         static public Color KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);

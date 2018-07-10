@@ -24,7 +24,7 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[Serializable]
-	public class NWDLocalizationConnection : NWDConnection <NWDLocalization> {}
+    public class NWDLocalizationConnection : NWDConnection<NWDLocalization>     {         public string GetLocalString(string sDefault = "")         {             NWDLocalization tObject = GetObject();             if (tObject != null)             {                 return GetObject().GetLocalString();             }              return sDefault;         }     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("LCL")]
@@ -256,7 +256,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-#if UNITY_EDITOR
+                    #if UNITY_EDITOR
                     if (tParent != null)
                     {
                         Debug.LogWarning("AutoLocalize : Text component is null", tParent);
@@ -268,7 +268,6 @@ namespace NetWorkedData
                             Selection.activeObject = tParent;
                         }
                     }
-
                     #endif
                 }
             }
@@ -336,6 +335,8 @@ namespace NetWorkedData
 		{
 			// do something with this object
 		}
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetLocalString()         {             string tText = TextValue.GetLocalString();             return tText.Replace("<br>", "\n");         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
