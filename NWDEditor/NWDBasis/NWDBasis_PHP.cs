@@ -613,7 +613,11 @@ namespace NetWorkedData
             "\t{\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $TIME_SYNC;\n" +
             "\t\t$sCsvList = explode('" + NWDConstants.kStandardSeparator + "',$sCsv);\n" +
-            "\t\t$sCsvList[2] = $TIME_SYNC;// change DS\n";
+            "\t\t$sCsvList[2] = $TIME_SYNC;// change DS\n" +
+            "\t\tif ($sCsvList[1]<$TIME_SYNC)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\t$sCsvList[2] = $sCsvList[1];\n" +
+            "\t\t\t}\n";
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
                 tSynchronizationFile += "\t\t$sCsvList[3] = $TIME_SYNC;// change DevSync\n";
@@ -680,8 +684,6 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n";
 
-
-
             // TODO refactor to be more easy to generate
 
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
@@ -704,7 +706,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-                ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" +
+            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -716,9 +718,6 @@ namespace NetWorkedData
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n";
-
-
-
 
             // TODO refactor to be more easy to generate
 
@@ -833,7 +832,7 @@ namespace NetWorkedData
             tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV;\n" +
-                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $admin;\n" +
             "\t\tif (Integrity" + tClassName + "Test ($sCsv) == true)\n" +
             "\t\t\t{\n" +
@@ -845,7 +844,7 @@ namespace NetWorkedData
             "\t\t\t\telse\n" +
             "\t\t\t\t{\n" +
             "\t\t\t\t$tReference = $sCsvList[0];\n" +
-            "\t\t\t\t$tQuery = 'SELECT `Reference` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
+            "\t\t\t\t$tQuery = 'SELECT `Reference`, `DM` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
             "\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\t\t\tif (!$tResult)\n" +
             "\t\t\t\t\t{\n" +
@@ -868,21 +867,24 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\telse\n" +
             "\t\t\t\t\t\t\t\t\t{\n" +
+            //"\t\t\t\t\t\t\t\t\t\twhile($tRow = $tResult->fetch_row())\n"+
+            //"\t\t\t\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET ";
             tSynchronizationFile += string.Join(", ", tModify.ToArray()) + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' ";
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-               // tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') "; no test the last is the winner!
+               // tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') "; 
+               //no test the last is the winner!
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
                 //tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' || `PreprodSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') ";
-                tSynchronizationFile += "AND `PreprodSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+                //tSynchronizationFile += "AND `PreprodSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
             {
                 //tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' || `PreprodSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' || `ProdSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') ";
-                tSynchronizationFile += "AND `ProdSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+                //tSynchronizationFile += "AND `ProdSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
             }
             tSynchronizationFile += "';\n";
             if (tAccountReference.Count == 0)
@@ -896,7 +898,11 @@ namespace NetWorkedData
             tSynchronizationFile += "" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.'';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.'';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t}\n" +
+            "\t\t\t\t\t\t\t\t\t\telse\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.' AND `DM`<= \\''.$SQL_CON->real_escape_string($sCsvList[1]).'\\'';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -904,6 +910,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x38');\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
+            //"\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n\n\n";
             if (tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true).Length > 0)
@@ -933,14 +940,19 @@ namespace NetWorkedData
             "\t\t\t\terror('" + tTrigramme + "x40');\n" +
             "\t\t\t}\n" +
             "}" +
-                "//-------------------- \n" +
+            "//-------------------- \n" +
             "function GetDatas" + tClassName + "ByReference ($sReference)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
-            "\t\tglobal $REP;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
+                "\t\tglobal $REP;\n" +
+            "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';\n" +
+            "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t{\n" +
+                "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -983,10 +995,15 @@ namespace NetWorkedData
             "function GetDatas" + tClassName + "ByReferences ($sReferences)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
-            "\t\tglobal $REP;\n" +
+             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
+                "\t\tglobal $REP;\n" +
+            "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\') AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
+                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';\n" +
+            "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t{\n" +
+                "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -1010,8 +1027,9 @@ namespace NetWorkedData
             "function GetDatas" + tClassName + " ($sTimeStamp, $sAccountReference)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
-            "\t\tglobal $REP;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
+                "\t\tglobal $REP;\n" +
+            "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
             "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
             "`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
@@ -1023,7 +1041,12 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "AND (" + string.Join("OR ", tAccountReference.ToArray()) + ") ";
             }
-            tSynchronizationFile += " AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n";
+            tSynchronizationFile += "';\n" +
+            "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t}\n" +
+            "";
             // I do the result operation
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -1044,16 +1067,14 @@ namespace NetWorkedData
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n" +
-
-
             "function GetDatas" + tClassName + "ByAccounts ($sTimeStamp, $sAccountReferences)\n" +
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
-                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
             "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
-           "`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            "`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
             // if need Account reference
             if (tAccountReferences.Count == 0)
             {
@@ -1083,8 +1104,6 @@ namespace NetWorkedData
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n" +
-
-
 
 
             "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +

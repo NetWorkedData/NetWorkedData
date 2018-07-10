@@ -296,9 +296,6 @@ namespace NetWorkedData
 			// draw informations
             //float tHeightInfo = RowInformation (rRect);
 
-
-
-
             string tStringReference = "<" + Reference + ">";
             // prepare prefab 
             GameObject tObject = null;
@@ -329,39 +326,45 @@ namespace NetWorkedData
             //}
 
             // Test the web service version
-            WebserviceVersionCheckMe();
-
-            // prepare text
-            //Rect rRectColored = new Rect(sRect.x - 5, sRect.y, sRect.width + 1024, rReturn);
-
-            if (TestIntegrity() == false)
+            // WebserviceVersionCheckMe();
+            if (WebserviceVersionIsValid())
             {
-                EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorError);
-                ObjectsInEditorTableSelectionList[tIndex] = false;
-                GUILayout.Label("!!!", GUILayout.Width(NWDConstants.kSelectWidth));
-                sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
-                sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
-                tString = "<color=#a52a2aff>" + tString + "</color>";
-            }
-            else if (XX > 0)
-            {
-                EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorTrash);
-                ObjectsInEditorTableSelectionList[tIndex] = false;
-                GUILayout.Label("   ", GUILayout.Width(NWDConstants.kSelectWidth));
-                sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
-                tString = "<color=#444444ff>" + tString + "</color>";
+                if (TestIntegrity() == false)
+                {
+                    EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorError);
+                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    GUILayout.Label("!!!", GUILayout.Width(NWDConstants.kSelectWidth));
+                    //sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
+                    sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
+                    tString = "<color=#a52a2aff>" + tString + "</color>";
+                }
+                else if (XX > 0)
+                {
+                    EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorTrash);
+                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    GUILayout.Label("   ", GUILayout.Width(NWDConstants.kSelectWidth));
+                    sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
+                    tString = "<color=#444444ff>" + tString + "</color>";
+                }
+                else
+                {
+                    if (AC == false)
+                    {
+                        EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorDisactive);
+                        sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
+                        tString = "<color=#555555ff>" + tString + "</color>";
+                    }
+                    ObjectsInEditorTableSelectionList[tIndex] = EditorGUILayout.ToggleLeft("", ObjectsInEditorTableSelectionList[tIndex], GUILayout.Width(NWDConstants.kSelectWidth));
+                }
             }
             else
             {
-                if (AC == false)
-                {
-                    EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorDisactive);
-                    sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
-                    tString = "<color=#555555ff>" + tString + "</color>";
-                }
-                ObjectsInEditorTableSelectionList[tIndex] = EditorGUILayout.ToggleLeft("", ObjectsInEditorTableSelectionList[tIndex], GUILayout.Width(NWDConstants.kSelectWidth));
+                EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorWarning);
+                ObjectsInEditorTableSelectionList[tIndex] = false;
+                GUILayout.Label("!~!", GUILayout.Width(NWDConstants.kSelectWidth));
+                sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR;
+                tString = "<color=#cc6600ff>" + tString + "</color>";
             }
-
             GUILayout.Label(ID.ToString(), GUILayout.Width(NWDConstants.kIDWidth));
             GUILayout.Label(" ", GUILayout.Width(NWDConstants.kPrefabWidth));
             Rect tRectPreview = GUILayoutUtility.GetLastRect();
@@ -371,7 +374,18 @@ namespace NetWorkedData
             Texture2D tImageSync = NWDConstants.kImageRed;
             if (DS > 0)
             {
-                tImageSync = NWDConstants.kImageGreen;
+                if (DS == DM)
+                {
+                    tImageSync = NWDConstants.kImageGreen;
+                }
+                else if (DS < DM)
+                {
+                    tImageSync = NWDConstants.kImageOrange;
+                }
+                else
+                {
+                    tImageSync = NWDConstants.kImageWaiting;
+                }
             }
             GUILayout.Label(tImageSync, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Dev Sync State
@@ -461,20 +475,6 @@ namespace NetWorkedData
             {
                 EditorGUI.DrawPreviewTexture(new Rect(tRectPreview.x, tRectPreview.y - 3, NWDConstants.kPrefabWidth, NWDConstants.kPrefabWidth), tTexture2D);
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			// draw line to delimit the rect
             tRect = new Rect (tRect.x-NWDConstants.kRowOutMarge, tRect.y+tRowHeight+NWDConstants.kRowLineStroke, tWidthUsed+1024, NWDConstants.kRowLineStroke);
             EditorGUI.DrawRect (tRect, NWDConstants.kRowColorLine);

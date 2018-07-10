@@ -494,6 +494,19 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool WebserviceVersionIsValid()
+        {
+            // Find the good webservice version
+            bool rReturn = true;
+            int tWebBuildUsed = WebServiceVersionToUse();
+            // test the web service version
+            if (WebServiceVersion > tWebBuildUsed)
+            {
+                rReturn = false;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Update this instance. Change a lot of states of instance and write in database. 
         /// Object is not synchronized, integrity changed, ...
