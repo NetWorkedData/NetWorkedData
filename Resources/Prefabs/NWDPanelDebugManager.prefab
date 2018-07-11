@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 224202698559215054}
   - component: {fileID: 222322454137633454}
   - component: {fileID: 114128215308664482}
+  - component: {fileID: 114631429325300108}
   m_Layer: 5
   m_Name: Text Account
   m_TagString: Untagged
@@ -330,6 +331,7 @@ GameObject:
   - component: {fileID: 224080533483244792}
   - component: {fileID: 222554553286405158}
   - component: {fileID: 114540399896197974}
+  - component: {fileID: 114348492275607168}
   m_Layer: 5
   m_Name: Text Reload Data
   m_TagString: Untagged
@@ -950,6 +952,7 @@ GameObject:
   - component: {fileID: 224931410491814598}
   - component: {fileID: 222114948405389578}
   - component: {fileID: 114683559911349466}
+  - component: {fileID: 114880699308406236}
   m_Layer: 5
   m_Name: Text GRPD
   m_TagString: Untagged
@@ -1001,6 +1004,7 @@ GameObject:
   - component: {fileID: 224491654506598210}
   - component: {fileID: 222500119068293890}
   - component: {fileID: 114253573575806358}
+  - component: {fileID: 114740363853344454}
   m_Layer: 5
   m_Name: Text Add Stat
   m_TagString: Untagged
@@ -1087,6 +1091,7 @@ GameObject:
   - component: {fileID: 224054674144690900}
   - component: {fileID: 222810917268624548}
   - component: {fileID: 114104220891608670}
+  - component: {fileID: 114178990069532192}
   m_Layer: 5
   m_Name: Text Show Log
   m_TagString: Untagged
@@ -1347,6 +1352,7 @@ GameObject:
   - component: {fileID: 224304534234474522}
   - component: {fileID: 222736510176517802}
   - component: {fileID: 114373007760535766}
+  - component: {fileID: 114991744727005136}
   m_Layer: 5
   m_Name: Text Test Alert
   m_TagString: Untagged
@@ -1518,6 +1524,7 @@ GameObject:
   - component: {fileID: 224746181139486490}
   - component: {fileID: 222319975173121556}
   - component: {fileID: 114479639566202996}
+  - component: {fileID: 114068078636118716}
   m_Layer: 5
   m_Name: Text Parameters
   m_TagString: Untagged
@@ -1605,6 +1612,7 @@ GameObject:
   - component: {fileID: 224297478546367542}
   - component: {fileID: 222720438589397468}
   - component: {fileID: 114177036603883322}
+  - component: {fileID: 114815248978803270}
   m_Layer: 5
   m_Name: Text Test Dialog
   m_TagString: Untagged
@@ -1803,6 +1811,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114068078636118716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1916701095820946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-532911
 --- !u!114 &114073285438264472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2328,19 +2349,11 @@ MonoBehaviour:
   ButtonAddStats: {fileID: 114708769918751954}
   ButtonReloadDatas: {fileID: 114369968146965056}
   ParameterConnection:
-    Reference: PRM-34782765-290142
+    Reference: PRM-38601815-789335
   PanelShowDebug: {fileID: 1524112698428490}
   CartridgeImage: {fileID: 114431907076746294}
   CartridgeText: {fileID: 114390236748201414}
-  TextAccount: {fileID: 114128215308664482}
-  TextReloadData: {fileID: 114540399896197974}
-  TextAddStat: {fileID: 114253573575806358}
-  TextGRPD: {fileID: 114683559911349466}
-  TextShowLog: {fileID: 114104220891608670}
-  TextTestAlert: {fileID: 114373007760535766}
-  TextTestDialog: {fileID: 114177036603883322}
   TextDebug: {fileID: 114726839054440688}
-  TextParameters: {fileID: 114479639566202996}
 --- !u!114 &114138294404746612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2614,6 +2627,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u2022WEB BLANK\u2022"
+--- !u!114 &114178990069532192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1628939621347612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-498710
 --- !u!114 &114189853893267322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3192,6 +3218,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114348492275607168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1215433894145208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-805709
 --- !u!114 &114369968146965056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4602,6 +4641,19 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114631429325300108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1205010617633622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-392395
 --- !u!114 &114632073341304900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5063,6 +5115,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114740363853344454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1584334335451340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-388268
 --- !u!114 &114759436043089710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5386,6 +5451,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Option A
+--- !u!114 &114815248978803270
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963283373816264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-295394
 --- !u!114 &114829907370751738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5612,6 +5690,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Reset Session
+--- !u!114 &114880699308406236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566103354497896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-441226
 --- !u!114 &114881118343649064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6066,6 +6157,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114991744727005136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1801540622533470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjConnection:
+    Reference: LCL-38065424-326252
 --- !u!222 &222002557557847528
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -8318,7 +8422,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1372846104779954}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
