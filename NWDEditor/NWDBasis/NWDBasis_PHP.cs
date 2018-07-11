@@ -1083,7 +1083,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "AND (" + string.Join("OR ", tAccountReferences.ToArray()) + ") ";
             }
-            tSynchronizationFile += " AND `WebServiceVersion` <= '.$$SQL_" + tClassName + "_WebService.';';\n";
+            tSynchronizationFile += " AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n";
             // I do the result operation
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
