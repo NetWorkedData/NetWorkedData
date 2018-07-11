@@ -976,6 +976,7 @@ namespace NetWorkedData
                 if (sEditionEnable == true)
                 {
                     ErrorCheck();
+                    WebserviceVersionCheckMe();
                     if (IntegrityValue() != this.Integrity)
                     {
                         //Debug.Log("change need UpdateMeLater() call ");
