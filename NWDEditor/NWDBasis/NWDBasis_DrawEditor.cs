@@ -1135,7 +1135,7 @@ namespace NetWorkedData
                 else if (XX > 0)
                 {
 
-                    EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
+                    EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorTrash);
                     tCanBeEdit = false;
 
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_IN_TRASH, tBoldLabelStyle);
@@ -1162,7 +1162,7 @@ namespace NetWorkedData
             }
             else
             {
-                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
+                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorWarning);
                 tCanBeEdit = false;
 
                 GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_WS_ERROR, tBoldLabelStyle);
