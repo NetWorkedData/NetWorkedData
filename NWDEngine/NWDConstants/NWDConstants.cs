@@ -316,6 +316,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_DELETE_ALERT = "Warning";
         public const string K_APP_TABLE_DELETE_YES = "Yes";
         public const string K_APP_TABLE_DELETE_NO = "No";
+
         public const string K_APP_TABLE_TRASH_ZONE = "Trash";
         public const string K_APP_TABLE_TRASH_NO_OBJECT = "No object to put in trash !?";
         public const string K_APP_TABLE_TRASH_ONE_OBJECT = "Do you want to put in trash this object?";
@@ -324,6 +325,14 @@ namespace NetWorkedData
         public const string K_APP_TABLE_TRASH_ALERT = "Warning";
         public const string K_APP_TABLE_TRASH_YES = "Yes";
         public const string K_APP_TABLE_TRASH_NO = "No";
+
+        public const string K_APP_TABLE_RESET_WARNING = "Warning Table";
+        public const string K_APP_TABLE_RESET_ZONE = "Reset table";
+        public const string K_APP_TABLE_RESET_ALERT = "Warning";
+        public const string K_APP_TABLE_RESET_TABLE = "Do ypou want really reset this table?";
+        public const string K_APP_TABLE_RESET_YES = "Yes! Reset!";
+        public const string K_APP_TABLE_RESET_NO = "No, cancel!";
+
         public const string K_APP_TABLE_PAGINATION = "Pagination";
         public const string K_APP_TABLE_NO_OBJECT = "No object in database";
         public const string K_APP_TABLE_ONE_OBJECT = "Only 1 object in database";

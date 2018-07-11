@@ -262,14 +262,10 @@
 			global $SQL_CON;
 			global $token, $uuid;
 			global $ENV, $WSBUILD;
+			global $SQL_NWDAccount_WebService;
 			
 			$tInternalKey = '';
 			$tInternalDescription = '';
-			if ($ENV == 'Dev')
-			{
-				$tInternalKey = 'Anonymous 45';
-				$tInternalDescription = 'dev account';
-			}
 			
 			$tNewUUID = referenceGenerate ('ACC', $ENV.'_NWDAccount', 'Reference');
 			$tNewSecretKey = referenceGenerate ('SHS', $ENV.'_NWDAccount', 'SecretKey');
@@ -286,9 +282,30 @@
 
 			$tInsertSQL.='`DM`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
 			$tInsertSQL.='`DS`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
-			$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
-			$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
-			$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			if ($ENV == 'Dev')
+			{
+				$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string(md5($_SERVER['REMOTE_ADDR']).'-'.$WSBUILD.'-'.$TIME_SYNC).'\', ';
+				$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string('Dev account').'\', ';
+				$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+				$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\'-1\', ';
+				$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\'-1\', ';
+			}
+			if ($ENV == 'Preprod')
+			{
+				$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string(md5($_SERVER['REMOTE_ADDR']).'-'.$WSBUILD.'-'.$TIME_SYNC).'\', ';
+				$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string('Preprod account').'\', ';
+				$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\'-1\', ';
+				$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+				$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\'-1\', ';
+			}
+			if ($ENV == 'Prod')
+			{
+				$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string(md5($_SERVER['REMOTE_ADDR']).'-'.$WSBUILD.'-'.$TIME_SYNC).'\', ';
+				$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string('Prod account').'\', ';
+				$tInsertSQL.='`DevSync`, ';$tInsertSQLValue.= '\'-1\', ';
+				$tInsertSQL.='`PreprodSync`, ';$tInsertSQLValue.= '\'-1\', ';
+				$tInsertSQL.='`ProdSync`, ';$tInsertSQLValue.= '\''.$TIME_SYNC.'\', ';
+			}
 			$tInsertSQL.='`AC`, ';$tInsertSQLValue.= '\'1\', ';
 			$tInsertSQL.='`AppleNotificationToken`, ';$tInsertSQLValue.= '\'\', ';
 			$tInsertSQL.='`Ban`, ';$tInsertSQLValue.= '\'0\', ';
@@ -299,15 +316,13 @@
 			$tInsertSQL.='`GoogleID`, ';$tInsertSQLValue.= '\'\', ';
 			$tInsertSQL.='`GoogleNotificationToken`, ';$tInsertSQLValue.= '\'\', ';
 			$tInsertSQL.='`InError`, ';$tInsertSQLValue.= '\'0\', ';
-			$tInsertSQL.='`InternalDescription`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tInternalDescription).'\', ';
-			$tInsertSQL.='`InternalKey`, ';$tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tInternalKey).'\', ';
 			$tInsertSQL.='`MinVersion`, ';$tInsertSQLValue.= '\'0.00.00\', ';
 			$tInsertSQL.='`Password`, ';$tInsertSQLValue.= '\'\', ';
 			$tInsertSQL.='`Preview`, ';$tInsertSQLValue.= '\'\', ';
 			$tInsertSQL.='`SecretKey`, '; $tInsertSQLValue.= '\''.$SQL_CON->real_escape_string($tNewSecretKey).'\', ';
-			$tInsertSQL.='`Tag`, ';$tInsertSQLValue.= '\'0\', ';
+			$tInsertSQL.='`Tag`, ';$tInsertSQLValue.= '\'19\', '; // server created
 			$tInsertSQL.='`UseInEnvironment`, ';$tInsertSQLValue.= '\'0\', ';
-			$tInsertSQL.='`WebServiceVersion`, ';$tInsertSQLValue.= '\''.$WSBUILD.'\', ';
+			$tInsertSQL.='`WebServiceVersion`, ';$tInsertSQLValue.= '\''.$SQL_NWDAccount_WebService.'\', ';
 			$tInsertSQL.='`XX` ';$tInsertSQLValue.= '\'0\'';
 			$tInsertSQL.=')';
 			$tInsertSQL.=' VALUES ('.$tInsertSQLValue.');';

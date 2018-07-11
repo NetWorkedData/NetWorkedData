@@ -695,21 +695,34 @@ namespace NetWorkedData
 
             Color tOldColor = GUI.backgroundColor;
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            // DELETE SELECTION
             GUILayout.Label(NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
             bool tDeleteSelection = false; //prevent GUIlayout error
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton))
             {
                 tDeleteSelection = true;
             }
-
+            // TRASH SELECTION
             bool tTrashSelection = false;  //prevent GUIlayout error
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_TRASH_ZONE, EditorStyles.miniButton))
             {
                 tTrashSelection = true;
             }
+            EditorGUI.EndDisabledGroup();
+            GUI.backgroundColor = tOldColor;
+
+            GUILayout.Space(10.0F);
+
+            // RESET TABLE
+            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
+            bool tResetTable = false;  //prevent GUIlayout error
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, EditorStyles.miniButton))
+            {
+                tResetTable = true;
+            }
 
             GUI.backgroundColor = tOldColor;
-            EditorGUI.EndDisabledGroup();
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
@@ -1149,7 +1162,21 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
                 }
             }
+            if (tResetTable == true)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_APP_TABLE_RESET_ALERT,
+                                                NWDConstants.K_APP_TABLE_RESET_TABLE,
+                                                NWDConstants.K_APP_TABLE_RESET_YES,
+                                                NWDConstants.K_APP_TABLE_RESET_NO))
+                {
 
+                    NWDBasis<K>.ResetTable();
+                    //UpdateReferencesList ();
+                    LoadTableEditor();
+                    RepaintTableEditor();
+
+                }
+            }
             if (tPullProd == true)
             {
                 if (Application.isPlaying == true && AccountDependent() == false)
