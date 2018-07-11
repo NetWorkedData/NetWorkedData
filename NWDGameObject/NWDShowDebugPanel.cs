@@ -32,18 +32,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public Image CartridgeImage;
         public Text CartridgeText;
-        public Text TextAccount;
-        public Text TextReloadData;
-        public Text TextAddStat;
-        public Text TextGRPD;
-        public Text TextShowLog;
-        public Text TextTestAlert;
-        public Text TextTestDialog;
         public Text TextDebug;
-        public Text TextParameters;
         //-------------------------------------------------------------------------------------------------------------
         private const string K_NWD_SHOW_DEBUG_PANEL = "NWDShowDebugPanel";
-        private bool IsAutoLocalize = false;
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadDatasAction()
         {
@@ -186,20 +177,6 @@ namespace NetWorkedData
         public void UpdateParameterText()
         {
             ParametersTestAction();
-
-            // Localize Text
-            if (!IsAutoLocalize)
-            {
-                NWDLocalization.AutoLocalize(TextAccount);
-                NWDLocalization.AutoLocalize(TextReloadData);
-                NWDLocalization.AutoLocalize(TextAddStat);
-                NWDLocalization.AutoLocalize(TextGRPD);
-                NWDLocalization.AutoLocalize(TextShowLog);
-                NWDLocalization.AutoLocalize(TextTestAlert);
-                NWDLocalization.AutoLocalize(TextTestDialog);
-                NWDLocalization.AutoLocalize(TextParameters);
-                IsAutoLocalize = true;
-            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
