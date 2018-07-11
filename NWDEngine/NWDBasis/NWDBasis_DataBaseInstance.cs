@@ -499,8 +499,10 @@ namespace NetWorkedData
             // Find the good webservice version
             bool rReturn = true;
             int tWebBuildUsed = WebServiceVersionToUse();
+            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+            int tWebBuiltMax = tApp.WebBuild;
             // test the web service version
-            if (WebServiceVersion > tWebBuildUsed)
+            if (WebServiceVersion > tWebBuiltMax)
             {
                 rReturn = false;
             }

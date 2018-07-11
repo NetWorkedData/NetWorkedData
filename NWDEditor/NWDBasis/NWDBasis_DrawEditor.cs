@@ -1098,61 +1098,94 @@ namespace NetWorkedData
             //            tY+=tBoldLabelStyle.fixedHeight + tMarge;
             //if (tTestIntegrity == false || XX > 0) {tCanBeEdit = false;}EditorGUI.BeginDisabledGroup (tCanBeEdit == false);EditorGUI.EndDisabledGroup ();
 
-            if (tTestIntegrity == false)
+
+
+            if (WebserviceVersionIsValid())
             {
 
-                EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
-                tCanBeEdit = false;
 
-                GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_IS_FALSE, tBoldLabelStyle);
-                tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                EditorGUI.HelpBox(new Rect(tX, tY, tWidth, tHelpBoxStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_HELPBOX, MessageType.Error);
-                tY += tHelpBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_REEVAL, tMiniButtonStyle))
+                if (tTestIntegrity == false)
                 {
-                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_INTEGRITY_WARNING,
-                            NWDConstants.K_APP_BASIS_INTEGRITY_WARNING_MESSAGE,
-                            NWDConstants.K_APP_BASIS_INTEGRITY_OK,
-                            NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
+
+                    EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
+                    tCanBeEdit = false;
+
+                    GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_IS_FALSE, tBoldLabelStyle);
+                    tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                    EditorGUI.HelpBox(new Rect(tX, tY, tWidth, tHelpBoxStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_HELPBOX, MessageType.Error);
+                    tY += tHelpBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                    if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTEGRITY_REEVAL, tMiniButtonStyle))
                     {
-                        UpdateMe(true);
-                        NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_INTEGRITY_WARNING,
+                                NWDConstants.K_APP_BASIS_INTEGRITY_WARNING_MESSAGE,
+                                NWDConstants.K_APP_BASIS_INTEGRITY_OK,
+                                NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
+                        {
+                            UpdateMe(true);
+                            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                        }
                     }
+                    tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tY += NWDConstants.kFieldMarge;
+
                 }
-                tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-                tY += NWDConstants.kFieldMarge;
+                else if (XX > 0)
+                {
 
+                    EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
+                    tCanBeEdit = false;
+
+                    GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_IN_TRASH, tBoldLabelStyle);
+                    tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                    EditorGUI.HelpBox(new Rect(tX, tY, tWidth, tHelpBoxStyle.fixedHeight), NWDConstants.K_APP_BASIS_IN_TRASH_HELPBOX, MessageType.Warning);
+                    tY += tHelpBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+                    if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UNTRASH, tMiniButtonStyle))
+                    {
+                        if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
+                                NWDConstants.K_APP_BASIS_UNTRASH_WARNING_MESSAGE,
+                                NWDConstants.K_APP_BASIS_UNTRASH_OK,
+                                NWDConstants.K_APP_BASIS_UNTRASH_CANCEL
+                            ))
+                        {
+                            UnTrashMe();
+                            NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                        }
+                    }
+                    tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+                    tY += NWDConstants.kFieldMarge;
+                }
             }
-            else if (XX > 0)
+            else
             {
-
                 EditorGUI.DrawRect(new Rect(0, 0, sInRect.width, sInRect.height), NWDConstants.kRowColorError);
                 tCanBeEdit = false;
 
-                GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_IN_TRASH, tBoldLabelStyle);
+                GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_WS_ERROR, tBoldLabelStyle);
                 tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                EditorGUI.HelpBox(new Rect(tX, tY, tWidth, tHelpBoxStyle.fixedHeight), NWDConstants.K_APP_BASIS_IN_TRASH_HELPBOX, MessageType.Warning);
+                EditorGUI.HelpBox(new Rect(tX, tY, tWidth, tHelpBoxStyle.fixedHeight), NWDConstants.K_APP_BASIS_WS_ERROR_HELPBOX, MessageType.Warning);
                 tY += tHelpBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_UNTRASH, tMiniButtonStyle))
+                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_WS_ERROR_FIX, tMiniButtonStyle))
                 {
-                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_UNTRASH_WARNING,
-                            NWDConstants.K_APP_BASIS_UNTRASH_WARNING_MESSAGE,
-                            NWDConstants.K_APP_BASIS_UNTRASH_OK,
-                            NWDConstants.K_APP_BASIS_UNTRASH_CANCEL
+                    if (EditorUtility.DisplayDialog(NWDConstants.K_APP_BASIS_WS_ERROR_FIX_WARNING,
+                                                    NWDConstants.K_APP_BASIS_WS_ERROR_FIX_WARNING_MESSAGE,
+                                                    NWDConstants.K_APP_BASIS_WS_ERROR_FIX_OK,
+                                                    NWDConstants.K_APP_BASIS_WS_ERROR_FIX_CANCEL
                         ))
                     {
-                        UnTrashMe();
+                        // TODO UPDATE
+                        UpdateMe();
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     }
                 }
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
                 tY += NWDConstants.kFieldMarge;
             }
-
             float tImageWidth = (tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge) * 3;
 
             tX = tImageWidth + NWDConstants.kFieldMarge * 2;
@@ -1387,53 +1420,60 @@ namespace NetWorkedData
                 NWDNodeEditor.UpdateNodeWindow(this);
             }
 
-
-            // Web Service Version management
-            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-            int tWebBuilt = tApp.WebBuild;
-            List<int> tWebServicesInt = new List<int>();
-            List<string> tWebServicesString = new List<string>();
-
-
-            int tWebServiceVersionOldValue = 0;
-            foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
-            //for (int tW = 0; tW <= tWebBuilt; tW++)
+            if (tCanBeEdit == true)
             {
-                if (tKeyValue.Value == true)
+                // Web Service Version management
+                NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+                int tWebBuilt = tApp.WebBuild;
+                List<int> tWebServicesInt = new List<int>();
+                List<string> tWebServicesString = new List<string>();
+
+
+                int tWebServiceVersionOldValue = 0;
+                foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
+                //for (int tW = 0; tW <= tWebBuilt; tW++)
                 {
-                    if (tKeyValue.Key <= WebServiceVersion)
+                    if (tKeyValue.Value == true)
                     {
-                        if (tKeyValue.Key >= tWebServiceVersionOldValue)
+                        if (tKeyValue.Key <= WebServiceVersion)
                         {
-                            tWebServiceVersionOldValue = tKeyValue.Key;
+                            if (tKeyValue.Key >= tWebServiceVersionOldValue)
+                            {
+                                tWebServiceVersionOldValue = tKeyValue.Key;
+                            }
                         }
+                        tWebServicesInt.Add(tKeyValue.Key);
+                        tWebServicesString.Add("WebService " + tKeyValue.Key.ToString());
                     }
-                    tWebServicesInt.Add(tKeyValue.Key);
-                    tWebServicesString.Add("WebService " + tKeyValue.Key.ToString());
+                }
+                int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(tWebServiceVersionOldValue);
+                //kjbjgh g hj jgh jgh jghjg hjgh 
+                int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+                                                                 "Web service " + WebServiceVersion + "(/" + tWebBuilt.ToString() + ")",
+                                                                 tWebServiceVersionOldIndex, tWebServicesString.ToArray());
+                tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
+                int tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
+
+                if (WebServiceVersion != tWebServiceVersionNew)
+                {
+                    WebServiceVersion = tWebServiceVersionNew;
+                    DM = NWDToolbox.Timestamp();
+                    UpdateIntegrity();
+                    UpdateObjectInListOfEdition(this);
+                    UpdateMeAndWebVersion(true, false);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+                    NWDNodeEditor.UpdateNodeWindow(this);
                 }
             }
-            int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(tWebServiceVersionOldValue);
-            //kjbjgh g hj jgh jgh jghjg hjgh 
-            int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
-                                                             "Web service " + WebServiceVersion + "(/" + tWebBuilt.ToString() + ")",
-                                                             tWebServiceVersionOldIndex, tWebServicesString.ToArray());
-            tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            int tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
-
-            if (WebServiceVersion != tWebServiceVersionNew)
+            else
             {
-                WebServiceVersion = tWebServiceVersionNew;
-                DM = NWDToolbox.Timestamp();
-                UpdateIntegrity();
-                UpdateObjectInListOfEdition(this);
-                UpdateMeAndWebVersion(true, false);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
-                NWDNodeEditor.UpdateNodeWindow(this);
+                NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+                int tWebBuilt = tApp.WebBuild;
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Web service " + WebServiceVersion + "(/" + tWebBuilt.ToString() + ")", WebServiceVersion.ToString());
+                tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
-
-
-
 
             // Tag management
             List<int> tTagIntList = new List<int>();

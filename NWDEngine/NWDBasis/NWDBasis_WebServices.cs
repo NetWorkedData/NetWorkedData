@@ -389,7 +389,8 @@ namespace NetWorkedData
                 foreach (NWDBasis<K> tItem in tResults)
                 {
                     // I test integrity and if object is locked (only editable by editor)
-                    if (tItem.TestIntegrity() && tItem.IsLockedObject() == false)
+                    // I add test if WebService is not outgrade for this object 
+                    if (tItem.TestIntegrity() && tItem.IsLockedObject() == false && tItem.WebserviceVersionIsValid() == true)
                     {
                         // I need to update the webservice to synchronize !
                         tItem.WebserviceVersionCheckMe(); // use this method is more effectient

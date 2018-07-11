@@ -193,6 +193,14 @@ namespace NetWorkedData
         public const string K_APP_BASIS_UNTRASH_OK = "Yes";
         public const string K_APP_BASIS_UNTRASH_CANCEL = "No";
 
+        public const string K_APP_BASIS_WS_ERROR = "OBJECT IS OUTGRADE";
+        public const string K_APP_BASIS_WS_ERROR_HELPBOX = "This object is formatted with newer webservice version. Change it can delete some informations!";
+        public const string K_APP_BASIS_WS_ERROR_FIX = "Click to downgrade";
+        public const string K_APP_BASIS_WS_ERROR_FIX_WARNING = "Warning";
+        public const string K_APP_BASIS_WS_ERROR_FIX_WARNING_MESSAGE = "Are-you sure to downgrade this object?";
+        public const string K_APP_BASIS_WS_ERROR_FIX_OK = "Yes";
+        public const string K_APP_BASIS_WS_ERROR_FIX_CANCEL = "No";
+
         public const string K_APP_BASIS_PREVIEW = "Preview";
         public const string K_APP_BASIS_INFORMATIONS = "Informations";
         public const string K_APP_BASIS_REFERENCE = "";
@@ -348,7 +356,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_ROW_OBJECT_OK = " ";
         public const string K_APP_TABLE_ROW_OBJECT_ERROR = "Error";
         public const string K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR = "Corrupted!";
-        public const string K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR = "OverGrade";
+        public const string K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR = "Outgraded";
         public const string K_APP_TABLE_ROW_OBJECT_TRASH = "Trashed";
         public const string K_APP_TABLE_ROW_OBJECT_DISACTIVE = "Desactived";
         //-------------------------------------------------------------------------------------------------------------
