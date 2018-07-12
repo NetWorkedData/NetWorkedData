@@ -17,11 +17,11 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWD game call back.
-	/// Use in game object to connect the other gameobject to action in the NetWorkedData package 
-	/// Each scene can be connect independently
-	/// </summary>
+    /// <summary>
+    /// NWD game call back.
+    /// Use in game object to connect the other gameobject to action in the NetWorkedData package 
+    /// Each scene can be connect independently
+    /// </summary>
     public partial class NWDGameCallBack : MonoBehaviour
     {
         [Header("Track NetWorkedData Engine")]
@@ -359,7 +359,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationEngineLaunch(BTBNotification sNotification)
         {
-            if(EngineLaunchEvent!=null)
+            if (EngineLaunchEvent != null)
             {
                 EngineLaunchEvent.Invoke(sNotification);
             }
@@ -367,7 +367,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
-            if ( DatasStartLoadingEvent!= null)
+            if (DatasStartLoadingEvent != null)
             {
                 DatasStartLoadingEvent.Invoke(sNotification);
             }
@@ -375,7 +375,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            if ( DatasPartialLoadedEvent!= null)
+            if (DatasPartialLoadedEvent != null)
             {
                 DatasPartialLoadedEvent.Invoke(sNotification);
             }
@@ -383,7 +383,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
-            if ( DatasLoadedEvent!= null)
+            if (DatasLoadedEvent != null)
             {
                 DatasLoadedEvent.Invoke(sNotification);
             }
@@ -391,7 +391,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationLanguageChanged(BTBNotification sNotification)
         {
-            if ( LanguageChangedEvent!= null)
+            if (LanguageChangedEvent != null)
             {
                 LanguageChangedEvent.Invoke(sNotification);
             }
@@ -399,7 +399,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDataLocalUpdate(BTBNotification sNotification)
         {
-            if ( DataLocalUpdateEvent!= null)
+            if (DataLocalUpdateEvent != null)
             {
                 DataLocalUpdateEvent.Invoke(sNotification);
             }
@@ -407,7 +407,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDataLocalInsert(BTBNotification sNotification)
         {
-            if ( DataLocalInsertEvent!= null)
+            if (DataLocalInsertEvent != null)
             {
                 DataLocalInsertEvent.Invoke(sNotification);
             }
@@ -415,7 +415,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDataLocalDelete(BTBNotification sNotification)
         {
-            if ( DataLocalDeleteEvent!= null)
+            if (DataLocalDeleteEvent != null)
             {
                 DataLocalDeleteEvent.Invoke(sNotification);
             }
@@ -423,7 +423,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationDatasWebUpdate(BTBNotification sNotification)
         {
-            if ( DatasWebUpdateEvent!= null)
+            if (DatasWebUpdateEvent != null)
             {
                 DatasWebUpdateEvent.Invoke(sNotification);
             }
@@ -431,7 +431,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationError(BTBNotification sNotification)
         {
-            if ( ErrorEvent!= null)
+            if (ErrorEvent != null)
             {
                 ErrorEvent.Invoke(sNotification);
             }
@@ -439,7 +439,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationAccountChanged(BTBNotification sNotification)
         {
-            if ( AccountChangedEvent!= null)
+            if (AccountChangedEvent != null)
             {
                 AccountChangedEvent.Invoke(sNotification);
             }
@@ -447,7 +447,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationAccountSessionExpired(BTBNotification sNotification)
         {
-            if ( AccountSessionExpiredEvent!= null)
+            if (AccountSessionExpiredEvent != null)
             {
                 AccountSessionExpiredEvent.Invoke(sNotification);
             }
@@ -455,7 +455,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationAccountBanned(BTBNotification sNotification)
         {
-            if ( AccountBannedEvent!= null)
+            if (AccountBannedEvent != null)
             {
                 AccountBannedEvent.Invoke(sNotification);
             }
@@ -463,7 +463,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationNetworkOffLine(BTBNotification sNotification)
         {
-            if ( NetworkOffLineEvent!= null)
+            if (NetworkOffLineEvent != null)
             {
                 NetworkOffLineEvent.Invoke(sNotification);
             }
@@ -471,7 +471,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationNetworkOnLine(BTBNotification sNotification)
         {
-            if ( NetworkOnLineEvent!= null)
+            if (NetworkOnLineEvent != null)
             {
                 NetworkOnLineEvent.Invoke(sNotification);
             }
@@ -479,7 +479,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationNetworkUnknow(BTBNotification sNotification)
         {
-            if ( NetworkUnknowEvent!= null)
+            if (NetworkUnknowEvent != null)
             {
                 NetworkUnknowEvent.Invoke(sNotification);
             }
@@ -495,7 +495,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationError(BTBNotification sNotification)
         {
-            if ( WebOperationErrorEvent!= null)
+            if (WebOperationErrorEvent != null)
             {
                 WebOperationErrorEvent.Invoke(sNotification);
             }
@@ -511,7 +511,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationUploadInProgress(BTBNotification sNotification, float sPurcent)
         {
-            if ( WebOperationUploadInProgressEvent!= null)
+            if (WebOperationUploadInProgressEvent != null)
             {
                 WebOperationUploadInProgressEvent.Invoke(sNotification);
             }
@@ -519,7 +519,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationDownloadInProgress(BTBNotification sNotification, float sPurcent)
         {
-            if ( WebOperationDownloadInProgressEvent!= null)
+            if (WebOperationDownloadInProgressEvent != null)
             {
                 WebOperationDownloadInProgressEvent.Invoke(sNotification);
             }
@@ -527,7 +527,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationDownloadIsDone(BTBNotification sNotification)
         {
-            if ( WebOperationDownloadIsDoneEvent!= null)
+            if (WebOperationDownloadIsDoneEvent != null)
             {
                 WebOperationDownloadIsDoneEvent.Invoke(sNotification);
             }
@@ -535,7 +535,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationDownloadFailed(BTBNotification sNotification)
         {
-            if ( WebOperationDownloadFailedEvent!= null)
+            if (WebOperationDownloadFailedEvent != null)
             {
                 WebOperationDownloadFailedEvent.Invoke(sNotification);
             }
@@ -543,7 +543,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationDownloadError(BTBNotification sNotification)
         {
-            if ( WebOperationDownloadErrorEvent!= null)
+            if (WebOperationDownloadErrorEvent != null)
             {
                 WebOperationDownloadErrorEvent.Invoke(sNotification);
             }
@@ -551,7 +551,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationWebOperationDownloadSuccessed(BTBNotification sNotification)
         {
-            if ( WebOperationDownloadSuccessedEvent!= null)
+            if (WebOperationDownloadSuccessedEvent != null)
             {
                 WebOperationDownloadSuccessedEvent.Invoke(sNotification);
             }
@@ -559,7 +559,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void NotificationGeneric(BTBNotification sNotification)
         {
-            if ( GenericEvent!=null)
+            if (GenericEvent != null)
             {
                 GenericEvent.Invoke(sNotification);
             }
@@ -569,3 +569,8 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+
+
+
+
+
