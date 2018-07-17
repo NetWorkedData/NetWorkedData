@@ -474,9 +474,19 @@ namespace NetWorkedData
                     }
                 }
             }
+
+
+            List<string> tTypeNameValidList = new List<string>();
+            foreach (Type tType in  NWDTypeLauncher.AllTypes)
+            {
+                tTypeNameValidList.Add(tType.Name);
+            }
             foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
             {
+                if (tTypeNameValidList.Contains(tKeyValue.Key) == true)
+                {
                 tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
+                }
             }
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";

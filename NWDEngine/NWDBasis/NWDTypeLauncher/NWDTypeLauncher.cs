@@ -39,6 +39,7 @@ namespace NetWorkedData
         public static bool DataLoaded = false;
         public static int ClassesExpected = 0;
         public static int ClassesDataLoaded = 0;
+        public static Type[] AllTypes;
         //-------------------------------------------------------------------------------------------------------------
         static NWDTypeLauncher()
         {
@@ -69,6 +70,7 @@ namespace NetWorkedData
            //double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             if (IsLaunched == false && IsLaunching == false)
             {
+                List<Type> tTypeList = new List<Type>();
                 IsLaunching = true;
                 // Get ShareInstance
                 NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
@@ -93,6 +95,7 @@ namespace NetWorkedData
                     tTrigrammeAbstract++;
                     if (tType.ContainsGenericParameters == false)
                     {
+                        tTypeList.Add(tType);
                         //Debug.Log ("FIND tType = " + tType.Name);
                         string tTrigramme = tTrigrammeAbstract.ToString();
                         if (tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
@@ -147,6 +150,9 @@ namespace NetWorkedData
                     }
                     tIndexOfActualClass++;
                 }
+
+
+                AllTypes = tTypeList.ToArray();
                 //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 //double tDelta = tFinishTimestamp - tStartTimestamp;
                    //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
