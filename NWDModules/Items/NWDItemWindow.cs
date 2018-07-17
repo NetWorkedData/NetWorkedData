@@ -6,42 +6,37 @@
 //=====================================================================================================================
 
 using System;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Items",
-		"Items Edition",
-		"NWDIcons_02",
-		new Type[] {
-			typeof(NWDItemGroup), 
-			typeof(NWDItem), 
-			typeof(NWDItemProperty), 
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDTypeWindowParamAttribute("Items",
+        "Items Edition",
+        "NWDIcons_02",
+        new Type[] {
+            typeof(NWDItemGroup),
+            typeof(NWDItem),
+            typeof(NWDItemProperty), 
 			/* Add NWDBasis here*/
 		}
-	)]
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDItemWindow : NWDBasisWindow <NWDItemWindow>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Item" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDItemWindow));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    )]
+    public class NWDItemWindow : NWDBasisWindow<NWDItemWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Item" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDItemWindow));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

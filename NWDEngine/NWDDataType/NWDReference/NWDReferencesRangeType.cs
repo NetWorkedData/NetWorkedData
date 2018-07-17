@@ -110,6 +110,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDReferencesRangeType used to put a reference with float in value. Use properties with name, like 'ItemRange', 'SpotRange', 'BonusRange' , etc.
+    /// </summary>
     [SerializeField]
     public class NWDReferencesRangeType<K> : BTBDataType where K : NWDBasis<K>, new()
     {

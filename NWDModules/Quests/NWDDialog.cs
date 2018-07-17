@@ -25,7 +25,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDQuestState : int
     {
@@ -39,7 +39,7 @@ namespace NetWorkedData
         Cancel = 6,
         Fail = 7,
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDDialogState : int
     {
@@ -50,7 +50,7 @@ namespace NetWorkedData
 
         // Cross = 4,      // Go to the next dialog immediatly
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDDialogAnswerType : int
     {
@@ -60,7 +60,7 @@ namespace NetWorkedData
         Validate,
         Destructive,
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDBubbleStyleType : int
     {
@@ -74,7 +74,7 @@ namespace NetWorkedData
         Subconscient,
 
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDCharacterPositionType : int
     {
@@ -82,17 +82,35 @@ namespace NetWorkedData
         Middle,
         Right,
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
     [Serializable]
     public class NWDDialogConnection : NWDConnection<NWDDialog>
     {
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("DLG")]
     [NWDClassDescriptionAttribute("Dialog descriptions Class")]
     [NWDClassMenuNameAttribute("Dialog")]
-    //-------------------------------------------------------------------------------------------------------------
     public partial class NWDDialog : NWDBasis<NWDDialog>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -316,7 +334,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDialog ReturnRealDialog(NWDQuestUserAdvancement tQuestUserAdvancement = null)
+        public NWDDialog ReturnRealDialog(NWDUserQuestAdvancement tQuestUserAdvancement = null)
         {
             NWDDialog rDialog = this;
             if (string.IsNullOrEmpty(Dialog.GetBaseString()) || this.AnswerState == NWDDialogState.Sequent)
@@ -502,7 +520,7 @@ namespace NetWorkedData
                 tCounter = 1;
                 foreach (KeyValuePair<NWDPack, int> tKeyValue in sReplacePacks.GetObjectAndQuantity())
                 {
-                    NWDItem tItem = tKeyValue.Key.ItemToDescribe.GetObject();
+                    NWDItem tItem = tKeyValue.Key.DescriptionItem.GetObject();
                     if (tItem != null)
                     {
                         string tNameQuantity = "";
@@ -881,6 +899,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

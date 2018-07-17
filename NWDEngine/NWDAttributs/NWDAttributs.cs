@@ -18,21 +18,27 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDNotVersionnableAttribute excluded the NWDBasis<K> from the version systeme restriction. Never use in custom Class!
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    //-------------------------------------------------------------------------------------------------------------
     public class NWDNotVersionnableAttribute : Attribute
     {
     }
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDInternalKeyNotEditableAttribute forbidden the edition of the InternalKey in the editor.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Class, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDInternalKeyNotEditableAttribute : Attribute
 	{
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDEntitledAttribute custom toolstip and entitlement for property. 
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDEntitledAttribute : Attribute
 	{
 		public string Entitled = "";
@@ -49,9 +55,11 @@ namespace NetWorkedData
 			this.ToolsTips = sToolsTips;
 		}
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDTooltipsAttribute custom toolstip and entitlement. 
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    //-------------------------------------------------------------------------------------------------------------
     public class NWDTooltipsAttribute : Attribute
     {
         public string ToolsTips = "";
@@ -60,9 +68,11 @@ namespace NetWorkedData
             this.ToolsTips = sToolsTips;
         }
     }
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDHeaderAttribute add an header in inspector before this property.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDHeaderAttribute : Attribute
 	{
 		public string mHeader;
@@ -71,10 +81,12 @@ namespace NetWorkedData
 		{
 			this.mHeader = sHeader;
 		}
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDSpaceAttribute add a space before this property.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDSpaceAttribute : Attribute
 	{
 		public float mSize;
@@ -88,10 +100,12 @@ namespace NetWorkedData
 		{
 			this.mSize = sSize;
 		}
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDGroupStartAttribute create a group befaore this property.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDGroupStartAttribute : Attribute
 	{
         public string mGroupName = "";
@@ -99,9 +113,7 @@ namespace NetWorkedData
 		public bool mBoldHeader;
 		public bool mReducible;
         public bool mOpen;
-
 		public NWDGroupStartAttribute Parent;
-
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -157,16 +169,21 @@ namespace NetWorkedData
             return new GUIContent(mGroupName, mToolsTips);
         }
         //-------------------------------------------------------------------------------------------------------------
-	}
-    //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDIfType is used only in NWDIfAttribute.
+    /// </summary>
     public enum NWDIfType
     {
         Equal,
         Range,
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDIfAttribute can hidde the next property if specific condition is true.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    //-------------------------------------------------------------------------------------------------------------
 	public class NWDIfAttribute : Attribute
 	{
 		public string mPropertyName;
@@ -174,7 +191,7 @@ namespace NetWorkedData
         public NWDIfType TypeOfCompare = NWDIfType.Equal;
         //		public bool mVisible;
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public bool IsDrawable(System.Object sObject)
         {
@@ -307,34 +324,44 @@ namespace NetWorkedData
             //          this.mVisible = sVisible;
         }
 		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDGroupEndAttribute close the NWDGroupStartAttribute befaore the next property.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDGroupEndAttribute : Attribute
 	{
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDGroupSeparatorAttribute must be use after NWDGroupEndAttribute. It draw separator line.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDGroupSeparatorAttribute : Attribute
 	{
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDSeparatorAttribute draw separator line before property.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    //-------------------------------------------------------------------------------------------------------------
     public class NWDSeparatorAttribute : Attribute
     {
     }
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDNotEditableAttribute disable property edition in editor.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDNotEditableAttribute : Attribute
 	{
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDFloatSliderAttribute draw slider for float property.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDFloatSliderAttribute : Attribute
 	{
 		public float mMin;
@@ -345,10 +372,12 @@ namespace NetWorkedData
 			this.mMin = sMin;
 			this.mMax = sMax;
 		}
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDIntSliderAttribute draw slider for int property.
+    /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDIntSliderAttribute : Attribute
 	{
 		public int mMin;
@@ -359,10 +388,13 @@ namespace NetWorkedData
 			this.mMin = sMin;
 			this.mMax = sMax;
 		}
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDEnumAttribute draw popmenu for int property. It will be obsolete and replace by enum type!
+    /// </summary>
+    //[Obsolete("Use an enum")]
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDEnumAttribute : Attribute
 	{
 		public int[] mEnumInt;
@@ -373,10 +405,13 @@ namespace NetWorkedData
 			this.mEnumInt = sEnumInt;
 			this.mEnumString = sEnumString;
 		}
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDEnumAttribute draw popmenu for string property. It will be obsolete and replace by enum type!
+    /// </summary>
+    //[Obsolete("Use an enum")]
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDEnumStringAttribute : Attribute
 	{
 		public string[] mEnumString;
@@ -386,27 +421,24 @@ namespace NetWorkedData
 			this.mEnumString = sEnumString;
 		}
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDLongStringAttribute draw a bigger textfield in the editor for this property
+    /// </summary>
+    //[Obsolete("Use Long string type")]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    //-------------------------------------------------------------------------------------------------------------
     public class NWDLongStringAttribute : Attribute
     {
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDVeryLongStringAttribute draw a bigger textfield in the editor for this property
+    /// </summary>
+    //[Obsolete("Use Long string type")]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    //-------------------------------------------------------------------------------------------------------------
     public class NWDVeryLongStringAttribute : Attribute
     {
     }
-    //-------------------------------------------------------------------------------------------------------------
-    //public class NWDUniqueFromPropertyAttribute : Attribute
-    //{
-    //    public string mProperty;
-    //    public NWDUniqueFromPropertyAttribute(string sOriginalProperty)
-    //    {
-    //        this.mProperty = sOriginalProperty;
-    //    }
-    //}
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

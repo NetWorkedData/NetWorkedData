@@ -25,13 +25,23 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDUserNicknameConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-    /// Use like :
-    /// public class MyScriptInGame : MonoBehaviour
-    /// { 
-    /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDUserNicknameConnection MyNetWorkedData;
-    /// }
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
     /// </summary>
     [Serializable]
     public class NWDUserNicknameConnection : NWDConnection<NWDUserNickname>
@@ -42,47 +52,29 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
-    [NWDClassMenuNameAttribute("User Nickname")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
                                        "\n "+
                                        "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n"+
                                        "\t{\n"+
-                                       "\t\tmyLog('YES YESY YESY YEESSSSSSS', __FILE__, __FUNCTION__, __LINE__);\n"+
                                        "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n"+
                                        "\t}\n")]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDInternalKeyNotEditableAttribute]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD example class. This class is use for (complete description here)
-    /// </summary>
     public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
     {
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Class Properties
-        //-------------------------------------------------------------------------------------------------------------
         // Your static properties
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Instance Properties
-        //-------------------------------------------------------------------------------------------------------------
-        // Your properties
         [NWDHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> AccountReference {get; set;}
+        public NWDReferenceType<NWDAccount> Account {get; set;}
         public string Nickname {get; set;}
         public string UniqueNickname {get; set;}
-        //-------------------------------------------------------------------------------------------------------------
-        public delegate void SyncNickNameBlock(bool error, NWDOperationResult result = null);
-        public SyncNickNameBlock SyncNickNameBlockDelegate;
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);
+        public SyncNicknameBlock SyncNicknameBlockDelegate;
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserNickname()
@@ -96,7 +88,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
@@ -125,13 +116,13 @@ namespace NetWorkedData
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             }
             // Replace the nickname
-            NWDUserNickname tNickNameObject = NWDUserNickname.GetFirstObject();
+            NWDUserNickname tNicknameObject = NWDUserNickname.GetFirstObject();
             string tNickname = "";
             string tNicknameID = "";
-            if (tNickNameObject != null)
+            if (tNicknameObject != null)
             {
-                tNickname = tNickNameObject.Nickname;
-                tNicknameID = tNickNameObject.UniqueNickname;
+                tNickname = tNicknameObject.Nickname;
+                tNicknameID = tNicknameObject.UniqueNickname;
             }
             // Replace the old tag nickname
             //rText = rText.Replace("@nickname@", tBstart + tNickname + tBend);
@@ -145,17 +136,17 @@ namespace NetWorkedData
             return rText;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserNickname NewNickName(string name)
+        public static NWDUserNickname NewNickname(string name)
         {
-            NWDUserNickname rNickName = NewObject();
-            rNickName.InternalKey = name;
-            rNickName.InternalDescription = "";
-            rNickName.Nickname = name;
-            rNickName.SaveModifications();
-            return rNickName;
+            NWDUserNickname rNickname = NewObject();
+            rNickname.InternalKey = name;
+            rNickname.InternalDescription = "";
+            rNickname.Nickname = name;
+            rNickname.SaveModifications();
+            return rNickname;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetNickName()
+        public static string GetNickname()
         {
             string rNickname = "";
             NWDUserNickname[] tNickname = GetAllObjects();
@@ -166,7 +157,7 @@ namespace NetWorkedData
             return rNickname;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetUniqueNickName()
+        public static string GetUniqueNickname()
         {
             string rUniqueNickname = "";
             NWDUserNickname[] tNickname = GetAllObjects();
@@ -182,9 +173,9 @@ namespace NetWorkedData
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Sync NickName if needed
+        /// Sync Nickname if needed
         /// </summary>
-        public void SyncNickName()
+        public void SyncNickname()
         {
             // Sync with the server
             List<Type> tList = new List<Type>
@@ -194,17 +185,17 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (SyncNickNameBlockDelegate != null)
+                if (SyncNicknameBlockDelegate != null)
                 {
-                    SyncNickNameBlockDelegate(false);
+                    SyncNicknameBlockDelegate(false);
                 }
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                if (SyncNickNameBlockDelegate != null)
+                if (SyncNicknameBlockDelegate != null)
                 {
-                    SyncNickNameBlockDelegate(true, tInfos);
+                    SyncNicknameBlockDelegate(true, tInfos);
                 }
             };
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tList, tSuccess, tFailed);
@@ -236,7 +227,7 @@ namespace NetWorkedData
             }
             return sNeedBeUpdate;
         }
-        //private static string kNickNameToTest = "";
+        //private static string kNicknameToTest = "";
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addons editor interface.
@@ -266,14 +257,14 @@ namespace NetWorkedData
             //EditorGUI.LabelField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
             //tYadd += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            //kNickNameToTest = EditorGUI.TextField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Nickname to test", kNickNameToTest, tTextFieldStyle);
+            //kNicknameToTest = EditorGUI.TextField(new Rect(tX, tYadd, tWidth, tTextFieldStyle.fixedHeight), "Nickname to test", kNicknameToTest, tTextFieldStyle);
             //tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            //EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(kNickNameToTest) || kNickNameToTest.Length < 4);
+            //EditorGUI.BeginDisabledGroup(string.IsNullOrEmpty(kNicknameToTest) || kNicknameToTest.Length < 4);
             //if (GUI.Button(new Rect(tX, tYadd, tWidth, tMiniButtonStyle.fixedHeight), "Validate nickname", tMiniButtonStyle))
             //{
             //    BTBConsole.Clean();
-            //    this.AskValidationOfNickname(kNickNameToTest);
+            //    this.AskValidationOfNickname(kNicknameToTest);
             //}
             //tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             //EditorGUI.EndDisabledGroup();
@@ -344,27 +335,6 @@ namespace NetWorkedData
         //}
         //-------------------------------------------------------------------------------------------------------------
     }
-
-    //-------------------------------------------------------------------------------------------------------------
-    #region Connection NWDUserNickname with Unity MonoBehavior
-    //-------------------------------------------------------------------------------------------------------------
-    /// <summary>
-    /// NWDUserNickname connection.
-    /// In your MonoBehaviour Script connect object with :
-    /// <code>
-    ///	[NWDConnectionAttribut(true,true, true, true)]
-    /// public NWDUserNicknameConnection MyNWDUserNicknameObject;
-    /// </code>
-    /// </summary>
-    //-------------------------------------------------------------------------------------------------------------
-    // CONNEXION STRUCTURE METHODS
-    //-------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------
-    //public class NWDUserNicknameMonoBehaviour: NWDMonoBehaviour<NWDUserNicknameMonoBehaviour> {}
-    #endregion
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

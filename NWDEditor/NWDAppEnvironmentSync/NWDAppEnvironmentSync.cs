@@ -623,7 +623,7 @@ namespace NetWorkedData
 
             // Show version selected
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);
-            NWDAccount tAccount = NWDAccount.ActualAccount();
+            NWDAccount tAccount = NWDAccount.CurrentAccount();
             if (tAccount != null)
             {
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE, tAccount.Reference);

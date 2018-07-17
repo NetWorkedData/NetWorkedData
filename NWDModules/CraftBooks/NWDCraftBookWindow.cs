@@ -15,32 +15,31 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Craft",
-		"Craft edition",
-		"NWDIcons_02",
-		new Type[] {
-			typeof(NWDItemGroup),
-			typeof(NWDItem),
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDTypeWindowParamAttribute("Craft",
+        "Craft edition",
+        "NWDIcons_02",
+        new Type[] {
+            typeof(NWDItemGroup),
+            typeof(NWDItem),
             typeof(NWDRecipientGroup),
-			typeof(NWDCraftBook),
+            typeof(NWDCraftBook),
 			/* Add NWDBasis here*/
 		}
-	)]
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDCraftBookWindow : NWDBasisWindow <NWDCraftBookWindow>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE+ "Craft"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDCraftBookWindow));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    )]
+    public class NWDCraftBookWindow : NWDBasisWindow<NWDCraftBookWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDCraftBookWindow));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

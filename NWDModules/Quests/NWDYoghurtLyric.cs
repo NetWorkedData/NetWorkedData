@@ -25,13 +25,23 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDYoghurtLyricConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-    /// Use like :
-    /// public class MyScriptInGame : MonoBehaviour
-    /// { 
-    /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDYoghurtLyricConnection MyNetWorkedData;
-    /// }
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
     /// </summary>
     [Serializable]
     public class NWDYoghurtLyricConnection : NWDConnection<NWDYoghurtLyric>
@@ -43,41 +53,15 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("yoghurt lyrics")]
     [NWDClassMenuNameAttribute("yoghurt lyrics")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDInternalKeyNotEditableAttribute]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD example class. This class is use for (complete description here)
-    /// </summary>
     public partial class NWDYoghurtLyric : NWDBasis<NWDYoghurtLyric>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class Properties
-        //-------------------------------------------------------------------------------------------------------------
-        // Your static properties
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //Example
-        //[NWDGroupStart("Account")]
-        //public NWDReferenceType<NWDAccount> Account { get; set; }
-        //[NWDGroupEnd()]
-        //[NWDGroupSeparator()]
-        //[NWDGroupStart("Other")]
-        //public int Other { get; set; }
-
-        //PROPERTIES
-        public NWDAudioClipType Prefab {get; set;}
-
-
+        public NWDAudioClipType Prefab
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -257,7 +241,7 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Editor
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -343,7 +327,7 @@ namespace NetWorkedData
             return rReturnErrorFound;
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

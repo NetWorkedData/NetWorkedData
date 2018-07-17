@@ -16,7 +16,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-----------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("User",
         "User management … ",
         "NWDIcons_02",
@@ -24,25 +24,23 @@ namespace NetWorkedData
             typeof(NWDAccount),
             typeof(NWDUserInfos),
             typeof(NWDUserNickname),
-            typeof(NWDAvatar),
-            typeof(NWDPreferences),
+            typeof(NWDUserAvatar),
+            typeof(NWDUserPreference),
             typeof(NWDRelationship),
             typeof(NWDOwnership),
-            typeof(NWDUsage),
+            typeof(NWDUserUsage),
             typeof(NWDUserStats),
             typeof(NWDUserNetWorking),
             typeof(NWDUserConsolidatedStats),
-            typeof(NWDInterUserMessage),
-            typeof(NWDUserConsent),
+            typeof(NWDUserInterMessage),
+            typeof(NWDAccountConsent),
 			/* Add NWDBasis here*/
 		}
     )]
-    //-----------------------------------------------------------------------------------------------------------------
     public class NWDUserWindow : NWDBasisWindow<NWDUserWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "User(s)" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 301)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = GetWindow(typeof(NWDUserWindow));
@@ -50,6 +48,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

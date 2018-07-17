@@ -25,7 +25,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDQuestType : int
     {
@@ -33,7 +33,7 @@ namespace NetWorkedData
         Multiple = 1,
         Infiny = 9,
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDQuestImportance : int
     {
@@ -41,29 +41,21 @@ namespace NetWorkedData
         Slave = 1,      // quest is allways slave of another quest
         Master = 2,     // quest is allways master
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public class NWDQuestConnection : NWDConnection<NWDQuest>
     {
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("QST")]
     [NWDClassDescriptionAttribute("Quest descriptions Class")]
     [NWDClassMenuNameAttribute("Quest")]
-    //-------------------------------------------------------------------------------------------------------------
     public partial class NWDQuest : NWDBasis<NWDQuest>
     {
         //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds
         {
@@ -95,11 +87,11 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDItem> ItemToDescribe
+        public NWDLocalizableTextType Description
         {
             get; set;
         }
-        public NWDLocalizableTextType Description
+        public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
@@ -278,7 +270,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDialog FirstDialogOnShowQuest(NWDQuestUserAdvancement tQuestUserAdvancement=null)
+        public NWDDialog FirstDialogOnShowQuest(NWDUserQuestAdvancement tQuestUserAdvancement=null)
         {
             NWDDialog rDialog = null;
             if (tQuestUserAdvancement != null)
@@ -505,6 +497,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

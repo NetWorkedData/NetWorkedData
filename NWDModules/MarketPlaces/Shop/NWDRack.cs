@@ -25,33 +25,45 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
 	[Serializable]
-	public class NWDRackConnection : NWDConnection <NWDRack> {}
-	//-------------------------------------------------------------------------------------------------------------
+    public class NWDRackConnection : NWDConnection <NWDRack> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("RCK")]
 	[NWDClassDescriptionAttribute ("Rack descriptions Class")]
 	[NWDClassMenuNameAttribute ("Rack")]
-	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDRack :NWDBasis <NWDRack>
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
+        [NWDHeaderAttribute("Description Item")]
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]
-		public NWDReferencesQuantityType<NWDPack> PackReference { get; set; }
+		public NWDReferencesQuantityType<NWDPack> PackQuantity { get; set; }
 		public bool Limited { get; set; }
         [NWDGroupEndAttribute]
 

@@ -375,14 +375,14 @@ namespace NetWorkedData
                                 }
                             }
                         }
-                        if (tProp.GetCustomAttributes(typeof(NWDNeedAvatarAttribute), true).Length > 0)
+                        if (tProp.GetCustomAttributes(typeof(NWDNeedUserAvatarAttribute), true).Length > 0)
                         {
-                            if (typeof(NWDAvatar).Name == tType.Name)
+                            if (typeof(NWDUserAvatar).Name == tType.Name)
                             {
                                 tCanBeAddoned = true;
                             }
                         }
-                        if (tProp.GetCustomAttributes(typeof(NWDNeedNicknameAttribute), true).Length > 0)
+                        if (tProp.GetCustomAttributes(typeof(NWDNeedAccountNicknameAttribute), true).Length > 0)
                         {
                             if (typeof(NWDUserNickname).Name == tType.Name)
                             {

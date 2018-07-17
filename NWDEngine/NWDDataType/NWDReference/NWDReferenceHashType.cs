@@ -26,8 +26,11 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// EXPERIMENTAL!!! NWDReferenceHashType used to put a reference in value but by Hash. Use properties with simple name, like 'AccountHash', 'SpotHash', 'BonusHash' , etc.
+    /// </summary>
 	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDReferenceHashType<K>: BTBDataType where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------

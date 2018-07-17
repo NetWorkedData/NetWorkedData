@@ -25,73 +25,71 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
 	[Serializable]
-	public class NWDTradePlaceConnection : NWDConnection <NWDTradePlace> {}
-	//-------------------------------------------------------------------------------------------------------------
+    public class NWDTradePlaceConnection : NWDConnection <NWDTradePlace> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("TRW")]
 	[NWDClassDescriptionAttribute ("Trade Place descriptions Class")]
 	[NWDClassMenuNameAttribute ("Trade Place")]
-	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDTradePlace :NWDBasis <NWDTradePlace>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
 		[NWDHeaderAttribute("Representation")]
-
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
+        public NWDReferenceType<NWDItem> DescriptionItem{ get; set; }
 		[NWDHeaderAttribute("Informations")]
-
 		public NWDLocalizableStringType Name { get; set; }
-
 		public NWDLocalizableStringType SubName { get; set; }
-
 		public NWDLocalizableStringType Description { get; set; }
-
-
 		[NWDGroupStartAttribute("Classification",true, true, true)]
 		public NWDReferencesListType<NWDWorld> Worlds { get; set; }
 		public NWDReferencesListType<NWDCategory> Categories { get; set; }
 		public NWDReferencesListType<NWDFamily> Families { get; set; }
 		public NWDReferencesListType<NWDKeyword>  Keywords { get; set; }
 		[NWDGroupEndAttribute]
-
 		[NWDGroupStartAttribute("Items Authorization",true, true, true)]
 		public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
 		public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
 		public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
 		public NWDReferencesListType<NWDKeyword>  FilterKeywords { get; set; }
 		[NWDGroupEndAttribute]
-
 		[NWDGroupStartAttribute("Money Authorization",true, true, true)]
 		public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
 		public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
 		public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
 		public NWDReferencesListType<NWDKeyword>  FilterMoneyKeywords { get; set; }
 		[NWDGroupEndAttribute]
-
-
 		public int OpenDateTime { get; set; }
 		public int CloseDateTime { get; set; }
 		public int Calendar { get; set; }
-
 		[NWDEnumAttribute(new int[]{0,1,2}, new string[]{"marketplace", "BarterPlace"})]
 		public int TypeOfTrade { get; set; }
 		public NWDReferencesQuantityType<NWDItem> RequestCreationItemsCost { get; set; } // not resell if cancel
 		public NWDReferencesQuantityType<NWDItem> TransactionFixItemsCost { get; set; } 
 		public NWDReferencesQuantityType<NWDItem> TransactionNumberOfItemsCost { get; set; }
 		public float NumberStep { get; set; }
-
 		public int RequestLifeTime { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -205,7 +203,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

@@ -6,28 +6,24 @@
 //=====================================================================================================================
 
 using System;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("Barter",
 		"Barter window description",
 		"NWDIcons_02",
 		new Type[] {
 			typeof(NWDBarterPlace), 
-			typeof(NWDBarterRequest), 
-			typeof(NWDBarterProposition),
+			typeof(NWDUserBarterRequest), 
+			typeof(NWDUserBarterProposition),
 			/* Add NWDBasis here*/
 		}
 	)]
-	//-------------------------------------------------------------------------------------------------------------
 	public class NWDBarterWindow : NWDBasisWindow <NWDBarterWindow>
 	{
 		[MenuItem (NWDConstants.K_MENU_BASE+ "Barter"+NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
@@ -38,7 +34,8 @@ namespace NetWorkedData
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

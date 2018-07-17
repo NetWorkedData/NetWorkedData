@@ -23,16 +23,26 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWDUserStatsConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-	/// Use like :
-	/// public class MyScriptInGame : MonoBehaviour
-	/// { 
-	/// [NWDConnectionAttribut (true, true, true, true)] // optional
-	/// public NWDUserStatsConnection MyNetWorkedData;
-	/// }
-	/// </summary>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
 	[Serializable]
 	public class NWDUserStatsConnection : NWDConnection <NWDUserStats> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -40,19 +50,8 @@ namespace NetWorkedData
 	[NWDClassTrigrammeAttribute ("UST")]
 	[NWDClassDescriptionAttribute ("User stats")]
 	[NWDClassMenuNameAttribute ("User stats")]
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//[NWDInternalKeyNotEditableAttribute]
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWD example class. This class is use for (complete description here)
-	/// </summary>
 	public partial class NWDUserStats : NWDBasis<NWDUserStats>
 	{
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class Properties
 		//-------------------------------------------------------------------------------------------------------------
@@ -64,7 +63,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		//PROPERTIES
-		public NWDReferenceType<NWDAccount> AccountReference {get; set;}
+		public NWDReferenceType<NWDAccount> Account {get; set;}
         public string StringValue {get; set;}
 		public bool BoolValue {get; set;}
 		public int IntValue {get; set;}
@@ -354,7 +353,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

@@ -26,13 +26,23 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDUserNetWorkingConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-    /// Use like :
-    /// public class MyScriptInGame : MonoBehaviour
-    /// { 
-    /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDUserNetWorkingConnection MyNetWorkedData;
-    /// }
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
     /// </summary>
     [Serializable]
     public class NWDUserNetWorkingConnection : NWDConnection<NWDUserNetWorking>
@@ -54,26 +64,15 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDInternalKeyNotEditableAttribute]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD example class. This class is use for (complete description here)
-    /// </summary>
     public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
     {
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Class Properties
-        //-------------------------------------------------------------------------------------------------------------
         // Your static properties
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Instance Properties
-        //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //PROPERTIES
-        public NWDReferencesListType<NWDAccount> AccountReference
+        public NWDReferencesListType<NWDAccount> Account
         {
             get; set;
         }
@@ -94,8 +93,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors

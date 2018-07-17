@@ -25,6 +25,13 @@ namespace NetWorkedData
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------
+        // [Obsolete(NWDConstants.K_WILL_BE_REMOVED)] // used in NWD task
+        public const string K_WILL_BE_REMOVED = " WILL BE REMOVED ";
+        // [Obsolete(NWDConstants.K_OBSOLETE)] // used in NWD task
+        public const string K_OBSOLETE = "OBSOLETE";
+        // [Obsolete(NWDConstants.K_USE_REPRESENTATIVE_ITEM)] // used in NWD task
+        public const string K_USE_REPRESENTATIVE_ITEM = " USE REPRESENTATIVE ITEM ! ";
+        //-------------------------------------------------------------------------------------------------------------
         public static string K_DEVELOPMENT = "Development";
         public static string K_PREPRODUCTION = "PreProduction";
         public static string K_PRODUCTION = "Production";
@@ -99,7 +106,7 @@ namespace NetWorkedData
         public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environment configurations";
         public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environment player chooser";
         public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environment synchronize";
-        public const string K_MENU_GAME = K_MENU_BASE + "App's configurations";
+        public const string K_MENU_GAME = K_MENU_BASE + "Game/App's configurations";
         public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "All Data's Classes (herited from NWDBasis<K>)";
 
         public const string K_MENU_CREATE_PHP = "Creation of files for server";

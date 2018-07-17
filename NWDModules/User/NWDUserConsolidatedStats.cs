@@ -25,13 +25,23 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDUserConsolidatedStatsConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-    /// Use like :
-    /// public class MyScriptInGame : MonoBehaviour
-    /// { 
-    /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDUserConsolidatedStatsConnection MyNetWorkedData;
-    /// }
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
     /// </summary>
     [Serializable]
     public class NWDUserConsolidatedStatsConnection : NWDConnection<NWDUserConsolidatedStats>
@@ -42,31 +52,15 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UCS")]
     [NWDClassDescriptionAttribute("User Consolidated Stats")]
     [NWDClassMenuNameAttribute("User C stats")]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDInternalKeyNotEditableAttribute]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD example class. This class is use for (complete description here)
-    /// </summary>
     public partial class NWDUserConsolidatedStats : NWDBasis<NWDUserConsolidatedStats>
     {
-    //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Class Properties
-        //-------------------------------------------------------------------------------------------------------------
         // Your static properties
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Instance Properties
-        //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //PROPERTIES
-        public NWDReferenceType<NWDAccount> AccountReference
+        public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
@@ -104,9 +98,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserConsolidatedStats()

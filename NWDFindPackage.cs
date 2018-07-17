@@ -34,7 +34,7 @@ namespace NetWorkedData
 		/// The shared instance.
 		/// </summary>
 		private static NWDFindPackage kSharedInstance;
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Ascencor to shared instance.
 		/// </summary>

@@ -109,24 +109,48 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property)]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDNeedAvatarAttribute : Attribute
+    public class NWDNeedAccountAvatarAttribute : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string PHPstring(string sPropertyName)
         {
-            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDAvatar'][$tRow['" + sPropertyName + "']]= true;}\n";
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDAccountAvatar'][$tRow['" + sPropertyName + "']]= true;}\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [AttributeUsage(AttributeTargets.Property)]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDNeedNicknameAttribute : Attribute
+    public class NWDNeedUserAvatarAttribute : Attribute
     {
         //-------------------------------------------------------------------------------------------------------------
         public static string PHPstring(string sPropertyName)
         {
-            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDUserNickname'][$tRow['"+sPropertyName+"']]= true;}\n";
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDUserAvatar'][$tRow['" + sPropertyName + "']]= true;}\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property)]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDNeedAccountNicknameAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHPstring(string sPropertyName)
+        {
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDAccountNickname'][$tRow['"+sPropertyName+"']]= true;}\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property)]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDNeedUserNicknameAttribute : Attribute
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PHPstring(string sPropertyName)
+        {
+            return "if ($uuid!= $tRow['" + sPropertyName + "']) {$ACC_NEEDED['NWDUserNickname'][$tRow['" + sPropertyName + "']]= true;}\n";
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -16,28 +16,29 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("RGPD Consent",
-		"Consent Managment",
-		"NWDIcons_02", // NWDConsentWindow_ICON
-		new Type[] {typeof(NWDAppConsent),
-		typeof(NWDUserConsent),
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDTypeWindowParamAttribute("RGPD Consent",
+        "Consent Managment",
+        "NWDIcons_02", // NWDConsentWindow_ICON
+        new Type[] {
+        typeof(NWDConsent),
+        typeof(NWDAccountConsent),
 		/* Add NWDBasis here*/
 		}
-	)]
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDConsentWindow : NWDBasisWindow <NWDConsentWindow>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "RGPD Consent" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2000)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDConsentWindow));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+    )]
+    public class NWDConsentWindow : NWDBasisWindow<NWDConsentWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Consent for RGPD" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2000)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDConsentWindow));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

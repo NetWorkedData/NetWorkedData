@@ -44,34 +44,39 @@ namespace NetWorkedData
         HashInvalid = 99, // ALERT ! HACKER!  TODO
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
     [Serializable]
     public class NWDFriendConnection : NWDConnection<NWDRelationship>
     {
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("RLS")]
     [NWDClassDescriptionAttribute("Relationship  descriptions Class")]
     [NWDClassMenuNameAttribute("Relationship")]
-    //-------------------------------------------------------------------------------------------------------------
-    //	[NWDTypeClassInPackageAttribute]
-    //-------------------------------------------------------------------------------------------------------------
     public partial class NWDRelationship : NWDBasis<NWDRelationship>
     {
         //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        /// <summary>
-        /// Get or set the account reference.
-        /// </summary>
-        /// <value>The account reference.</value>
         [NWDGroupStart("Publisher of datas")]
         [Indexed("RelationshipIndex", 0)]
         public NWDReferenceType<NWDAccount> PublisherReference
@@ -198,7 +203,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDRelationship), typeof(NWDUserNickname), typeof(NWDAvatar) };
+            return new List<Type> { typeof(NWDRelationship), typeof(NWDUserNickname), typeof(NWDUserAvatar) };
         }
         //-------------------------------------------------------------------------------------------------------------
         static NWDRelationship()
@@ -364,7 +369,7 @@ namespace NetWorkedData
             {
                 tReceiver = PublisherReference.GetReference();
             }
-            NWDInterUserMessage.SendMessage(sMessage, tReceiver, sNow, null, 60, sReplaceCharacters, sReplaceItems, sReplaceItemGroups, sReplacePacks);
+            NWDUserInterMessage.SendMessage(sMessage, tReceiver, sNow, null, 60, sReplaceCharacters, sReplaceItems, sReplaceItemGroups, sReplacePacks);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

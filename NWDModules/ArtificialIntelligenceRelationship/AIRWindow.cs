@@ -22,12 +22,12 @@ namespace NetWorkedData
 		"NWDIcons_02", // AIRWindow_ICON
 		new Type[] {
         typeof(AIRDimension),
-        typeof(AIRPlayer),
-        typeof(AIRSurface),
-        typeof(AIRRelationship),
-        typeof(AIRGroup),
-        typeof(AIRNotoriety),
-        typeof(AIRMatch),
+        typeof(AIRUserSurface),
+        typeof(AIRCharacterSurface),
+        typeof(AIRUserRelationship),
+        typeof(AIRGroupSurface),
+        typeof(AIRUserNotoriety),
+        typeof(AIRTargetMatch),
 		/* Add NWDBasis here*/
 		}
 	)]

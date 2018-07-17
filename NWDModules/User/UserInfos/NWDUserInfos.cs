@@ -42,13 +42,23 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDUserInfosConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-    /// Use like :
-    /// public class MyScriptInGame : MonoBehaviour
-    /// { 
-    /// [NWDConnectionAttribut (true, true, true, true)] // optional
-    /// public NWDUserInfosConnection MyNetWorkedData;
-    /// }
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
     /// </summary>
     [Serializable]
     public class NWDUserInfosConnection : NWDConnection<NWDUserInfos>
@@ -59,25 +69,13 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UFO")]
     [NWDClassDescriptionAttribute("General User Informations")]
     [NWDClassMenuNameAttribute("User Infos")]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //[NWDInternalKeyNotEditableAttribute]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD example class. This class is use for (complete description here)
-    /// </summary>
     public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
     {
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Properties
-        //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Player Informations")]
         [NWDTooltips("")]
-        public NWDReferenceType<NWDAccount> AccountReference
+        public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
@@ -85,7 +83,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDAvatar> Avatar
+        public NWDReferenceType<NWDUserAvatar> Avatar
         {
             get; set;
         }
@@ -198,9 +196,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos()
@@ -225,7 +222,7 @@ namespace NetWorkedData
             NWDUserInfos tUserInfos = null;
             foreach (NWDUserInfos user in GetAllObjects())
             {
-                if (user.AccountReference.GetReference().Equals(sEnvironment.PlayerAccountReference))
+                if (user.Account.GetReference().Equals(sEnvironment.PlayerAccountReference))
                 {
                     tUserInfos = user;
                     break;
@@ -235,7 +232,7 @@ namespace NetWorkedData
             {
                 tUserInfos = NewObject();
                 tUserInfos.InternalKey = sEnvironment.PlayerAccountReference;
-                tUserInfos.AccountReference.SetReference(sEnvironment.PlayerAccountReference);
+                tUserInfos.Account.SetReference(sEnvironment.PlayerAccountReference);
                 tUserInfos.AccountType = sEnvironment.PlayerStatut;
                 tUserInfos.Tag = NWDBasisTag.TagUserCreated;
             }

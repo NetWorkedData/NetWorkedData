@@ -128,7 +128,7 @@ namespace NetWorkedData
             List<Type> tListClasses = new List<Type>();
             // add special object inside the list
             List<Type> tListAddInternal = new List<Type>();
-            tListAddInternal.Add(typeof(NWDAppConsent));
+            tListAddInternal.Add(typeof(NWDConsent));
             // Add account dependance class
             foreach (Type tClassType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {

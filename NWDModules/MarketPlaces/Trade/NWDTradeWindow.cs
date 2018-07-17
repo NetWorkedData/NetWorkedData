@@ -17,31 +17,32 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDTypeWindowParamAttribute("Trade",
-		"Trade window description",
-		"NWDIcons_02",
-		new Type[] {
-			typeof(NWDTradePlace),
-			typeof(NWDTradeProposition),
-			typeof(NWDTradeRequest),
-			typeof(NWDTradeNotification),
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDTypeWindowParamAttribute("Trade",
+        "Trade window description",
+        "NWDIcons_02",
+        new Type[] {
+            typeof(NWDTradePlace),
+            typeof(NWDUserTradeProposition),
+            typeof(NWDUserTradeRequest),
+            typeof(NWDUserTradeNotification),
 			/* Add NWDBasis here*/
 		}
-	)]
-	//-------------------------------------------------------------------------------------------------------------
-	public class NWDTradeWindow : NWDBasisWindow <NWDTradeWindow>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDTradeWindow));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+    )]
+    //-------------------------------------------------------------------------------------------------------------
+    public class NWDTradeWindow : NWDBasisWindow<NWDTradeWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDTradeWindow));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

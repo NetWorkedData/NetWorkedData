@@ -17,56 +17,70 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
 	[Serializable]
-	public class NWDShopConnection : NWDConnection <NWDShop> {}
-    //-----------------------------------------------------------------------------------------------------------------
-    public enum BuyPackResult { None, Enable, Disable, NotFound, NotEnoughCurrency, NotEnoughPackToBuy, EnoughPackToBuy, CanBuy, Failed }
-    //-----------------------------------------------------------------------------------------------------------------
+    public class NWDShopConnection : NWDConnection <NWDShop> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum BuyPackResult : int { 
+        None, 
+        Enable, 
+        Disable, 
+        NotFound, 
+        NotEnoughCurrency, 
+        NotEnoughPackToBuy, 
+        EnoughPackToBuy, 
+        CanBuy, 
+        Failed 
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("SHP")]
 	[NWDClassDescriptionAttribute ("Shop descriptions Class")]
 	[NWDClassMenuNameAttribute ("Shop")]
-	//-----------------------------------------------------------------------------------------------------------------
 	public partial class NWDShop :NWDBasis <NWDShop>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		[NWDHeaderAttribute("Representation")]
-		public NWDReferenceType<NWDItem> ItemToDescribe { get; set; }
-
+		[NWDHeaderAttribute("Description Item")]
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupSeparatorAttribute]
-
 		[NWDGroupStartAttribute("Racks",true, true, true)]
 		public NWDReferencesListType<NWDRack> DailyRack { get; set; }
 		public NWDReferencesListType<NWDRack> WeeklyRack { get; set; }
 		public NWDReferencesListType<NWDRack> MonthlyRack { get; set; }
         [NWDGroupEndAttribute]
-
         [NWDGroupSeparatorAttribute]
-
         [NWDGroupStartAttribute("Special Racks", true, true, true)]
         public NWDDateTimeType SpecialDateStart { get; set; }
         public NWDDateTimeType SpecialDateEnd { get; set; }
         public NWDReferencesListType<NWDRack> SpecialRack { get; set; }
         [NWDGroupEndAttribute]
-
         [NWDGroupSeparatorAttribute]
-
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDWorld> Worlds { get; set; }
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
-        //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         public delegate void BuyPackBlock(BuyPackResult result, NWDTransaction transaction);
         public BuyPackBlock BuyPackBlockDelegate;
@@ -131,7 +145,7 @@ namespace NetWorkedData
             }
             
             // Add a new NWDTransaction to user Account
-            NWDItem tItemDescribe = sPack.ItemToDescribe.GetObject();
+            NWDItem tItemDescribe = sPack.DescriptionItem.GetObject();
             return NWDTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -213,7 +227,7 @@ namespace NetWorkedData
                             }
 
                             // Add a new NWDTransaction to user Account
-                            NWDItem tItemDescribe = sPack.ItemToDescribe.GetObject();
+                            NWDItem tItemDescribe = sPack.DescriptionItem.GetObject();
                             bTransaction = NWDTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
                         }
                     }
@@ -302,7 +316,7 @@ namespace NetWorkedData
             tTransactionList = NWDTransaction.GetTransactionsByShopAndType(sShop, tRackList, sType);
 
             // Search for the right Pack in Rack (for quantities)
-            Dictionary<NWDPack, int> tPacks = sRack.PackReference.GetObjectAndQuantity();
+            Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
             foreach (KeyValuePair<NWDPack, int> pair in tPacks)
             {
                 NWDPack tPack = pair.Key;
@@ -411,7 +425,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------
-	}
-    //-----------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

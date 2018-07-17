@@ -38,15 +38,18 @@ namespace NetWorkedData
         DifferentTo = 5,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDReferenceConditionalType used to put a reference with float in value. Use properties with name, like 'ItemConditional', 'SpotConditional', 'BonusConditional' , etc.
+    /// </summary>
     [SerializeField]
-    public class NWDReferenceQuantityConditional<K> : BTBDataType where K : NWDBasis<K>, new()
+    public class NWDReferenceConditionalType<K> : BTBDataType where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
         public string Reference;
         public int Quantity;
         public NWDConditional Condition;
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceQuantityConditional(string sValue)
+        public NWDReferenceConditionalType(string sValue)
         {
             string[] tLineValue = sValue.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
             if (tLineValue.Length == 2)
@@ -64,7 +67,7 @@ namespace NetWorkedData
             ReEvalute();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceQuantityConditional(string sReference, int sQuantity, NWDConditional sCondition)
+        public NWDReferenceConditionalType(string sReference, int sQuantity, NWDConditional sCondition)
         {
             Reference = sReference;
             Quantity = sQuantity;
@@ -418,10 +421,10 @@ namespace NetWorkedData
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetReferenceQuantityConditional(List<NWDReferenceQuantityConditional<K>> sList)
+        public void SetReferenceQuantityConditional(List<NWDReferenceConditionalType<K>> sList)
         {
             List<string> tValueList = new List<string>();
-            foreach (NWDReferenceQuantityConditional<K> tKeyValue in sList)
+            foreach (NWDReferenceConditionalType<K> tKeyValue in sList)
             {
                 tValueList.Add(tKeyValue.Value);
             }
@@ -431,15 +434,15 @@ namespace NetWorkedData
             Value = tNextValue;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDReferenceQuantityConditional<K>> GetReferenceQuantityConditional()
+        public List<NWDReferenceConditionalType<K>> GetReferenceQuantityConditional()
         {
-            List<NWDReferenceQuantityConditional<K>> rList = new List<NWDReferenceQuantityConditional<K>>();
+            List<NWDReferenceConditionalType<K>> rList = new List<NWDReferenceConditionalType<K>>();
             if (Value != null && Value != "")
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
                 {
-                    rList.Add(new NWDReferenceQuantityConditional<K>(tLine));
+                    rList.Add(new NWDReferenceConditionalType<K>(tLine));
                 }
             }
             return rList;
@@ -447,9 +450,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
         {
-            List<NWDReferenceQuantityConditional<K>> tList = GetReferenceQuantityConditional();
+            List<NWDReferenceConditionalType<K>> tList = GetReferenceQuantityConditional();
             string rDescription = "";
-            foreach (NWDReferenceQuantityConditional<K> tKeyValue in tList)
+            foreach (NWDReferenceConditionalType<K> tKeyValue in tList)
             {
                 rDescription += tKeyValue.Description();
             }
@@ -832,9 +835,9 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
-                    List<NWDReferenceQuantityConditional<K>> tListToNanlyze = GetReferenceQuantityConditional();
-                    List<NWDReferenceQuantityConditional<K>> tListCleaned = new List<NWDReferenceQuantityConditional<K>>();
-                    foreach (NWDReferenceQuantityConditional < K > tObject in tListToNanlyze)
+                    List<NWDReferenceConditionalType<K>> tListToNanlyze = GetReferenceQuantityConditional();
+                    List<NWDReferenceConditionalType<K>> tListCleaned = new List<NWDReferenceConditionalType<K>>();
+                    foreach (NWDReferenceConditionalType < K > tObject in tListToNanlyze)
                     {
                         bool tInclude = true;
                         foreach (string tDeleteReference in tValueListERROR)
@@ -876,6 +879,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

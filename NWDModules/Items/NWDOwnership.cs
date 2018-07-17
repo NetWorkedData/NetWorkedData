@@ -22,16 +22,26 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWDExampleConnection can be use in MonBehaviour script to connect GameObject with NWDBasis<Data> in editor.
-	/// Use like :
-	/// public class MyScriptInGame : MonoBehaviour
-	/// { 
-	/// [NWDConnectionAttribut (true, true, true, true)] // optional
-	/// public NWDExampleConnection MyNetWorkedData;
-	/// }
-	/// </summary>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
 	[Serializable]
 	public class NWDOwnershipConnection : NWDConnection <NWDOwnership> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -148,7 +158,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-                rOwnership.InternalDescription = NWDUserNickname.GetNickName();
+                rOwnership.InternalDescription = NWDUserNickname.GetNickname();
                 //--------------
                 #endif
                 //--------------
@@ -389,7 +399,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    foreach (NWDReferenceQuantityConditional < NWDItem > tTest in sItemsReferenceConditional.GetReferenceQuantityConditional())
+                    foreach (NWDReferenceConditionalType < NWDItem > tTest in sItemsReferenceConditional.GetReferenceQuantityConditional())
                     {
                         if (ConditionalItem(tTest) == false)
                         {
@@ -402,7 +412,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool ConditionalItem(NWDReferenceQuantityConditional<NWDItem> sConditional)
+        public static bool ConditionalItem(NWDReferenceConditionalType<NWDItem> sConditional)
         {
             bool rReturn = true;
             if (sConditional.Reference != null)
@@ -425,7 +435,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    foreach (NWDReferenceQuantityConditional<NWDItemGroup> tTest in sItemGroupsReferenceQuantity.GetReferenceQuantityConditional())
+                    foreach (NWDReferenceConditionalType<NWDItemGroup> tTest in sItemGroupsReferenceQuantity.GetReferenceQuantityConditional())
                     {
                         if (ConditionalItemGroup(tTest) == false)
                         {
@@ -439,7 +449,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
        // TODO : Verif this method
-        public static bool ConditionalItemGroup(NWDReferenceQuantityConditional<NWDItemGroup> sConditional)
+        public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
             NWDItemGroup tItemGroup = NWDItemGroup.GetObjectByReference(sConditional.Reference);

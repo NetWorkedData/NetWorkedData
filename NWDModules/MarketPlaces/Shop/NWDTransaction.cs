@@ -25,30 +25,45 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDExampleConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
 	[Serializable]
-	public class NWDTransactionConnection : NWDConnection <NWDTransaction> {}
-	//-------------------------------------------------------------------------------------------------------------
+    public class NWDTransactionConnection : NWDConnection <NWDTransaction> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("TRS")]
 	[NWDClassDescriptionAttribute ("Transaction descriptions Class")]
 	[NWDClassMenuNameAttribute ("Transaction")]
-	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDTransaction :NWDBasis <NWDTransaction>
 	{
         //-----------------------------------------------------------------------------------------------------------------
-        public enum TransactionType { None, Daily, Weekly, Monthly }
+        public enum TransactionType {
+            None, 
+            Daily, 
+            Weekly, 
+            Monthly 
+        }
         //-----------------------------------------------------------------------------------------------------------------
-        //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
         [NWDGroupStartAttribute("Detail", true, true, true)]
         [Indexed ("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
@@ -56,9 +71,7 @@ namespace NetWorkedData
         public NWDReferenceType<NWDRack> RackReference { get; set; }
         public NWDReferenceType<NWDPack> PackReference { get; set; }
         [NWDGroupEndAttribute]
-
         [NWDGroupSeparatorAttribute]
-
         [NWDGroupStartAttribute("Other", true, true, true)]
         public string Platform { get; set; }
         public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
@@ -96,7 +109,7 @@ namespace NetWorkedData
             // Set a NWDTransaction
             NWDTransaction rTransaction = NewObject();
             rTransaction.InternalKey = sItem.Name.GetBaseString();
-            rTransaction.InternalDescription = NWDPreferences.GetString("NickNameKey", "no nickname");
+            rTransaction.InternalDescription = NWDUserPreference.GetString("NickNameKey", "no nickname");
             rTransaction.ShopReference.SetReference(sShop.Reference);
             rTransaction.RackReference.SetReference(sRack.Reference);
             rTransaction.PackReference.SetReference(sPack.Reference);
@@ -244,6 +257,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

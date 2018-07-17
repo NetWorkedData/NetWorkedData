@@ -967,13 +967,13 @@ namespace NetWorkedData
             string tSpecialAdd = "";
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                if (tProp.GetCustomAttributes(typeof(NWDNeedAvatarAttribute), true).Length > 0)
+                if (tProp.GetCustomAttributes(typeof(NWDNeedUserAvatarAttribute), true).Length > 0)
                 {
-                    tSpecialAdd += NWDNeedAvatarAttribute.PHPstring(tProp.Name);
+                    tSpecialAdd += NWDNeedUserAvatarAttribute.PHPstring(tProp.Name);
                 }
-                if (tProp.GetCustomAttributes(typeof(NWDNeedNicknameAttribute), true).Length > 0)
+                if (tProp.GetCustomAttributes(typeof(NWDNeedAccountNicknameAttribute), true).Length > 0)
                 {
-                    tSpecialAdd += NWDNeedNicknameAttribute.PHPstring(tProp.Name);
+                    tSpecialAdd += NWDNeedAccountNicknameAttribute.PHPstring(tProp.Name);
                 }
                 if (tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true).Length > 0)
                 {

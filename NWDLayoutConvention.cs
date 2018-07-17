@@ -119,7 +119,7 @@ namespace NetWorkedData
 
 		#region Instance properties
 
-		//-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		// Insert instance properties here
 		// [CONVENTION] all public before private
 		// [CONVENTION] property suffix by User usage
@@ -132,7 +132,7 @@ namespace NetWorkedData
 		// [CONVENTION] xxxxxList
 		// [CONVENTION] xxxxxDictionary (use name with value/key binding)
 		// [CONVENTION] xxxxxArray
-		//-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		// [CONVENTION] Use convention : in CamelCase Start by lowerCase no prefix if public
 		// [CONVENTION] HeaderDoc for properties is compulsory indication
 		/// <summary>
@@ -145,7 +145,7 @@ namespace NetWorkedData
 		/// Another property but private.
 		/// </summary>
 		private bool _anotherProperty;
-		//-------------------------------------------------------------------------------------------------------------
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 		#endregion
 
