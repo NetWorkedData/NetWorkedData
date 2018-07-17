@@ -159,7 +159,7 @@ namespace NetWorkedData
             bool rReturn = true;
             foreach (NWDConsent tConsent in sConsentsArray)
             {
-                NWDAccountConsent tUserConsent = NWDAccountConsent.UserConsentForAppConsent(tConsent, false);
+                NWDAccountConsent tUserConsent = NWDAccountConsent.ForConsent(tConsent, false);
                 if (tUserConsent == null)
                 {
                     rReturn = false;
@@ -211,13 +211,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountConsent GetUserConsent(bool sCreateIfNull = false)
         {
-            return NWDAccountConsent.UserConsentForAppConsent(this, sCreateIfNull);
+            return NWDAccountConsent.ForConsent(this, sCreateIfNull);
         }
         //-------------------------------------------------------------------------------------------------------------
         public BTBSwitchState GetUserAuthorization(bool sCreateIfNull = false)
         {
             BTBSwitchState rReturn = BTBSwitchState.Unknow;
-            NWDAccountConsent tUserConsent = NWDAccountConsent.UserConsentForAppConsent(this, sCreateIfNull);
+            NWDAccountConsent tUserConsent = NWDAccountConsent.ForConsent(this, sCreateIfNull);
             if (tUserConsent == null)
             {
                 rReturn = BTBSwitchState.Unknow;

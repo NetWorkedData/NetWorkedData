@@ -147,7 +147,7 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountConsent UserConsentForAppConsent(NWDConsent sAppConsent, bool sCreateIfNull = true)
+        public static NWDAccountConsent ForConsent(NWDConsent sAppConsent, bool sCreateIfNull = true)
         {
             NWDAccountConsent rUserConsent = null;
             foreach (NWDAccountConsent tAuthorization in GetAllObjects())
