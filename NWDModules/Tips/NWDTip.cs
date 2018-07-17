@@ -109,7 +109,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		static List<NWDTip> ListForRandom;
 		//-------------------------------------------------------------------------------------------------------------
-		public static List<NWDTip> PrepareListForRandom (NWDWorld sWorld=null, NWDFamily sFamily=null, NWDKeyword sKeyword=null, NWDOwnership sOwnership=null)
+		public static List<NWDTip> PrepareListForRandom (NWDWorld sWorld=null, NWDFamily sFamily=null, NWDKeyword sKeyword=null, NWDUserOwnership sOwnership=null)
 		{
 			ListForRandom = new List<NWDTip> ();
 			foreach (NWDTip tObject in NWDTip.ObjectsList) 

@@ -189,7 +189,7 @@ namespace NetWorkedData
                     {
                         foreach (NWDItem tItem in tItemsToShow)
                         {
-                            if (NWDOwnership.QuantityForItem(tItem.Reference) > 0)
+                            if (NWDUserOwnership.QuantityForItem(tItem.Reference) > 0)
                             {
                                 iSVisible = true;
                                 break;

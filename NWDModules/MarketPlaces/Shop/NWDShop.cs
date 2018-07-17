@@ -140,7 +140,7 @@ namespace NetWorkedData
                     int tItemQte = p.Value;
 
                     // Add Items to Ownership
-                    NWDOwnership.AddItemToOwnership(tNWDItem, tItemQte);
+                    NWDUserOwnership.AddItemToOwnership(tNWDItem, tItemQte);
                 }
             }
             
@@ -164,7 +164,7 @@ namespace NetWorkedData
             // Sync with the server
             List<Type> tList = new List<Type>
             {
-                typeof(NWDOwnership),
+                typeof(NWDUserOwnership),
                 typeof(NWDItem),
                 typeof(NWDItemPack),
                 typeof(NWDPack),
@@ -211,7 +211,7 @@ namespace NetWorkedData
                                     int tItemQte = p.Value;
 
                                     // Add Items to Ownership
-                                    NWDOwnership.AddItemToOwnership(tNWDItem, tItemQte);
+                                    NWDUserOwnership.AddItemToOwnership(tNWDItem, tItemQte);
                                 }
                             }
 
@@ -223,7 +223,7 @@ namespace NetWorkedData
                                 int tItemQte = pair.Value;
 
                                 // Remove currency from Ownership
-                                NWDOwnership.RemoveItemToOwnership(tNWDItem, tItemQte);
+                                NWDUserOwnership.RemoveItemToOwnership(tNWDItem, tItemQte);
                             }
 
                             // Add a new NWDTransaction to user Account
@@ -281,9 +281,9 @@ namespace NetWorkedData
 
                 rUserCanBuy = BuyPackResult.CanBuy;
 
-                if (NWDOwnership.OwnershipForItemExists(tNWDItem))
+                if (NWDUserOwnership.OwnershipForItemExists(tNWDItem))
                 {
-                    if (NWDOwnership.OwnershipForItem(tNWDItem).Quantity < tItemQte)
+                    if (NWDUserOwnership.OwnershipForItem(tNWDItem).Quantity < tItemQte)
                     {
                         // User don't have enough item
                         rUserCanBuy = BuyPackResult.NotEnoughCurrency;

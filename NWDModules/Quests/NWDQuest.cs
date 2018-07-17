@@ -282,11 +282,11 @@ namespace NetWorkedData
             {
                 // I return the first dialog of this quest
                 // If first dialog is not an step dialog I found the Dialog to use
-                bool tItemsRequired = NWDOwnership.ConditionalItems(RequiredItems);
-                bool tItemsGroupsRequired = NWDOwnership.ConditionalItemGroups(RequiredItemGroups);
+                bool tItemsRequired = NWDUserOwnership.ConditionalItems(RequiredItems);
+                bool tItemsGroupsRequired = NWDUserOwnership.ConditionalItemGroups(RequiredItemGroups);
 
-                bool tItemsWanted = NWDOwnership.ConditionalItems(DesiredItems);
-                bool tItemsGroupsWanted = NWDOwnership.ConditionalItemGroups(DesiredItemGroups);
+                bool tItemsWanted = NWDUserOwnership.ConditionalItems(DesiredItems);
+                bool tItemsGroupsWanted = NWDUserOwnership.ConditionalItemGroups(DesiredItemGroups);
 
                 if (DesiredItems == null)
                 {

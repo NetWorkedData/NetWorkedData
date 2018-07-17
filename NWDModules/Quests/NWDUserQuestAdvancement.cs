@@ -244,11 +244,11 @@ namespace NetWorkedData
                 }
 
 
-                bool tItemsRequired = NWDOwnership.ConditionalItems(tQuest.RequiredItems);
-                bool tItemsGroupsRequired = NWDOwnership.ConditionalItemGroups(tQuest.RequiredItemGroups);
+                bool tItemsRequired = NWDUserOwnership.ConditionalItems(tQuest.RequiredItems);
+                bool tItemsGroupsRequired = NWDUserOwnership.ConditionalItemGroups(tQuest.RequiredItemGroups);
 
-                bool tItemsWanted = NWDOwnership.ConditionalItems(tQuest.DesiredItems);
-                bool tItemsGroupsWanted = NWDOwnership.ConditionalItemGroups(tQuest.DesiredItemGroups);
+                bool tItemsWanted = NWDUserOwnership.ConditionalItems(tQuest.DesiredItems);
+                bool tItemsGroupsWanted = NWDUserOwnership.ConditionalItemGroups(tQuest.DesiredItemGroups);
 
                 if (tQuest.DesiredItems == null)
                 {
@@ -388,7 +388,7 @@ namespace NetWorkedData
                         {
                             //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Accept");
                             // I must remove the required object or Not?
-                            NWDOwnership.RemoveItemToOwnership(tQuest.RequiredItemsToRemove);
+                            NWDUserOwnership.RemoveItemToOwnership(tQuest.RequiredItemsToRemove);
                             // put quest in accept
                             QuestState = NWDQuestState.Accept;
                             // increment counters
@@ -425,16 +425,16 @@ namespace NetWorkedData
                         if (QuestState == NWDQuestState.Accept || QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
                             //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Success");
-                            bool tItemsWanted = NWDOwnership.ConditionalItems(tQuest.DesiredItems);
-                            bool tItemsGroupsWanted = NWDOwnership.ConditionalItemGroups(tQuest.DesiredItemGroups);
+                            bool tItemsWanted = NWDUserOwnership.ConditionalItems(tQuest.DesiredItems);
+                            bool tItemsGroupsWanted = NWDUserOwnership.ConditionalItemGroups(tQuest.DesiredItemGroups);
                             if (tItemsWanted && tItemsGroupsWanted)
                             {
                                 // put quest in success
                                 QuestState = NWDQuestState.Success;
                                 // I must remove the required object or Not?
-                                NWDOwnership.RemoveItemToOwnership(tQuest.DesiredItemsToRemove);
+                                NWDUserOwnership.RemoveItemToOwnership(tQuest.DesiredItemsToRemove);
                                 // Add items
-                                NWDOwnership.AddItemToOwnership(tQuest.RewardsItems);
+                                NWDUserOwnership.AddItemToOwnership(tQuest.RewardsItems);
                                 // Add Items by itemPacks
                                 //foreach (KeyValuePair<NWDItemPack, int> tKeyValue in tQuest.RewardsItemPack.GetObjectAndQuantity())
                                 //{

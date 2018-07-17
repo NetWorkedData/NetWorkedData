@@ -466,7 +466,7 @@ namespace NetWorkedData
 
                 List<Type> tListClasses = new List<Type>();
                 tListClasses.Add(typeof(NWDUserInfos));
-                tListClasses.Add(typeof(NWDOwnership));
+                tListClasses.Add(typeof(NWDUserOwnership));
                 List<string> tList = new List<string>();
                 foreach (Type tClass in tListClasses.ToArray())
                 {

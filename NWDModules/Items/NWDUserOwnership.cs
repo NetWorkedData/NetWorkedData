@@ -43,7 +43,7 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
 	[Serializable]
-	public class NWDOwnershipConnection : NWDConnection <NWDOwnership> {}
+	public class NWDUserOwnershipConnection : NWDConnection <NWDUserOwnership> {}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
 	/// NWD ownership. This class connect the item to the account. The item is decripted in NWDItem, but some informations
@@ -54,10 +54,10 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("OWS")]
-	[NWDClassDescriptionAttribute ("Ownership descriptions Class")]
-	[NWDClassMenuNameAttribute ("Ownership")]
+	[NWDClassDescriptionAttribute ("User Ownership descriptions Class")]
+	[NWDClassMenuNameAttribute ("User Ownership")]
 	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDOwnership :NWDBasis <NWDOwnership>
+	public partial class NWDUserOwnership :NWDBasis <NWDUserOwnership>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
@@ -86,7 +86,7 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
 		[NWDGroupStart ("Extensions", true, true, true)]
-        public NWDReferencesArrayType<NWDOwnership> OwnershipList { get; set; }
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
         public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
 		[NWDGroupEnd]
 		
@@ -101,12 +101,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Constructors
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDOwnership()
+		public NWDUserOwnership()
         {
             //Debug.Log("NWDOwnership Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserOwnership(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDOwnership Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
@@ -119,7 +119,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDOwnership), typeof(NWDItem)};
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDItem)};
         }
         //-------------------------------------------------------------------------------------------------------------
         // OWNERSHIP AND ITEM FOR PLAYER
@@ -129,10 +129,10 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The ownership.</returns>
         /// <param name="sItemReference">S item reference.</param>
-        public static NWDOwnership OwnershipForItem(string sItemReference)
+        public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
-            NWDOwnership rOwnership = null;
-            foreach (NWDOwnership tOwnership in GetAllObjects())
+            NWDUserOwnership rOwnership = null;
+            foreach (NWDUserOwnership tOwnership in GetAllObjects())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -175,7 +175,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The ownership.</returns>
         /// <param name="sItem">selected item.</param>
-        public static NWDOwnership OwnershipForItem(NWDItem sItem)
+        public static NWDUserOwnership OwnershipForItem(NWDItem sItem)
         {
             if (sItem != null)
             {
@@ -195,7 +195,7 @@ namespace NetWorkedData
         public static int QuantityForItem(string sItemReference)
         {
             int rQte = 0;
-            foreach (NWDOwnership tOwnership in GetAllObjects())
+            foreach (NWDUserOwnership tOwnership in GetAllObjects())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -213,8 +213,8 @@ namespace NetWorkedData
         /// <param name="sItemReference">item reference.</param>
         public static bool OwnershipForItemExists(string sItemReference)
         {
-            NWDOwnership rOwnership = null;
-            foreach (NWDOwnership tOwnership in GetAllObjects())
+            NWDUserOwnership rOwnership = null;
+            foreach (NWDUserOwnership tOwnership in GetAllObjects())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -235,17 +235,17 @@ namespace NetWorkedData
             return OwnershipForItemExists(sItem.Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
+		public static NWDUserOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
 		{
-			NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
+			NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
 			rOwnershipToUse.Quantity = sQuantity;
 			rOwnershipToUse.SaveModifications();
 			return rOwnershipToUse;
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
+        public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
         {
-            NWDOwnership rOwnership = OwnershipForItem(sItem);
+            NWDUserOwnership rOwnership = OwnershipForItem(sItem);
             if (sIsIncrement)
             {
                 rOwnership.Quantity += sQuantity;
@@ -258,9 +258,9 @@ namespace NetWorkedData
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
+        public static NWDUserOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
         {
-            NWDOwnership rOwnership = OwnershipForItem(sItem);
+            NWDUserOwnership rOwnership = OwnershipForItem(sItem);
             rOwnership.Quantity -= sQuantity;
             rOwnership.SaveModifications();
             return rOwnership;
@@ -272,7 +272,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
                 {
-                    NWDOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
+                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
                     rOwnershipToUse.Quantity += tItemQuantity.Value;
                     rOwnershipToUse.SaveModifications();
                 }
@@ -285,7 +285,7 @@ namespace NetWorkedData
             {
                 foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
                 {
-                    NWDOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
+                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
                     rOwnershipToUse.Quantity -= tItemQuantity.Value;
                     rOwnershipToUse.SaveModifications();
                 }
@@ -321,7 +321,7 @@ namespace NetWorkedData
 			bool rReturn = true;
 			if (sItem != null)
 			{
-                NWDOwnership rOwnershipToUse = OwnershipForItem(sItem);
+                NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
 				if (rOwnershipToUse.Quantity < sQuantity)
 				{
 					rReturn = false;
@@ -369,7 +369,7 @@ namespace NetWorkedData
                 int tQ = 0;
                 foreach (NWDItem tItem in sItemGroup.ItemList.GetObjects())
                 {
-                    NWDOwnership tOwnership = OwnershipForItem(tItem);
+                    NWDUserOwnership tOwnership = OwnershipForItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
                     if (tQ >= sQuantity)
                     {
@@ -417,7 +417,7 @@ namespace NetWorkedData
             bool rReturn = true;
             if (sConditional.Reference != null)
             {
-                NWDOwnership rOwnershipToUse = OwnershipForItem(sConditional.Reference);
+                NWDUserOwnership rOwnershipToUse = OwnershipForItem(sConditional.Reference);
                 rReturn = sConditional.isValid(rOwnershipToUse.Quantity);
             }
             return rReturn;
@@ -459,7 +459,7 @@ namespace NetWorkedData
                 int tQ = 0;
                 foreach (NWDItem tItem in tItemGroup.ItemList.GetObjects())
                 {
-                    NWDOwnership tOwnership = OwnershipForItem(tItem);
+                    NWDUserOwnership tOwnership = OwnershipForItem(tItem);
                     tQ = tQ + tOwnership.Quantity;
                 }
                 // I Got the quantity

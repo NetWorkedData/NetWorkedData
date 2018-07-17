@@ -367,7 +367,7 @@ namespace NetWorkedData
                 if (tCraftBook.DescriptionItem.GetObject() != null)
                 {
                 }
-                NWDOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
+                NWDUserOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
             }
             return tCraftBook;
         }
@@ -403,7 +403,7 @@ namespace NetWorkedData
                 if (tCraftBook.DescriptionItem.GetObject() != null)
                 {
                 }
-                NWDOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
+                NWDUserOwnership.SetItemToOwnership(tCraftBook.DescriptionItem.GetObject(), 1);
             }
             return tCraftBook;
         }
@@ -536,7 +536,7 @@ namespace NetWorkedData
                         if (tReturnPrimary.DescriptionItem.GetObject() != null)
                         {
                         }
-                        NWDOwnership.SetItemToOwnership(tReturnPrimary.DescriptionItem.GetObject(), 1);
+                        NWDUserOwnership.SetItemToOwnership(tReturnPrimary.DescriptionItem.GetObject(), 1);
                     }
                 }
                 // I check all possibilities in rest of recipeint element by element (destructive mode?)
@@ -569,7 +569,7 @@ namespace NetWorkedData
                                         if (tCraft.DescriptionItem.GetObject() != null)
                                         {
                                         }
-                                        NWDOwnership.SetItemToOwnership(tCraft.DescriptionItem.GetObject(), 1);
+                                        NWDUserOwnership.SetItemToOwnership(tCraft.DescriptionItem.GetObject(), 1);
                                     }
                                     break;
                                 }

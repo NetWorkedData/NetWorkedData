@@ -357,9 +357,9 @@ namespace NetWorkedData
             {
                 if (tDialog.AvailabilitySchedule.AvailableNowInGameTime())
                 {
-                    if (NWDOwnership.ConditionalItemGroups(tDialog.RequiredItemGroups))
+                    if (NWDUserOwnership.ConditionalItemGroups(tDialog.RequiredItemGroups))
                     {
-                        if (NWDOwnership.ConditionalItems(tDialog.RequiredItems))
+                        if (NWDUserOwnership.ConditionalItems(tDialog.RequiredItems))
                         {
                             if (tDialog.RandomFrequency < 1.0F)
                             {

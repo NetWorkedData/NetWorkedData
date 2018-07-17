@@ -17,23 +17,27 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("User",
+    [NWDTypeWindowParamAttribute("Account / user",
         "User management … ",
         "NWDIcons_02",
         new Type[] {
-            typeof(NWDAccount),
+        typeof(NWDAccount),
+        typeof(NWDAccountPreference),
+        typeof(NWDAccountNickname),
+            typeof(NWDAccountConsent),
+            typeof(NWDRelationship),
+
+
             typeof(NWDUserInfos),
             typeof(NWDUserNickname),
             typeof(NWDUserAvatar),
             typeof(NWDUserPreference),
-            typeof(NWDRelationship),
-            typeof(NWDOwnership),
+            typeof(NWDUserOwnership),
             typeof(NWDUserUsage),
             typeof(NWDUserStats),
             typeof(NWDUserNetWorking),
             typeof(NWDUserConsolidatedStats),
             typeof(NWDUserInterMessage),
-            typeof(NWDAccountConsent),
 			/* Add NWDBasis here*/
 		}
     )]

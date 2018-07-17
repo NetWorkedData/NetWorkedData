@@ -16,7 +16,7 @@ namespace NetWorkedData
         public void CreateRelationShipTest()
         {
             // Use the Assert class to test conditions.
-            NWDRelationship tCreated = NWDRelationship.CreateNewRelationship(new Type[] { typeof(NWDOwnership)});
+            NWDRelationship tCreated = NWDRelationship.CreateNewRelationship(new Type[] { typeof(NWDUserOwnership)});
             Assert.IsNotNull(tCreated);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ namespace NetWorkedData
         public void CreateRelationShipDefaultTest()
         {
             // Use the Assert class to test conditions.
-            NWDRelationship tCreated = NWDRelationship.CreateNewRelationshipDefault(new Type[] { typeof(NWDOwnership) });
+            NWDRelationship tCreated = NWDRelationship.CreateNewRelationshipDefault(new Type[] { typeof(NWDUserOwnership) });
             Assert.IsNotNull(tCreated);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ namespace NetWorkedData
         public void CreateRelationAndAskPincodeShipDefaultTest()
         {
             // Use the Assert class to test conditions.
-            NWDRelationship tCreated = NWDRelationship.CreateNewRelationshipDefault(new Type[] { typeof(NWDOwnership) });
+            NWDRelationship tCreated = NWDRelationship.CreateNewRelationshipDefault(new Type[] { typeof(NWDUserOwnership) });
             tCreated.AskPinCodeFromServer("auto nick test");
             Assert.IsNotNull(tCreated);
         }

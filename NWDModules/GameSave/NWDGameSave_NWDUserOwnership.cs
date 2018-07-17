@@ -24,7 +24,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDOwnership : NWDBasis<NWDOwnership>
+    public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
@@ -38,9 +38,9 @@ namespace NetWorkedData
     public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOwnership NewOwnershipForItem(NWDItem sItem)
+        public NWDUserOwnership NewOwnershipForItem(NWDItem sItem)
         {
-            NWDOwnership rResult = NWDOwnership.NewObject();
+            NWDUserOwnership rResult = NWDUserOwnership.NewObject();
             rResult.GameSaveTag = GameSaveTag;
             rResult.Item.SetReference(sItem.Reference);
             rResult.Tag = NWDBasisTag.TagUserCreated;
@@ -50,17 +50,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OwnershipTrash()
         {
-            foreach (NWDOwnership tObject in OwnershipList())
+            foreach (NWDUserOwnership tObject in OwnershipList())
             {
                 tObject.TrashMeLater();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDOwnership> OwnershipList()
+        public List<NWDUserOwnership> OwnershipList()
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            List<NWDOwnership> rResult = new List<NWDOwnership>();
-            foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
+            List<NWDUserOwnership> rResult = new List<NWDUserOwnership>();
+            foreach (NWDUserOwnership tObject in NWDUserOwnership.ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
@@ -70,11 +70,11 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOwnership OwnershipForItem(NWDItem sItem, bool sCreateIfNull = false)
+        public NWDUserOwnership OwnershipForItem(NWDItem sItem, bool sCreateIfNull = false)
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            NWDOwnership rResult = null;
-            foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
+            NWDUserOwnership rResult = null;
+            foreach (NWDUserOwnership tObject in NWDUserOwnership.ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.GameSaveTag == GameSaveTag)
                 {
@@ -84,7 +84,7 @@ namespace NetWorkedData
             }
             if (rResult == null)
             {
-                rResult = NWDOwnership.NewObject();
+                rResult = NWDUserOwnership.NewObject();
                 rResult.Item.SetReference(sItem.Reference);
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.Quantity = 0;
@@ -93,11 +93,11 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDOwnership> OwnershipListForItem(NWDItem sItem, bool sCreateIfNull = false, int sDefaultQuantity = 0)
+        public List<NWDUserOwnership> OwnershipListForItem(NWDItem sItem, bool sCreateIfNull = false, int sDefaultQuantity = 0)
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            List<NWDOwnership> rResult = new List<NWDOwnership>();
-            foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
+            List<NWDUserOwnership> rResult = new List<NWDUserOwnership>();
+            foreach (NWDUserOwnership tObject in NWDUserOwnership.ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.GameSaveTag == GameSaveTag)
                 {
@@ -106,7 +106,7 @@ namespace NetWorkedData
             }
             if (rResult.Count == 0)
             {
-                NWDOwnership tAddResult = NWDOwnership.NewObject();
+                NWDUserOwnership tAddResult = NWDUserOwnership.NewObject();
                 tAddResult.Item.SetReference(sItem.Reference);
                 tAddResult.Tag = NWDBasisTag.TagUserCreated;
                 tAddResult.Quantity = sDefaultQuantity;
