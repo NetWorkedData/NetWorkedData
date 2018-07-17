@@ -24,7 +24,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDOwnership : NWDBasis<NWDOwnership>
+    public partial class NWDUserQuestAdvancement : NWDBasis<NWDUserQuestAdvancement>
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
@@ -35,34 +35,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountParty : NWDBasis<NWDAccountParty>
+    public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOwnership NewOwnershipForItem(NWDItem sItem)
-        {
-            NWDOwnership rResult = NWDOwnership.NewObject();
-            rResult.PartyTag = PartyTag;
-            rResult.Item.SetReference(sItem.Reference);
-            rResult.Tag = NWDBasisTag.TagUserCreated;
-            rResult.SaveModifications();
-            return rResult;
-        }
+        //public NWDQuestUserAdvancement QuestUserAdvancementNewObject()
+        //{
+        //    NWDQuestUserAdvancement rResult = NWDQuestUserAdvancement.NewObject();
+        //    rResult.GameSaveTag = GameSaveTag;
+        //    rResult.SaveModifications();
+        //    return rResult;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public void OwnershipTrash()
+        public void QuestUserAdvancementTrash()
         {
-            foreach (NWDOwnership tObject in OwnershipList())
+            foreach (NWDUserQuestAdvancement tObject in QuestUserAdvancementList())
             {
                 tObject.TrashMeLater();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDOwnership> OwnershipList()
+        public List<NWDUserQuestAdvancement> QuestUserAdvancementList()
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            List<NWDOwnership> rResult = new List<NWDOwnership>();
-            foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
+            List<NWDUserQuestAdvancement> rResult = new List<NWDUserQuestAdvancement>();
+            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -70,48 +68,24 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDOwnership OwnershipForItem(NWDItem sItem, bool sCreateIfNull = false)
+        public NWDUserQuestAdvancement QuestUserAdvancementByInternalKey(string sInternalKey, bool sCreateIfNull = false)
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            NWDOwnership rResult = null;
-            foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
+            NWDUserQuestAdvancement rResult = null;
+            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.PartyTag == PartyTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;
                 }
             }
-            if (rResult == null)
+            if (rResult == null && sCreateIfNull == true)
             {
-                rResult = NWDOwnership.NewObject();
-                rResult.Item.SetReference(sItem.Reference);
+                rResult = NWDUserQuestAdvancement.NewObject();
+                rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
-                rResult.Quantity = 0;
                 rResult.SaveModifications();
-            }
-            return rResult;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public List<NWDOwnership> OwnershipListForItem(NWDItem sItem, bool sCreateIfNull = false, int sDefaultQuantity = 0)
-        {
-            string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            List<NWDOwnership> rResult = new List<NWDOwnership>();
-            foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
-            {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.PartyTag == PartyTag)
-                {
-                    rResult.Add(tObject);
-                }
-            }
-            if (rResult.Count == 0)
-            {
-                NWDOwnership tAddResult = NWDOwnership.NewObject();
-                tAddResult.Item.SetReference(sItem.Reference);
-                tAddResult.Tag = NWDBasisTag.TagUserCreated;
-                tAddResult.Quantity = sDefaultQuantity;
-                tAddResult.SaveModifications();
-                rResult.Add(tAddResult);
             }
             return rResult;
         }

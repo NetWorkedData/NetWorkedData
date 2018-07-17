@@ -21,7 +21,7 @@ namespace NetWorkedData
                                  "User Party Window",
                                  "NWDIcons_02", // NWDUserPartyWindow_ICON
         new Type[] {
-        typeof(NWDAccountParty),
+        typeof(NWDGameSave),
         typeof(NWDOwnership),
         typeof(NWDUserQuestAdvancement),
         typeof(NWDUserConsolidatedStats),

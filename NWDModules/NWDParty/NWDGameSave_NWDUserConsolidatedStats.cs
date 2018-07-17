@@ -35,13 +35,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountParty : NWDBasis<NWDAccountParty>
+    public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
         //public NWDUserConsolidatedStats UserConsolidatedStatsNewObject()
         //{
         //    NWDUserConsolidatedStats rResult = NWDUserConsolidatedStats.NewObject();
-        //    rResult.PartyTag = PartyTag;
+        //    rResult.GameSaveTag = GameSaveTag;
         //    rResult.SaveModifications();
         //    return rResult;
         //}
@@ -60,7 +60,7 @@ namespace NetWorkedData
             List<NWDUserConsolidatedStats> rResult = new List<NWDUserConsolidatedStats>();
             foreach (NWDUserConsolidatedStats tObject in NWDUserConsolidatedStats.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -74,7 +74,7 @@ namespace NetWorkedData
             NWDUserConsolidatedStats rResult = null;
             foreach (NWDUserConsolidatedStats tObject in NWDUserConsolidatedStats.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag && tObject.InternalKey == sInternalKey)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;

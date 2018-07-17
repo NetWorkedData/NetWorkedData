@@ -24,7 +24,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserQuestAdvancement : NWDBasis<NWDUserQuestAdvancement>
+    public partial class NWDUserStats : NWDBasis<NWDUserStats>
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
@@ -35,32 +35,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountParty : NWDBasis<NWDAccountParty>
+    public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
-        //public NWDQuestUserAdvancement QuestUserAdvancementNewObject()
+        //public NWDParty UserStatsNewObject()
         //{
-        //    NWDQuestUserAdvancement rResult = NWDQuestUserAdvancement.NewObject();
-        //    rResult.PartyTag = PartyTag;
+        //    NWDParty rResult = NWDParty.NewObject();
+        //    rResult.GameSaveTag = GameSaveTag;
         //    rResult.SaveModifications();
         //    return rResult;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void QuestUserAdvancementTrash()
+        public void UserStatsTrash()
         {
-            foreach (NWDUserQuestAdvancement tObject in QuestUserAdvancementList())
+            foreach (NWDUserStats tObject in UserStatsList())
             {
                 tObject.TrashMeLater();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDUserQuestAdvancement> QuestUserAdvancementList()
+        public List<NWDUserStats> UserStatsList()
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            List<NWDUserQuestAdvancement> rResult = new List<NWDUserQuestAdvancement>();
-            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.ObjectsList)
+            List<NWDUserStats> rResult = new List<NWDUserStats>();
+            foreach (NWDUserStats tObject in NWDUserStats.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -68,21 +68,21 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserQuestAdvancement QuestUserAdvancementByInternalKey(string sInternalKey, bool sCreateIfNull = false)
+        public NWDUserStats UserStatsByInternalKey(string sInternalKey, bool sCreateIfNull = false)
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            NWDUserQuestAdvancement rResult = null;
-            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.ObjectsList)
+            NWDUserStats rResult = null;
+            foreach (NWDUserStats tObject in NWDUserStats.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag && tObject.InternalKey == sInternalKey)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;
                 }
             }
-            if (rResult == null && sCreateIfNull == true)
+            if (rResult == null && sCreateIfNull==true)
             {
-                rResult = NWDUserQuestAdvancement.NewObject();
+                rResult = NWDUserStats.NewObject();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.SaveModifications();

@@ -24,7 +24,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserStats : NWDBasis<NWDUserStats>
+    public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
@@ -35,30 +35,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountParty : NWDBasis<NWDAccountParty>
+    public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
-        //public NWDParty UserStatsNewObject()
+        //public NWDPreferences UserPreferencesNewObject()
         //{
-        //    NWDParty rResult = NWDParty.NewObject();
+        //    NWDPreferences rResult = NWDPreferences.NewObject();
         //    rResult.PartyTag = PartyTag;
         //    rResult.SaveModifications();
         //    return rResult;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public void UserStatsTrash()
+        public void UserPreferencesTrash()
         {
-            foreach (NWDUserStats tObject in UserStatsList())
+            foreach (NWDUserPreference tObject in UserPreferencesList())
             {
                 tObject.TrashMeLater();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public List<NWDUserStats> UserStatsList()
+        public List<NWDUserPreference> UserPreferencesList()
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            List<NWDUserStats> rResult = new List<NWDUserStats>();
-            foreach (NWDUserStats tObject in NWDUserStats.ObjectsList)
+            List<NWDUserPreference> rResult = new List<NWDUserPreference>();
+            foreach (NWDUserPreference tObject in NWDUserPreference.ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag)
                 {
@@ -68,11 +68,11 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserStats UserStatsByInternalKey(string sInternalKey, bool sCreateIfNull = false)
+        public NWDUserPreference UserPreferencesByInternalKey(string sInternalKey, bool sCreateIfNull = false)
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            NWDUserStats rResult = null;
-            foreach (NWDUserStats tObject in NWDUserStats.ObjectsList)
+            NWDUserPreference rResult = null;
+            foreach (NWDUserPreference tObject in NWDUserPreference.ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag && tObject.InternalKey == sInternalKey)
                 {
@@ -80,9 +80,9 @@ namespace NetWorkedData
                     break;
                 }
             }
-            if (rResult == null && sCreateIfNull==true)
+            if (rResult == null && sCreateIfNull == true)
             {
-                rResult = NWDUserStats.NewObject();
+                rResult = NWDUserPreference.NewObject();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.SaveModifications();
