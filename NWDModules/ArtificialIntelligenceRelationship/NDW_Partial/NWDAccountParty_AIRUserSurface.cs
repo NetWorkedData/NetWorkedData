@@ -35,13 +35,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountParty : NWDBasis<NWDAccountParty>
+    public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
         public AIRUserSurface UserSurfaceNewObject()
         {
             AIRUserSurface rResult = AIRUserSurface.NewObject();
-            rResult.PartyTag = PartyTag;
+            rResult.PartyTag = GameSaveTag;
             rResult.SaveModifications();
             return rResult;
         }
@@ -60,7 +60,7 @@ namespace NetWorkedData
             List<AIRUserSurface> rResult = new List<AIRUserSurface>();
             foreach (AIRUserSurface tObject in AIRUserSurface.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -74,7 +74,7 @@ namespace NetWorkedData
             AIRUserSurface rResult = null;
             foreach (AIRUserSurface tObject in AIRUserSurface.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag && tObject.InternalKey == sInternalKey)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;

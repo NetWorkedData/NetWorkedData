@@ -28,7 +28,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
-        public int PartyTag
+        public int GameSaveTag
         {
             get; set;
         }
@@ -60,7 +60,7 @@ namespace NetWorkedData
             List<NWDUserQuestAdvancement> rResult = new List<NWDUserQuestAdvancement>();
             foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -74,7 +74,7 @@ namespace NetWorkedData
             NWDUserQuestAdvancement rResult = null;
             foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag && tObject.InternalKey == sInternalKey)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;

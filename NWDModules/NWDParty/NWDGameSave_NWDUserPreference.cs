@@ -28,7 +28,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
-        public int PartyTag
+        public int GameSaveTag
         {
             get; set;
         }
@@ -41,7 +41,7 @@ namespace NetWorkedData
         //public NWDPreferences UserPreferencesNewObject()
         //{
         //    NWDPreferences rResult = NWDPreferences.NewObject();
-        //    rResult.PartyTag = PartyTag;
+        //    rResult.GameSaveTag = GameSaveTag;
         //    rResult.SaveModifications();
         //    return rResult;
         //}
@@ -60,7 +60,7 @@ namespace NetWorkedData
             List<NWDUserPreference> rResult = new List<NWDUserPreference>();
             foreach (NWDUserPreference tObject in NWDUserPreference.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -74,7 +74,7 @@ namespace NetWorkedData
             NWDUserPreference rResult = null;
             foreach (NWDUserPreference tObject in NWDUserPreference.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == PartyTag && tObject.InternalKey == sInternalKey)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;

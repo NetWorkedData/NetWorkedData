@@ -28,7 +28,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
-        public int PartyTag
+        public int GameSaveTag
         {
             get; set;
         }
@@ -41,7 +41,7 @@ namespace NetWorkedData
         public NWDOwnership NewOwnershipForItem(NWDItem sItem)
         {
             NWDOwnership rResult = NWDOwnership.NewObject();
-            rResult.PartyTag = GameSaveTag;
+            rResult.GameSaveTag = GameSaveTag;
             rResult.Item.SetReference(sItem.Reference);
             rResult.Tag = NWDBasisTag.TagUserCreated;
             rResult.SaveModifications();
@@ -62,7 +62,7 @@ namespace NetWorkedData
             List<NWDOwnership> rResult = new List<NWDOwnership>();
             foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -76,7 +76,7 @@ namespace NetWorkedData
             NWDOwnership rResult = null;
             foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.PartyTag == GameSaveTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.GameSaveTag == GameSaveTag)
                 {
                     rResult = tObject;
                     break;
@@ -99,7 +99,7 @@ namespace NetWorkedData
             List<NWDOwnership> rResult = new List<NWDOwnership>();
             foreach (NWDOwnership tObject in NWDOwnership.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.PartyTag == GameSaveTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.GameSaveTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }

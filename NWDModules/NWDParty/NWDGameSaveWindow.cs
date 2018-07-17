@@ -30,14 +30,14 @@ namespace NetWorkedData
 		}
                                 )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDUserPartyWindow : NWDBasisWindow <NWDUserPartyWindow>
+	public class NWDGameSaveWindow : NWDBasisWindow <NWDGameSaveWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-        [MenuItem (NWDConstants.K_MENU_BASE + "User Party" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2000)]
+        [MenuItem (NWDConstants.K_MENU_BASE + "User Game Save" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2000)]
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDUserPartyWindow));
+			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDGameSaveWindow));
 			tWindow.Show ();
 		}
 		//-------------------------------------------------------------------------------------------------------------

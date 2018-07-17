@@ -44,17 +44,17 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
     [Serializable]
-    public class NWDPartyConnection : NWDConnection<NWDAccountParty>
+    public class NWDGameSaveConnection : NWDConnection<NWDGameSave>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("PTY")]
-    [NWDClassDescriptionAttribute("Party of account")]
-    [NWDClassMenuNameAttribute("Party of account")]
+    [NWDClassDescriptionAttribute("Game Save of account")]
+    [NWDClassMenuNameAttribute("Game Save of account")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDAccountParty : NWDBasis<NWDAccountParty>
+    public partial class NWDGameSave : NWDBasis<NWDGameSave>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
@@ -67,7 +67,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public int PartyTag
+        public int GameSaveTag
         {
             get; set;
         }
@@ -84,46 +84,46 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountParty()
+        public NWDGameSave()
         {
             //Debug.Log("NWDParty Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountParty(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDGameSave(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDParty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            PartyTag = -1;
-            PartyTagReevaluate();
+            GameSaveTag = -1;
+            GameSaveTagReevaluate();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PartyTagReevaluate()
+        public void GameSaveTagReevaluate()
         {
             int tMax = 0;
-            foreach (NWDAccountParty tParty in NWDAccountParty.GetAllObjects())
+            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
             {
                 if (tParty != this)
                 {
-                    if (tParty.PartyTag >= tMax)
+                    if (tParty.GameSaveTag >= tMax)
                     {
-                        tMax = tParty.PartyTag;
+                        tMax = tParty.GameSaveTag;
                     }
                 }
             }
-            PartyTag = tMax + 1;
+            GameSaveTag = tMax + 1;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool PartyTagCheckUnicity()
+        public bool GameSaveTagCheckUnicity()
         {
             bool rReturn = true;
-            foreach (NWDAccountParty tParty in NWDAccountParty.GetAllObjects())
+            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
             {
                 if (tParty != this)
                 {
-                    if (tParty.PartyTag == PartyTag)
+                    if (tParty.GameSaveTag == GameSaveTag)
                     {
                         // Arghhh error
                         rReturn = false;
@@ -133,24 +133,17 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PartyTagAdjust()
+        public void GameSaveTagAdjust()
         {
-            if (PartyTagCheckUnicity() == false)
+            if (GameSaveTagCheckUnicity() == false)
             {
-                PartyTagReevaluate();
+                GameSaveTagReevaluate();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
-        //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-#if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDParty BasicError", "PTYz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
-#endif
-        }
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke
         {
@@ -159,10 +152,10 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public static NWDAccountParty Current()
+        public static NWDGameSave Current()
         {
-            NWDAccountParty rParty = null;
-            foreach (NWDAccountParty tParty in NWDAccountParty.GetAllObjects())
+            NWDGameSave rParty = null;
+            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
             {
                 if (tParty.IsCurrent == true)
                 {
@@ -172,7 +165,7 @@ namespace NetWorkedData
             }
             if (rParty == null)
             {
-                rParty = NWDAccountParty.NewObject();
+                rParty = NWDGameSave.NewObject();
                 rParty.Name = "New";
                 rParty.IsCurrent = true;
                 rParty.SaveModifications();
@@ -194,7 +187,7 @@ namespace NetWorkedData
         /// </summary>
         public void SetCurrent()
         {
-            foreach (NWDAccountParty tParty in NWDAccountParty.GetAllObjects())
+            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
             {
                 tParty.IsCurrent = false;
                 tParty.SaveModificationsIfModified();
@@ -209,7 +202,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDAccountParty)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDGameSave)/*, typeof(NWDUserNickname), etc*/ };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -244,7 +237,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
-            PartyTagAdjust();
+            GameSaveTagAdjust();
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }
@@ -272,7 +265,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonDuplicateMe()
         {
-            PartyTagAdjust();
+            GameSaveTagAdjust();
             IsCurrent = false;
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
