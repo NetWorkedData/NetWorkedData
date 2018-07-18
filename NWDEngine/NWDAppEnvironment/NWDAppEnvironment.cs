@@ -76,6 +76,9 @@ namespace NetWorkedData
         public string BuildDate = "";
 
         public Color CartridgeColor = new Color(1.0F,1.0F,1.0F);
+
+        // TODO : check if working
+        public bool ThreadPoolSQLActive = true;
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		#region constructor

@@ -15,7 +15,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("App",
+    [NWDTypeWindowParamAttribute("App Localization",
         "Project Edition, You can add, change, remove the item of your game here. " +
         "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
         "NWDIcons_02",
