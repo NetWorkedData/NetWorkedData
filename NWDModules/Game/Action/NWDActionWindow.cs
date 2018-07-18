@@ -4,22 +4,18 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("App",
-        "Project Edition, You can add, change, remove the item of your game here. " +
-        "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
+    [NWDTypeWindowParamAttribute("Game Action",
+        "You can create action usable by notification in your scene. Addon Scheme Action if you connect the Scheme message on app launching.",
         "NWDIcons_02",
          new Type[] {
             typeof(NWDAction),
@@ -27,14 +23,14 @@ namespace NetWorkedData
             /* Add NWDBasis here*/
         }
     )]
-    public class NWDAppActionWindow : NWDBasisWindow<NWDAppWindow>
+    public class NWDActionWindow : NWDBasisWindow<NWDActionWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "Game/Action and SchemeAction", false, 301)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDAppActionWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDActionWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------

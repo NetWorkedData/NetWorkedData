@@ -17,8 +17,11 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Classification",
-        "Create objects to sort and oreder your game, objects, items, etc.",
+    /// <summary>
+    /// NWDClassificationWindow show NWDBasisWindow for classification NWDBasis Class.
+    /// </summary>
+    [NWDTypeWindowParamAttribute("Game Classification",
+        "Create objects to sort and order your game, objects, items, etc.",
         "NWDIcons_02",
         new Type[] {
             typeof(NWDWorld),

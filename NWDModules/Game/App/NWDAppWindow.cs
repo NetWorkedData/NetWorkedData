@@ -9,14 +9,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDAppWindow.
+    /// </summary>
     [NWDTypeWindowParamAttribute("App",
         "Project Edition, You can add, change, remove the item of your game here. " +
         "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
@@ -31,7 +32,7 @@ namespace NetWorkedData
     public class NWDAppWindow : NWDBasisWindow<NWDAppWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_GAME, false, 300)]
+        [MenuItem(NWDConstants.K_MENU_GAME, false, 302)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {

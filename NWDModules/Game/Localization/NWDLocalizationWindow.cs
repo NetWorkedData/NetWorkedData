@@ -15,10 +15,12 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDAppLocalizationWindow show NWDBasisWindow for localization NWDBasis Class.
+    /// </summary>
     [NWDTypeWindowParamAttribute("App Localization",
-        "Project Edition, You can add, change, remove the item of your game here. " +
-        "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
-        "NWDIcons_02",
+                                 "Localize your meassage, error, UI by Localization reference. (Use Autolocalized script)",
+                                 "NWDIcons_02",
         new Type[] {
             typeof(NWDLocalization),
             typeof(NWDError),
@@ -26,14 +28,14 @@ namespace NetWorkedData
             /* Add NWDBasis here*/
         }
     )]
-    public class NWDAppLocalizationWindow : NWDBasisWindow<NWDAppWindow>
+    public class NWDLocalizationWindow : NWDBasisWindow<NWDLocalizationWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Localization, Error and Message", false, 300)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Localization, Error and Message", false, 303)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDAppLocalizationWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLocalizationWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------
