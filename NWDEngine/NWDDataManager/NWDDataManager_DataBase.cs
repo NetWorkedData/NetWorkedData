@@ -304,8 +304,23 @@ namespace NetWorkedData
         {
             return kObjectToUpdateQueue.Count();
         }
+
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecute()
+        {
+            //BTBBenchmark.Start();
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
+            {
+                ThreadPool.QueueUserWorkItem(UpdateQueueExecuteThread, null);
+            }
+            else
+            {
+                UpdateQueueExecuteDirect();
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void UpdateQueueExecuteDirect()
         {
             //BTBBenchmark.Start();
             NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -313,7 +328,27 @@ namespace NetWorkedData
             foreach (object tObject in kObjectToUpdateQueue)
             {
                 Type tType = tObject.GetType();
-                var tMethodInfo = tType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(tObject, new object[] { true });
+                }
+            }
+            kObjectToUpdateQueue = new List<object>();
+            NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+            NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void UpdateQueueExecuteThread(object sState)
+        {
+            //BTBBenchmark.Start();
+            NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+            NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+            foreach (object tObject in kObjectToUpdateQueue)
+            {
+                Type tType = tObject.GetType();
+                var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(tObject, new object[] { true });

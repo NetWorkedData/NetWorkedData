@@ -312,14 +312,16 @@ namespace NetWorkedData
                 //				if (IsObjectInEdition (sObject)) {
                 //					SetObjectInEdition (null);
                 //				}
-                //				sObject.DeleteMe ();
+                //				this.AddonDeleteMe();
+               //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
             }
 #else
 			if (sObject.XX > 0) 
 			{
 			//				Debug.Log (sObject.Reference + "Must be trashed!");
 			RemoveObjectInListOfEdition (sObject);
-			sObject.DeleteMe ();
+            this.AddonDeleteMe();
+            NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
 			}
 #endif
         }
@@ -542,6 +544,49 @@ namespace NetWorkedData
 
             this.UpdateIntegrity();
             NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
+            // object was updated
+            this.AddonUpdatedMe(); // call override method
+
+            // I have one or more uploaded datas to synchronize;
+            //NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
+            //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
+            //NWDDataManager.SharedInstance().DatasMustBeSync = true;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Update this instance. Change a lot of states of instance and write in database. 
+        /// Object is not synchronized, integrity changed, ...
+        /// </summary>
+        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
+        public void UpdateMeQueue(bool sAutoDate = true)
+        {
+            //Debug.Log ("UpdateMe  " + Reference + " with/without DM ("+sAutoDate.ToString()+") and integrity reval web service version = " + WebServiceVersion);
+            this.AddonUpdateMe(); // call override method
+                                  // so object is prepared to be update
+            if (sAutoDate == true)
+            {
+                this.DM = NWDToolbox.Timestamp();
+            }
+            //          this.DS = 0;
+            if (this.DevSync >= 0)
+            {
+                this.DevSync = 0;
+            }
+            if (this.PreprodSync >= 0)
+            {
+                this.PreprodSync = 0;
+            }
+            if (this.ProdSync >= 0)
+            {
+                this.ProdSync = 0;
+            }
+            this.ServerHash = "";
+            this.WebServiceVersion = WebServiceVersionToUse();
+            this.AddonVersionMe(); // call override method
+
+            this.UpdateIntegrity();
+            NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
             // object was updated
             this.AddonUpdatedMe(); // call override method
 
