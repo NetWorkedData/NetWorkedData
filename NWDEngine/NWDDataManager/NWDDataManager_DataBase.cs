@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Collections;
 using System.IO;
 using UnityEngine;
+using System.Threading;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -148,7 +149,21 @@ namespace NetWorkedData
         public void InsertObject(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
-            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
+            {
+                ThreadPool.QueueUserWorkItem(InsertObjectThread, new object[] { sObject, sAccountConnected });
+            }
+            else
+            {
+                InsertObjectDirect(sObject, sAccountConnected);
+            }
+            //BTBBenchmark.Finish();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public void InsertObjectDirect(object sObject, bool sAccountConnected)
+        {
+            //BTBBenchmark.Start();
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Insert(sObject);
@@ -157,13 +172,45 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Insert(sObject);
             }
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void InsertObjectThread(object sState)
+        {
+            //BTBBenchmark.Start();
+            object[] tParam = sState as object[];
+            object sObject = tParam[0];
+            bool sAccountConnected = (bool)tParam[1];
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.Insert(sObject);
+            }
+            else
+            {
+                SQLiteConnectionEditor.Insert(sObject);
+            }
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateObject(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
-            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
+            {
+                ThreadPool.QueueUserWorkItem(UpdateObjectThread, new object[] { sObject, sAccountConnected });
+            }
+            else
+            {
+                UpdateObjectDirect(sObject, sAccountConnected);
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void UpdateObjectDirect(object sObject, bool sAccountConnected)
+        {
+            //BTBBenchmark.Start();
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Update(sObject);
@@ -172,13 +219,45 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Update(sObject);
             }
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void UpdateObjectThread(object sState)
+        {
+            //BTBBenchmark.Start();
+            object[] tParam = sState as object[];
+            object sObject = tParam[0];
+            bool sAccountConnected = (bool)tParam[1];
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.Update(sObject);
+            }
+            else
+            {
+                SQLiteConnectionEditor.Update(sObject);
+            }
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteObject(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
-            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
+            {
+                ThreadPool.QueueUserWorkItem(DeleteObjectThread, new object[] { sObject, sAccountConnected });
+            }
+            else
+            {
+                DeleteObjectDirect(sObject, sAccountConnected);
+            }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DeleteObjectDirect(object sObject, bool sAccountConnected)
+        {
+            //BTBBenchmark.Start();
             //  update disable with date to delete
             if (sAccountConnected)
             {
@@ -188,6 +267,26 @@ namespace NetWorkedData
             {
                 SQLiteConnectionEditor.Delete(sObject);
             }
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DeleteObjectThread(object sState)
+        {
+            //BTBBenchmark.Start();
+            object[] tParam = sState as object[];
+            object sObject = tParam[0];
+            bool sAccountConnected = (bool)tParam[1];
+            //  update disable with date to delete
+            if (sAccountConnected)
+            {
+                SQLiteConnectionAccount.Delete(sObject);
+            }
+            else
+            {
+                SQLiteConnectionEditor.Delete(sObject);
+            }
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
