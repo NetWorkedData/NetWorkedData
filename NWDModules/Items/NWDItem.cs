@@ -172,11 +172,11 @@ namespace NetWorkedData
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Extensions", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemList
+        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyList
+        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity
         {
             get; set;
         }

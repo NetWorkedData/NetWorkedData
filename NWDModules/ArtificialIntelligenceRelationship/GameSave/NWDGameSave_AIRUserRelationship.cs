@@ -28,7 +28,7 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [NWDNotEditable]
-        public int PartyTag
+        public int GameSaveTag
         {
             get; set;
         }
@@ -41,7 +41,7 @@ namespace NetWorkedData
         public AIRUserRelationship UserRelationshipNewObject()
         {
             AIRUserRelationship rResult = AIRUserRelationship.NewObject();
-            rResult.PartyTag = GameSaveTag;
+            rResult.GameSaveTag = GameSaveTag;
             rResult.SaveModifications();
             return rResult;
         }
@@ -60,7 +60,7 @@ namespace NetWorkedData
             List<AIRUserRelationship> rResult = new List<AIRUserRelationship>();
             foreach (AIRUserRelationship tObject in AIRUserRelationship.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
                     rResult.Add(tObject);
                 }
@@ -74,7 +74,7 @@ namespace NetWorkedData
             AIRUserRelationship rResult = null;
             foreach (AIRUserRelationship tObject in AIRUserRelationship.ObjectsList)
             {
-                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.PartyTag == GameSaveTag && tObject.InternalKey == sInternalKey)
+                if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {
                     rResult = tObject;
                     break;

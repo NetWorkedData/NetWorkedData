@@ -86,7 +86,7 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
 		[NWDGroupStart ("Extensions", true, true, true)]
-        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
+        public NWDReferencesListType<NWDUserOwnership> OwnershipList { get; set; }
         public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
 		[NWDGroupEnd]
 		

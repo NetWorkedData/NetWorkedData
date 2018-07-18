@@ -81,7 +81,7 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Member Actor")]
-        public NWDReferencesListType<NWDCharacter> Character
+        public NWDReferencesListType<NWDCharacter> CharacterList
         {
             get; set;
         }

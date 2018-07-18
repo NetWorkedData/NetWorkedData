@@ -76,12 +76,12 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("An additional param as string, it's optional and not used in standard process.")]
-        public string Params
+        public string Parameter
         {
             get; set;
         }
         [NWDTooltips("An additional Action, it's optional but used in standard process.")]
-        public NWDReferenceType<NWDAction> ActionReference
+        public NWDReferenceType<NWDAction> Action
         {
             get; set;
         }
@@ -157,9 +157,9 @@ namespace NetWorkedData
             {
                 tText += "&M=" + WWW.EscapeURL(Message);
             }
-            if (string.IsNullOrEmpty(Params) == false)
+            if (string.IsNullOrEmpty(Parameter) == false)
             {
-                tText += "&P=" + WWW.EscapeURL(Params);
+                tText += "&P=" + WWW.EscapeURL(Parameter);
             }
             if (string.IsNullOrEmpty(sAdditional) == false)
             {
