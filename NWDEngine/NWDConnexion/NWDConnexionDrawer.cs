@@ -1,6 +1,6 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -11,13 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.IO;
-
 using SQLite4Unity3d;
-
 using BasicToolBox;
-
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditorInternal;
@@ -25,14 +21,20 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	// CUSTOM PROPERTY DRAWER METHODS
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#if UNITY_EDITOR
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDConnectionDrawer draw the control field in the inspector.
+    /// </summary>
 	[CustomPropertyDrawer (typeof(NWDConnectionBasis), true)]
 	public class NWDConnectionDrawer: PropertyDrawer
 	{
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the height of the property.
+        /// </summary>
+        /// <returns>The property height.</returns>
+        /// <param name="property">Property.</param>
+        /// <param name="label">Label.</param>
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
 			//Debug.Log ("NWDConnectionDrawer GetPropertyHeight");
@@ -50,7 +52,6 @@ namespace NetWorkedData
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
-
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null)
@@ -62,6 +63,12 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Ons the GUI.
+        /// </summary>
+        /// <param name="position">Position.</param>
+        /// <param name="property">Property.</param>
+        /// <param name="label">Label.</param>
 		public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 		{
 			NWDConnectionAttribut tReferenceConnection = new NWDConnectionAttribut ();
@@ -74,14 +81,10 @@ namespace NetWorkedData
 			Type tTypeParent = tType.BaseType;
 			//Debug.Log ("tTypeParent " + tTypeParent.Name);
 			Type tTypeDefintion = null;
-
-
 			if (tTypeParent.IsGenericType) {
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
-
-
 				//bool tConnection = true;
 				//if (tTargetReference != null && tTargetReference != "")
 				//{
@@ -91,16 +94,12 @@ namespace NetWorkedData
 				//	}
 				//}
 				//EditorGUI.BeginDisabledGroup(!tConnection);
-
-
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionFieldSerialized", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null)
 				{
 					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, "", tReferenceConnection.ShowInspector, tReferenceConnection.Editable, tReferenceConnection.EditButton, tReferenceConnection.NewButton});
 				}
-
 			//EditorGUI.EndDisabledGroup();
-
 			//if (tConnection == false)
 			//{
 			//	tTemporary.Value = Value;
@@ -118,19 +117,11 @@ namespace NetWorkedData
 			//	GUI.backgroundColor = tOldColor;
 			//	tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
 			//}
-
-
-
-
-
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#endif
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-
 #endif

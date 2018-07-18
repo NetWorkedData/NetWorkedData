@@ -12,10 +12,10 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDCallBackEvent for Event interface in editor.
+    /// NWDCallBackEventFloat for Event interface in editor.
     /// </summary>
     [Serializable]
-    public class NWDCallBackEvent : UnityEvent<BTBNotification>
+    public class NWDCallBackEventFloat : UnityEvent<float>
     {
         // Event interface for unity
     }

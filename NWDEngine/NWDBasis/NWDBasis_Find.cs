@@ -33,8 +33,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<object> ObjectsList = new List<object>();
         public static List<string> ObjectsByReferenceList = new List<string>();
-        public static List<string> ObjectsByKeyList = new List<string>(); // TODO Rename ObjectsByInternalKeyList
-                                                                          //-------------------------------------------------------------------------------------------------------------
+        public static List<string> ObjectsByKeyList = new List<string>(); 
+        // TODO Rename ObjectsByInternalKeyList
+        //-------------------------------------------------------------------------------------------------------------
         #region Basis finder
         //-------------------------------------------------------------------------------------------------------------
         //public static List<K> FindObjectsInDataBaseByAccount(string sAccountReference)

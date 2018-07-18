@@ -10,6 +10,11 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// DGPR Linearization of user data in database.
+        /// </summary>
+        /// <returns>The inearization.</returns>
+        /// <param name="sAsssemblyAsCSV">If set to <c>true</c> s asssembly as csv.</param>
         public string DGPRLinearization(bool sAsssemblyAsCSV = true)
         {
             Debug.Log("NWDBasis<K> DGPRLinearization()");
@@ -100,6 +105,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// DGPR extraction in string.
+        /// </summary>
+        /// <returns>The xtract.</returns>
         public static string DGPRExtract()
         {
             Debug.Log("NWDBasis<K> DGPRExtract()");
@@ -116,10 +125,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDGDPR class is use to extract the informations of user and send it to user to be conform to the EU's GDPR directives. 
+    /// </summary>
     public class NWDGDPR
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Use this for extract GDPR
+        /// <summary>
+        /// Extract the specified type.
+        /// </summary>
+        /// <returns>The extract.</returns>
+        /// <param name="tListAddon">T list addon.</param>
         public static string Extract(List<Type> tListAddon = null)
         {
             Debug.Log("NWDGDPR Extract()");
@@ -178,15 +194,23 @@ namespace NetWorkedData
             return rExtract;
         }
         //-------------------------------------------------------------------------------------------------------------
-        // Use this for delete account GDPR
+        /// <summary>
+        /// Delete account and datas.
+        /// </summary>
         public static void DeleteAccountAndDatas()
         {
+            //TODO : Delete and Sync ? but how sync account delete?
             Debug.Log("NWDGDPR DeleteAccountAndDatas()");
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Extract and save by send in email.
+        /// </summary>
+        /// <returns>The and save.</returns>
+        /// <param name="tListAddon">T list addon.</param>
         public static string ExtractAndSave(List<Type> tListAddon = null)
         {
-            Debug.Log("NWDGDPR ExtractAndSave()");
+            //Debug.Log("NWDGDPR ExtractAndSave()");
             string rReturn = Extract(tListAddon);
             string tEmail = "mailto:?subject=DGPR%20Export&body=" + WWW.EscapeURL(rReturn.Replace(" ","%20")).Replace("%20", " ");
             Application.OpenURL(tEmail);

@@ -1,6 +1,6 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018  
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -27,15 +27,26 @@ using UnityEditorInternal;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDConnection is generic class to create connection to NWDBasis generic class by object's reference.
+    /// </summary>
 	[Serializable]
 	public class NWDConnection <K> : NWDConnectionBasis where K : NWDBasis <K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get the object instance referenced.
+        /// </summary>
+        /// <returns>The object.</returns>
 		public K GetObject ()
 		{
 			return NWDBasis <K>.GetObjectByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Set the object instance by its reference.
+        /// </summary>
+        /// <param name="sObject">S object.</param>
 		public void SetObject (K sObject)
 		{
 			if (sObject != null) {
@@ -45,6 +56,10 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Object instance creation and reference it automatically.
+        /// </summary>
+        /// <returns>The object.</returns>
 		public K NewObject ()
 		{
 			K tObject = NWDBasis <K>.NewObject ();

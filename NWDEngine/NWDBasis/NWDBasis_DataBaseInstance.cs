@@ -369,9 +369,9 @@ namespace NetWorkedData
         public bool InsertMe(bool sAutoDate = true)
         {
             bool rReturn = false;
-            if (NWDBasis<K>.FindObjectInDataBaseByReference(this.Reference) == null)
+            if (ObjectsByReferenceList.Contains(this.Reference)==false)
+            //if (NWDBasis<K>.FindObjectInDataBaseByReference(this.Reference) == null)
             {
-
                 NWDVersionType tVersion = new NWDVersionType();
                 tVersion.SetString("0.00.00");
 
@@ -511,21 +511,14 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Update this instance. Change a lot of states of instance and write in database. 
-        /// Object is not synchronized, integrity changed, ...
-        /// </summary>
-        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
-        public void UpdateMe(bool sAutoDate = true)
+        public void UpdateMeProcess(bool sAutoDate = true)
         {
-            //Debug.Log ("UpdateMe  " + Reference + " with/without DM ("+sAutoDate.ToString()+") and integrity reval web service version = " + WebServiceVersion);
-            this.AddonUpdateMe(); // call override method
-                                  // so object is prepared to be update
+            // so object is prepared to be update
             if (sAutoDate == true)
             {
                 this.DM = NWDToolbox.Timestamp();
             }
-            //			this.DS = 0;
+            // this.DS = 0;
             if (this.DevSync >= 0)
             {
                 this.DevSync = 0;
@@ -541,16 +534,21 @@ namespace NetWorkedData
             this.ServerHash = "";
             this.WebServiceVersion = WebServiceVersionToUse();
             this.AddonVersionMe(); // call override method
-
             this.UpdateIntegrity();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Update this instance. Change a lot of states of instance and write in database. 
+        /// Object is not synchronized, integrity changed, ...
+        /// </summary>
+        /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
+        public void UpdateMe(bool sAutoDate = true)
+        {
+            this.AddonUpdateMe(); // call override method
+            UpdateMeProcess(sAutoDate);
             NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
             // object was updated
             this.AddonUpdatedMe(); // call override method
-
-            // I have one or more uploaded datas to synchronize;
-            //NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
-            //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
-            //NWDDataManager.SharedInstance().DatasMustBeSync = true;
         }
 
         //-------------------------------------------------------------------------------------------------------------
@@ -561,39 +559,11 @@ namespace NetWorkedData
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         public void UpdateMeQueue(bool sAutoDate = true)
         {
-            //Debug.Log ("UpdateMe  " + Reference + " with/without DM ("+sAutoDate.ToString()+") and integrity reval web service version = " + WebServiceVersion);
             this.AddonUpdateMe(); // call override method
-                                  // so object is prepared to be update
-            if (sAutoDate == true)
-            {
-                this.DM = NWDToolbox.Timestamp();
-            }
-            //          this.DS = 0;
-            if (this.DevSync >= 0)
-            {
-                this.DevSync = 0;
-            }
-            if (this.PreprodSync >= 0)
-            {
-                this.PreprodSync = 0;
-            }
-            if (this.ProdSync >= 0)
-            {
-                this.ProdSync = 0;
-            }
-            this.ServerHash = "";
-            this.WebServiceVersion = WebServiceVersionToUse();
-            this.AddonVersionMe(); // call override method
-
-            this.UpdateIntegrity();
+            UpdateMeProcess(sAutoDate);
             NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
             // object was updated
             this.AddonUpdatedMe(); // call override method
-
-            // I have one or more uploaded datas to synchronize;
-            //NWDGameDataManager.UnitySingleton().NeedSynchronizeData();
-            //NWDDataManager.SharedInstance().NotificationCenter.PostNotification (new BTBNotification (NWDConstants.kUpdateDatasNotificationsKey, null));
-            //NWDDataManager.SharedInstance().DatasMustBeSync = true;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -602,12 +572,9 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if me if modified was updated, <c>false</c> otherwise.</returns>
         public bool UpdateMeIfModified()
         {
-
-            //Debug.Log("UpdateMeIfModified () ?");
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
             {
-                //Debug.Log("UpdateMeIfModified () YES UPDATE ME");
                 tReturn = true;
                 UpdateMe();
             }
@@ -637,13 +604,6 @@ namespace NetWorkedData
             }
             return tReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //		public void SynchronizeMe ()
-        //		{
-        //			this.DM = NWDToolbox.Timestamp ();
-        //			this.UpdateIntegrity ();
-        //			NWDDataManager.SharedInstance().UpdateObject (this);
-        //		}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Duplicate this instance. This dupplication create a copy of this instance but generate a new reference and integrity

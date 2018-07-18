@@ -46,7 +46,6 @@ namespace NetWorkedData
                 // path for base editor
                 string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
                 string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
-
 #else
 				// Get saved App version from pref
 				// check if file exists in Application.persistentDataPath
@@ -164,6 +163,7 @@ namespace NetWorkedData
         public void InsertObjectDirect(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
+            Debug.Log("NWDDataManager InsertObjectDirect()");
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Insert(sObject);
@@ -179,6 +179,7 @@ namespace NetWorkedData
         public void InsertObjectThread(object sState)
         {
             //BTBBenchmark.Start();
+            Debug.Log("NWDDataManager InsertObjectThread()");
             object[] tParam = sState as object[];
             object sObject = tParam[0];
             bool sAccountConnected = (bool)tParam[1];
@@ -211,6 +212,7 @@ namespace NetWorkedData
         public void UpdateObjectDirect(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
+            Debug.Log("NWDDataManager UpdateObjectDirect()");
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Update(sObject);
@@ -226,6 +228,7 @@ namespace NetWorkedData
         public void UpdateObjectThread(object sState)
         {
             //BTBBenchmark.Start();
+            Debug.Log("NWDDataManager UpdateObjectThread()");
             object[] tParam = sState as object[];
             object sObject = tParam[0];
             bool sAccountConnected = (bool)tParam[1];
@@ -258,6 +261,7 @@ namespace NetWorkedData
         public void DeleteObjectDirect(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
+            Debug.Log("NWDDataManager DeleteObjectDirect()");
             //  update disable with date to delete
             if (sAccountConnected)
             {
@@ -274,6 +278,7 @@ namespace NetWorkedData
         public void DeleteObjectThread(object sState)
         {
             //BTBBenchmark.Start();
+            Debug.Log("NWDDataManager DeleteObjectThread()");
             object[] tParam = sState as object[];
             object sObject = tParam[0];
             bool sAccountConnected = (bool)tParam[1];
@@ -304,60 +309,69 @@ namespace NetWorkedData
         {
             return kObjectToUpdateQueue.Count();
         }
-
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecute()
         {
             //BTBBenchmark.Start();
-            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
-            {
-                ThreadPool.QueueUserWorkItem(UpdateQueueExecuteThread, null);
-            }
-            else
-            {
-                UpdateQueueExecuteDirect();
-            }
+            //if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
+            //{
+            //    ThreadPool.QueueUserWorkItem(UpdateQueueExecuteThread, null);
+            //}
+            //else
+            //{
+            //    UpdateQueueExecuteDirect();
+            //}
+
+            UpdateQueueExecuteDirect();
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecuteDirect()
         {
-            //BTBBenchmark.Start();
-            NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-            NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-            foreach (object tObject in kObjectToUpdateQueue)
+            BTBBenchmark.Start();
+            Debug.Log("NWDDataManager UpdateQueueExecuteDirect() with " + kObjectToUpdateQueue.Count + " Object(s)");
+            if (kObjectToUpdateQueue.Count > 0)
             {
-                Type tType = tObject.GetType();
-                var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                foreach (object tObject in kObjectToUpdateQueue)
                 {
-                    tMethodInfo.Invoke(tObject, new object[] { true });
+                    Type tType = tObject.GetType();
+                    var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(tObject, new object[] { true });
+                    }
                 }
+                kObjectToUpdateQueue = new List<object>();
+                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
             }
-            kObjectToUpdateQueue = new List<object>();
-            NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-            NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-            //BTBBenchmark.Finish();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecuteThread(object sState)
         {
-            //BTBBenchmark.Start();
-            NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-            NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-            foreach (object tObject in kObjectToUpdateQueue)
+            BTBBenchmark.Start();
+            Debug.Log("NWDDataManager UpdateQueueExecuteThread() with " + kObjectToUpdateQueue.Count + " Object(s)");
+            if (kObjectToUpdateQueue.Count > 0)
             {
-                Type tType = tObject.GetType();
-                var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
+                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+                foreach (object tObject in kObjectToUpdateQueue)
                 {
-                    tMethodInfo.Invoke(tObject, new object[] { true });
+                    Type tType = tObject.GetType();
+                    var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(tObject, new object[] { true });
+                    }
                 }
+                kObjectToUpdateQueue = new List<object>();
+                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
+                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
             }
-            kObjectToUpdateQueue = new List<object>();
-            NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-            NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-            //BTBBenchmark.Finish();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         // Table management

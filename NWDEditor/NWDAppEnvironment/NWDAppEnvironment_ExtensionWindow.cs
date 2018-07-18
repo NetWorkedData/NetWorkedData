@@ -113,6 +113,8 @@ namespace NetWorkedData
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of GameTime", SpeedOfGameTime);
 			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField ("version", NWDVersion.GetMaxVersionStringForEnvironemt (this), EditorStyles.boldLabel);
+            EditorGUILayout.TextField("SQL Thread Activation " + Environment, EditorStyles.boldLabel);
+            ThreadPoolSQLActive = EditorGUILayout.Toggle("SQL Thread", ThreadPoolSQLActive);
             EditorGUILayout.TextField("Last Build infos " + Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build date", this.BuildDate, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);
