@@ -203,15 +203,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDRelationship), typeof(NWDUserNickname), typeof(NWDUserAvatar) };
+            return new List<Type> { typeof(NWDRelationship), typeof(NWDUserNickname), typeof(NWDAccountNickname), typeof(NWDUserAvatar) };
         }
         //-------------------------------------------------------------------------------------------------------------
         static NWDRelationship()
         {
             //NWDMessage.CreateGenericMessage("TEST DOMAIN", "CODE", "TITLE", "DESCRIPTION");
-
-
-
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
