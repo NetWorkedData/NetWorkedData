@@ -871,7 +871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1543899175789164
 GameObject:
   m_ObjectHideFlags: 1
@@ -1822,8 +1822,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-532911
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114073285438264472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2638,8 +2639,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-498710
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114189853893267322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3229,8 +3231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-805709
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114369968146965056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4652,8 +4655,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-392395
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114632073341304900
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5126,8 +5130,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-388268
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114759436043089710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5462,8 +5467,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-295394
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114829907370751738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5701,8 +5707,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-441226
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!114 &114881118343649064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6168,8 +6175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2560f8a15daf41528bc02a100f2c5dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjConnection:
-    Reference: LCL-38065424-326252
+  LocalizationReference:
+    Reference: 
+  TextTarget: {fileID: 0}
 --- !u!222 &222002557557847528
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -8433,7 +8441,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.7999878}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224964019892351190
