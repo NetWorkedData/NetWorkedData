@@ -328,8 +328,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecuteDirect()
         {
-            BTBBenchmark.Start();
-            Debug.Log("NWDDataManager UpdateQueueExecuteDirect() with " + kObjectToUpdateQueue.Count + " Object(s)");
+            //BTBBenchmark.Start();
+            //Debug.Log("NWDDataManager UpdateQueueExecuteDirect() with " + kObjectToUpdateQueue.Count + " Object(s)");
             if (kObjectToUpdateQueue.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -347,13 +347,13 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateQueueExecuteThread(object sState)
         {
-            BTBBenchmark.Start();
-            Debug.Log("NWDDataManager UpdateQueueExecuteThread() with " + kObjectToUpdateQueue.Count + " Object(s)");
+            //BTBBenchmark.Start();
+            //Debug.Log("NWDDataManager UpdateQueueExecuteThread() with " + kObjectToUpdateQueue.Count + " Object(s)");
             if (kObjectToUpdateQueue.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -371,7 +371,7 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         // Table management

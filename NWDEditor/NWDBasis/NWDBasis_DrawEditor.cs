@@ -1661,6 +1661,27 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().UpdateQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
+
+
+
+            if (GUI.Button(new Rect(tX + tButtonWidth + NWDConstants.kFieldMarge, tY +tMiniButtonStyle.fixedHeight, tButtonWidth, tMiniButtonStyle.fixedHeight),
+                           "UpdateData", tMiniButtonStyle))
+            {
+                this.UpdateData(true, NWDWritingMode.MainThread);
+            }
+            if (GUI.Button(new Rect(tX + tButtonWidth + NWDConstants.kFieldMarge, tY + (tMiniButtonStyle.fixedHeight)* 2, tButtonWidth, tMiniButtonStyle.fixedHeight),
+                           "UpdateData pool", tMiniButtonStyle))
+            {
+                this.UpdateData(true,NWDWritingMode.PoolThread);
+            }
+            if (GUI.Button(new Rect(tX + tButtonWidth + NWDConstants.kFieldMarge, tY + (tMiniButtonStyle.fixedHeight)* 3, tButtonWidth, tMiniButtonStyle.fixedHeight),
+                           "UpdateData Queue", tMiniButtonStyle))
+            {
+                this.UpdateData(true, NWDWritingMode.QueuedMainThread);
+            }
+
+
+
             if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle))
             {
                 NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);

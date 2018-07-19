@@ -1052,15 +1052,52 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
 
-            // ADD new object by the new instance directly (not NewObject() method)
-            //if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
-            //{
-            //    K tNewObject = new K();
-            //    m_PageSelected = m_MaxPage * 3;
-            //    SetObjectInEdition(tNewObject);
-            //    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            //}
+             //ADD new object by the new instance directly (not NewObject() method)
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
+            {
+                K tNewObject = new K();
+                m_PageSelected = m_MaxPage * 3;
+                SetObjectInEdition(tNewObject);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData() ", EditorStyles.miniButton))
+            {
+                K tNewObject = NWDBasis<K>.NewData();
+                m_PageSelected = m_MaxPage * 3;
+                SetObjectInEdition(tNewObject);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Pool) ", EditorStyles.miniButton))
+            {
+                K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.PoolThread);
+                m_PageSelected = m_MaxPage * 3;
+                SetObjectInEdition(tNewObject);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue) ", EditorStyles.miniButton))
+            {
+                K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedMainThread);
+                m_PageSelected = m_MaxPage * 3;
+                SetObjectInEdition(tNewObject);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue pool) ", EditorStyles.miniButton))
+            {
+                K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedPoolThread);
+                m_PageSelected = m_MaxPage * 3;
+                SetObjectInEdition(tNewObject);
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+            }
 
+            if (GUILayout.Button("ExecuteQueueMain", EditorStyles.miniButton))
+            {
+                NWDDataManager.SharedInstance().DataQueueMainExecute();
+            }
+
+            if (GUILayout.Button("ExecuteQueuePool", EditorStyles.miniButton))
+            {
+                NWDDataManager.SharedInstance().DataQueuePoolExecute();
+            }
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
