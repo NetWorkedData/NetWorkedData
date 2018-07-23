@@ -38,7 +38,8 @@ namespace NetWorkedData
             }
             BTBBenchmark.Finish();
             return rReturn;
-        }//-------------------------------------------------------------------------------------------------------------
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static K UniqueDataByInternalKey(string sInternalKey,
                                              bool sCreateIfNotExists = false,
                                              NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
@@ -47,60 +48,58 @@ namespace NetWorkedData
         {
             BTBBenchmark.Start();
             K rReturn = null;
+            // We cannot use ObjectsByKeyList to find Internal key because the objetc is pehaps lock fo this user
+            // Must use the GetAllObjects(null) and chekc the good object
             if (ObjectsByKeyList.Contains(sInternalKey) == false)
             {
                 // no return :-/
             }
             else
             {
-                
-            }
-
-            int tIndex = ObjectsByKeyList.IndexOf(sInternalKey);
-            if (tIndex >= 0)
-            {
-                rReturn = ObjectsList.ElementAt(tIndex) as K;
-            }
-
-
-            K[] tArray = GetAllObjects(null);
-            List<K> tAllList = new List<K>();
-            foreach (K tObject in tArray)
-            {
-                if (tObject.InternalKey == sInternalKey)
+                K[] tArray = GetAllObjects(null);
+                List<K> tAllList = new List<K>();
+                foreach (K tObject in tArray)
                 {
-                    tAllList.Add(tObject);
-                }
-            }
-            K[] rReturnArray = tAllList.ToArray();
-            //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
-            if (rReturnArray.Length > 0)
-            {
-                //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have some return");
-                rReturn = rReturnArray[0];
-            }
-            if (rReturnArray.Length > 1)
-            {
-                //Debug.Log("!!!The InternalKey " + sInternalKey + " for " + ClassNamePHP() + " is not unique!");
-                if (sFlushOlderDupplicate == true)
-                {
-                    List<K> tList = new List<K>();
-                    foreach (K tObject in rReturnArray)
+                    if (tObject.InternalKey == sInternalKey)
                     {
-                        if (tObject.IsTrashed() == false)
+                        tAllList.Add(tObject);
+                        if (sFlushOlderDupplicate == false)
                         {
-                            tList.Add(tObject);
+                            break; // stop to look for the internal key, 
+                            //it's not necessary because We will ot flush the oldest object
                         }
                     }
-                    tList.Sort((x, y) => y.DM.CompareTo(x.DM));
-                    for (int i = 1; i < tList.Count; i++)
+                }
+                K[] rReturnArray = tAllList.ToArray();
+                //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() rReturnArray.Length = " + rReturnArray.Length.ToString());
+                if (rReturnArray.Length > 0)
+                {
+                    //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have some return");
+                    rReturn = rReturnArray[0];
+                }
+                if (rReturnArray.Length > 1)
+                {
+                    //Debug.Log("!!!The InternalKey " + sInternalKey + " for " + ClassNamePHP() + " is not unique!");
+                    if (sFlushOlderDupplicate == true)
                     {
-                        tList[i].TrashMe();
+                        List<K> tList = new List<K>();
+                        foreach (K tObject in rReturnArray)
+                        {
+                            if (tObject.IsTrashed() == false)
+                            {
+                                tList.Add(tObject);
+                            }
+                        }
+                        tList.Sort((x, y) => y.DM.CompareTo(x.DM));
+                        for (int i = 1; i < tList.Count; i++)
+                        {
+                            tList[i].TrashMe();
+                        }
+                        rReturn = tList[0];
                     }
-                    rReturn = tList[0];
                 }
             }
-            if (rReturn == null && sCreateIfNotExists==true)
+            if (rReturn == null && sCreateIfNotExists == true)
             {
                 rReturn = NWDBasis<K>.NewData(sWritingMode);
                 rReturn.InternalKey = sInternalKey;
