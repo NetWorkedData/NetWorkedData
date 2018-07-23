@@ -362,6 +362,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_HEADER_ID = "ID";
         public const string K_APP_TABLE_HEADER_PREFAB = "PrF";
         public const string K_APP_TABLE_HEADER_DESCRIPTION = "Description";
+        public const string K_APP_TABLE_HEADER_DISK = "Disk";
         public const string K_APP_TABLE_HEADER_SYNCHRO = "Sync";
         public const string K_APP_TABLE_HEADER_DEVSYNCHRO = "Dev";
         public const string K_APP_TABLE_HEADER_PREPRODSYNCHRO = "PrProd";
@@ -526,6 +527,7 @@ namespace NetWorkedData
         public static float kIDWidth = 45.0f;
         public static float kPrefabWidth = 30.0f;
         public static float kDescriptionMinWidth = 200.0f;
+        public static float kDiskWidth = 40.0f;
         public static float kSyncWidth = 40.0f;
         public static float kDevSyncWidth = 40.0f;
         public static float kPreprodSyncWidth = 40.0f;
@@ -542,6 +544,13 @@ namespace NetWorkedData
         public static Texture2D kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
         public static Texture2D kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
         public static Texture2D kImageWarning = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWarning.psd"));
+
+
+        public static Texture2D kImageDiskUnknow = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDDiskUnknow.psd"));
+        public static Texture2D kImageDiskUpdateInMemory = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDDiskUpdateInMemory.psd"));
+        public static Texture2D kImageDiskNewInMemory = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDDiskInsertInMemory.psd"));
+        public static Texture2D kImageDiskDeleteInMemory = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDDiskDeleteInMemory.psd"));
+        public static Texture2D kImageDiskInDatabase = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDDiskInDatabase.psd"));
 
 
         static public Color KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);

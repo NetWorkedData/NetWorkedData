@@ -89,7 +89,7 @@ namespace NetWorkedData
         /// <summary>
         /// New Object in memory. Pending writing in database.
         /// </summary>
-        NewInMemory,
+        InsertInMemory,
         /// <summary>
         /// Updated Object in memory. Pending writing in database.
         /// </summary>
@@ -101,11 +101,16 @@ namespace NetWorkedData
         /// <summary>
         /// Object in database. You have the same representation.
         /// </summary>
-        InDataBase,
+        InDatabase,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
+        //-------------------------------------------------------------------------------------------------------------
+        static public void Main()
+        {
+            Debug.Log("NWDDataManager Main");
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The List of Data to Insert by queue in main thread
@@ -172,10 +177,21 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueMainExecute()
         {
+            //BTBBenchmark.Start();
+            //InsertDataQueueExecute();
+            //UpdateDataQueueExecute();
+            //DeleteDataQueueExecute();
+            //BTBBenchmark.Finish();
             BTBBenchmark.Start();
-            InsertDataQueueExecute();
-            UpdateDataQueueExecute();
-            DeleteDataQueueExecute();
+            List<object> tInsertDataQueueMain = new List<object>(kInsertDataQueueMain);
+            List<object> tUpdateDataQueueMain = new List<object>(kUpdateDataQueueMain);
+            List<object> tDeleteDataQueueMain = new List<object>(kDeleteDataQueueMain);
+            kInsertDataQueueMain = new List<object>();
+            kUpdateDataQueueMain = new List<object>();
+            kDeleteDataQueueMain = new List<object>();
+            InsertDataQueueExecute(tInsertDataQueueMain);
+            UpdateDataQueueExecute(tUpdateDataQueueMain);
+            DeleteDataQueueExecute(tDeleteDataQueueMain);
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -209,14 +225,18 @@ namespace NetWorkedData
             List<object> tInsertDataQueue = tParam[0] as List<object>;
             List<object> tUpdateDataQueue = tParam[1] as List<object>;
             List<object> tDeleteDataQueue = tParam[2] as List<object>;
-            InsertDataQueuePoolExecute(tInsertDataQueue);
-            UpdateDataQueuePoolExecute(tUpdateDataQueue);
-            DeleteDataQueuePoolExecute(tDeleteDataQueue);
+            InsertDataQueueExecute(tInsertDataQueue);
+            UpdateDataQueueExecute(tUpdateDataQueue);
+            DeleteDataQueueExecute(tDeleteDataQueue);
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Queue Data
         #region Insert Data
+        //-------------------------------------------------------------------------------------------------------------
+        private Thread kMainThread;
+        public delegate void OnInsertCompleteDelegate(object sObject);
+        private SynchronizationContext kOnInsertComplete = null;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Insert data in database
@@ -225,19 +245,27 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public void InsertData(object sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
+            kMainThread = Thread.CurrentThread;
+            if (kOnInsertComplete == null)
+            {
+                kOnInsertComplete = SynchronizationContext.Current;
+            }
             //BTBBenchmark.Start();
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:
                     {
                         Debug.Log("NWDDataManager InsertData() MainThread");
-                        InsertDataPool(sObject);
+                        InsertDataExecute(sObject);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
                     {
                         Debug.Log("NWDDataManager InsertData() PoolThread");
-                        ThreadPool.QueueUserWorkItem(InsertDataPool, sObject );
+#if UNITY_EDITOR
+                        RepaintWindowForData(sObject.GetType());
+#endif
+                        ThreadPool.QueueUserWorkItem(InsertDataExecute, sObject);
                     }
                     break;
                 case NWDWritingMode.QueuedMainThread:
@@ -245,6 +273,9 @@ namespace NetWorkedData
                         Debug.Log("NWDDataManager InsertData() QueuedMainThread");
                         if (kInsertDataQueueMain.Contains(sObject) == false)
                         {
+#if UNITY_EDITOR
+                            RepaintWindowForData(sObject.GetType());
+#endif
                             kInsertDataQueueMain.Add(sObject);
                         }
                     }
@@ -254,6 +285,9 @@ namespace NetWorkedData
                         Debug.Log("NWDDataManager InsertData() QueuedPoolThread");
                         if (kInsertDataQueuePool.Contains(sObject) == false)
                         {
+#if UNITY_EDITOR
+                            RepaintWindowForData(sObject.GetType());
+#endif
                             kInsertDataQueuePool.Add(sObject);
                         }
                     }
@@ -266,7 +300,7 @@ namespace NetWorkedData
         /// Insert data in database on pool thread.
         /// </summary>
         /// <param name="sObject">S object.</param>
-        private void InsertDataPool(object sObject)
+        private void InsertDataExecute(object sObject)
         {
             //BTBBenchmark.Start();
             Type tType = sObject.GetType();
@@ -284,44 +318,14 @@ namespace NetWorkedData
             {
                 tMethodFinish.Invoke(sObject, null);
             }
-            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
-            //BTBBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Insert data queue execute.
-        /// </summary>
-        private void InsertDataQueueExecute()
-        {
-            //BTBBenchmark.Start();
-            Debug.Log("InsertDataQueueExecute with " + kInsertDataQueueMain.Count + " Object(s)");
-            if (kInsertDataQueueMain.Count > 0)
+            InsertDataCompleted(sObject);
+            kOnInsertComplete.Send(
+        new SendOrPostCallback(
+            delegate (object state)
             {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                foreach (object tObject in kInsertDataQueueMain)
-                {
-                    Type tType = tObject.GetType();
-                    var tMethodInfo = tType.GetMethod("InsertDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, null);
-                    }
-                }
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-                foreach (object tObject in kInsertDataQueueMain)
-                {
-                    Type tType = tObject.GetType();
-                    var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodFinish != null)
-                    {
-                        tMethodFinish.Invoke(tObject, null);
-                    }
-                }
-                kInsertDataQueueMain = new List<object>();
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
-            }
+                OnInsertDataCompleted(sObject);
+            }), null);
+
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -329,10 +333,13 @@ namespace NetWorkedData
         /// Insert data queue pool execute.
         /// </summary>
         /// <param name="sInsertDataQueuePool">S insert data queue pool.</param>
-        private void InsertDataQueuePoolExecute(List<object> sInsertDataQueuePool)
+        private void InsertDataQueueExecute(List<object> sInsertDataQueuePool)
         {
             //BTBBenchmark.Start();
-            Debug.Log("InsertDataQueuePoolExecute with " + sInsertDataQueuePool.Count + " Object(s)");
+            Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
+#if UNITY_EDITOR
+            List<Type> tTypeList = new List<Type>();
+#endif
             if (sInsertDataQueuePool.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -351,15 +358,77 @@ namespace NetWorkedData
                 foreach (object tObject in sInsertDataQueuePool)
                 {
                     Type tType = tObject.GetType();
+#if UNITY_EDITOR
+                    if (tTypeList.Contains(tType) == false)
+                    {
+                        tTypeList.Add(tType);
+                    };
+#endif
                     var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     if (tMethodFinish != null)
                     {
                         tMethodFinish.Invoke(tObject, null);
                     }
                 }
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+                InsertDataQueueCompleted(tTypeList);
+                kOnInsertComplete.Send(
+            new SendOrPostCallback(
+                delegate (object state)
+                {
+                    OnInsertDataCompleted(null);
+                }), null);
             }
             sInsertDataQueuePool = null;
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnInsertDataCompleted(object sObject)
+        {
+            if (kMainThread == Thread.CurrentThread)
+            {
+                Debug.LogWarning(" YES !!!!   OnInsertDataCompleted is running on MAIN thread!");
+            }
+            else
+            {
+                Debug.LogWarning(" NO !!!!   OnInsertDataCompleted is running on pool thread!");
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void InsertDataCompleted(object sObject)
+        {
+            //BTBBenchmark.Start();
+            Type tType = sObject.GetType();
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+#if UNITY_EDITOR
+            if (kMainThread == Thread.CurrentThread)
+            {
+                RepaintWindowForData(tType);
+            }
+            else
+            {
+                Debug.LogWarning("InsertDataCompleted is running on pool thread!");
+            }
+#endif
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void InsertDataQueueCompleted(List<Type> sTypeList)
+        {
+            //BTBBenchmark.Start();
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+#if UNITY_EDITOR
+            if (kMainThread == Thread.CurrentThread)
+            {
+                foreach (Type tType in sTypeList)
+                {
+                    RepaintWindowForData(tType);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("InsertDataQueueCompleted is running on pool thread!");
+            }
+#endif
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -374,19 +443,24 @@ namespace NetWorkedData
         public void UpdateData(object sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             //BTBBenchmark.Start();
+            kMainThread = Thread.CurrentThread;
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:
                     {
                         Debug.Log("NWDDataManager UpdateData() MainThread");
-                        UpdateDataPool(sObject);
+                        UpdateDataExecute(sObject);
                         BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
                     {
                         Debug.Log("NWDDataManager UpdateData() PoolThread");
-                        ThreadPool.QueueUserWorkItem(UpdateDataPool, sObject);
+#if UNITY_EDITOR
+                        RepaintWindowForData(sObject.GetType());
+#endif
+                        ThreadPool.QueueUserWorkItem(UpdateDataExecute, sObject);
+
                     }
                     break;
                 case NWDWritingMode.QueuedMainThread:
@@ -394,6 +468,9 @@ namespace NetWorkedData
                         Debug.Log("NWDDataManager UpdateData() QueuedMainThread");
                         if (kUpdateDataQueueMain.Contains(sObject) == false)
                         {
+#if UNITY_EDITOR
+                            RepaintWindowForData(sObject.GetType());
+#endif
                             kUpdateDataQueueMain.Add(sObject);
                         }
                     }
@@ -403,6 +480,9 @@ namespace NetWorkedData
                         Debug.Log("NWDDataManager UpdateData() QueuedPoolThread");
                         if (kUpdateDataQueuePool.Contains(sObject) == false)
                         {
+#if UNITY_EDITOR
+                            RepaintWindowForData(sObject.GetType());
+#endif
                             kUpdateDataQueuePool.Add(sObject);
                         }
                     }
@@ -415,7 +495,7 @@ namespace NetWorkedData
         /// Update data in database on pool thread.
         /// </summary>
         /// <param name="sObject">S object.</param>
-        private void UpdateDataPool(object sObject)
+        private void UpdateDataExecute(object sObject)
         {
             //BTBBenchmark.Start();
             Type tType = sObject.GetType();
@@ -433,44 +513,7 @@ namespace NetWorkedData
             {
                 tMethodFinish.Invoke(sObject, null);
             }
-            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
-            //BTBBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Update data queue execute.
-        /// </summary>
-        private void UpdateDataQueueExecute()
-        {
-            //BTBBenchmark.Start();
-            Debug.Log("UpdateDataQueueExecute with " + kUpdateDataQueueMain.Count + " Object(s)");
-            if (kUpdateDataQueueMain.Count > 0)
-            {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                foreach (object tObject in kUpdateDataQueueMain)
-                {
-                    Type tType = tObject.GetType();
-                    var tMethodInfo = tType.GetMethod("UpdateDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, null);
-                    }
-                }
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-                foreach (object tObject in kUpdateDataQueueMain)
-                {
-                    Type tType = tObject.GetType();
-                    var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodFinish != null)
-                    {
-                        tMethodFinish.Invoke(tObject, null);
-                    }
-                }
-                kUpdateDataQueueMain = new List<object>();
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
-            }
+            UpdateDataCompleted(sObject);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -478,10 +521,13 @@ namespace NetWorkedData
         /// Update data queue pool execute.
         /// </summary>
         /// <param name="sUpdateDataQueuePool">S update data queue pool.</param>
-        private void UpdateDataQueuePoolExecute(List<object> sUpdateDataQueuePool)
+        private void UpdateDataQueueExecute(List<object> sUpdateDataQueuePool)
         {
             //BTBBenchmark.Start();
-            Debug.Log("UpdateDataQueuePoolExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
+            Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
+#if UNITY_EDITOR
+            List<Type> tTypeList = new List<Type>();
+#endif
             if (sUpdateDataQueuePool.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -500,15 +546,60 @@ namespace NetWorkedData
                 foreach (object tObject in sUpdateDataQueuePool)
                 {
                     Type tType = tObject.GetType();
+#if UNITY_EDITOR
+                    if (tTypeList.Contains(tType) == false)
+                    {
+                        tTypeList.Add(tType);
+                    };
+#endif
                     var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     if (tMethodFinish != null)
                     {
                         tMethodFinish.Invoke(tObject, null);
                     }
                 }
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+                UpdateDataQueueCompleted(tTypeList);
             }
             sUpdateDataQueuePool = null;
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void UpdateDataCompleted(object sObject)
+        {
+            //BTBBenchmark.Start();
+            Type tType = sObject.GetType();
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+#if UNITY_EDITOR
+
+            if (kMainThread == Thread.CurrentThread)
+            {
+                RepaintWindowForData(tType);
+            }
+            else
+            {
+                Debug.LogWarning("UpdateDataCompleted is running on pool thread!");
+            }
+#endif
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void UpdateDataQueueCompleted(List<Type> sTypeList)
+        {
+            //BTBBenchmark.Start();
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+#if UNITY_EDITOR
+            if (kMainThread == Thread.CurrentThread)
+            {
+                foreach (Type tType in sTypeList)
+                {
+                    RepaintWindowForData(tType);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("UpdateDataQueueCompleted is running on pool thread!");
+            }
+#endif
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -523,19 +614,23 @@ namespace NetWorkedData
         public void DeleteData(object sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             //BTBBenchmark.Start();
+            kMainThread = Thread.CurrentThread;
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:
                     {
-                        Debug.Log("NWDDataManager DeleteData() QueuedPoolThread");
-                        DeleteDataPool(sObject);
+                        Debug.Log("NWDDataManager DeleteData() MainThread");
+                        DeleteDataExecute(sObject);
                         BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
                     {
                         Debug.Log("NWDDataManager DeleteData() PoolThread");
-                        ThreadPool.QueueUserWorkItem(DeleteDataPool, sObject);
+#if UNITY_EDITOR
+                        RepaintWindowForData(sObject.GetType());
+#endif
+                        ThreadPool.QueueUserWorkItem(DeleteDataExecute, sObject);
                     }
                     break;
                 case NWDWritingMode.QueuedMainThread:
@@ -543,6 +638,9 @@ namespace NetWorkedData
                         Debug.Log("NWDDataManager DeleteData() QueuedMainThread");
                         if (kDeleteDataQueueMain.Contains(sObject) == false)
                         {
+#if UNITY_EDITOR
+                            RepaintWindowForData(sObject.GetType());
+#endif
                             kDeleteDataQueueMain.Add(sObject);
                         }
                     }
@@ -552,6 +650,9 @@ namespace NetWorkedData
                         Debug.Log("NWDDataManager DeleteData() QueuedPoolThread");
                         if (kDeleteDataQueuePool.Contains(sObject) == false)
                         {
+#if UNITY_EDITOR
+                            RepaintWindowForData(sObject.GetType());
+#endif
                             kDeleteDataQueuePool.Add(sObject);
                         }
                     }
@@ -564,7 +665,7 @@ namespace NetWorkedData
         /// Delete data pool.
         /// </summary>
         /// <param name="sObject">S object.</param>
-        private void DeleteDataPool(object sObject)
+        private void DeleteDataExecute(object sObject)
         {
             //BTBBenchmark.Start();
             Type tType = sObject.GetType();
@@ -582,44 +683,7 @@ namespace NetWorkedData
             {
                 tMethodFinish.Invoke(sObject, null);
             }
-            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
-            //BTBBenchmark.Finish();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Delete data queue execute.
-        /// </summary>
-        private void DeleteDataQueueExecute()
-        {
-            //BTBBenchmark.Start();
-            Debug.Log("DeleteDataQueueExecute with " + kDeleteDataQueueMain.Count + " Object(s)");
-            if (kDeleteDataQueueMain.Count > 0)
-            {
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                foreach (object tObject in kDeleteDataQueueMain)
-                {
-                    Type tType = tObject.GetType();
-                    var tMethodInfo = tType.GetMethod("DeleteDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, null);
-                    }
-                }
-                NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-                foreach (object tObject in kDeleteDataQueueMain)
-                {
-                    Type tType = tObject.GetType();
-                    var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodFinish != null)
-                    {
-                        tMethodFinish.Invoke(tObject, null);
-                    }
-                }
-                kDeleteDataQueueMain = new List<object>();
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
-            }
+            DeleteDataCompleted(sObject);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -627,10 +691,13 @@ namespace NetWorkedData
         /// Delete data queue pool execute.
         /// </summary>
         /// <param name="sDeleteDataQueuePool">S delete data queue pool.</param>
-        private void DeleteDataQueuePoolExecute(List<object> sDeleteDataQueuePool)
+        private void DeleteDataQueueExecute(List<object> sDeleteDataQueuePool)
         {
             //BTBBenchmark.Start();
-            Debug.Log("DeleteDataQueuePoolExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
+            Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
+#if UNITY_EDITOR
+            List<Type> tTypeList = new List<Type>();
+#endif
             if (sDeleteDataQueuePool.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -649,15 +716,59 @@ namespace NetWorkedData
                 foreach (object tObject in kDeleteDataQueueMain)
                 {
                     Type tType = tObject.GetType();
+#if UNITY_EDITOR
+                    if (tTypeList.Contains(tType) == false)
+                    {
+                        tTypeList.Add(tType);
+                    };
+#endif
                     var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     if (tMethodFinish != null)
                     {
                         tMethodFinish.Invoke(tObject, null);
                     }
                 }
-                BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+                DeleteDataQueueCompleted(tTypeList);
             }
             sDeleteDataQueuePool = null;
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void DeleteDataCompleted(object sObject)
+        {
+            //BTBBenchmark.Start();
+            Type tType = sObject.GetType();
+            BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+#if UNITY_EDITOR
+            if (kMainThread == Thread.CurrentThread)
+            {
+                RepaintWindowForData(tType);
+            }
+            else
+            {
+                Debug.LogWarning("DeleteDataCompleted is running on pool thread!");
+            }
+#endif
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void DeleteDataQueueCompleted(List<Type> sTypeList)
+        {
+            //BTBBenchmark.Start();
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+#if UNITY_EDITOR
+            if (kMainThread == Thread.CurrentThread)
+            {
+                foreach (Type tType in sTypeList)
+                {
+                    RepaintWindowForData(tType);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("DeleteDataQueueCompleted is running on pool thread!");
+            }
+#endif
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -789,7 +900,7 @@ namespace NetWorkedData
         /// <returns>The data.</returns>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public NWDBasis<K> DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public K DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             //BTBBenchmark.Start();
             NWDBasis<K> rReturnObject = null;
@@ -806,8 +917,17 @@ namespace NetWorkedData
                         tPropInfo.SetValue(rReturnObject, tAtt, null);
                     }
                     rReturnObject.Initialization();
-                    rReturnObject.CopyData(this);
-                    rReturnObject.Reference = rReturnObject.NewReference();
+                    int tDC = rReturnObject.DC; // memorize date of dupplicate
+                    string tReference = rReturnObject.NewReference(); // create reference for dupplicate
+                    rReturnObject.CopyData(this); // copy data
+                    // restore the DC and Reference 
+                    rReturnObject.Reference = tReference;
+                    rReturnObject.DC = tDC;
+                    // WARNING ... copy generate an error in XX ? 
+                    // but copy the DD XX and AC from this
+                    rReturnObject.DD = DD;
+                    rReturnObject.XX = XX;
+                    rReturnObject.AC = AC;
                     // Change internal key by addding  "copy xxx"
                     string tOriginalKey = "" + InternalKey;
                     string tPattern = "\\(COPY [0-9]*\\)";
@@ -838,7 +958,7 @@ namespace NetWorkedData
                 }
             }
             //BTBBenchmark.Finish();
-            return rReturnObject;
+            return rReturnObject as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -1046,7 +1166,7 @@ namespace NetWorkedData
                         InsertDataOperation(sAutoDate);
                         AddObjectInListOfEdition(this);
                         WritingLockAdd();
-                        WritingPending = NWDWritingPending.NewInMemory;
+                        WritingPending = NWDWritingPending.InsertInMemory;
                         NWDDataManager.SharedInstance().InsertData(this, sWritingMode);
                     }
                 }
@@ -1055,9 +1175,6 @@ namespace NetWorkedData
                     // error this reference allready exist
                     UpdateDataIfModified(sAutoDate, sWritingMode);
                 }
-#if UNITY_EDITOR
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(K));
-#endif
             }
             //BTBBenchmark.Finish();
             return rReturn;
@@ -1121,7 +1238,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             WritingLockRemove();
-            WritingPending = NWDWritingPending.InDataBase;
+            WritingPending = NWDWritingPending.InDatabase;
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1274,7 +1391,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             WritingLockRemove();
-            WritingPending = NWDWritingPending.InDataBase;
+            WritingPending = NWDWritingPending.InDatabase;
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1467,7 +1584,10 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             WritingLockRemove();
-            WritingPending = NWDWritingPending.InDataBase;
+            WritingPending = NWDWritingPending.InDatabase;
+#if UNITY_EDITOR
+            RepaintTableEditor();
+#endif
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1476,11 +1596,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void LoadedFromDatabase()
         {
-            //BTBBenchmark.S\tart();
+            BTBBenchmark.Start();
             FromDatabase = true;
-            WritingPending = NWDWritingPending.InDataBase;
+            WritingPending = NWDWritingPending.InDatabase;
             AddObjectInListOfEdition(this);
-            //BTBBenchmark.Finish();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadAllDatas()
@@ -1495,19 +1615,21 @@ namespace NetWorkedData
             ObjectsList = new List<object>();
             ObjectsByReferenceList = new List<string>();
             ObjectsByKeyList = new List<string>();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             ObjectsInEditorTableKeyList = new List<string>();
             ObjectsInEditorTableSelectionList = new List<bool>();
             ObjectsInEditorTableList = new List<string>();
-            #endif
+#endif
             if (tEnumerable != null)
             {
                 foreach (NWDBasis<K> tData in tEnumerable)
                 {
                     tData.LoadedFromDatabase();
-                    AddObjectInListOfEdition(tData);
                 }
             }
+#if UNITY_EDITOR
+            RepaintTableEditor();
+#endif
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

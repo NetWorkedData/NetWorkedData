@@ -54,6 +54,8 @@ namespace NetWorkedData
             GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREFAB, tStyleLeft, GUILayout.Width(NWDConstants.kPrefabWidth));
             GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DESCRIPTION, tStyleLeft, GUILayout.MinWidth(NWDConstants.kDescriptionMinWidth));
 
+            GUILayout.Label(NWDConstants.K_APP_TABLE_HEADER_DISK, tStyleCenter, GUILayout.Width(NWDConstants.kDiskWidth));
+
             GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_SYNCHRO, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth));
             GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_DEVSYNCHRO, tStyleCenter, GUILayout.Width(NWDConstants.kDevSyncWidth));
             GUILayout.Label (NWDConstants.K_APP_TABLE_HEADER_PREPRODSYNCHRO, tStyleCenter, GUILayout.Width(NWDConstants.kPreprodSyncWidth));
@@ -370,6 +372,36 @@ namespace NetWorkedData
             Rect tRectPreview = GUILayoutUtility.GetLastRect();
             GUILayout.Label(tString, tStyleForInfos, GUILayout.MinWidth(NWDConstants.kDescriptionMinWidth));
             tStyleLeft.alignment = TextAnchor.MiddleRight;
+
+
+            // Draw Disk State
+
+            Texture2D tImageDisk = NWDConstants.kImageDiskUnknow;
+            if (FromDatabase==true)
+            {
+                tImageDisk = NWDConstants.kImageDiskInDatabase;
+            }
+            switch (WritingPending)
+            {
+                case NWDWritingPending.Unknow :
+                    tImageDisk = NWDConstants.kImageDiskUnknow;
+                    break;
+                case NWDWritingPending.UpdateInMemory:
+                    tImageDisk = NWDConstants.kImageDiskUpdateInMemory;
+                    break;
+                case NWDWritingPending.InsertInMemory:
+                    tImageDisk = NWDConstants.kImageDiskNewInMemory;
+                    break;
+                case NWDWritingPending.DeleteInMemory:
+                    tImageDisk = NWDConstants.kImageDiskDeleteInMemory;
+                    break;
+                case NWDWritingPending.InDatabase:
+                    tImageDisk = NWDConstants.kImageDiskInDatabase;
+                    break;
+            }
+
+            GUILayout.Label(tImageDisk, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
+
             // Draw Sync State
             Texture2D tImageSync = NWDConstants.kImageRed;
             if (DS > 0)

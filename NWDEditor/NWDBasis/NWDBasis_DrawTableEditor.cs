@@ -230,7 +230,8 @@ namespace NetWorkedData
                 m_SearchInternalName = "";
                 m_SearchInternalDescription = "";
                 //				ReloadAllObjects ();
-                //				LoadTableEditor ();
+                				LoadTableEditor ();
+
                 ReorderListOfManagementByName();
             }
             // |||||||||||||||||||||||||||||||||||||||||||

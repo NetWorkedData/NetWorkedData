@@ -1684,8 +1684,11 @@ namespace NetWorkedData
 
             if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle))
             {
+
+                // todo not update if not modified
                 NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                K tNexObject = (K)DuplicateMe();
+                //K tNexObject = (K)DuplicateMe();
+                K tNexObject = DuplicateData();
                 AddObjectInListOfEdition(tNexObject);
                 NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 SetObjectInEdition(tNexObject);
@@ -1751,7 +1754,8 @@ namespace NetWorkedData
                         NWDConstants.K_APP_BASIS_DELETE_CANCEL))
                 {
                     RemoveObjectInListOfEdition(this);
-                    DeleteMe();
+                    //DeleteMe();
+                    DeleteData(NWDWritingMode.MainThread);
                     SetObjectInEdition(null);
                     //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     RepaintTableEditor();

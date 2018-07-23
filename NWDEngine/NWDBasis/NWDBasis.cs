@@ -676,7 +676,10 @@ namespace NetWorkedData
                 foreach (NWDBasis<K> tItem in tEnumerable)
                 {
                     tItem.InDatabase = true;
+                    tItem.LoadedFromDatabase();
                     AddObjectInListOfEdition(tItem);
+
+
                 }
             }
             //Debug.Log("Load " + ObjectsList.Count + " object(s) in " + ClassName());
