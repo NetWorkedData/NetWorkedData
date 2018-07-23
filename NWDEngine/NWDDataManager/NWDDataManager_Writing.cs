@@ -317,9 +317,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
-#if UNITY_EDITOR
             List<Type> tTypeList = new List<Type>();
-#endif
             if (sInsertDataQueuePool.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -338,12 +336,10 @@ namespace NetWorkedData
                 foreach (object tObject in sInsertDataQueuePool)
                 {
                     Type tType = tObject.GetType();
-#if UNITY_EDITOR
                     if (tTypeList.Contains(tType) == false)
                     {
                         tTypeList.Add(tType);
                     };
-#endif
                     var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     if (tMethodFinish != null)
                     {
@@ -462,9 +458,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
-#if UNITY_EDITOR
             List<Type> tTypeList = new List<Type>();
-#endif
             if (sUpdateDataQueuePool.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -483,12 +477,10 @@ namespace NetWorkedData
                 foreach (object tObject in sUpdateDataQueuePool)
                 {
                     Type tType = tObject.GetType();
-#if UNITY_EDITOR
                     if (tTypeList.Contains(tType) == false)
                     {
                         tTypeList.Add(tType);
                     };
-#endif
                     var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     if (tMethodFinish != null)
                     {
@@ -606,9 +598,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
-#if UNITY_EDITOR
             List<Type> tTypeList = new List<Type>();
-#endif
             if (sDeleteDataQueuePool.Count > 0)
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -627,12 +617,10 @@ namespace NetWorkedData
                 foreach (object tObject in kDeleteDataQueueMain)
                 {
                     Type tType = tObject.GetType();
-#if UNITY_EDITOR
                     if (tTypeList.Contains(tType) == false)
                     {
                         tTypeList.Add(tType);
                     };
-#endif
                     var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                     if (tMethodFinish != null)
                     {

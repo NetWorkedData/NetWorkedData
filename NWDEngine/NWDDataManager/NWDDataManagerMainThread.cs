@@ -14,8 +14,10 @@ namespace NetWorkedData
     /// NWDDataManagerMainThread in an static class method with a shareinstance to detect in the main thread the database writing. 
     /// It's not the perfect expected, but unity is mono thread. We haven't another solution :-/ 
     /// </summary>
+#if UNITY_EDITOR
     [ExecuteInEditMode]
     [InitializeOnLoad]
+#endif
     public class NWDDataManagerMainThread : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -208,7 +210,7 @@ namespace NetWorkedData
                     Debug.Log("NWDDataManagerMainThread Update() ListInsertCompleted detected!");
                     List<Type> tTypeList =  ListInsertCompleted[0];
                     ListInsertCompleted.RemoveAt(0);
-                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
+                    BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                         {
@@ -225,7 +227,7 @@ namespace NetWorkedData
                     Debug.Log("NWDDataManagerMainThread Update() ListUpdateCompleted detected!");
                     List<Type> tTypeList = ListUpdateCompleted[0];
                     ListUpdateCompleted.RemoveAt(0);
-                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
+                    BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {
@@ -242,7 +244,7 @@ namespace NetWorkedData
                     Debug.Log("NWDDataManagerMainThread Update() ListDeleteCompleted detected!");
                     List<Type> tTypeList = ListDeleteCompleted[0];
                     ListDeleteCompleted.RemoveAt(0);
-                    BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
+                    BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
 #if UNITY_EDITOR
                     foreach (Type tType in tTypeList)
                     {

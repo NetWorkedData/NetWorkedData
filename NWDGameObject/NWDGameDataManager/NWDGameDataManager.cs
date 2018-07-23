@@ -316,6 +316,8 @@ namespace NetWorkedData
                     //Add Components
                     // Add component NWDGameDatManager to easly manage data from NWD
                     NWDGameDataManager tGameDataManager = tObjToSpawn.AddComponent<NWDGameDataManager>();
+                    // Add thread utility
+                    NWDDataManagerMainThread tGameDataManagerMainThread = tObjToSpawn.AddComponent<NWDDataManagerMainThread>();
                     // Add component to check user online
                     /*NWDUserNetWorkingScript tUserNetWorkingScript = */tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
                     // Add component to check the network state
