@@ -59,7 +59,8 @@ namespace NetWorkedData
         {
             if (kSharedInstance == null)
             {
-                kSharedInstance = new NWDDataManagerMainThread();
+                kSharedInstance = (NWDDataManagerMainThread)Activator.CreateInstance(typeof(NWDDataManagerMainThread));
+                //kSharedInstance = new NWDDataManagerMainThread();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
