@@ -1,6 +1,6 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -26,14 +26,26 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[SerializeField]
 	public class NWDAssetType : NWDUnityType
 	{
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The asset's path protection (**xxxx/xxx/xxxx.fr**) to find the start and end of Path.
+        /// beacuase if ypur want replace xx.trc That replace too xxxxxx.trc. With delimiter the replace become 
+        /// **xx.trc** to replace and **xxxxx.trc** id protected!
+        /// </summary>
 		public static string kAssetDelimiter = "**";
-		// TODO: must protect asset path by a symbol start and symbol end!
 		//-------------------------------------------------------------------------------------------------------------
-		public bool ChangeAssetPath (string sOldPath, string sNewPath) {
+        /// <summary>
+        /// Change the asset path.
+        /// </summary>
+        /// <returns><c>true</c>, if asset path was changed, <c>false</c> otherwise.</returns>
+        /// <param name="sOldPath">S old path.</param>
+        /// <param name="sNewPath">S new path.</param>
+		public bool ChangeAssetPath (string sOldPath, string sNewPath) 
+        {
 			//Debug.Log ("BTBDataType ChangeAssetPath " + sOldPath + " to " + sNewPath + " in Value = " + Value);
 			bool rChange = false;
 			if (Value.Contains (sOldPath)) {
@@ -44,6 +56,7 @@ namespace NetWorkedData
 			return rChange;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

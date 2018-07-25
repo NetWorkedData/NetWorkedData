@@ -23,6 +23,37 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Save data.
+        /// </summary>
+        /// <param name="sWritingMode">S writing mode.</param>
+        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            UpdateData(true, sWritingMode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Save data if modified.
+        /// </summary>
+        /// <returns><c>true</c>, if data if modified : save, <c>false</c> otherwise.</returns>
+        /// <param name="sWritingMode">S writing mode.</param>
+        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            bool tReturn = false;
+            if (this.Integrity != this.IntegrityValue())
+            {
+                tReturn = true;
+                UpdateData(true, sWritingMode);
+            }
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets the data by reference.
+        /// </summary>
+        /// <returns>The data by reference.</returns>
+        /// <param name="sReference">S reference.</param>
+        /// <param name="sAccountReference">S account reference.</param>
         public static K GetDataByReference(string sReference, string sAccountReference = null)
         {
             BTBBenchmark.Start();
@@ -40,10 +71,20 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get Unique data by internal key.
+        /// </summary>
+        /// <returns>The data by internal key.</returns>
+        /// <param name="sInternalKey">S internal key.</param>
+        /// <param name="sCreateIfNotExists">If set to <c>true</c> s create if not exists.</param>
+        /// <param name="sWritingMode">S writing mode.</param>
+        /// <param name="sInternalDescription">S internal description.</param>
+        /// <param name="sFlushOlderDupplicate">If set to <c>true</c> s flush older dupplicate.</param>
         public static K UniqueDataByInternalKey(string sInternalKey,
                                              bool sCreateIfNotExists = false,
                                              NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
-                                             string sInternalDescription = "",
+                                             string sInternalDescription = "", 
+                                             string sAccountReference = null,
                                              bool sFlushOlderDupplicate = false)
         {
             BTBBenchmark.Start();
@@ -56,7 +97,7 @@ namespace NetWorkedData
             }
             else
             {
-                K[] tArray = GetAllObjects(null);
+                K[] tArray = GetAllObjects(sAccountReference);
                 List<K> tAllList = new List<K>();
                 foreach (K tObject in tArray)
                 {

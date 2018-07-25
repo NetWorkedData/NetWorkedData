@@ -89,6 +89,101 @@ namespace NetWorkedData
             }
             return rResult;
         }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats NewIntStat(string sInternalKey, int sInt)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.IntValue = sInt;
+            rReturn.GameSaveTag = GameSaveTag;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats NewFloatStat(string sInternalKey, float sFloat)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.FloatValue = sFloat;
+            rReturn.GameSaveTag = GameSaveTag;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats NewBoolStat(string sInternalKey, bool sBool)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.BoolValue = sBool;
+            rReturn.GameSaveTag = GameSaveTag;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats NewStringStat(string sInternalKey, string sString)
+        {
+            NWDUserStats rReturn = NWDUserStats.NewObject();
+            rReturn.InternalKey = sInternalKey;
+            rReturn.StringValue = sString;
+            rReturn.GameSaveTag = GameSaveTag;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats GetStatByInternalKey(string sInternalKey)
+        {
+            NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats GetStatByInternalKeyOrCreate(string sInternalKey)
+        {
+            NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats ModifyStat(string sInternalKey, int sInt)
+        {
+            NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
+            rReturn.IntValue = sInt;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats ModifyStat(string sInternalKey, float sFloat)
+        {
+            NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
+            rReturn.FloatValue = sFloat;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserStats ModifyStat(string sInternalKey, double sDouble)
+        //{
+        //    NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
+        //    rReturn.DoubleValue = sDouble;
+        //    rReturn.SaveModifications();
+        //    return rReturn;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats ModifyStat(string sInternalKey, bool sBool)
+        {
+            NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
+            rReturn.BoolValue = sBool;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserStats ModifyStat(string sInternalKey, string sString)
+        {
+            NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
+            rReturn.StringValue = sString;
+            rReturn.SaveModifications();
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

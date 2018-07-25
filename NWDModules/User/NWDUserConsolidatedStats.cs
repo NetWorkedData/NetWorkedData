@@ -141,7 +141,6 @@ namespace NetWorkedData
             Total += sValue;
             Counter++;
             Average = Total / (float)Counter;
-            SaveModifications();
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------

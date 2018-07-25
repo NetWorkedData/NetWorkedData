@@ -29,28 +29,13 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        //public static Sprite SpriteOfClass()
-        //{
-        //    Sprite rSprite = null;
-        //    string[] sGUIDs = AssetDatabase.FindAssets(ClassNamePHP()+" t:texture2D");
-        //    foreach( string tGUID in sGUIDs)
-        //    {
-        //        Debug.Log("SpriteOfClass GUID " + tGUID);
-        //        string tPath = AssetDatabase.GUIDToAssetPath(tGUID);
-        //        Debug.Log("SpriteOfClass " + tPath);
-        //        rSprite = AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(tGUID), typeof(Sprite)) as Sprite;
-        //    }
-        //    return rSprite;
-        //}
+        // TODO : MUST MOVE IN NWDTypeInfos
         //-------------------------------------------------------------------------------------------------------------
         static Dictionary<string, Texture2D> kTextureOfClass = new Dictionary<string, Texture2D>();
-        //static Dictionary<string, bool> kTextureOfClassLoaded = new Dictionary<string, bool>();
         //-------------------------------------------------------------------------------------------------------------
         public static Texture2D TextureOfClass()
         {
             string tName = ClassNamePHP();
-            //if (kTextureOfClassLoaded.ContainsKey(tName) == false)
-            //{
             Texture2D rTexture = null;
             if (kTextureOfClass.ContainsKey(tName) == false)
             {
@@ -75,11 +60,6 @@ namespace NetWorkedData
                 rTexture = kTextureOfClass[tName];
             }
             return rTexture;
-            //}
-            //else
-            //{
-
-            //}
         }
         //-------------------------------------------------------------------------------------------------------------
     }

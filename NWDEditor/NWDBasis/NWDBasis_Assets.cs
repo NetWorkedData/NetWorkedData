@@ -1,6 +1,6 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -55,7 +55,6 @@ namespace NetWorkedData
             //Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
             if (TestIntegrity() == true)
             {
-                // TODO: must protect asset path by a symbol start and symbol end!
                 bool tUpdate = false;
                 if (Preview != null)
                 {
@@ -63,7 +62,6 @@ namespace NetWorkedData
                     {
                         Preview = Preview.Replace(sOldPath, sNewPath);
                         tUpdate = true;
-                        //Debug.Log ("Preview ChangeAssetPath YES I DID", DebugResult.Success);
                     }
                 }
                 foreach (var tProp in PropertiesAssetDependent())

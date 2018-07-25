@@ -88,6 +88,12 @@ namespace NetWorkedData
                 rResult.SaveModifications();
             }
             return rResult;
+        }//-------------------------------------------------------------------------------------------------------------
+        public NWDUserConsolidatedStats UserConsolidatedStatsAddValue(string sInternalKey, float sAddFloat)
+        {
+            NWDUserConsolidatedStats rReturn = UserConsolidatedStatsByInternalKey(sInternalKey, true);
+            rReturn.AddValue(sAddFloat);
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
