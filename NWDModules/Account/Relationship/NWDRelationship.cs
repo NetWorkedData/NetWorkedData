@@ -1043,6 +1043,39 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership[] GetAllObjectsForRelationshipAndGameSave(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return new NWDUserOwnership[0];
+            }
+
+
+            NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
+            NWDGameSave tGoodSave = null;
+            foreach (NWDGameSave tSave in tSaveArray)
+            {
+                if (tSave.IsCurrent)
+                {
+                    tGoodSave = tSave;
+                    break;
+                }
+            }
+            NWDUserOwnership[] tSSS = NWDUserOwnership.GetAllObjects(sRelationship.PublisherReference.GetReference());
+            List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
+            foreach (NWDUserOwnership tDDD in tSSS)
+            {
+                if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+                {
+                    rReturn.Add(tDDD);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization ==true && 
@@ -1055,6 +1088,7 @@ namespace NetWorkedData
             return GetAllObjects(sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
+        // Not used
         public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
@@ -1067,6 +1101,7 @@ namespace NetWorkedData
             return GetObjectByReference(sReference, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
+        // Not used
         public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
@@ -1077,6 +1112,39 @@ namespace NetWorkedData
                 return new K[0];
             }
             return GetObjectsByReferences(sReferences, sRelationship.PublisherReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserConsolidatedStats GetObjectByInternalKeyForRelationshipAndGameSave(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        {
+            if (sLimitByRelationAuthorization == true &&
+                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+               )
+            {
+                return null;
+            }
+
+            NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
+            NWDGameSave tGoodSave = null;
+            foreach (NWDGameSave tSave in tSaveArray)
+            {
+                if (tSave.IsCurrent)
+                {
+                    tGoodSave = tSave;
+                    break;
+                }
+            }
+            NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
+            NWDUserConsolidatedStats rReturn = null;
+            foreach (NWDUserConsolidatedStats tDDD in tSSS)
+            {
+                if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+                {
+                    rReturn = tDDD;
+                    break;
+                }
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
@@ -1091,6 +1159,7 @@ namespace NetWorkedData
             return GetObjectByInternalKey(sInternalKey, false, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
+        // Not used
         public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
@@ -1103,6 +1172,7 @@ namespace NetWorkedData
             return GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
+        // Not used
         public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
