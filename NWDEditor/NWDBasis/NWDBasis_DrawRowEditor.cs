@@ -379,7 +379,7 @@ namespace NetWorkedData
             Texture2D tImageDisk = NWDConstants.kImageDiskUnknow;
             if (FromDatabase==true)
             {
-                tImageDisk = NWDConstants.kImageDiskInDatabase;
+                tImageDisk = NWDConstants.kImageDiskDatabase;
             }
             switch (WritingPending)
             {
@@ -387,74 +387,98 @@ namespace NetWorkedData
                     tImageDisk = NWDConstants.kImageDiskUnknow;
                     break;
                 case NWDWritingPending.UpdateInMemory:
-                    tImageDisk = NWDConstants.kImageDiskUpdateInMemory;
+                    tImageDisk = NWDConstants.kImageDiskUpdate;
                     break;
                 case NWDWritingPending.InsertInMemory:
-                    tImageDisk = NWDConstants.kImageDiskNewInMemory;
+                    tImageDisk = NWDConstants.kImageDiskInsert;
                     break;
                 case NWDWritingPending.DeleteInMemory:
-                    tImageDisk = NWDConstants.kImageDiskDeleteInMemory;
+                    tImageDisk = NWDConstants.kImageDiskDelete;
                     break;
                 case NWDWritingPending.InDatabase:
-                    tImageDisk = NWDConstants.kImageDiskInDatabase;
+                    tImageDisk = NWDConstants.kImageDiskDatabase;
                     break;
             }
 
             GUILayout.Label(tImageDisk, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
 
             // Draw Sync State
-            Texture2D tImageSync = NWDConstants.kImageRed;
-            if (DS > 0)
+            Texture2D tImageSync = NWDConstants.kImageSyncGeneralWaiting;
+            if (DevSync < 0 && PreprodSync < 0 && ProdSync < 0)
             {
-                if (DS == DM)
+                tImageSync = NWDConstants.kImageSyncGeneralForbidden;
+            }
+            else
+            {
+                if (DS > 0)
                 {
-                    tImageSync = NWDConstants.kImageGreen;
-                }
-                else if (DS < DM)
-                {
-                    tImageSync = NWDConstants.kImageOrange;
-                }
-                else
-                {
-                    tImageSync = NWDConstants.kImageWaiting;
+                    if (DS == DM)
+                    {
+                        tImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                    }
+                    else if (DS < DM)
+                    {
+                        tImageSync = NWDConstants.kImageSyncGeneralForward;
+                    }
+                    else
+                    {
+                        tImageSync = NWDConstants.kImageSyncGeneralWaiting;
+                    }
                 }
             }
             GUILayout.Label(tImageSync, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Dev Sync State
-            Texture2D tImageDevSync = NWDConstants.kImageRed;
-            if (DevSync > 0)
+            Texture2D tImageDevSync = NWDConstants.kImageSyncRequired;
+            if (DevSync == 0)
             {
-                tImageDevSync = NWDConstants.kImageGreen;
+                tImageDevSync = NWDConstants.kImageSyncWaiting;
+            }
+            else if (DevSync == 1)
+            {
+                tImageDevSync = NWDConstants.kImageSyncRequired;
+            }
+            else if (DevSync > 1)
+            {
+                tImageDevSync = NWDConstants.kImageSyncSuccessed;
             }
             else if (DevSync == -1)
             {
-                tImageDevSync = NWDConstants.kImageForbidden;
+                tImageDevSync = NWDConstants.kImageSyncForbidden;
             }
             else if (DevSync < -1)
             {
-                tImageDevSync = NWDConstants.kImageForbiddenOrange;
+                tImageDevSync = NWDConstants.kImageSyncDanger;
             }
             GUILayout.Label(tImageDevSync, tStyleCenter, GUILayout.Width(NWDConstants.kDevSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Preprod Sync State
-            Texture2D tImagePreprodSync = NWDConstants.kImageRed;
-            if (PreprodSync > 0)
+            Texture2D tImagePreprodSync = NWDConstants.kImageSyncRequired;
+
+            if (PreprodSync == 0)
+            {
+                tImagePreprodSync = NWDConstants.kImageSyncWaiting;
+            }
+            else if (PreprodSync == 1)
+            {
+                tImagePreprodSync = NWDConstants.kImageSyncRequired;
+            }
+            else if (PreprodSync > 1)
             {
                 if (PreprodSync > DevSync)
                 {
-                    tImagePreprodSync = NWDConstants.kImageGreen;
+                    tImagePreprodSync = NWDConstants.kImageSyncSuccessed;
                 }
                 else
                 {
-                    tImagePreprodSync = NWDConstants.kImageOrange;
+                    tImagePreprodSync = NWDConstants.kImageSyncForward;
                 }
             }
             else if (PreprodSync == -1)
             {
-                tImagePreprodSync = NWDConstants.kImageForbidden;
+                tImagePreprodSync = NWDConstants.kImageSyncForbidden;
             }
             else if (PreprodSync < -1)
             {
-                tImagePreprodSync = NWDConstants.kImageForbiddenOrange;
+                tImagePreprodSync = NWDConstants.kImageSyncDanger;
             }
 
             bool tDisableProd = false;
@@ -469,31 +493,39 @@ namespace NetWorkedData
 
             GUILayout.Label(tImagePreprodSync, tStyleCenter, GUILayout.Width(NWDConstants.kPreprodSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Prod Sync State
-            Texture2D tImageProdSync = NWDConstants.kImageRed;
+            Texture2D tImageProdSync = NWDConstants.kImageSyncRequired;
             if (tDisableProd == true)
             {
-                tImageProdSync = NWDConstants.kImageForbidden;
+                tImageProdSync = NWDConstants.kImageSyncForbidden;
             }
             else
             {
-                if (ProdSync > 0)
+                if (ProdSync == 0)
+                {
+                    tImageProdSync = NWDConstants.kImageSyncWaiting;
+                }
+                else if (ProdSync == 1)
+                {
+                    tImageProdSync = NWDConstants.kImageSyncRequired;
+                }
+                if (ProdSync > 1)
                 {
                     if (ProdSync > DevSync && ProdSync > PreprodSync)
                     {
-                        tImageProdSync = NWDConstants.kImageGreen;
+                        tImageProdSync = NWDConstants.kImageSyncSuccessed;
                     }
                     else
                     {
-                        tImageProdSync = NWDConstants.kImageOrange;
+                        tImageProdSync = NWDConstants.kImageSyncForward;
                     }
                 }
                 else if (ProdSync == -1)
                 {
-                    tImageProdSync = NWDConstants.kImageForbidden;
+                    tImageProdSync = NWDConstants.kImageSyncForbidden;
                 }
                 else if (ProdSync < -1)
                 {
-                    tImageProdSync = NWDConstants.kImageForbiddenOrange;
+                    tImageProdSync = NWDConstants.kImageSyncDanger;
                 }
             }
             GUILayout.Label(tImageProdSync, tStyleCenter, GUILayout.Width(NWDConstants.kProdSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));

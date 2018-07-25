@@ -356,7 +356,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.DevSync == 0);
                 foreach (K tO in ObjectsList)
                 {
-                    if (tO.DevSync == 0)
+                    if (tO.DevSync == 0 || tO.DevSync == 1)
                     {
                         tResults.Add(tO);
                     }
@@ -367,7 +367,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
                 foreach (K tO in ObjectsList)
                 {
-                    if (tO.PreprodSync == 0)
+                    if (tO.PreprodSync == 0|| tO.PreprodSync == 1)
                     {
                         tResults.Add(tO);
                     }
@@ -378,7 +378,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.ProdSync == 0);
                 foreach (K tO in ObjectsList)
                 {
-                    if (tO.ProdSync == 0)
+                    if (tO.ProdSync == 0 || tO.ProdSync == 1)
                     {
                         tResults.Add(tO);
                     }

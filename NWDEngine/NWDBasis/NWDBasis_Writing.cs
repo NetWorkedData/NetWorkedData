@@ -593,19 +593,19 @@ namespace NetWorkedData
             }
             // this.DS = 0;
             // prevent DevSync lock
-            if (this.DevSync >= 0)
+            if (this.DevSync > 0)
             {
-                this.DevSync = 0;
+                this.DevSync = 1;
             }
             // prevent PreprodSync lock
-            if (this.PreprodSync >= 0)
+            if (this.PreprodSync > 0)
             {
-                this.PreprodSync = 0;
+                this.PreprodSync = 1;
             }
             // prevent ProdSync lock
-            if (this.ProdSync >= 0)
+            if (this.ProdSync > 0)
             {
-                this.ProdSync = 0;
+                this.ProdSync = 1;
             }
             // reset Hash server
             this.ServerHash = "";
