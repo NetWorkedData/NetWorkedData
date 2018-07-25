@@ -209,7 +209,6 @@ namespace NetWorkedData
             InternalKey = "";
             InternalDescription = "";
             Preview = "";
-
             WebServiceVersion = WebServiceVersionToUse();
             //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
             Type tType = ClassType();
@@ -389,6 +388,28 @@ namespace NetWorkedData
                     this.DC = NWDToolbox.Timestamp();
                     this.DM = NWDToolbox.Timestamp();
                     //					this.DS = 0;
+                }
+
+            if (AccountDependent() == true)
+                {
+                    if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == true)
+                    {
+                        DevSync = 0;
+                        PreprodSync = -1;
+                        ProdSync = -1;
+                    }
+                    else if (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == true)
+                    {
+                        DevSync = -1;
+                        PreprodSync = 0;
+                        ProdSync = -1;
+                    }
+                    else if (NWDAppConfiguration.SharedInstance().IsProdEnvironement() == true)
+                    {
+                        DevSync = -1;
+                        PreprodSync = -1;
+                        ProdSync = 0;
+                    }
                 }
                 this.AddonInsertMe();
                 this.UpdateIntegrity();

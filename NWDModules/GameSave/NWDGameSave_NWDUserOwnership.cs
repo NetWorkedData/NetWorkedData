@@ -116,6 +116,21 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
+        //public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
+        //{
+        //    NWDUserOwnership rOwnership = OwnershipForItem(sItem);
+        //    if (sIsIncrement)
+        //    {
+        //        rOwnership.Quantity += sQuantity;
+        //    }
+        //    else
+        //    {
+        //        rOwnership.Quantity = sQuantity;
+        //    }
+        //    rOwnership.SaveModifications();
+        //    return rOwnership;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

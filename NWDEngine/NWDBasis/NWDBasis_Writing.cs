@@ -440,9 +440,27 @@ namespace NetWorkedData
             this.MinVersion = tVersion;
             this.WebServiceVersion = WebServiceVersionToUse();
             this.DS = 0;
-            this.DevSync = 0;
-            this.PreprodSync = 0;
-            this.ProdSync = 0;
+            if (AccountDependent() == true)
+            {
+                if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == true)
+                {
+                    DevSync = 0;
+                    PreprodSync = -1;
+                    ProdSync = -1;
+                }
+                else if (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == true)
+                {
+                    DevSync = -1;
+                    PreprodSync = 0;
+                    ProdSync = -1;
+                }
+                else if (NWDAppConfiguration.SharedInstance().IsProdEnvironement() == true)
+                {
+                    DevSync = -1;
+                    PreprodSync = -1;
+                    ProdSync = 0;
+                }
+            }
             this.ServerHash = "";
             this.ServerLog = "";
             this.UpdateIntegrity();
