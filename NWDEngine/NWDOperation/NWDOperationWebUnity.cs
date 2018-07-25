@@ -252,20 +252,22 @@ namespace NetWorkedData
                     {
                         tData = Json.Deserialize(Request.downloadHandler.text) as Dictionary<string, object>;
 
-                        // TODO : TOKEN IS FAILED : DISCONNECT AND RESET DATA FOR THIS USER... NO SYNC AUTHORIZED... DELETE LOCAL DATA... RESTAURE FROM LOGIN
+                        // If no data is parse from the downloadHandler
                         if (tData == null)
                         {
                             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR, this));
 
                             Statut = BTBOperationState.Error;
                             ResultInfos.SetErrorCode("WEB04");
-
                             FailInvoke(Request.downloadProgress, ResultInfos);
 
                             if (Application.isPlaying == true)
                             {
                                 NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
                             }
+
+                            // Log DownloadHandler in console for more information on WEBxx error
+                            Debug.LogWarning(Request.downloadHandler.text);
                         }
                         else
                         {

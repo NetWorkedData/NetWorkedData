@@ -16,58 +16,19 @@ namespace NetWorkedData
     public class NWDOperationResult : BTBOperationResult
     {
         //-------------------------------------------------------------------------------------------------------------
-        public int timestamp
-        {
-            get; private set;
-        }
-        public float perform
-        {
-            get; private set;
-        }
-        public float performRequest
-        {
-            get; private set;
-        }
-        public bool isError
-        {
-            get; private set;
-        }
-        public string errorCode
-        {
-            get; private set;
-        }
-        public NWDError errorDesc
-        {
-            get; private set;
-        }
-        public string token
-        {
-            get; private set;
-        }
-        public NWDAppEnvironmentPlayerStatut sign
-        {
-            get; private set;
-        }
-        public bool isSignUpdate
-        {
-            get; private set;
-        }
-        public string uuid
-        {
-            get; private set;
-        }
-        public bool isSignIn
-        {
-            get; private set;
-        }
-        public bool isSignOut
-        {
-            get; private set;
-        }
-        public bool isSignUp
-        {
-            get; private set;
-        }
+        public int timestamp { get; private set; }
+        public float perform { get; private set; }
+        public float performRequest { get; private set; }
+        public bool isError { get; private set; }
+        public string errorCode { get; private set; }
+        public NWDError errorDesc { get; private set; }
+        public string token { get; private set; }
+        public NWDAppEnvironmentPlayerStatut sign { get; private set; }
+        public bool isSignUpdate { get; private set; }
+        public string uuid { get; private set; }
+        public bool isSignIn { get; private set; }
+        public bool isSignOut { get; private set; }
+        public bool isSignUp { get; private set; }
         //public bool isGoogleSignIn
         //{
         //    get; private set;
@@ -84,35 +45,14 @@ namespace NetWorkedData
         //{
         //    get; private set;
         //}
-        public bool isCreateAnonymous
-        {
-            get; private set;
-        }
-        public string signkey
-        {
-            get; private set;
-        }
-        public bool isNewUser
-        {
-            get; private set;
-        }
-        public bool isUserTransfert
-        {
-            get; private set;
-        }
-        public bool isReloadingData
-        {
-            get; private set;
-        }
-        public int wsBuild
-        {
-            get; private set;
-        }
+        public bool isCreateAnonymous { get; private set; }
+        public string signkey { get; private set; }
+        public bool isNewUser { get; private set; }
+        public bool isUserTransfert { get; private set; }
+        public bool isReloadingData { get; private set; }
+        public int wsBuild { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> param
-        {
-            get; private set;
-        }
+        public Dictionary<string, object> param { get; private set; }
         //-------------------------------------------------------------------------------------------------------------
         public DateTime PrepareDateTime = DateTime.Now;
         public DateTime WebDateTime = DateTime.Now;
@@ -133,37 +73,35 @@ namespace NetWorkedData
             Init();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetData(Dictionary<string, object> data)
+        public void SetData(Dictionary<string, object> sData)
         {
-            //Init();
-
-            if (data.ContainsKey("timestamp"))
+            if (sData.ContainsKey("timestamp"))
             {
-                timestamp = int.Parse(data["timestamp"].ToString());
+                timestamp = int.Parse(sData["timestamp"].ToString());
             }
-            if (data.ContainsKey("perform"))
+            if (sData.ContainsKey("perform"))
             {
-                perform = float.Parse(data["perform"].ToString());
+                perform = float.Parse(sData["perform"].ToString());
             }
-            if (data.ContainsKey("performRequest"))
+            if (sData.ContainsKey("performRequest"))
             {
-                performRequest = float.Parse(data["performRequest"].ToString());
+                performRequest = float.Parse(sData["performRequest"].ToString());
             }
-            if (data.ContainsKey("token"))
+            if (sData.ContainsKey("token"))
             {
-                token = data["token"] as string;
+                token = sData["token"] as string;
             }
-            if (data.ContainsKey("signin"))
+            if (sData.ContainsKey("signin"))
             {
-                isSignIn = (bool)data["signin"];
+                isSignIn = (bool)sData["signin"];
             }
-            if (data.ContainsKey("signout"))
+            if (sData.ContainsKey("signout"))
             {
-                isSignOut = (bool)data["signout"];
+                isSignOut = (bool)sData["signout"];
             }
-            if (data.ContainsKey("signup"))
+            if (sData.ContainsKey("signup"))
             {
-                isSignUp = (bool)data["signup"];
+                isSignUp = (bool)sData["signup"];
             }
             //if (data.ContainsKey("google_signin"))
             //{
@@ -181,53 +119,53 @@ namespace NetWorkedData
             //{
             //    isFacebookSignUp = (bool)data["facebook_signup"];
             //}
-            if (data.ContainsKey("create-anonymous"))
+            if (sData.ContainsKey("create-anonymous"))
             {
-                isCreateAnonymous = (bool)data["create-anonymous"];
+                isCreateAnonymous = (bool)sData["create-anonymous"];
             }
-            if (data.ContainsKey("sign"))
+            if (sData.ContainsKey("sign"))
             {
                 isSignUpdate = true;
                 try
                 {
-                    sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), data["sign"].ToString(), true);
+                    sign = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), sData["sign"].ToString(), true);
                 }
                 catch (ArgumentException e)
                 {
                     Debug.Log(e.StackTrace);
                 }
             }
-            if (data.ContainsKey("signkey"))
+            if (sData.ContainsKey("signkey"))
             {
-                signkey = data["signkey"] as string;
+                signkey = sData["signkey"] as string;
             }
-            if (data.ContainsKey("error"))
+            if (sData.ContainsKey("error"))
             {
-                isError = (bool)data["error"];
+                isError = (bool)sData["error"];
             }
-            if (data.ContainsKey("newuser"))
+            if (sData.ContainsKey("newuser"))
             {
-                isNewUser = (bool)data["newuser"];
+                isNewUser = (bool)sData["newuser"];
             }
-            if (data.ContainsKey("usertransfert"))
+            if (sData.ContainsKey("usertransfert"))
             {
-                isUserTransfert = (bool)data["usertransfert"];
+                isUserTransfert = (bool)sData["usertransfert"];
             }
-            if (data.ContainsKey("reloaddatas"))
+            if (sData.ContainsKey("reloaddatas"))
             {
-                isReloadingData = (bool)data["reloaddatas"];
+                isReloadingData = (bool)sData["reloaddatas"];
             }
-            if (data.ContainsKey("error_code"))
+            if (sData.ContainsKey("error_code"))
             {
-                errorCode = data["error_code"] as string;
+                errorCode = sData["error_code"] as string;
             }
-            if (data.ContainsKey("uuid"))
+            if (sData.ContainsKey("uuid"))
             {
-                uuid = data["uuid"] as string;
+                uuid = sData["uuid"] as string;
             }
-            if (data.ContainsKey("wsbuild"))
+            if (sData.ContainsKey("wsbuild"))
             {
-                wsBuild = int.Parse(data["wsbuild"].ToString());
+                wsBuild = int.Parse(sData["wsbuild"].ToString());
                 //int tWSBuildEditor = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD);
                 int tWSBuildEditor = NWDAppConfiguration.SharedInstance().WebBuild;
                 if (wsBuild != tWSBuildEditor)
@@ -248,16 +186,8 @@ namespace NetWorkedData
                 //}
             }
 
-            param = new Dictionary<string, object>(data);
+            param = new Dictionary<string, object>(sData);
         }
-        //-------------------------------------------------------------------------------------------------------------
-        //     public NWDOperationResult(string sCode)
-        //     {
-        //         Init();
-        //errorDesc = NWDError.GetErrorWithCode(sCode) as NWDError;
-        //         isError = true;
-        //errorCode = sCode;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public void SetErrorCode(string sCode)
         {
@@ -295,8 +225,8 @@ namespace NetWorkedData
             UploadedDateTime = DateTime.Now;
             DownloadedDateTime = DateTime.Now;
             FinishDateTime = DateTime.Now;
-            OctetUpload = 0.0F;
-            OctetDownload = 0.0F;
+            OctetUpload = 0.0f;
+            OctetDownload = 0.0f;
             ClassPullCounter = 0;
             ClassPushCounter = 0;
             RowPullCounter = 0;

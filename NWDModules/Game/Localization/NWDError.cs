@@ -47,16 +47,15 @@ namespace NetWorkedData
     /// <example>
     /// Example :
     /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
+    /// public class MyScriptInGame : MonoBehaviour
+    /// {
+    ///     NWDConnectionAttribut (true, true, true, true)] // optional
+    ///     public NWDExampleConnection MyNetWorkedData;
+    ///     public void UseData()
     ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
+    ///         NWDExample tObject = MyNetWorkedData.GetObject();
     ///     }
+    /// }
     /// </code>
     /// </example>
     /// </summary>
@@ -252,20 +251,22 @@ namespace NetWorkedData
         public void ShowNativeAlert(BTBAlertOnCompleteBlock sCompleteBlock = null)
         {
             NWDErrorType tType = Type;
-            // Override in some compile context
+
+            // NWDErrorType set by compile environment
 #if UNITY_IOS
-            //tType = Type; // NO CHANGE
+            // NO CHANGE
 #elif UNITY_ANDROID
-            //tType = Type; // NO CHANGE
+            // NO CHANGE
 #elif UNITY_STANDALONE_OSX
-                tType = NWDErrorType.InGame;
+            tType = NWDErrorType.InGame;
 #elif UNITY_STANDALONE_WIN
-                tType = NWDErrorType.InGame;
+            tType = NWDErrorType.InGame;
 #elif UNITY_STANDALONE_LINUX
-                tType = NWDErrorType.InGame;
+            tType = NWDErrorType.InGame;
 #else
-                tType = NWDErrorType.InGame;
+            tType = NWDErrorType.InGame;
 #endif
+
             switch (tType)
             {
                 case NWDErrorType.Alert:
@@ -276,7 +277,6 @@ namespace NetWorkedData
                 case NWDErrorType.Critical:
                     {
                         BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
-                        // Quit app
                     }
                     break;
                 case NWDErrorType.Ignore:
@@ -286,17 +286,16 @@ namespace NetWorkedData
                     break;
                 case NWDErrorType.InGame:
                     {
+                        // Do nothing
                     }
                     break;
                 case NWDErrorType.LogVerbose:
                     {
-                        /*NEVER COMMENT*/
                         Debug.Log("ALERT! " + Title.GetLocalString() + " : " + Description.GetLocalString());
                     }
                     break;
                 case NWDErrorType.LogWarning:
                     {
-                        /*NEVER COMMENT*/
                         Debug.LogWarning("WARNING! " + Title.GetLocalString() + " : " + Description.GetLocalString());
                     }
                     break;
@@ -383,6 +382,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

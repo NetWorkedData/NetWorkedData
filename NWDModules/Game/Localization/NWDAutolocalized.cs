@@ -29,7 +29,7 @@ namespace NetWorkedData
         [Header("Optional bind")]
         public Text TextTarget;
         //-------------------------------------------------------------------------------------------------------------
-        void Start()
+        void Awake()
         {
             // if not pluging
             if (TextTarget == null)
