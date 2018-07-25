@@ -1501,7 +1501,15 @@ namespace NetWorkedData
                 NWDNodeEditor.UpdateNodeWindow(this);
             }
 
-
+            bool tDisableProd = false;
+            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
+            {
+                tDisableProd = true;
+            }
+            if (AccountDependent() == true)
+            {
+                tDisableProd = true;
+            }
 
             // Toogle Dev Prepprod Prod and operation associated
             float tWidthTiers = tWidth / 3.0f;
@@ -1522,7 +1530,13 @@ namespace NetWorkedData
             {
                 tProdLockAnalyze = true;
             }
+            if (tDisableProd == true)
+            {
+                tProdLockAnalyze = false;
+            }
+            EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tProdLock = EditorGUI.ToggleLeft(new Rect(tX + tWidthTiers + tWidthTiers, tY, tWidthTiers, tTextFieldStyle.fixedHeight), "Prod", tProdLockAnalyze);
+            EditorGUI.EndDisabledGroup();
             if (tDevLockAnalyze != tDevLock)
             {
                 if (tDevLock == false)

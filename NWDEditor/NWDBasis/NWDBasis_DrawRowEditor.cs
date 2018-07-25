@@ -402,9 +402,19 @@ namespace NetWorkedData
 
             GUILayout.Label(tImageDisk, tStyleCenter, GUILayout.Width(NWDConstants.kSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
 
+            bool tDisableProd = false;
+            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
+            {
+                tDisableProd = true;
+            }
+            if (AccountDependent() == true)
+            {
+                tDisableProd = true;
+            }
+
             // Draw Sync State
             Texture2D tImageSync = NWDConstants.kImageSyncGeneralWaiting;
-            if (DevSync < 0 && PreprodSync < 0 && ProdSync < 0)
+            if (DevSync < 0 && PreprodSync < 0 && (ProdSync < 0 || tDisableProd == true))
             {
                 tImageSync = NWDConstants.kImageSyncGeneralForbidden;
             }
@@ -481,15 +491,6 @@ namespace NetWorkedData
                 tImagePreprodSync = NWDConstants.kImageSyncDanger;
             }
 
-            bool tDisableProd = false;
-            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
-            {
-                tDisableProd = true;
-            }
-            if (AccountDependent() == true)
-            {
-                tDisableProd = true;
-            }
 
             GUILayout.Label(tImagePreprodSync, tStyleCenter, GUILayout.Width(NWDConstants.kPreprodSyncWidth), GUILayout.Height(NWDConstants.kRowHeightImage));
             // Draw Prod Sync State
