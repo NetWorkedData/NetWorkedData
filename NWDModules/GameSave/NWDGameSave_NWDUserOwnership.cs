@@ -87,6 +87,7 @@ namespace NetWorkedData
                 rResult = NWDUserOwnership.NewObject();
                 rResult.Item.SetReference(sItem.Reference);
                 rResult.Tag = NWDBasisTag.TagUserCreated;
+                rResult.GameSaveTag = GameSaveTag;
                 rResult.Quantity = 0;
                 rResult.SaveModifications();
             }
@@ -109,6 +110,7 @@ namespace NetWorkedData
                 NWDUserOwnership tAddResult = NWDUserOwnership.NewObject();
                 tAddResult.Item.SetReference(sItem.Reference);
                 tAddResult.Tag = NWDBasisTag.TagUserCreated;
+                tAddResult.GameSaveTag = GameSaveTag;
                 tAddResult.Quantity = sDefaultQuantity;
                 tAddResult.SaveModifications();
                 rResult.Add(tAddResult);

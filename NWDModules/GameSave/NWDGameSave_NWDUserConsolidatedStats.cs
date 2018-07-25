@@ -85,6 +85,7 @@ namespace NetWorkedData
                 rResult = NWDUserConsolidatedStats.NewObject();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
+                rResult.GameSaveTag = GameSaveTag;
                 rResult.SaveModifications();
             }
             return rResult;
