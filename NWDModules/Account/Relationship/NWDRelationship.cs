@@ -1053,6 +1053,7 @@ namespace NetWorkedData
                 return new NWDUserOwnership[0];
             }
 
+            List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
 
             NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
             NWDGameSave tGoodSave = null;
@@ -1064,13 +1065,16 @@ namespace NetWorkedData
                     break;
                 }
             }
-            NWDUserOwnership[] tSSS = NWDUserOwnership.GetAllObjects(sRelationship.PublisherReference.GetReference());
-            List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
-            foreach (NWDUserOwnership tDDD in tSSS)
+            if (tGoodSave!=null)
             {
-                if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+                NWDUserOwnership[] tSSS = NWDUserOwnership.GetAllObjects(sRelationship.PublisherReference.GetReference());
+
+                foreach (NWDUserOwnership tDDD in tSSS)
                 {
-                    rReturn.Add(tDDD);
+                    if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+                    {
+                        rReturn.Add(tDDD);
+                    }
                 }
             }
             return rReturn.ToArray();
@@ -1123,7 +1127,8 @@ namespace NetWorkedData
             {
                 return null;
             }
-
+            NWDUserConsolidatedStats rReturn = null;
+               
             NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
             NWDGameSave tGoodSave = null;
             foreach (NWDGameSave tSave in tSaveArray)
@@ -1134,14 +1139,16 @@ namespace NetWorkedData
                     break;
                 }
             }
-            NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
-            NWDUserConsolidatedStats rReturn = null;
-            foreach (NWDUserConsolidatedStats tDDD in tSSS)
+            if (tGoodSave != null)
             {
-                if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+                NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
+                 foreach (NWDUserConsolidatedStats tDDD in tSSS)
                 {
-                    rReturn = tDDD;
-                    break;
+                    if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+                    {
+                        rReturn = tDDD;
+                        break;
+                    }
                 }
             }
             return rReturn;
