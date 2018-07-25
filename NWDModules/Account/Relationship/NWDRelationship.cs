@@ -203,7 +203,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDRelationship), typeof(NWDUserNickname), typeof(NWDAccountNickname), typeof(NWDUserAvatar) };
+            return new List<Type> { typeof(NWDRelationship),typeof(NWDGameSave), typeof(NWDUserNickname), typeof(NWDAccountNickname), typeof(NWDUserAvatar) };
         }
         //-------------------------------------------------------------------------------------------------------------
         static NWDRelationship()

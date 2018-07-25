@@ -154,13 +154,13 @@ namespace NetWorkedData
             {
                 case NWDWritingMode.MainThread:
                     {
-                        Debug.Log("NWDDataManager InsertData() MainThread");
+                        //Debug.Log("NWDDataManager InsertData() MainThread");
                         InsertDataExecute(sObject);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
                     {
-                        Debug.Log("NWDDataManager InsertData() PoolThread");
+                        //Debug.Log("NWDDataManager InsertData() PoolThread");
 #if UNITY_EDITOR
                         RepaintWindowForData(sObject.GetType());
 #endif
@@ -169,7 +169,7 @@ namespace NetWorkedData
                     break;
                 case NWDWritingMode.QueuedMainThread:
                     {
-                        Debug.Log("NWDDataManager InsertData() QueuedMainThread");
+                        //Debug.Log("NWDDataManager InsertData() QueuedMainThread");
                         if (kInsertDataQueueMain.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
@@ -181,7 +181,7 @@ namespace NetWorkedData
                     break;
                 case NWDWritingMode.QueuedPoolThread:
                     {
-                        Debug.Log("NWDDataManager InsertData() QueuedPoolThread");
+                        //Debug.Log("NWDDataManager InsertData() QueuedPoolThread");
                         if (kInsertDataQueuePool.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
@@ -229,7 +229,7 @@ namespace NetWorkedData
         private void InsertDataQueueExecute(List<object> sInsertDataQueuePool)
         {
             //BTBBenchmark.Start();
-            Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
+            //Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
             List<Type> tTypeList = new List<Type>();
             if (sInsertDataQueuePool.Count > 0)
             {
@@ -294,14 +294,14 @@ namespace NetWorkedData
             {
                 case NWDWritingMode.MainThread:
                     {
-                        Debug.Log("NWDDataManager UpdateData() MainThread");
+                        //Debug.Log("NWDDataManager UpdateData() MainThread");
                         UpdateDataExecute(sObject);
                         BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
                     {
-                        Debug.Log("NWDDataManager UpdateData() PoolThread");
+                        //Debug.Log("NWDDataManager UpdateData() PoolThread");
 #if UNITY_EDITOR
                         RepaintWindowForData(sObject.GetType());
 #endif
@@ -311,7 +311,7 @@ namespace NetWorkedData
                     break;
                 case NWDWritingMode.QueuedMainThread:
                     {
-                        Debug.Log("NWDDataManager UpdateData() QueuedMainThread");
+                        //Debug.Log("NWDDataManager UpdateData() QueuedMainThread");
                         if (kUpdateDataQueueMain.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
@@ -323,7 +323,7 @@ namespace NetWorkedData
                     break;
                 case NWDWritingMode.QueuedPoolThread:
                     {
-                        Debug.Log("NWDDataManager UpdateData() QueuedPoolThread");
+                        //Debug.Log("NWDDataManager UpdateData() QueuedPoolThread");
                         if (kUpdateDataQueuePool.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
@@ -370,7 +370,7 @@ namespace NetWorkedData
         private void UpdateDataQueueExecute(List<object> sUpdateDataQueuePool)
         {
             //BTBBenchmark.Start();
-            Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
+            //Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
             List<Type> tTypeList = new List<Type>();
             if (sUpdateDataQueuePool.Count > 0)
             {
@@ -435,14 +435,14 @@ namespace NetWorkedData
             {
                 case NWDWritingMode.MainThread:
                     {
-                        Debug.Log("NWDDataManager DeleteData() MainThread");
+                        //Debug.Log("NWDDataManager DeleteData() MainThread");
                         DeleteDataExecute(sObject);
                         BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
                     }
                     break;
                 case NWDWritingMode.PoolThread:
                     {
-                        Debug.Log("NWDDataManager DeleteData() PoolThread");
+                        //Debug.Log("NWDDataManager DeleteData() PoolThread");
 #if UNITY_EDITOR
                         RepaintWindowForData(sObject.GetType());
 #endif
@@ -451,7 +451,7 @@ namespace NetWorkedData
                     break;
                 case NWDWritingMode.QueuedMainThread:
                     {
-                        Debug.Log("NWDDataManager DeleteData() QueuedMainThread");
+                        //Debug.Log("NWDDataManager DeleteData() QueuedMainThread");
                         if (kDeleteDataQueueMain.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
@@ -463,7 +463,7 @@ namespace NetWorkedData
                     break;
                 case NWDWritingMode.QueuedPoolThread:
                     {
-                        Debug.Log("NWDDataManager DeleteData() QueuedPoolThread");
+                        //Debug.Log("NWDDataManager DeleteData() QueuedPoolThread");
                         if (kDeleteDataQueuePool.Contains(sObject) == false)
                         {
 #if UNITY_EDITOR
@@ -510,7 +510,7 @@ namespace NetWorkedData
         private void DeleteDataQueueExecute(List<object> sDeleteDataQueuePool)
         {
             //BTBBenchmark.Start();
-            Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
+            //Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
             List<Type> tTypeList = new List<Type>();
             if (sDeleteDataQueuePool.Count > 0)
             {

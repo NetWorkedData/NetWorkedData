@@ -263,14 +263,14 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserNickname PublisherNickname()
+        public NWDAccountNickname PublisherNickname()
         {
-            return NWDUserNickname.GetFirstObject(Sender.GetReference());
+            return NWDAccountNickname.GetFirstObject(Sender.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserNickname ReceiverNickname()
+        public NWDAccountNickname ReceiverNickname()
         {
-            return NWDUserNickname.GetFirstObject(Receiver.GetReference());
+            return NWDAccountNickname.GetFirstObject(Receiver.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
@@ -285,7 +285,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)
         {
-            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDAccountNickname.Enrichment(sText, sLanguage, sBold);
             string tBstart = "<b>";
             string tBend = "</b>";
             if (sBold == false)
@@ -293,7 +293,7 @@ namespace NetWorkedData
                 tBstart = "";
                 tBend = "";
             }
-            NWDUserNickname tPublisherObject = PublisherNickname();
+            NWDAccountNickname tPublisherObject = PublisherNickname();
             string tPublisher = "";
             string tPublisherID = "";
             if (tPublisherObject != null)
@@ -312,7 +312,7 @@ namespace NetWorkedData
             //rText = rText.Replace("{PublisherNickname}", tBstart + tPublisher + tBend);
             //rText = rText.Replace("{PublisherUniqueNickname}", tBstart + tPublisherID + tBend);
 
-            NWDUserNickname tReceiverObject = ReceiverNickname();
+            NWDAccountNickname tReceiverObject = ReceiverNickname();
             string tReceiver = "";
             string tReceiverID = "";
             if (tReceiverObject != null)

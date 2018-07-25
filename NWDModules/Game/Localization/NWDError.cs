@@ -178,7 +178,7 @@ namespace NetWorkedData
         /// <param name="sBold">If set to <c>true</c> s bold.</param>
         public static string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
-            string rText = NWDUserNickname.Enrichment(sText, sLanguage, sBold);
+            string rText = NWDAccountNickname.Enrichment(sText, sLanguage, sBold);
             rText = NWDLocalization.Enrichment(rText, sLanguage, sBold);
             return rText;
         }

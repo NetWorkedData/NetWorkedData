@@ -163,7 +163,7 @@ namespace NetWorkedData
         public void InsertObjectDirect(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDDataManager InsertObjectDirect()");
+            //Debug.Log("NWDDataManager InsertObjectDirect()");
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Insert(sObject);
@@ -179,7 +179,7 @@ namespace NetWorkedData
         public void InsertObjectThread(object sState)
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDDataManager InsertObjectThread()");
+            //Debug.Log("NWDDataManager InsertObjectThread()");
             object[] tParam = sState as object[];
             object sObject = tParam[0];
             bool sAccountConnected = (bool)tParam[1];
@@ -212,7 +212,7 @@ namespace NetWorkedData
         public void UpdateObjectDirect(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDDataManager UpdateObjectDirect()");
+            //Debug.Log("NWDDataManager UpdateObjectDirect()");
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.Update(sObject);
@@ -228,7 +228,7 @@ namespace NetWorkedData
         public void UpdateObjectThread(object sState)
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDDataManager UpdateObjectThread()");
+            //Debug.Log("NWDDataManager UpdateObjectThread()");
             object[] tParam = sState as object[];
             object sObject = tParam[0];
             bool sAccountConnected = (bool)tParam[1];
@@ -261,7 +261,7 @@ namespace NetWorkedData
         public void DeleteObjectDirect(object sObject, bool sAccountConnected)
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDDataManager DeleteObjectDirect()");
+            //Debug.Log("NWDDataManager DeleteObjectDirect()");
             //  update disable with date to delete
             if (sAccountConnected)
             {
@@ -278,7 +278,7 @@ namespace NetWorkedData
         public void DeleteObjectThread(object sState)
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDDataManager DeleteObjectThread()");
+            //Debug.Log("NWDDataManager DeleteObjectThread()");
             object[] tParam = sState as object[];
             object sObject = tParam[0];
             bool sAccountConnected = (bool)tParam[1];

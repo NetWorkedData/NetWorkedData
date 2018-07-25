@@ -166,7 +166,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 //--------------
                 rUserConsent.InternalKey = sAppConsent.InternalKey;
-                rUserConsent.InternalDescription = NWDUserNickname.GetNickname() + " - " + sAppConsent.Version;
+                rUserConsent.InternalDescription = NWDAccountNickname.GetNickname() + " - " + sAppConsent.Version;
                 //--------------
 #endif
                 //--------------

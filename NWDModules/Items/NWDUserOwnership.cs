@@ -158,7 +158,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-                rOwnership.InternalDescription = NWDUserNickname.GetNickname();
+                rOwnership.InternalDescription = NWDAccountNickname.GetNickname();
                 //--------------
                 #endif
                 //--------------

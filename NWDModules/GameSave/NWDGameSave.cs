@@ -102,8 +102,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GameSaveTagReevaluate()
         {
-            int tMax = 0;
-            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
+            int tMax = -1;
+            NWDGameSave[] tPartyArray = NWDGameSave.GetAllObjects();
+            NWDGameSave tCurrent = null;
+            foreach (NWDGameSave tParty in tPartyArray)
             {
                 if (tParty != this)
                 {
@@ -112,6 +114,14 @@ namespace NetWorkedData
                         tMax = tParty.GameSaveTag;
                     }
                 }
+                if (tParty.IsCurrent == true)
+                {
+                    tCurrent = tParty;
+                }
+            }
+            if (tCurrent == null)
+            {
+                IsCurrent = true;
             }
             GameSaveTag = tMax + 1;
         }

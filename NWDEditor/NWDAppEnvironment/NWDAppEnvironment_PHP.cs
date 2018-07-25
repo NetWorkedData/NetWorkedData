@@ -384,7 +384,7 @@ namespace NetWorkedData
                         }
                         if (tProp.GetCustomAttributes(typeof(NWDNeedAccountNicknameAttribute), true).Length > 0)
                         {
-                            if (typeof(NWDUserNickname).Name == tType.Name)
+                            if (typeof(NWDAccountNickname).Name == tType.Name)
                             {
                                 tCanBeAddoned = true;
                             }

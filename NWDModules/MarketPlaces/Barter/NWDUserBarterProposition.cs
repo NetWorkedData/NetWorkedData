@@ -96,7 +96,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> {typeof(NWDUserBarterProposition), typeof(NWDUserBarterRequest), typeof(NWDUserNickname), typeof(NWDUserAvatar)};
+            return new List<Type> {typeof(NWDUserBarterProposition), typeof(NWDUserBarterRequest), typeof(NWDAccountNickname), typeof(NWDUserAvatar)};
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()
