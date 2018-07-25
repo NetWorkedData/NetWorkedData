@@ -116,20 +116,52 @@ namespace NetWorkedData
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
-        //{
-        //    NWDUserOwnership rOwnership = OwnershipForItem(sItem);
-        //    if (sIsIncrement)
-        //    {
-        //        rOwnership.Quantity += sQuantity;
-        //    }
-        //    else
-        //    {
-        //        rOwnership.Quantity = sQuantity;
-        //    }
-        //    rOwnership.SaveModifications();
-        //    return rOwnership;
-        //}
+        public NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
+        {
+            NWDUserOwnership rOwnership = OwnershipForItem(sItem, true);
+            if (sIsIncrement)
+            {
+                rOwnership.Quantity += sQuantity;
+            }
+            else
+            {
+                rOwnership.Quantity = sQuantity;
+            }
+            rOwnership.SaveModifications();
+            return rOwnership;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
+        {
+            NWDUserOwnership rOwnership = OwnershipForItem(sItem, true);
+            rOwnership.Quantity -= sQuantity;
+            rOwnership.SaveModifications();
+            return rOwnership;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public int QuantityForItem(NWDItem sItem)
+        {
+            NWDUserOwnership tOwnership = OwnershipForItem(sItem, true);
+            return tOwnership.Quantity;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ContainsItem(NWDItem sItem, int sQuantity)
+        {
+            bool rReturn = true;
+            if (sItem != null)
+            {
+                NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem, true);
+                if (rOwnershipToUse.Quantity < sQuantity)
+                {
+                    rReturn = false;
+                }
+                if (sQuantity == 0 && rOwnershipToUse.Quantity > 0)
+                {
+                    rReturn = false;
+                }
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
