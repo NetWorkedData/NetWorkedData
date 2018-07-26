@@ -103,7 +103,7 @@ namespace NetWorkedData
         public void GameSaveTagReevaluate()
         {
             int tMax = -1;
-            NWDGameSave[] tPartyArray = NWDGameSave.GetAllObjects();
+            NWDGameSave[] tPartyArray = NWDGameSave.GetAllObjects(Account.GetReference());
             NWDGameSave tCurrent = null;
             foreach (NWDGameSave tParty in tPartyArray)
             {
@@ -129,7 +129,7 @@ namespace NetWorkedData
         public bool GameSaveTagCheckUnicity()
         {
             bool rReturn = true;
-            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
+            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects(Account.GetReference()))
             {
                 if (tParty != this)
                 {
@@ -149,6 +149,10 @@ namespace NetWorkedData
             {
                 GameSaveTagReevaluate();
             }
+            //if (IsCurrent == true)
+            //{
+            //    SetCurrent();
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -197,7 +201,7 @@ namespace NetWorkedData
         /// </summary>
         public void SetCurrent()
         {
-            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
+            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects(Account.GetReference()))
             {
                 tParty.IsCurrent = false;
                 tParty.SaveModificationsIfModified();
@@ -310,11 +314,11 @@ namespace NetWorkedData
 
             //if (false)
             {
-                OwnershipTrash();
-                UserPreferencesTrash();
-                QuestUserAdvancementTrash();
-                UserConsolidatedStatsTrash();
-                UserStatsTrash();
+                //OwnershipTrash();
+                //UserPreferencesTrash();
+                //QuestUserAdvancementTrash();
+                //UserConsolidatedStatsTrash();
+                //UserStatsTrash();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
