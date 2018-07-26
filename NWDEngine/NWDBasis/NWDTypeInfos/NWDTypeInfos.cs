@@ -1071,7 +1071,10 @@ namespace NetWorkedData
                     tItem.FromDatabase = true;
                     tItem.WritingPending = NWDWritingPending.InDatabase;
                     tItem.AddonLoadedMe();
+                    #if UNITY_EDITOR
                     tItem.ErrorCheck();
+                    #endif
+
                     // Add in handler
                     tTypeInfos.AddData(tItem);
                 }
