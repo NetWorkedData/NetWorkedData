@@ -1,37 +1,39 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
-	/// NWD app configuration window.
+    /// NWDAppEnvironmentChooser. This class show window with form to choose the environment using in editor.
 	/// </summary>
 	public class NWDAppEnvironmentChooser : EditorWindow
 	{
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// SharedInstance to use from NWDEditorMenu.
+        /// </summary>
+        /// <returns>The instance.</returns>
         public static NWDAppEnvironmentChooser SharedInstance()
         {
             return NWDEditorMenu.kNWDAppEnvironmentChooser;
         }
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
-		/// Raises the OnGUI event.
+		/// Draw window on GUI event.
 		/// </summary>
 		public void OnGUI ()
 		{
+            // set the size (min/max)
 			this.minSize = new Vector2 (300, 150);
 			this.maxSize = new Vector2 (300, 4096);
 			// set title of window
