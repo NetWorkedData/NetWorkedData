@@ -422,7 +422,11 @@ namespace NetWorkedData
             {
                 if (DS > 0)
                 {
-                    if (DS == DM)
+                    if (DevSync > 1 && PreprodSync < 1 && ProdSync < 1 && DS == DevSync)
+                    {
+                        tImageSync = NWDConstants.kImageSyncGeneralSuccessed;
+                    }
+                    else if (DevSync > 1 && PreprodSync > 1 && ProdSync < 1 && (DS == DevSync || DS==PreprodSync))
                     {
                         tImageSync = NWDConstants.kImageSyncGeneralSuccessed;
                     }

@@ -918,6 +918,30 @@ namespace NetWorkedData
                 NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
                 tSynchronizationFile += tScriptNameAttribut.Script;
             }
+            tSynchronizationFile += "\n" +
+                "$tLigneAffceted = $SQL_CON->affected_rows;\n" +
+                //"myLog('tLigneAffceted = '.$tLigneAffceted, __FILE__, __FUNCTION__, __LINE__);\n" +
+                "if ($tLigneAffceted == 1)\n" +
+                "{\n" +
+                "// je transmet la sync à tout le monde\n" +
+                "if ($sCsvList[3] != -1)\n" +
+                "{\n" +
+                "$tUpdate = 'UPDATE `Dev_" + tTableName + "` SET `DS` = \\''.$TIME_SYNC.'\\',  `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\'';\n" +
+                "$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
+                "}\n" +
+                "if ($sCsvList[4] != -1)\n" +
+                "{\n" +
+                "$tUpdate = 'UPDATE `Preprod_" + tTableName + "` SET `DS` = \\''.$TIME_SYNC.'\\',  `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\'';\n" +
+                "$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
+                "}\n" +
+                "if ($sCsvList[5] != -1)\n" +
+                "{\n" +
+                "$tUpdate = 'UPDATE `Prod_" + tTableName + "` SET `DS` = \\''.$TIME_SYNC.'\\',  `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\'';\n" +
+                "$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
+                "}\n" +
+                "}\n" +
+                "\n";
+
             tSynchronizationFile += "\n\n\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\telse\n" +
@@ -1032,7 +1056,7 @@ namespace NetWorkedData
             "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
             "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
-            "`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' ";
+            "`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\'";
             // if need Account reference
             if (tAccountReference.Count == 0)
             {
