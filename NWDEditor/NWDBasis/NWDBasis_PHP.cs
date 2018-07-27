@@ -831,7 +831,7 @@ namespace NetWorkedData
             }
             tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $WSBUILD, $ENV;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $TIME_SYNC;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $admin;\n" +
             "\t\tif (Integrity" + tClassName + "Test ($sCsv) == true)\n" +
@@ -900,10 +900,10 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.'';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
-            "\t\t\t\t\t\t\t\t\t\telse\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.' AND `DM`<= \\''.$SQL_CON->real_escape_string($sCsvList[1]).'\\'';\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t}\n" +
+            //"\t\t\t\t\t\t\t\t\t\telse\n" +
+            //"\t\t\t\t\t\t\t\t\t\t\t{\n" +
+            //"\t\t\t\t\t\t\t\t\t\t\t\t//$tUpdate = $tUpdate.' AND `DM`<= \\''.$SQL_CON->real_escape_string($sCsvList[1]).'\\'';\n" +
+            //"\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\t\t\t\t\tif (!$tUpdateResult)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n " +
