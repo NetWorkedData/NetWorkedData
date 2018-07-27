@@ -57,6 +57,7 @@ namespace NetWorkedData
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Instance Properties
+        [NWDGroupReset]
         [NWDGroupStart("Account and final render")]
         [NWDTooltips("The account reference of user")]
         public NWDReferenceType<NWDAccount> Account

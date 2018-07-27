@@ -206,6 +206,21 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AddReferenceQuantity(string sReference, int sQuantity)
+        {
+            // I compare all element
+            Dictionary<string, int> tThis = GetReferenceAndQuantity();
+            if (tThis.ContainsKey(sReference) == false)
+            {
+                tThis.Add(sReference, sQuantity);
+            }
+            else
+            {
+                tThis[sReference] = tThis[sReference] + sQuantity;
+            }
+            SetReferenceAndQuantity(tThis);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void RemoveObject(NWDBasis<K> sObject)
         {
             // I compare all element

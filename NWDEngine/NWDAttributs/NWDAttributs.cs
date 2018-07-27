@@ -103,6 +103,14 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
+    /// NWDGroupResetAttribute create a group befaore this property.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    public class NWDGroupResetAttribute : Attribute
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
     /// NWDGroupStartAttribute create a group befaore this property.
     /// </summary>
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]

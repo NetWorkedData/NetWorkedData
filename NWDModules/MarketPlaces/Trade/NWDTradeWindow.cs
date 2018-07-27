@@ -33,7 +33,7 @@ namespace NetWorkedData
     public class NWDTradeWindow : NWDBasisWindow<NWDTradeWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "MarketPlaces/Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/Trade" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2055)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {

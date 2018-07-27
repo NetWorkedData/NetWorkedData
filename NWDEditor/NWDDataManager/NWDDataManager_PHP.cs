@@ -234,7 +234,7 @@ namespace NetWorkedData
            bool rReturn  = false;
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
-            string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer";
+            string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/Editor/NWDServer";
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
             //Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
 

@@ -48,6 +48,35 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetAllDatas(string sAccountReference = null)
+        {
+            List<K> rReturn = new List<K>();
+            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            {
+                if (tObject.IsReacheableByAccount(sAccountReference))
+                {
+                    rReturn.Add(tObject);
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] GetAllDatasInGameSave(string sAccountReference = null)
+        {
+            List<K> rReturn = new List<K>();
+            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            {
+                if (tObject.IsReacheableByAccount(sAccountReference))
+                {
+                    if (tObject.InGameSaveState())
+                    {
+                        rReturn.Add(tObject);
+                    }
+                }
+            }
+            return rReturn.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the data by reference.
         /// </summary>

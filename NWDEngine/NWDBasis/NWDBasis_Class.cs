@@ -455,6 +455,15 @@ namespace NetWorkedData
         /// <summary>
         /// The account dependent. If this class' object is connected to an user account by a NWDReferenceType
         /// </summary>
+        public static Dictionary<Type, bool> kGameSaveDependent = new Dictionary<Type, bool>();
+        /// <summary>
+        /// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType 
+        /// with the properties informations
+        /// </summary>
+        public static Dictionary<Type, PropertyInfo> kGameDependentProperties = new Dictionary<Type, PropertyInfo>();
+        /// <summary>
+        /// The account dependent. If this class' object is connected to an user account by a NWDReferenceType
+        /// </summary>
         public static Dictionary<string, bool> kAccountDependent = new Dictionary<string, bool>();
         /// <summary>
         /// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType 
@@ -493,14 +502,14 @@ namespace NetWorkedData
             List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
             Type tType = ClassType();
 
-
+            kGameSaveDependent.Add(tType, false);
+            kGameDependentProperties.Add(tType, null);
             // TODO : check 
             // exception for NWDAccount table
             if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken))
             {
                 rAccountConnected = true;
             }
-
 
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
@@ -518,6 +527,11 @@ namespace NetWorkedData
                                 tPropertyListConnected.Add(tProp);
                                 rAccountConnected = true;
                                 rLockedObject = false;
+                            }
+                            if (tSubType == typeof(NWDGameSave))
+                            {
+                                kGameSaveDependent[tType]= true;
+                                kGameDependentProperties[tType] = tProp;
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
