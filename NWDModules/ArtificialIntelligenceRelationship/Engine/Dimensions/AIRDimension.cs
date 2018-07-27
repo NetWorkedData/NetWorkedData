@@ -188,6 +188,7 @@ namespace NetWorkedData
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
             IsVisible = true;
+            Tint.SetColor(Color.blue);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

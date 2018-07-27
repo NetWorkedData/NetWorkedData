@@ -30,16 +30,17 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public class NWDColorType : BTBDataType
 	{
+        const string kDefault = "00000000";
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDColorType ()
 		{
-			Value = "";
+            Value = kDefault;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDColorType (string sValue = "00000000")
+        public NWDColorType (string sValue = kDefault)
 		{
 			if (sValue == null) {
-				Value = "00000000";
+                Value = kDefault;
 			} else {
 				Value = sValue;
 			}
@@ -47,7 +48,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "00000000";
+            Value = kDefault;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public Color GetColor ()
