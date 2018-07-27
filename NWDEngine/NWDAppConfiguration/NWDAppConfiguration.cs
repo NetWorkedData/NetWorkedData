@@ -26,7 +26,7 @@ namespace NetWorkedData
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
         public NWDAppEnvironment DevEnvironment = new NWDAppEnvironment (NWDConstants.K_DEVELOPMENT_NAME, true);
         public NWDAppEnvironment PreprodEnvironment = new NWDAppEnvironment (NWDConstants.K_PREPRODUCTION_NAME, false);
-        public NWDAppEnvironment ProdEnvironment = new NWDAppEnvironment (NWDConstants.K_PREPRODUCTION_NAME, false);
+        public NWDAppEnvironment ProdEnvironment = new NWDAppEnvironment (NWDConstants.K_PRODUCTION_NAME, false);
         public Dictionary<string,string> IntegritySaltDictionary = new Dictionary<string,string> ();
         public Dictionary<string,string> GenerateSaltDictionary = new Dictionary<string,string> ();
         public string WebFolder = "NWDFolder";
