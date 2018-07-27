@@ -441,11 +441,11 @@ namespace NetWorkedData
             Texture2D tImageDevSync = NWDConstants.kImageSyncRequired;
             if (DevSync == 0)
             {
-                tImageDevSync = NWDConstants.kImageSyncWaiting;
+                tImageDevSync = NWDConstants.kImageSyncRequired;
             }
             else if (DevSync == 1)
             {
-                tImageDevSync = NWDConstants.kImageSyncRequired;
+                tImageDevSync = NWDConstants.kImageSyncWaiting;
             }
             else if (DevSync > 1)
             {
@@ -465,11 +465,11 @@ namespace NetWorkedData
 
             if (PreprodSync == 0)
             {
-                tImagePreprodSync = NWDConstants.kImageSyncWaiting;
+                tImagePreprodSync = NWDConstants.kImageSyncRequired;
             }
             else if (PreprodSync == 1)
             {
-                tImagePreprodSync = NWDConstants.kImageSyncRequired;
+                tImagePreprodSync = NWDConstants.kImageSyncWaiting;
             }
             else if (PreprodSync > 1)
             {
@@ -503,11 +503,11 @@ namespace NetWorkedData
             {
                 if (ProdSync == 0)
                 {
-                    tImageProdSync = NWDConstants.kImageSyncWaiting;
+                    tImageProdSync = NWDConstants.kImageSyncRequired;
                 }
                 else if (ProdSync == 1)
                 {
-                    tImageProdSync = NWDConstants.kImageSyncRequired;
+                    tImageProdSync = NWDConstants.kImageSyncWaiting;
                 }
                 if (ProdSync > 1)
                 {
