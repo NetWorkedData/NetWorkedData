@@ -163,6 +163,16 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDGameSave NewCurrent(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            NWDGameSave rParty = null;
+            rParty = NWDGameSave.NewData(sWritingMode);
+            rParty.Name = "New";
+            rParty.IsCurrent = true;
+            rParty.UpdateData(true, sWritingMode);
+            return rParty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
@@ -179,10 +189,7 @@ namespace NetWorkedData
             }
             if (rParty == null)
             {
-                rParty = NWDGameSave.NewObject();
-                rParty.Name = "New";
-                rParty.IsCurrent = true;
-                rParty.SaveModifications();
+                rParty = NWDGameSave.NewCurrent();
             }
             return rParty;
         }
