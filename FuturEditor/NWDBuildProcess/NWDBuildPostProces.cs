@@ -62,7 +62,11 @@ namespace NetWorkedData
                         Debug.LogWarning("plist > " + buildKey + "  = " + NWDAppConfiguration.SharedInstance().DataLocalizationManager.ISOValue(tProjetcLanguage));
                         // Change value of CFBundleDisplayName in Xcode plist
                         var tBundleDisplayNameKey = "CFBundleDisplayName";
-                        string tBundleName = NWDAppConfiguration.SharedInstance().BundleName[tProjetcLanguage];
+                        string tBundleName = null;
+                        if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tProjetcLanguage))
+                        {
+                            tBundleName =  NWDAppConfiguration.SharedInstance().BundleName[tProjetcLanguage];
+                        }
                         if (string.IsNullOrEmpty(tBundleName))
                         {
                             tBundleName = Application.productName;

@@ -30,7 +30,14 @@ public class NWDCreditsScript : MonoBehaviour
     {
         InstallCredits();
     }
-
+    public void RefreshCredits()
+    {
+        RemoveCredits();
+        InstallCredits();
+    }
+    void RemoveCredits()
+    {
+    }
     void InstallCredits()
     {
         Credits = CreditsReference.GetObject();

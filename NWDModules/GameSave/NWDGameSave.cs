@@ -165,10 +165,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave NewCurrent(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
+            Debug.Log("NWDGameSave NewCurrent()");
             NWDGameSave rParty = null;
             rParty = NWDGameSave.NewData(sWritingMode);
             rParty.Name = "New";
-            rParty.IsCurrent = true;
+            rParty.SetCurrent();
             rParty.UpdateData(true, sWritingMode);
             return rParty;
         }
@@ -178,6 +179,7 @@ namespace NetWorkedData
         /// </summary>
         public static NWDGameSave Current()
         {
+            Debug.Log("NWDGameSave Current()");
             NWDGameSave rParty = null;
             foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
             {
