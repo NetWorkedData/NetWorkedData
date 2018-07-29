@@ -8,6 +8,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -38,53 +41,61 @@ namespace NetWorkedData
         [Header("Optional bind")]
         public Text TextTarget;
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public void LocalizeEditor()
         {
-            if (AutoTag != NWDAutolocalizedTag.None)
+            if (EditorApplication.isPlaying)
             {
-                // if not pluging
-                if (TextTarget == null)
+            }
+            else
+            {
+                if (AutoTag != NWDAutolocalizedTag.None)
                 {
-                    // get root text
-                    TextTarget = GetComponent<Text>();
-                }
-                // if not find in root object
-                if (TextTarget == null)
-                {
-                    // get first children text
-                    TextTarget = GetComponentInChildren<Text>();
-                }
-                if (TextTarget != null)
-                {
-                    // set the localizable text
-                    NWDLocalization tLocalization = LocalizationReference.GetObject();
-                    if (tLocalization != null)
+                    // if not pluging
+                    if (TextTarget == null)
                     {
-                        switch (AutoTag)
+                        // get root text
+                        TextTarget = GetComponent<Text>();
+                    }
+                    // if not find in root object
+                    if (TextTarget == null)
+                    {
+                        // get first children text
+                        TextTarget = GetComponentInChildren<Text>();
+                    }
+                    if (TextTarget != null)
+                    {
+                        // set the localizable text
+                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        if (tLocalization != null)
                         {
-                            case NWDAutolocalizedTag.BaseString:
-                                {
-                                    string tTextString = tLocalization.TextValue.GetBaseString();
-                                    TextTarget.text = tTextString;
-                                }
-                                break;
-                            case NWDAutolocalizedTag.MarkedBaseString:
-                                {
-                                    string tTextString = tLocalization.TextValue.GetBaseString();
-                                    TextTarget.text = "#" + tTextString + "#";
-                                }
-                                break;
-                            case NWDAutolocalizedTag.KeyInternal:
-                                {
-                                    string tTextString = tLocalization.InternalKeyValue();
-                                    TextTarget.text = tTextString;
-                                }
-                                break;
+                            switch (AutoTag)
+                            {
+                                case NWDAutolocalizedTag.BaseString:
+                                    {
+                                        string tTextString = tLocalization.TextValue.GetBaseString();
+                                        TextTarget.text = tTextString;
+                                    }
+                                    break;
+                                case NWDAutolocalizedTag.MarkedBaseString:
+                                    {
+                                        string tTextString = tLocalization.TextValue.GetBaseString();
+                                        TextTarget.text = "#" + tTextString + "#";
+                                    }
+                                    break;
+                                case NWDAutolocalizedTag.KeyInternal:
+                                    {
+                                        string tTextString = tLocalization.InternalKeyValue();
+                                        TextTarget.text = tTextString;
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }
             }
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public void Localize(bool sUseBaseString = false)
         {
