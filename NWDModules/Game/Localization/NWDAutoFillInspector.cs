@@ -40,7 +40,11 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(tTarget.IsRunning() == false);
             if (GUILayout.Button("Fast Fill"))
             {
-                tTarget.FastFilling();
+                tTarget.FastSpeed();
+            }
+            if (GUILayout.Button("Normal Fill"))
+            {
+                tTarget.NormalSpeed();
             }
             EditorGUI.EndDisabledGroup();
         }
