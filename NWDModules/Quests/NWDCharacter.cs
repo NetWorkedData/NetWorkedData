@@ -115,6 +115,16 @@ namespace NetWorkedData
         [NWDGroupSeparator]
         [NWDGroupStartAttribute("Identity", true, true, true)]
 
+        public NWDLocalizableStringType civility
+        {
+            get; set;
+        }
+
+        public NWDLocalizableStringType Job
+        {
+            get; set;
+        }
+
         public NWDLocalizableStringType FirstName
         {
             get; set;
