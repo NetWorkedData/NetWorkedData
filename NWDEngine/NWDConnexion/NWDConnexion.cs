@@ -60,9 +60,9 @@ namespace NetWorkedData
         /// Object instance creation and reference it automatically.
         /// </summary>
         /// <returns>The object.</returns>
-		public K NewObject ()
+        public K NewObject (NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
 		{
-			K tObject = NWDBasis <K>.NewObject ();
+            K tObject = NWDBasis <K>.NewData (sWritingMode);
 			Reference = tObject.Reference;
 			return tObject;
 		}

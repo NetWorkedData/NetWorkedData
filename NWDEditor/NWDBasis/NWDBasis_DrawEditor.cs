@@ -28,10 +28,9 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        static Editor mGameObjectEditor;
+        protected Texture2D PreviewTexture;
+        protected bool PreviewTextureIsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
-        static Type ObjectEditorLastType;
-        public static Vector2 ObjectEditorScrollPosition = Vector2.zero;
         //-------------------------------------------------------------------------------------------------------------
 
         public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
@@ -99,15 +98,15 @@ namespace NetWorkedData
             NWDDataInspector.InspectNetWorkedData(sObject, sResetStack, sFocus);
             if (sObject != null)
             {
-                ObjectEditorLastType = sObject.GetType();
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ObjectEditorLastType);
+                NWDBasisEditor.ObjectEditorLastType = sObject.GetType();
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
             }
-            else if (ObjectEditorLastType != null)
+            else if (NWDBasisEditor.ObjectEditorLastType != null)
             {
                 // repaint all window?
                 // or just last type?
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ObjectEditorLastType);
-                ObjectEditorLastType = null;
+                NWDDataManager.SharedInstance().RepaintWindowsInManager(NWDBasisEditor.ObjectEditorLastType);
+                NWDBasisEditor.ObjectEditorLastType = null;
             }
             SaveObjectInEdition();
         }
@@ -171,9 +170,6 @@ namespace NetWorkedData
         //            DrawableList.Add(sValue);
         //        }
         //        
-        //-------------------------------------------------------------------------------------------------------------
-        protected Texture2D PreviewTexture;
-        protected bool PreviewTextureIsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         public Texture2D ReloadPreviewTexture2D()
         {
@@ -546,7 +542,7 @@ namespace NetWorkedData
                 {
                     tScrollBarMarge = 20.0f;
                 }
-                NWDBasis<K>.ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, NWDBasis<K>.ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, tHeightContent));
+                Datas().ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, Datas().ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, tHeightContent));
 
                 tWidth = sInRect.width - tScrollBarMarge - NWDConstants.kFieldMarge * 2;
                 tX = NWDConstants.kFieldMarge;
@@ -980,7 +976,7 @@ namespace NetWorkedData
                         //Debug.Log("change need UpdateMeLater() call ");
                         DM = NWDToolbox.Timestamp();
                         UpdateIntegrity();
-                        UpdateMeLater();
+                        UpdateData(true, NWDWritingMode.QueuedMainThread);
                         // TODO Imagine an timer to refresh if modified
                     }
                 }
@@ -989,8 +985,6 @@ namespace NetWorkedData
             Rect tFinalRect = new Rect(sInRect.position.x, tY, sInRect.width, tY - sInRect.position.y);
             return tFinalRect;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool kSyncAndMoreInformations = false;
         //-------------------------------------------------------------------------------------------------------------
         public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
@@ -1122,7 +1116,7 @@ namespace NetWorkedData
                                 NWDConstants.K_APP_BASIS_INTEGRITY_OK,
                                 NWDConstants.K_APP_BASIS_INTEGRITY_CANCEL))
                         {
-                            UpdateMe(true);
+                            UpdateData(true);
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                         }
                     }
@@ -1150,7 +1144,7 @@ namespace NetWorkedData
                                 NWDConstants.K_APP_BASIS_UNTRASH_CANCEL
                             ))
                         {
-                            UnTrashMe();
+                            UnTrashData();
                             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                         }
                     }
@@ -1178,7 +1172,7 @@ namespace NetWorkedData
                         ))
                     {
                         // TODO UPDATE
-                        UpdateMe();
+                        UpdateData();
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     }
                 }
@@ -1247,14 +1241,14 @@ namespace NetWorkedData
             GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
             tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, tFoldoutStyle);
+            Datas().kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), Datas().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, tFoldoutStyle);
             tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             tY += NWDConstants.kFieldMarge;
 
             //tX = NWDConstants.kFieldMarge;
 
-            if (kSyncAndMoreInformations)
+            if (Datas().kSyncAndMoreInformations)
             {
 
                 EditorGUI.EndDisabledGroup();
@@ -1371,7 +1365,8 @@ namespace NetWorkedData
                 Preview = tPreFabGameObject;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
-                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.QueuedMainThread);
+                UpdateData(true, NWDWritingMode.QueuedMainThread);
             }
 
 
@@ -1393,7 +1388,8 @@ namespace NetWorkedData
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
                     UpdateObjectInListOfEdition(this);
-                    NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                    //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                    UpdateData(true, NWDWritingMode.QueuedMainThread);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     NWDNodeEditor.UpdateNodeWindow(this);
                 }
@@ -1414,7 +1410,8 @@ namespace NetWorkedData
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
-                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                UpdateData(true, NWDWritingMode.QueuedMainThread);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 NWDNodeEditor.UpdateNodeWindow(this);
             }
@@ -1461,7 +1458,7 @@ namespace NetWorkedData
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
                     UpdateObjectInListOfEdition(this);
-                    UpdateMeAndWebVersion(true, false);
+                    UpdateData(true, NWDWritingMode.MainThread ,false);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     NWDNodeEditor.UpdateNodeWindow(this);
                 }
@@ -1494,7 +1491,8 @@ namespace NetWorkedData
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
-                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                UpdateData(true, NWDWritingMode.QueuedMainThread);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 NWDNodeEditor.UpdateNodeWindow(this);
             }
@@ -1563,7 +1561,7 @@ namespace NetWorkedData
                         DevSync = 1;
                     }
                 }
-                UpdateMe();
+                UpdateData();
                 RepaintTableEditor();
             }
             if (tPreprodLockAnalyze != tPreprodLock)
@@ -1594,7 +1592,7 @@ namespace NetWorkedData
                         PreprodSync = 1;
                     }
                 }
-                UpdateMe();
+                UpdateData();
                 RepaintTableEditor();
             }
             if (tProdLockAnalyze != tProdLock)
@@ -1625,7 +1623,7 @@ namespace NetWorkedData
                         ProdSync = 1;
                     }
                 }
-                UpdateMe();
+                UpdateData();
                 RepaintTableEditor();
             }
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1681,13 +1679,13 @@ namespace NetWorkedData
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
                 UpdateObjectInListOfEdition(this);
-                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                NWDDataManager.SharedInstance().UpdateQueueExecute();
+                //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                UpdateData(true, NWDWritingMode.QueuedMainThread);
+                NWDDataManager.SharedInstance().DataQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
 
-
-
+            /*
             if (GUI.Button(new Rect(tX + tButtonWidth + NWDConstants.kFieldMarge, tY +tMiniButtonStyle.fixedHeight, tButtonWidth, tMiniButtonStyle.fixedHeight),
                            "UpdateData", tMiniButtonStyle))
             {
@@ -1703,28 +1701,29 @@ namespace NetWorkedData
             {
                 this.UpdateData(true, NWDWritingMode.QueuedMainThread);
             }
-
+            */
 
 
             if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 2, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DUPPLICATE, tMiniButtonStyle))
             {
 
                 // todo not update if not modified
-                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
+                UpdateData(true, NWDWritingMode.QueuedMainThread);
                 //K tNexObject = (K)DuplicateMe();
-                K tNexObject = DuplicateData();
+                K tNexObject = DuplicateData(true, NWDWritingMode.QueuedMainThread);
                 AddObjectInListOfEdition(tNexObject);
-                NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
+                //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 SetObjectInEdition(tNexObject);
                 Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                NWDDataManager.SharedInstance().UpdateQueueExecute();
+                NWDDataManager.SharedInstance().DataQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
             if (AC == false)
             {
                 if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REACTIVE, tMiniButtonStyle))
                 {
-                    EnableMe();
+                    EnableData();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
@@ -1732,7 +1731,7 @@ namespace NetWorkedData
             {
                 if (GUI.Button(new Rect(tX + (tButtonWidth + NWDConstants.kFieldMarge) * 3, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_DISACTIVE, tMiniButtonStyle))
                 {
-                    DisableMe();
+                    DisableData();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }
@@ -1764,7 +1763,7 @@ namespace NetWorkedData
                         NWDConstants.K_APP_BASIS_PUT_IN_TRASH_OK,
                         NWDConstants.K_APP_BASIS_PUT_IN_TRASH_CANCEL))
                 {
-                    TrashMe();
+                    TrashData();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 }
             }

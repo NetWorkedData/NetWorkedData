@@ -71,7 +71,7 @@ namespace NetWorkedData
                 }
                 if (tUpdate == true)
                 {
-                    UpdateMeLater();
+                    UpdateData(true, NWDWritingMode.QueuedMainThread);
                 }
             }
         }

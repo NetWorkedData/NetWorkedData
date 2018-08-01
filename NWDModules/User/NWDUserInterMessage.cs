@@ -172,7 +172,7 @@ namespace NetWorkedData
                                 NWDReferencesQuantityType<NWDPack> sReplacePacks = null
                                )
         {
-            NWDUserInterMessage tInterMessage = NWDUserInterMessage.NewObject();
+            NWDUserInterMessage tInterMessage = NWDUserInterMessage.NewData();
             tInterMessage.Message.SetObject(sMessage);
             // put players
             string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;

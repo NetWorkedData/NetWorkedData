@@ -195,7 +195,7 @@ namespace NetWorkedData
             }
             if (tError == null)
             {
-                tError = NWDBasis<NWDError>.NewObject();
+                tError = NWDBasis<NWDError>.NewData();
                 RemoveObjectInListOfEdition(tError);
                 tError.Reference = tReference;
                 // tError.InternalKey = Domain + " : " + sCode;
@@ -221,7 +221,7 @@ namespace NetWorkedData
                 // add-on edited
                 tError.AddonEdited(true);
                 // reccord
-                tError.UpdateMe();
+                tError.UpdateData();
                 AddObjectInListOfEdition(tError);
             }
             return tError;

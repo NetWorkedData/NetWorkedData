@@ -68,7 +68,7 @@ namespace NetWorkedData
                 // update integrity value
                 tObject.UpdateIntegrity();
                 // force to write object in database
-                tObject.UpdateMe();
+                tObject.UpdateData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

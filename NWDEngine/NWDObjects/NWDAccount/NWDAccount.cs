@@ -367,7 +367,7 @@ namespace NetWorkedData
                 this.InternalDescription = "Account for Dev test (" + kInternalLogin + " / " + kInternalPassword + ")";
                 kInternalLogin = "";
                 kInternalPassword = "";
-                this.UpdateMeIfModified();
+                this.UpdateDataIfModified();
             }
 
             if (GUI.Button(new Rect(tX + tWidthTiers + NWDConstants.kFieldMarge, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp preprod", tMiniButtonStyle))
@@ -378,7 +378,7 @@ namespace NetWorkedData
                 this.InternalDescription = "Account for Preprod test (" + kInternalLogin + " / " + kInternalPassword + ")";
                 kInternalLogin = "";
                 kInternalPassword = "";
-                this.UpdateMeIfModified();
+                this.UpdateDataIfModified();
             }
 
             //			if (GUI.Button (new Rect (tX+(tWidthTiers+NWDConstants.kFieldMarge)*2, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp prod", tMiniButtonStyle)) {

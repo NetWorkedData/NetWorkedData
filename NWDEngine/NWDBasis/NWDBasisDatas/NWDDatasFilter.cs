@@ -12,7 +12,7 @@ namespace NetWorkedData
     /// <summary>
     /// NWDBasisFilter is use to filter the datas in workflow methodes.
     /// </summary>
-    public enum NWDBasisDatasFilter : int
+    public enum NWDDatasFilter : int
     {
         /// <summary>
         /// All datas, quickly access.

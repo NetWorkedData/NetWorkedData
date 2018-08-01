@@ -331,14 +331,14 @@ namespace NetWorkedData
         public static NWDUserStats GetStatByInternalKey(string sInternalKey)
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKey(sInternalKey);
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserConsolidatedStats GetStatByInternalKeyOrCreate(string sInternalKey)
         {
             NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
 

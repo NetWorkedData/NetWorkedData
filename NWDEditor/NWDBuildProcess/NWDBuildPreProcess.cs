@@ -29,7 +29,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
             //Force all datas to be write in database
-            NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
             //Get all infos
 			string tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
 			string tHisto = NWDAppConfiguration.SharedInstance().DevEnvironment.PreProdTimeFormat;

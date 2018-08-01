@@ -4,7 +4,6 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
@@ -108,7 +107,7 @@ namespace NetWorkedData
 			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField ("version", NWDVersion.GetMaxVersionStringForEnvironemt (this), EditorStyles.boldLabel);
             EditorGUILayout.TextField("SQL Thread Activation " + Environment, EditorStyles.boldLabel);
-            ThreadPoolSQLActive = EditorGUILayout.Toggle("SQL Thread", ThreadPoolSQLActive);
+            ThreadPoolForce = EditorGUILayout.Toggle("SQL Thread", ThreadPoolForce);
             EditorGUILayout.TextField("Last Build infos " + Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build date", this.BuildDate, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);

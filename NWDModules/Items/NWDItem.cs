@@ -370,7 +370,7 @@ namespace NetWorkedData
                     {
                         // oh item group not contains me! WHYYYYYYYY
                         tItemGroup.ItemList.AddObject(this);
-                        tItemGroup.UpdateMe();
+                        tItemGroup.UpdateData();
                     }
                 }
                 else
@@ -379,7 +379,7 @@ namespace NetWorkedData
                     {
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItemGroup.ItemList.RemoveObjects(new NWDItem[] { this });
-                        tItemGroup.UpdateMe();
+                        tItemGroup.UpdateData();
                     }
                     else
                     {
@@ -404,7 +404,7 @@ namespace NetWorkedData
                     {
                         // oh item group not contains me! WHYYYYYYYY
                         tRecipient.ItemList.AddObject(this);
-                        tRecipient.UpdateMe();
+                        tRecipient.UpdateData();
                     }
                 }
                 else
@@ -413,7 +413,7 @@ namespace NetWorkedData
                     {
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tRecipient.ItemList.RemoveObjects(new NWDItem[] { this });
-                        tRecipient.UpdateMe();
+                        tRecipient.UpdateData();
                     }
                     else
                     {

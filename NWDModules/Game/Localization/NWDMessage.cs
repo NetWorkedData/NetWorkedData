@@ -185,7 +185,7 @@ namespace NetWorkedData
             NWDMessage tError = InstanceByReference(tReference) as NWDMessage;
             if (tError == null)
             {
-                tError = NWDBasis<NWDMessage>.NewObject();
+                tError = NWDBasis<NWDMessage>.NewData();
                 RemoveObjectInListOfEdition(tError);
                 tError.Reference = tReference;
                 //				tError.InternalKey = Domain + " : " + sCode;
@@ -204,7 +204,7 @@ namespace NetWorkedData
                 // add-on edited
                 tError.AddonEdited(true);
                 // reccord
-                tError.UpdateMe();
+                tError.UpdateData();
                 AddObjectInListOfEdition(tError);
             }
             return tError;

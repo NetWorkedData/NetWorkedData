@@ -22,47 +22,335 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-
         /// <summary>
-        /// The scroll position list.
+        /// Reorders the name of the list of management by.
+        /// Just reload the list for the pop-up menu 
         /// </summary>
-        //public static Vector2 m_ScrollPositionList;
+        public static void ReorderListOfManagementByName()
+        {
+            // apply all modifications 
+            NWDDataManager.SharedInstance().DataQueueExecute();
+            // must be more efficient
+            LoadTableEditor();
+            FilterTableEditor();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void IntegritySelection()
+        {
+            foreach (string tObjectReference in Datas().ObjectsInEditorTableList)
+            {
+                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObjectReference);
+                if (Datas().ObjectsInEditorTableSelectionList[tIndex] == true)
+                {
+                    // I test Integrity
+                    NWDBasis<K> tObject = Datas().ObjectsList[tIndex] as NWDBasis<K>;
+                    if (tObject.TestIntegrity() == false || tObject.XX > 0)
+                    {
+                        Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SelectAllObjectInTableList()
+        {
+            Datas().ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
+            {
+                tSelection = false;
+            });
+            foreach (string tObjectReference in Datas().ObjectsInEditorTableList)
+            {
+                //Debug.Log ("select ref " + tObjectReference);
+                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObjectReference);
+                Datas().ObjectsInEditorTableSelectionList[tIndex] = true;
+            }
+            IntegritySelection();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void DeselectAllObjectInTableList()
+        {
+            Datas().ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
+            {
+                tSelection = false;
+            });
+            foreach (string tObjectReference in Datas().ObjectsInEditorTableList)
+            {
+                //Debug.Log ("select ref " + tObjectReference);
+                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObjectReference);
+                Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void InverseSelectionOfAllObjectInTableList()
+        {
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
+            {
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = !Datas().ObjectsInEditorTableSelectionList[tIndex];
+                }
+                else
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
+                }
+            }
+            IntegritySelection();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SelectAllObjectEnableInTableList()
+        {
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
+            {
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = tObject.AC;
+                }
+                else
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
+                }
+            }
+            IntegritySelection();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SelectAllObjectDisableInTableList()
+        {
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
+            {
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = !tObject.AC;
+                }
+                else
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
+                }
+            }
+            IntegritySelection();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static IEnumerable<K> SelectForEditionObjects(string sReference, string sInternalKey, string sInternalDescription, NWDBasisTag sTag)
+        {
+            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+            if (AccountDependent())
+            {
+                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+            }
+            if (string.IsNullOrEmpty(sReference) && string.IsNullOrEmpty(sInternalKey) && string.IsNullOrEmpty(sInternalDescription) && (int)sTag < 0)
+            {
+                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(sReference))
+                {
+                    //Debug.Log("sReference = " + sReference);
+                    if (!string.IsNullOrEmpty(sInternalKey))
+                    {
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                          x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                          x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                          x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                          && x.InternalKey.Contains(sInternalKey)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Reference.Contains(sReference)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(sInternalKey))
+                    {
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                           x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                           x.InternalKey.Contains(sInternalKey)
+                                                                          && x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x =>
+                                                                           x.InternalKey.Contains(sInternalKey)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.InternalKey.Contains(sInternalKey)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(sInternalDescription))
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)
+                                                                          && x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.InternalDescription.Contains(sInternalDescription)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                        else
+                        {
+                            if ((int)sTag >= 0)
+                            {
+                                return tSQLiteConnection.Table<K>().Where(x => x.Tag.Equals((int)sTag)
+                                                                         ).OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                            else
+                            {
+                                return tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // REMOVE THIS using of SQLITE
+                            }
+                        }
+                    }
+                }
+            }
+            //return null;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void FilterTableEditor()
+        {
+            //Debug.Log("FilterTableEditor()");
+            //          Debug.Log ("m_SearchInternalName = " + m_SearchInternalName);
+            // change filter, remove selection
+            Datas().ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
+            {
+                tSelection = false;
+            });
+            // change results
+            Datas().ObjectsInEditorTableList = new List<string>();
+            //IEnumerable tEnumerable = SelectForEditionObjects(m_SearchReference, m_SearchInternalName, m_SearchInternalDescription, m_SearchTag);
 
-        ///// <summary>
-        ///// The number of items per page.
-        ///// </summary>
-        //public static int m_ItemPerPage = 10;
-
-        ///// <summary>
-        ///// The number of items per page.
-        ///// </summary>
-        //public static int m_ItemPerPageSelection = 0;
-
-        //public static string[] m_ItemPerPageOptions = new string[] {
-        //    "15", "20", "30", "40", "50", "100", "200",
-        //};
-
-        ///// <summary>
-        ///// The selected page.
-        ///// </summary>
-        //public static int m_PageSelected = 0;
-
-        ///// <summary>
-        ///// The selected page.
-        ///// </summary>
-        //public static int m_MaxPage = 0;
-
-        ///// <summary>
-        ///// The toogle to list page limit.
-        ///// </summary>
-        ////public static int m_ToogleToListPageLimit = 15;
-
-
-        //public static bool m_ShowEnable = true;
-        //public static bool m_ShowDisable = true;
-        //public static bool m_ShowTrashed = true;
-        //public static bool m_ShowIntegrityError = true;
-
+            IEnumerable tEnumerable = SelectForEditionObjects(Datas().m_SearchReference, Datas().m_SearchInternalName, Datas().m_SearchInternalDescription, Datas().m_SearchTag);
+            if (tEnumerable != null)
+            {
+                foreach (NWDBasis<K> tItem in tEnumerable)
+                {
+                    bool tAdd = true;
+                    if (tItem.TestIntegrity() == false && Datas().m_ShowIntegrityError == false)
+                    {
+                        tAdd = false;
+                    }
+                    if (tItem.AC == true && Datas().m_ShowEnable == false)
+                    {
+                        tAdd = false;
+                    }
+                    if (tItem.AC == false && Datas().m_ShowDisable == false)
+                    {
+                        tAdd = false;
+                    }
+                    if (tItem.XX > 0 && Datas().m_ShowTrashed == false)
+                    {
+                        tAdd = false;
+                    }
+                    if (tAdd == true)
+                    {
+                        Datas().ObjectsInEditorTableList.Add(tItem.Reference);
+                    }
+                }
+            }
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
+            {
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
+                {
+                    // I keep the actual selection 
+                }
+                else
+                {
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
+                }
+            }
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static void RepaintTableEditor()
         {
@@ -124,7 +412,7 @@ namespace NetWorkedData
             }
             if (Datas().m_PageSelected != t_PageSelected)
             {
-                NWDDataManager.SharedInstance().UpdateQueueExecute();
+                NWDDataManager.SharedInstance().DataQueueExecute();
             }
             Datas().m_PageSelected = t_PageSelected;
             GUILayout.FlexibleSpace();
@@ -621,7 +909,7 @@ namespace NetWorkedData
                     if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
                         NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
-                        tObject.EnableMe();
+                        tObject.EnableData();
                         //tObject.AddMeToUpdateQueue();
                     }
                 }
@@ -634,7 +922,7 @@ namespace NetWorkedData
                     if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
                         NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
-                        tObject.DisableMe();
+                        tObject.DisableData();
                         //tObject.AddMeToUpdateQueue();
                     }
                 }
@@ -650,7 +938,7 @@ namespace NetWorkedData
                     {
                         tNewObect++;
                         NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
-                        NWDBasis<K> tNextObject = tObject.DuplicateMe();
+                        NWDBasis<K> tNextObject = tObject.DuplicateData();
                         AddObjectInListOfEdition(tNextObject);
                         tNextObjectSelected = tNextObject;
                     }
@@ -671,7 +959,7 @@ namespace NetWorkedData
                     if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
                         NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
-                        tObject.UpdateMe();
+                        tObject.UpdateData();
                     }
                 }
             }
@@ -1039,13 +1327,14 @@ namespace NetWorkedData
                 // add card editor change
                 //				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
                 //				AddObjectInListOfEdition (tNewObject);
-                K tNewObject = NWDBasis<K>.NewObject();
+                K tNewObject = NWDBasis<K>.NewData();
                 Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 //				sEditorWindow.Repaint ();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
 
+            /*
              //ADD new object by the new instance directly (not NewObject() method)
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
             {
@@ -1092,7 +1381,7 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().DataQueuePoolExecute();
             }
-
+            */
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
             // -------------------------------------------
@@ -1143,7 +1432,7 @@ namespace NetWorkedData
                     {
                         NWDBasis<K> tObjectToDelete = (NWDBasis<K>)tObject;
                         RemoveObjectInListOfEdition(tObjectToDelete);
-                        tObjectToDelete.DeleteMe();
+                        tObjectToDelete.DeleteData();
                     }
                     SetObjectInEdition(null);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
@@ -1186,7 +1475,7 @@ namespace NetWorkedData
                     foreach (object tObject in tListToTrash)
                     {
                         NWDBasis<K> tObjectToTrash = (NWDBasis<K>)tObject;
-                        tObjectToTrash.TrashMe();
+                        tObjectToTrash.TrashData();
                     }
                     SetObjectInEdition(null);
                     //                  sEditorWindow.Repaint ();
@@ -1300,7 +1589,7 @@ namespace NetWorkedData
                 {
                 if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
                     {
-                        tOb.UpdateMe();
+                    tOb.UpdateData();
                     }
                 }
                 RepaintTableEditor();
@@ -1312,7 +1601,7 @@ namespace NetWorkedData
             {
                 if ((tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync) && tOb.ProdSync >= 0)
                 {
-                    tOb.UpdateMe();
+                    tOb.UpdateData();
                 }
             }
             RepaintTableEditor();

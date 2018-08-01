@@ -170,9 +170,9 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject()
+        public void EditorAddNewObject(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
-            K tNewObject = NWDBasis<K>.NewObject();
+            K tNewObject = NWDBasis<K>.NewData(sWritingMode);
             this.SetObject(tNewObject);
             NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
         }
@@ -290,7 +290,7 @@ namespace NetWorkedData
                 GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "New");
                 if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tNewContent, NWDConstants.kPopupButtonStyle))
                 {
-                    NWDBasis<K> tNewObject = NWDBasis<K>.NewObject();
+                    NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
                     tTemporary.Value = tNewObject.Reference;
                     NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
                 }

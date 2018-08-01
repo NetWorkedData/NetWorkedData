@@ -24,7 +24,7 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[CustomEditor (typeof(NWDBasisClassInspector))]
 	public class NWDBasisClassEditor : Editor
-	{
+    {
 		//-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
 		{

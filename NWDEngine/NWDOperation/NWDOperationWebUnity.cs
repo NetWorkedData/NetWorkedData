@@ -134,7 +134,7 @@ namespace NetWorkedData
             Parent.Controller[QueueName].ActualOperation = this;
 
             // Force all datas to be write in database
-            NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
 
 #if UNITY_EDITOR
             // Deselect all object

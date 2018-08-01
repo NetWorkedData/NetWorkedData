@@ -115,20 +115,7 @@ namespace NetWorkedData
                 {
                     rReturnObject.Reference = sReference;
                 }
-                foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
-                {
-                    //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
-                    NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                    tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-                    tPropInfo.SetValue(rReturnObject, tAtt, null);
-                }
-                if (Datas().ClassGameSaveDependent == true)
-                {
-                    NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
-                    tAtt.SetReference(NWDGameSave.Current().Reference);
-                    PropertyInfo tPropInfo = Datas().ClassGameDependentProperties;
-                    tPropInfo.SetValue(rReturnObject, tAtt, null);
-                }
+                rReturnObject.PropertiesAutofill();
                 rReturnObject.Initialization();
                 rReturnObject.InsertData(sAutoDate, sWritingMode);
             }
@@ -138,6 +125,24 @@ namespace NetWorkedData
             }
             //BTBBenchmark.Finish();
             return rReturnObject as K;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void PropertiesAutofill()
+        {
+            foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
+            {
+                //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
+                NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
+                tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                tPropInfo.SetValue(this, tAtt, null);
+            }
+            if (Datas().ClassGameSaveDependent == true)
+            {
+                NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
+                tAtt.SetReference(NWDGameSave.Current().Reference);
+                PropertyInfo tPropInfo = Datas().ClassGameDependentProperties;
+                tPropInfo.SetValue(this, tAtt, null);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion New Data
@@ -159,12 +164,7 @@ namespace NetWorkedData
                 {
                     rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
                     rReturnObject.InstanceInit();
-                    foreach (PropertyInfo tPropInfo in PropertiesAccountDependent())
-                    {
-                        NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                        tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-                        tPropInfo.SetValue(rReturnObject, tAtt, null);
-                    }
+                    rReturnObject.PropertiesAutofill();
                     rReturnObject.Initialization();
                     int tDC = rReturnObject.DC; // memorize date of dupplicate
                     string tReference = rReturnObject.NewReference(); // create reference for dupplicate
@@ -347,7 +347,7 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             bool rReturn = false;
             // Verif if Systeme can use the thread (option in Environment)
-            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == false)
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
                 if (sWritingMode == NWDWritingMode.PoolThread)
                 {
@@ -516,11 +516,11 @@ namespace NetWorkedData
         #endregion Insert Data
         #region Update Data
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true)
         {
             //BTBBenchmark.Start();
             // Verif if Systeme can use the thread (option in Environment)
-            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == false)
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
                 if (sWritingMode == NWDWritingMode.PoolThread)
                 {
@@ -579,7 +579,7 @@ namespace NetWorkedData
             if (tDoUpdate == true)
             {
                 this.AddonUpdateMe(); // call override method
-                UpdateDataOperation(sAutoDate);
+                UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
                 this.AddonUpdatedMe(); // call override method
                 UpdateObjectInListOfEdition(this);
                 WritingLockAdd();
@@ -589,7 +589,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDataOperation(bool sAutoDate = true)
+        public void UpdateDataOperation(bool sAutoDate = true, bool sWebServiceUpgrade = true)
         {
             //BTBBenchmark.Start();
             // so object is prepared to be update
@@ -616,11 +616,14 @@ namespace NetWorkedData
             // reset Hash server
             this.ServerHash = "";
             // Update WebServiceVersion
-            int tWS = WebServiceVersionToUse();
-            if (this.WebServiceVersion != tWS)
+            if (sWebServiceUpgrade == true)
             {
-                this.AddonVersionMe(); // call override method
-                this.WebServiceVersion = WebServiceVersionToUse();
+                int tWS = WebServiceVersionToUse();
+                if (this.WebServiceVersion != tWS)
+                {
+                    this.AddonVersionMe(); // call override method
+                    this.WebServiceVersion = tWS;
+                }
             }
             this.UpdateIntegrity();
             //BTBBenchmark.Finish();
@@ -727,7 +730,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             // Verif if Systeme can use the thread (option in Environment)
-            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == false)
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
                 if (sWritingMode == NWDWritingMode.PoolThread)
                 {

@@ -22,7 +22,11 @@ namespace NetWorkedData
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[CustomEditor (typeof(NWDBasisObjectInspector))]
 	public class NWDBasisEditor : Editor
-	{
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        static public Editor mGameObjectEditor;
+        public static Type ObjectEditorLastType;
+        //-------------------------------------------------------------------------------------------------------------
 		public override void OnInspectorGUI ()
 		{
 			NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;

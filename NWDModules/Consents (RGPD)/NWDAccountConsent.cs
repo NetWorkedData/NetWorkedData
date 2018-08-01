@@ -161,7 +161,7 @@ namespace NetWorkedData
 
             if (rUserConsent == null && sCreateIfNull)
             {
-                rUserConsent = NewObject();
+                rUserConsent = NewData();
                 //--------------
 #if UNITY_EDITOR
                 //--------------
@@ -174,7 +174,7 @@ namespace NetWorkedData
                 rUserConsent.Consent.SetReference(sAppConsent.Reference);
                 rUserConsent.Version.SetString(sAppConsent.Version.GetString());
                 rUserConsent.Authorization = BTBSwitchState.Unknow;
-                rUserConsent.SaveModifications();
+                rUserConsent.UpdateData();
             }
             return rUserConsent;
         }
@@ -186,7 +186,7 @@ namespace NetWorkedData
         public void SetAuthorization(BTBSwitchState sStat)
         {
             Authorization = sStat;
-            SaveModifications();
+            UpdateData();
             BTBNotificationManager.SharedInstance().PostNotification(null, NWDConsent.K_APPCONSENTS_CHANGED);
         }
         //-------------------------------------------------------------------------------------------------------------

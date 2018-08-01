@@ -34,7 +34,7 @@ namespace NetWorkedData
         public static void Quit()
         {
             //Force all datas to be write in database
-            NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
             //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             NWDVersion.UpdateVersionBundle();
@@ -46,7 +46,7 @@ namespace NetWorkedData
             if (sState == PlayModeStateChange.ExitingEditMode)
             {
                 //Force all datas to be write in database
-                NWDDataManager.SharedInstance().UpdateQueueExecute();
+                NWDDataManager.SharedInstance().DataQueueExecute();
                 // must check the accounts for test
                 //Debug.Log("Play Mode State must recompile NWDParameter.cs file!");
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());

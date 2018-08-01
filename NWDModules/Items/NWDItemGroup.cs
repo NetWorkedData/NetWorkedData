@@ -177,7 +177,7 @@ namespace NetWorkedData
                     {
                         // oh item group not contains me! WHYYYYYYYY
                         tItem.ItemGroupList.AddObject(this);
-                        tItem.UpdateMe();
+                        tItem.UpdateData();
                     }
                 }
                 else
@@ -186,7 +186,7 @@ namespace NetWorkedData
                     {
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItem.ItemGroupList.RemoveObjects(new NWDItemGroup[] { this });
-                        tItem.UpdateMe();
+                        tItem.UpdateData();
                     }
                     else
                     {

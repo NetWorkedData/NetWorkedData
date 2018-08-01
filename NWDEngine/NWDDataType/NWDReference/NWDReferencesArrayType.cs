@@ -289,7 +289,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void EditorAddNewObject()
         {
-            K tNewObject = NWDBasis<K>.NewObject();
+            K tNewObject = NWDBasis<K>.NewData();
             this.AddObject(tNewObject);
             NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
         }
@@ -447,7 +447,7 @@ namespace NetWorkedData
                     GUIContent tNewContent = new GUIContent(NWDConstants.kImageNew, "new");
                     if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tNewContent, NWDConstants.kPopupButtonStyle))
                     {
-                        NWDBasis<K> tNewObject = NWDBasis<K>.NewObject();
+                        NWDBasis<K> tNewObject = NWDBasis<K>.NewData();
                         tNewReference = tNewObject.Reference + NWDConstants.kFieldSeparatorA;
                         NWDBasis<K>.SetObjectInEdition(tNewObject, false, true);
                     }

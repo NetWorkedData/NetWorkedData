@@ -40,11 +40,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserOwnership NewOwnershipForItem(NWDItem sItem)
         {
-            NWDUserOwnership rResult = NWDUserOwnership.NewObject();
+            NWDUserOwnership rResult = NWDUserOwnership.NewData();
             rResult.GameSaveTag = GameSaveTag;
             rResult.Item.SetReference(sItem.Reference);
             rResult.Tag = NWDBasisTag.TagUserCreated;
-            rResult.SaveModifications();
+            rResult.UpdateData();
             return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ namespace NetWorkedData
         {
             foreach (NWDUserOwnership tObject in OwnershipList())
             {
-                tObject.TrashMeLater();
+                tObject.TrashData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -84,12 +84,12 @@ namespace NetWorkedData
             }
             if (rResult == null)
             {
-                rResult = NWDUserOwnership.NewObject();
+                rResult = NWDUserOwnership.NewData();
                 rResult.Item.SetReference(sItem.Reference);
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.GameSaveTag = GameSaveTag;
                 rResult.Quantity = 0;
-                rResult.SaveModifications();
+                rResult.UpdateData();
             }
             return rResult;
         }
@@ -107,12 +107,12 @@ namespace NetWorkedData
             }
             if (rResult.Count == 0)
             {
-                NWDUserOwnership tAddResult = NWDUserOwnership.NewObject();
+                NWDUserOwnership tAddResult = NWDUserOwnership.NewData();
                 tAddResult.Item.SetReference(sItem.Reference);
                 tAddResult.Tag = NWDBasisTag.TagUserCreated;
                 tAddResult.GameSaveTag = GameSaveTag;
                 tAddResult.Quantity = sDefaultQuantity;
-                tAddResult.SaveModifications();
+                tAddResult.UpdateData();
                 rResult.Add(tAddResult);
             }
             return rResult;
@@ -129,7 +129,7 @@ namespace NetWorkedData
             {
                 rOwnership.Quantity = sQuantity;
             }
-            rOwnership.SaveModifications();
+            rOwnership.UpdateData();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ namespace NetWorkedData
         {
             NWDUserOwnership rOwnership = OwnershipForItem(sItem, true);
             rOwnership.Quantity -= sQuantity;
-            rOwnership.SaveModifications();
+            rOwnership.UpdateData();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------

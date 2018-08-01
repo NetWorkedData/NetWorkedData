@@ -50,7 +50,7 @@ namespace NetWorkedData
         {
             foreach (NWDUserStats tObject in UserStatsList())
             {
-                tObject.TrashMeLater();
+                tObject.TrashData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -82,11 +82,11 @@ namespace NetWorkedData
             }
             if (rResult == null && sCreateIfNull==true)
             {
-                rResult = NWDUserStats.NewObject();
+                rResult = NWDUserStats.NewData();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.GameSaveTag = GameSaveTag;
-                rResult.SaveModifications();
+                rResult.UpdateData();
             }
             return rResult;
         }
@@ -94,41 +94,41 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserStats NewIntStat(string sInternalKey, int sInt)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.IntValue = sInt;
             rReturn.GameSaveTag = GameSaveTag;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserStats NewFloatStat(string sInternalKey, float sFloat)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.FloatValue = sFloat;
             rReturn.GameSaveTag = GameSaveTag;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserStats NewBoolStat(string sInternalKey, bool sBool)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.BoolValue = sBool;
             rReturn.GameSaveTag = GameSaveTag;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserStats NewStringStat(string sInternalKey, string sString)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.StringValue = sString;
             rReturn.GameSaveTag = GameSaveTag;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ namespace NetWorkedData
         public NWDUserStats GetStatByInternalKeyOrCreate(string sInternalKey)
         {
             NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
 
@@ -150,7 +150,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
             rReturn.IntValue = sInt;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
             rReturn.FloatValue = sFloat;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         ////-------------------------------------------------------------------------------------------------------------
@@ -174,7 +174,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
             rReturn.BoolValue = sBool;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = UserStatsByInternalKey(sInternalKey, true);
             rReturn.StringValue = sString;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

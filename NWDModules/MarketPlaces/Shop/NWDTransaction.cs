@@ -107,13 +107,13 @@ namespace NetWorkedData
         public static NWDTransaction AddTransactionToAccount(NWDItem sItem, NWDShop sShop, NWDRack sRack, NWDPack sPack)
         {
             // Set a NWDTransaction
-            NWDTransaction rTransaction = NewObject();
+            NWDTransaction rTransaction = NewData();
             rTransaction.InternalKey = sItem.Name.GetBaseString();
             rTransaction.InternalDescription = NWDUserPreference.GetString("NickNameKey", "no nickname");
             rTransaction.ShopReference.SetReference(sShop.Reference);
             rTransaction.RackReference.SetReference(sRack.Reference);
             rTransaction.PackReference.SetReference(sPack.Reference);
-            rTransaction.SaveModifications();
+            rTransaction.UpdateData();
             return rTransaction;
         }
         //-------------------------------------------------------------------------------------------------------------

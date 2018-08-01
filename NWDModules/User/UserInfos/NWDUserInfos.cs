@@ -230,7 +230,7 @@ namespace NetWorkedData
             }
             if (tUserInfos == null)
             {
-                tUserInfos = NewObject();
+                tUserInfos = NewData();
                 tUserInfos.InternalKey = sEnvironment.PlayerAccountReference;
                 tUserInfos.Account.SetReference(sEnvironment.PlayerAccountReference);
                 tUserInfos.AccountType = sEnvironment.PlayerStatut;
@@ -272,7 +272,7 @@ namespace NetWorkedData
 
 #endif
 
-            if (SaveModificationsIfModified())
+            if (UpdateDataIfModified())
             {
                 // TODO send to server immediatly
                 NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDUserInfos)}, true);

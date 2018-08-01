@@ -50,7 +50,7 @@ namespace NetWorkedData
         {
             foreach (NWDUserConsolidatedStats tObject in UserConsolidatedStatsList())
             {
-                tObject.TrashMeLater();
+                tObject.TrashData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -82,11 +82,11 @@ namespace NetWorkedData
             }
             if (rResult == null && sCreateIfNull == true)
             {
-                rResult = NWDUserConsolidatedStats.NewObject();
+                rResult = NWDUserConsolidatedStats.NewData();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.GameSaveTag = GameSaveTag;
-                rResult.SaveModifications();
+                rResult.UpdateData();
             }
             return rResult;
         }//-------------------------------------------------------------------------------------------------------------

@@ -64,14 +64,25 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if in writing process was dataed, <c>false</c> otherwise.</returns>
         public bool DataInWritingProcess()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             bool rReturn = false;
             if (kDataInWriting.Count > 0)
             {
                 rReturn = true;
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Execute Queues
+        /// </summary>
+        public int DataQueueCounter()
+        {
+            //BTBBenchmark.Start();
+            int rResult = kDataInWriting.Count;
+            //BTBBenchmark.Finish();
+            return rResult;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -79,10 +90,13 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueExecute()
         {
-            BTBBenchmark.Start();
-            DataQueueMainExecute();
-            DataQueuePoolExecute();
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Start();
+            if (DataInWritingProcess())
+            {
+                DataQueueMainExecute();
+                DataQueuePoolExecute();
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -90,17 +104,20 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueueMainExecute()
         {
-            BTBBenchmark.Start();
-            List<object> tInsertDataQueueMain = new List<object>(kInsertDataQueueMain);
-            List<object> tUpdateDataQueueMain = new List<object>(kUpdateDataQueueMain);
-            List<object> tDeleteDataQueueMain = new List<object>(kDeleteDataQueueMain);
-            kInsertDataQueueMain = new List<object>();
-            kUpdateDataQueueMain = new List<object>();
-            kDeleteDataQueueMain = new List<object>();
-            InsertDataQueueExecute(tInsertDataQueueMain);
-            UpdateDataQueueExecute(tUpdateDataQueueMain);
-            DeleteDataQueueExecute(tDeleteDataQueueMain);
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Start();
+            if (DataInWritingProcess())
+            {
+                List<object> tInsertDataQueueMain = new List<object>(kInsertDataQueueMain);
+                List<object> tUpdateDataQueueMain = new List<object>(kUpdateDataQueueMain);
+                List<object> tDeleteDataQueueMain = new List<object>(kDeleteDataQueueMain);
+                kInsertDataQueueMain = new List<object>();
+                kUpdateDataQueueMain = new List<object>();
+                kDeleteDataQueueMain = new List<object>();
+                InsertDataQueueExecute(tInsertDataQueueMain);
+                UpdateDataQueueExecute(tUpdateDataQueueMain);
+                DeleteDataQueueExecute(tDeleteDataQueueMain);
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -108,19 +125,22 @@ namespace NetWorkedData
         /// </summary>
         public void DataQueuePoolExecute()
         {
-            BTBBenchmark.Start();
-            List<object> tInsertDataQueuePool = new List<object>(kInsertDataQueuePool);
-            List<object> tUpdateDataQueuePool = new List<object>(kUpdateDataQueuePool);
-            List<object> tDeleteDataQueuePool = new List<object>(kDeleteDataQueuePool);
-            kInsertDataQueuePool = new List<object>();
-            kUpdateDataQueuePool = new List<object>();
-            kDeleteDataQueuePool = new List<object>();
-            ThreadPool.QueueUserWorkItem(DataQueuePoolThread, new object[] {
+            //BTBBenchmark.Start();
+            if (DataInWritingProcess())
+            {
+                List<object> tInsertDataQueuePool = new List<object>(kInsertDataQueuePool);
+                List<object> tUpdateDataQueuePool = new List<object>(kUpdateDataQueuePool);
+                List<object> tDeleteDataQueuePool = new List<object>(kDeleteDataQueuePool);
+                kInsertDataQueuePool = new List<object>();
+                kUpdateDataQueuePool = new List<object>();
+                kDeleteDataQueuePool = new List<object>();
+                ThreadPool.QueueUserWorkItem(DataQueuePoolThread, new object[] {
                 tInsertDataQueuePool,
                 tUpdateDataQueuePool,
                 tDeleteDataQueuePool
             });
-            BTBBenchmark.Finish();
+            }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -128,7 +148,7 @@ namespace NetWorkedData
         /// </summary>
         private void DataQueuePoolThread(object sState)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             object[] tParam = sState as object[];
             List<object> tInsertDataQueue = tParam[0] as List<object>;
             List<object> tUpdateDataQueue = tParam[1] as List<object>;
@@ -136,7 +156,7 @@ namespace NetWorkedData
             InsertDataQueueExecute(tInsertDataQueue);
             UpdateDataQueueExecute(tUpdateDataQueue);
             DeleteDataQueueExecute(tDeleteDataQueue);
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion Queue Data

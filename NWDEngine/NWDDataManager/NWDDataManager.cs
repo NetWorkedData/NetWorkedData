@@ -56,7 +56,7 @@ namespace NetWorkedData
         {
             NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, "");
             tUserLanguage.Value.SetString(sNewLanguage);
-            tUserLanguage.SaveModifications();
+            tUserLanguage.UpdateData();
             PlayerLanguage = sNewLanguage;
             // notify the change
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_LANGUAGE_CHANGED);
@@ -68,7 +68,7 @@ namespace NetWorkedData
             if (tUserLanguage.Value.GetString() == "")
             {
                 tUserLanguage.Value.SetString(NWDDataLocalizationManager.SystemLanguageString());
-                tUserLanguage.SaveModifications();
+                tUserLanguage.UpdateData();
             }
             PlayerLanguage = tUserLanguage.Value.GetString();
             return PlayerLanguage;
@@ -86,7 +86,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("NWDDataManager Destructor");
             // reccord all modifications because this instance will be destroyed
-            SharedInstance().UpdateQueueExecute();
+            SharedInstance().DataQueueExecute();
             // remove notification center
             //if (NotificationCenter != null) {
                 BTBNotificationManager.SharedInstance().RemoveAll ();

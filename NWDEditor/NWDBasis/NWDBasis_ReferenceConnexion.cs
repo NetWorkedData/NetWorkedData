@@ -173,8 +173,8 @@ namespace NetWorkedData
                         //						tObject.UpdateMe (true);
                         //						AddObjectInListOfEdition (tObject);
                         //
-                        tObject = NWDBasis<K>.NewObject();
-                        tObject.UpdateMe(true);
+                        tObject = NWDBasis<K>.NewData();
+                        tObject.UpdateData(true);
 
                         tValue = tObject.Reference;
                         SetObjectInEdition(tObject);
@@ -395,8 +395,8 @@ namespace NetWorkedData
                             //							tObject.UpdateMe (true);
                             //							AddObjectInListOfEdition (tObject);
 
-                            tObject = NWDBasis<K>.NewObject();
-                            tObject.UpdateMe(true);
+                            tObject = NWDBasis<K>.NewData();
+                            tObject.UpdateData(true);
 
                             tFuturValue = tObject.Reference;
                             SetObjectInEdition(tObject, true, true);

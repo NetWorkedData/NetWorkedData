@@ -213,10 +213,10 @@ namespace NetWorkedData
             foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects(Account.GetReference()))
             {
                 tParty.IsCurrent = false;
-                tParty.SaveModificationsIfModified();
+                tParty.UpdateDataIfModified();
             }
             this.IsCurrent = true;
-            this.SaveModificationsIfModified();
+            this.UpdateDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

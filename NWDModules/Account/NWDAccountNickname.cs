@@ -149,11 +149,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountNickname NewNickname(string name)
         {
-            NWDAccountNickname rNickname = NewObject();
+            NWDAccountNickname rNickname = NewData();
             rNickname.InternalKey = name;
             rNickname.InternalDescription = "";
             rNickname.Nickname = name;
-            rNickname.SaveModifications();
+            rNickname.UpdateData();
             return rNickname;
         }
         //-------------------------------------------------------------------------------------------------------------

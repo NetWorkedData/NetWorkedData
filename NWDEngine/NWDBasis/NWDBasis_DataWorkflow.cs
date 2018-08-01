@@ -163,7 +163,7 @@ namespace NetWorkedData
                         tList.Sort((x, y) => y.DM.CompareTo(x.DM));
                         for (int i = 1; i < tList.Count; i++)
                         {
-                            tList[i].TrashMe();
+                            tList[i].TrashData();
                         }
                         rReturn = tList[0];
                     }

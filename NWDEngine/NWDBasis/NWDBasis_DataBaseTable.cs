@@ -78,7 +78,7 @@ namespace NetWorkedData
                 }
                 //NWDNodeEditor.ReAnalyzeIfNecessary(tObject);
 #endif
-                tObject.DeleteMe();
+                tObject.DeleteData();
             }
 
 #if UNITY_EDITOR
@@ -94,7 +94,7 @@ namespace NetWorkedData
             //List<object> tObjectsListToDelete = new List<object>();
             foreach (NWDBasis<K> tObject in Datas().ObjectsList)
             {
-                tObject.UpdateMe();
+                tObject.UpdateData();
             }
             // TODO : remove reference from all tables columns?
         }
@@ -129,7 +129,7 @@ namespace NetWorkedData
         {
             for (int tI = 0; tI < sNumberOfRow; tI++)
             {
-                NewObject();
+                NewData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

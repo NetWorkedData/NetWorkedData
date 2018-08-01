@@ -92,7 +92,7 @@ namespace NetWorkedData
 			NWDUserPreference rObject = GetObjectByInternalKey (sInternalKey) as NWDUserPreference;
 			if (rObject == null) {
 				//Debug.Log ("New object");
-				rObject = NWDBasis<NWDUserPreference>.NewObject ();
+                rObject = NWDBasis<NWDUserPreference>.NewData ();
 				RemoveObjectInListOfEdition (rObject);
 				rObject.InternalKey = sInternalKey;
 				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
@@ -101,7 +101,7 @@ namespace NetWorkedData
                 NWDMultiType tValue = new NWDMultiType (sDefaultValue);
 				rObject.Value = tValue;
 				rObject.InternalDescription = sInternalDescription;
-				rObject.UpdateMe ();
+                rObject.UpdateData ();
 				AddObjectInListOfEdition (rObject);
 			}
 			return rObject;
@@ -128,7 +128,7 @@ namespace NetWorkedData
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue);
 			tObject.Value.SetString (sValue);
-			tObject.SaveModifications ();
+            tObject.UpdateData ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -152,7 +152,7 @@ namespace NetWorkedData
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetInt (sValue);
-			tObject.SaveModifications ();
+            tObject.UpdateData ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -176,7 +176,7 @@ namespace NetWorkedData
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetBool (sValue);
-			tObject.SaveModifications ();
+            tObject.UpdateData ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -200,7 +200,7 @@ namespace NetWorkedData
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetFloat (sValue);
-			tObject.SaveModifications ();
+            tObject.UpdateData ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

@@ -123,7 +123,7 @@ namespace NetWorkedData
         /// <param name="sDefault">default value.</param>
         public static NWDLocalization CreateLocalizationTextValue(string sKey, string sDefault = "")
         {
-            NWDLocalization rReturn = NewObject();
+            NWDLocalization rReturn = NewData();
             rReturn.InternalKey = sKey;
             if (sDefault != "")
             {
@@ -133,7 +133,7 @@ namespace NetWorkedData
             {
                 rReturn.TextValue.AddBaseString(sKey);
             }
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -145,10 +145,10 @@ namespace NetWorkedData
         /// <param name="sDefault">default value.</param>
         public static NWDLocalization CreateLocalizationAnnexe(string sKey, string sDefault)
         {
-            NWDLocalization rReturn = NewObject();
+            NWDLocalization rReturn = NewData();
             rReturn.InternalKey = sKey;
             rReturn.AnnexeValue = new NWDMultiType(sDefault);
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -270,7 +270,7 @@ namespace NetWorkedData
                     {
                         tObject = CreateLocalizationTextValue(sText.text, sDefault);
                         tObject.Tag = NWDBasisTag.TagInternal;
-                        tObject.SaveModifications();
+                        tObject.UpdateData();
                     }
                 }
                 else

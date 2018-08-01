@@ -5,10 +5,8 @@
 //
 //=====================================================================================================================
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
 using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -190,7 +188,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.AppProtocol = \"" + this.ProdEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
-            "\t\t\tthis.ProdEnvironment.ThreadPoolSQLActive = " + this.ProdEnvironment.ThreadPoolSQLActive.ToString().ToLower() + ";\n" +
+                                                                "\t\t\tthis.ProdEnvironment.ThreadPoolForce = " + this.ProdEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
             "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("F2") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.g.ToString("F2") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.b.ToString("F2") + "F," +
@@ -241,7 +239,7 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.AppProtocol = \"" + this.PreprodEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SpeedOfGameTime = " + this.PreprodEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + this.PreprodEnvironment.BuildTimestamp.ToString() + ";\n" +
-            "\t\t\tthis.PreprodEnvironment.ThreadPoolSQLActive = " + this.PreprodEnvironment.ThreadPoolSQLActive.ToString().ToLower() + ";\n" +
+                                                                "\t\t\tthis.PreprodEnvironment.ThreadPoolForce = " + this.PreprodEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("F2")+"F," +
                                                                 this.PreprodEnvironment.CartridgeColor.g.ToString("F2") +"F," +
                                                                 this.PreprodEnvironment.CartridgeColor.b.ToString("F2") + "F," +
@@ -291,7 +289,7 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.AppProtocol = \"" + this.DevEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SpeedOfGameTime = " + this.DevEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.DevEnvironment.BuildTimestamp = " + this.DevEnvironment.BuildTimestamp.ToString() + ";\n" +
-            "\t\t\tthis.DevEnvironment.ThreadPoolSQLActive = " + this.DevEnvironment.ThreadPoolSQLActive.ToString().ToLower() + ";\n" +
+                                                                "\t\t\tthis.DevEnvironment.ThreadPoolForce = " + this.DevEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
             "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("F2") + "F," +
                                                                 this.DevEnvironment.CartridgeColor.g.ToString("F2") + "F," +
                                                                 this.DevEnvironment.CartridgeColor.b.ToString("F2") + "F," +

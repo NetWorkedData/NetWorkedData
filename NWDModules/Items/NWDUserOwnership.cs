@@ -142,7 +142,7 @@ namespace NetWorkedData
             }
             if (rOwnership == null)
             {
-                rOwnership = NewObject();
+                rOwnership = NewData();
                 //--------------
                 #if UNITY_EDITOR
                 //--------------
@@ -165,7 +165,7 @@ namespace NetWorkedData
                 rOwnership.Item.SetReference(sItemReference);
                 rOwnership.Tag = NWDBasisTag.TagUserCreated;
                 rOwnership.Quantity = 0;
-                rOwnership.SaveModifications();
+                rOwnership.UpdateData();
             }
             return rOwnership;
         }
@@ -239,7 +239,7 @@ namespace NetWorkedData
 		{
 			NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
 			rOwnershipToUse.Quantity = sQuantity;
-			rOwnershipToUse.SaveModifications();
+            rOwnershipToUse.UpdateData();
 			return rOwnershipToUse;
 		}
         //-------------------------------------------------------------------------------------------------------------
@@ -254,7 +254,7 @@ namespace NetWorkedData
             {
                 rOwnership.Quantity = sQuantity;
             }
-            rOwnership.SaveModifications();
+            rOwnership.UpdateData();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ namespace NetWorkedData
         {
             NWDUserOwnership rOwnership = OwnershipForItem(sItem);
             rOwnership.Quantity -= sQuantity;
-            rOwnership.SaveModifications();
+            rOwnership.UpdateData();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -274,7 +274,7 @@ namespace NetWorkedData
                 {
                     NWDUserOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
                     rOwnershipToUse.Quantity += tItemQuantity.Value;
-                    rOwnershipToUse.SaveModifications();
+                    rOwnershipToUse.UpdateData();
                 }
             }
         }
@@ -287,7 +287,7 @@ namespace NetWorkedData
                 {
                     NWDUserOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
                     rOwnershipToUse.Quantity -= tItemQuantity.Value;
-                    rOwnershipToUse.SaveModifications();
+                    rOwnershipToUse.UpdateData();
                 }
             }
         }

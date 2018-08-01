@@ -78,7 +78,7 @@ namespace NetWorkedData
         public Color CartridgeColor = new Color(1.0F,1.0F,1.0F);
 
         // TODO : check if working
-        public bool ThreadPoolSQLActive = true;
+        public bool ThreadPoolForce = true;
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		#region constructor

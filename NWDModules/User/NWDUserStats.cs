@@ -265,37 +265,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats NewIntStat(string sInternalKey, int sInt)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.IntValue = sInt;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats NewFloatStat(string sInternalKey, float sFloat)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.FloatValue = sFloat;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats NewBoolStat(string sInternalKey, bool sBool)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.BoolValue = sBool;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats NewStringStat(string sInternalKey, string sString)
         {
-            NWDUserStats rReturn = NWDUserStats.NewObject();
+            NWDUserStats rReturn = NWDUserStats.NewData();
             rReturn.InternalKey = sInternalKey;
             rReturn.StringValue = sString;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -308,7 +308,7 @@ namespace NetWorkedData
         public static NWDUserStats GetStatByInternalKeyOrCreate(string sInternalKey)
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
 
@@ -317,7 +317,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
             rReturn.IntValue = sInt;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
             rReturn.FloatValue = sFloat;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         ////-------------------------------------------------------------------------------------------------------------
@@ -341,7 +341,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
             rReturn.BoolValue = sBool;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -349,7 +349,7 @@ namespace NetWorkedData
         {
             NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKeyOrCreate(sInternalKey);
             rReturn.StringValue = sString;
-            rReturn.SaveModifications();
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

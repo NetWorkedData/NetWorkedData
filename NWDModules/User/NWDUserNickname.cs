@@ -138,11 +138,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserNickname NewNickname(string name)
         {
-            NWDUserNickname rNickname = NewObject();
+            NWDUserNickname rNickname = NewData();
             rNickname.InternalKey = name;
             rNickname.InternalDescription = "";
             rNickname.Nickname = name;
-            rNickname.SaveModifications();
+            rNickname.UpdateData();
             return rNickname;
         }
         //-------------------------------------------------------------------------------------------------------------

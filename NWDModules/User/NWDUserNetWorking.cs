@@ -191,8 +191,8 @@ namespace NetWorkedData
                 NWDUserNetWorking tUserNetWorking = NWDUserNetWorking.GetFirstObject();
                 if (tUserNetWorking == null)
                 {
-                    tUserNetWorking = NWDUserNetWorking.NewObject();
-                    tUserNetWorking.InsertMe();
+                    tUserNetWorking = NWDUserNetWorking.NewData();
+                    tUserNetWorking.InsertData();
                 }
             }
         }
@@ -214,7 +214,7 @@ namespace NetWorkedData
                     tUserNetWorking.TotalPlay += UpdateDelayInSeconds - tTimestampB + tTimestampA;
                     tDateTime = tDateTime.AddSeconds(UpdateDelayInSeconds);
                     tUserNetWorking.NextUpdate.SetDateTime(tDateTime);
-                    tUserNetWorking.SaveModifications();
+                    tUserNetWorking.UpdateData();
                     NWDDataManager.SharedInstance().AddWebRequestSynchronization(OtherData, true);
                 // use AddWebRequestSynchronizationWithBlock?
                 }
@@ -246,7 +246,7 @@ namespace NetWorkedData
             int tTimestampB = (int)BTBDateHelper.ConvertToTimestamp(NextUpdate.ToDateTime());
             TotalPlay += UpdateDelayInSeconds - tTimestampB + tTimestampA;
             NextUpdate.SetDateTime(tDateTime);
-            SaveModifications();
+            UpdateData();
             //NWDDataManager.SharedInstance().AddWebRequestSynchronization(OtherData, true);
             NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserNetWorking) }, true);
             // use AddWebRequestSynchronizationWithBlock?

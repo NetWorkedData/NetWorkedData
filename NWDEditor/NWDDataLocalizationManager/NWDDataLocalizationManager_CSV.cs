@@ -45,7 +45,7 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("ExportToCSV");
 			// apply the pending modification : prevent lost modification
-			NWDDataManager.SharedInstance().UpdateQueueExecute ();
+            NWDDataManager.SharedInstance().DataQueueExecute ();
 			// ask for final file path
 			string tPath = EditorUtility.SaveFilePanel(
 				"Export Localization CSV",
@@ -93,7 +93,7 @@ namespace NetWorkedData
 						}
 					}
 				}
-				NWDDataManager.SharedInstance().UpdateQueueExecute ();
+                NWDDataManager.SharedInstance().DataQueueExecute ();
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

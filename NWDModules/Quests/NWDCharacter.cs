@@ -320,7 +320,7 @@ namespace NetWorkedData
             ExclamationLatence = 0.25F;
             InterrogationLatence = 0.505F;
             TripleDotLatence = 1.0F;
-            UpdateMe();
+            UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public Sprite GetSpriteForEmotion(NWDCharacterEmotion sEmotion)

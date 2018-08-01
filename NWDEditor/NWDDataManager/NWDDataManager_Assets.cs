@@ -38,7 +38,7 @@ namespace NetWorkedData
 					tMethodInfo.Invoke(null, new object[] {sOldPath, sNewPath});
 				}
 			}
-			UpdateQueueExecute ();
+            DataQueueExecute ();
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}

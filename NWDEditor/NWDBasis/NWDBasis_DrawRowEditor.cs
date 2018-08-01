@@ -295,9 +295,9 @@ namespace NetWorkedData
             {
                 tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(GameObject)) as GameObject;
             }
-            if (mGameObjectEditor == null)
+            if (NWDBasisEditor.mGameObjectEditor == null)
             {
-                mGameObjectEditor = Editor.CreateEditor(tObject);
+                NWDBasisEditor.mGameObjectEditor = Editor.CreateEditor(tObject);
             }
             // prepare State infos
             string sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_OK;

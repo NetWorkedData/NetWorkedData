@@ -222,7 +222,7 @@ namespace NetWorkedData
                     {
                         // oh item group not contains me! WHYYYYYYYY
                         tItem.RecipientGroupList.AddObject(this);
-                        tItem.UpdateMe();
+                        tItem.UpdateData();
                     }
                 }
                 else
@@ -231,7 +231,7 @@ namespace NetWorkedData
                     {
                         // Oh This ItemGroup contains me but I not refere it ... remove me from it
                         tItem.RecipientGroupList.RemoveObjects(new NWDRecipientGroup[] { this });
-                        tItem.UpdateMe();
+                        tItem.UpdateData();
                     }
                     else
                     {

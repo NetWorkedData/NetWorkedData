@@ -97,7 +97,7 @@ namespace NetWorkedData
             if (rObject == null)
             {
                 //Debug.Log ("New object");
-                rObject = NWDBasis<NWDAccountPreference>.NewObject();
+                rObject = NWDBasis<NWDAccountPreference>.NewData();
                 RemoveObjectInListOfEdition(rObject);
                 rObject.InternalKey = sInternalKey;
                 NWDReferenceType<NWDAccount> tAccount = new NWDReferenceType<NWDAccount>();
@@ -106,7 +106,7 @@ namespace NetWorkedData
                 NWDMultiType tValue = new NWDMultiType(sDefaultValue);
                 rObject.Value = tValue;
                 rObject.InternalDescription = sInternalDescription;
-                rObject.UpdateMe();
+                rObject.UpdateData();
                 AddObjectInListOfEdition(rObject);
             }
             return rObject;
@@ -133,7 +133,7 @@ namespace NetWorkedData
         {
             NWDAccountPreference tObject = GetPreferenceByInternalKeyOrCreate(sKey, sValue);
             tObject.Value.SetString(sValue);
-            tObject.SaveModifications();
+            tObject.UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -157,7 +157,7 @@ namespace NetWorkedData
         {
             NWDAccountPreference tObject = GetPreferenceByInternalKeyOrCreate(sKey, sValue.ToString());
             tObject.Value.SetInt(sValue);
-            tObject.SaveModifications();
+            tObject.UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -181,7 +181,7 @@ namespace NetWorkedData
         {
             NWDAccountPreference tObject = GetPreferenceByInternalKeyOrCreate(sKey, sValue.ToString());
             tObject.Value.SetBool(sValue);
-            tObject.SaveModifications();
+            tObject.UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -205,7 +205,7 @@ namespace NetWorkedData
         {
             NWDAccountPreference tObject = GetPreferenceByInternalKeyOrCreate(sKey, sValue.ToString());
             tObject.Value.SetFloat(sValue);
-            tObject.SaveModifications();
+            tObject.UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

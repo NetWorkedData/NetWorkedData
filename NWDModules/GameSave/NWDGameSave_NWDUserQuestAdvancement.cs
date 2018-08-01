@@ -50,7 +50,7 @@ namespace NetWorkedData
         {
             foreach (NWDUserQuestAdvancement tObject in QuestUserAdvancementList())
             {
-                tObject.TrashMeLater();
+                tObject.TrashData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -82,11 +82,11 @@ namespace NetWorkedData
             }
             if (rResult == null && sCreateIfNull == true)
             {
-                rResult = NWDUserQuestAdvancement.NewObject();
+                rResult = NWDUserQuestAdvancement.NewData();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.GameSaveTag = GameSaveTag;
-                rResult.SaveModifications();
+                rResult.UpdateData();
             }
             return rResult;
         }

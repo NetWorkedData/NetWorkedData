@@ -83,7 +83,7 @@ namespace NetWorkedData
                 }
                 if (tUpdate == true)
                 {
-                    UpdateMe();
+                    UpdateData();
                 }
             }
         }
@@ -273,7 +273,8 @@ namespace NetWorkedData
                                 if (tPropertyValueOld.Value != tNextValue)
                                 {
                                     tPropertyValueOld.Value = tNextValue;
-                                    NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tObject);
+                                    NWDDataManager.SharedInstance().UpdateData(tObject, NWDWritingMode.QueuedMainThread);
+
                                 }
                             }
                             //								

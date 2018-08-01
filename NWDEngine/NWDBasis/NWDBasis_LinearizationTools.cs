@@ -360,7 +360,8 @@ namespace NetWorkedData
             rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
             rReturnObject.InstanceInit();
             rReturnObject.UpdateWithCSV(sEnvironment, sDataArray);
-            NWDDataManager.SharedInstance().InsertObjectDirect(rReturnObject, AccountDependent());
+            //NWDDataManager.SharedInstance().InsertObjectDirect(rReturnObject, AccountDependent());
+            NWDDataManager.SharedInstance().InsertData(rReturnObject, NWDWritingMode.MainThread);
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -464,7 +465,8 @@ namespace NetWorkedData
                     }
                 }
             }
-            NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
+            //NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
+            NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.MainThread);
             AddonUpdatedMeFromWeb();
         }
         //-------------------------------------------------------------------------------------------------------------

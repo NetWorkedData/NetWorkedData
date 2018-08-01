@@ -708,7 +708,7 @@ namespace NetWorkedData
                 {
                     if (tObject.IsReacheableByAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference))
                     {
-                        tObject.DeleteMe();
+                        tObject.DeleteData();
                     }
                 }
                 // need to reload this data now : to remove all tObjects from memory!

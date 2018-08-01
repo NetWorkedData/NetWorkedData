@@ -238,13 +238,13 @@ namespace NetWorkedData
                 }
             }
 
-            NWDRelationship tReturn = NewObject();
+            NWDRelationship tReturn = NewData();
             tReturn.ReaderReference.SetObject(null);
             tReturn.PublisherClassesShared = string.Join(",", tList.ToArray());
             tReturn.ReaderClassesAccepted = string.Join(",", tList.ToArray());
             tReturn.FirstSync = true;
             tReturn.RelationState = NWDRelationshipPinState.None;
-            tReturn.InsertMe();
+            tReturn.InsertData();
 
 #if UNITY_EDITOR
             NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(NWDRelationship));
@@ -375,7 +375,7 @@ namespace NetWorkedData
         public void RemoveRelationship()
         {
             // Disable relationship
-            DisableMe();
+            DisableData();
 
             // Sync with the server
             List<Type> tList = new List<Type>
@@ -489,8 +489,7 @@ namespace NetWorkedData
                 this.PinLimit = 0;
                 this.FirstSync = true;
                 this.RelationState = NWDRelationshipPinState.None;
-                this.UpdateMe();
-                this.SaveModifications();
+                this.UpdateData();
 
                 this.AskWaitingFromServer();
             }
@@ -761,7 +760,7 @@ namespace NetWorkedData
                                                                        NWDAppEnvironment sEnvironment = null)
         {
             RelationState = NWDRelationshipPinState.CreatePin;
-            SaveModificationsIfModified();
+            UpdateDataIfModified();
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "ChangeClassByPublisher";
@@ -779,7 +778,7 @@ namespace NetWorkedData
                                                                        NWDAppEnvironment sEnvironment = null)
         {
             RelationState = NWDRelationshipPinState.CreatePin;
-            SaveModificationsIfModified();
+            UpdateDataIfModified();
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "ChangeClassByReader";
@@ -799,7 +798,7 @@ namespace NetWorkedData
                                                                          NWDAppEnvironment sEnvironment = null)
         {
             RelationState = NWDRelationshipPinState.CreatePin;
-            SaveModificationsIfModified();
+            UpdateDataIfModified();
             // Start webrequest
             NWDOperationWebRelationship sOperation = NWDOperationWebRelationship.Create("Relationship with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, null, sEnvironment);
             sOperation.Action = "CreatePinCode";

@@ -43,8 +43,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddStatsAction()
         {
-            NWDUserStats tStats = NWDUserStats.NewObject();
-            tStats.SaveModificationsIfModified();
+            NWDUserStats tStats = NWDUserStats.NewData();
+            tStats.UpdateDataIfModified();
             #if UNITY_EDITOR
             UnityEditor.EditorWindow tEditorWindow = UnityEditor.EditorWindow.focusedWindow;
             NWDUserStats.SetObjectInEdition(tStats);

@@ -32,22 +32,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
-        public static K NewObject()
-        {
-            //Debug.Log("NWDBasis <K> NewObject()");
-            K rReturn = NWDBasis<K>.NewInstance() as K;
-            return rReturn;
-        }
+        //public static K NewObject()
+        //{
+        //    //Debug.Log("NWDBasis <K> NewObject()");
+        //    K rReturn = NWDBasis<K>.NewInstance() as K;
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public static K NewObjectWithReference(string sReference)
-        {
-            K rReturn = NWDBasis<K>.NewInstanceWithReference(sReference) as K;
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-#endif
+//#if UNITY_EDITOR
+//        //-------------------------------------------------------------------------------------------------------------
+//        public static K NewObjectWithReference(string sReference)
+//        {
+//            K rReturn = NWDBasis<K>.NewInstanceWithReference(sReference) as K;
+//            return rReturn;
+//        }
+//        //-------------------------------------------------------------------------------------------------------------
+//#endif
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjects(string sAccountReference = null)
         {
@@ -110,7 +110,7 @@ namespace NetWorkedData
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
-                    tObject.TrashMe();
+                    tObject.TrashData();
                     rReturn.Add(tObject);
                 }
             }
@@ -225,7 +225,7 @@ namespace NetWorkedData
                     tList.Sort((x, y) => x.DM.CompareTo(y.DM)); // newer is delete
                     for (int i = 1; i < tList.Count; i++)
                     {
-                        tList[i].TrashMe();
+                        tList[i].TrashData();
                     }
                 }
             }
@@ -269,7 +269,7 @@ namespace NetWorkedData
                     tList.Sort((x, y) => y.DM.CompareTo(x.DM));
                     for (int i = 1; i < tList.Count; i++)
                     {
-                        tList[i].TrashMe();
+                        tList[i].TrashData();
                     }
                     rReturn = tList[0];
                 }
@@ -277,10 +277,10 @@ namespace NetWorkedData
             if (rReturn == null)
             {
                 //Debug.Log("NWDBasis<K> Workflow GetObjectByInternalKeyOrCreate() I have a return");
-                rReturn = NWDBasis<K>.NewObject();
+                rReturn = NWDBasis<K>.NewData();
                 rReturn.InternalKey = sInternalKey;
                 rReturn.InternalDescription = sInternalDescription;
-                rReturn.InsertMe();
+                rReturn.InsertData();
                 AddObjectInListOfEdition(rReturn);
             }
             return rReturn;
@@ -375,7 +375,7 @@ namespace NetWorkedData
         public void setTag(NWDBasisTag sTag)
         {
             Tag = sTag;
-            UpdateMeIfModified();
+            UpdateDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

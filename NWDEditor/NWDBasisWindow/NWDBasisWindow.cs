@@ -113,7 +113,7 @@ namespace NetWorkedData
             // check all type 
 			foreach( Type tType in mTabTypeList)
 			{
-                NWDBasisDatas tTypeInfos = NWDBasisDatas.FindTypeInfos(tType);
+                NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(tType);
                 if (tTypeInfos != null)
                 {
                     // add informations for tab list
@@ -149,7 +149,7 @@ namespace NetWorkedData
 		/// </summary>
 		void OnEnable ()
 		{
-			NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
 			if (typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true).Length > 0) {
 				NWDTypeWindowParamAttribute tNWDBasisWindowParamAttribute = (NWDTypeWindowParamAttribute)typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true) [0];
 				mTitleKey = tNWDBasisWindowParamAttribute.Title;
@@ -170,7 +170,7 @@ namespace NetWorkedData
 		/// </summary>
 		void OnDisable ()
 		{
-			NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
 			//ApplyUpdate();
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -178,14 +178,14 @@ namespace NetWorkedData
 		/// Call on focus on this window
 		/// </summary>
 		void OnFocus() {
-			NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
 //			ApplyUpdate();
 //			ApplyListUpdate ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		void OnLostFocus()
 		{
-			NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
 //			ApplyUpdate();
 //			ApplyTableUpdate ();
 //			ApplyListUpdate ();
@@ -198,7 +198,7 @@ namespace NetWorkedData
 		public void SetClassInEdition(Type sClassType)
 		{
 //			ApplyUpdate();
-			NWDDataManager.SharedInstance().UpdateQueueExecute();
+            NWDDataManager.SharedInstance().DataQueueExecute();
 			GUI.FocusControl (null);
 			NWDBasisClassInspector tBasisClassInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
 			tBasisClassInspector.mTypeInEdition = sClassType;
@@ -291,7 +291,7 @@ namespace NetWorkedData
 				mTabSelected = tTabSelected;
 				GUILayout.Space (5.0f);
 				//var tMethodInfo = tType.GetMethod (NWDSelector.NWDBasis_DRAW_IN_EDITOR_SELECTOR, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                var tMethodInfo = tType.GetMethod("DrawInEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                var tMethodInfo = tType.GetMethod(NWDBasisInvoke.DrawInEditor, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null) {
 					//Debug.Log ("I AM FINDING THE DRAWING METHOD");
 					tMethodInfo.Invoke (null, new object[]{ this, tAutoselect });

@@ -164,7 +164,7 @@ namespace NetWorkedData
                 }
             }
             Reference = tNewReference;
-            UpdateMe(true);
+            UpdateData();
             UpdateObjectInListOfEdition(this);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 #endif
@@ -219,7 +219,7 @@ namespace NetWorkedData
             if (rModify == true)
             {
                 //				Debug.LogVerbose ("I WAS UPDATED");
-                UpdateMe();
+                UpdateData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -238,7 +238,7 @@ namespace NetWorkedData
                             tObject.ChangeReferenceForAnother(sOldUser, sNewUser);
                         }
                     }
-                    UpdateMeIfModified();
+                    UpdateDataIfModified();
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT " + Reference + " Newintegrity = " + Integrity);
                 }
             }

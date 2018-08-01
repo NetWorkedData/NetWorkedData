@@ -50,7 +50,7 @@ namespace NetWorkedData
         {
             foreach (NWDUserPreference tObject in UserPreferencesList())
             {
-                tObject.TrashMeLater();
+                tObject.TrashData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -82,11 +82,11 @@ namespace NetWorkedData
             }
             if (rResult == null && sCreateIfNull == true)
             {
-                rResult = NWDUserPreference.NewObject();
+                rResult = NWDUserPreference.NewData();
                 rResult.InternalKey = sInternalKey;
                 rResult.Tag = NWDBasisTag.TagUserCreated;
                 rResult.GameSaveTag = GameSaveTag;
-                rResult.SaveModifications();
+                rResult.UpdateData();
             }
             return rResult;
         }

@@ -274,7 +274,7 @@ namespace NetWorkedData
             var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
             tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
 
-            int tObjectInQueue = NWDDataManager.SharedInstance().UpdateQueueCounter();
+            int tObjectInQueue = NWDDataManager.SharedInstance().DataQueueCounter();
             if (tObjectInQueue == 0)
             {
                 GUILayout.Label("No Object in waiting to update", tStyleBoldCenter);
