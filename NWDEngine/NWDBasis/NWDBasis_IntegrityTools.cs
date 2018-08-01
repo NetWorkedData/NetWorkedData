@@ -193,7 +193,7 @@ namespace NetWorkedData
         {
             //Debug.Log("DataAssembly() = "+DataAssembly()+"");
             // use salts to interfere with data assembly in the hash sum computing
-            return HashSum(PrefSaltA() + DataAssembly() + PrefSaltB());
+            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

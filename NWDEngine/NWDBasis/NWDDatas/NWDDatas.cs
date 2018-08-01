@@ -71,6 +71,17 @@ namespace NetWorkedData
         public string TableName = "";
         public string PrefBaseKey = "";
         public GUIContent MenuNameContent = GUIContent.none;
+
+        public bool kGameSaveDependent = false;
+        public PropertyInfo kGameDependentProperties;
+
+        public bool kAccountDependent = false;
+        public PropertyInfo[] kAccountDependentProperties;
+        public PropertyInfo[] kAccountConnectedProperties;
+        //-------------------------------------------------------------------------------------------------------------
+        public bool kLockedObject;
+        public bool kAssetDependent;
+        public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
 
         static public string kPrefSaltValidKey = "SaltValid";
@@ -84,6 +95,9 @@ namespace NetWorkedData
         public List<object> ObjectsList = new List<object>();
         public List<string> ObjectsByReferenceList = new List<string>();
         public List<string> ObjectsByKeyList = new List<string>();
+
+
+
 
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -206,8 +220,39 @@ namespace NetWorkedData
                 tTypeInfos.SLQAssemblyOrderPrepare();
                 tTypeInfos.SLQIntegrityOrderPrepare();
                 tTypeInfos.DataAssemblyPropertiesListPrepare();
+
+                // get salt 
+                tTypeInfos.PrefLoad();
             }
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public void PrefSave()
+        {
+            NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey, NWDConstants.kPrefSaltAKey, SaltA);
+            NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey, NWDConstants.kPrefSaltBKey, SaltB);
+            NWDAppConfiguration.SharedInstance().SetSaltValid(PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void PrefLoad()
+        {
+            SaltA = NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
+            SaltB = NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
+            SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(PrefBaseKey, NWDConstants.kPrefSaltValidKey);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool TestSaltValid()
+        {
+            bool rReturn = false;
+            if (SaltOk == "ok")
+            {
+                rReturn = true;
+            }
+            else
+            {
+                //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
+            }
+            return rReturn;
+        } 
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas FindTypeInfos(Type sType)
         {
@@ -414,13 +459,6 @@ namespace NetWorkedData
             rReturn.Remove("ProdSync");// not include in integrity
             DataAssemblyPropertiesList = rReturn;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool kAccountDependent;
-        public PropertyInfo[] kAccountDependentProperties;
-        public PropertyInfo[] kAccountConnectedProperties;
-        public bool kLockedObject;
-        public bool kAssetDependent;
-        public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------------------------------------------

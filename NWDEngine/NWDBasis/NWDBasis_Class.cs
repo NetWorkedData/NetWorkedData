@@ -232,79 +232,79 @@ namespace NetWorkedData
         //    }
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kPrefSalt = new Dictionary<string, string>();
+        //public static Dictionary<string, string> kPrefSalt = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string PrefSalt()
+        //{
+        //    string rReturn = "";
+        //    if (kPrefSalt.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kPrefSalt[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetPrefSalt(string sPrefSalt)
+        //{
+        //    if (sPrefSalt != null)
+        //    {
+        //        kPrefSalt[ClassID()] = sPrefSalt;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static string PrefSalt()
-        {
-            string rReturn = "";
-            if (kPrefSalt.ContainsKey(ClassID()))
-            {
-                rReturn = kPrefSalt[ClassID()];
-            }
-            return rReturn;
-        }
+        //public static bool TestSaltValid()
+        //{
+        //    bool rReturn = false;
+        //    if (PrefSalt() == "ok")
+        //    {
+        //        rReturn = true;
+        //    }
+        //    else
+        //    {
+        //        //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SetPrefSalt(string sPrefSalt)
-        {
-            if (sPrefSalt != null)
-            {
-                kPrefSalt[ClassID()] = sPrefSalt;
-            }
-        }
+        //public static Dictionary<string, string> kPrefSaltA = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string PrefSaltA()
+        //{
+        //    string rReturn = "";
+        //    if (kPrefSaltA.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kPrefSaltA[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetPrefSaltA(string sPrefSaltA)
+        //{
+        //    if (sPrefSaltA != null)
+        //    {
+        //        kPrefSaltA[ClassID()] = sPrefSaltA;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static bool TestSaltValid()
-        {
-            bool rReturn = false;
-            if (PrefSalt() == "ok")
-            {
-                rReturn = true;
-            }
-            else
-            {
-                //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kPrefSaltA = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string PrefSaltA()
-        {
-            string rReturn = "";
-            if (kPrefSaltA.ContainsKey(ClassID()))
-            {
-                rReturn = kPrefSaltA[ClassID()];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetPrefSaltA(string sPrefSaltA)
-        {
-            if (sPrefSaltA != null)
-            {
-                kPrefSaltA[ClassID()] = sPrefSaltA;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kPrefSaltB = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string PrefSaltB()
-        {
-            string rReturn = "";
-            if (kPrefSaltB.ContainsKey(ClassID()))
-            {
-                rReturn = kPrefSaltB[ClassID()];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetPrefSaltB(string sPrefSaltB)
-        {
-            if (sPrefSaltB != null)
-            {
-                kPrefSaltB[ClassID()] = sPrefSaltB;
-            }
-        }
+        //public static Dictionary<string, string> kPrefSaltB = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string PrefSaltB()
+        //{
+        //    string rReturn = "";
+        //    if (kPrefSaltB.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kPrefSaltB[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetPrefSaltB(string sPrefSaltB)
+        //{
+        //    if (sPrefSaltB != null)
+        //    {
+        //        kPrefSaltB[ClassID()] = sPrefSaltB;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public static Dictionary<string, NWDBasis<K>> kObjectInEdition = new Dictionary<string, NWDBasis<K>>();
         ////-------------------------------------------------------------------------------------------------------------
@@ -334,7 +334,7 @@ namespace NetWorkedData
 
 
 
-            PrefLoad();
+            Datas().PrefLoad();
 
             AccountDependentAnalyze();
 
@@ -425,7 +425,7 @@ namespace NetWorkedData
             //LoadTableEditor();
 #if UNITY_EDITOR
             FilterTableEditor();
-            PrefSave();
+            Datas().PrefSave();
             //PrepareOrders(); // don't do that here: that's fake the weservice number / order
 #else
 #endif
@@ -436,66 +436,66 @@ namespace NetWorkedData
         //static public string kPrefSaltBKey = "SaltB";
 
 
-        //-------------------------------------------------------------------------------------------------------------
-        protected static void PrefSave()
-        {
-            //Debug.Log ("PrefSave");
-            // reccord data to user's preferences
-            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, PrefSaltA());
-            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, PrefSaltB());
-            NWDAppConfiguration.SharedInstance().SetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
-#if UNITY_EDITOR
-            //NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void PrefLoad()
-        {
-            //Debug.Log ("PrefLoad");
-            // load data from user's preferences
-            SetPrefSaltA(NWDAppConfiguration.SharedInstance().GetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey));
-            SetPrefSaltB(NWDAppConfiguration.SharedInstance().GetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey));
-            SetPrefSalt(NWDAppConfiguration.SharedInstance().GetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey));
-        }
+//        //-------------------------------------------------------------------------------------------------------------
+//        protected static void PrefSave()
+//        {
+//            //Debug.Log ("PrefSave");
+//            // reccord data to user's preferences
+//            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, PrefSaltA());
+//            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, PrefSaltB());
+//            NWDAppConfiguration.SharedInstance().SetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
+//#if UNITY_EDITOR
+//            //NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
+//#endif
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void PrefLoad()
+        //{
+        //    //Debug.Log ("PrefLoad");
+        //    // load data from user's preferences
+        //    SetPrefSaltA(NWDAppConfiguration.SharedInstance().GetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey));
+        //    SetPrefSaltB(NWDAppConfiguration.SharedInstance().GetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey));
+        //    SetPrefSalt(NWDAppConfiguration.SharedInstance().GetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey));
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The account dependent. If this class' object is connected to an user account by a NWDReferenceType
         /// </summary>
-        public static Dictionary<Type, bool> kGameSaveDependent = new Dictionary<Type, bool>();
+        //public static Dictionary<Type, bool> kGameSaveDependent = new Dictionary<Type, bool>();
         /// <summary>
         /// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType 
         /// with the properties informations
         /// </summary>
-        public static Dictionary<Type, PropertyInfo> kGameDependentProperties = new Dictionary<Type, PropertyInfo>();
+        //public static Dictionary<Type, PropertyInfo> kGameDependentProperties = new Dictionary<Type, PropertyInfo>();
         /// <summary>
         /// The account dependent. If this class' object is connected to an user account by a NWDReferenceType
         /// </summary>
-        public static Dictionary<string, bool> kAccountDependent = new Dictionary<string, bool>();
+        //public static Dictionary<string, bool> kAccountDependent = new Dictionary<string, bool>();
         /// <summary>
         /// The account dependent properties. If this class' object is connected to an user account by NWDReferenceType 
         /// with the properties informations
         /// </summary>
-        public static Dictionary<string, PropertyInfo[]> kAccountDependentProperties = new Dictionary<string, PropertyInfo[]>();
+        //public static Dictionary<string, PropertyInfo[]> kAccountDependentProperties = new Dictionary<string, PropertyInfo[]>();
         /// <summary>
         /// The account dependent properties. If this class' object is connected to an user account by NWDReferencesListType
         ///  NWDReferencesQuantityType or NWDReferenceHashType with the properties informations
         /// </summary>
-        public static Dictionary<string, PropertyInfo[]> kAccountConnectedProperties = new Dictionary<string, PropertyInfo[]>();
+        //public static Dictionary<string, PropertyInfo[]> kAccountConnectedProperties = new Dictionary<string, PropertyInfo[]>();
         /// <summary>
         /// The class is not account dependent, then the class must be locked on game. Allways return false in editor.
         /// </summary>
-        public static Dictionary<string, bool> kLockedObject = new Dictionary<string, bool>();
+        //public static Dictionary<string, bool> kLockedObject = new Dictionary<string, bool>();
 
 
         /// <summary>
         /// The asset dependent. If this class' object is connected to an asset by a NWDAssetType subclass
         /// </summary>
-        public static Dictionary<string, bool> kAssetDependent = new Dictionary<string, bool>();
+        //public static Dictionary<string, bool> kAssetDependent = new Dictionary<string, bool>();
         /// <summary>
         /// The asset dependent properties. If this class' object is connected to a NWDAssetType subclass 
         /// with the properties informations
         /// </summary>
-        public static Dictionary<string, PropertyInfo[]> kAssetDependentProperties = new Dictionary<string, PropertyInfo[]>();
+        //public static Dictionary<string, PropertyInfo[]> kAssetDependentProperties = new Dictionary<string, PropertyInfo[]>();
 
         //-------------------------------------------------------------------------------------------------------------
         public static void AccountDependentAnalyze()
@@ -508,8 +508,8 @@ namespace NetWorkedData
             List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
             Type tType = ClassType();
 
-            kGameSaveDependent.Add(tType, false);
-            kGameDependentProperties.Add(tType, null);
+            Datas().kGameSaveDependent= false;
+            Datas().kGameDependentProperties = null;
             // TODO : check 
             // exception for NWDAccount table
             if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken))
@@ -536,8 +536,8 @@ namespace NetWorkedData
                             }
                             if (tSubType == typeof(NWDGameSave))
                             {
-                                kGameSaveDependent[tType]= true;
-                                kGameDependentProperties[tType] = tProp;
+                                Datas().kGameSaveDependent = true;
+                                Datas().kGameDependentProperties = tProp;
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
@@ -569,33 +569,12 @@ namespace NetWorkedData
                 }
             }
 
-            // reccord if class' object is account dependent
-            if (kAccountDependent.ContainsKey(ClassID()) == false)
-            {
-                kAccountDependent.Add(ClassID(), rAccountConnected);
-            }
-            else
-            {
-                kAccountDependent[ClassID()] = rAccountConnected;
-            }
+                Datas().kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
-            if (kAccountDependentProperties.ContainsKey(ClassID()) == false)
-            {
-                kAccountDependentProperties.Add(ClassID(), tPropertyList.ToArray());
-            }
-            else
-            {
-                kAccountDependentProperties[ClassID()] = tPropertyList.ToArray();
-            }
+            Datas().kAccountDependentProperties = tPropertyList.ToArray();
+
             // reccord class' object is account connected properties
-            if (kAccountConnectedProperties.ContainsKey(ClassID()) == false)
-            {
-                kAccountConnectedProperties.Add(ClassID(), tPropertyListConnected.ToArray());
-            }
-            else
-            {
-                kAccountConnectedProperties[ClassID()] = tPropertyListConnected.ToArray();
-            }
+            Datas().kAccountConnectedProperties = tPropertyListConnected.ToArray();
 
 
             // reccord if class' object is locked for editor
@@ -603,119 +582,51 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             rLockedObject = false;
 #endif
-            if (kLockedObject.ContainsKey(ClassID()) == false)
-            {
-                kLockedObject.Add(ClassID(), rLockedObject);
-            }
-            else
-            {
-                kLockedObject[ClassID()] = rLockedObject;
-            }
-
+                Datas().kLockedObject= rLockedObject;
 
             // reccord if class' object is asset dependent
-            if (kAssetDependent.ContainsKey(ClassID()) == false)
-            {
-                kAssetDependent.Add(ClassID(), rAssetConnected);
-            }
-            else
-            {
-                kAssetDependent[ClassID()] = rAssetConnected;
-            }
-            // reccord class' object is asset dependent properties
-            if (kAssetDependentProperties.ContainsKey(ClassID()) == false)
-            {
-                kAssetDependentProperties.Add(ClassID(), tAssetPropertyList.ToArray());
-            }
-            else
-            {
-                kAssetDependentProperties[ClassID()] = tAssetPropertyList.ToArray();
-            }
+            Datas().kAssetDependent = rAssetConnected;
+            Datas().kAssetDependentProperties= tAssetPropertyList.ToArray();
+
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Propertieses the account dependent : connected with NWDReferenceType<NWDAccount>.
-        /// </summary>
-        /// <returns>The account dependent PropertyInfo array.</returns>
         public static PropertyInfo[] PropertiesAccountDependent()
         {
-            return kAccountDependentProperties[ClassID()];
+            return Datas().kAccountDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Propertieses the account connected but not dependent : connected with NWDReferencesType<NWDAccount> ,
-        /// NWDReferencesListType<NWDAccount> or NWDReferencesQuantityType<NWDAccount>.
-        /// </summary>
-        /// <returns>The account connected PropertyInfo array.</returns>
         public static PropertyInfo[] PropertiesAccountConnect()
         {
-            return kAccountConnectedProperties[ClassID()];
+            return Datas().kAccountConnectedProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountDependent()
         {
-            //			bool rAccountConnected = false;
-            //			Type tType = ClassType ();
-            //			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-            //				Type tTypeOfThis = tProp.PropertyType;
-            //				if (tTypeOfThis != null) {
-            //					if (tTypeOfThis.IsGenericType) {
-            //						if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
-            //							Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-            //							if (tSubType == typeof(NWDAccount)) {
-            //								rAccountConnected = true;
-            //							}
-            //						}
-            //					}
-            //				}
-            //			}
-            //			return rAccountConnected;
-            return kAccountDependent[ClassID()];
+            return Datas().kAccountDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsClassLockedObject()
         {
-            return kLockedObject[ClassID()];
+            return Datas().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AssetDependent()
         {
-            return kAssetDependent[ClassID()];
+            return Datas().kAssetDependent;
         }
         //----------------------------------------------
         public static PropertyInfo[] PropertiesAssetDependent()
         {
-            return kAssetDependentProperties[ClassID()];
+            return Datas().kAssetDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public virtual bool IsLockedObject() // return true during the player game
+        public bool IsLockedObject() // return true during the player game
         {
-            //			//			bool rLockedObject = true;
-            //			//			#if UNITY_EDITOR
-            //			//			rLockedObject = false;
-            //			//			#else
-            //			//			Type tType = GetType ();
-            //			//			foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-            //			//			Type tTypeOfThis = tProp.PropertyType;
-            //			//			if (tTypeOfThis != null) {
-            //			//			if (tTypeOfThis.IsGenericType) {
-            //			//			if (tTypeOfThis.GetGenericTypeDefinition () == typeof(NWDReferenceType<>)) {
-            //			//			Type tSubType = tTypeOfThis.GetGenericArguments () [0];
-            //			//			if (tSubType == typeof(NWDAccount)) {
-            //			//			rLockedObject = false;
-            //			//			}
-            //			//			}
-            //			//			}
-            //			//			}
-            //			//			}
-            //			//			#endif
-            //			//			return rLockedObject;
-            //
-            return kLockedObject[ClassID()];
+            return Datas().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

@@ -36,7 +36,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void DrawTypeInInspector ()
 		{
-			if (TestSaltValid() == false)
+            if (Datas().TestSaltValid() == false)
 			{
 				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 			}
@@ -119,32 +119,32 @@ namespace NetWorkedData
 				}
 				// -------------------------------------------
 				GUILayout.BeginHorizontal ();
-				string tPrefSaltA = EditorGUILayout.TextField (NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, PrefSaltA ());
-				SetPrefSaltA (tPrefSaltA);
+                string tPrefSaltA = EditorGUILayout.TextField (NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, Datas().SaltA);
+                Datas().SaltA = tPrefSaltA;
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton)) {
 					GUI.FocusControl (null);
 					tPrefSaltA = GenerateNewSalt ();
-					SetPrefSaltA (tPrefSaltA);
-					PrefSave ();
+                    Datas().SaltA =tPrefSaltA;
+                    Datas().PrefSave ();
 					RecalculateAllIntegrities ();
 				}
 				GUILayout.EndHorizontal ();
 				// -------------------------------------------
 				GUILayout.BeginHorizontal ();
-				string tPrefSaltB = EditorGUILayout.TextField (NWDConstants.K_APP_BASIS_CLASS_SECOND_SALT, PrefSaltB ());
-				SetPrefSaltB (tPrefSaltB);
+                string tPrefSaltB = EditorGUILayout.TextField (NWDConstants.K_APP_BASIS_CLASS_SECOND_SALT, Datas().SaltB);
+                Datas().SaltB =tPrefSaltB;
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton)) {
 					GUI.FocusControl (null);
 					tPrefSaltB = GenerateNewSalt ();
-					SetPrefSaltB (tPrefSaltB);
-					PrefSave ();
+                    Datas().SaltB =tPrefSaltB;
+                    Datas().PrefSave ();
 					RecalculateAllIntegrities ();
 				}
 				GUILayout.EndHorizontal ();
 
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_INTEGRITY_REEVALUE, EditorStyles.miniButton)) {
 					GUI.FocusControl (null);
-					PrefSave ();
+                    Datas().PrefSave ();
 					RecalculateAllIntegrities ();
 				}
 

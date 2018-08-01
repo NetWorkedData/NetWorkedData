@@ -79,7 +79,7 @@ namespace NetWorkedData
             {
                 tAssembly += sDataArray[i];
             }
-            string tCalculateIntegrity = HashSum(PrefSaltA() + tAssembly + PrefSaltB());
+            string tCalculateIntegrity = HashSum(Datas().SaltA + tAssembly +Datas().SaltB);
             if (tActualIntegrity != tCalculateIntegrity)
             {
                 rReturn = false;

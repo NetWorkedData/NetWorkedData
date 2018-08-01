@@ -77,7 +77,7 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
 
-            PrefLoad();
+            Datas().PrefLoad();
 
             PrepareOrders();
 
@@ -132,8 +132,8 @@ namespace NetWorkedData
                                     "//-------------------- \n" +
                                     "include_once ($PATH_BASE.'/Engine/functions.php');\n" +
                                     "//-------------------- \n" +
-                                    "$SQL_" + tClassName + "_SaltA = '" + PrefSaltA() + "';\n" +
-                                    "$SQL_" + tClassName + "_SaltB = '" + PrefSaltB() + "';\n" +
+                                    "$SQL_" + tClassName + "_SaltA = '" + Datas().SaltA + "';\n" +
+                                    "$SQL_" + tClassName + "_SaltB = '" + Datas().SaltB + "';\n" +
                                     "//-------------------- \n";
             
             int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
