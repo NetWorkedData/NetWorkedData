@@ -1,36 +1,26 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using BasicToolBox;
-
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
-
 using SQLite4Unity3d;
 using System.IO;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public void NodeCardAnalyze(NWDNodeCard sCard)
         {
@@ -87,7 +77,7 @@ namespace NetWorkedData
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
-                                   
+
 
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
@@ -96,7 +86,7 @@ namespace NetWorkedData
 
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
-                                   
+
                                    )
                                 {
 
@@ -205,9 +195,8 @@ namespace NetWorkedData
             return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

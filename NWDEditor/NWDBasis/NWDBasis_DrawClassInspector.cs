@@ -1,26 +1,19 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-
 using System;
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
-
 using SQLite4Unity3d;
 using System.IO;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -28,11 +21,6 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		public static bool mSettingsShowing = false;
-		//-------------------------------------------------------------------------------------------------------------
-		public static bool mForceSynchronization = false;
 		//-------------------------------------------------------------------------------------------------------------
 		public static void DrawTypeInInspector ()
 		{
@@ -104,10 +92,10 @@ namespace NetWorkedData
 			GUIStyle tStyle = EditorStyles.foldout;
 			FontStyle tPreviousStyle = tStyle.fontStyle;
 			tStyle.fontStyle = FontStyle.Bold;
-			mSettingsShowing = EditorGUILayout.Foldout (mSettingsShowing, NWDConstants.K_APP_BASIS_CLASS_WARNING_ZONE, tStyle);
+            Datas().mSettingsShowing = EditorGUILayout.Foldout (Datas().mSettingsShowing, NWDConstants.K_APP_BASIS_CLASS_WARNING_ZONE, tStyle);
 			tStyle.fontStyle = tPreviousStyle;
 
-			if (mSettingsShowing == true) 
+            if (Datas().mSettingsShowing == true) 
 			{
 				EditorGUILayout.HelpBox (NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
 
@@ -207,9 +195,8 @@ namespace NetWorkedData
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

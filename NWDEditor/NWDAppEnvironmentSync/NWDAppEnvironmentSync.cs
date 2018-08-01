@@ -1,22 +1,17 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using UnityEngine;
-
 using BasicToolBox;
 using System.Reflection;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {

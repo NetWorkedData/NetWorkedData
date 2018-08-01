@@ -1,18 +1,15 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -22,17 +19,6 @@ namespace NetWorkedData
 	/// </summary>
 	public class NWDAppEnvironmentManagerWindow : NWDBasisWindow <NWDAppEnvironmentManagerWindow>
 	{
-//		//-------------------------------------------------------------------------------------------------------------
-//		[MenuItem (NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 24)]
-//		//-------------------------------------------------------------------------------------------------------------
-//		/// <summary>
-//		/// Menus the method.
-//		/// </summary>
-//		public static void MenuMethod ()
-//		{
-//			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDAppEnvironmentManagerWindow));
-//			tWindow.Show ();
-//		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDAppEnvironmentManagerWindow"/> class.

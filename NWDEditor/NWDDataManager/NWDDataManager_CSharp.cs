@@ -4,24 +4,20 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-
 using SQLite4Unity3d;
-
 using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataManager
 	{
 		/*
@@ -47,7 +43,8 @@ namespace NetWorkedData
 			EditorUtility.ClearProgressBar();
 		}
 		*/
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

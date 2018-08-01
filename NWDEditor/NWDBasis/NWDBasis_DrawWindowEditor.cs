@@ -14,7 +14,6 @@ using SQLite4Unity3d;
 using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -22,7 +21,6 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
         public static void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
         {
             DrawTableEditor(sEditorWindow);
@@ -31,9 +29,9 @@ namespace NetWorkedData
                 SelectedFirstObjectInTable(sEditorWindow);
             }
         }
-#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

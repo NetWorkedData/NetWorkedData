@@ -4,28 +4,21 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using BasicToolBox;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[AttributeUsage (AttributeTargets.Class, AllowMultiple = true)]
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDTypeWindowParamAttribute : Attribute
 	{
 		public string Title;

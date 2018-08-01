@@ -1,30 +1,27 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using SQLite4Unity3d;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataManager
-	{
-		public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
-
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public Dictionary<Type,List<NWDTypeWindow>> mTypeWindowDico = new Dictionary<Type,List<NWDTypeWindow>>();
+        //-------------------------------------------------------------------------------------------------------------
 		public void AddWindowInManager (NWDTypeWindow sWindow , Type[] sType)
 		{
 			foreach (Type tType in sType) 
@@ -45,8 +42,8 @@ namespace NetWorkedData
 						
 				}
 			}
-		}
-
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		public void RemoveWindowFromManager (NWDTypeWindow sWindow)
 		{
 			foreach (KeyValuePair<Type,List<NWDTypeWindow>> tKeyValue in mTypeWindowDico) 
@@ -57,8 +54,8 @@ namespace NetWorkedData
 					tList.Remove (sWindow);
 				}
 			}
-		}
-
+        }
+        //-------------------------------------------------------------------------------------------------------------
 		public void RepaintWindowsInManager (Type sType)
 		{
             //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
@@ -69,10 +66,8 @@ namespace NetWorkedData
 					tWindow.Repaint ();
 				}
 			}
-		}
-
-
-
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void RepaintWindowForData(Type sType)
         {
             //Debug.Log("RepaintWindowsInManager for type :" + sType.FullName); 
@@ -84,7 +79,9 @@ namespace NetWorkedData
                 }
             }
         }
-	}
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-		#endif
+#endif

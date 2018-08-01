@@ -4,30 +4,25 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-
 using UnityEngine;
-
 using BasicToolBox;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass()
         {
-
             //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
             //tPHPBuild++;
             //BTBConfigManager.SharedInstance().Set(NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
@@ -199,8 +194,6 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //static private int kCounterExport=0;
-        //-------------------------------------------------------------------------------------------------------------
         public void ExportWebSites()
         {
             string tPath = EditorUtility.SaveFolderPanel("Export WebSite(s)", "", "NetWorkedDataServer");
@@ -257,8 +250,8 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

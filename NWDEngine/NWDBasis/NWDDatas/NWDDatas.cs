@@ -100,7 +100,9 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public bool mSettingsShowing = false;
         //-------------------------------------------------------------------------------------------------------------
         //public Object kObjectInEdition;
         //public Object[] kObjectsArrayInEdition;
@@ -1092,12 +1094,6 @@ namespace NetWorkedData
         public static string SynchronizeKeyTimestamp = "sync";
         public static string SynchronizeKeyLastTimestamp = "last";
         public static string SynchronizeKeyInWaitingTimestamp = "waiting";
-        //-------------------------------------------------------------------------------------------------------------
-
-
-        public static bool mSettingsShowing = false;
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool mForceSynchronization = false;
         //-------------------------------------------------------------------------------------------------------------
 
         public static Vector2 m_ObjectEditorScrollPosition = Vector2.zero; // not obligation
