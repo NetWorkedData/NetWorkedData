@@ -66,16 +66,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Texture FromGizmos(string sName)
 		{
-			return AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/"+sName+".png"));
+            return NWDFindPackage.PackageEditorTexture(sName+".png");
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Initializes a new instance of the <see cref="NWDEditor.NWDBasisWindow"/> class.
-		/// </summary>
-		/// <param name="sTitleKey">title.</param>
-		/// <param name="sDescriptionKey">description.</param>
-		/// <param name="sTabTypeList">Type's list.</param>
-			public NWDBasisWindow(string sTitleKey = "", string sDescriptionKey = "", Type[] sTabTypeList = null)
+		public NWDBasisWindow(string sTitleKey = "", string sDescriptionKey = "", Type[] sTabTypeList = null)
 		{
 			//Debug.Log ("NWDBasisWindow advanced constructor");
 			this.mTitleKey = sTitleKey;
@@ -227,7 +221,7 @@ namespace NetWorkedData
             titleContent.tooltip = mDescriptionKey; // not working :-(
 			if (IconOfWindow == null) 
 			{
-				IconOfWindow = AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/settings.png"));
+                IconOfWindow = NWDFindPackage.PackageEditorTexture("settings.png");
 			}
 			if (IconOfWindow != null) {
 				titleContent.image = IconOfWindow;

@@ -540,51 +540,35 @@ namespace NetWorkedData
         public static float kReferenceWidth = 230.0f;
         //-------------------------------------------------------------------------------------------------------------
         // Icons for Sync
-        public static Texture2D kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDRed.psd"));
-        public static Texture2D kImageGreen = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDGreen.psd"));
-        public static Texture2D kImageOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDOrange.psd"));
-        public static Texture2D kImageForbidden = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbidden.psd"));
-        public static Texture2D kImageForbiddenOrange = AssetDatabase.LoadAssetAtPath<Texture2D> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDForbiddenOrange.psd"));
-        public static Texture2D kImageEmpty = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDEmpty.psd"));
-        public static Texture2D kImageWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWaiting.psd"));
-        public static Texture2D kImageWarning = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDWarning.psd"));
+        public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture ("NWDRed.psd");
+        public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture ("NWDGreen.psd");
+        public static Texture2D kImageOrange = NWDFindPackage.PackageEditorTexture ("NWDOrange.psd");
+        public static Texture2D kImageForbidden = NWDFindPackage.PackageEditorTexture ("NWDForbidden.psd");
+        public static Texture2D kImageForbiddenOrange = NWDFindPackage.PackageEditorTexture ("NWDForbiddenOrange.psd");
+        public static Texture2D kImageEmpty = NWDFindPackage.PackageEditorTexture("NWDEmpty.psd");
+        public static Texture2D kImageWaiting = NWDFindPackage.PackageEditorTexture("NWDWaiting.psd");
+        public static Texture2D kImageWarning = NWDFindPackage.PackageEditorTexture("NWDWarning.psd");
 
 
-        public static Texture2D kImageDiskUnknow = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/Editor/NWDDiskUnknow.png"));
-        public static Texture2D kImageDiskUpdate = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDDiskUpdate.png"));
-        public static Texture2D kImageDiskInsert = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDDiskInsert.png"));
-        public static Texture2D kImageDiskDelete = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDDiskDelete.png"));
-        public static Texture2D kImageDiskDatabase = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDDiskDatabase.png"));
+        public static Texture2D kImageDiskUnknow = NWDFindPackage.PackageEditorTexture ("NWDDiskUnknow.png");
+        public static Texture2D kImageDiskUpdate = NWDFindPackage.PackageEditorTexture("NWDDiskUpdate.png");
+        public static Texture2D kImageDiskInsert = NWDFindPackage.PackageEditorTexture("NWDDiskInsert.png");
+        public static Texture2D kImageDiskDelete = NWDFindPackage.PackageEditorTexture("NWDDiskDelete.png");
+        public static Texture2D kImageDiskDatabase = NWDFindPackage.PackageEditorTexture("NWDDiskDatabase.png");
 
 
-        public static Texture2D kImageSyncGeneralForbidden = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncGeneralForbidden.png"));
-        public static Texture2D kImageSyncGeneralForward = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncGeneralForward.png"));
-        public static Texture2D kImageSyncGeneralRequired = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncGeneralRequired.png"));
-        public static Texture2D kImageSyncGeneralSuccessed = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncGeneralSuccessed.png"));
-        public static Texture2D kImageSyncGeneralWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncGeneralWaiting.png"));
+        public static Texture2D kImageSyncGeneralForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForbidden.png");
+        public static Texture2D kImageSyncGeneralForward = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralForward.png");
+        public static Texture2D kImageSyncGeneralRequired = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralRequired.png");
+        public static Texture2D kImageSyncGeneralSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralSuccessed.png");
+        public static Texture2D kImageSyncGeneralWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncGeneralWaiting.png");
 
-        public static Texture2D kImageSyncDanger = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncDanger.png"));
-        public static Texture2D kImageSyncForbidden = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncForbidden.png"));
-        public static Texture2D kImageSyncForward = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncForward.png"));
-        public static Texture2D kImageSyncRequired = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncRequired.png"));
-        public static Texture2D kImageSyncSuccessed = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncSuccessed.png"));
-        public static Texture2D kImageSyncWaiting = AssetDatabase.LoadAssetAtPath<Texture2D>(
-            NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/Editor/NWDSyncWaiting.png"));
+        public static Texture2D kImageSyncDanger = NWDFindPackage.PackageEditorTexture("NWDSyncDanger.png");
+        public static Texture2D kImageSyncForbidden = NWDFindPackage.PackageEditorTexture("NWDSyncForbidden.png");
+        public static Texture2D kImageSyncForward = NWDFindPackage.PackageEditorTexture("NWDSyncForward.png");
+        public static Texture2D kImageSyncRequired = NWDFindPackage.PackageEditorTexture("NWDSyncRequired.png");
+        public static Texture2D kImageSyncSuccessed = NWDFindPackage.PackageEditorTexture("NWDSyncSuccessed.png");
+        public static Texture2D kImageSyncWaiting = NWDFindPackage.PackageEditorTexture("NWDSyncWaiting.png");
 
         static public Color KTAB_BAR_BACK_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);
         static public Color KTAB_BAR_LINE_COLOR = new Color(0.6f, 0.6f, 0.6f, 1.0f);

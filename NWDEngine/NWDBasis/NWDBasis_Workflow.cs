@@ -27,39 +27,6 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //-------------------------------------------------------------------------------------------------------------
-    //TODO: Change for an editable Tag system
-
-    public enum NWDBasisTag : int
-    {
-        NoTag = -1,
-
-        TagZero = 0,
-        TagOne = 1,
-        TagTwo = 2,
-        TagThree = 3,
-        TagFour = 4,
-        TagFive = 5,
-        TagSix = 6,
-        TagSeven = 7,
-        TagHeight = 8,
-        TagNine = 9,
-        TagTen = 10,
-
-        TagInternal = 11,
-
-        TagTwelve = 12, // unused but reserved
-        TagThirteen = 13, // unused but reserved
-        TagFourteen = 14, // unused but reserved
-
-        TagTestForPreprod = 15,
-        TagTestForDev = 16,
-
-        TagAdminCreated = 17,
-        TagDeviceCreated = 18,
-        TagServerCreated = 19,
-        TagUserCreated = 20,
-    }
-    //-------------------------------------------------------------------------------------------------------------
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------

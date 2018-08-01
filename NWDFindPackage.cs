@@ -69,7 +69,17 @@ namespace NetWorkedData
 		public static string PathOfPackage (string sAddPath="")
 		{
 			return SharedInstance ().ScriptFolderFromAssets + sAddPath;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string PathEditorTextures(string sAddPath = "")
+        {
+            return SharedInstance().ScriptFolderFromAssets +"/NWDEditor/Editor/Resources/Textures/"+ sAddPath;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Texture2D PackageEditorTexture(string sAddPath = "")
+        {
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditorTextures(sAddPath));
+        }
 		//-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

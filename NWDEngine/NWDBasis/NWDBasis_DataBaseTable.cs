@@ -117,9 +117,9 @@ namespace NetWorkedData
 #if UNITY_EDITOR
 
 #else
-			ObjectsList = new List<object> ();
-			ObjectsByReferenceList = new List<string> ();
-			ObjectsByKeyList = new List<string> ();
+            Datas().ObjectsList = new List<object> ();
+            Datas().ObjectsByReferenceList = new List<string> ();
+            Datas().ObjectsByKeyList = new List<string> ();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -164,7 +164,7 @@ namespace NetWorkedData
 			//Debug.Log ("OnGUI");
 			titleContent = new GUIContent ();
 			titleContent.text = "Inspector";
-			titleContent.image = AssetDatabase.LoadAssetAtPath<Texture> (NWDFindPackage.PathOfPackage ("/NWDEditor/NWDNativeImages/NWDIcons_01.png"));
+            titleContent.image = NWDFindPackage.PackageEditorTexture("NWDIcons_01.png");
 
 //			ScrollPosition = GUI.BeginScrollView(new Rect(0, 0, position.width, position.height), ScrollPosition, new Rect(0, 0, position.width, position.height*2));
 			if (mObjectInEdition == null)

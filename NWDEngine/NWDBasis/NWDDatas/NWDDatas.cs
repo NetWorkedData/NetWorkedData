@@ -84,9 +84,9 @@ namespace NetWorkedData
         public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
 
-        static public string kPrefSaltValidKey = "SaltValid";
-        static public string kPrefSaltAKey = "SaltA";
-        static public string kPrefSaltBKey = "SaltB";
+        //static public string kPrefSaltValidKey = "SaltValid";
+        //static public string kPrefSaltAKey = "SaltA";
+        //static public string kPrefSaltBKey = "SaltB";
 
         public string SaltA = "";
         public string SaltB = "";
@@ -1089,11 +1089,11 @@ namespace NetWorkedData
 
         //-------------------------------------------------------------------------------------------------------------
 
-        public static string SynchronizeKeyData = "data";
-        public static string SynchronizeKeyDataCount = "rowCount";
-        public static string SynchronizeKeyTimestamp = "sync";
-        public static string SynchronizeKeyLastTimestamp = "last";
-        public static string SynchronizeKeyInWaitingTimestamp = "waiting";
+        //public static string SynchronizeKeyData = "data";
+        //public static string SynchronizeKeyDataCount = "rowCount";
+        //public static string SynchronizeKeyTimestamp = "sync";
+        //public static string SynchronizeKeyLastTimestamp = "last";
+        //public static string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
 
         public static Vector2 m_ObjectEditorScrollPosition = Vector2.zero; // not obligation
