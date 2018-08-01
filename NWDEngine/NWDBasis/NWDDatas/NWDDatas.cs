@@ -58,11 +58,12 @@ namespace NetWorkedData
         ReachableAndTrashed,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDTypeInfos
+    public class NWDDatas
     {
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
         public string ClassName = "";
+        public string ClassNamePHP = "";
         public bool ServerSynchronize;
         public string TrigrammeName = "";
         public string ClassDescription = "";
@@ -107,6 +108,10 @@ namespace NetWorkedData
         //
 
 
+        public List<object> ObjectsList = new List<object>();
+        public List<string> ObjectsByReferenceList = new List<string>();
+        public List<string> ObjectsByKeyList = new List<string>();
+
 
 
         //-------------------------------------------------------------------------------------------------------------
@@ -115,11 +120,40 @@ namespace NetWorkedData
         //public Object kObjectInEdition;
         //public Object[] kObjectsArrayInEdition;
         //-------------------------------------------------------------------------------------------------------------
+        static Texture2D Texture = null;
+        public Texture2D TextureOfClass()
+        {
+            if (Texture == null)
+            {
+                Texture2D rTexture = null;
+                string[] sGUIDs = AssetDatabase.FindAssets("" + ClassNamePHP + " t:texture2D");
+                foreach (string tGUID in sGUIDs)
+                {
+                    //Debug.Log("TextureOfClass GUID " + tGUID);
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    //Debug.Log("tPathFilename = " + tPathFilename);
+                    if (tPathFilename.Equals(ClassNamePHP))
+                    {
+                        //Debug.Log("TextureOfClass " + tPath);
+                        rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                    }
+                }
+                Texture = rTexture;
+                // if null  the draw default
+                if (Texture == null)
+                {
+                    Texture = NWDConstants.kImageRed;
+                }
+            }
+            return Texture;
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
         public string m_SearchReference = "";
         public string m_SearchInternalName = "";
         public string m_SearchInternalDescription = "";
         public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
-
 
         public Vector2 m_ScrollPositionList;
 
@@ -138,20 +172,6 @@ namespace NetWorkedData
         public bool m_ShowTrashed = true;
         public bool m_ShowIntegrityError = true;
 
-
-
-        public List<object> ObjectsList = new List<object>();
-        public List<string> ObjectsByReferenceList = new List<string>();
-        public List<string> ObjectsByKeyList = new List<string>(); 
-
-
-
-
-
-
-
-
-
         public Vector2 m_ScrollPositionCard;
         public bool mSearchShowing = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -160,12 +180,17 @@ namespace NetWorkedData
         public List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
         //-------------------------------------------------------------------------------------------------------------
 #endif
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeInfos()
+        public NWDDatas()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<Type, NWDTypeInfos> TypesDictionary = new Dictionary<Type, NWDTypeInfos>();
+        public static Dictionary<Type, NWDDatas> TypesDictionary = new Dictionary<Type, NWDDatas>();
+
         //-------------------------------------------------------------------------------------------------------------
         public static void Declare(Type sType, bool sServerSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
         {
@@ -173,20 +198,26 @@ namespace NetWorkedData
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 // find infos object if exists or create 
-                NWDTypeInfos tTypeInfos = null;
+                NWDDatas tTypeInfos = null;
                 if (TypesDictionary.ContainsKey(sType))
                 {
                     tTypeInfos = TypesDictionary[sType];
                 }
                 else
                 {
-                    tTypeInfos = new NWDTypeInfos();
+                    tTypeInfos = new NWDDatas();
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
                 // insert basic infos
                 tTypeInfos.ClassType = sType;
                 tTypeInfos.TableName = sType.Name;
                 tTypeInfos.ClassName = sType.AssemblyQualifiedName;
+
+                TableMapping tTableMapping = new TableMapping(sType);
+                string rClassName = tTableMapping.TableName;
+                tTypeInfos.ClassNamePHP = rClassName;
+
+
                 // insert attributs infos
                 tTypeInfos.TrigrammeName = sTrigrammeName;
                 tTypeInfos.MenuName = sMenuName;
@@ -205,9 +236,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDTypeInfos FindTypeInfos(Type sType)
+        public static NWDDatas FindTypeInfos(Type sType)
         {
-            NWDTypeInfos tTypeInfos = null;
+            NWDDatas tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 if (TypesDictionary.ContainsKey(sType))
@@ -221,7 +252,7 @@ namespace NetWorkedData
         public static string Informations(Type sType)
         {
             string rReturn = "";
-            NWDTypeInfos tTypeInfos = FindTypeInfos(sType);
+            NWDDatas tTypeInfos = FindTypeInfos(sType);
             if (tTypeInfos == null)
             {
                 rReturn = "unknow";
@@ -1094,7 +1125,7 @@ namespace NetWorkedData
             // Create all instance from database
             IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
 
-            NWDTypeInfos tTypeInfos = NWDTypeInfos.FindTypeInfos(ClassType());
+            NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());
             // Reset the Handler of datas index
             tTypeInfos.ResetDatas();
             // Prepare the datas

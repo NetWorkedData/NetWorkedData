@@ -35,16 +35,16 @@ namespace NetWorkedData
             Type tType = MethodBase.GetCurrentMethod().DeclaringType;
             //Debug.Log ("tType : " + tType.Name);
             //Debug.Log ("K : " + typeof(K).Name);
-            NWDTypeInfos.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+            NWDDatas.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
             //NWDDataManager.SharedInstance().AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
             redefineClassToUse(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDTypeInfos Datas()
+        public static NWDDatas Datas()
         {
-            return NWDTypeInfos.FindTypeInfos(typeof(K));
+            return NWDDatas.FindTypeInfos(typeof(K));
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string ClassID()

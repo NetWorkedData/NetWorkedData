@@ -125,7 +125,7 @@ namespace NetWorkedData
             // check all type 
 			foreach( Type tType in mTabTypeList)
 			{
-                NWDTypeInfos tTypeInfos = NWDTypeInfos.FindTypeInfos(tType);
+                NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(tType);
                 if (tTypeInfos != null)
                 {
                     // add informations for tab list

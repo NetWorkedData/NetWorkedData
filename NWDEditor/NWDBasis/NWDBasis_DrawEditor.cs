@@ -1084,7 +1084,7 @@ namespace NetWorkedData
             }
             tY += tTitleLabelStyle.fixedHeight + NWDConstants.kFieldMarge * 2;
 
-            Texture2D tTextureOfClass = TextureOfClass();
+            Texture2D tTextureOfClass = Datas().TextureOfClass();
             if (tTextureOfClass != null)
             {
                 GUI.DrawTexture(new Rect(tX + tWidth / 2.0F - 16, tY, 32, 32), tTextureOfClass);
