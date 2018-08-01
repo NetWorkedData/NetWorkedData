@@ -134,7 +134,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.LogWarning("ClassType() is null for " + ClassNamePHP());
+                Debug.LogWarning("ClassType() is null for " + Datas().ClassNamePHP);
             }
             //BTBBenchmark.Finish();
             return rReturnObject as K;
@@ -203,7 +203,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    Debug.LogWarning("ClassType() is null for " + ClassNamePHP());
+                    Debug.LogWarning("ClassType() is null for " + Datas().ClassNamePHP);
                 }
             }
             //BTBBenchmark.Finish();

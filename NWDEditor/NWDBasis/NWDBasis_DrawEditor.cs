@@ -69,7 +69,7 @@ namespace NetWorkedData
             NWDBasis<K> rObject = null;
             if (!string.IsNullOrEmpty(sClassPHP) && !string.IsNullOrEmpty(sReference))
             {
-                if (sClassPHP == ClassNamePHP())
+                if (sClassPHP == Datas().ClassNamePHP)
                 {
                     rObject = NWDBasis<K>.InstanceByReference(sReference);
                 }
@@ -1051,7 +1051,7 @@ namespace NetWorkedData
 
             if (string.IsNullOrEmpty(tTitle))
             {
-                tTitle = "Unamed " + ClassNamePHP() + "";
+                tTitle = "Unamed " + Datas().ClassNamePHP + "";
                 //                tTitle = ClassNamePHP () + "'s Object";
             }
             if (InError == true)
@@ -1242,7 +1242,7 @@ namespace NetWorkedData
             //            GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
 
 
-            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), ClassNamePHP() + "'s Object", tBoldLabelStyle);
+            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), Datas().ClassNamePHP + "'s Object", tBoldLabelStyle);
             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             //GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE + Reference, tMiniLabelStyle);

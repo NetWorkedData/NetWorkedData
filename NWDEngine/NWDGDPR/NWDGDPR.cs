@@ -112,7 +112,7 @@ namespace NetWorkedData
         public static string DGPRExtract()
         {
             Debug.Log("NWDBasis<K> DGPRExtract()");
-            string rExtract = "{\"" + ClassNamePHP() + "\"" + " : [\n\r";
+            string rExtract = "{\"" + Datas().ClassNamePHP + "\"" + " : [\n\r";
             List<string> tList = new List<string>();
             foreach (K tObject in GetAllObjects())
             {

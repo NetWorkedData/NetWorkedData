@@ -92,7 +92,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationUpadteTimestamp()
         {
-            Debug.Log(ClassNamePHP() + " must be reset the timestamp of last sync to the build tiemstamp");
+            Debug.Log(Datas().ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
             SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------

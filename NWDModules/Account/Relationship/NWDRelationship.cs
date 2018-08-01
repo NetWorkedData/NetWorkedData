@@ -1046,8 +1046,8 @@ namespace NetWorkedData
         public static NWDUserOwnership[] GetAllObjectsForRelationshipAndGameSave(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return new NWDUserOwnership[0];
@@ -1083,8 +1083,8 @@ namespace NetWorkedData
         public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization ==true && 
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP())== false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP())== false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP)== false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP)== false)
                )
             {
                 return new K[0];
@@ -1096,8 +1096,8 @@ namespace NetWorkedData
         public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return null;
@@ -1109,8 +1109,8 @@ namespace NetWorkedData
         public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return new K[0];
@@ -1121,8 +1121,8 @@ namespace NetWorkedData
         public static NWDUserConsolidatedStats GetObjectByInternalKeyForRelationshipAndGameSave(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return null;
@@ -1157,8 +1157,8 @@ namespace NetWorkedData
         public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return null;
@@ -1170,8 +1170,8 @@ namespace NetWorkedData
         public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return new K[0];
@@ -1183,8 +1183,8 @@ namespace NetWorkedData
         public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(ClassNamePHP()) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(ClassNamePHP()) == false)
+                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
                )
             {
                 return new K[0];

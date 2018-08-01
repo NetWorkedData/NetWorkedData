@@ -28,25 +28,25 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kTableNameList = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string ClassNamePHP()
-        {
-            string rReturn = "";
-            if (kTableNameList.ContainsKey(ClassID()))
-            {
-                rReturn = kTableNameList[ClassID()];
-            }
-            else
-            {
-                Type tType = ClassType();
-                TableMapping tTableMapping = new TableMapping(tType);
-                string rClassName = tTableMapping.TableName;
-                rReturn = rClassName;
-                kTableNameList.Add(ClassID(), rClassName);
-            }
-            return rReturn;
-        }
+        //public static Dictionary<string, string> kTableNameList = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string ClassNamePHP()
+        //{
+        //    string rReturn = "";
+        //    if (kTableNameList.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kTableNameList[ClassID()];
+        //    }
+        //    else
+        //    {
+        //        Type tType = ClassType();
+        //        TableMapping tTableMapping = new TableMapping(tType);
+        //        string rClassName = tTableMapping.TableName;
+        //        rReturn = rClassName;
+        //        kTableNameList.Add(ClassID(), rClassName);
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().kLastWebBuildClass = new Dictionary<Type, int>();
             foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
             {
-                if (tKeyValue.Key == ClassNamePHP())
+                if (tKeyValue.Key == Datas().ClassNamePHP)
                 {
                     tWebBuildUsed = tKeyValue.Value;
                 }

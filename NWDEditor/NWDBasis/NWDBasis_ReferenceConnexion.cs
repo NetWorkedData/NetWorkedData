@@ -160,7 +160,7 @@ namespace NetWorkedData
                                                      sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
 
                     EditorGUI.DrawRect(tRectToDrawProperties, NWDConstants.kIdentityColor);
-                    GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP(), tBoldLabelStyle);
+                    GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + Datas().ClassNamePHP, tBoldLabelStyle);
                     tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);
                     tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -381,7 +381,7 @@ namespace NetWorkedData
 
                             EditorGUI.HelpBox(tRectToHelpBox, "", MessageType.None);
                             //EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
-                            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + ClassNamePHP(), tBoldLabelStyle);
+                            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + Datas().ClassNamePHP, tBoldLabelStyle);
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;

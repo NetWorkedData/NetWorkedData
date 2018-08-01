@@ -161,7 +161,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.Log("ClassType() is null for " + ClassNamePHP());
+                Debug.Log("ClassType() is null for " + Datas().ClassNamePHP);
             }
             return rReturnObject;
         }

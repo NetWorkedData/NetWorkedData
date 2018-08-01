@@ -38,7 +38,7 @@ namespace NetWorkedData
             // insert informations
             sCard.ClassTexture = Datas().TextureOfClass();
             sCard.ReferenceString = Reference;
-            sCard.TypeString = ClassNamePHP();
+            sCard.TypeString = Datas().ClassNamePHP;
             sCard.InternalKeyString = InternalKey;
             sCard.Width = AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth());
             sCard.ParentDocument.SetWidth(AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth()));
