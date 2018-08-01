@@ -26,7 +26,7 @@ namespace NetWorkedData
         /// <param name="sString">S string.</param>
 		public static void ClassInformations (string sString)
         {
-			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDDatas.Informations (typeof(K)) + "' ");
+			Debug.Log ("From " + sString + " real [" + typeof(K).Name + "] = > " + NWDBasisDatas.Informations (typeof(K)) + "' ");
 		}
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>

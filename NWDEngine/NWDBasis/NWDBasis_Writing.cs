@@ -122,11 +122,11 @@ namespace NetWorkedData
                     tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     tPropInfo.SetValue(rReturnObject, tAtt, null);
                 }
-                if (Datas().kGameSaveDependent == true)
+                if (Datas().ClassGameSaveDependent == true)
                 {
                     NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
                     tAtt.SetReference(NWDGameSave.Current().Reference);
-                    PropertyInfo tPropInfo = Datas().kGameDependentProperties;
+                    PropertyInfo tPropInfo = Datas().ClassGameDependentProperties;
                     tPropInfo.SetValue(rReturnObject, tAtt, null);
                 }
                 rReturnObject.Initialization();

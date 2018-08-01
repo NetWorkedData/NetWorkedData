@@ -26,54 +26,22 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDBasisFilter is use to filter the datas in workflow methodes.
-    /// </summary>
-    public enum NWDBasisFilter : int
-    {
-        /// <summary>
-        /// All datas, quickly access.
-        /// </summary>
-        All,
-        /// <summary>
-        /// The reachable datas by the current user, quickly access.
-        /// Return the editor and account dependant datas 
-        /// </summary>
-        Reachable,
-        /// <summary>
-        /// The reachable datas by the current user, slow access.
-        /// Not trashed, not disabled, for current account!
-        /// Return the editor and account dependant datas 
-        /// </summary>
-        ReachableAndEnable,
-        /// <summary>
-        /// The reachable datas by the current user but disabled, slow access.
-        /// For current account but disabled.
-        /// </summary>
-        ReachableAndDisabled,
-        /// <summary>
-        /// The reachable datas by the current user but trashed, slow access.
-        /// For current account but trashed.
-        /// </summary>
-        ReachableAndTrashed,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDatas
+    public class NWDBasisDatas
     {
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
         public string ClassName = "";
         public string ClassNamePHP = "";
-        public bool ServerSynchronize;
-        public string TrigrammeName = "";
+        public bool ClassSynchronize;
+        public string ClassTrigramme = "";
         public string ClassDescription = "";
-        public string MenuName = "";
-        public string TableName = "";
-        public string PrefBaseKey = "";
-        public GUIContent MenuNameContent = GUIContent.none;
+        public string ClassMenuName = "";
+        public string ClassTableName = "";
+        public string ClassPrefBaseKey = "";
+        public GUIContent ClassMenuNameContent = GUIContent.none;
 
-        public bool kGameSaveDependent = false;
-        public PropertyInfo kGameDependentProperties;
+        public bool ClassGameSaveDependent = false;
+        public PropertyInfo ClassGameDependentProperties;
 
         public bool kAccountDependent = false;
         public PropertyInfo[] kAccountDependentProperties;
@@ -83,11 +51,6 @@ namespace NetWorkedData
         public bool kAssetDependent;
         public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
-
-        //static public string kPrefSaltValidKey = "SaltValid";
-        //static public string kPrefSaltAKey = "SaltA";
-        //static public string kPrefSaltBKey = "SaltB";
-
         public string SaltA = "";
         public string SaltB = "";
         public string SaltOk = "";
@@ -172,33 +135,33 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDatas()
+        public NWDBasisDatas()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<Type, NWDDatas> TypesDictionary = new Dictionary<Type, NWDDatas>();
+        public static Dictionary<Type, NWDBasisDatas> TypesDictionary = new Dictionary<Type, NWDBasisDatas>();
 
         //-------------------------------------------------------------------------------------------------------------
-        public static void Declare(Type sType, bool sServerSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
+        public static void Declare(Type sType, bool sClassSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
         {
             Debug.Log("NWDTypeInfos Declare");
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 // find infos object if exists or create 
-                NWDDatas tTypeInfos = null;
+                NWDBasisDatas tTypeInfos = null;
                 if (TypesDictionary.ContainsKey(sType))
                 {
                     tTypeInfos = TypesDictionary[sType];
                 }
                 else
                 {
-                    tTypeInfos = new NWDDatas();
+                    tTypeInfos = new NWDBasisDatas();
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
                 // insert basic infos
                 tTypeInfos.ClassType = sType;
-                tTypeInfos.TableName = sType.Name;
-                tTypeInfos.PrefBaseKey = tTypeInfos.TableName + "_";
+                tTypeInfos.ClassTableName = sType.Name;
+                tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassTableName + "_";
 
                 tTypeInfos.ClassName = sType.AssemblyQualifiedName;
 
@@ -208,14 +171,14 @@ namespace NetWorkedData
 
 
                 // insert attributs infos
-                tTypeInfos.TrigrammeName = sTrigrammeName;
-                tTypeInfos.MenuName = sMenuName;
+                tTypeInfos.ClassTrigramme = sTrigrammeName;
+                tTypeInfos.ClassMenuName = sMenuName;
                 tTypeInfos.ClassDescription = sDescription;
-                tTypeInfos.ServerSynchronize = sServerSynchronize;
+                tTypeInfos.ClassSynchronize = sClassSynchronize;
                 // create GUI object
-                tTypeInfos.MenuNameContent = new GUIContent(sMenuName, sDescription);
+                tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, sDescription);
                 // Prepare engine informlations
-                tTypeInfos.PrefBaseKey = sType.Name + "_";
+                tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
                 tTypeInfos.PropertiesArrayPrepare();
                 tTypeInfos.PropertiesOrderArrayPrepare();
                 tTypeInfos.SLQAssemblyOrderArrayPrepare();
@@ -230,16 +193,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PrefSave()
         {
-            NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey, NWDConstants.kPrefSaltAKey, SaltA);
-            NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey, NWDConstants.kPrefSaltBKey, SaltB);
-            NWDAppConfiguration.SharedInstance().SetSaltValid(PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
+            NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, SaltA);
+            NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, SaltB);
+            NWDAppConfiguration.SharedInstance().SetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
         }
         //-------------------------------------------------------------------------------------------------------------
         public void PrefLoad()
         {
-            SaltA = NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
-            SaltB = NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
-            SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(PrefBaseKey, NWDConstants.kPrefSaltValidKey);
+            SaltA = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
+            SaltB = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
+            SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltValid()
@@ -256,9 +219,9 @@ namespace NetWorkedData
             return rReturn;
         } 
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDatas FindTypeInfos(Type sType)
+        public static NWDBasisDatas FindTypeInfos(Type sType)
         {
-            NWDDatas tTypeInfos = null;
+            NWDBasisDatas tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 if (TypesDictionary.ContainsKey(sType))
@@ -272,7 +235,7 @@ namespace NetWorkedData
         public static string Informations(Type sType)
         {
             string rReturn = "";
-            NWDDatas tTypeInfos = FindTypeInfos(sType);
+            NWDBasisDatas tTypeInfos = FindTypeInfos(sType);
             if (tTypeInfos == null)
             {
                 rReturn = "unknow";
@@ -287,10 +250,10 @@ namespace NetWorkedData
         public string Informationss()
         {
             return "ClassName = '" + ClassName + "' " +
-            "TrigrammeName = '" + TrigrammeName + "' " +
-            "ServerSynchronize = '" + ServerSynchronize + "' " +
+            "TrigrammeName = '" + ClassTrigramme + "' " +
+            "ServerSynchronize = '" + ClassSynchronize + "' " +
             "ClassDescription = '" + ClassDescription + "' " +
-            "MenuName = '" + MenuName + "' " +
+            "MenuName = '" + ClassMenuName + "' " +
             "";
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -791,13 +754,13 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass[] GetAllDatas(NWDBasisFilter sFilter)
+        public NWDTypeClass[] GetAllDatas(NWDBasisDatasFilter sFilter)
         {
             BTBBenchmark.Start();
             NWDTypeClass[] rReturn;
             switch (sFilter)
             {
-                case NWDBasisFilter.ReachableAndDisabled:
+                case NWDBasisDatasFilter.ReachableAndDisabled:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         foreach (NWDTypeClass tDatas in DatasReachable)
@@ -810,7 +773,7 @@ namespace NetWorkedData
                         rReturn = tList.ToArray();
                     }
                     break;
-                case NWDBasisFilter.ReachableAndTrashed:
+                case NWDBasisDatasFilter.ReachableAndTrashed:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         foreach (NWDTypeClass tDatas in DatasReachable)
@@ -823,7 +786,7 @@ namespace NetWorkedData
                         rReturn = tList.ToArray();
                     }
                     break;
-                case NWDBasisFilter.ReachableAndEnable:
+                case NWDBasisDatasFilter.ReachableAndEnable:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         foreach (NWDTypeClass tDatas in DatasReachable)
@@ -836,13 +799,13 @@ namespace NetWorkedData
                         rReturn = tList.ToArray();
                     }
                     break;
-                case NWDBasisFilter.All:
+                case NWDBasisDatasFilter.All:
                     {
                         rReturn = Datas.ToArray();
                     }
                     break;
                 default:
-                case NWDBasisFilter.Reachable:
+                case NWDBasisDatasFilter.Reachable:
                     {
                         rReturn = DatasReachable.ToArray();
                     }
@@ -852,13 +815,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass[] GetDatasByInternalKey(string sInternalKey, NWDBasisFilter sFilter)
+        public NWDTypeClass[] GetDatasByInternalKey(string sInternalKey, NWDBasisDatasFilter sFilter)
         {
             BTBBenchmark.Start();
             NWDTypeClass[] rReturn = null;
             switch (sFilter)
             {
-                case NWDBasisFilter.ReachableAndDisabled:
+                case NWDBasisDatasFilter.ReachableAndDisabled:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -874,7 +837,7 @@ namespace NetWorkedData
                         rReturn = tList.ToArray();
                     }
                     break;
-                case NWDBasisFilter.ReachableAndTrashed:
+                case NWDBasisDatasFilter.ReachableAndTrashed:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -890,7 +853,7 @@ namespace NetWorkedData
                         rReturn = tList.ToArray();
                     }
                     break;
-                case NWDBasisFilter.ReachableAndEnable:
+                case NWDBasisDatasFilter.ReachableAndEnable:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -906,7 +869,7 @@ namespace NetWorkedData
                         rReturn = tList.ToArray();
                     }
                     break;
-                case NWDBasisFilter.All:
+                case NWDBasisDatasFilter.All:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasByInternalKey.ContainsKey(sInternalKey))
@@ -917,7 +880,7 @@ namespace NetWorkedData
                     }
                     break;
                 default:
-                case NWDBasisFilter.Reachable:
+                case NWDBasisDatasFilter.Reachable:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -932,13 +895,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass GetFirstDatasByInternalKey(string sInternalKey, NWDBasisFilter sFilter)
+        public NWDTypeClass GetFirstDatasByInternalKey(string sInternalKey, NWDBasisDatasFilter sFilter)
         {
             BTBBenchmark.Start();
             NWDTypeClass rReturn = null;
             switch (sFilter)
             {
-                case NWDBasisFilter.ReachableAndDisabled:
+                case NWDBasisDatasFilter.ReachableAndDisabled:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -954,7 +917,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                case NWDBasisFilter.ReachableAndTrashed:
+                case NWDBasisDatasFilter.ReachableAndTrashed:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -970,7 +933,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                case NWDBasisFilter.ReachableAndEnable:
+                case NWDBasisDatasFilter.ReachableAndEnable:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -986,7 +949,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                case NWDBasisFilter.All:
+                case NWDBasisDatasFilter.All:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasByInternalKey.ContainsKey(sInternalKey))
@@ -1000,7 +963,7 @@ namespace NetWorkedData
                     }
                     break;
                 default:
-                case NWDBasisFilter.Reachable:
+                case NWDBasisDatasFilter.Reachable:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
@@ -1018,14 +981,14 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass GetDataByReference(string sReference, NWDBasisFilter sFilter)
+        public NWDTypeClass GetDataByReference(string sReference, NWDBasisDatasFilter sFilter)
         {
             // TODO
             BTBBenchmark.Start();
             NWDTypeClass rReturn = null;
             switch (sFilter)
             {
-                case NWDBasisFilter.ReachableAndDisabled:
+                case NWDBasisDatasFilter.ReachableAndDisabled:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByReference.ContainsKey(sReference))
@@ -1038,7 +1001,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                case NWDBasisFilter.ReachableAndTrashed:
+                case NWDBasisDatasFilter.ReachableAndTrashed:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByReference.ContainsKey(sReference))
@@ -1051,7 +1014,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                case NWDBasisFilter.ReachableAndEnable:
+                case NWDBasisDatasFilter.ReachableAndEnable:
                     {
                         List<NWDTypeClass> tList = new List<NWDTypeClass>();
                         if (DatasReachableByReference.ContainsKey(sReference))
@@ -1064,7 +1027,7 @@ namespace NetWorkedData
                         }
                     }
                     break;
-                case NWDBasisFilter.All:
+                case NWDBasisDatasFilter.All:
                     {
                         if (DatasByReference.ContainsKey(sReference))
                         {
@@ -1073,7 +1036,7 @@ namespace NetWorkedData
                     }
                     break;
                 default:
-                case NWDBasisFilter.Reachable:
+                case NWDBasisDatasFilter.Reachable:
                     {
                         if (DatasReachableByReference.ContainsKey(sReference))
                         {
@@ -1096,24 +1059,6 @@ namespace NetWorkedData
         //public static string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
 
-        public static Vector2 m_ObjectEditorScrollPosition = Vector2.zero; // not obligation
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-                                                                           //-------------------------------------------------------------------------------------------------------------
-
-
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
@@ -1132,7 +1077,7 @@ namespace NetWorkedData
             // Create all instance from database
             IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
 
-            NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());
+            NWDBasisDatas tTypeInfos = NWDBasisDatas.FindTypeInfos(ClassType());
             // Reset the Handler of datas index
             tTypeInfos.ResetDatas();
             // Prepare the datas

@@ -35,16 +35,16 @@ namespace NetWorkedData
             Type tType = MethodBase.GetCurrentMethod().DeclaringType;
             //Debug.Log ("tType : " + tType.Name);
             //Debug.Log ("K : " + typeof(K).Name);
-            NWDDatas.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+            NWDBasisDatas.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
             //NWDDataManager.SharedInstance().AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
             redefineClassToUse(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDatas Datas()
+        public static NWDBasisDatas Datas()
         {
-            return NWDDatas.FindTypeInfos(typeof(K));
+            return NWDBasisDatas.FindTypeInfos(typeof(K));
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string ClassID()
@@ -508,8 +508,8 @@ namespace NetWorkedData
             List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
             Type tType = ClassType();
 
-            Datas().kGameSaveDependent= false;
-            Datas().kGameDependentProperties = null;
+            Datas().ClassGameSaveDependent= false;
+            Datas().ClassGameDependentProperties = null;
             // TODO : check 
             // exception for NWDAccount table
             if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken))
@@ -536,8 +536,8 @@ namespace NetWorkedData
                             }
                             if (tSubType == typeof(NWDGameSave))
                             {
-                                Datas().kGameSaveDependent = true;
-                                Datas().kGameDependentProperties = tProp;
+                                Datas().ClassGameSaveDependent = true;
+                                Datas().ClassGameDependentProperties = tProp;
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)

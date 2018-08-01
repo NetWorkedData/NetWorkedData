@@ -113,15 +113,15 @@ namespace NetWorkedData
             // check all type 
 			foreach( Type tType in mTabTypeList)
 			{
-                NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(tType);
+                NWDBasisDatas tTypeInfos = NWDBasisDatas.FindTypeInfos(tType);
                 if (tTypeInfos != null)
                 {
                     // add informations for tab list
-                    if (TabWidthMax<tTypeInfos.MenuName.Length)
+                    if (TabWidthMax<tTypeInfos.ClassMenuName.Length)
                     {
-                        TabWidthMax = tTypeInfos.MenuName.Length;
+                        TabWidthMax = tTypeInfos.ClassMenuName.Length;
                     }
-                    tTabContentList.Add(tTypeInfos.MenuNameContent);
+                    tTabContentList.Add(tTypeInfos.ClassMenuNameContent);
                     // I add this window to window update for this Type of Datas
                     NWDDataManager.SharedInstance().AddWindowInManager(this, mTabTypeList);
                     tCounter++;

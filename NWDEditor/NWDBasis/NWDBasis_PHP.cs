@@ -69,7 +69,7 @@ namespace NetWorkedData
             TableMapping tTableMapping = new TableMapping(tType);
             string tTableName = /*tEnvironmentFolder + "_" + */tTableMapping.TableName;
             string tClassName = tTableMapping.TableName;
-            string tTrigramme = Datas().TrigrammeName;
+            string tTrigramme = Datas().ClassTrigramme;
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");

@@ -87,7 +87,7 @@ namespace NetWorkedData
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 20h00
             while (tValid == false)
             {
-                rReturn = Datas().TrigrammeName + "-" + sUUID + tTime.ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString();
+                rReturn = Datas().ClassTrigramme + "-" + sUUID + tTime.ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
