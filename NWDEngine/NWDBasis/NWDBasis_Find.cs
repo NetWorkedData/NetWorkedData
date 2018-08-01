@@ -32,9 +32,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // find objects and get objects from database
         //-------------------------------------------------------------------------------------------------------------
-        public static List<object> ObjectsList = new List<object>();
-        public static List<string> ObjectsByReferenceList = new List<string>();
-        public static List<string> ObjectsByKeyList = new List<string>(); 
+        //public static List<object> ObjectsList = new List<object>();
+        //public static List<string> ObjectsByReferenceList = new List<string>();
+        //public static List<string> ObjectsByKeyList = new List<string>(); 
         // TODO Rename ObjectsByInternalKeyList
         //-------------------------------------------------------------------------------------------------------------
         #region Basis finder
@@ -159,10 +159,10 @@ namespace NetWorkedData
         public static NWDBasis<K> InstanceByReference(string sReference)
         {
             NWDBasis<K> rObject = null;
-            if (ObjectsByReferenceList.Contains(sReference))
+            if (Datas().ObjectsByReferenceList.Contains(sReference))
             {
-                int tObjectIndex = ObjectsByReferenceList.IndexOf(sReference);
-                rObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
+                rObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
             }
             return rObject;
         }

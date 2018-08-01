@@ -51,7 +51,7 @@ namespace NetWorkedData
         public static K[] GetAllDatas(string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
@@ -64,7 +64,7 @@ namespace NetWorkedData
         public static K[] GetAllDatasInGameSave(string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
@@ -87,10 +87,10 @@ namespace NetWorkedData
         {
             BTBBenchmark.Start();
             K rReturn = null;
-            int tIndex = ObjectsByReferenceList.IndexOf(sReference);
+            int tIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
             if (tIndex >= 0)
             {
-                K tObject = ObjectsList.ElementAt(tIndex) as K;
+                K tObject = Datas().ObjectsList.ElementAt(tIndex) as K;
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
                     rReturn = tObject;
@@ -120,7 +120,7 @@ namespace NetWorkedData
             K rReturn = null;
             // We cannot use ObjectsByKeyList to find Internal key because the objetc is pehaps lock fo this user
             // Must use the GetAllObjects(null) and chekc the good object
-            if (ObjectsByKeyList.Contains(sInternalKey) == false)
+            if (Datas().ObjectsByKeyList.Contains(sInternalKey) == false)
             {
                 // no return :-/
             }

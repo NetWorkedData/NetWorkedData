@@ -115,8 +115,43 @@ namespace NetWorkedData
         //public Object kObjectInEdition;
         //public Object[] kObjectsArrayInEdition;
         //-------------------------------------------------------------------------------------------------------------
+        public string m_SearchReference = "";
         public string m_SearchInternalName = "";
         public string m_SearchInternalDescription = "";
+        public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
+
+
+        public Vector2 m_ScrollPositionList;
+
+        public int m_ItemPerPage = 10;
+
+        public int m_ItemPerPageSelection = 0;
+
+        public string[] m_ItemPerPageOptions = new string[] {
+            "15", "20", "30", "40", "50", "100", "200",
+        };
+        public int m_PageSelected = 0;
+        public int m_MaxPage = 0;
+
+        public bool m_ShowEnable = true;
+        public bool m_ShowDisable = true;
+        public bool m_ShowTrashed = true;
+        public bool m_ShowIntegrityError = true;
+
+
+
+        public List<object> ObjectsList = new List<object>();
+        public List<string> ObjectsByReferenceList = new List<string>();
+        public List<string> ObjectsByKeyList = new List<string>(); 
+
+
+
+
+
+
+
+
+
         public Vector2 m_ScrollPositionCard;
         public bool mSearchShowing = false;
         //-------------------------------------------------------------------------------------------------------------

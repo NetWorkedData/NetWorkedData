@@ -40,11 +40,11 @@ namespace NetWorkedData
 
         public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            if (ObjectsInEditorTableList.Count > 0)
+            if (Datas().ObjectsInEditorTableList.Count > 0)
             {
-                string tNextReference = ObjectsInEditorTableList.ElementAt(0);
-                int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                string tNextReference = Datas().ObjectsInEditorTableList.ElementAt(0);
+                int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+                SetObjectInEdition(Datas().ObjectsList.ElementAt(tNextObjectIndex));
                 sEditorWindow.Focus();
             }
         }
@@ -307,6 +307,7 @@ namespace NetWorkedData
                     && tProp.Name != "WebServiceVersion"
                     && tProp.Name != "ReferenceVersioned"
                     && tProp.Name != "MinVersion"
+                    && tProp.Name != "MaxVersion"
 
                    )
                 {
@@ -586,6 +587,7 @@ namespace NetWorkedData
                     && tProp.Name != "WebServiceVersion"
                     && tProp.Name != "ReferenceVersioned"
                     && tProp.Name != "MinVersion"
+                    && tProp.Name != "MaxVersion"
 
                    )
                 {
@@ -1718,7 +1720,7 @@ namespace NetWorkedData
                 AddObjectInListOfEdition(tNexObject);
                 NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 SetObjectInEdition(tNexObject);
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 NWDDataManager.SharedInstance().UpdateQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }

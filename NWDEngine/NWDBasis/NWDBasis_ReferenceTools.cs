@@ -38,7 +38,7 @@ namespace NetWorkedData
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
             }
@@ -46,7 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
             }
@@ -127,7 +127,7 @@ namespace NetWorkedData
             //{
             //    rValid = true;
             //}
-            bool rValid = !ObjectsByReferenceList.Contains(sReference);
+            bool rValid = !Datas().ObjectsByReferenceList.Contains(sReference);
             return rValid;
         }
         //-------------------------------------------------------------------------------------------------------------

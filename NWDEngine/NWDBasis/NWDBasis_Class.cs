@@ -42,7 +42,7 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDTypeInfos TypeInfos()
+        public static NWDTypeInfos Datas()
         {
             return NWDTypeInfos.FindTypeInfos(typeof(K));
         }

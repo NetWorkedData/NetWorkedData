@@ -39,10 +39,10 @@ namespace NetWorkedData
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
             NWDBasis<K> tObject = null;
-            int tObjectIndex = ObjectsByReferenceList.IndexOf(sValue);
-            if (tObjectIndex >= 0 && tObjectIndex < ObjectsByReferenceList.Count)
+            int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sValue);
+            if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
             {
-                tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
             }
             if (tObject != null)
             {
@@ -110,10 +110,10 @@ namespace NetWorkedData
                 tAutoChange = true;
             }
             NWDBasis<K> tObject = null;
-            int tObjectIndex = ObjectsByReferenceList.IndexOf(tValue);
-            if (tObjectIndex >= 0 && tObjectIndex < ObjectsByReferenceList.Count)
+            int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tValue);
+            if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
             {
-                tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
             }
             if (tAutoChange == true)
             {
@@ -125,7 +125,7 @@ namespace NetWorkedData
                 {
                     if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
                     {
-                        if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                        if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
                         {
                             SetObjectInEdition(tObject);
                         }
@@ -202,10 +202,10 @@ namespace NetWorkedData
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
             NWDBasis<K> tObject = null;
-            int tObjectIndex = ObjectsByReferenceList.IndexOf(sProperty.FindPropertyRelative("Reference").stringValue);
-            if (tObjectIndex >= 0 && tObjectIndex < ObjectsByReferenceList.Count)
+            int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sProperty.FindPropertyRelative("Reference").stringValue);
+            if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
             {
-                tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
             }
             if (tObject != null)
             {
@@ -334,10 +334,10 @@ namespace NetWorkedData
                     tAutoChange = true;
                 }
                 NWDBasis<K> tObject = null;
-                int tObjectIndex = ObjectsByReferenceList.IndexOf(tFuturValue);
-                if (tObjectIndex >= 0 && tObjectIndex < ObjectsByReferenceList.Count)
+                int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tFuturValue);
+                if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
                 {
-                    tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
                 }
                 if (tAutoChange == true)
                 {
@@ -349,7 +349,7 @@ namespace NetWorkedData
                     {
                         if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
                         {
-                            if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                            if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
                             {
                                 SetObjectInEdition(tObject, true, true);
                             }

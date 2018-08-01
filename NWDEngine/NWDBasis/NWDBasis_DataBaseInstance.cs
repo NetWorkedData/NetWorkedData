@@ -376,7 +376,7 @@ namespace NetWorkedData
         public bool InsertMe(bool sAutoDate = true)
         {
             bool rReturn = false;
-            if (ObjectsByReferenceList.Contains(this.Reference)==false)
+            if (Datas().ObjectsByReferenceList.Contains(this.Reference)==false)
             //if (NWDBasis<K>.FindObjectInDataBaseByReference(this.Reference) == null)
             {
                 NWDVersionType tVersion = new NWDVersionType();

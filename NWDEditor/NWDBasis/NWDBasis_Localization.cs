@@ -36,7 +36,7 @@ namespace NetWorkedData
         {
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
@@ -106,7 +106,7 @@ namespace NetWorkedData
             string tRows = "";
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.ObjectsList)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 tRows += tObject.ExportLocalization(tLanguageArray);
             }

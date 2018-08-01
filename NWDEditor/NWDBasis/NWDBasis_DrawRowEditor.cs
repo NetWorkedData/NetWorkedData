@@ -240,7 +240,7 @@ namespace NetWorkedData
 
             // verif if object is in error
             ErrorCheck();
-            int tIndex = ObjectsByReferenceList.IndexOf(Reference);
+            int tIndex = Datas().ObjectsByReferenceList.IndexOf(Reference);
 
             // check error in data 
             string tIsInError = "";
@@ -284,7 +284,7 @@ namespace NetWorkedData
 				SetObjectInEdition (this);
 				if (sSelectAndClick==true) {
 					if (XX == 0 && TestIntegrity ()) {
-						ObjectsInEditorTableSelectionList [tIndex] = !ObjectsInEditorTableSelectionList [tIndex];
+                        Datas().ObjectsInEditorTableSelectionList[tIndex] = !Datas().ObjectsInEditorTableSelectionList [tIndex];
 						Event.current.Use ();
 					}
 				}
@@ -334,7 +334,7 @@ namespace NetWorkedData
                 if (TestIntegrity() == false)
                 {
                     EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorError);
-                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                     GUILayout.Label("!!!", GUILayout.Width(NWDConstants.kSelectWidth));
                     //sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
                     sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
@@ -343,7 +343,7 @@ namespace NetWorkedData
                 else if (XX > 0)
                 {
                     EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorTrash);
-                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                     GUILayout.Label("   ", GUILayout.Width(NWDConstants.kSelectWidth));
                     sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
                     tString = "<color=#444444ff>" + tString + "</color>";
@@ -356,13 +356,13 @@ namespace NetWorkedData
                         sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
                         tString = "<color=#555555ff>" + tString + "</color>";
                     }
-                    ObjectsInEditorTableSelectionList[tIndex] = EditorGUILayout.ToggleLeft("", ObjectsInEditorTableSelectionList[tIndex], GUILayout.Width(NWDConstants.kSelectWidth));
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = EditorGUILayout.ToggleLeft("", Datas().ObjectsInEditorTableSelectionList[tIndex], GUILayout.Width(NWDConstants.kSelectWidth));
                 }
             }
             else
             {
                 EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorWarning);
-                ObjectsInEditorTableSelectionList[tIndex] = false;
+                Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                 GUILayout.Label("!~!", GUILayout.Width(NWDConstants.kSelectWidth));
                 sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR;
                 tString = "<color=#cc6600ff>" + tString + "</color>";

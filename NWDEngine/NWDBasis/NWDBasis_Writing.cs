@@ -25,11 +25,6 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The data was loaded from database.
-        /// </summary>
-        private bool FromDatabase = false;
-        //-------------------------------------------------------------------------------------------------------------
         #region Lock Data
         /// <summary>
         /// The current state of the writing for this object.
@@ -391,7 +386,7 @@ namespace NetWorkedData
                         Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                         break;
                 }
-                if (ObjectsByReferenceList.Contains(this.Reference) == false)
+                if (Datas().ObjectsByReferenceList.Contains(this.Reference) == false)
                 {
                     bool tDoInsert = true;
                     switch (sWritingMode)
@@ -445,6 +440,10 @@ namespace NetWorkedData
             NWDVersionType tVersion = new NWDVersionType();
             tVersion.SetString("0.00.00");
             this.MinVersion = tVersion;
+
+            //NWDVersionType tMaxVersion = new NWDVersionType();
+            //tMaxVersion.SetString("99.99.99");
+            //this.MaxVersion = tMaxVersion;
             this.WebServiceVersion = WebServiceVersionToUse();
             this.DS = 0;
             if (AccountDependent() == true)
@@ -884,13 +883,13 @@ namespace NetWorkedData
                 tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
             IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-            ObjectsList = new List<object>();
-            ObjectsByReferenceList = new List<string>();
-            ObjectsByKeyList = new List<string>();
+            Datas().ObjectsList = new List<object>();
+            Datas().ObjectsByReferenceList = new List<string>();
+            Datas().ObjectsByKeyList = new List<string>();
 #if UNITY_EDITOR
-            ObjectsInEditorTableKeyList = new List<string>();
-            ObjectsInEditorTableSelectionList = new List<bool>();
-            ObjectsInEditorTableList = new List<string>();
+            Datas().ObjectsInEditorTableKeyList = new List<string>();
+            Datas().ObjectsInEditorTableSelectionList = new List<bool>();
+            Datas().ObjectsInEditorTableList = new List<string>();
 #endif
             if (tEnumerable != null)
             {

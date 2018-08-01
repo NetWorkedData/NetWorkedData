@@ -85,7 +85,7 @@ namespace NetWorkedData
         public static K[] GetAllObjects(string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
@@ -98,7 +98,7 @@ namespace NetWorkedData
         public static K[] GetAllEnableObjects(string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference) && tObject.IsEnable())
                 {
@@ -111,7 +111,7 @@ namespace NetWorkedData
         public static K GetFirstObject(string sAccountReference = null)
         {
             K rReturn = null;
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
@@ -125,7 +125,7 @@ namespace NetWorkedData
         public static K GetFirstEnableObject(string sAccountReference = null)
         {
             K rReturn = null;
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference) && tObject.IsEnable())
                 {
@@ -139,7 +139,7 @@ namespace NetWorkedData
         public static K[] TrashAllObjects(string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.ObjectsList)
+            foreach (K tObject in NWDBasis<K>.Datas().ObjectsList)
             {
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
@@ -157,10 +157,10 @@ namespace NetWorkedData
         public static K GetObjectByReference(string sReference, string sAccountReference = null)
         {
             K rReturn = null;
-            int tIndex = ObjectsByReferenceList.IndexOf(sReference);
+            int tIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
             if (tIndex >= 0)
             {
-                K tObject = ObjectsList.ElementAt(tIndex) as K;
+                K tObject = Datas().ObjectsList.ElementAt(tIndex) as K;
                 if (tObject.IsReacheableByAccount(sAccountReference))
                 {
                     rReturn = tObject;
@@ -172,10 +172,10 @@ namespace NetWorkedData
         public static K GetObjectAbsoluteByReference(string sReference)
         {
             K rReturn = null;
-            int tIndex = ObjectsByReferenceList.IndexOf(sReference);
+            int tIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
             if (tIndex >= 0)
             {
-                K tObject = ObjectsList.ElementAt(tIndex) as K;
+                K tObject = Datas().ObjectsList.ElementAt(tIndex) as K;
                     rReturn = tObject;
             }
             return rReturn;

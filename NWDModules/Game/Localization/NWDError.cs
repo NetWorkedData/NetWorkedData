@@ -133,7 +133,7 @@ namespace NetWorkedData
         public static NWDError GetErrorWithCode(string sCode)
         {
             NWDError rReturn = null;
-            foreach (NWDError tObject in NWDError.ObjectsList)
+            foreach (NWDError tObject in NWDError.Datas().ObjectsList)
             {
                 if (tObject.Code == sCode)
                 {
@@ -147,7 +147,7 @@ namespace NetWorkedData
         public static NWDError GetErrorWithDomainAndCode(string sDomain, string sCode)
         {
             NWDError rReturn = null;
-            foreach (NWDError tObject in NWDError.ObjectsList)
+            foreach (NWDError tObject in NWDError.Datas().ObjectsList)
             {
                 if (tObject.Code == sCode && tObject.Domain == sDomain)
                 {

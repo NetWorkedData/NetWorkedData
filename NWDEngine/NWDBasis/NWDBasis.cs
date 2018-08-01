@@ -38,8 +38,8 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        //public bool NWDInserted = false;
         protected bool InDatabase = false;
+        protected bool FromDatabase = false;
         //-------------------------------------------------------------------------------------------------------------
         [PrimaryKey, AutoIncrement, NWDNotEditable]
         public int ID
@@ -63,6 +63,11 @@ namespace NetWorkedData
         {
             get; set;
         }
+        //[NWDNotEditable]
+        //public NWDVersionType MaxVersion
+        //{
+        //    get; set;
+        //}
         [Indexed("GetIndex", 0)]
         [Indexed("EditorIndex", 0)]
         [NWDNotEditable]
@@ -170,16 +175,18 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string m_SearchReference = "";
-        public static string m_SearchInternalName = "";
-        public static string m_SearchInternalDescription = "";
-        public static NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
-        public static Vector2 m_ScrollPositionCard;
-        public static bool mSearchShowing = false;
+
+
+        //public static string m_SearchReference = "";
+        //public static string m_SearchInternalName = "";
+        //public static string m_SearchInternalDescription = "";
+        //public static NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
+        //public static Vector2 m_ScrollPositionCard;
+        //public static bool mSearchShowing = false;
         //-------------------------------------------------------------------------------------------------------------
-        public static List<string> ObjectsInEditorTableKeyList = new List<string>();
-        public static List<string> ObjectsInEditorTableList = new List<string>();
-        public static List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
+        //public static List<string> ObjectsInEditorTableKeyList = new List<string>();
+        //public static List<string> ObjectsInEditorTableList = new List<string>();
+        //public static List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -198,16 +205,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void IntegritySelection()
         {
-            foreach (string tObjectReference in ObjectsInEditorTableList)
+            foreach (string tObjectReference in Datas().ObjectsInEditorTableList)
             {
-                int tIndex = ObjectsByReferenceList.IndexOf(tObjectReference);
-                if (ObjectsInEditorTableSelectionList[tIndex] == true)
+                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObjectReference);
+                if (Datas().ObjectsInEditorTableSelectionList[tIndex] == true)
                 {
                     // I test Integrity
-                    NWDBasis<K> tObject = ObjectsList[tIndex] as NWDBasis<K>;
+                    NWDBasis<K> tObject = Datas().ObjectsList[tIndex] as NWDBasis<K>;
                     if (tObject.TestIntegrity() == false || tObject.XX > 0)
                     {
-                        ObjectsInEditorTableSelectionList[tIndex] = false;
+                        Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                     }
                 }
             }
@@ -215,46 +222,46 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectInTableList()
         {
-            ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
+            Datas().ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
             {
                 tSelection = false;
             });
-            foreach (string tObjectReference in ObjectsInEditorTableList)
+            foreach (string tObjectReference in Datas().ObjectsInEditorTableList)
             {
                 //Debug.Log ("select ref " + tObjectReference);
-                int tIndex = ObjectsByReferenceList.IndexOf(tObjectReference);
-                ObjectsInEditorTableSelectionList[tIndex] = true;
+                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObjectReference);
+                Datas().ObjectsInEditorTableSelectionList[tIndex] = true;
             }
             IntegritySelection();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void DeselectAllObjectInTableList()
         {
-            ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
+            Datas().ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
             {
                 tSelection = false;
             });
-            foreach (string tObjectReference in ObjectsInEditorTableList)
+            foreach (string tObjectReference in Datas().ObjectsInEditorTableList)
             {
                 //Debug.Log ("select ref " + tObjectReference);
-                int tIndex = ObjectsByReferenceList.IndexOf(tObjectReference);
-                ObjectsInEditorTableSelectionList[tIndex] = false;
+                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObjectReference);
+                Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void InverseSelectionOfAllObjectInTableList()
         {
-            foreach (NWDBasis<K> tObject in ObjectsList)
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
             {
-                if (ObjectsInEditorTableList.Contains(tObject.Reference))
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = !ObjectsInEditorTableSelectionList[tIndex];
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = !Datas().ObjectsInEditorTableSelectionList[tIndex];
                 }
                 else
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                 }
             }
             IntegritySelection();
@@ -262,17 +269,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectEnableInTableList()
         {
-            foreach (NWDBasis<K> tObject in ObjectsList)
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
             {
-                if (ObjectsInEditorTableList.Contains(tObject.Reference))
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = tObject.AC;
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = tObject.AC;
                 }
                 else
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                 }
             }
             IntegritySelection();
@@ -280,17 +287,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectAllObjectDisableInTableList()
         {
-            foreach (NWDBasis<K> tObject in ObjectsList)
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
             {
-                if (ObjectsInEditorTableList.Contains(tObject.Reference))
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = !tObject.AC;
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = !tObject.AC;
                 }
                 else
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                 }
             }
             IntegritySelection();
@@ -463,50 +470,52 @@ namespace NetWorkedData
             //Debug.Log("FilterTableEditor()");
             //			Debug.Log ("m_SearchInternalName = " + m_SearchInternalName);
             // change filter, remove selection
-            ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
+            Datas().ObjectsInEditorTableSelectionList.ForEach(delegate (bool tSelection)
             {
                 tSelection = false;
             });
             // change results
-            ObjectsInEditorTableList = new List<string>();
-            IEnumerable tEnumerable = SelectForEditionObjects(m_SearchReference, m_SearchInternalName, m_SearchInternalDescription, m_SearchTag);
+            Datas().ObjectsInEditorTableList = new List<string>();
+            //IEnumerable tEnumerable = SelectForEditionObjects(m_SearchReference, m_SearchInternalName, m_SearchInternalDescription, m_SearchTag);
+
+            IEnumerable tEnumerable = SelectForEditionObjects(Datas().m_SearchReference, Datas().m_SearchInternalName, Datas().m_SearchInternalDescription, Datas().m_SearchTag);
             if (tEnumerable != null)
             {
                 foreach (NWDBasis<K> tItem in tEnumerable)
                 {
                     bool tAdd = true;
-                    if (tItem.TestIntegrity() == false && m_ShowIntegrityError == false)
+                    if (tItem.TestIntegrity() == false && Datas().m_ShowIntegrityError == false)
                     {
                         tAdd = false;
                     }
-                    if (tItem.AC == true && m_ShowEnable == false)
+                    if (tItem.AC == true && Datas().m_ShowEnable == false)
                     {
                         tAdd = false;
                     }
-                    if (tItem.AC == false && m_ShowDisable == false)
+                    if (tItem.AC == false && Datas().m_ShowDisable == false)
                     {
                         tAdd = false;
                     }
-                    if (tItem.XX > 0 && m_ShowTrashed == false)
+                    if (tItem.XX > 0 && Datas().m_ShowTrashed == false)
                     {
                         tAdd = false;
                     }
                     if (tAdd == true)
                     {
-                        ObjectsInEditorTableList.Add(tItem.Reference);
+                        Datas().ObjectsInEditorTableList.Add(tItem.Reference);
                     }
                 }
             }
-            foreach (NWDBasis<K> tObject in ObjectsList)
+            foreach (NWDBasis<K> tObject in Datas().ObjectsList)
             {
-                if (ObjectsInEditorTableList.Contains(tObject.Reference))
+                if (Datas().ObjectsInEditorTableList.Contains(tObject.Reference))
                 {
                     // I keep the actual selection 
                 }
                 else
                 {
-                    int tIndex = ObjectsByReferenceList.IndexOf(tObject.Reference);
-                    ObjectsInEditorTableSelectionList[tIndex] = false;
+                    int tIndex = Datas().ObjectsByReferenceList.IndexOf(tObject.Reference);
+                    Datas().ObjectsInEditorTableSelectionList[tIndex] = false;
                 }
             }
         }
@@ -543,30 +552,30 @@ namespace NetWorkedData
             // if integrity is ok insert in ObjectsList
             if (tObjectIsValid == true)
             {
-                if (ObjectsList.Contains(sObject) == false)
+                if (Datas().ObjectsList.Contains(sObject) == false)
                 {
                     // upgrade object between the old web service (add properties init, etc.)
                     //sObject.WebserviceVersionCheckMe(); // fait planter la mise à jupr de la table
                     // launch method specific on load object
                     sObject.AddonLoadedMe();
                     // add object in lists 
-                    ObjectsList.Add(sObject);
-                    ObjectsByReferenceList.Add(sObject.Reference);
-                    ObjectsByKeyList.Add(sObject.InternalKey);
+                    Datas().ObjectsList.Add(sObject);
+                    Datas().ObjectsByReferenceList.Add(sObject.Reference);
+                    Datas().ObjectsByKeyList.Add(sObject.InternalKey);
 #if UNITY_EDITOR
                     sObject.ErrorCheck();
 
                     // add load object in editor table
-                    if (ObjectsInEditorTableList.Contains(sObject.Reference) == false)
+                    if (Datas().ObjectsInEditorTableList.Contains(sObject.Reference) == false)
                     {
                         // Active to auto remove on filter
                         // if (sObject.Tag == (int)m_SearchTag)
                         {
-                            ObjectsInEditorTableList.Add(sObject.Reference);
+                            Datas().ObjectsInEditorTableList.Add(sObject.Reference);
                         }
                     }
-                    ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
-                    ObjectsInEditorTableSelectionList.Add(false);
+                    Datas().ObjectsInEditorTableKeyList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+                    Datas().ObjectsInEditorTableSelectionList.Add(false);
 #endif
                 }
             }
@@ -574,7 +583,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void RemoveObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … RemoveObjectFromListOfManagment
         {
-            if (ObjectsList.Contains(sObject) == true)
+            if (Datas().ObjectsList.Contains(sObject) == true)
             {
                 sObject.AddonUnloadMe();
                 //int tIndexInGame = InGameObjectsList.IndexOf(sObject);
@@ -582,54 +591,54 @@ namespace NetWorkedData
                 //InGameObjectsByReference.RemoveAt(tIndexInGame);
                 //InGameObjectsByKey.RemoveAt(tIndexInGame);
 
-                int tIndex = ObjectsList.IndexOf(sObject);
-                ObjectsList.RemoveAt(tIndex);
-                ObjectsByReferenceList.RemoveAt(tIndex);
-                ObjectsByKeyList.RemoveAt(tIndex);
+                int tIndex = Datas().ObjectsList.IndexOf(sObject);
+                Datas().ObjectsList.RemoveAt(tIndex);
+                Datas().ObjectsByReferenceList.RemoveAt(tIndex);
+                Datas().ObjectsByKeyList.RemoveAt(tIndex);
 #if UNITY_EDITOR
-                int tIndexB = ObjectsInEditorTableList.IndexOf(sObject.Reference);
-                if (tIndexB >= 0 && tIndexB < ObjectsInEditorTableList.Count())
+                int tIndexB = Datas().ObjectsInEditorTableList.IndexOf(sObject.Reference);
+                if (tIndexB >= 0 && tIndexB < Datas().ObjectsInEditorTableList.Count())
                 {
-                    ObjectsInEditorTableList.RemoveAt(tIndexB);
+                    Datas().ObjectsInEditorTableList.RemoveAt(tIndexB);
                 }
-                    ObjectsInEditorTableKeyList.RemoveAt(tIndex);
-                    ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
+                Datas().ObjectsInEditorTableKeyList.RemoveAt(tIndex);
+                Datas().ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
 #endif
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void UpdateObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … UpdateObjectInListOfManagment
         {
-            if (ObjectsList.Contains(sObject) == true)
+            if (Datas().ObjectsList.Contains(sObject) == true)
             {
-                int tIndex = ObjectsList.IndexOf(sObject);
-                ObjectsByReferenceList.RemoveAt(tIndex);
-                ObjectsByReferenceList.Insert(tIndex, sObject.Reference);
-                ObjectsByKeyList.RemoveAt(tIndex);
-                ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
+                int tIndex = Datas().ObjectsList.IndexOf(sObject);
+                Datas().ObjectsByReferenceList.RemoveAt(tIndex);
+                Datas().ObjectsByReferenceList.Insert(tIndex, sObject.Reference);
+                Datas().ObjectsByKeyList.RemoveAt(tIndex);
+                Datas().ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
 #if UNITY_EDITOR
 
-                ObjectsInEditorTableKeyList.RemoveAt(tIndex);
-                ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
+                Datas().ObjectsInEditorTableKeyList.RemoveAt(tIndex);
+                Datas().ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
 
-                ObjectsInEditorTableKeyList.Insert(tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
-                ObjectsInEditorTableSelectionList.Insert(tIndex, false);
+                Datas().ObjectsInEditorTableKeyList.Insert(tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
+                Datas().ObjectsInEditorTableSelectionList.Insert(tIndex, false);
 
-                int tIndexB = ObjectsInEditorTableList.IndexOf(sObject.Reference);
-                if (tIndexB >= 0 && tIndexB < ObjectsInEditorTableList.Count())
+                int tIndexB = Datas().ObjectsInEditorTableList.IndexOf(sObject.Reference);
+                if (tIndexB >= 0 && tIndexB < Datas().ObjectsInEditorTableList.Count())
                 {
-                    ObjectsInEditorTableList.RemoveAt(tIndexB);
+                    Datas().ObjectsInEditorTableList.RemoveAt(tIndexB);
                     // Active to auto remove on filter
                    // if (sObject.Tag == (int)m_SearchTag)
                     {
-                        ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
+                        Datas().ObjectsInEditorTableList.Insert(tIndexB, sObject.Reference);
                     }
                 }
                 else
                 {
-                    if (sObject.Tag == m_SearchTag)
+                    if (sObject.Tag == Datas().m_SearchTag)
                     {
-                        ObjectsInEditorTableList.Add(sObject.Reference);
+                        Datas().ObjectsInEditorTableList.Add(sObject.Reference);
                     }
                 }
 #endif
@@ -660,15 +669,15 @@ namespace NetWorkedData
             //InGameObjectsByReference = new List<string>();
             //InGameObjectsByKey = new List<string>();
 
-            ObjectsList = new List<object>();
-            ObjectsByReferenceList = new List<string>();
-            ObjectsByKeyList = new List<string>();
+            Datas().ObjectsList = new List<object>();
+            Datas().ObjectsByReferenceList = new List<string>();
+            Datas().ObjectsByKeyList = new List<string>();
 
 #if UNITY_EDITOR
 
-            ObjectsInEditorTableKeyList = new List<string>();
-            ObjectsInEditorTableSelectionList = new List<bool>();
-            ObjectsInEditorTableList = new List<string>();
+            Datas().ObjectsInEditorTableKeyList = new List<string>();
+            Datas().ObjectsInEditorTableSelectionList = new List<bool>();
+            Datas().ObjectsInEditorTableList = new List<string>();
 #endif
 
             if (tEnumerable != null)

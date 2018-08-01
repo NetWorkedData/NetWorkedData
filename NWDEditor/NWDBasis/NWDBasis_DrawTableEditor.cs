@@ -37,42 +37,42 @@ namespace NetWorkedData
         /// <summary>
         /// The scroll position list.
         /// </summary>
-        public static Vector2 m_ScrollPositionList;
+        //public static Vector2 m_ScrollPositionList;
 
-        /// <summary>
-        /// The number of items per page.
-        /// </summary>
-        public static int m_ItemPerPage = 10;
+        ///// <summary>
+        ///// The number of items per page.
+        ///// </summary>
+        //public static int m_ItemPerPage = 10;
 
-        /// <summary>
-        /// The number of items per page.
-        /// </summary>
-        public static int m_ItemPerPageSelection = 0;
+        ///// <summary>
+        ///// The number of items per page.
+        ///// </summary>
+        //public static int m_ItemPerPageSelection = 0;
 
-        public static string[] m_ItemPerPageOptions = new string[] {
-            "15", "20", "30", "40", "50", "100", "200",
-        };
+        //public static string[] m_ItemPerPageOptions = new string[] {
+        //    "15", "20", "30", "40", "50", "100", "200",
+        //};
 
-        /// <summary>
-        /// The selected page.
-        /// </summary>
-        public static int m_PageSelected = 0;
+        ///// <summary>
+        ///// The selected page.
+        ///// </summary>
+        //public static int m_PageSelected = 0;
 
-        /// <summary>
-        /// The selected page.
-        /// </summary>
-        public static int m_MaxPage = 0;
+        ///// <summary>
+        ///// The selected page.
+        ///// </summary>
+        //public static int m_MaxPage = 0;
 
-        /// <summary>
-        /// The toogle to list page limit.
-        /// </summary>
-        //public static int m_ToogleToListPageLimit = 15;
+        ///// <summary>
+        ///// The toogle to list page limit.
+        ///// </summary>
+        ////public static int m_ToogleToListPageLimit = 15;
 
 
-        public static bool m_ShowEnable = true;
-        public static bool m_ShowDisable = true;
-        public static bool m_ShowTrashed = true;
-        public static bool m_ShowIntegrityError = true;
+        //public static bool m_ShowEnable = true;
+        //public static bool m_ShowDisable = true;
+        //public static bool m_ShowTrashed = true;
+        //public static bool m_ShowIntegrityError = true;
 
         //-------------------------------------------------------------------------------------------------------------
         public static void RepaintTableEditor()
@@ -97,28 +97,28 @@ namespace NetWorkedData
             //			kObjectsInTableList
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            m_ItemPerPage = int.Parse(m_ItemPerPageOptions[m_ItemPerPageSelection]);
-            float tNumberOfPage = ObjectsInEditorTableList.Count / m_ItemPerPage;
+            Datas().m_ItemPerPage = int.Parse(Datas().m_ItemPerPageOptions[Datas().m_ItemPerPageSelection]);
+            float tNumberOfPage = Datas().ObjectsInEditorTableList.Count / Datas().m_ItemPerPage;
             int tPagesExpected = (int)Math.Floor(tNumberOfPage);
             if (tPagesExpected != 0)
             {
-                if (ObjectsInEditorTableList.Count % (tPagesExpected * m_ItemPerPage) != 0)
+                if (Datas().ObjectsInEditorTableList.Count % (tPagesExpected * Datas().m_ItemPerPage) != 0)
                 {
                     tPagesExpected++;
                 }
             }
-            if (m_PageSelected > tPagesExpected - 1)
+            if (Datas().m_PageSelected > tPagesExpected - 1)
             {
-                m_PageSelected = tPagesExpected - 1;
+                Datas().m_PageSelected = tPagesExpected - 1;
             }
-            m_MaxPage = tPagesExpected + 1;
+            Datas().m_MaxPage = tPagesExpected + 1;
             string[] tListOfPagesName = new string[tPagesExpected];
             for (int p = 0; p < tPagesExpected; p++)
             {
                 int tP = p + 1;
                 tListOfPagesName[p] = "" + tP.ToString();
             }
-            int t_PageSelected = m_PageSelected;
+            int t_PageSelected = Datas().m_PageSelected;
             if (tPagesExpected == 0 || tPagesExpected == 1)
             {
                 // no choose
@@ -127,17 +127,17 @@ namespace NetWorkedData
             else if (tPagesExpected < tToogleToListPageLimit)
             {
                 //m_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.ExpandWidth (true));
-                t_PageSelected = GUILayout.Toolbar(m_PageSelected, tListOfPagesName, GUILayout.Width(tPagesExpected * tTabWidth));
+                t_PageSelected = GUILayout.Toolbar(Datas().m_PageSelected, tListOfPagesName, GUILayout.Width(tPagesExpected * tTabWidth));
             }
             else
             {
-                t_PageSelected = EditorGUILayout.Popup(m_PageSelected, tListOfPagesName, EditorStyles.popup, GUILayout.Width(tPopupWidth));
+                t_PageSelected = EditorGUILayout.Popup(Datas().m_PageSelected, tListOfPagesName, EditorStyles.popup, GUILayout.Width(tPopupWidth));
             }
-            if (m_PageSelected != t_PageSelected)
+            if (Datas().m_PageSelected != t_PageSelected)
             {
                 NWDDataManager.SharedInstance().UpdateQueueExecute();
             }
-            m_PageSelected = t_PageSelected;
+            Datas().m_PageSelected = t_PageSelected;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
@@ -175,9 +175,12 @@ namespace NetWorkedData
             GUILayout.BeginVertical(GUILayout.Width(300));
             GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
-            m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
-            m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, m_SearchInternalName, GUILayout.Width(300));
-            m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, m_SearchInternalDescription, GUILayout.Width(300));
+            //m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
+            Datas().m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, Datas().m_SearchReference, GUILayout.Width(300));
+
+
+            Datas().m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, Datas().m_SearchInternalName, GUILayout.Width(300));
+            Datas().m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, Datas().m_SearchInternalDescription, GUILayout.Width(300));
 
 
 
@@ -190,8 +193,8 @@ namespace NetWorkedData
                 tTagStringList.Add(tTag.Value);
             }
 
-            m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
-                                                                (int)m_SearchTag, tTagStringList.ToArray(),
+            Datas().m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
+                                                                (int)Datas().m_SearchTag, tTagStringList.ToArray(),
                                                                 tTagIntList.ToArray(),
                                                                 GUILayout.Width(300));
 
@@ -211,10 +214,11 @@ namespace NetWorkedData
             {
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
-                m_SearchReference = "";
-                m_SearchInternalName = "";
-                m_SearchInternalDescription = "";
-                m_SearchTag = NWDBasisTag.NoTag;
+                //m_SearchReference = "";
+                Datas().m_SearchReference = "";
+                Datas().m_SearchInternalName = "";
+                Datas().m_SearchInternalDescription = "";
+                Datas().m_SearchTag = NWDBasisTag.NoTag;
                 FilterTableEditor();
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_SORT, EditorStyles.miniButton, GUILayout.Width(120)))
@@ -227,8 +231,8 @@ namespace NetWorkedData
             {
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
-                m_SearchInternalName = "";
-                m_SearchInternalDescription = "";
+                Datas().m_SearchInternalName = "";
+                Datas().m_SearchInternalDescription = "";
                 //				ReloadAllObjects ();
                 				LoadTableEditor ();
 
@@ -241,28 +245,28 @@ namespace NetWorkedData
             GUILayout.BeginVertical(GUILayout.Width(120));
             GUILayout.Label(NWDConstants.K_APP_TABLE_FILTER_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
-            bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, m_ShowEnable, GUILayout.Width(120));
-            if (m_ShowEnable != t_ShowEnable)
+            bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, Datas().m_ShowEnable, GUILayout.Width(120));
+            if (Datas().m_ShowEnable != t_ShowEnable)
             {
-                m_ShowEnable = t_ShowEnable;
+                Datas().m_ShowEnable = t_ShowEnable;
                 FilterTableEditor();
             }
-            bool t_ShowDisable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, m_ShowDisable, GUILayout.Width(120));
-            if (m_ShowDisable != t_ShowDisable)
+            bool t_ShowDisable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, Datas().m_ShowDisable, GUILayout.Width(120));
+            if (Datas().m_ShowDisable != t_ShowDisable)
             {
-                m_ShowDisable = t_ShowDisable;
+                Datas().m_ShowDisable = t_ShowDisable;
                 FilterTableEditor();
             }
-            bool t_ShowTrashed = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, m_ShowTrashed, GUILayout.Width(120));
-            if (m_ShowTrashed != t_ShowTrashed)
+            bool t_ShowTrashed = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, Datas().m_ShowTrashed, GUILayout.Width(120));
+            if (Datas().m_ShowTrashed != t_ShowTrashed)
             {
-                m_ShowTrashed = t_ShowTrashed;
+                Datas().m_ShowTrashed = t_ShowTrashed;
                 FilterTableEditor();
             }
-            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, m_ShowIntegrityError, GUILayout.Width(120));
-            if (m_ShowIntegrityError != t_ShowIntegrityError)
+            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, Datas().m_ShowIntegrityError, GUILayout.Width(120));
+            if (Datas().m_ShowIntegrityError != t_ShowIntegrityError)
             {
-                m_ShowIntegrityError = t_ShowIntegrityError;
+                Datas().m_ShowIntegrityError = t_ShowIntegrityError;
                 FilterTableEditor();
             }
 
@@ -272,13 +276,13 @@ namespace NetWorkedData
             GUILayout.BeginVertical(GUILayout.Width(120));
             GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
             //          GUILayout.BeginHorizontal ();
-            int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
-            if (t_ItemPerPageSelection != m_ItemPerPageSelection)
+            int t_ItemPerPageSelection = EditorGUILayout.Popup(Datas().m_ItemPerPageSelection, Datas().m_ItemPerPageOptions, EditorStyles.popup);
+            if (t_ItemPerPageSelection != Datas().m_ItemPerPageSelection)
             {
-                m_PageSelected = 0;
+                Datas().m_PageSelected = 0;
             }
-            m_ItemPerPageSelection = t_ItemPerPageSelection;
-            int tRealReference = ObjectsByReferenceList.Count;
+            Datas().m_ItemPerPageSelection = t_ItemPerPageSelection;
+            int tRealReference = Datas().ObjectsByReferenceList.Count;
             if (tRealReference == 0)
             {
                 GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
@@ -292,7 +296,7 @@ namespace NetWorkedData
                 GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
             }
 
-            int tResultReference = ObjectsInEditorTableList.Count;
+            int tResultReference = Datas().ObjectsInEditorTableList.Count;
             if (tResultReference == 0)
             {
                 GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
@@ -357,7 +361,7 @@ namespace NetWorkedData
 
                 DrawHeaderInEditor();
 
-                m_ScrollPositionList = EditorGUILayout.BeginScrollView(m_ScrollPositionList, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+                Datas().m_ScrollPositionList = EditorGUILayout.BeginScrollView(Datas().m_ScrollPositionList, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
                 // ===========================================
 
                 //m_ItemList.Count
@@ -382,12 +386,12 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (ObjectsByReferenceList.Contains(tSelected.Reference))
+                        if (Datas().ObjectsByReferenceList.Contains(tSelected.Reference))
                         {
                             if (tSelected.XX == 0 && tSelected.TestIntegrity())
                             {
-                                int tIndex = ObjectsByReferenceList.IndexOf(tSelected.Reference);
-                                ObjectsInEditorTableSelectionList[tIndex] = !ObjectsInEditorTableSelectionList[tIndex];
+                                int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
+                                Datas().ObjectsInEditorTableSelectionList[tIndex] = !Datas().ObjectsInEditorTableSelectionList[tIndex];
                                 Event.current.Use();
                             }
                         }
@@ -401,17 +405,17 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (ObjectsInEditorTableList.Contains(tSelected.Reference))
+                        if (Datas().ObjectsInEditorTableList.Contains(tSelected.Reference))
                         {
-                            int tIndexSelected = ObjectsInEditorTableList.IndexOf(tSelected.Reference);
-                            if (tIndexSelected < ObjectsInEditorTableList.Count - 1)
+                            int tIndexSelected = Datas().ObjectsInEditorTableList.IndexOf(tSelected.Reference);
+                            if (tIndexSelected < Datas().ObjectsInEditorTableList.Count - 1)
                             {
-                                string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected + 1);
-                                int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                                SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
-                                float tNumberPage = (tIndexSelected + 1) / m_ItemPerPage;
+                                string tNextReference = Datas().ObjectsInEditorTableList.ElementAt(tIndexSelected + 1);
+                                int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+                                SetObjectInEdition(Datas().ObjectsList.ElementAt(tNextObjectIndex));
+                                float tNumberPage = (tIndexSelected + 1) / Datas().m_ItemPerPage;
                                 int tPageExpected = (int)Math.Floor(tNumberPage);
-                                m_PageSelected = tPageExpected;
+                                Datas().m_PageSelected = tPageExpected;
                                 Event.current.Use();
                                 sEditorWindow.Focus();
                             }
@@ -430,17 +434,17 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (ObjectsInEditorTableList.Contains(tSelected.Reference))
+                        if (Datas().ObjectsInEditorTableList.Contains(tSelected.Reference))
                         {
-                            int tIndexSelected = ObjectsInEditorTableList.IndexOf(tSelected.Reference);
+                            int tIndexSelected = Datas().ObjectsInEditorTableList.IndexOf(tSelected.Reference);
                             if (tIndexSelected > 0)
                             {
-                                string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSelected - 1);
-                                int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                                float tNumberPage = (tIndexSelected - 1) / m_ItemPerPage;
+                                string tNextReference = Datas().ObjectsInEditorTableList.ElementAt(tIndexSelected - 1);
+                                int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+                                float tNumberPage = (tIndexSelected - 1) / Datas().m_ItemPerPage;
                                 int tPageExpected = (int)Math.Floor(tNumberPage);
-                                m_PageSelected = tPageExpected;
-                                SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                                Datas().m_PageSelected = tPageExpected;
+                                SetObjectInEdition(Datas().ObjectsList.ElementAt(tNextObjectIndex));
                                 Event.current.Use();
                                 sEditorWindow.Focus();
                             }
@@ -451,23 +455,23 @@ namespace NetWorkedData
                     }
                 }
 
-                float tNumberOfPage = ObjectsInEditorTableList.Count / m_ItemPerPage;
+                float tNumberOfPage = Datas().ObjectsInEditorTableList.Count / Datas().m_ItemPerPage;
                 int tPagesExpected = (int)Math.Floor(tNumberOfPage);
 
                 // TODO: add instruction in tab view
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
                 {
                     //Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
-                    if (m_PageSelected < tPagesExpected)
+                    if (Datas().m_PageSelected < tPagesExpected)
                     {
-                        m_PageSelected++;
+                        Datas().m_PageSelected++;
                         // TODO : reselect first object
-                        int tIndexSel = m_ItemPerPage * m_PageSelected;
-                        if (tIndexSel < ObjectsInEditorTableList.Count)
+                        int tIndexSel = Datas().m_ItemPerPage * Datas().m_PageSelected;
+                        if (tIndexSel < Datas().ObjectsInEditorTableList.Count)
                         {
-                            string tNextReference = ObjectsInEditorTableList.ElementAt(tIndexSel);
-                            int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                            SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                            string tNextReference = Datas().ObjectsInEditorTableList.ElementAt(tIndexSel);
+                            int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+                            SetObjectInEdition(Datas().ObjectsList.ElementAt(tNextObjectIndex));
                             Event.current.Use();
                             sEditorWindow.Focus();
                         }
@@ -482,13 +486,13 @@ namespace NetWorkedData
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
                 {
                     //Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
-                    if (m_PageSelected > 0)
+                    if (Datas().m_PageSelected > 0)
                     {
-                        m_PageSelected--;
+                        Datas().m_PageSelected--;
                         // TODO : reselect first object
-                        string tNextReference = ObjectsInEditorTableList.ElementAt(m_ItemPerPage * m_PageSelected);
-                        int tNextObjectIndex = ObjectsByReferenceList.IndexOf(tNextReference);
-                        SetObjectInEdition(ObjectsList.ElementAt(tNextObjectIndex));
+                        string tNextReference = Datas().ObjectsInEditorTableList.ElementAt(Datas().m_ItemPerPage * Datas().m_PageSelected);
+                        int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+                        SetObjectInEdition(Datas().ObjectsList.ElementAt(tNextObjectIndex));
                         Event.current.Use();
                         sEditorWindow.Focus();
                     }
@@ -498,25 +502,25 @@ namespace NetWorkedData
                 }
 
 
-                if (m_PageSelected < 0)
+                if (Datas().m_PageSelected < 0)
                 {
-                    m_PageSelected = 0;
+                    Datas().m_PageSelected = 0;
                 }
-                if (m_PageSelected > tPagesExpected)
+                if (Datas().m_PageSelected > tPagesExpected)
                 {
-                    m_PageSelected = tPagesExpected;
+                    Datas().m_PageSelected = tPagesExpected;
                 }
 
-                for (int i = 0; i < m_ItemPerPage; i++)
+                for (int i = 0; i < Datas().m_ItemPerPage; i++)
                 {
-                    int tItemIndexInPage = m_ItemPerPage * m_PageSelected + i;
-                    if (tItemIndexInPage < ObjectsInEditorTableList.Count)
+                    int tItemIndexInPage = Datas().m_ItemPerPage * Datas().m_PageSelected + i;
+                    if (tItemIndexInPage < Datas().ObjectsInEditorTableList.Count)
                     {
-                        string tReference = ObjectsInEditorTableList.ElementAt(tItemIndexInPage);
-                        int tObjectIndex = ObjectsByReferenceList.IndexOf(tReference);
-                        if (ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                        string tReference = Datas().ObjectsInEditorTableList.ElementAt(tItemIndexInPage);
+                        int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tReference);
+                        if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
                         {
-                            NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tObjectIndex);
+                            NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
                             if (tObject != null)
                             {
                                 tObject.DrawRowInEditor(tMousePosition, sEditorWindow, tSelectAndClick);
@@ -548,10 +552,10 @@ namespace NetWorkedData
             //			GUILayout.Label ("Management", EditorStyles.boldLabel);
 
             int tSelectionCount = 0;
-            int tActualItems = ObjectsInEditorTableSelectionList.Count;
+            int tActualItems = Datas().ObjectsInEditorTableSelectionList.Count;
             for (int tSelect = 0; tSelect < tActualItems; tSelect++)
             {
-                if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                 {
                     tSelectionCount++;
                 }
@@ -625,9 +629,9 @@ namespace NetWorkedData
             {
                 for (int tSelect = 0; tSelect < tActualItems; tSelect++)
                 {
-                    if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                    if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
-                        NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tSelect);
+                        NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
                         tObject.EnableMe();
                         //tObject.AddMeToUpdateQueue();
                     }
@@ -638,9 +642,9 @@ namespace NetWorkedData
             {
                 for (int tSelect = 0; tSelect < tActualItems; tSelect++)
                 {
-                    if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                    if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
-                        NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tSelect);
+                        NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
                         tObject.DisableMe();
                         //tObject.AddMeToUpdateQueue();
                     }
@@ -653,10 +657,10 @@ namespace NetWorkedData
                 int tNewObect = 0;
                 for (int tSelect = 0; tSelect < tActualItems; tSelect++)
                 {
-                    if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                    if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
                         tNewObect++;
-                        NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tSelect);
+                        NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
                         NWDBasis<K> tNextObject = tObject.DuplicateMe();
                         AddObjectInListOfEdition(tNextObject);
                         tNextObjectSelected = tNextObject;
@@ -668,16 +672,16 @@ namespace NetWorkedData
                 }
                 SetObjectInEdition(tNextObjectSelected);
                 //ReorderListOfManagementByName ();
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
             }
 
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton))
             {
                 for (int tSelect = 0; tSelect < tActualItems; tSelect++)
                 {
-                    if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                    if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                     {
-                        NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tSelect);
+                        NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
                         tObject.UpdateMe();
                     }
                 }
@@ -1047,7 +1051,7 @@ namespace NetWorkedData
                 //				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
                 //				AddObjectInListOfEdition (tNewObject);
                 K tNewObject = NWDBasis<K>.NewObject();
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 //				sEditorWindow.Repaint ();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
@@ -1057,35 +1061,35 @@ namespace NetWorkedData
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
             {
                 K tNewObject = new K();
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData() ", EditorStyles.miniButton))
             {
                 K tNewObject = NWDBasis<K>.NewData();
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Pool) ", EditorStyles.miniButton))
             {
                 K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.PoolThread);
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue) ", EditorStyles.miniButton))
             {
                 K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedMainThread);
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue pool) ", EditorStyles.miniButton))
             {
                 K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedPoolThread);
-                m_PageSelected = m_MaxPage * 3;
+                Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
             }
@@ -1140,9 +1144,9 @@ namespace NetWorkedData
                     List<object> tListToDelete = new List<object>();
                     for (int tSelect = 0; tSelect < tActualItems; tSelect++)
                     {
-                        if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                        if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                         {
-                            NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tSelect);
+                            NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
                             tListToDelete.Add((object)tObject);
                         }
                     }
@@ -1184,9 +1188,9 @@ namespace NetWorkedData
                     List<object> tListToTrash = new List<object>();
                     for (int tSelect = 0; tSelect < tActualItems; tSelect++)
                     {
-                        if (ObjectsInEditorTableSelectionList[tSelect] == true)
+                        if (Datas().ObjectsInEditorTableSelectionList[tSelect] == true)
                         {
-                            NWDBasis<K> tObject = (NWDBasis<K>)ObjectsList.ElementAt(tSelect);
+                            NWDBasis<K> tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tSelect);
                             tListToTrash.Add((object)tObject);
                         }
                     }
@@ -1303,7 +1307,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void PrepareToPreprodPublish()
         {
-                foreach (K tOb in ObjectsList)
+            foreach (K tOb in Datas().ObjectsList)
                 {
                 if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
                     {
@@ -1315,7 +1319,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void PrepareToProdPublish()
         {
-            foreach (K tOb in ObjectsList)
+            foreach (K tOb in Datas().ObjectsList)
             {
                 if ((tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync) && tOb.ProdSync >= 0)
                 {
