@@ -56,6 +56,10 @@ namespace NetWorkedData
         public static string kFieldSeparatorBSubstitute = "@2#";
         public static string kFieldSeparatorCSubstitute = "@3#";
         //-------------------------------------------------------------------------------------------------------------
+        static public string kPrefSaltValidKey = "SaltValid";
+        static public string kPrefSaltAKey = "SaltA";
+        static public string kPrefSaltBKey = "SaltB";
+        //-------------------------------------------------------------------------------------------------------------
         public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         public static float kFieldMarge = 5.0f;

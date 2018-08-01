@@ -84,10 +84,10 @@ namespace NetWorkedData
             // use the accountReference with prefbase key associated with environement and key time 
             if (AccountDependent())
             {
-                return sEnvironment.PlayerAccountReference + PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+                return sEnvironment.PlayerAccountReference + Datas().PrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
             }
 
-            return PrefBaseKey() + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+            return Datas().PrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationUpadteTimestamp()
@@ -270,7 +270,7 @@ namespace NetWorkedData
             Dictionary<string, object> rSend = new Dictionary<string, object>();
             // create dictionnary for this tablename and insert in the respond
             Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
-            rSend.Add(TableName(), rSendDatas);
+            rSend.Add(Datas().TableName, rSendDatas);
             // create List with all object to synchron on the server
             // create List 
             List<object> tDatas = new List<object>();
@@ -313,7 +313,7 @@ namespace NetWorkedData
             Dictionary<string, object> rSend = new Dictionary<string, object>();
             // create dictionnary for this tablename and insert in the respond
             Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
-            rSend.Add(TableName(), rSendDatas);
+            rSend.Add(Datas().TableName, rSendDatas);
             // create List with all object to synchron on the server
             // create List 
             List<object> tDatas = new List<object>();
@@ -464,7 +464,7 @@ namespace NetWorkedData
                 int tTimestampServer = sData.timestamp;
                 SynchronizationSetNewTimestamp(sEnvironment, tTimestampServer);
                 // now i need get only datas for this class tablename
-                string tTableName = TableName();
+                string tTableName = Datas().TableName;
                 // Ok I need to compute all datas for this Class tablename
                 if (sData.param.ContainsKey(tTableName))
                 {

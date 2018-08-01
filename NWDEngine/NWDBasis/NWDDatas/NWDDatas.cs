@@ -69,9 +69,9 @@ namespace NetWorkedData
         public string ClassDescription = "";
         public string MenuName = "";
         public string TableName = "";
+        public string PrefBaseKey = "";
         public GUIContent MenuNameContent = GUIContent.none;
         //-------------------------------------------------------------------------------------------------------------
-        public string PrefBaseKey = "";
 
         static public string kPrefSaltValidKey = "SaltValid";
         static public string kPrefSaltAKey = "SaltA";
@@ -81,38 +81,9 @@ namespace NetWorkedData
         public string SaltB = "";
         public string SaltOk = "";
 
-
-
-
-        //		//-------------------------------------------------------------------------------------------------------------
-        //		protected void PrefSave ()
-        //		{
-        //			#if UNITY_EDITOR
-        //			//Debug.Log ("PrefSave");
-        //			// reccord data to user's preferences
-        //			NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey,kPrefSaltAKey, SaltA);
-        //			NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey,kPrefSaltBKey, SaltB);
-        //			NWDAppConfiguration.SharedInstance().SetSaltValid(PrefBaseKey,kPrefSaltValidKey, "ok");
-        //			//NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
-        //			#endif
-        //		}
-        //		//-------------------------------------------------------------------------------------------------------------
-        //		public void PrefLoad ()
-        //		{
-        //			//Debug.Log ("PrefLoad");
-        //			// load data from user's preferences
-        //			SetPrefSaltA (NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey,kPrefSaltAKey, kPrefSaltValidKey));
-        //			SetPrefSaltB (NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey,kPrefSaltBKey, kPrefSaltValidKey));
-        //			SetPrefSalt (NWDAppConfiguration.SharedInstance().GetSaltValid(PrefBaseKey,kPrefSaltValidKey));
-        //		}
-        //
-
-
         public List<object> ObjectsList = new List<object>();
         public List<string> ObjectsByReferenceList = new List<string>();
         public List<string> ObjectsByKeyList = new List<string>();
-
-
 
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -211,6 +182,8 @@ namespace NetWorkedData
                 // insert basic infos
                 tTypeInfos.ClassType = sType;
                 tTypeInfos.TableName = sType.Name;
+                tTypeInfos.PrefBaseKey = tTypeInfos.TableName + "_";
+
                 tTypeInfos.ClassName = sType.AssemblyQualifiedName;
 
                 TableMapping tTableMapping = new TableMapping(sType);

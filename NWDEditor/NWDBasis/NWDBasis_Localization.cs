@@ -147,7 +147,7 @@ namespace NetWorkedData
                         }
                     }
 
-                    tRows += "\"" + ClassTrigramme() + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
+                    tRows += "\"" + Datas().TrigrammeName + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
                     foreach (string tLang in sLanguageArray)
                     {
                         if (tResultSplitDico.ContainsKey(tLang) == true)
@@ -245,7 +245,7 @@ namespace NetWorkedData
             }
             //if (tDico.ContainsKey ("Reference") && tDico.ContainsKey ("PropertyName") && tDico.ContainsKey ("Type")) 
             {
-                if (tDico["Type"] == ClassTrigramme())
+                if (tDico["Type"] == Datas().TrigrammeName)
                 {
                     //Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
                     NWDBasis<K> tObject = NWDBasis<K>.InstanceByReference(tDico["Reference"]);

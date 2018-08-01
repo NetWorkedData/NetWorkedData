@@ -320,7 +320,7 @@ namespace NetWorkedData
                         }
                         if (tActualGroupReference != null)
                         {
-                            tDraw = tActualGroupReference.IsDrawable(ClassName());
+                            tDraw = tActualGroupReference.IsDrawable(Datas().ClassName);
                         }
                         else
                         {
@@ -342,7 +342,7 @@ namespace NetWorkedData
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
-                            tActualDraw = tReference.GetDrawable(ClassName());
+                            tActualDraw = tReference.GetDrawable(Datas().ClassName);
                             if (tReducible == true)
                             {
                                 if (tBold == true)
@@ -368,8 +368,8 @@ namespace NetWorkedData
                                     }
                                 }
                             }
-                            tReference.SetDrawable(ClassName(), tActualDraw);
-                            tDraw = tReference.IsDrawable(ClassName());
+                            tReference.SetDrawable(Datas().ClassName, tActualDraw);
+                            tDraw = tReference.IsDrawable(Datas().ClassName);
                         }
                         tReference.Parent = tActualGroupReference;
                         tActualGroupReference = tReference;
@@ -600,7 +600,7 @@ namespace NetWorkedData
                         }
                         if (tActualGroupReference != null)
                         {
-                            tDraw = tActualGroupReference.IsDrawable(ClassName());
+                            tDraw = tActualGroupReference.IsDrawable(Datas().ClassName);
                         }
                         else
                         {
@@ -628,7 +628,7 @@ namespace NetWorkedData
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
-                            tActualDraw = tReference.GetDrawable(ClassName());
+                            tActualDraw = tReference.GetDrawable(Datas().ClassName);
                             if (tReducible == true)
                             {
                                 if (tBold == true)
@@ -658,8 +658,8 @@ namespace NetWorkedData
                                     }
                                 }
                             }
-                            tReference.SetDrawable(ClassName(), tActualDraw);
-                            tDraw = tReference.IsDrawable(ClassName());
+                            tReference.SetDrawable(Datas().ClassName, tActualDraw);
+                            tDraw = tReference.IsDrawable(Datas().ClassName);
                             EditorGUI.indentLevel++;
                         }
                         tReference.Parent = tActualGroupReference;

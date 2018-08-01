@@ -53,84 +53,89 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kMenuNameType = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string MenuName()
-        {
-            string rReturn = null;
-            //Debug.Log ("ClassID () to find key" + ClassID ());
-            if (kMenuNameType.ContainsKey(ClassID()))
-            {
-                //Debug.Log ("rReturn  find key");
-                rReturn = kMenuNameType[ClassID()];
-            }
-            if (rReturn == null)
-            {
-                rReturn = "";
-            }
-            //Debug.Log ("rReturn " + rReturn);
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetMenuName(string sMenuName)
-        {
-            if (sMenuName != null)
-            {
-                kMenuNameType[ClassID()] = sMenuName;
-            }
-            ;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        internal static Dictionary<string, Type> kClassType = new Dictionary<string, Type>();
-        //-------------------------------------------------------------------------------------------------------------
         public static Type ClassType()
         {
-            Type rReturn = null;
-            if (kClassType.ContainsKey(ClassID()))
-            {
-                rReturn = kClassType[ClassID()];
-            }
-            return rReturn;
+            return typeof(K);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SetClassType(Type sType)
-        {
-            if (sType != null)
-            {
-                kClassType[ClassID()] = sType;
-            }
-        }
+        //public static Dictionary<string, string> kMenuNameType = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string MenuName()
+        //{
+        //    string rReturn = null;
+        //    //Debug.Log ("ClassID () to find key" + ClassID ());
+        //    if (kMenuNameType.ContainsKey(ClassID()))
+        //    {
+        //        //Debug.Log ("rReturn  find key");
+        //        rReturn = kMenuNameType[ClassID()];
+        //    }
+        //    if (rReturn == null)
+        //    {
+        //        rReturn = "";
+        //    }
+        //    //Debug.Log ("rReturn " + rReturn);
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetMenuName(string sMenuName)
+        //{
+        //    if (sMenuName != null)
+        //    {
+        //        kMenuNameType[ClassID()] = sMenuName;
+        //    }
+        //    ;
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        //internal static Dictionary<string, Type> kClassType = new Dictionary<string, Type>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static Type ClassType()
+        //{
+        //    Type rReturn = null;
+        //    if (kClassType.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kClassType[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetClassType(Type sType)
+        //{
+        //    if (sType != null)
+        //    {
+        //        kClassType[ClassID()] = sType;
+        //    }
+        //}
 
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kClassName = new Dictionary<string, string>();
+        //public static Dictionary<string, string> kClassName = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string[] AllClassName()
+        //{
+        //    return kClassName.Values.ToArray<string>();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string ClassName()
+        //{
+        //    string rReturn = "";
+        //    if (kClassName.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kClassName[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetClassName(string sClassName)
+        //{
+        //    if (sClassName != null)
+        //    {
+        //        kClassName[ClassID()] = sClassName;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static string[] AllClassName()
-        {
-            return kClassName.Values.ToArray<string>();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string ClassName()
-        {
-            string rReturn = "";
-            if (kClassName.ContainsKey(ClassID()))
-            {
-                rReturn = kClassName[ClassID()];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetClassName(string sClassName)
-        {
-            if (sClassName != null)
-            {
-                kClassName[ClassID()] = sClassName;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string MyClassName()
-        {
-            return ClassName();
-        }
+        //public string MyClassName()
+        //{
+        //    return ClassName();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public string MyClassNamePHP()
         {
@@ -142,90 +147,90 @@ namespace NetWorkedData
             return ClassNamePHP();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kTableName = new Dictionary<string, string>();
+        //public static Dictionary<string, string> kTableName = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string[] AllTableName()
+        //{
+        //    return kTableName.Values.ToArray<string>();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string TableName()
+        //{
+        //    string rReturn = "";
+        //    if (kTableName.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kTableName[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetTableName(string sTableName)
+        //{
+        //    if (sTableName != null)
+        //    {
+        //        kTableName[ClassID()] = sTableName;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static string[] AllTableName()
-        {
-            return kTableName.Values.ToArray<string>();
-        }
+        //public static Dictionary<string, string> kClassTrigramme = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string ClassTrigramme()
+        //{
+        //    string rReturn = "";
+        //    if (kClassTrigramme.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kClassTrigramme[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetClassTrigramme(string sClassTrigramme)
+        //{
+        //    if (sClassTrigramme != null)
+        //    {
+        //        kClassTrigramme[ClassID()] = sClassTrigramme;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static string TableName()
-        {
-            string rReturn = "";
-            if (kTableName.ContainsKey(ClassID()))
-            {
-                rReturn = kTableName[ClassID()];
-            }
-            return rReturn;
-        }
+        //public static Dictionary<string, string> kClassDescription = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string ClassDescription()
+        //{
+        //    string rReturn = "";
+        //    if (kClassDescription.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kClassDescription[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetClassDescription(string sClassDescription)
+        //{
+        //    if (sClassDescription != null)
+        //    {
+        //        kClassDescription[ClassID()] = sClassDescription;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void SetTableName(string sTableName)
-        {
-            if (sTableName != null)
-            {
-                kTableName[ClassID()] = sTableName;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kClassTrigramme = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string ClassTrigramme()
-        {
-            string rReturn = "";
-            if (kClassTrigramme.ContainsKey(ClassID()))
-            {
-                rReturn = kClassTrigramme[ClassID()];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetClassTrigramme(string sClassTrigramme)
-        {
-            if (sClassTrigramme != null)
-            {
-                kClassTrigramme[ClassID()] = sClassTrigramme;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kClassDescription = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string ClassDescription()
-        {
-            string rReturn = "";
-            if (kClassDescription.ContainsKey(ClassID()))
-            {
-                rReturn = kClassDescription[ClassID()];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetClassDescription(string sClassDescription)
-        {
-            if (sClassDescription != null)
-            {
-                kClassDescription[ClassID()] = sClassDescription;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kPrefBaseKey = new Dictionary<string, string>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static string PrefBaseKey()
-        {
-            string rReturn = "";
-            if (kPrefBaseKey.ContainsKey(ClassID()))
-            {
-                rReturn = kPrefBaseKey[ClassID()];
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void SetPrefBaseKey(string skPrefBaseKey)
-        {
-            if (skPrefBaseKey != null)
-            {
-                kPrefBaseKey[ClassID()] = skPrefBaseKey;
-            }
-        }
+        //public static Dictionary<string, string> kPrefBaseKey = new Dictionary<string, string>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string PrefBaseKey()
+        //{
+        //    string rReturn = "";
+        //    if (kPrefBaseKey.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kPrefBaseKey[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void SetPrefBaseKey(string skPrefBaseKey)
+        //{
+        //    if (skPrefBaseKey != null)
+        //    {
+        //        kPrefBaseKey[ClassID()] = skPrefBaseKey;
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string> kPrefSalt = new Dictionary<string, string>();
         //-------------------------------------------------------------------------------------------------------------
@@ -301,31 +306,30 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, NWDBasis<K>> kObjectInEdition = new Dictionary<string, NWDBasis<K>>();
-        //-------------------------------------------------------------------------------------------------------------
-        public static NWDBasis<K> ObjectInEdition()
-        {
-            NWDBasis<K> rReturn = null;
-            if (kObjectInEdition.ContainsKey(ClassID()))
-            {
-                rReturn = kObjectInEdition[ClassID()];
-            }
-            return rReturn;
-        }
+        //public static Dictionary<string, NWDBasis<K>> kObjectInEdition = new Dictionary<string, NWDBasis<K>>();
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static NWDBasis<K> ObjectInEdition()
+        //{
+        //    NWDBasis<K> rReturn = null;
+        //    if (kObjectInEdition.ContainsKey(ClassID()))
+        //    {
+        //        rReturn = kObjectInEdition[ClassID()];
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
         {
 
             string tTableName = sType.Name;
             string tClassName = sType.AssemblyQualifiedName;
-            SetClassType(sType);
-            SetClassName(tClassName);
-            SetTableName(tTableName);
-            SetClassTrigramme(sClassTrigramme);
+            //SetClassType(sType);
+            //SetTableName(tTableName);
+            //SetClassTrigramme(sClassTrigramme);
 
-            SetPrefBaseKey(tTableName + "_");
-            SetMenuName(sMenuName);
-            SetClassDescription(sDescription);
+            //SetPrefBaseKey(tTableName + "_");
+            //SetMenuName(sMenuName);
+            //SetClassDescription(sDescription);
 
 
 
@@ -427,17 +431,19 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public string kPrefSaltValidKey = "SaltValid";
-        static public string kPrefSaltAKey = "SaltA";
-        static public string kPrefSaltBKey = "SaltB";
+        //static public string kPrefSaltValidKey = "SaltValid";
+        //static public string kPrefSaltAKey = "SaltA";
+        //static public string kPrefSaltBKey = "SaltB";
+
+
         //-------------------------------------------------------------------------------------------------------------
         protected static void PrefSave()
         {
             //Debug.Log ("PrefSave");
             // reccord data to user's preferences
-            NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey(), kPrefSaltAKey, PrefSaltA());
-            NWDAppConfiguration.SharedInstance().SetSalt(PrefBaseKey(), kPrefSaltBKey, PrefSaltB());
-            NWDAppConfiguration.SharedInstance().SetSaltValid(PrefBaseKey(), kPrefSaltValidKey, "ok");
+            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, PrefSaltA());
+            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, PrefSaltB());
+            NWDAppConfiguration.SharedInstance().SetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
 #if UNITY_EDITOR
             //NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
 #endif
@@ -447,9 +453,9 @@ namespace NetWorkedData
         {
             //Debug.Log ("PrefLoad");
             // load data from user's preferences
-            SetPrefSaltA(NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey(), kPrefSaltAKey, kPrefSaltValidKey));
-            SetPrefSaltB(NWDAppConfiguration.SharedInstance().GetSalt(PrefBaseKey(), kPrefSaltBKey, kPrefSaltValidKey));
-            SetPrefSalt(NWDAppConfiguration.SharedInstance().GetSaltValid(PrefBaseKey(), kPrefSaltValidKey));
+            SetPrefSaltA(NWDAppConfiguration.SharedInstance().GetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey));
+            SetPrefSaltB(NWDAppConfiguration.SharedInstance().GetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey));
+            SetPrefSalt(NWDAppConfiguration.SharedInstance().GetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey));
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

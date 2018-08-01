@@ -51,7 +51,7 @@ namespace NetWorkedData
 
 			EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_DESCRIPTION, EditorStyles.boldLabel);
 //			EditorGUI.indentLevel++;
-			EditorGUILayout.HelpBox (ClassDescription (), MessageType.Info);
+            EditorGUILayout.HelpBox (Datas().ClassDescription, MessageType.Info);
 //			EditorGUI.indentLevel--;
 			if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true) {
 				EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_DEV, EditorStyles.boldLabel);
