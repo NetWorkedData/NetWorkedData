@@ -165,7 +165,7 @@ namespace NetWorkedData
             }
             Reference = tNewReference;
             UpdateData();
-            UpdateObjectInListOfEdition(this);
+            //UpdateObjectInListOfEdition(this);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
 #endif
         }

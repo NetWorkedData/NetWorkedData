@@ -81,16 +81,26 @@ namespace NetWorkedData
 			float tY = sPosition.position.y;
 			List<string> tReferenceList = new List<string> ();
 			List<string> tInternalNameList = new List<string> ();
-			tReferenceList.Add (NWDConstants.kFieldSeparatorA);
-			tInternalNameList.Add (" ");
-			var tReferenceListInfo = sFromType.GetField ("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (tReferenceListInfo != null) {
-				tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
-			}
-			var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-			if (tInternalNameListInfo != null) {
-				tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
-			}
+
+            tReferenceList.Add(NWDConstants.kFieldSeparatorA);
+            tInternalNameList.Add(NWDConstants.kFieldNone);
+
+            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).NEW_EditorDatasMenu.OrderBy(i => i.Value))
+            {
+                tReferenceList.Add(tKeyValue.Key);
+                tInternalNameList.Add(tKeyValue.Value);
+            }
+
+			//tReferenceList.Add (NWDConstants.kFieldSeparatorA);
+			//tInternalNameList.Add (" ");
+			//var tReferenceListInfo = sFromType.GetField ("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			//if (tReferenceListInfo != null) {
+			//	tReferenceList.AddRange (tReferenceListInfo.GetValue (null) as List<string>);
+			//}
+			//var tInternalNameListInfo = sFromType.GetField ("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			//if (tInternalNameListInfo != null) {
+			//	tInternalNameList.AddRange (tInternalNameListInfo.GetValue (null) as List<string>);
+			//}
 
             List<GUIContent> tContentFuturList = new List<GUIContent>();
             foreach (string tS in tInternalNameList.ToArray())

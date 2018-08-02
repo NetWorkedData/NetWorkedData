@@ -49,6 +49,7 @@ namespace NetWorkedData
         public static string kStandardSeparator = "|";
         public static string kStandardSeparatorSubstitute = "@0#";
         //-------------------------------------------------------------------------------------------------------------
+        public static string kFieldNone = "   none   ";
         public static string kFieldSeparatorA = "•";
         public static string kFieldSeparatorB = ":";
         public static string kFieldSeparatorC = "_";
@@ -700,107 +701,107 @@ namespace NetWorkedData
                 ImageLoaded = true;
                 if (kImageSelectionUpdate == null)
                 {
-                    kImageSelectionUpdate = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceSelectionUpdate.psd"));
+                    kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelectionUpdate.psd");
                 }
                 if (kImageMarkupUpdate == null)
                 {
-                    kImageMarkupUpdate = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceMarkupUpdate.psd"));
+                    kImageMarkupUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupUpdate.psd");
                 }
                 if (kImageDelete == null)
                 {
-                    kImageDelete = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceDelete.psd"));
+                    kImageDelete = NWDFindPackage.PackageEditorTexture("NWDInterfaceDelete.psd");
                 }
                 if (kImageUp == null)
                 {
-                    kImageUp = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceUp.psd"));
+                    kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.psd");
                 }
                 if (kImageDown == null)
                 {
-                    kImageDown = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceDown.psd"));
+                    kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.psd");
                 }
                 if (kImageMove == null)
                 {
-                    kImageMove = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceMove.psd"));
+                    kImageMove = NWDFindPackage.PackageEditorTexture("NWDInterfaceMove.psd");
                 }
                 if (kImageUpdate == null)
                 {
-                    kImageUpdate = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceUpdate.psd"));
+                    kImageUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceUpdate.psd");
                 }
                 if (kImageShortcutsToolsEditor == null)
                 {
-                    kImageShortcutsToolsEditor = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceShorcutsToolsEditor.psd"));
+                    kImageShortcutsToolsEditor = NWDFindPackage.PackageEditorTexture("NWDInterfaceShorcutsToolsEditor.psd");
                 }
                 if (kImageSelection == null)
                 {
-                    kImageSelection = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceSelection.psd"));
+                    kImageSelection = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelection.psd");
                 }
                 if (kImageMarkup == null)
                 {
-                    kImageMarkup = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceMarkup.psd"));
+                    kImageMarkup = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkup.psd");
                 }
                 if (kImageMarkupGizmos == null)
                 {
-                    kImageMarkupGizmos = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceMarkupGizmos.psd"));
+                    kImageMarkupGizmos = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupGizmos.psd");
                 }
                 if (kImageAction == null)
                 {
-                    kImageAction = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceAction.psd"));
+                    kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.psd");
                 }
                 if (kImageScene == null)
                 {
-                    kImageScene = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceScene.psd"));
+                    kImageScene = NWDFindPackage.PackageEditorTexture("NWDInterfaceScene.psd");
                 }
                 if (kImageCamera == null)
                 {
-                    kImageCamera = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceCamera.psd"));
+                    kImageCamera = NWDFindPackage.PackageEditorTexture("NWDInterfaceCamera.psd");
                 }
                 if (kImageCameraPosition == null)
                 {
-                    kImageCameraPosition = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceCameraPosition.psd"));
+                    kImageCameraPosition = NWDFindPackage.PackageEditorTexture("NWDInterfaceCameraPosition.psd");
                 }
                 if (kImageOrthographic == null)
                 {
-                    kImageOrthographic = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceOrthographic.psd"));
+                    kImageOrthographic = NWDFindPackage.PackageEditorTexture("NWDInterfaceOrthographic.psd");
                 }
                 if (kImagePerspective == null)
                 {
-                    kImagePerspective = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfacePerspective.psd"));
+                    kImagePerspective = NWDFindPackage.PackageEditorTexture("NWDInterfacePerspective.psd");
                 }
                 if (kImageTwoDimension == null)
                 {
-                    kImageTwoDimension = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceTwoDimension.psd"));
+                    kImageTwoDimension = NWDFindPackage.PackageEditorTexture("NWDInterfaceTwoDimension.psd");
                 }
                 if (kImageEdit == null)
                 {
-                    kImageEdit = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceEdit.psd"));
+                    kImageEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.psd");
                 }
                 if (kImageNew == null)
                 {
-                    kImageNew = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceNew.psd"));
+                    kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.psd");
                 }
                 if (kImageTabOptions == null)
                 {
-                    kImageTabOptions = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceTabOptions.psd"));
+                    kImageTabOptions = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabOptions.psd");
                 }
                 if (kImageTabCreate == null)
                 {
-                    kImageTabCreate = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceTabCreate.psd"));
+                    kImageTabCreate = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabCreate.psd");
                 }
                 if (kImageTabEdit == null)
                 {
-                    kImageTabEdit = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceTabEdit.psd"));
+                    kImageTabEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabEdit.psd");
                 }
                 if (kImageTabReduce == null)
                 {
-                    kImageTabReduce = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDInterfaceTabReduce.psd"));
+                    kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabReduce.psd");
                 }
                 if (kImageNodalCard == null)
                 {
-                    kImageNodalCard = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDCardBack.psd"));
+                    kImageNodalCard = NWDFindPackage.PackageEditorTexture("NWDCardBack.psd");
                 }
                 if (kImageBezierTexture == null)
                 {
-                    kImageBezierTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/Editor/Resources/Textures/NWDBezierTexture.psd"));
+                    kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd");
                 }
             }
         }

@@ -305,10 +305,9 @@ namespace NetWorkedData
         {
             NWDAccount rAccount = null;
             string tAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            int tObjectIndex = NWDAccount.Datas().ObjectsByReferenceList.IndexOf(tAccountReference);
-            if (NWDAccount.Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+            if (NWDAccount.Datas().DatasByReference.ContainsKey(tAccountReference))
             {
-                rAccount = NWDAccount.Datas().ObjectsList[tObjectIndex] as NWDAccount;
+                rAccount = NWDAccount.Datas().DatasByReference[tAccountReference] as NWDAccount;
             }
             return rAccount;
         }

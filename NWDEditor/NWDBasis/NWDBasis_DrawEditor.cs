@@ -35,11 +35,11 @@ namespace NetWorkedData
 
         public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            if (Datas().ObjectsInEditorTableList.Count > 0)
+            if (Datas().NEW_EditorTableDatas.Count > 0)
             {
-                string tNextReference = Datas().ObjectsInEditorTableList.ElementAt(0);
-                int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
-                SetObjectInEdition(Datas().ObjectsList.ElementAt(tNextObjectIndex));
+                K sObject = Datas().NEW_EditorTableDatas.ElementAt(0) as K;
+                //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
+                SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
             }
         }
@@ -66,7 +66,8 @@ namespace NetWorkedData
             {
                 if (sClassPHP == Datas().ClassNamePHP)
                 {
-                    rObject = NWDBasis<K>.InstanceByReference(sReference);
+                    K tObj = NWDBasis<K>.NEW_GetDataByReference(sReference);
+                    rObject = tObj;
                 }
             }
             return rObject;
@@ -1387,7 +1388,7 @@ namespace NetWorkedData
                     InternalKey = tInternalName;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
-                    UpdateObjectInListOfEdition(this);
+                    //UpdateObjectInListOfEdition(this);
                     //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                     UpdateData(true, NWDWritingMode.QueuedMainThread);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
@@ -1409,7 +1410,7 @@ namespace NetWorkedData
                 InternalDescription = tInternalDescription;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
-                UpdateObjectInListOfEdition(this);
+                //UpdateObjectInListOfEdition(this);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 UpdateData(true, NWDWritingMode.QueuedMainThread);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
@@ -1457,7 +1458,7 @@ namespace NetWorkedData
                     WebServiceVersion = tWebServiceVersionNew;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
-                    UpdateObjectInListOfEdition(this);
+                    //UpdateObjectInListOfEdition(this);
                     UpdateData(true, NWDWritingMode.MainThread ,false);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     NWDNodeEditor.UpdateNodeWindow(this);
@@ -1490,7 +1491,7 @@ namespace NetWorkedData
                 Tag = tInternalTag;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
-                UpdateObjectInListOfEdition(this);
+                //UpdateObjectInListOfEdition(this);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 UpdateData(true, NWDWritingMode.QueuedMainThread);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
@@ -1678,7 +1679,7 @@ namespace NetWorkedData
             {
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
-                UpdateObjectInListOfEdition(this);
+                //UpdateObjectInListOfEdition(this);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 UpdateData(true, NWDWritingMode.QueuedMainThread);
                 NWDDataManager.SharedInstance().DataQueueExecute();
@@ -1712,7 +1713,7 @@ namespace NetWorkedData
                 UpdateData(true, NWDWritingMode.QueuedMainThread);
                 //K tNexObject = (K)DuplicateMe();
                 K tNexObject = DuplicateData(true, NWDWritingMode.QueuedMainThread);
-                AddObjectInListOfEdition(tNexObject);
+                //AddObjectInListOfEdition(tNexObject);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 SetObjectInEdition(tNexObject);
                 Datas().m_PageSelected = Datas().m_MaxPage * 3;
@@ -1776,7 +1777,7 @@ namespace NetWorkedData
                         NWDConstants.K_APP_BASIS_DELETE_OK,
                         NWDConstants.K_APP_BASIS_DELETE_CANCEL))
                 {
-                    RemoveObjectInListOfEdition(this);
+                    //RemoveObjectInListOfEdition(this);
                     //DeleteMe();
                     DeleteData(NWDWritingMode.MainThread);
                     SetObjectInEdition(null);

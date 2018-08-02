@@ -281,7 +281,7 @@ namespace NetWorkedData
                 rReturn.InternalKey = sInternalKey;
                 rReturn.InternalDescription = sInternalDescription;
                 rReturn.InsertData();
-                AddObjectInListOfEdition(rReturn);
+                //AddObjectInListOfEdition(rReturn);
             }
             return rReturn;
         }

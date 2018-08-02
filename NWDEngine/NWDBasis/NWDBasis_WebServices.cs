@@ -160,12 +160,12 @@ namespace NetWorkedData
         {
             // Debug.Log("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV(sDataArray);
-            NWDBasis<K> tObject = InstanceByReference(tReference);
+            NWDBasis<K> tObject = NEW_GetDataByReference(tReference);
             if (tObject == null)
             {
                 sInfos.RowAddedCounter++;
                 tObject = NewInstanceFromCSV(sEnvironment, sDataArray);
-                AddObjectInListOfEdition(tObject);
+                //AddObjectInListOfEdition(tObject);
             }
             else
             {
@@ -498,7 +498,7 @@ namespace NetWorkedData
                         }
                         rReturn = "YES";
 #if UNITY_EDITOR
-                        FilterTableEditor();
+                        //FilterTableEditor();
                         RepaintTableEditor();
                         NWDDataInspector.ShareInstance().Repaint();
 #endif
@@ -712,7 +712,8 @@ namespace NetWorkedData
                     }
                 }
                 // need to reload this data now : to remove all tObjects from memory!
-                LoadTableEditor();
+                //LoadTableEditor();
+                LoadFromDatabase();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

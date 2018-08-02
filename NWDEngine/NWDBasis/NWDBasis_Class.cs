@@ -44,7 +44,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas Datas()
         {
-            return NWDDatas.FindTypeInfos(typeof(K));
+            NWDDatas rDatas = NWDDatas.FindTypeInfos(typeof(K));
+            if (rDatas == null)
+            {
+                Debug.LogWarning("ERROR NWDDatas.FindTypeInfos(typeof(K)) NOT RETRUN FOR " + typeof(K).Name);
+            }
+            return rDatas;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string ClassID()
@@ -423,6 +428,8 @@ namespace NetWorkedData
 
 
             //LoadTableEditor();
+            LoadFromDatabase();
+
 #if UNITY_EDITOR
             FilterTableEditor();
             Datas().PrefSave();
@@ -506,6 +513,7 @@ namespace NetWorkedData
             List<PropertyInfo> tPropertyList = new List<PropertyInfo>();
             List<PropertyInfo> tPropertyListConnected = new List<PropertyInfo>();
             List<PropertyInfo> tAssetPropertyList = new List<PropertyInfo>();
+            Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
             Type tType = ClassType();
 
             Datas().ClassGameSaveDependent= false;
@@ -531,6 +539,8 @@ namespace NetWorkedData
                             {
                                 tPropertyList.Add(tProp);
                                 tPropertyListConnected.Add(tProp);
+                                MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                tAccountMethodList.Add(tProp, tMethod);
                                 rAccountConnected = true;
                                 rLockedObject = false;
                             }
@@ -538,6 +548,9 @@ namespace NetWorkedData
                             {
                                 Datas().ClassGameSaveDependent = true;
                                 Datas().ClassGameDependentProperties = tProp;
+
+                                MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                Datas().GameSaveMethod = tGameSaveMethod;
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
@@ -549,6 +562,8 @@ namespace NetWorkedData
                             {
                                 // it's not directly a NWDAccount a dependency ....
                                 tPropertyListConnected.Add(tProp);
+                                MethodInfo tMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                                tAccountMethodList.Add(tProp, tMethod);
                             }
                         }
                         else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceHashType<>))
@@ -575,7 +590,7 @@ namespace NetWorkedData
 
             // reccord class' object is account connected properties
             Datas().kAccountConnectedProperties = tPropertyListConnected.ToArray();
-
+            Datas().AccountMethodDico = tAccountMethodList;
 
             // reccord if class' object is locked for editor
 

@@ -188,7 +188,7 @@ namespace NetWorkedData
                     int tCounter = 1;
                     string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
                     // search available internal key
-                    while (NWDBasis<K>.InternalKeyExists(tCopy) == true)
+                    while (NWDBasis<K>.NEW_InternalKeyExists(tCopy) == true)
                     {
                         tCounter++;
                         tCopy = tOriginalKey + " (COPY " + tCounter + ")";
@@ -215,22 +215,22 @@ namespace NetWorkedData
         /// </summary>
         /// <returns><c>true</c>, if key exists was internaled, <c>false</c> otherwise.</returns>
         /// <param name="sInternalKey">S internal key.</param>
-        public static bool InternalKeyExists(string sInternalKey)
-        {
-            //BTBBenchmark.Start();
-            bool rReturn = false;
-            K[] tArray = GetAllObjects(null);
-            foreach (K tObject in tArray)
-            {
-                if (tObject.InternalKey == sInternalKey)
-                {
-                    rReturn = true;
-                    break;
-                }
-            }
-            //BTBBenchmark.Finish();
-            return rReturn;
-        }
+        //public static bool InternalKeyExists(string sInternalKey)
+        //{
+        //    //BTBBenchmark.Start();
+        //    bool rReturn = false;
+        //    K[] tArray = GetAllObjects(null);
+        //    foreach (K tObject in tArray)
+        //    {
+        //        if (tObject.InternalKey == sInternalKey)
+        //        {
+        //            rReturn = true;
+        //            break;
+        //        }
+        //    }
+        //    //BTBBenchmark.Finish();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Copy the data.
@@ -413,7 +413,8 @@ namespace NetWorkedData
                         rReturn = true;
                         this.AddonInsertMe();
                         InsertDataOperation(sAutoDate);
-                        AddObjectInListOfEdition(this);
+                        Datas().AddData(this);
+                        //AddObjectInListOfEdition(this);
                         WritingLockAdd();
                         WritingPending = NWDWritingPending.InsertInMemory;
                         NWDDataManager.SharedInstance().InsertData(this, sWritingMode);
@@ -516,6 +517,31 @@ namespace NetWorkedData
         #endregion Insert Data
         #region Update Data
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Save data.
+        /// </summary>
+        /// <param name="sWritingMode">S writing mode.</param>
+        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            UpdateData(true, sWritingMode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Save data if modified.
+        /// </summary>
+        /// <returns><c>true</c>, if data if modified : save, <c>false</c> otherwise.</returns>
+        /// <param name="sWritingMode">S writing mode.</param>
+        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            bool tReturn = false;
+            if (this.Integrity != this.IntegrityValue())
+            {
+                tReturn = true;
+                UpdateData(true, sWritingMode);
+            }
+            return tReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true)
         {
             //BTBBenchmark.Start();
@@ -581,7 +607,9 @@ namespace NetWorkedData
                 this.AddonUpdateMe(); // call override method
                 UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
                 this.AddonUpdatedMe(); // call override method
-                UpdateObjectInListOfEdition(this);
+
+                Datas().UpdateData(this);
+                //UpdateObjectInListOfEdition(this);
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.UpdateInMemory;
                 NWDDataManager.SharedInstance().UpdateData(this, sWritingMode);
@@ -810,7 +838,8 @@ namespace NetWorkedData
                 }
                 this.AddonDeleteMe(); // call override method
                 DeleteDataOperation();
-                RemoveObjectInListOfEdition(this);
+                Datas().RemoveData(this);
+                //RemoveObjectInListOfEdition(this);
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.DeleteInMemory;
                 NWDDataManager.SharedInstance().DeleteData(this, sWritingMode);
@@ -871,41 +900,43 @@ namespace NetWorkedData
         public void LoadedFromDatabase()
         {
             //BTBBenchmark.Start();
+            InDatabase = true;
             FromDatabase = true;
             WritingPending = NWDWritingPending.InDatabase;
-            AddObjectInListOfEdition(this);
+            AddonLoadedMe();
+            Datas().AddData(this);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void LoadAllDatas()
-        {
-            //BTBBenchmark.Start();
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (AccountDependent())
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
-            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-            Datas().ObjectsList = new List<object>();
-            Datas().ObjectsByReferenceList = new List<string>();
-            Datas().ObjectsByKeyList = new List<string>();
-#if UNITY_EDITOR
-            Datas().ObjectsInEditorTableKeyList = new List<string>();
-            Datas().ObjectsInEditorTableSelectionList = new List<bool>();
-            Datas().ObjectsInEditorTableList = new List<string>();
-#endif
-            if (tEnumerable != null)
-            {
-                foreach (NWDBasis<K> tData in tEnumerable)
-                {
-                    tData.LoadedFromDatabase();
-                }
-            }
-#if UNITY_EDITOR
-            RepaintTableEditor();
-#endif
-            //BTBBenchmark.Finish();
-        }
+//        public static void LoadAllDatas()
+//        {
+//            //BTBBenchmark.Start();
+//            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+//            if (AccountDependent())
+//            {
+//                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+//            }
+//            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+//            Datas().ObjectsList = new List<object>();
+//            Datas().ObjectsByReferenceList = new List<string>();
+//            Datas().ObjectsByKeyList = new List<string>();
+//#if UNITY_EDITOR
+//            Datas().DatasInEditorRowDescriptionList = new List<string>();
+//            Datas().DatasInEditorSelectionList = new List<bool>();
+//            Datas().DatasInEditorReferenceList = new List<string>();
+//#endif
+//            if (tEnumerable != null)
+//            {
+//                foreach (NWDBasis<K> tData in tEnumerable)
+//                {
+//                    tData.LoadedFromDatabase();
+//                }
+//            }
+//#if UNITY_EDITOR
+//            RepaintTableEditor();
+//#endif
+        //    //BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion Load Data
         //-------------------------------------------------------------------------------------------------------------

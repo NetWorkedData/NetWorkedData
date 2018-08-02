@@ -93,7 +93,7 @@ namespace NetWorkedData
 			if (rObject == null) {
 				//Debug.Log ("New object");
                 rObject = NWDBasis<NWDUserPreference>.NewData ();
-				RemoveObjectInListOfEdition (rObject);
+				//RemoveObjectInListOfEdition (rObject);
 				rObject.InternalKey = sInternalKey;
 				NWDReferenceType<NWDAccount> tAccountReference = new NWDReferenceType<NWDAccount>();
 				tAccountReference.SetReference (NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference);
@@ -102,7 +102,7 @@ namespace NetWorkedData
 				rObject.Value = tValue;
 				rObject.InternalDescription = sInternalDescription;
                 rObject.UpdateData ();
-				AddObjectInListOfEdition (rObject);
+				//AddObjectInListOfEdition (rObject);
 			}
 			return rObject;
 		}

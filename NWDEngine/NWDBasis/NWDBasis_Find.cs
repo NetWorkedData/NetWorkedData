@@ -156,16 +156,20 @@ namespace NetWorkedData
         #region Static Get Object
         //-------------------------------------------------------------------------------------------------------------
         //TODO : RENAME with instance or basis 
-        public static NWDBasis<K> InstanceByReference(string sReference)
-        {
-            NWDBasis<K> rObject = null;
-            if (Datas().ObjectsByReferenceList.Contains(sReference))
-            {
-                int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
-                rObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            }
-            return rObject;
-        }
+        //public static NWDBasis<K> InstanceByReference(string sReference)
+        //{
+
+
+        //    NWDBasis<K> rObject = null;
+
+
+        //    if (Datas().ObjectsByReferenceList.Contains(sReference))
+        //    {
+        //        int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sReference);
+        //        rObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
+        //    }
+        //    return rObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 
         //TODO : RENAME with instance or basis 

@@ -266,7 +266,8 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
 #if UNITY_EDITOR
-            LoadTableEditor();
+            //LoadTableEditor();
+            LoadFromDatabase();
             FilterTableEditor();
 #endif
         }

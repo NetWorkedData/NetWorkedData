@@ -39,15 +39,18 @@ namespace NetWorkedData
         public string ClassTableName = "";
         public string ClassPrefBaseKey = "";
         public GUIContent ClassMenuNameContent = GUIContent.none;
-
+        //-------------------------------------------------------------------------------------------------------------
+        public bool kLockedObject; // false if account dependant but bypass in editor mode (allways false to authorize sync)
+        //-------------------------------------------------------------------------------------------------------------
         public bool ClassGameSaveDependent = false;
         public PropertyInfo ClassGameDependentProperties;
-
+        public MethodInfo GameSaveMethod;
+        //-------------------------------------------------------------------------------------------------------------
         public bool kAccountDependent = false;
         public PropertyInfo[] kAccountDependentProperties;
         public PropertyInfo[] kAccountConnectedProperties;
+        public Dictionary<PropertyInfo, MethodInfo> AccountMethodDico = new Dictionary<PropertyInfo, MethodInfo>();
         //-------------------------------------------------------------------------------------------------------------
-        public bool kLockedObject;
         public bool kAssetDependent;
         public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
@@ -63,7 +66,7 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public bool mSettingsShowing = false;
         //-------------------------------------------------------------------------------------------------------------
@@ -129,9 +132,9 @@ namespace NetWorkedData
         public Vector2 m_ScrollPositionCard;
         public bool mSearchShowing = false;
         //-------------------------------------------------------------------------------------------------------------
-        public List<string> ObjectsInEditorTableKeyList = new List<string>();
-        public List<string> ObjectsInEditorTableList = new List<string>();
-        public List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
+        //public List<string> ObjectsInEditorTableKeyList = new List<string>();
+        //public List<string> ObjectsInEditorTableList = new List<string>();
+        //public List<bool> ObjectsInEditorTableSelectionList = new List<bool>();
         //-------------------------------------------------------------------------------------------------------------
 #endif
 
@@ -148,7 +151,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Declare(Type sType, bool sClassSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
         {
-            Debug.Log("NWDTypeInfos Declare");
+            Debug.Log("NWDTypeInfos Declare for " + sType.Name + " !");
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 // find infos object if exists or create 
@@ -221,7 +224,7 @@ namespace NetWorkedData
                 //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
             }
             return rReturn;
-        } 
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas FindTypeInfos(Type sType)
         {
@@ -466,11 +469,27 @@ namespace NetWorkedData
         /// </summary>
         public Dictionary<NWDTypeClass, string> DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
 #if UNITY_EDITOR
-        public List<string> DatasInEditorTableKeyList = new List<string>();
-        public List<bool> DatasInEditorTableSelectionList = new List<bool>();
-        public List<string> DatasInEditorTableList = new List<string>();
+        public Dictionary<NWDTypeClass, string> DatasInEditor = new Dictionary<NWDTypeClass, string>();
+        public Dictionary<NWDTypeClass, bool> DatasInEditorSelection = new Dictionary<NWDTypeClass, bool>();
+
+        //public List<string> DatasInEditorReferenceList = new List<string>();
+        //public List<string> DatasInEditorRowDescriptionList = new List<string>();
+        //public List<bool> DatasInEditorSelectionList = new List<bool>();
+
+
+
+
+
+
+        public Dictionary<string, string> NEW_EditorDatasMenu = new Dictionary<string, string>(); // reference/desciption for menu <REF>
+
+        public List<NWDTypeClass> NEW_EditorTableDatas = new List<NWDTypeClass>(); // NWDTypeClass
+        public Dictionary<NWDTypeClass, bool> NEW_EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
 #endif
         // TODO Futur 
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
@@ -487,9 +506,16 @@ namespace NetWorkedData
             DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
 #if UNITY_EDITOR
             // editor datas prepare handler
-            DatasInEditorTableKeyList = new List<string>();
-            DatasInEditorTableSelectionList = new List<bool>();
-            DatasInEditorTableList = new List<string>();
+            //DatasInEditorRowDescriptionList = new List<string>();
+            //DatasInEditorSelectionList = new List<bool>();
+            //DatasInEditorReferenceList = new List<string>();
+
+            NEW_EditorTableDatas = new List<NWDTypeClass>();
+            NEW_EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+
+            // use in pop menu in edition of NWD inspector...
+            NEW_EditorDatasMenu = new Dictionary<string, string>();
+            NEW_EditorDatasMenu.Add("", "");
 #endif
             BTBBenchmark.Finish();
         }
@@ -547,12 +573,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
         {
+            Debug.Log("NWDDatas AddData()");
             BTBBenchmark.Start();
             // get reference
             string tReference = sData.ReferenceUsedValue();
             // Anyway I check if Data is allready in datalist
             if (DatasByReference.ContainsKey(tReference) == false)
             {
+
                 // get internal key
                 string tInternalKey = sData.InternalKeyValue();
                 // Anyway I add Data in datalist
@@ -580,25 +608,43 @@ namespace NetWorkedData
                 {
                     Debug.LogWarning("Try to add not integrity data!");
                 }
-                // Ok now I add datas in editor table list
-#if UNITY_EDITOR
-                // add load object in editor table
-                if (DatasInEditorTableList.Contains(tReference) == false)
-                {
-                    // Active to auto remove on filter
-                    // if (sObject.Tag == (int)m_SearchTag)
-                    {
-                        DatasInEditorTableList.Add(tReference);
-                    }
-                }
-                DatasInEditorTableKeyList.Add(tInternalKey + " <" + tReference + ">");
-                DatasInEditorTableSelectionList.Add(false);
-#endif
             }
             else
             {
                 Debug.LogWarning("Try to add twice data!");
             }
+            // Ok now I add datas in editor table list
+#if UNITY_EDITOR
+            // add load object in editor table
+            //if (DatasInEditorReferenceList.Contains(tReference) == false)
+            //{
+            //    // Active to auto remove on filter
+            //    // if (sObject.Tag == (int)m_SearchTag)
+            //    {
+            //        DatasInEditorReferenceList.Add(tReference);
+            //    }
+            //}
+            //DatasInEditorRowDescriptionList.Add(tInternalKey + " <" + tReference + ">");
+            //DatasInEditorSelectionList.Add(false);
+
+
+            /*NEW*/
+            if (NEW_EditorTableDatas.Contains(sData) == false)
+            {
+                NEW_EditorTableDatas.Add(sData);
+            }
+            if (NEW_EditorTableDatasSelected.ContainsKey(sData) == false)
+            {
+                NEW_EditorTableDatasSelected.Add(sData, false);
+            }
+            if (NEW_EditorDatasMenu.ContainsKey(sData.ReferenceUsedValue()) == false)
+            {
+                NEW_EditorDatasMenu.Add(sData.ReferenceUsedValue(), sData.DatasMenu());
+            }
+            /*NEW*/
+
+
+#endif
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -629,6 +675,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveData(NWDTypeClass sData)
         {
+            Debug.Log("NWDDatas RemoveData()");
             BTBBenchmark.Start();
             // get reference
             string tReference = sData.ReferenceUsedValue();
@@ -652,21 +699,36 @@ namespace NetWorkedData
                 DatasByReverseInternalKey.Remove(sData);
                 // Ok now I need to remove it in reachable data
                 RemoveDataReachable(sData);
-#if UNITY_EDITOR
-                // remove object in editor table
-                int tIndexB = DatasInEditorTableList.IndexOf(tReference);
-                if (tIndexB >= 0 && tIndexB < DatasInEditorTableList.Count())
-                {
-                    DatasInEditorTableList.RemoveAt(tIndexB);
-                }
-                ObjectsInEditorTableKeyList.RemoveAt(tIndex);
-                ObjectsInEditorTableSelectionList.RemoveAt(tIndex);
-#endif
             }
             else
             {
                 Debug.LogWarning("Try to remove an unreferenced data!");
             }
+#if UNITY_EDITOR
+            // remove object in editor table
+            //int tIndexB = DatasInEditorReferenceList.IndexOf(tReference);
+            //if (tIndexB >= 0 && tIndexB < DatasInEditorReferenceList.Count())
+            //{
+            //    DatasInEditorReferenceList.RemoveAt(tIndexB);
+            //}
+            //DatasInEditorRowDescriptionList.RemoveAt(tIndex);
+            //DatasInEditorSelectionList.RemoveAt(tIndex);
+
+            /*NEW*/
+            if (NEW_EditorTableDatas.Contains(sData) == true)
+            {
+                NEW_EditorTableDatas.Remove(sData);
+            }
+            if (NEW_EditorTableDatasSelected.ContainsKey(sData) == true)
+            {
+                NEW_EditorTableDatasSelected.Remove(sData);
+            }
+            if (NEW_EditorDatasMenu.ContainsKey(tReference) == true)
+            {
+                NEW_EditorDatasMenu.Remove(tReference);
+            }
+            /*NEW*/
+#endif
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -697,6 +759,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateData(NWDTypeClass sData)
         {
+            Debug.Log("NWDDatas UpdateData()");
             string tReference = sData.ReferenceUsedValue();
             string tInternalKey = sData.InternalKeyValue();
             string tOldInternalKey = DatasByReverseInternalKey[sData];
@@ -728,330 +791,379 @@ namespace NetWorkedData
 
                 UpdateDataReachable(sData);
 
-                #if UNITY_EDITOR
-                // remove object in editor table
+            }
+#if UNITY_EDITOR
+            // remove object in editor table
 
-                DatasInEditorTableKeyList.RemoveAt(tIndex);
-                DatasInEditorTableSelectionList.RemoveAt(tIndex);
+            //DatasInEditorRowDescriptionList.RemoveAt(tIndex);
+            //DatasInEditorSelectionList.RemoveAt(tIndex);
 
-                DatasInEditorTableKeyList.Insert(tIndex, tInternalKey + " <" + tReference + ">");
-                DatasInEditorTableSelectionList.Insert(tIndex, false);
+            //DatasInEditorRowDescriptionList.Insert(tIndex, tInternalKey + " <" + tReference + ">");
+            //DatasInEditorSelectionList.Insert(tIndex, false);
 
-                int tIndexB = DatasInEditorTableList.IndexOf(tReference);
-                if (tIndexB >= 0 && tIndexB < DatasInEditorTableList.Count())
-                {
-                    DatasInEditorTableList.RemoveAt(tIndexB);
-                    // Active to auto remove on filter
-                    // if (sObject.Tag == (int)m_SearchTag)
-                    {
-                        DatasInEditorTableList.Insert(tIndexB, tReference);
-                    }
-                }
-                else
-                {
-                    // if (sObject.Tag == m_SearchTag)
-                    {
-                        DatasInEditorTableList.Add(tReference);
-                    }
-                }
-                #endif
+            //int tIndexB = DatasInEditorReferenceList.IndexOf(tReference);
+            //if (tIndexB >= 0 && tIndexB < DatasInEditorReferenceList.Count())
+            //{
+            //    DatasInEditorReferenceList.RemoveAt(tIndexB);
+            //    // Active to auto remove on filter
+            //    // if (sObject.Tag == (int)m_SearchTag)
+            //    {
+            //        DatasInEditorReferenceList.Insert(tIndexB, tReference);
+            //    }
+            //}
+            //else
+            //{
+            //    // if (sObject.Tag == m_SearchTag)
+            //    {
+            //        DatasInEditorReferenceList.Add(tReference);
+            //    }
+            //}
+
+            /*NEW*/
+            if (NEW_EditorTableDatas.Contains(sData) == true)
+            {
+                // nothing ... 
             }
+            if (NEW_EditorTableDatasSelected.ContainsKey(sData) == true)
+            {
+
+            }
+            if (NEW_EditorDatasMenu.ContainsKey(tReference) == true)
+            {
+                NEW_EditorDatasMenu[sData.ReferenceUsedValue()] = sData.DatasMenu();
+            }
+            /*NEW*/
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass[] GetAllDatas(NWDDatasFilter sFilter)
-        {
-            BTBBenchmark.Start();
-            NWDTypeClass[] rReturn;
-            switch (sFilter)
-            {
-                case NWDDatasFilter.ReachableAndDisabled:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        foreach (NWDTypeClass tDatas in DatasReachable)
-                        {
-                            if (tDatas.EnableState() == false)
-                            {
-                                tList.Add(tDatas);
-                            }
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndTrashed:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        foreach (NWDTypeClass tDatas in DatasReachable)
-                        {
-                            if (tDatas.TrashState() == true)
-                            {
-                                tList.Add(tDatas);
-                            }
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndEnable:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        foreach (NWDTypeClass tDatas in DatasReachable)
-                        {
-                            if (tDatas.EnableState() == true)
-                            {
-                                tList.Add(tDatas);
-                            }
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                case NWDDatasFilter.All:
-                    {
-                        rReturn = Datas.ToArray();
-                    }
-                    break;
-                default:
-                case NWDDatasFilter.Reachable:
-                    {
-                        rReturn = DatasReachable.ToArray();
-                    }
-                    break;
-            }
-            BTBBenchmark.Finish();
-            return rReturn;
-        }
+
+
+        //public NWDTypeClass[] FindDatas(string sAccountReference = null,
+        //                                NWDGameSave sGameSave = null,
+        //                                bool sEnable = true,
+        //                                bool sTrashed = false,
+        //                                bool sIntegrity = true)
+
+        //{
+
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass[] GetDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
-        {
-            BTBBenchmark.Start();
-            NWDTypeClass[] rReturn = null;
-            switch (sFilter)
-            {
-                case NWDDatasFilter.ReachableAndDisabled:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
-                            {
-                                if (tDatas.EnableState() == false)
-                                {
-                                    tList.Add(tDatas);
-                                }
-                            }
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndTrashed:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
-                            {
-                                if (tDatas.TrashState() == true)
-                                {
-                                    tList.Add(tDatas);
-                                }
-                            }
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndEnable:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
-                            {
-                                if (tDatas.EnableState() == true)
-                                {
-                                    tList.Add(tDatas);
-                                }
-                            }
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                case NWDDatasFilter.All:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            tList = DatasByInternalKey[sInternalKey];
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-                default:
-                case NWDDatasFilter.Reachable:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            tList = DatasReachableByInternalKey[sInternalKey];
-                        }
-                        rReturn = tList.ToArray();
-                    }
-                    break;
-            }
-            BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass GetFirstDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
-        {
-            BTBBenchmark.Start();
-            NWDTypeClass rReturn = null;
-            switch (sFilter)
-            {
-                case NWDDatasFilter.ReachableAndDisabled:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
-                            {
-                                if (tDatas.EnableState() == false)
-                                {
-                                    rReturn = tDatas;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndTrashed:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
-                            {
-                                if (tDatas.TrashState() == true)
-                                {
-                                    rReturn = tDatas;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndEnable:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
-                            {
-                                if (tDatas.EnableState() == true)
-                                {
-                                    rReturn = tDatas;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case NWDDatasFilter.All:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            tList = DatasByInternalKey[sInternalKey];
-                        }
-                        if (tList.Count > 0)
-                        {
-                            rReturn = tList[0];
-                        }
-                    }
-                    break;
-                default:
-                case NWDDatasFilter.Reachable:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
-                        {
-                            tList = DatasReachableByInternalKey[sInternalKey];
-                        }
-                        if (tList.Count > 0)
-                        {
-                            rReturn = tList[0];
-                        }
-                    }
-                    break;
-            }
-            BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDTypeClass GetDataByReference(string sReference, NWDDatasFilter sFilter)
-        {
-            // TODO
-            BTBBenchmark.Start();
-            NWDTypeClass rReturn = null;
-            switch (sFilter)
-            {
-                case NWDDatasFilter.ReachableAndDisabled:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByReference.ContainsKey(sReference))
-                        {
-                            rReturn = DatasReachableByReference[sReference];
-                            if (rReturn.EnableState() == true)
-                            {
-                                rReturn = null;
-                            }
-                        }
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndTrashed:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByReference.ContainsKey(sReference))
-                        {
-                            rReturn = DatasReachableByReference[sReference];
-                            if (rReturn.TrashState() == false)
-                            {
-                                rReturn = null;
-                            }
-                        }
-                    }
-                    break;
-                case NWDDatasFilter.ReachableAndEnable:
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        if (DatasReachableByReference.ContainsKey(sReference))
-                        {
-                            rReturn = DatasReachableByReference[sReference];
-                            if (rReturn.EnableState() == false)
-                            {
-                                rReturn = null;
-                            }
-                        }
-                    }
-                    break;
-                case NWDDatasFilter.All:
-                    {
-                        if (DatasByReference.ContainsKey(sReference))
-                        {
-                            rReturn = DatasByReference[sReference];
-                        }
-                    }
-                    break;
-                default:
-                case NWDDatasFilter.Reachable:
-                    {
-                        if (DatasReachableByReference.ContainsKey(sReference))
-                        {
-                            rReturn = DatasReachableByReference[sReference];
-                        }
-                    }
-                    break;
-            }
-            BTBBenchmark.Finish();
-            return rReturn;
-        }
+        //public NWDTypeClass[] GetAllDatas(NWDDatasFilter sFilter)
+        //{
+        //    BTBBenchmark.Start();
+        //    NWDTypeClass[] rReturn;
+        //    switch (sFilter)
+        //    {
+        //        case NWDDatasFilter.ReachableAndDisabled:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                foreach (NWDTypeClass tDatas in DatasReachable)
+        //                {
+        //                    if (tDatas.EnableState() == false)
+        //                    {
+        //                        tList.Add(tDatas);
+        //                    }
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndTrashed:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                foreach (NWDTypeClass tDatas in DatasReachable)
+        //                {
+        //                    if (tDatas.TrashState() == true)
+        //                    {
+        //                        tList.Add(tDatas);
+        //                    }
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndEnable:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                foreach (NWDTypeClass tDatas in DatasReachable)
+        //                {
+        //                    if (tDatas.EnableState() == true)
+        //                    {
+        //                        tList.Add(tDatas);
+        //                    }
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        case NWDDatasFilter.All:
+        //            {
+        //                rReturn = Datas.ToArray();
+        //            }
+        //            break;
+        //        default:
+        //        case NWDDatasFilter.Reachable:
+        //            {
+        //                rReturn = DatasReachable.ToArray();
+        //            }
+        //            break;
+        //    }
+        //    BTBBenchmark.Finish();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDTypeClass[] GetDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
+        //{
+        //    BTBBenchmark.Start();
+        //    NWDTypeClass[] rReturn = null;
+        //    switch (sFilter)
+        //    {
+        //        case NWDDatasFilter.ReachableAndDisabled:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
+        //                    {
+        //                        if (tDatas.EnableState() == false)
+        //                        {
+        //                            tList.Add(tDatas);
+        //                        }
+        //                    }
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndTrashed:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
+        //                    {
+        //                        if (tDatas.TrashState() == true)
+        //                        {
+        //                            tList.Add(tDatas);
+        //                        }
+        //                    }
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndEnable:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
+        //                    {
+        //                        if (tDatas.EnableState() == true)
+        //                        {
+        //                            tList.Add(tDatas);
+        //                        }
+        //                    }
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        case NWDDatasFilter.All:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    tList = DatasByInternalKey[sInternalKey];
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //        default:
+        //        case NWDDatasFilter.Reachable:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    tList = DatasReachableByInternalKey[sInternalKey];
+        //                }
+        //                rReturn = tList.ToArray();
+        //            }
+        //            break;
+        //    }
+        //    BTBBenchmark.Finish();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDTypeClass GetFirstDatasByInternalKey(string sInternalKey, NWDDatasFilter sFilter)
+        //{
+        //    BTBBenchmark.Start();
+        //    NWDTypeClass rReturn = null;
+        //    switch (sFilter)
+        //    {
+        //        case NWDDatasFilter.ReachableAndDisabled:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
+        //                    {
+        //                        if (tDatas.EnableState() == false)
+        //                        {
+        //                            rReturn = tDatas;
+        //                            break;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndTrashed:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
+        //                    {
+        //                        if (tDatas.TrashState() == true)
+        //                        {
+        //                            rReturn = tDatas;
+        //                            break;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndEnable:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    foreach (NWDTypeClass tDatas in DatasReachableByInternalKey[sInternalKey])
+        //                    {
+        //                        if (tDatas.EnableState() == true)
+        //                        {
+        //                            rReturn = tDatas;
+        //                            break;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDDatasFilter.All:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    tList = DatasByInternalKey[sInternalKey];
+        //                }
+        //                if (tList.Count > 0)
+        //                {
+        //                    rReturn = tList[0];
+        //                }
+        //            }
+        //            break;
+        //        default:
+        //        case NWDDatasFilter.Reachable:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByInternalKey.ContainsKey(sInternalKey))
+        //                {
+        //                    tList = DatasReachableByInternalKey[sInternalKey];
+        //                }
+        //                if (tList.Count > 0)
+        //                {
+        //                    rReturn = tList[0];
+        //                }
+        //            }
+        //            break;
+        //    }
+        //    BTBBenchmark.Finish();
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDTypeClass GetDataByReference(string sReference, NWDDatasFilter sFilter)
+        //{
+        //    // TODO
+        //    BTBBenchmark.Start();
+        //    NWDTypeClass rReturn = null;
+        //    switch (sFilter)
+        //    {
+        //        case NWDDatasFilter.ReachableAndDisabled:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByReference.ContainsKey(sReference))
+        //                {
+        //                    rReturn = DatasReachableByReference[sReference];
+        //                    if (rReturn.EnableState() == true)
+        //                    {
+        //                        rReturn = null;
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndTrashed:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByReference.ContainsKey(sReference))
+        //                {
+        //                    rReturn = DatasReachableByReference[sReference];
+        //                    if (rReturn.TrashState() == false)
+        //                    {
+        //                        rReturn = null;
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDDatasFilter.ReachableAndEnable:
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                if (DatasReachableByReference.ContainsKey(sReference))
+        //                {
+        //                    rReturn = DatasReachableByReference[sReference];
+        //                    if (rReturn.EnableState() == false)
+        //                    {
+        //                        rReturn = null;
+        //                    }
+        //                }
+        //            }
+        //            break;
+        //        case NWDDatasFilter.All:
+        //            {
+        //                if (DatasByReference.ContainsKey(sReference))
+        //                {
+        //                    rReturn = DatasByReference[sReference];
+        //                }
+        //            }
+        //            break;
+        //        default:
+        //        case NWDDatasFilter.Reachable:
+        //            {
+        //                if (DatasReachableByReference.ContainsKey(sReference))
+        //                {
+        //                    rReturn = DatasReachableByReference[sReference];
+        //                }
+        //            }
+        //            break;
+        //    }
+        //    BTBBenchmark.Finish();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------------------------------------------
@@ -1067,6 +1179,215 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
+
+#if UNITY_EDITOR
+        public static Dictionary<string, string> NEW_EditorDatasMenu()
+        {
+            return Datas().NEW_EditorDatasMenu;
+        }
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// News the get all datas. IT S A GLOBAL ACCESS!!!!
+        /// </summary>
+        /// <returns>The get all datas.</returns>
+        public static K[] NEW_GetAllDatas()
+        {
+            return Datas().Datas.ToArray() as K[];
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool NEW_InternalKeyExists(string sInternalKey)
+        {
+            //BTBBenchmark.Start();
+            bool rReturn = Datas().DatasByInternalKey.ContainsKey(sInternalKey);
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// News the get data by reference. IT S A GLOBAL ACCESS!!!!
+        /// </summary>
+        /// <returns>The get data by reference.</returns>
+        /// <param name="sReference">S reference.</param>
+        public static K NEW_GetDataByReference(string sReference)
+        {
+            K rReturn = null;
+            if (Datas().DatasByReference.ContainsKey(sReference))
+            {
+                rReturn = Datas().DatasByReference[sReference] as K;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] NEW_FindDatas(string sAccountReference = null,
+                                NWDGameSave sGameSave = null,
+                                NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
+                                NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
+                                NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
+                                )
+        {
+            return NEW_FilterDatas(NEW_GetAllDatas(), sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static K[] NEW_FilterDatas(K[] sDatasArray,
+                                string sAccountReference = null,
+                                NWDGameSave sGameSave = null,
+                                NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
+                                NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
+                                NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
+                                )
+        {
+            List<K> rList = new List<K>();
+            if (sDatasArray != null)
+            {
+                if (Datas().kAccountDependent)
+                {
+                    // autofill sAccountReference if necessary
+                    if (string.IsNullOrEmpty(sAccountReference))
+                    {
+                        sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                    }
+                }
+                foreach (K tDatas in sDatasArray)
+                {
+                    bool tInsert = true;
+
+                    switch (sTrashed)
+                    {
+                        case NWDSwitchTrashed.NoTrashed:
+                            {
+                                if (tDatas.IsTrashed() == true)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            break;
+                        case NWDSwitchTrashed.Trashed:
+                            {
+                                if (tDatas.IsTrashed() == false)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            break;
+                    }
+
+                    switch (sEnable)
+                    {
+                        case NWDSwitchEnable.Disable:
+                            {
+                                if (tDatas.IsEnable() == true)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            break;
+                        case NWDSwitchEnable.Enable:
+                            {
+                                if (tDatas.IsEnable() == false)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            break;
+                    }
+
+                    switch (sIntegrity)
+                    {
+                        case NWDSwitchIntegrity.Cracked:
+                            {
+                                if (tDatas.TestIntegrity() == true)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            break;
+                        case NWDSwitchIntegrity.Integrity:
+                            {
+                                if (tDatas.TestIntegrity() == false)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            break;
+                    }
+                    if (tInsert == true)
+                    {
+                        if (Datas().kAccountDependent)
+                        {
+                            // test game save if necessary
+                            if (Datas().GameSaveMethod != null && sGameSave != null)
+                            {
+                                string tGameIndex = sGameSave.Reference;
+                                var tValue = Datas().ClassGameDependentProperties.GetValue(tDatas, null);
+                                string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
+                                if (tSaveIndex != tGameIndex)
+                                {
+                                    tInsert = false;
+                                }
+                            }
+                            if (tInsert == true)
+                            {
+                                tInsert = false; // research by default false and true when found first solution
+                                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                                {
+                                    var tValue = tInfos.Key.GetValue(tDatas, null);
+                                    string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                                    if (tAccount == sAccountReference)
+                                    {
+                                        tInsert = true;
+                                        break; // I fonud one solution! this user can see this informations
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    if (tInsert == true)
+                    {
+                        rList.Add(tDatas);
+                    }
+                }
+            }
+            return rList.ToArray();
+        }
+
+
+
+        public static K[] NEWFindDatasByInternalKey(
+                                        string sInternalKey,
+                                        bool sCreateIfNotExists = false,
+                                        NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
+                                        string sAccountReference = null,
+                                        NWDGameSave sGameSave = null,
+                                        NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
+                                        NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
+                                        NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
+                                       )
+        {
+            K[] rArray = NEW_FilterDatas(NEW_GetAllDatas(), sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            if (sCreateIfNotExists == true && rArray.Length == 0)
+            {
+                if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+                {
+                    if (sGameSave == NWDGameSave.Current())
+                    {
+                        K rReturn = NewData(sWritingMode);
+                        rReturn.InternalKey = sInternalKey;
+                        rReturn.UpdateData(true, sWritingMode);
+                        rArray = new K[1] { rReturn };
+                    }
+                }
+            }
+            return rArray;
+        }
+
+
+
+
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadFromDatabase()
         {
@@ -1082,6 +1403,7 @@ namespace NetWorkedData
             IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
 
             NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());
+            tTypeInfos = Datas();
             // Reset the Handler of datas index
             tTypeInfos.ResetDatas();
             // Prepare the datas
@@ -1089,18 +1411,10 @@ namespace NetWorkedData
             {
                 foreach (NWDBasis<K> tItem in tEnumerable)
                 {
-                    tItem.InDatabase = true;
-                    tItem.FromDatabase = true;
-                    tItem.WritingPending = NWDWritingPending.InDatabase;
-                    tItem.AddonLoadedMe();
-                    #if UNITY_EDITOR
-                    tItem.ErrorCheck();
-                    #endif
-
-                    // Add in handler
-                    tTypeInfos.AddData(tItem);
+                    tItem.LoadedFromDatabase();
                 }
             }
+            //RepaintTableEditor();
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

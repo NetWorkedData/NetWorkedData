@@ -70,7 +70,7 @@ namespace NetWorkedData
             }
             foreach (NWDBasis<K> tObject in tObjectsListToDelete)
             {
-                RemoveObjectInListOfEdition(tObject);
+                //RemoveObjectInListOfEdition(tObject);
 #if UNITY_EDITOR
                 if (IsObjectInEdition(tObject))
                 {
@@ -125,13 +125,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
-        public static void PopulateTable(int sNumberOfRow)
-        {
-            for (int tI = 0; tI < sNumberOfRow; tI++)
-            {
-                NewData();
-            }
-        }
+        //public static void PopulateTable(int sNumberOfRow)
+        //{
+        //    for (int tI = 0; tI < sNumberOfRow; tI++)
+        //    {
+        //        NewData();
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static void EmptyTable()
         {

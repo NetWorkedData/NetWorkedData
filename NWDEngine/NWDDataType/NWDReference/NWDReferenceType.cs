@@ -133,7 +133,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.InstanceByReference(tReference) == null)
+                if (NWDBasis<K>.NEW_GetDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -148,7 +148,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (NWDBasis<K>.InstanceByReference(Value) == null)
+                if (NWDBasis<K>.NEW_GetDataByReference(Value) == null)
                 {
                     rReturn = true;
                 }
@@ -161,7 +161,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.InstanceByReference(Value) as K;
+                K tObj = NWDBasis<K>.NEW_GetDataByReference(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -184,7 +184,7 @@ namespace NetWorkedData
             int tConnection = 0;
             if (Value != null && Value != "")
             {
-                if (NWDBasis<K>.InstanceByReference(Value) == null)
+                if (NWDBasis<K>.NEW_GetDataByReference(Value) == null)
                 {
                     tConnection = 1;
                 }
@@ -223,7 +223,7 @@ namespace NetWorkedData
             bool tConnection = true;
             if (Value != null && Value != "")
             {
-                if (NWDBasis<K>.InstanceByReference(Value) == null)
+                if (NWDBasis<K>.NEW_GetDataByReference(Value) == null)
                 {
                     tConnection = false;
                 }
@@ -233,18 +233,26 @@ namespace NetWorkedData
             List<string> tReferenceList = new List<string>();
             List<string> tInternalNameList = new List<string>();
             tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-            tInternalNameList.Add(" ");
-            var tReferenceListInfo = sFromType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tReferenceListInfo != null)
+            tInternalNameList.Add(NWDConstants.kFieldNone);
+
+            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).NEW_EditorDatasMenu.OrderBy(i=> i.Value))
             {
-                tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+                tReferenceList.Add(tKeyValue.Key);
+                tInternalNameList.Add(tKeyValue.Value);
             }
 
-            var tInternalNameListInfo = sFromType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tInternalNameListInfo != null)
-            {
-                tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
-            }
+
+            //var tReferenceListInfo = sFromType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tReferenceListInfo != null)
+            //{
+            //    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+            //}
+
+            //var tInternalNameListInfo = sFromType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tInternalNameListInfo != null)
+            //{
+            //    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
+            //}
 
             List<GUIContent> tContentFuturList = new List<GUIContent>();
             foreach (string tS in tInternalNameList.ToArray())
@@ -282,7 +290,7 @@ namespace NetWorkedData
                 GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
                 if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))
                 {
-                    NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(rIndex)), false);
+                    NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.NEW_GetDataByReference(tReferenceList.ElementAt(rIndex)), false);
                 }
             }
             else

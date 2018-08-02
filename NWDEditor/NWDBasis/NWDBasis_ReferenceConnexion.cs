@@ -223,7 +223,7 @@ namespace NetWorkedData
             string tValue = sProperty.FindPropertyRelative("Reference").stringValue;
             if (tValue != null && tValue != "")
             {
-                if (NWDBasis<K>.InstanceByReference(tValue) == null)
+                if (NWDBasis<K>.NEW_GetDataByReference(tValue) == null)
                 {
                     GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
                     tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
@@ -284,7 +284,7 @@ namespace NetWorkedData
                 bool tConnection = true;
                 if (tValue != null && tValue != "")
                 {
-                    if (NWDBasis<K>.InstanceByReference(tValue) == null)
+                    if (NWDBasis<K>.NEW_GetDataByReference(tValue) == null)
                     {
                         tConnection = false;
                     }

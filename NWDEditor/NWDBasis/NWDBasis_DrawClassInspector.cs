@@ -102,7 +102,8 @@ namespace NetWorkedData
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_RESET_TABLE, EditorStyles.miniButton)) {
 					NWDBasis<K>.ResetTable ();
 //					UpdateReferencesList ();
-					LoadTableEditor ();
+					//LoadTableEditor ();
+                    LoadFromDatabase();
                     RepaintTableEditor();
 				}
 				// -------------------------------------------

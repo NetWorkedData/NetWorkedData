@@ -278,7 +278,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             foreach (string tReference in GetReferences())
             {
-                K tObj = NWDBasis<K>.InstanceByReference(tReference) as K;
+                K tObj = NWDBasis<K>.NEW_GetDataByReference(tReference);
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -299,7 +299,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.InstanceByReference(tReference) == null)
+                if (NWDBasis<K>.NEW_GetDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -358,19 +358,30 @@ namespace NetWorkedData
 
             List<string> tReferenceList = new List<string>();
             List<string> tInternalNameList = new List<string>();
-            tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-            tInternalNameList.Add(" ");
 
-            var tReferenceListInfo = sFromType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tReferenceListInfo != null)
+            tReferenceList.Add(NWDConstants.kFieldSeparatorA);
+            tInternalNameList.Add(NWDConstants.kFieldNone);
+
+            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).NEW_EditorDatasMenu.OrderBy(i => i.Value))
             {
-                tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+                tReferenceList.Add(tKeyValue.Key);
+                tInternalNameList.Add(tKeyValue.Value);
             }
-            var tInternalNameListInfo = sFromType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tInternalNameListInfo != null)
-            {
-                tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
-            }
+
+
+            //tReferenceList.Add(NWDConstants.kFieldSeparatorA);
+            //tInternalNameList.Add(" ");
+
+            //var tReferenceListInfo = sFromType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tReferenceListInfo != null)
+            //{
+            //    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+            //}
+            //var tInternalNameListInfo = sFromType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tInternalNameListInfo != null)
+            //{
+            //    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
+            //}
 
             List<GUIContent> tContentFuturList = new List<GUIContent>();
             foreach (string tS in tInternalNameList.ToArray())
@@ -421,7 +432,7 @@ namespace NetWorkedData
                     GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
                     if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))
                     {
-                        NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.InstanceByReference(tReferenceList.ElementAt(tIndex)), false);
+                        NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.NEW_GetDataByReference(tReferenceList.ElementAt(tIndex)), false);
                     }
                     if (i > 0)
                     {

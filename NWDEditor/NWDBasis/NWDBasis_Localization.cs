@@ -238,7 +238,7 @@ namespace NetWorkedData
                 if (tDico["Type"] == Datas().ClassTrigramme)
                 {
                     //Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
-                    NWDBasis<K> tObject = NWDBasis<K>.InstanceByReference(tDico["Reference"]);
+                    NWDBasis<K> tObject = NWDBasis<K>.NEW_GetDataByReference(tDico["Reference"]);
                     if (tObject != null)
                     {
                         //Debug.Log ("tObject reference " + tObject.Reference + " found ");
