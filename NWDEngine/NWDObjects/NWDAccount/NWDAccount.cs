@@ -182,7 +182,7 @@ namespace NetWorkedData
             {
                 case NWDAccountEnvironment.Dev:
                     {
-                        foreach (NWDAccount tObject in NWDAccount.NEW_GetAllDatas())
+                        foreach (NWDAccount tObject in NWDAccount.Datas().Datas)
                         {
                             if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
                             {
@@ -193,7 +193,7 @@ namespace NetWorkedData
                     break;
                 case NWDAccountEnvironment.Preprod:
                     {
-                        foreach (NWDAccount tObject in NWDAccount.NEW_GetAllDatas())
+                        foreach (NWDAccount tObject in NWDAccount.Datas().Datas)
                         {
                             if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
                             {

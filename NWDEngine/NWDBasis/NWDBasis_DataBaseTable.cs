@@ -60,7 +60,7 @@ namespace NetWorkedData
         public static void CleanTable()
         {
             List<object> tObjectsListToDelete = new List<object>();
-            foreach (NWDBasis<K> tObject in NEW_GetAllDatas())
+            foreach (NWDBasis<K> tObject in Datas().Datas)
             {
                 //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
                 if (tObject.XX > 0)
@@ -92,7 +92,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().MigrateTable(ClassType(), AccountDependent());
             //List<object> tObjectsListToDelete = new List<object>();
-            foreach (NWDBasis<K> tObject in NEW_GetAllDatas())
+            foreach (NWDBasis<K> tObject in Datas().Datas)
             {
                 tObject.UpdateData();
             }

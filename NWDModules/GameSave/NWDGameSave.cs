@@ -192,7 +192,7 @@ namespace NetWorkedData
         {
             Debug.Log("NWDGameSave Current()");
             NWDGameSave rParty = null;
-            foreach (NWDGameSave tParty in NWDGameSave.NEW_GetAllDatas())
+            foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
                 if (tParty.Account.GetReference() == sAccountReference)
                 {

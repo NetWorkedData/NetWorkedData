@@ -108,11 +108,33 @@ namespace NetWorkedData
         //		}
 
         //-------------------------------------------------------------------------------------------------------------
+        public bool IsReacheableByGameSave(NWDGameSave sGameSave)
+        {
+            bool rReturn = false;
+            if (Datas().GameSaveMethod != null)
+            {
+                string tGameIndex = "";
+                if (sGameSave != null)
+                {
+                    tGameIndex = sGameSave.Reference;
+                }
+                var tValue = Datas().ClassGameDependentProperties.GetValue(this, null);
+                string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
+                if (tSaveIndex == tGameIndex)
+                {
+                    rReturn = true;
+                }
+            }
+            else
+            {
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool IsReacheableByAccount(string sAccountReference = null)
         {
             bool rReturn = false;
-            if (XX == 0)
-            {
                 if (AccountDependent())
                 {
                     // is account dependency : get all value and test
@@ -120,34 +142,43 @@ namespace NetWorkedData
                     {
                         sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     }
-                    foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                    foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
                     {
-                        // find property and method to access
-                        var tValue = tProp.GetValue(this, null);
-                        if (tValue != null)
+                        var tValue = tInfos.Key.GetValue(this, null);
+                        string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                        if (tAccount.Contains(sAccountReference))
                         {
-                            MethodInfo tMethodInfo = tValue.GetType().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                            if (tMethodInfo != null)
-                            {
-                                // get value of account reference
-                                string tValueToString = tMethodInfo.Invoke(tValue, null) as string;
-                                if (tValueToString.Contains(sAccountReference))
-                                {
-                                    // account reference in value
-                                    rReturn = true;
-                                    // add break !
-                                    break;
-                                }
-                            }
+                            rReturn = true;
+                            break; // I fonud one solution! this user can see this informations
                         }
                     }
+                    //foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                    //{
+                    //    // find property and method to access
+                    //    var tValue = tProp.GetValue(this, null);
+                    //    if (tValue != null)
+                    //    {
+                    //        MethodInfo tMethodInfo = tValue.GetType().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                    //        if (tMethodInfo != null)
+                    //        {
+                    //            // get value of account reference
+                    //            string tValueToString = tMethodInfo.Invoke(tValue, null) as string;
+                    //            if (tValueToString.Contains(sAccountReference))
+                    //            {
+                    //                // account reference in value
+                    //                rReturn = true;
+                    //                // add break !
+                    //                break;
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
                 else
                 {
                     // non account dependency return acces is true.
                     rReturn = true;
                 }
-            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

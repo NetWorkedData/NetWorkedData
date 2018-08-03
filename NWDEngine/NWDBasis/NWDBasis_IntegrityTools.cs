@@ -63,7 +63,7 @@ namespace NetWorkedData
         public static void RecalculateAllIntegrities()
         {
             //loop
-            foreach (NWDBasis<K> tObject in NEW_GetAllDatas())
+            foreach (NWDBasis<K> tObject in Datas().Datas)
             {
                 // update integrity value
                 tObject.UpdateIntegrity();

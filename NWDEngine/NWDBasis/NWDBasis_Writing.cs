@@ -188,7 +188,7 @@ namespace NetWorkedData
                     int tCounter = 1;
                     string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
                     // search available internal key
-                    while (NWDBasis<K>.NEW_InternalKeyExists(tCopy) == true)
+                    while (Datas().DatasByInternalKey.ContainsKey(tCopy) == true)
                     {
                         tCounter++;
                         tCopy = tOriginalKey + " (COPY " + tCounter + ")";

@@ -434,8 +434,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------------------------------------------
-
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The datas list.
         /// </summary>
@@ -1187,24 +1185,25 @@ namespace NetWorkedData
         /// News the get all datas. IT S A GLOBAL ACCESS!!!!
         /// </summary>
         /// <returns>The get all datas.</returns>
-        public static K[] NEW_GetAllDatas()
-        {
-            return Datas().Datas.ToArray() as K[];
-        }
+        /// AllDatas
+        //public static K[] NEW_GetAllDatas()
+        //{
+        //    return Datas().Datas.ToArray() as K[];
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// News the get all datas. IT S A GLOBAL ACCESS!!!!
         /// </summary>
         /// <returns>The get all datas.</returns>
-        private static K[] NEW_GetAllDatasByInternalKey(string sInternalKey)
-        {
-            K[] rReturn = new K[0];
-            if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
-            {
-                rReturn = Datas().DatasByInternalKey[sInternalKey].ToArray() as K[];
-            }
-            return rReturn;
-        }
+        //private static K[] NEW_GetAllDatasByInternalKey(string sInternalKey)
+        //{
+        //    K[] rReturn = new K[0];
+        //    if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
+        //    {
+        //        rReturn = Datas().DatasByInternalKey[sInternalKey].ToArray() as K[];
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// News the get data by reference. IT S A GLOBAL ACCESS!!!!
@@ -1245,28 +1244,20 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool NEW_InternalKeyExists(string sInternalKey)
-        {
-            //BTBBenchmark.Start();
-            bool rReturn = Datas().DatasByInternalKey.ContainsKey(sInternalKey);
-            //BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
-        public static K[] NEW_FindDatas(string sAccountReference = null,
-                                NWDGameSave sGameSave = null,
+        public static K[] NEW_FindDatas(string sAccountReference = null, // use default account
+                                NWDGameSave sGameSave = null, // use default gamesave
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
                                 NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
                                 NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
                                 )
         {
-            return NEW_FilterDatas(NEW_GetAllDatas(), sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            return NEW_FilterDatas(Datas().Datas.ToArray() as K[], sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
         }
         //-------------------------------------------------------------------------------------------------------------
         public static K[] NEW_FilterDatas(K[] sDatasArray,
-                                string sAccountReference = null,
-                                NWDGameSave sGameSave = null,
+                                string sAccountReference = null, // use default account
+                                NWDGameSave sGameSave = null,// use default gamesave
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
                                 NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
                                 NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
@@ -1281,6 +1272,13 @@ namespace NetWorkedData
                     if (string.IsNullOrEmpty(sAccountReference))
                     {
                         sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                    }
+                }
+                if (Datas().ClassGameSaveDependent)
+                {
+                    if (sGameSave == null)
+                    {
+                        NWDGameSave.CurrentForAccount(sAccountReference);;
                     }
                 }
                 foreach (K tDatas in sDatasArray)
@@ -1367,8 +1365,8 @@ namespace NetWorkedData
                                 foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
                                 {
                                     var tValue = tInfos.Key.GetValue(tDatas, null);
-                                    string tAccount = tInfos.Value.Invoke(tValue, null) as string;
-                                    if (tAccount == sAccountReference)
+                                    string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
+                                    if (tAccountValue.Contains(sAccountReference))
                                     {
                                         tInsert = true;
                                         break; // I fonud one solution! this user can see this informations
@@ -1389,7 +1387,7 @@ namespace NetWorkedData
             }
             return rList.ToArray();
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         public static K NEW_FirstDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
@@ -1409,7 +1407,7 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-
+        //-------------------------------------------------------------------------------------------------------------
         public static K[] NEWFindDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
@@ -1421,7 +1419,13 @@ namespace NetWorkedData
                                         NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
                                        )
         {
-            K[] rArray = NEW_FilterDatas(NEW_GetAllDatasByInternalKey(sInternalKey), sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] tTest = new K[0];
+            if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
+            {
+                tTest = Datas().DatasByInternalKey[sInternalKey].ToArray() as K[];
+            }
+
+            K[] rArray = NEW_FilterDatas(tTest, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
                 if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
