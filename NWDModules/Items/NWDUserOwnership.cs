@@ -77,7 +77,8 @@ namespace NetWorkedData
 		[NWDGroupStart("Ownership",true, true, true)] // ok
 		public bool FirstAcquisition { get; set; }
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
 		public NWDReferenceType<NWDItem> Item { get; set; }
 		public int Quantity { get; set; }
         public string Name { get; set; }
@@ -131,11 +132,11 @@ namespace NetWorkedData
         /// <param name="sItemReference">S item reference.</param>
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
-            Debug.Log("NWDUserOwnership OwnershipForItem("+sItemReference+")");
+            //Debug.Log("NWDUserOwnership OwnershipForItem("+sItemReference+")");
             NWDUserOwnership rOwnership = null;
             foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
             {
-                Debug.Log("NWDUserOwnership OwnershipForItem   test " + tOwnership.Reference + " for item " + tOwnership.Item.GetReference());
+                //Debug.Log("NWDUserOwnership OwnershipForItem   test " + tOwnership.Reference + " for item " + tOwnership.Item.GetReference());
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
                     rOwnership = tOwnership;
@@ -144,7 +145,7 @@ namespace NetWorkedData
             }
             if (rOwnership == null)
             {
-                Debug.Log("NWDUserOwnership OwnershipForItem(" + sItemReference + ") NEED NEW OWNERSHIP");
+                //Debug.Log("NWDUserOwnership OwnershipForItem(" + sItemReference + ") NEED NEW OWNERSHIP");
                 rOwnership = NewData();
                 //--------------
                 #if UNITY_EDITOR

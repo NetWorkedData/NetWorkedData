@@ -1254,11 +1254,14 @@ namespace NetWorkedData
                                 NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
                                 )
         {
-            Debug.Log("Datas() Datas count = " + Datas().Datas.Count);
-            return NEW_FilterDatas(Datas().Datas.ToArray() as K[], sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            BTBBenchmark.Start();
+            //Debug.Log("Datas() Datas count = " + Datas().Datas.Count);
+            K[] rReturn = NEW_FilterDatas(Datas().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            BTBBenchmark.Finish();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] NEW_FilterDatas(K[] sDatasArray,
+        public static K[] NEW_FilterDatas(List<NWDTypeClass> sDatasArray,
                                 string sAccountReference = null, // use default account
                                 NWDGameSave sGameSave = null,// use default gamesave
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
@@ -1267,7 +1270,7 @@ namespace NetWorkedData
                                 )
         {
             List<K> rList = new List<K>();
-            Debug.Log("chercher les data ");
+            //Debug.Log("chercher les data ");
             if (sDatasArray != null)
             {
                 if (Datas().kAccountDependent)
@@ -1277,7 +1280,7 @@ namespace NetWorkedData
                     {
                         sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                     }
-                    Debug.Log("chercher les data pour " + sAccountReference + " ");
+                    //Debug.Log("chercher les data pour " + sAccountReference + " ");
                 }
                 if (Datas().ClassGameSaveDependent)
                 {
@@ -1285,7 +1288,7 @@ namespace NetWorkedData
                     {
                         sGameSave = NWDGameSave.CurrentForAccount(sAccountReference);
                     }
-                    Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
+                    //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
                 }
 
 
@@ -1361,6 +1364,9 @@ namespace NetWorkedData
                             {
                                 string tGameIndex = sGameSave.Reference;
                                 var tValue = Datas().ClassGameDependentProperties.GetValue(tDatas, null);
+                                if(tValue==null){
+                                    tValue = "";
+                                }
                                 string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
                                 if (tSaveIndex != tGameIndex)
                                 {
@@ -1395,7 +1401,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.Log("chercher les data a un tableau vide");
+                //Debug.Log("chercher les data a un tableau vide");
             }
             return rList.ToArray();
         }
@@ -1431,13 +1437,13 @@ namespace NetWorkedData
                                         NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
                                        )
         {
-            K[] tTest = new K[0];
+            List<NWDTypeClass> tTestList = new List<NWDTypeClass>();
             if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
             {
-                tTest = Datas().DatasByInternalKey[sInternalKey].ToArray() as K[];
+                tTestList.AddRange(Datas().DatasByInternalKey[sInternalKey]);
             }
 
-            K[] rArray = NEW_FilterDatas(tTest, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rArray = NEW_FilterDatas(tTestList, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
                 if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
