@@ -196,7 +196,7 @@ namespace NetWorkedData
             {
                 if (tParty.Account.GetReference() == sAccountReference)
                 {
-                    if (tParty.IsCurrent == true)
+                    if (tParty.IsCurrent == true && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
                     {
                         rParty = tParty;
                         break;

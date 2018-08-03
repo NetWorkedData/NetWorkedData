@@ -58,7 +58,7 @@ namespace NetWorkedData
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
             List<NWDUserQuestAdvancement> rResult = new List<NWDUserQuestAdvancement>();
-            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.Datas().ObjectsList)
+            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.NEW_FindDatas())
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
@@ -72,7 +72,7 @@ namespace NetWorkedData
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
             NWDUserQuestAdvancement rResult = null;
-            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.Datas().ObjectsList)
+            foreach (NWDUserQuestAdvancement tObject in NWDUserQuestAdvancement.NEW_FindDatas())
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag && tObject.InternalKey == sInternalKey)
                 {

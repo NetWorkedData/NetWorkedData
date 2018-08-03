@@ -38,7 +38,7 @@ namespace NetWorkedData
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.NEW_GetAllDatas())
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
             }
@@ -46,7 +46,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.NEW_GetAllDatas())
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
             }
@@ -66,7 +66,8 @@ namespace NetWorkedData
             string tUUID = "-" + sUUID;
             tUUID = tUUID.Replace("ACC", "");
             tUUID = tUUID.Replace("S", "");
-            //			tUUID = tUUID.Replace ("T", ""); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
+            tUUID = tUUID.Replace("C", "");
+            //tUUID = tUUID.Replace ("T", ""); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
             tUUID = tUUID.Replace("-", "");
             return tUUID;
         }
@@ -84,10 +85,13 @@ namespace NetWorkedData
             {
                 sUUID = UUIDTransformForReference(sUUID) + "-";
             }
+            //int tTimeRef = 0;
+            //int.TryParse(sUUID, out tTimeRef);
+            //int tTime = NWDToolbox.Timestamp() - tTimeRef;
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 20h00
             while (tValid == false)
             {
-                rReturn = Datas().ClassTrigramme + "-" + sUUID + tTime.ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString();
+                rReturn = Datas().ClassTrigramme + "-" + sUUID + tTime.ToString() + "-" + UnityEngine.Random.Range(100, 999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -127,7 +131,7 @@ namespace NetWorkedData
             //{
             //    rValid = true;
             //}
-            bool rValid = !Datas().ObjectsByReferenceList.Contains(sReference);
+            bool rValid = !Datas().DatasByReference.ContainsKey(sReference);
             return rValid;
         }
         //-------------------------------------------------------------------------------------------------------------

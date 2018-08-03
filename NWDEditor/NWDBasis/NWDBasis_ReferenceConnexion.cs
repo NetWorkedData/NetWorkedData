@@ -28,12 +28,12 @@ namespace NetWorkedData
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
-            NWDBasis<K> tObject = null;
-            int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sValue);
-            if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-            {
-                tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            }
+            NWDBasis<K> tObject = NWDBasis<K>.NEW_GetDataByReference(sValue);
+            //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sValue);
+            //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
+            //{
+            //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
+            //}
             if (tObject != null)
             {
                 if (tObject.InternalDescription != "" && tObject.InternalDescription != null)
@@ -99,12 +99,12 @@ namespace NetWorkedData
                 tValue = tNextValue;
                 tAutoChange = true;
             }
-            NWDBasis<K> tObject = null;
-            int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tValue);
-            if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-            {
-                tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            }
+            NWDBasis<K> tObject = NWDBasis<K>.NEW_GetDataByReference(tValue);;
+            //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tValue);
+            //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
+            //{
+            //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
+            //}
             if (tAutoChange == true)
             {
                 SetObjectInEdition(tObject);
@@ -115,10 +115,10 @@ namespace NetWorkedData
                 {
                     if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
                     {
-                        if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-                        {
+                        //if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                        //{
                             SetObjectInEdition(tObject);
-                        }
+                        //}
                     }
                 }
                 float tHelpBoxHeight = 0;
@@ -191,12 +191,12 @@ namespace NetWorkedData
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
             tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
-            NWDBasis<K> tObject = null;
-            int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sProperty.FindPropertyRelative("Reference").stringValue);
-            if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-            {
-                tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-            }
+            NWDBasis<K> tObject = NWDBasis<K>.NEW_GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
+            //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sProperty.FindPropertyRelative("Reference").stringValue);
+            //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
+            //{
+            //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
+            //}
             if (tObject != null)
             {
                 if (tObject.InternalDescription != "" && tObject.InternalDescription != null)
@@ -297,18 +297,28 @@ namespace NetWorkedData
                 Type tType = ClassType();
                 List<string> tReferenceList = new List<string>();
                 List<string> tInternalNameList = new List<string>();
+
                 tReferenceList.Add(NWDConstants.kFieldSeparatorA);
-                tInternalNameList.Add(" ");
-                var tReferenceListInfo = tType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tReferenceListInfo != null)
+                tInternalNameList.Add(NWDConstants.kFieldNone);
+
+                foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).NEW_EditorDatasMenu.OrderBy(i => i.Value))
                 {
-                    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+                    tReferenceList.Add(tKeyValue.Key);
+                    tInternalNameList.Add(tKeyValue.Value);
                 }
-                var tInternalNameListInfo = tType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tInternalNameListInfo != null)
-                {
-                    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
-                }
+
+                //tReferenceList.Add(NWDConstants.kFieldSeparatorA);
+                //tInternalNameList.Add(" ");
+                //var tReferenceListInfo = tType.GetField("ObjectsByReferenceList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tReferenceListInfo != null)
+                //{
+                //    tReferenceList.AddRange(tReferenceListInfo.GetValue(null) as List<string>);
+                //}
+                //var tInternalNameListInfo = tType.GetField("ObjectsInEditorTableKeyList", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tInternalNameListInfo != null)
+                //{
+                //    tInternalNameList.AddRange(tInternalNameListInfo.GetValue(null) as List<string>);
+                //}
                 int tIndex = tReferenceList.IndexOf(tValue);
 
                 var tPopupRect = new Rect(tX, tY, sPosition.width - tButtonWidth - tButtonMarge, tPopupdStyle.fixedHeight);
@@ -323,12 +333,12 @@ namespace NetWorkedData
                     tFuturValue = tNextValue;
                     tAutoChange = true;
                 }
-                NWDBasis<K> tObject = null;
-                int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tFuturValue);
-                if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
-                {
-                    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
-                }
+                NWDBasis<K> tObject = NWDBasis<K>.NEW_GetDataByReference(tFuturValue);
+                //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tFuturValue);
+                //if (tObjectIndex >= 0 && tObjectIndex < Datas().ObjectsByReferenceList.Count)
+                //{
+                //    tObject = (NWDBasis<K>)Datas().ObjectsList.ElementAt(tObjectIndex);
+                //}
                 if (tAutoChange == true)
                 {
                     SetObjectInEdition(tObject, true, false);
@@ -339,10 +349,10 @@ namespace NetWorkedData
                     {
                         if (GUI.Button(tButtonRect, NWDConstants.K_APP_CONNEXION_EDIT, EditorStyles.miniButton))
                         {
-                            if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
-                            {
+                            //if (Datas().ObjectsList.Count > tObjectIndex && tObjectIndex >= 0)
+                            //{
                                 SetObjectInEdition(tObject, true, true);
-                            }
+                            //}
                         }
                     }
                     float tHelpBoxHeight = 0;

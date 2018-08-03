@@ -446,37 +446,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
 #if UNITY_EDITOR
-        // images
-        static public Texture2D kImageShortcutsToolsEditor = null;
-
-        static public Texture2D kImageSelectionUpdate = null;
-        static public Texture2D kImageMarkupUpdate = null;
-        static public Texture2D kImageDelete = null;
-        static public Texture2D kImageUp = null;
-        static public Texture2D kImageDown = null;
-        static public Texture2D kImageUpdate = null;
-        static public Texture2D kImageMove = null;
-        static public Texture2D kImageSelection = null;
-        static public Texture2D kImageMarkup = null;
-        static public Texture2D kImageMarkupGizmos = null;
-        static public Texture2D kImageAction = null;
-        static public Texture2D kImageScene = null;
-        static public Texture2D kImageCamera = null;
-        static public Texture2D kImageCameraPosition = null;
-        static public Texture2D kImageOrthographic = null;
-        static public Texture2D kImagePerspective = null;
-        static public Texture2D kImageTwoDimension = null;
-        static public Texture2D kImageEdit = null;
-        static public Texture2D kImageNew = null;
-        static public Texture2D kImageTabOptions = null;
-        static public Texture2D kImageTabCreate = null;
-        static public Texture2D kImageTabEdit = null;
-        static public Texture2D kImageTabReduce = null;
-
-        static public Texture2D kImageNodalCard = null;
-
-
-        static public Texture2D kImageBezierTexture = null;
         //-------------------------------------------------------------------------------------------------------------
         // Styles and dimensions for GUI
         static public GUIStyle StyleButton;
@@ -540,6 +509,35 @@ namespace NetWorkedData
         public static float kActiveWidth = 70.0f;
         public static float kReferenceWidth = 230.0f;
         //-------------------------------------------------------------------------------------------------------------
+
+        // images
+
+        static public Texture2D kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelectionUpdate.psd");
+        static public Texture2D kImageMarkupUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupUpdate.psd");
+        static public Texture2D kImageDelete = NWDFindPackage.PackageEditorTexture("NWDInterfaceDelete.psd");
+        static public Texture2D kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.psd");
+        static public Texture2D kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.psd");
+        static public Texture2D kImageMove = NWDFindPackage.PackageEditorTexture("NWDInterfaceMove.psd");
+        static public Texture2D kImageUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceUpdate.psd");
+        static public Texture2D kImageShortcutsToolsEditor = NWDFindPackage.PackageEditorTexture("NWDInterfaceShorcutsToolsEditor.psd");
+        static public Texture2D kImageSelection = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelection.psd");
+        static public Texture2D kImageMarkup = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkup.psd");
+        static public Texture2D kImageMarkupGizmos = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupGizmos.psd");
+        static public Texture2D kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.psd");
+        static public Texture2D kImageScene = NWDFindPackage.PackageEditorTexture("NWDInterfaceScene.psd");
+        static public Texture2D kImageCamera = NWDFindPackage.PackageEditorTexture("NWDInterfaceCamera.psd");
+        static public Texture2D kImageCameraPosition = NWDFindPackage.PackageEditorTexture("NWDInterfaceCameraPosition.psd");
+        static public Texture2D kImageOrthographic = NWDFindPackage.PackageEditorTexture("NWDInterfaceOrthographic.psd");
+        static public Texture2D kImagePerspective = NWDFindPackage.PackageEditorTexture("NWDInterfacePerspective.psd");
+        static public Texture2D kImageTwoDimension = NWDFindPackage.PackageEditorTexture("NWDInterfaceTwoDimension.psd");
+        static public Texture2D kImageEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.psd");
+        static public Texture2D kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.psd");
+        static public Texture2D kImageTabOptions = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabOptions.psd");
+        static public Texture2D kImageTabCreate = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabCreate.psd");
+        static public Texture2D kImageTabEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabEdit.psd");
+        static public Texture2D kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabReduce.psd");
+        static public Texture2D kImageNodalCard = NWDFindPackage.PackageEditorTexture("NWDCardBack.psd");
+        static public Texture2D kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd");
         // Icons for Sync
         public static Texture2D kImageRed = NWDFindPackage.PackageEditorTexture ("NWDRed.psd");
         public static Texture2D kImageGreen = NWDFindPackage.PackageEditorTexture ("NWDGreen.psd");
@@ -594,7 +592,7 @@ namespace NetWorkedData
         {
             //Debug.Log("STATIC STEConstants constructor");
             //LoadStyles (); // Must be call from GUI
-            LoadImages();
+            //LoadImages();
             //Memorize color
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -682,129 +680,22 @@ namespace NetWorkedData
             K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
             K_DARKGRAY_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
 
-
-
-#if UNITY_EDITOR
             if ( EditorGUIUtility.isProSkin)
             {
                 kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
                 kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
             }
-#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void LoadImages()
-        {
-            //Debug.Log("STATIC STEConstants LoadImages()");
-           if (ImageLoaded == false)
-            {
-                ImageLoaded = true;
-                if (kImageSelectionUpdate == null)
-                {
-                    kImageSelectionUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelectionUpdate.psd");
-                }
-                if (kImageMarkupUpdate == null)
-                {
-                    kImageMarkupUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupUpdate.psd");
-                }
-                if (kImageDelete == null)
-                {
-                    kImageDelete = NWDFindPackage.PackageEditorTexture("NWDInterfaceDelete.psd");
-                }
-                if (kImageUp == null)
-                {
-                    kImageUp = NWDFindPackage.PackageEditorTexture("NWDInterfaceUp.psd");
-                }
-                if (kImageDown == null)
-                {
-                    kImageDown = NWDFindPackage.PackageEditorTexture("NWDInterfaceDown.psd");
-                }
-                if (kImageMove == null)
-                {
-                    kImageMove = NWDFindPackage.PackageEditorTexture("NWDInterfaceMove.psd");
-                }
-                if (kImageUpdate == null)
-                {
-                    kImageUpdate = NWDFindPackage.PackageEditorTexture("NWDInterfaceUpdate.psd");
-                }
-                if (kImageShortcutsToolsEditor == null)
-                {
-                    kImageShortcutsToolsEditor = NWDFindPackage.PackageEditorTexture("NWDInterfaceShorcutsToolsEditor.psd");
-                }
-                if (kImageSelection == null)
-                {
-                    kImageSelection = NWDFindPackage.PackageEditorTexture("NWDInterfaceSelection.psd");
-                }
-                if (kImageMarkup == null)
-                {
-                    kImageMarkup = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkup.psd");
-                }
-                if (kImageMarkupGizmos == null)
-                {
-                    kImageMarkupGizmos = NWDFindPackage.PackageEditorTexture("NWDInterfaceMarkupGizmos.psd");
-                }
-                if (kImageAction == null)
-                {
-                    kImageAction = NWDFindPackage.PackageEditorTexture("NWDInterfaceAction.psd");
-                }
-                if (kImageScene == null)
-                {
-                    kImageScene = NWDFindPackage.PackageEditorTexture("NWDInterfaceScene.psd");
-                }
-                if (kImageCamera == null)
-                {
-                    kImageCamera = NWDFindPackage.PackageEditorTexture("NWDInterfaceCamera.psd");
-                }
-                if (kImageCameraPosition == null)
-                {
-                    kImageCameraPosition = NWDFindPackage.PackageEditorTexture("NWDInterfaceCameraPosition.psd");
-                }
-                if (kImageOrthographic == null)
-                {
-                    kImageOrthographic = NWDFindPackage.PackageEditorTexture("NWDInterfaceOrthographic.psd");
-                }
-                if (kImagePerspective == null)
-                {
-                    kImagePerspective = NWDFindPackage.PackageEditorTexture("NWDInterfacePerspective.psd");
-                }
-                if (kImageTwoDimension == null)
-                {
-                    kImageTwoDimension = NWDFindPackage.PackageEditorTexture("NWDInterfaceTwoDimension.psd");
-                }
-                if (kImageEdit == null)
-                {
-                    kImageEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceEdit.psd");
-                }
-                if (kImageNew == null)
-                {
-                    kImageNew = NWDFindPackage.PackageEditorTexture("NWDInterfaceNew.psd");
-                }
-                if (kImageTabOptions == null)
-                {
-                    kImageTabOptions = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabOptions.psd");
-                }
-                if (kImageTabCreate == null)
-                {
-                    kImageTabCreate = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabCreate.psd");
-                }
-                if (kImageTabEdit == null)
-                {
-                    kImageTabEdit = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabEdit.psd");
-                }
-                if (kImageTabReduce == null)
-                {
-                    kImageTabReduce = NWDFindPackage.PackageEditorTexture("NWDInterfaceTabReduce.psd");
-                }
-                if (kImageNodalCard == null)
-                {
-                    kImageNodalCard = NWDFindPackage.PackageEditorTexture("NWDCardBack.psd");
-                }
-                if (kImageBezierTexture == null)
-                {
-                    kImageBezierTexture = NWDFindPackage.PackageEditorTexture("NWDBezierTexture.psd");
-                }
-            }
-        }
+        //public static void LoadImages()
+        //{
+        //    //Debug.Log("STATIC STEConstants LoadImages()");
+        //   if (ImageLoaded == false)
+        //    {
+        //        ImageLoaded = true;
+
+        //    }
+        //}
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }

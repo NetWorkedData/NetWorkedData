@@ -58,9 +58,9 @@ namespace NetWorkedData
         public string SaltB = "";
         public string SaltOk = "";
 
-        public List<object> ObjectsList = new List<object>();
-        public List<string> ObjectsByReferenceList = new List<string>();
-        public List<string> ObjectsByKeyList = new List<string>();
+        //public List<object> ObjectsList = new List<object>();
+        //public List<string> ObjectsByReferenceList = new List<string>();
+        //public List<string> ObjectsByKeyList = new List<string>();
 
 
 
@@ -455,31 +455,27 @@ namespace NetWorkedData
         /// <summary>
         /// The datas list. Reachable by the current account.
         /// </summary>
-        public List<NWDTypeClass> DatasReachable = new List<NWDTypeClass>();
-        /// <summary>
-        /// The datas by reference. Reachable by the current account.
-        /// </summary>
-        public Dictionary<string, NWDTypeClass> DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
-        /// <summary>
-        /// The datas by internal key. Return list of datas reachable by the current account.
-        /// </summary>
-        public Dictionary<string, List<NWDTypeClass>> DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
-        /// <summary>
-        /// The datas by reverse internal key. Reachable by the current account. You must check if string InternalKey was changed ... in case change the DatasReachableByInternalKey too!
-        /// </summary>
-        public Dictionary<NWDTypeClass, string> DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
-#if UNITY_EDITOR
-        public Dictionary<NWDTypeClass, string> DatasInEditor = new Dictionary<NWDTypeClass, string>();
-        public Dictionary<NWDTypeClass, bool> DatasInEditorSelection = new Dictionary<NWDTypeClass, bool>();
+        //public List<NWDTypeClass> DatasReachable = new List<NWDTypeClass>();
+        ///// <summary>
+        ///// The datas by reference. Reachable by the current account.
+        ///// </summary>
+        //public Dictionary<string, NWDTypeClass> DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
+        ///// <summary>
+        ///// The datas by internal key. Return list of datas reachable by the current account.
+        ///// </summary>
+        //public Dictionary<string, List<NWDTypeClass>> DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
+        ///// <summary>
+        ///// The datas by reverse internal key. Reachable by the current account. You must check if string InternalKey was changed ... in case change the DatasReachableByInternalKey too!
+        ///// </summary>
+        //public Dictionary<NWDTypeClass, string> DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
 
+
+#if UNITY_EDITOR
+        //public Dictionary<NWDTypeClass, string> DatasInEditor = new Dictionary<NWDTypeClass, string>();
+        //public Dictionary<NWDTypeClass, bool> DatasInEditorSelection = new Dictionary<NWDTypeClass, bool>();
         //public List<string> DatasInEditorReferenceList = new List<string>();
         //public List<string> DatasInEditorRowDescriptionList = new List<string>();
         //public List<bool> DatasInEditorSelectionList = new List<bool>();
-
-
-
-
-
 
         public Dictionary<string, string> NEW_EditorDatasMenu = new Dictionary<string, string>(); // reference/desciption for menu <REF>
 
@@ -500,10 +496,10 @@ namespace NetWorkedData
             DatasByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
             DatasByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
             // reachable datas prepare handler
-            DatasReachable = new List<NWDTypeClass>();
-            DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
-            DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
-            DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
+            //DatasReachable = new List<NWDTypeClass>();
+            //DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
+            //DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
+            //DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
 #if UNITY_EDITOR
             // editor datas prepare handler
             //DatasInEditorRowDescriptionList = new List<string>();
@@ -520,56 +516,56 @@ namespace NetWorkedData
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UserChangedReloadDatas()
-        {
-            RedefineReachableDatas();
-        }
+        //public void UserChangedReloadDatas()
+        //{
+        //    RedefineReachableDatas();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private void RedefineReachableDatas()
-        {
-            DatasReachable = new List<NWDTypeClass>();
-            DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
-            DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
-            DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
-            foreach (NWDTypeClass tData in Datas)
-            {
-                bool tDataIsValid = tData.DataIntegrityState();
-                if (tDataIsValid == true)
-                {
-                    AddDataReachable(tData);
-                }
-            }
-        }
+        //private void RedefineReachableDatas()
+        //{
+        //    DatasReachable = new List<NWDTypeClass>();
+        //    DatasReachableByReference = new Dictionary<string, NWDTypeClass>();
+        //    DatasReachableByInternalKey = new Dictionary<string, List<NWDTypeClass>>();
+        //    DatasReachableByReverseInternalKey = new Dictionary<NWDTypeClass, string>();
+        //    foreach (NWDTypeClass tData in Datas)
+        //    {
+        //        bool tDataIsValid = tData.DataIntegrityState();
+        //        if (tDataIsValid == true)
+        //        {
+        //            AddDataReachable(tData);
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        private void AddDataReachable(NWDTypeClass sData)
-        {
-            BTBBenchmark.Start();
-            if (sData.ReachableState() == true)
-            {
-                string tReference = sData.ReferenceUsedValue();
-                // Anyway I check if Data is allready in datalist
-                if (DatasReachableByReference.ContainsKey(tReference) == false)
-                {
-                    // get internal key
-                    string tInternalKey = sData.InternalKeyValue();
-                    // Anyway I add Data in datalist
-                    DatasReachable.Add(sData);
-                    DatasReachableByReference.Add(tReference, sData);
-                    if (DatasReachableByInternalKey.ContainsKey(tInternalKey) == true)
-                    {
-                        DatasReachableByInternalKey[tInternalKey].Add(sData);
-                    }
-                    else
-                    {
-                        List<NWDTypeClass> tList = new List<NWDTypeClass>();
-                        tList.Add(sData);
-                        DatasReachableByInternalKey.Add(tInternalKey, tList);
-                    }
-                    DatasReachableByReverseInternalKey.Add(sData, tInternalKey);
-                }
-            }
-            BTBBenchmark.Finish();
-        }
+        //private void AddDataReachable(NWDTypeClass sData)
+        //{
+        //    BTBBenchmark.Start();
+        //    if (sData.ReachableState() == true)
+        //    {
+        //        string tReference = sData.ReferenceUsedValue();
+        //        // Anyway I check if Data is allready in datalist
+        //        if (DatasReachableByReference.ContainsKey(tReference) == false)
+        //        {
+        //            // get internal key
+        //            string tInternalKey = sData.InternalKeyValue();
+        //            // Anyway I add Data in datalist
+        //            DatasReachable.Add(sData);
+        //            DatasReachableByReference.Add(tReference, sData);
+        //            if (DatasReachableByInternalKey.ContainsKey(tInternalKey) == true)
+        //            {
+        //                DatasReachableByInternalKey[tInternalKey].Add(sData);
+        //            }
+        //            else
+        //            {
+        //                List<NWDTypeClass> tList = new List<NWDTypeClass>();
+        //                tList.Add(sData);
+        //                DatasReachableByInternalKey.Add(tInternalKey, tList);
+        //            }
+        //            DatasReachableByReverseInternalKey.Add(sData, tInternalKey);
+        //        }
+        //    }
+        //    BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
         {
@@ -599,15 +595,15 @@ namespace NetWorkedData
                 DatasByReverseInternalKey.Add(sData, tInternalKey);
 
                 // Ok now I check if I need to install it in reachable data
-                bool tDataIsValid = sData.DataIntegrityState();
-                if (tDataIsValid == true)
-                {
-                    AddDataReachable(sData);
-                }
-                else
-                {
-                    Debug.LogWarning("Try to add not integrity data!");
-                }
+                //bool tDataIsValid = sData.DataIntegrityState();
+                //if (tDataIsValid == true)
+                //{
+                //    AddDataReachable(sData);
+                //}
+                //else
+                //{
+                //    Debug.LogWarning("Try to add not integrity data!");
+                //}
             }
             else
             {
@@ -648,30 +644,30 @@ namespace NetWorkedData
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void RemoveDataReachable(NWDTypeClass sData)
-        {
-            BTBBenchmark.Start();
-            string tReference = sData.ReferenceUsedValue();
-            // Anyway I check if Data is allready in datalist
-            if (DatasReachableByReference.ContainsKey(tReference) == true)
-            {
-                // get internal key
-                string tInternalKey = sData.InternalKeyValue();
-                // Anyway I add Remove in datalist
-                DatasReachable.Remove(sData);
-                DatasReachableByReference.Remove(tReference);
-                if (DatasReachableByInternalKey.ContainsKey(tInternalKey) == true)
-                {
-                    DatasReachableByInternalKey[tInternalKey].Remove(sData);
-                    if (DatasReachableByInternalKey[tInternalKey].Count == 0)
-                    {
-                        DatasReachableByInternalKey.Remove(tInternalKey);
-                    }
-                }
-                DatasReachableByReverseInternalKey.Remove(sData);
-            }
-            BTBBenchmark.Finish();
-        }
+        //private void RemoveDataReachable(NWDTypeClass sData)
+        //{
+        //    BTBBenchmark.Start();
+        //    string tReference = sData.ReferenceUsedValue();
+        //    // Anyway I check if Data is allready in datalist
+        //    if (DatasReachableByReference.ContainsKey(tReference) == true)
+        //    {
+        //        // get internal key
+        //        string tInternalKey = sData.InternalKeyValue();
+        //        // Anyway I add Remove in datalist
+        //        DatasReachable.Remove(sData);
+        //        DatasReachableByReference.Remove(tReference);
+        //        if (DatasReachableByInternalKey.ContainsKey(tInternalKey) == true)
+        //        {
+        //            DatasReachableByInternalKey[tInternalKey].Remove(sData);
+        //            if (DatasReachableByInternalKey[tInternalKey].Count == 0)
+        //            {
+        //                DatasReachableByInternalKey.Remove(tInternalKey);
+        //            }
+        //        }
+        //        DatasReachableByReverseInternalKey.Remove(sData);
+        //    }
+        //    BTBBenchmark.Finish();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveData(NWDTypeClass sData)
         {
@@ -698,7 +694,7 @@ namespace NetWorkedData
                 }
                 DatasByReverseInternalKey.Remove(sData);
                 // Ok now I need to remove it in reachable data
-                RemoveDataReachable(sData);
+                //RemoveDataReachable(sData);
             }
             else
             {
@@ -732,30 +728,30 @@ namespace NetWorkedData
             BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UpdateDataReachable(NWDTypeClass sData)
-        {
-            string tReference = sData.ReferenceUsedValue();
-            string tInternalKey = sData.InternalKeyValue();
-            string tOldInternalKey = DatasReachableByReverseInternalKey[sData];
-            if (tOldInternalKey != tInternalKey)
-            {
-                if (DatasReachableByReference.ContainsKey(tReference) == true)
-                {
-                    DatasReachable.Remove(sData);
-                    DatasReachableByReference.Remove(tReference);
-                    if (DatasReachableByInternalKey.ContainsKey(tOldInternalKey) == true)
-                    {
-                        DatasReachableByInternalKey[tOldInternalKey].Remove(sData);
-                        if (DatasReachableByInternalKey[tOldInternalKey].Count == 0)
-                        {
-                            DatasReachableByInternalKey.Remove(tOldInternalKey);
-                        }
-                    }
-                    DatasReachableByReverseInternalKey.Remove(sData);
-                }
-                AddDataReachable(sData);
-            }
-        }
+        //public void UpdateDataReachable(NWDTypeClass sData)
+        //{
+        //    string tReference = sData.ReferenceUsedValue();
+        //    string tInternalKey = sData.InternalKeyValue();
+        //    string tOldInternalKey = DatasReachableByReverseInternalKey[sData];
+        //    if (tOldInternalKey != tInternalKey)
+        //    {
+        //        if (DatasReachableByReference.ContainsKey(tReference) == true)
+        //        {
+        //            DatasReachable.Remove(sData);
+        //            DatasReachableByReference.Remove(tReference);
+        //            if (DatasReachableByInternalKey.ContainsKey(tOldInternalKey) == true)
+        //            {
+        //                DatasReachableByInternalKey[tOldInternalKey].Remove(sData);
+        //                if (DatasReachableByInternalKey[tOldInternalKey].Count == 0)
+        //                {
+        //                    DatasReachableByInternalKey.Remove(tOldInternalKey);
+        //                }
+        //            }
+        //            DatasReachableByReverseInternalKey.Remove(sData);
+        //        }
+        //        AddDataReachable(sData);
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateData(NWDTypeClass sData)
         {
@@ -789,7 +785,7 @@ namespace NetWorkedData
                 }
                 DatasByReverseInternalKey.Add(sData, tInternalKey);
 
-                UpdateDataReachable(sData);
+                //UpdateDataReachable(sData);
 
             }
 #if UNITY_EDITOR
@@ -1187,14 +1183,6 @@ namespace NetWorkedData
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        public static bool NEW_InternalKeyExists(string sInternalKey)
-        {
-            //BTBBenchmark.Start();
-            bool rReturn = Datas().DatasByInternalKey.ContainsKey(sInternalKey);
-            //BTBBenchmark.Finish();
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// News the get all datas. IT S A GLOBAL ACCESS!!!!
         /// </summary>
@@ -1208,7 +1196,7 @@ namespace NetWorkedData
         /// News the get all datas. IT S A GLOBAL ACCESS!!!!
         /// </summary>
         /// <returns>The get all datas.</returns>
-        public static K[] NEW_GetAllDatasByInternalKey(string sInternalKey)
+        private static K[] NEW_GetAllDatasByInternalKey(string sInternalKey)
         {
             K[] rReturn = new K[0];
             if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
@@ -1234,7 +1222,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// News the get data by reference. IT S A GLOBAL ACCESS!!!!
+        /// News the get data by reference.
         /// </summary>
         /// <returns>The get data by reference.</returns>
         /// <param name="sReference">S reference.</param>
@@ -1257,7 +1245,13 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-
+        public static bool NEW_InternalKeyExists(string sInternalKey)
+        {
+            //BTBBenchmark.Start();
+            bool rReturn = Datas().DatasByInternalKey.ContainsKey(sInternalKey);
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
         public static K[] NEW_FindDatas(string sAccountReference = null,

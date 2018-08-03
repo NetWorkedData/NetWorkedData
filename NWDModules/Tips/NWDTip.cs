@@ -112,7 +112,7 @@ namespace NetWorkedData
 		public static List<NWDTip> PrepareListForRandom (NWDWorld sWorld=null, NWDFamily sFamily=null, NWDKeyword sKeyword=null, NWDUserOwnership sOwnership=null)
 		{
 			ListForRandom = new List<NWDTip> ();
-            foreach (NWDTip tObject in NWDTip.Datas().ObjectsList) 
+            foreach (NWDTip tObject in NWDTip.NEW_FindDatas()) 
 			{
 				/* I list the object compatible with request
 			 	* I insert in the list  each object (Frequency) times

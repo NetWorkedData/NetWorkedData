@@ -228,7 +228,7 @@ namespace NetWorkedData
         public float DrawObjectInspectorHeight()
         {
 
-            NWDConstants.LoadImages();
+            //NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
 
             float tY = 0;
@@ -489,7 +489,7 @@ namespace NetWorkedData
         public Rect DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
         {
 
-            NWDConstants.LoadImages();
+            //NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
 
             float tWidth = sInRect.width - NWDConstants.kFieldMarge * 2;

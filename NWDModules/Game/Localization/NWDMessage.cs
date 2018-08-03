@@ -137,7 +137,7 @@ namespace NetWorkedData
         public static NWDMessage GetMessageWithCode(string sCode)
         {
             NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.Datas().ObjectsList)
+            foreach (NWDMessage tObject in NWDMessage.NEW_FindDatas())
             {
                 if (tObject.Code == sCode)
                 {
@@ -151,7 +151,7 @@ namespace NetWorkedData
         public static NWDMessage GetMessageWithDomainAndCode(string sDomain, string sCode)
         {
             NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.Datas().ObjectsList)
+            foreach (NWDMessage tObject in NWDMessage.NEW_FindDatas())
             {
                 if (tObject.Code == sCode && tObject.Domain == sDomain)
                 {

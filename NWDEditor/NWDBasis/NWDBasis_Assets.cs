@@ -31,7 +31,7 @@ namespace NetWorkedData
             //Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
             if (AssetDependent() == true)
             {
-                foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().ObjectsList)
+                foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
                 {
                     tObject.ChangeAssetPathMe(sOldPath, sNewPath);
                 }

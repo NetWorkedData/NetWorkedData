@@ -132,7 +132,7 @@ namespace NetWorkedData
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
             NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in NEW_GetAllDatas())
+            foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -195,7 +195,7 @@ namespace NetWorkedData
         public static int QuantityForItem(string sItemReference)
         {
             int rQte = 0;
-            foreach (NWDUserOwnership tOwnership in NEW_GetAllDatas())
+            foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -214,7 +214,7 @@ namespace NetWorkedData
         public static bool OwnershipForItemExists(string sItemReference)
         {
             NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in NEW_GetAllDatas())
+            foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {

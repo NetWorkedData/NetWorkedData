@@ -60,7 +60,7 @@ namespace NetWorkedData
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
             List<NWDUserOwnership> rResult = new List<NWDUserOwnership>();
-            foreach (NWDUserOwnership tObject in NWDUserOwnership.Datas().ObjectsList)
+            foreach (NWDUserOwnership tObject in NWDUserOwnership.NEW_FindDatas())
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.GameSaveTag == GameSaveTag)
                 {
@@ -74,7 +74,7 @@ namespace NetWorkedData
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
             NWDUserOwnership rResult = null;
-            foreach (NWDUserOwnership tObject in NWDUserOwnership.Datas().ObjectsList)
+            foreach (NWDUserOwnership tObject in NWDUserOwnership.NEW_FindDatas())
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.GameSaveTag == GameSaveTag)
                 {
@@ -98,7 +98,7 @@ namespace NetWorkedData
         {
             string tPlayerAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
             List<NWDUserOwnership> rResult = new List<NWDUserOwnership>();
-            foreach (NWDUserOwnership tObject in NWDUserOwnership.Datas().ObjectsList)
+            foreach (NWDUserOwnership tObject in NWDUserOwnership.NEW_FindDatas())
             {
                 if (tObject.IsReacheableByAccount(tPlayerAccountReference) && tObject.Item.GetReference() == sItem.Reference && tObject.GameSaveTag == GameSaveTag)
                 {

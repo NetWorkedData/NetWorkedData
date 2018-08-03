@@ -81,7 +81,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            NWDConstants.LoadImages();
+            //NWDConstants.LoadImages();
 
             //    Debug.Log ("NWDAppEnvironmentSync OnEnable");
             //kImageRed = AssetDatabase.LoadAssetAtPath<Texture2D>(NWDFindPackage.PathOfPackage("/NWDEditor/NWDNativeImages/NWDRed.psd"));

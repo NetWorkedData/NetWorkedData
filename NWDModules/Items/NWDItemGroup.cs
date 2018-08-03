@@ -165,7 +165,7 @@ namespace NetWorkedData
         public void CheckMyItems()
         {
             List<NWDItem> tActualItems = ItemList.GetObjectsList();
-            foreach (NWDItem tItem in NWDItem.NEW_GetAllDatas())
+            foreach (NWDItem tItem in NWDItem.NEW_FindDatas())
             {
                 if (tActualItems.Contains(tItem))
                 {

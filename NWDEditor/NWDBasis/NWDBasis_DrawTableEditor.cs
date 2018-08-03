@@ -1167,22 +1167,20 @@ namespace NetWorkedData
 
 
             GUILayout.BeginHorizontal(GUILayout.Width(120));
-
             EditorGUI.BeginDisabledGroup(true);
-            if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Protect in dev", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
+                ProtectInDev();
             }
-            EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            if (GUILayout.Button("Prepare to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
                 PrepareToPreprodPublish();
             }
             if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
             {
-                
                 PrepareToProdPublish();
             }
-
+            EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -1645,7 +1643,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void PrepareToPreprodPublish()
         {
-            foreach (K tOb in Datas().ObjectsList)
+            foreach (K tOb in Datas().NEW_EditorTableDatas)
                 {
                 if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
                     {
@@ -1657,11 +1655,47 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void PrepareToProdPublish()
         {
-            foreach (K tOb in Datas().ObjectsList)
+            foreach (NWDTypeClass tData in Datas().NEW_EditorTableDatas)
             {
-                if ((tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync) && tOb.ProdSync >= 0)
+                K tObject = tData as K;
+                if (tObject.PreprodSync == 0)
                 {
-                    tOb.UpdateData();
+                    tObject.ProdSync = 0;
+                    tObject.UpdateData();
+                }
+                else if (tObject.PreprodSync > 0)
+                {
+                    tObject.ProdSync = 1;
+                    tObject.UpdateData();
+                }
+                else if (tObject.PreprodSync < 0)
+                {
+                    tObject.ProdSync = -1;
+                    tObject.UpdateData();
+                }
+            }
+            RepaintTableEditor();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void ProtectInDev()
+        {
+            foreach (NWDTypeClass tData in Datas().NEW_EditorTableDatas)
+            {
+                K tObject = tData as K;
+                if (tObject.PreprodSync == 0)
+                {
+                    tObject.ProdSync = 0;
+                    tObject.UpdateData();
+                }
+                else if (tObject.PreprodSync > 0)
+                {
+                    tObject.ProdSync = 1;
+                    tObject.UpdateData();
+                }
+                else if (tObject.PreprodSync < 0)
+                {
+                    tObject.ProdSync = -1;
+                    tObject.UpdateData();
                 }
             }
             RepaintTableEditor();

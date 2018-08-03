@@ -386,7 +386,7 @@ namespace NetWorkedData
                         Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                         break;
                 }
-                if (Datas().ObjectsByReferenceList.Contains(this.Reference) == false)
+                if (Datas().DatasByReference.ContainsKey(this.Reference) == false)
                 {
                     bool tDoInsert = true;
                     switch (sWritingMode)

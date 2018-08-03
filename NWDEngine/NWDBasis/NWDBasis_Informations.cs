@@ -35,7 +35,7 @@ namespace NetWorkedData
         /// <returns>The informations.</returns>
 		public static string Informations ()
 		{
-            int tCount = Datas().ObjectsList.Count;
+            int tCount = Datas().Datas.Count;
 			if (tCount == 0) {
                 return "" + Datas().ClassNamePHP + " " + NWDConstants.K_APP_BASIS_NO_OBJECT + " (sync at " + SynchronizationGetLastTimestamp(NWDAppEnvironment.SelectedEnvironment())+  ")\n";
 			} else if (tCount == 1) {

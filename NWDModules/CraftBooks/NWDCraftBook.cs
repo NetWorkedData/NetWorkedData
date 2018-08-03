@@ -379,7 +379,7 @@ namespace NetWorkedData
         /// <param name="sItemGroupIngredient">S item group ingredient.</param>
         public static NWDCraftBook GetFirstCraftBookFor(NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {
-            Debug.Log("GetFirstCraftBookFor NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_GetAllDatas().Length);
+            Debug.Log("GetFirstCraftBookFor NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_FindDatas().Length);
             NWDCraftBook tCraftBook = null;
             string tRecipientValue = "";
             bool tOrdered = true;
@@ -388,7 +388,7 @@ namespace NetWorkedData
             string tAssemblyB = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToStringSorted();
             string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
             string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-            foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_GetAllDatas())
+            foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
             {
                 if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                 {
@@ -416,7 +416,7 @@ namespace NetWorkedData
         /// <param name="sItemGroupIngredientList">S item group ingredient list.</param>
         public static NWDCraftBook[] GetCraftBookWithRecipients(NWDReferencesListType<NWDRecipientGroup> sRecipientGroup, List<NWDReferencesArrayType<NWDItemGroup>> sItemGroupIngredientList)
         {
-            Debug.Log("GetCraftBookWithRecipients NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_GetAllDatas().Length);
+            Debug.Log("GetCraftBookWithRecipients NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_FindDatas().Length);
             NWDCraftBook tReturnPrimary = null;
             NWDRecipientGroup tReturnRecipient = null;
             NWDReferencesArrayType<NWDItemGroup> tItemsGroupUsed = new NWDReferencesArrayType<NWDItemGroup>();
@@ -469,7 +469,7 @@ namespace NetWorkedData
 
                                 Debug.Log("GetCraftBookWithRecipients search for tRecipient " + tRecipient.InternalKey + " Craft !!!only max!!! with " + sItemGroupIngredient.ToString() + "  => hash " + tRecipeHashA + " or " + tRecipeHashB);
 
-                                foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_GetAllDatas())
+                                foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
                                 {
                                     if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                                     {
@@ -499,7 +499,7 @@ namespace NetWorkedData
 
                                 Debug.Log("GetCraftBookWithRecipients search for tRecipient " + tRecipient.InternalKey + " Craft with " + sItemGroupIngredient.ToString() + "  => hash " + tRecipeHashA + " or " + tRecipeHashB);
 
-                                foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_GetAllDatas())
+                                foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
                                 {
                                     if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                                     {
@@ -557,7 +557,7 @@ namespace NetWorkedData
                             string tAssemblyB = tOrdered.ToString() + tRecipient + tItemReference;
                             string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
                             string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-                            foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_GetAllDatas())
+                            foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
                             {
                                 if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                                 {

@@ -195,7 +195,7 @@ namespace NetWorkedData
 		public void OnGUI ()
 		{
             // Debug.Log("NWDNodeEditor OnGUI");
-            NWDConstants.LoadImages();
+            //NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
