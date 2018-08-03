@@ -124,7 +124,7 @@ namespace NetWorkedData
         /// <param name="sDefault">default value.</param>
         public static string GetLocalString(string sKey, string sDefault = "")
         {
-            NWDParameter tObject = NWDBasis<NWDParameter>.GetObjectByInternalKey(sKey) as NWDParameter;
+            NWDParameter tObject = NWDBasis<NWDParameter>.NEW_FirstDatasByInternalKey(sKey) as NWDParameter;
             string rReturn = sDefault;
             if (tObject != null)
             {

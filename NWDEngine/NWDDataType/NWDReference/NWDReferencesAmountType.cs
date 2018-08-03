@@ -228,7 +228,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -243,7 +243,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -319,7 +319,7 @@ namespace NetWorkedData
                     {
                         float tQ = 0;
                         float.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0], sAccountReference) as K;
+                        K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -346,7 +346,7 @@ namespace NetWorkedData
                     {
                         float tQ = 0;
                         float.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.NEW_GetDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             if (tValueDico.ContainsKey(tObject) == false)
@@ -373,7 +373,7 @@ namespace NetWorkedData
                     {
                         float tQ = 0;
                         float.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)
@@ -393,7 +393,7 @@ namespace NetWorkedData
             Dictionary<string, float> tDescDico = GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tDescDico)
             {
-                K tObject = NWDBasis<K>.GetObjectByReference(tKeyValue.Key);
+                K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tKeyValue.Key);
                 if (tObject == null)
                 {
                     rDescription = tKeyValue.Key + " (in error) : " + tKeyValue.Value;

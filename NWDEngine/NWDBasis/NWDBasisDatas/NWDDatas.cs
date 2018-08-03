@@ -1179,13 +1179,21 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
-
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         public static Dictionary<string, string> NEW_EditorDatasMenu()
         {
             return Datas().NEW_EditorDatasMenu;
         }
 #endif
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool NEW_InternalKeyExists(string sInternalKey)
+        {
+            //BTBBenchmark.Start();
+            bool rReturn = Datas().DatasByInternalKey.ContainsKey(sInternalKey);
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// News the get all datas. IT S A GLOBAL ACCESS!!!!
@@ -1196,11 +1204,17 @@ namespace NetWorkedData
             return Datas().Datas.ToArray() as K[];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static bool NEW_InternalKeyExists(string sInternalKey)
+        /// <summary>
+        /// News the get all datas. IT S A GLOBAL ACCESS!!!!
+        /// </summary>
+        /// <returns>The get all datas.</returns>
+        public static K[] NEW_GetAllDatasByInternalKey(string sInternalKey)
         {
-            //BTBBenchmark.Start();
-            bool rReturn = Datas().DatasByInternalKey.ContainsKey(sInternalKey);
-            //BTBBenchmark.Finish();
+            K[] rReturn = new K[0];
+            if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
+            {
+                rReturn = Datas().DatasByInternalKey[sInternalKey].ToArray() as K[];
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1219,6 +1233,33 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// News the get data by reference. IT S A GLOBAL ACCESS!!!!
+        /// </summary>
+        /// <returns>The get data by reference.</returns>
+        /// <param name="sReference">S reference.</param>
+        public static K NEW_GetDataAccountByReference(string sReference, string sAccountReference = null)
+        {
+            K rReturn = null;
+            if (string.IsNullOrEmpty(sAccountReference))
+            {
+                sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+            }
+
+            if (Datas().DatasByReference.ContainsKey(sReference))
+            {
+                K tObject = Datas().DatasByReference[sReference] as K;
+                if (tObject.IsReacheableByAccount(sAccountReference))
+                {
+                    rReturn = tObject;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        //-------------------------------------------------------------------------------------------------------------
+        // ANCIEN GetAllObjects()
         public static K[] NEW_FindDatas(string sAccountReference = null,
                                 NWDGameSave sGameSave = null,
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
@@ -1355,7 +1396,25 @@ namespace NetWorkedData
             return rList.ToArray();
         }
 
-
+        public static K NEW_FirstDatasByInternalKey(
+                                        string sInternalKey,
+                                        bool sCreateIfNotExists = false,
+                                        NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
+                                        string sAccountReference = null,
+                                        NWDGameSave sGameSave = null,
+                                        NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
+                                        NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
+                                        NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
+                                       )
+        {
+            K rReturn = null;
+            K[] rDatas = NEWFindDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            if (rDatas.Length > 0)
+            {
+                rReturn = rDatas[0];
+            }
+            return rReturn;
+        }
 
         public static K[] NEWFindDatasByInternalKey(
                                         string sInternalKey,
@@ -1368,7 +1427,7 @@ namespace NetWorkedData
                                         NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
                                        )
         {
-            K[] rArray = NEW_FilterDatas(NEW_GetAllDatas(), sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rArray = NEW_FilterDatas(NEW_GetAllDatasByInternalKey(sInternalKey), sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
                 if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
@@ -1384,10 +1443,6 @@ namespace NetWorkedData
             }
             return rArray;
         }
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadFromDatabase()
         {

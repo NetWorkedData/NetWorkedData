@@ -103,7 +103,7 @@ namespace NetWorkedData
         public void GameSaveTagReevaluate()
         {
             int tMax = -1;
-            NWDGameSave[] tPartyArray = NWDGameSave.GetAllObjects(Account.GetReference());
+            NWDGameSave[] tPartyArray = NWDGameSave.NEW_FindDatas(Account.GetReference());
             NWDGameSave tCurrent = null;
             foreach (NWDGameSave tParty in tPartyArray)
             {
@@ -129,7 +129,7 @@ namespace NetWorkedData
         public bool GameSaveTagCheckUnicity()
         {
             bool rReturn = true;
-            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects(Account.GetReference()))
+            foreach (NWDGameSave tParty in NWDGameSave.NEW_FindDatas(Account.GetReference()))
             {
                 if (tParty != this)
                 {
@@ -180,18 +180,28 @@ namespace NetWorkedData
         public static NWDGameSave Current()
         {
             Debug.Log("NWDGameSave Current()");
-            NWDGameSave rParty = null;
-            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects())
-            {
-                if (tParty.IsCurrent == true)
-                {
-                    rParty = tParty;
-                    break;
-                }
-            }
+            NWDGameSave rParty = CurrentForAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
             if (rParty == null)
             {
                 rParty = NWDGameSave.NewCurrent();
+            }
+            return rParty;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDGameSave CurrentForAccount(string sAccountReference)
+        {
+            Debug.Log("NWDGameSave Current()");
+            NWDGameSave rParty = null;
+            foreach (NWDGameSave tParty in NWDGameSave.NEW_GetAllDatas())
+            {
+                if (tParty.Account.GetReference() == sAccountReference)
+                {
+                    if (tParty.IsCurrent == true)
+                    {
+                        rParty = tParty;
+                        break;
+                    }
+                }
             }
             return rParty;
         }
@@ -210,7 +220,7 @@ namespace NetWorkedData
         /// </summary>
         public void SetCurrent()
         {
-            foreach (NWDGameSave tParty in NWDGameSave.GetAllObjects(Account.GetReference()))
+            foreach (NWDGameSave tParty in NWDGameSave.NEW_FindDatas(Account.GetReference()))
             {
                 tParty.IsCurrent = false;
                 tParty.UpdateDataIfModified();

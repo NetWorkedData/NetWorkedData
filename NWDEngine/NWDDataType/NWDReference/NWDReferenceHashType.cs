@@ -54,7 +54,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public K GetObject ()
 		{
-			return NWDBasis<K>.GetObjectByReference (Value);
+            return NWDBasis<K>.NEW_GetDataAccountByReference (Value);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)

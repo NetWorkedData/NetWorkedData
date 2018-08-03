@@ -93,7 +93,7 @@ namespace NetWorkedData
         public static NWDAccountPreference GetPreferenceByInternalKeyOrCreate(string sInternalKey, string sDefaultValue, string sInternalDescription = "")
         {
             //Debug.Log ("GetPreferenceByInternalKeyOrCreate");
-            NWDAccountPreference rObject = GetObjectByInternalKey(sInternalKey) as NWDAccountPreference;
+            NWDAccountPreference rObject = NEW_FirstDatasByInternalKey(sInternalKey) as NWDAccountPreference;
             if (rObject == null)
             {
                 //Debug.Log ("New object");

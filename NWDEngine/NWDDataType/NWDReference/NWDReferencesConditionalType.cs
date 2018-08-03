@@ -82,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
         {
-            K tObject = NWDBasis<K>.GetObjectByReference(Reference);
+            K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(Reference);
             string rDescription = Reference;
             if (tObject == null)
             {
@@ -133,7 +133,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject()
         {
-           return NWDBasis<K>.GetObjectByReference(Reference);
+            return NWDBasis<K>.NEW_GetDataAccountByReference(Reference);
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool isValid(int sQuantity)
@@ -379,7 +379,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tRef, sAccountReference) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -394,7 +394,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -520,7 +520,7 @@ namespace NetWorkedData
                     {
                         int tQ = 0;
                         int.TryParse(tLineValue[1], out tQ);
-                        K tObject = NWDBasis<K>.GetObjectByReference(tLineValue[0]) as K;
+                        K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
                             for (int i = 0; i < tQ; i++)

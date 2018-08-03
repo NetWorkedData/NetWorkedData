@@ -132,7 +132,7 @@ namespace NetWorkedData
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
             NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in GetAllObjects())
+            foreach (NWDUserOwnership tOwnership in NEW_GetAllDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -146,7 +146,7 @@ namespace NetWorkedData
                 //--------------
                 #if UNITY_EDITOR
                 //--------------
-                NWDItem tItem = NWDItem.GetObjectByReference(sItemReference);
+                NWDItem tItem = NWDItem.NEW_GetDataAccountByReference(sItemReference);
                 if (tItem != null)
                 {
                     if (tItem.Name != null)
@@ -195,7 +195,7 @@ namespace NetWorkedData
         public static int QuantityForItem(string sItemReference)
         {
             int rQte = 0;
-            foreach (NWDUserOwnership tOwnership in GetAllObjects())
+            foreach (NWDUserOwnership tOwnership in NEW_GetAllDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -214,7 +214,7 @@ namespace NetWorkedData
         public static bool OwnershipForItemExists(string sItemReference)
         {
             NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in GetAllObjects())
+            foreach (NWDUserOwnership tOwnership in NEW_GetAllDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -452,7 +452,7 @@ namespace NetWorkedData
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
-            NWDItemGroup tItemGroup = NWDItemGroup.GetObjectByReference(sConditional.Reference);
+            NWDItemGroup tItemGroup = NWDItemGroup.NEW_GetDataAccountByReference(sConditional.Reference);
             if (tItemGroup != null)
             {
                 rReturn = false;

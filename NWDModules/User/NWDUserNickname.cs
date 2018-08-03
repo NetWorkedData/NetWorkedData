@@ -116,7 +116,7 @@ namespace NetWorkedData
                 sLanguage = NWDDataManager.SharedInstance().PlayerLanguage;
             }
             // Replace the nickname
-            NWDUserNickname tNicknameObject = NWDUserNickname.GetFirstObject();
+            NWDUserNickname tNicknameObject = NWDUserNickname.GetFirstData();
             string tNickname = "";
             string tNicknameID = "";
             if (tNicknameObject != null)
@@ -149,7 +149,7 @@ namespace NetWorkedData
         public static string GetNickname()
         {
             string rNickname = "";
-            NWDUserNickname[] tNickname = GetAllObjects();
+            NWDUserNickname[] tNickname = NEW_GetAllDatasInCurrentSaveGame();
             if (tNickname.Length > 0)
             {
                 rNickname = tNickname[0].Nickname;
@@ -160,7 +160,7 @@ namespace NetWorkedData
         public static string GetUniqueNickname()
         {
             string rUniqueNickname = "";
-            NWDUserNickname[] tNickname = GetAllObjects();
+            NWDUserNickname[] tNickname = NEW_GetAllDatasInCurrentSaveGame();
             if (tNickname.Length > 0)
             {
                 rUniqueNickname = tNickname[0].UniqueNickname;

@@ -330,14 +330,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserStats GetStatByInternalKey(string sInternalKey)
         {
-            NWDUserStats rReturn = NWDUserStats.GetObjectByInternalKey(sInternalKey);
+            NWDUserStats rReturn = NWDUserStats.NEW_FirstDatasByInternalKey(sInternalKey);
             rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserConsolidatedStats GetStatByInternalKeyOrCreate(string sInternalKey)
         {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NEW_FirstDatasByInternalKey(sInternalKey, true);
             rReturn.UpdateData();
             return rReturn;
         }
@@ -385,7 +385,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserConsolidatedStats ModifyStatByAdd(string sInternalKey, float sAddFloat)
         {
-            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.GetObjectByInternalKeyOrCreate(sInternalKey);
+            NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.NEW_FirstDatasByInternalKey(sInternalKey, true);
             rReturn.AddValue(sAddFloat);
             return rReturn;
         }

@@ -265,22 +265,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountNickname PublisherNickname()
         {
-            return NWDAccountNickname.GetFirstObject(Sender.GetReference());
+            return NWDAccountNickname.GetFirstData(Sender.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountNickname ReceiverNickname()
         {
-            return NWDAccountNickname.GetFirstObject(Receiver.GetReference());
+            return NWDAccountNickname.GetFirstData(Receiver.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar PublisherAvatar()
         {
-            return NWDUserAvatar.GetFirstObject(Sender.GetReference());
+            return NWDUserAvatar.GetFirstData(Sender.GetReference(),NWDGameSave.CurrentForAccount(Sender.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar ReceiverAvatar()
         {
-            return NWDUserAvatar.GetFirstObject(Receiver.GetReference());
+            return NWDUserAvatar.GetFirstData(Receiver.GetReference(), NWDGameSave.CurrentForAccount(Receiver.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Enrichment(string sText, string sLanguage, bool sBold = true)

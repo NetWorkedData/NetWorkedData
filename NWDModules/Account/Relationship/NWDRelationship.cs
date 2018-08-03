@@ -300,7 +300,7 @@ namespace NetWorkedData
         static public List<NWDRelationship> GetMasters()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
+            foreach (NWDRelationship tObject in NEW_FindDatas())
             {
                 if (tObject.PublisherReference.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
@@ -313,7 +313,7 @@ namespace NetWorkedData
         static public List<NWDRelationship> GetSlaves()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
+            foreach (NWDRelationship tObject in NEW_FindDatas())
             {
                 if (tObject.ReaderReference.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
@@ -629,7 +629,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K[] ObjectsFromPublisher<K>() where K : NWDBasis<K>, new()
         {
-            return NWDBasis<K>.GetAllObjects(PublisherReference.GetReference());
+            return NWDBasis<K>.NEW_FindDatas(PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddClassesToPublisher(Type sClass)
@@ -960,7 +960,7 @@ namespace NetWorkedData
         public List<NWDRelationship> ReaderReciprocity()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
+            foreach (NWDRelationship tObject in NEW_FindDatas())
             {
                 if (tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference()
                     && tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference()
@@ -975,7 +975,7 @@ namespace NetWorkedData
         public List<NWDRelationship> PublisherReciprocity()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in GetAllObjects())
+            foreach (NWDRelationship tObject in NEW_FindDatas())
             {
                 if (tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference()
                     && tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference()
@@ -1066,7 +1066,7 @@ namespace NetWorkedData
             }
             if (tGoodSave!=null)
             {
-                NWDUserOwnership[] tSSS = NWDUserOwnership.GetAllObjects(sRelationship.PublisherReference.GetReference());
+                NWDUserOwnership[] tSSS = NWDUserOwnership.NEW_FindDatas(sRelationship.PublisherReference.GetReference());
 
                 foreach (NWDUserOwnership tDDD in tSSS)
                 {
@@ -1088,34 +1088,34 @@ namespace NetWorkedData
             {
                 return new K[0];
             }
-            return GetAllObjects(sRelationship.PublisherReference.GetReference());
+            return NEW_FindDatas(sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
-        public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
-        {
-            if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
-               )
-            {
-                return null;
-            }
-            return GetObjectByReference(sReference, sRelationship.PublisherReference.GetReference());
-        }
+        //public static K GetObjectByReferenceForRelationship(string sReference, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        //{
+        //    if (sLimitByRelationAuthorization == true &&
+        //        (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+        //         sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+        //       )
+        //    {
+        //        return null;
+        //    }
+        //    return NEW_FindDatas(sReference, sRelationship.PublisherReference.GetReference());
+        //}
         //-------------------------------------------------------------------------------------------------------------
         // Not used
-        public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
-        {
-            if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
-               )
-            {
-                return new K[0];
-            }
-            return GetObjectsByReferences(sReferences, sRelationship.PublisherReference.GetReference());
-        }
+        //public static K[] GetObjectsByReferencesForRelationship(string[] sReferences, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        //{
+        //    if (sLimitByRelationAuthorization == true &&
+        //        (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+        //         sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+        //       )
+        //    {
+        //        return new K[0];
+        //    }
+        //    return NEW_GetDataAccountByReference(sReferences, sRelationship.PublisherReference.GetReference());
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserConsolidatedStats GetObjectByInternalKeyForRelationshipAndGameSave(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
@@ -1140,7 +1140,7 @@ namespace NetWorkedData
             }
             if (tGoodSave != null)
             {
-                NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
+                NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.NEWFindDatasByInternalKey(sInternalKey,false, NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference());
                  foreach (NWDUserConsolidatedStats tDDD in tSSS)
                 {
                     if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
@@ -1162,7 +1162,7 @@ namespace NetWorkedData
             {
                 return null;
             }
-            return GetObjectByInternalKey(sInternalKey, false, sRelationship.PublisherReference.GetReference());
+            return NEW_FirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
@@ -1175,21 +1175,21 @@ namespace NetWorkedData
             {
                 return new K[0];
             }
-            return GetAllObjectsByInternalKey(sInternalKey, sRelationship.PublisherReference.GetReference());
+            return NEWFindDatasByInternalKey(sInternalKey, false, NWDWritingMode.MainThread,sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
-        public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
-        {
-            if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
-               )
-            {
-                return new K[0];
-            }
-            return GetObjectsByInternalKeys(sInternalKeys, false, sRelationship.PublisherReference.GetReference());
-        }
+        //public static K[] GetObjectsByInternalKeysForRelationship(string[] sInternalKeys, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        //{
+        //    if (sLimitByRelationAuthorization == true &&
+        //        (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+        //         sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+        //       )
+        //    {
+        //        return new K[0];
+        //    }
+        //    return GetObjectsByInternalKeys(sInternalKeys, false, sRelationship.PublisherReference.GetReference());
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

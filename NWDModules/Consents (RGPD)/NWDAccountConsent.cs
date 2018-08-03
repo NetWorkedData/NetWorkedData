@@ -150,7 +150,7 @@ namespace NetWorkedData
         public static NWDAccountConsent ForConsent(NWDConsent sAppConsent, bool sCreateIfNull = true)
         {
             NWDAccountConsent rUserConsent = null;
-            foreach (NWDAccountConsent tAuthorization in GetAllObjects())
+            foreach (NWDAccountConsent tAuthorization in NEW_FindDatas())
             {
                 if (tAuthorization.Consent.GetObject() == sAppConsent && tAuthorization.Version.GetString() == sAppConsent.Version.GetString())
                 {

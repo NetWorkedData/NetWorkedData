@@ -252,7 +252,7 @@ namespace NetWorkedData
         {
             BuyPackResult rPackEnable = BuyPackResult.NotFound;
 
-            NWDPack tPack = NWDPack.GetObjectByInternalKey(sPackKey);
+            NWDPack tPack = NWDPack.NEW_FirstDatasByInternalKey(sPackKey);
             if (tPack != null)
             {
                 if (tPack.IsEnable())

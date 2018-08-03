@@ -220,7 +220,7 @@ namespace NetWorkedData
         public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
         {
             NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos user in GetAllObjects())
+            foreach (NWDUserInfos user in NEW_GetAllDatasInCurrentSaveGame())
             {
                 if (user.Account.GetReference().Equals(sEnvironment.PlayerAccountReference))
                 {

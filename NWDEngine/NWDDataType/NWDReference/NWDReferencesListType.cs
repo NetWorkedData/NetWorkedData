@@ -110,7 +110,7 @@ namespace NetWorkedData
 			List<K> tList = new List<K>();
 			string [] tArray = GetReferences ();
 			foreach (string tRef in tArray) {
-                K tObject = NWDBasis<K>.GetObjectByReference (tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataAccountByReference (tRef, sAccountReference) as K;
 				if (tObject != null) {
 					tList.Add (tObject);
 				}
@@ -123,7 +123,7 @@ namespace NetWorkedData
             List<K> tList = new List<K>();
             string[] tArray = GetReferences();
             foreach (string tRef in tArray) {
-                K tObject = NWDBasis<K>.GetObjectByReference(tRef, sAccountReference) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(tRef, sAccountReference) as K;
                 if (tObject != null) {
                     tList.Add(tObject);
                 }
@@ -137,7 +137,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);
@@ -152,7 +152,7 @@ namespace NetWorkedData
             string[] tArray = GetReferences();
             foreach (string tRef in tArray)
             {
-                K tObject = NWDBasis<K>.GetObjectAbsoluteByReference(tRef) as K;
+                K tObject = NWDBasis<K>.NEW_GetDataByReference(tRef) as K;
                 if (tObject != null)
                 {
                     tList.Add(tObject);

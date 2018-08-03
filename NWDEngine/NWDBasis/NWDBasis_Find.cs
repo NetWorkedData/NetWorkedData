@@ -62,24 +62,24 @@ namespace NetWorkedData
         //    return rReturnObject;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDBasis<K> FindObjectInDataBaseByReference(string sReference)
-        {
+        //private static NWDBasis<K> FindObjectInDataBaseByReference(string sReference)
+        //{
 
-            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-            if (AccountDependent())
-            {
-                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-            }
+        //    SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //    if (AccountDependent())
+        //    {
+        //        tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //    }
 
-            NWDBasis<K> rReturnObject = null;
-            IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(x => x.Reference == sReference); // Normal but exceptional using of SQLITE
-            int tCount = tEnumerable.Cast<K>().Count<K>();
-            if (tCount == 1)
-            {
-                rReturnObject = tEnumerable.Cast<K>().ElementAt(0);
-            }
-            return rReturnObject;
-        }
+        //    NWDBasis<K> rReturnObject = null;
+        //    IEnumerable<K> tEnumerable = tSQLiteConnection.Table<K>().Where(x => x.Reference == sReference); // Normal but exceptional using of SQLITE
+        //    int tCount = tEnumerable.Cast<K>().Count<K>();
+        //    if (tCount == 1)
+        //    {
+        //        rReturnObject = tEnumerable.Cast<K>().ElementAt(0);
+        //    }
+        //    return rReturnObject;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
