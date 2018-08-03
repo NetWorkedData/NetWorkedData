@@ -172,12 +172,8 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
-                    tManagementFile += "include_once ($PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/management.php');\n";
-                }
+                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                tManagementFile += "include_once ($PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/management.php');\n";
             }
             tManagementFile += "//-------------------- \n" +
                 "function CreateAllTables ()\n" +
@@ -185,12 +181,8 @@ namespace NetWorkedData
                 "\t\tmyLog('CREATE ALL TABALES ON SERVER', __FILE__, __FUNCTION__, __LINE__);\n";
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
-                    tManagementFile += "\t\tCreate" + tClassName + "Table ();\n";
-                }
+                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                tManagementFile += "\t\tCreate" + tClassName + "Table ();\n";
             }
             tManagementFile += "\t}\n" +
                 "//-------------------- \n" +
@@ -248,15 +240,11 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
             {
-                var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
                     tWebServices += "\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
                     tWebServices += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
                     tWebServices += "\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
                     tWebServices += "\t\t}\n";
-                }
             }
             // I need to prevent Non synchronized class from editor
             if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
@@ -265,15 +253,11 @@ namespace NetWorkedData
                 tWebServices += "\tif ($admin == true)\n\t\t{\n";
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
                 {
-                    var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
-                        tWebServices += "\t\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
-                        tWebServices += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
-                        tWebServices += "\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
-                        tWebServices += "\t\t\t}\n";
-                    }
+                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                    tWebServices += "\t\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
+                    tWebServices += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
+                    tWebServices += "\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
+                    tWebServices += "\t\t\t}\n";
                 }
                 tWebServices += "\t\t}\n";
             }
@@ -314,15 +298,11 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
             {
-                var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
                     tWebServicesAnnexe += "\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
                     tWebServicesAnnexe += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
                     tWebServicesAnnexe += "\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
                     tWebServicesAnnexe += "\t\t}\n";
-                }
             }
             // I need to prevent Non synchronized class from editor
             if (this == NWDAppConfiguration.SharedInstance().DevEnvironment || this == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
@@ -330,15 +310,11 @@ namespace NetWorkedData
                 tWebServicesAnnexe += "\tif ($admin == true)\n\t\t{\n";
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
                 {
-                    var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
                         tWebServicesAnnexe += "\t\tif (isset($dico['" + tClassName + "']))\n\t\t{\n";
                         tWebServicesAnnexe += "\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
                         tWebServicesAnnexe += "\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, $admin);\n";
                         tWebServicesAnnexe += "\t\t\t}\n";
-                    }
                 }
                 tWebServicesAnnexe += "\t\t}\n";
             }
@@ -394,10 +370,7 @@ namespace NetWorkedData
 
                 if (tCanBeAddoned == true)
                 {
-                    var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
                         tWebServicesAddon += "\tif (isset($REF_NEEDED['" + tClassName + "']))\n\t\t{\n";
                         tWebServicesAddon += "\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
                        // tWebServicesAddon += "\t\t\t // Need write loop to get Reference\n";
@@ -412,7 +385,6 @@ namespace NetWorkedData
                             tWebServicesAddon += "\t\t\t GetDatas" + tClassName + "ByAccounts (0, array_keys($ACC_NEEDED['" + tClassName + "']));\n";
                             tWebServicesAddon += "\t\t}\n";
                         }
-                    }
                 }             }             tWebServicesAddon += "// script is finished\n" +                 "\t}\n" +                 "//-------------------- \n" +                 "?>\n";             File.WriteAllText(tServerRootFolder + "/webservices_addon.php", tWebServicesAddon);             AssetDatabase.ImportAsset(tServerRootFolder + "/webservices_addon.php");
 
 
@@ -439,15 +411,11 @@ namespace NetWorkedData
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
                 //				foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
-                var tMethodInfo = tType.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
                     tAccountServices += "\t\t\t\t\t\t$dico['" + tClassName + "']['sync'] = true;\n";
                     tAccountServices += "\t\t\t\t\t\tinclude_once ( $PATH_BASE.'/Environment/" + Environment + "/Engine/Database/" + tClassName + "/synchronization.php');\n";
                     tAccountServices += "\t\t\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, false);\n";
                     tAccountServices += "\t\t\t\t\t\t\n";
-                }
             }
             tAccountServices += "" +
                 "\t\t\t\t\t}\n" +

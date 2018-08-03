@@ -33,7 +33,7 @@ namespace NetWorkedData
         public static void ClassDeclare(bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription)
         {
             Type tType = MethodBase.GetCurrentMethod().DeclaringType;
-            //Debug.Log ("tType : " + tType.Name);
+            Debug.Log("NWDBasis<K> ClassDeclare tType() : " + typeof(K).Name);
             //Debug.Log ("K : " + typeof(K).Name);
             NWDDatas.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
             //NWDDataManager.SharedInstance().AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
@@ -326,6 +326,8 @@ namespace NetWorkedData
         public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
         {
 
+            Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
+
             string tTableName = sType.Name;
             string tClassName = sType.AssemblyQualifiedName;
             //SetClassType(sType);
@@ -342,6 +344,8 @@ namespace NetWorkedData
             Datas().PrefLoad();
 
             AccountDependentAnalyze();
+
+
 
             if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
             {

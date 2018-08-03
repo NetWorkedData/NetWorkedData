@@ -86,37 +86,41 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDGameSave()
         {
-            //Debug.Log("NWDParty Constructor");
+            //Debug.Log("NWDGameSave Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDGameSave(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDParty Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDGameSave Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+            Debug.Log("NWDGameSave Initialization()");
             GameSaveTag = -1;
             GameSaveTagReevaluate();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GameSaveTagReevaluate()
         {
+            Debug.Log("NWDGameSave GameSaveTagReevaluate()");
             int tMax = -1;
-            NWDGameSave[] tPartyArray = NWDGameSave.NEW_FindDatas(Account.GetReference());
             NWDGameSave tCurrent = null;
-            foreach (NWDGameSave tParty in tPartyArray)
+            foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
-                if (tParty != this)
+                if (tParty.Account.GetReference() == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
                 {
-                    if (tParty.GameSaveTag >= tMax)
+                    if (tParty != this)
                     {
-                        tMax = tParty.GameSaveTag;
+                        if (tParty.GameSaveTag >= tMax)
+                        {
+                            tMax = tParty.GameSaveTag;
+                        }
                     }
-                }
-                if (tParty.IsCurrent == true)
-                {
-                    tCurrent = tParty;
+                    if (tParty.IsCurrent == true)
+                    {
+                        tCurrent = tParty;
+                    }
                 }
             }
             if (tCurrent == null)
@@ -128,15 +132,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool GameSaveTagCheckUnicity()
         {
+            Debug.Log("NWDGameSave GameSaveTagCheckUnicity()");
             bool rReturn = true;
-            foreach (NWDGameSave tParty in NWDGameSave.NEW_FindDatas(Account.GetReference()))
+            foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
-                if (tParty != this)
+                if (tParty.Account.GetReference() == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
                 {
-                    if (tParty.GameSaveTag == GameSaveTag)
+                    if (tParty != this)
                     {
-                        // Arghhh error
-                        rReturn = false;
+                        if (tParty.GameSaveTag == GameSaveTag)
+                        {
+                            // Arghhh error
+                            rReturn = false;
+                        }
                     }
                 }
             }
@@ -145,6 +153,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GameSaveTagAdjust()
         {
+            Debug.Log("NWDGameSave GameSaveTagAdjust()");
             if (GameSaveTagCheckUnicity() == false)
             {
                 GameSaveTagReevaluate();
@@ -220,10 +229,13 @@ namespace NetWorkedData
         /// </summary>
         public void SetCurrent()
         {
-            foreach (NWDGameSave tParty in NWDGameSave.NEW_FindDatas(Account.GetReference()))
+            foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
-                tParty.IsCurrent = false;
-                tParty.UpdateDataIfModified();
+                if (tParty.Account.GetReference() == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+                {
+                    tParty.IsCurrent = false;
+                    tParty.UpdateDataIfModified();
+                }
             }
             this.IsCurrent = true;
             this.UpdateDataIfModified();

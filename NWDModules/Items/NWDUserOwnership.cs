@@ -131,9 +131,11 @@ namespace NetWorkedData
         /// <param name="sItemReference">S item reference.</param>
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
+            Debug.Log("NWDUserOwnership OwnershipForItem("+sItemReference+")");
             NWDUserOwnership rOwnership = null;
             foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
             {
+                Debug.Log("NWDUserOwnership OwnershipForItem   test " + tOwnership.Reference + " for item " + tOwnership.Item.GetReference());
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
                     rOwnership = tOwnership;
@@ -142,6 +144,7 @@ namespace NetWorkedData
             }
             if (rOwnership == null)
             {
+                Debug.Log("NWDUserOwnership OwnershipForItem(" + sItemReference + ") NEED NEW OWNERSHIP");
                 rOwnership = NewData();
                 //--------------
                 #if UNITY_EDITOR

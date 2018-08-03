@@ -43,7 +43,7 @@ namespace NetWorkedData
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation / tCountClass);
             tOperation++;
 
-            NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("webrequest", "WEB01", "Network", "no network or time out", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "WEB02", "Network", "http error", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "WEB03", "Network", "http respond is empty", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("webrequest", "WEB04", "Network", "http respond is not valid format", "OK", NWDErrorType.Critical, NWDBasisTag.TagInternal);

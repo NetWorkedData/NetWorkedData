@@ -229,12 +229,8 @@ namespace NetWorkedData
             {
                 if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
                 {
-                    var tMethodInfo = tClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
-                        tList.Add(tClassName);
-                    }
+                    string tClassName = NWDDatas.FindTypeInfos(tClass).ClassNamePHP;
+                    tList.Add(tClassName);
                 }
             }
 
@@ -469,12 +465,9 @@ namespace NetWorkedData
                 {
                     if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
                     {
-                        var tMethodInfo = tClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodInfo != null)
-                        {
-                            string tClassName = tMethodInfo.Invoke(null, null) as string;
+
+                    string tClassName = NWDDatas.FindTypeInfos(tClass).ClassNamePHP;
                             tList.Add(tClassName);
-                        }
                     }
                 }
                 this.PublisherReference.SetReference(NWDAccount.GetCurrentAccountReference());
@@ -637,15 +630,11 @@ namespace NetWorkedData
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
-                    // remove if exists
-                    sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
-                    sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
-                    sPublisherClassesShared = sPublisherClassesShared + "," + tClassName;
-                }
+                string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                // remove if exists
+                sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
+                sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
+                sPublisherClassesShared = sPublisherClassesShared + "," + tClassName;
             }
             sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
             AskChangeClassByPublisher(sPublisherClassesShared);
@@ -656,13 +645,10 @@ namespace NetWorkedData
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
-                    // remove if exists
-                    sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
-                }
+
+                string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                 // remove if exists
+                sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
             }
             sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
             AskChangeClassByPublisher(sPublisherClassesShared);
@@ -675,15 +661,11 @@ namespace NetWorkedData
             {
                 if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
                 {
-                    var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
                         // remove if exists
                         sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
                         sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
                         sPublisherClassesShared = sPublisherClassesShared + "," + tClassName;
-                    }
                 }
             }
             sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
@@ -695,15 +677,11 @@ namespace NetWorkedData
             string sReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                    string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
                     // remove if exists
                     sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
                     sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
                     sReaderClassesAccepted = sReaderClassesAccepted + "," + tClassName;
-                }
             }
             sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
             AskChangeClassByReader(sReaderClassesAccepted);
@@ -714,14 +692,10 @@ namespace NetWorkedData
             string sReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    string tClassName = tMethodInfo.Invoke(null, null) as string;
+                string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
                     // remove if exists
                     sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
                     sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
-                }
             }
             sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
             AskChangeClassByReader(sReaderClassesAccepted);
@@ -734,15 +708,11 @@ namespace NetWorkedData
             {
                 if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
                 {
-                    var tMethodInfo = sClass.GetMethod("ClassNamePHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        string tClassName = tMethodInfo.Invoke(null, null) as string;
-                        // remove if exists
+
+                    string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
                         sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
                         sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
                         sReaderClassesAccepted = sReaderClassesAccepted + "," + tClassName;
-                    }
                 }
             }
             sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
