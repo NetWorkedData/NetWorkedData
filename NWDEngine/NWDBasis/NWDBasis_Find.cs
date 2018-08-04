@@ -132,53 +132,99 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool VisibleByGameSave(string sGameSaveReference)
+        {
+            bool rReturn = false;
+            if (Datas().GameSaveMethod != null)
+            {
+                var tValue = Datas().ClassGameDependentProperties.GetValue(this, null);
+                if (tValue != null)
+                {
+                    string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
+                    if (tSaveIndex == sGameSaveReference)
+                    {
+                        rReturn = true;
+                    }
+                }
+            }
+            else
+            {
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool VisibleByAccount(string sAccountReference)
+        {
+            bool rReturn = false;
+            if (AccountDependent())
+            {
+                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                {
+                    var tValue = tInfos.Key.GetValue(this, null);
+                    string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                    if (tAccount.Contains(sAccountReference))
+                    {
+                        rReturn = true;
+                        break; // I fonud one solution! this user can see this informations
+                    }
+                }
+            }
+            else
+            {
+                // non account dependency return acces is true.
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool IsReacheableByAccount(string sAccountReference = null)
         {
             bool rReturn = false;
-                if (AccountDependent())
+            if (AccountDependent())
+            {
+                // is account dependency : get all value and test
+                if (sAccountReference == null || sAccountReference == "") // TODO : replace by  string.IsNullOrEmpty
                 {
-                    // is account dependency : get all value and test
-                    if (sAccountReference == null || sAccountReference == "") // TODO : replace by  string.IsNullOrEmpty
-                    {
-                        sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-                    }
-                    foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
-                    {
-                        var tValue = tInfos.Key.GetValue(this, null);
-                        string tAccount = tInfos.Value.Invoke(tValue, null) as string;
-                        if (tAccount.Contains(sAccountReference))
-                        {
-                            rReturn = true;
-                            break; // I fonud one solution! this user can see this informations
-                        }
-                    }
-                    //foreach (PropertyInfo tProp in PropertiesAccountConnect())
-                    //{
-                    //    // find property and method to access
-                    //    var tValue = tProp.GetValue(this, null);
-                    //    if (tValue != null)
-                    //    {
-                    //        MethodInfo tMethodInfo = tValue.GetType().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                    //        if (tMethodInfo != null)
-                    //        {
-                    //            // get value of account reference
-                    //            string tValueToString = tMethodInfo.Invoke(tValue, null) as string;
-                    //            if (tValueToString.Contains(sAccountReference))
-                    //            {
-                    //                // account reference in value
-                    //                rReturn = true;
-                    //                // add break !
-                    //                break;
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
                 }
-                else
+                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
                 {
-                    // non account dependency return acces is true.
-                    rReturn = true;
+                    var tValue = tInfos.Key.GetValue(this, null);
+                    string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                    if (tAccount.Contains(sAccountReference))
+                    {
+                        rReturn = true;
+                        break; // I fonud one solution! this user can see this informations
+                    }
                 }
+                //foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                //{
+                //    // find property and method to access
+                //    var tValue = tProp.GetValue(this, null);
+                //    if (tValue != null)
+                //    {
+                //        MethodInfo tMethodInfo = tValue.GetType().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+                //        if (tMethodInfo != null)
+                //        {
+                //            // get value of account reference
+                //            string tValueToString = tMethodInfo.Invoke(tValue, null) as string;
+                //            if (tValueToString.Contains(sAccountReference))
+                //            {
+                //                // account reference in value
+                //                rReturn = true;
+                //                // add break !
+                //                break;
+                //            }
+                //        }
+                //    }
+                //}
+            }
+            else
+            {
+                // non account dependency return acces is true.
+                rReturn = true;
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -624,6 +624,11 @@ namespace NetWorkedData
             return Datas().kAccountDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool GameSaveDependent()
+        {
+            return Datas().ClassGameSaveDependent;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static bool IsClassLockedObject()
         {
             return Datas().kLockedObject;

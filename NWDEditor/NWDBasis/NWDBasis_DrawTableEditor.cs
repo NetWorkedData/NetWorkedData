@@ -22,15 +22,27 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Reorders the name of the list of management by.
-        /// Just reload the list for the pop-up menu 
-        /// </summary>
+        private static void RestaureDataInEditionByReference(string sReference)
+        {
+            K tObject = null;
+            if (Datas().DatasByReference.ContainsKey(sReference))
+            {
+                tObject = Datas().DatasByReference[sReference] as K;
+            }
+            if (tObject != null)
+            {
+                if (Datas().NEW_EditorTableDatas.Contains(tObject))
+                {
+                    SetObjectInEdition(tObject);
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void SortEditorTableDatas()
         {
             //BTBBenchmark.Start();
             //Debug.Log("NWDBasis<K> SortEditorTableDatas()");
-            Datas().NEW_EditorTableDatas.Sort((x, y) => string.Compare(x.InternalKeyValue(), y.InternalKeyValue(), StringComparison.Ordinal));
+            Datas().NEW_EditorTableDatas.Sort((x, y) => string.Compare(x.DatasMenu(), y.DatasMenu(), StringComparison.Ordinal));
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -312,6 +324,22 @@ namespace NetWorkedData
                     tOccurence = false;
                 }
 
+                if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
+                {
+                    if(tObject.VisibleByAccount(Datas().m_SearchAccount) == false)
+                    {
+                        tOccurence = false;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(Datas().m_SearchGameSave) == false)
+                {
+                    if (tObject.VisibleByGameSave(Datas().m_SearchGameSave) == false)
+                    {
+                        tOccurence = false;
+                    }
+                }
+
                 if (string.IsNullOrEmpty(Datas().m_SearchReference) == false)
                 {
                     if (tObject.Reference.Contains(Datas().m_SearchReference) == false)
@@ -526,6 +554,63 @@ namespace NetWorkedData
             Datas().m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, Datas().m_SearchInternalName, GUILayout.Width(300));
             Datas().m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, Datas().m_SearchInternalDescription, GUILayout.Width(300));
 
+            // SELECT ACCOUNT 
+            EditorGUI.BeginDisabledGroup(!AccountDependent());
+            List<string> tReferenceList = new List<string>();
+            List<string> tInternalNameList = new List<string>();
+            tReferenceList.Add("");
+            tInternalNameList.Add(NWDConstants.kFieldNone);
+
+            foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.Datas().NEW_EditorDatasMenu.OrderBy(i => i.Value))
+            {
+                tReferenceList.Add(tKeyValue.Key);
+                tInternalNameList.Add(tKeyValue.Value);
+            }
+            List<GUIContent> tContentFuturList = new List<GUIContent>();
+            foreach (string tS in tInternalNameList.ToArray())
+            {
+                tContentFuturList.Add(new GUIContent(tS));
+            }
+            int tIndexAccount = tReferenceList.IndexOf(Datas().m_SearchAccount);
+            int tNewIndexAccount = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray());
+            if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
+            {
+                Datas().m_SearchAccount = tReferenceList[tNewIndexAccount];
+            }
+            else
+            {
+                Datas().m_SearchAccount = "";
+            }
+            EditorGUI.EndDisabledGroup();
+
+            // SELECT GameSave 
+            EditorGUI.BeginDisabledGroup(!GameSaveDependent());
+            List<string> tReferenceSaveList = new List<string>();
+            List<string> tInternalNameSaveList = new List<string>();
+            tReferenceSaveList.Add("");
+            tInternalNameSaveList.Add(NWDConstants.kFieldNone);
+
+            foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.Datas().NEW_EditorDatasMenu.OrderBy(i => i.Value))
+            {
+                tReferenceSaveList.Add(tKeyValue.Key);
+                tInternalNameSaveList.Add(tKeyValue.Value);
+            }
+            List<GUIContent> tContentFuturSaveList = new List<GUIContent>();
+            foreach (string tS in tInternalNameSaveList.ToArray())
+            {
+                tContentFuturSaveList.Add(new GUIContent(tS));
+            }
+            int tIndexSave = tReferenceSaveList.IndexOf(Datas().m_SearchGameSave);
+            int tNewIndexSave = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray());
+            if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
+            {
+                Datas().m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
+            }
+            else
+            {
+                Datas().m_SearchGameSave = "";
+            }
+            EditorGUI.EndDisabledGroup();
 
 
 
@@ -550,12 +635,17 @@ namespace NetWorkedData
             // |||||||||||||||||||||||||||||||||||||||||||
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
             {
+                NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+                string tReference = string.Copy(tObject.ReferenceUsedValue());
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 FilterTableEditor();
+                RestaureDataInEditionByReference(tReference);
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
             {
+                NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+                string tReference = string.Copy(tObject.ReferenceUsedValue());
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 //m_SearchReference = "";
@@ -563,16 +653,24 @@ namespace NetWorkedData
                 Datas().m_SearchInternalName = "";
                 Datas().m_SearchInternalDescription = "";
                 Datas().m_SearchTag = NWDBasisTag.NoTag;
+                Datas().m_SearchAccount = "";
+                Datas().m_SearchGameSave = "";
                 FilterTableEditor();
+                RestaureDataInEditionByReference(tReference);
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_SORT, EditorStyles.miniButton, GUILayout.Width(120)))
             {
-                GUI.FocusControl(null);
-                SetObjectInEdition(null);
+                NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+                string tReference = string.Copy(tObject.ReferenceUsedValue());
+                //GUI.FocusControl(null);
+                //SetObjectInEdition(null);
                 SortEditorTableDatas();
+                RestaureDataInEditionByReference(tReference);
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_RELOAD, EditorStyles.miniButton, GUILayout.Width(120)))
             {
+                NWDTypeClass tObject =  NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+                string tReference = string.Copy(tObject.ReferenceUsedValue());
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 Datas().m_SearchInternalName = "";
@@ -581,6 +679,7 @@ namespace NetWorkedData
                 				//LoadTableEditor ();
                 LoadFromDatabase();
                 SortEditorTableDatas();
+                RestaureDataInEditionByReference(tReference);
             }
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();

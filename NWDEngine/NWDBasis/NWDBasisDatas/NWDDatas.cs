@@ -110,6 +110,9 @@ namespace NetWorkedData
         public string m_SearchReference = "";
         public string m_SearchInternalName = "";
         public string m_SearchInternalDescription = "";
+
+        public string m_SearchAccount = "";
+        public string m_SearchGameSave = "";
         public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
 
         public Vector2 m_ScrollPositionList;
@@ -509,7 +512,7 @@ namespace NetWorkedData
 
             // use in pop menu in edition of NWD inspector...
             NEW_EditorDatasMenu = new Dictionary<string, string>();
-            NEW_EditorDatasMenu.Add("", "");
+            NEW_EditorDatasMenu.Add("---", "");
 #endif
             //BTBBenchmark.Finish();
         }

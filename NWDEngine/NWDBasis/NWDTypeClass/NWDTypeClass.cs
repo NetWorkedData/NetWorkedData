@@ -79,7 +79,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string DatasMenu()
         {
-            return InternalKeyValue() + " <" + ReferenceUsedValue() + ">";
+            string rReturn = InternalKeyValue() + " <" + ReferenceUsedValue() + ">";
+            rReturn = rReturn.Replace("/", " ");
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual void InsertDataProceedWithTransaction()

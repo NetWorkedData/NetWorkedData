@@ -301,6 +301,8 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SEARCH_NAME = "Internal Key";
         public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal Description";
         public const string K_APP_TABLE_SEARCH_TAG = "Internal Tag";
+        public const string K_APP_TABLE_SEARCH_ACCOUNT = "Account";
+        public const string K_APP_TABLE_SEARCH_GAMESAVE = "GameSave";
         public const string K_APP_TABLE_SEARCH_REMOVE_FILTER = "Remove filter";
         public const string K_APP_TABLE_SEARCH_FILTER = "Filter";
         public const string K_APP_TABLE_SEARCH_SORT = "Sort by name";

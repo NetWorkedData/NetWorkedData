@@ -355,8 +355,7 @@ namespace NetWorkedData
         /// <param name="sDataArray">S data array.</param>
         private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray, string sReference)
         {
-
-            Debug.Log("NewDataFromWeb ()");
+            //Debug.Log("NewDataFromWeb ()");
             NWDBasis<K> rReturnObject = null;
             //rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType());
             rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
@@ -365,6 +364,8 @@ namespace NetWorkedData
             rReturnObject.InsertData(false, NWDWritingMode.QueuedMainThread); // PUT IN QUEUE !  because bad values 
             // Force update with CVS value
             rReturnObject.FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
+            Datas().UpdateData(rReturnObject);
+
             //Data waiting for queue to finish the process
             return rReturnObject;
         }
@@ -381,6 +382,7 @@ namespace NetWorkedData
             UpdateData(false, NWDWritingMode.QueuedMainThread, true); // PUT IN QUEUE !  because bad values
             // Force update with CVS value
             FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
+            Datas().UpdateData(this);
             //Data waiting for queue to finish the process
         }
         //-------------------------------------------------------------------------------------------------------------
