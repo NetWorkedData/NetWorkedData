@@ -176,8 +176,10 @@ namespace NetWorkedData
                 {
                     // Ok integrity is != I will update data
                     sInfos.RowUpdatedCounter++; 
-                    tObject.UpdateDataFromWeb(sEnvironment, sDataArray);
                 }
+                // BUT I NEED ANY WAY TO REWRITE THE SYNC DATE!!!!
+                // TO DO use Unity Editor to switch write  before or not ?
+                tObject.UpdateDataFromWeb(sEnvironment, sDataArray);
                 //tObject.UpdateWithCSV(sEnvironment, sDataArray);
             }
             #if UNITY_EDITOR

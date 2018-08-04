@@ -28,33 +28,33 @@ namespace NetWorkedData
         /// <summary>
         /// The List of Data to Insert by queue in main thread
         /// </summary>
-        public List<object> kInsertDataQueueMain = new List<object>();
+        public List<NWDTypeClass> kInsertDataQueueMain = new List<NWDTypeClass>();
         /// <summary>
         /// The List of Data to Update by queue in main thread
         /// </summary>
-        public List<object> kUpdateDataQueueMain = new List<object>();
+        public List<NWDTypeClass> kUpdateDataQueueMain = new List<NWDTypeClass>();
         /// <summary>
         /// The List of Data to Delete by queue in main thread
         /// </summary>
-        public List<object> kDeleteDataQueueMain = new List<object>();
+        public List<NWDTypeClass> kDeleteDataQueueMain = new List<NWDTypeClass>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The List of Data to Insert by queue in pool thread
         /// </summary>
-        public List<object> kInsertDataQueuePool = new List<object>();
+        public List<NWDTypeClass> kInsertDataQueuePool = new List<NWDTypeClass>();
         /// <summary>
         /// The List of Data to Update by queue in main thread
         /// </summary>
-        public List<object> kUpdateDataQueuePool = new List<object>();
+        public List<NWDTypeClass> kUpdateDataQueuePool = new List<NWDTypeClass>();
         /// <summary>
         /// The List of Data to Delete by queue in main thread
         /// </summary>
-        public List<object> kDeleteDataQueuePool = new List<object>();
+        public List<NWDTypeClass> kDeleteDataQueuePool = new List<NWDTypeClass>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The List of Data in pending to write
         /// </summary>
-        public List<object> kDataInWriting = new List<object>();
+        public List<NWDTypeClass> kDataInWriting = new List<NWDTypeClass>();
         //-------------------------------------------------------------------------------------------------------------
         #region Queue Data
         //-------------------------------------------------------------------------------------------------------------
@@ -107,12 +107,12 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             if (DataInWritingProcess())
             {
-                List<object> tInsertDataQueueMain = new List<object>(kInsertDataQueueMain);
-                List<object> tUpdateDataQueueMain = new List<object>(kUpdateDataQueueMain);
-                List<object> tDeleteDataQueueMain = new List<object>(kDeleteDataQueueMain);
-                kInsertDataQueueMain = new List<object>();
-                kUpdateDataQueueMain = new List<object>();
-                kDeleteDataQueueMain = new List<object>();
+                List<NWDTypeClass> tInsertDataQueueMain = new List<NWDTypeClass>(kInsertDataQueueMain);
+                List<NWDTypeClass> tUpdateDataQueueMain = new List<NWDTypeClass>(kUpdateDataQueueMain);
+                List<NWDTypeClass> tDeleteDataQueueMain = new List<NWDTypeClass>(kDeleteDataQueueMain);
+                kInsertDataQueueMain = new List<NWDTypeClass>();
+                kUpdateDataQueueMain = new List<NWDTypeClass>();
+                kDeleteDataQueueMain = new List<NWDTypeClass>();
                 InsertDataQueueExecute(tInsertDataQueueMain);
                 UpdateDataQueueExecute(tUpdateDataQueueMain);
                 DeleteDataQueueExecute(tDeleteDataQueueMain);
@@ -128,12 +128,12 @@ namespace NetWorkedData
             //BTBBenchmark.Start();
             if (DataInWritingProcess())
             {
-                List<object> tInsertDataQueuePool = new List<object>(kInsertDataQueuePool);
-                List<object> tUpdateDataQueuePool = new List<object>(kUpdateDataQueuePool);
-                List<object> tDeleteDataQueuePool = new List<object>(kDeleteDataQueuePool);
-                kInsertDataQueuePool = new List<object>();
-                kUpdateDataQueuePool = new List<object>();
-                kDeleteDataQueuePool = new List<object>();
+                List<NWDTypeClass> tInsertDataQueuePool = new List<NWDTypeClass>(kInsertDataQueuePool);
+                List<NWDTypeClass> tUpdateDataQueuePool = new List<NWDTypeClass>(kUpdateDataQueuePool);
+                List<NWDTypeClass> tDeleteDataQueuePool = new List<NWDTypeClass>(kDeleteDataQueuePool);
+                kInsertDataQueuePool = new List<NWDTypeClass>();
+                kUpdateDataQueuePool = new List<NWDTypeClass>();
+                kDeleteDataQueuePool = new List<NWDTypeClass>();
                 ThreadPool.QueueUserWorkItem(DataQueuePoolThread, new object[] {
                 tInsertDataQueuePool,
                 tUpdateDataQueuePool,
@@ -150,9 +150,9 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             object[] tParam = sState as object[];
-            List<object> tInsertDataQueue = tParam[0] as List<object>;
-            List<object> tUpdateDataQueue = tParam[1] as List<object>;
-            List<object> tDeleteDataQueue = tParam[2] as List<object>;
+            List<NWDTypeClass> tInsertDataQueue = tParam[0] as List<NWDTypeClass>;
+            List<NWDTypeClass> tUpdateDataQueue = tParam[1] as List<NWDTypeClass>;
+            List<NWDTypeClass> tDeleteDataQueue = tParam[2] as List<NWDTypeClass>;
             InsertDataQueueExecute(tInsertDataQueue);
             UpdateDataQueueExecute(tUpdateDataQueue);
             DeleteDataQueueExecute(tDeleteDataQueue);
@@ -167,7 +167,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sObject">S object.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void InsertData(object sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void InsertData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             //BTBBenchmark.Start();
             switch (sWritingMode)
@@ -223,21 +223,21 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             Type tType = sObject.GetType();
-            //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-            var tMethodInfo = tType.GetMethod("InsertDataProceedWithTransaction", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(sObject, null);
-            }
-            //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-            var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodFinish != null)
-            {
-                tMethodFinish.Invoke(sObject, null);
-            }
-            InsertDataCompleted(sObject);
+            NWDTypeClass tObject = sObject as NWDTypeClass;
+
+            tObject.InsertDataProceedWithTransaction();
+            tObject.InsertDataFinish();
+            //var tMethodInfo = tType.GetMethod("InsertDataProceedWithTransaction", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodInfo != null)
+            //{
+            //    tMethodInfo.Invoke(sObject, null);
+            //}
+            //var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodFinish != null)
+            //{
+            //    tMethodFinish.Invoke(sObject, null);
+            //}
+            InsertDataCompleted(tObject);
 
             //BTBBenchmark.Finish();
         }
@@ -246,7 +246,7 @@ namespace NetWorkedData
         /// Insert data queue pool execute.
         /// </summary>
         /// <param name="sInsertDataQueuePool">S insert data queue pool.</param>
-        private void InsertDataQueueExecute(List<object> sInsertDataQueuePool)
+        private void InsertDataQueueExecute(List<NWDTypeClass> sInsertDataQueuePool)
         {
             //BTBBenchmark.Start();
             //Debug.Log("InsertDataQueueExecute with " + sInsertDataQueuePool.Count + " Object(s)");
@@ -255,29 +255,31 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                foreach (object tObject in sInsertDataQueuePool)
+                foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                 {
-                    Type tType = tObject.GetType();
-                    var tMethodInfo = tType.GetMethod("InsertDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, null);
-                    }
+                    tObject.InsertDataProceed();
+                    //Type tType = tObject.GetType();
+                    //var tMethodInfo = tType.GetMethod("InsertDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(tObject, null);
+                    //}
                 }
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-                foreach (object tObject in sInsertDataQueuePool)
+                foreach (NWDTypeClass tObject in sInsertDataQueuePool)
                 {
                     Type tType = tObject.GetType();
                     if (tTypeList.Contains(tType) == false)
                     {
                         tTypeList.Add(tType);
-                    };
-                    var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodFinish != null)
-                    {
-                        tMethodFinish.Invoke(tObject, null);
                     }
+                    tObject.InsertDataFinish();
+                    //var tMethodFinish = tType.GetMethod("InsertDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tMethodFinish != null)
+                    //{
+                    //    tMethodFinish.Invoke(tObject, null);
+                    //}
                 }
                 InsertDataQueueCompleted(tTypeList);
             }
@@ -285,7 +287,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void InsertDataCompleted(object sObject)
+        private void InsertDataCompleted(NWDTypeClass sObject)
         {
             //BTBBenchmark.Start();
             NWDDataManagerMainThread.AddInsertType(sObject.GetType());
@@ -307,7 +309,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sObject">S object.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void UpdateData(object sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void UpdateData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             //BTBBenchmark.Start();
             switch (sWritingMode)
@@ -365,21 +367,20 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             Type tType = sObject.GetType();
-            //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-            var tMethodInfo = tType.GetMethod("UpdateDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(sObject, null);
-            }
-            //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-            var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodFinish != null)
-            {
-                tMethodFinish.Invoke(sObject, null);
-            }
-            UpdateDataCompleted(sObject);
+            NWDTypeClass tObject = sObject as NWDTypeClass;
+            tObject.UpdateDataProceedWithTransaction();
+            //var tMethodInfo = tType.GetMethod("UpdateDataProceedWithTransaction", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodInfo != null)
+            //{
+            //    tMethodInfo.Invoke(sObject, null);
+            //}
+            tObject.UpdateDataFinish();
+            //var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodFinish != null)
+            //{
+            //    tMethodFinish.Invoke(sObject, null);
+            //}
+            UpdateDataCompleted(tObject);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -387,7 +388,7 @@ namespace NetWorkedData
         /// Update data queue pool execute.
         /// </summary>
         /// <param name="sUpdateDataQueuePool">S update data queue pool.</param>
-        private void UpdateDataQueueExecute(List<object> sUpdateDataQueuePool)
+        private void UpdateDataQueueExecute(List<NWDTypeClass> sUpdateDataQueuePool)
         {
             //BTBBenchmark.Start();
             //Debug.Log("UpdateDataQueueExecute with " + sUpdateDataQueuePool.Count + " Object(s)");
@@ -396,29 +397,31 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                foreach (object tObject in sUpdateDataQueuePool)
+                foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                 {
-                    Type tType = tObject.GetType();
-                    var tMethodInfo = tType.GetMethod("UpdateDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, null);
-                    }
+                    tObject.UpdateDataProceed();
+                    //Type tType = tObject.GetType();
+                    //var tMethodInfo = tType.GetMethod("UpdateDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(tObject, null);
+                    //}
                 }
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-                foreach (object tObject in sUpdateDataQueuePool)
+                foreach (NWDTypeClass tObject in sUpdateDataQueuePool)
                 {
                     Type tType = tObject.GetType();
                     if (tTypeList.Contains(tType) == false)
                     {
                         tTypeList.Add(tType);
-                    };
-                    var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodFinish != null)
-                    {
-                        tMethodFinish.Invoke(tObject, null);
                     }
+                    tObject.UpdateDataFinish();
+                    //var tMethodFinish = tType.GetMethod("UpdateDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tMethodFinish != null)
+                    //{
+                    //    tMethodFinish.Invoke(tObject, null);
+                    //}
                 }
                 UpdateDataQueueCompleted(tTypeList);
             }
@@ -426,7 +429,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void UpdateDataCompleted(object sObject)
+        private void UpdateDataCompleted(NWDTypeClass sObject)
         {
             //BTBBenchmark.Start();
             NWDDataManagerMainThread.AddUpdateType(sObject.GetType());
@@ -448,7 +451,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sObject">S object.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void DeleteData(object sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void DeleteData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
             //BTBBenchmark.Start();
             switch (sWritingMode)
@@ -505,21 +508,20 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             Type tType = sObject.GetType();
-            //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-            var tMethodInfo = tType.GetMethod("DeleteDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(sObject, null);
-            }
-            //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-            var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-            if (tMethodFinish != null)
-            {
-                tMethodFinish.Invoke(sObject, null);
-            }
-            DeleteDataCompleted(sObject);
+            NWDTypeClass tObject = sObject as NWDTypeClass;
+            tObject.DeleteDataProceed();
+            //var tMethodInfo = tType.GetMethod("DeleteDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodInfo != null)
+            //{
+            //    tMethodInfo.Invoke(sObject, null);
+            //}
+            tObject.DeleteDataFinish();
+            //var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+            //if (tMethodFinish != null)
+            //{
+            //    tMethodFinish.Invoke(sObject, null);
+            //}
+            DeleteDataCompleted(tObject);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -527,7 +529,7 @@ namespace NetWorkedData
         /// Delete data queue pool execute.
         /// </summary>
         /// <param name="sDeleteDataQueuePool">S delete data queue pool.</param>
-        private void DeleteDataQueueExecute(List<object> sDeleteDataQueuePool)
+        private void DeleteDataQueueExecute(List<NWDTypeClass> sDeleteDataQueuePool)
         {
             //BTBBenchmark.Start();
             //Debug.Log("DeleteDataQueueExecute with " + sDeleteDataQueuePool.Count + " Object(s)");
@@ -536,29 +538,31 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-                foreach (object tObject in sDeleteDataQueuePool)
+                foreach (NWDTypeClass tObject in sDeleteDataQueuePool)
                 {
-                    Type tType = tObject.GetType();
-                    var tMethodInfo = tType.GetMethod("DeleteDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(tObject, null);
-                    }
+                    tObject.DeleteDataProceed();
+                    //Type tType = tObject.GetType();
+                    //var tMethodInfo = tType.GetMethod("DeleteDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(tObject, null);
+                    //}
                 }
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-                foreach (object tObject in kDeleteDataQueueMain)
+                foreach (NWDTypeClass tObject in kDeleteDataQueueMain)
                 {
                     Type tType = tObject.GetType();
                     if (tTypeList.Contains(tType) == false)
                     {
                         tTypeList.Add(tType);
-                    };
-                    var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-                    if (tMethodFinish != null)
-                    {
-                        tMethodFinish.Invoke(tObject, null);
                     }
+                    tObject.DeleteDataFinish();
+                    //var tMethodFinish = tType.GetMethod("DeleteDataFinish", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                    //if (tMethodFinish != null)
+                    //{
+                    //    tMethodFinish.Invoke(tObject, null);
+                    //}
                 }
                 DeleteDataQueueCompleted(tTypeList);
             }
@@ -566,7 +570,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void DeleteDataCompleted(object sObject)
+        private void DeleteDataCompleted(NWDTypeClass sObject)
         {
             //BTBBenchmark.Start();
             NWDDataManagerMainThread.AddDeleteType(sObject.GetType());
