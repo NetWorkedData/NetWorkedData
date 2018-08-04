@@ -322,9 +322,9 @@ namespace NetWorkedData
 			if (sObject.XX > 0) 
 			{
 			    //Debug.Log (sObject.Reference + "Must be trashed!");
-    			RemoveObjectInListOfEdition (sObject);
-                sObject.AddonDeleteMe();
-                NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
+    			//RemoveObjectInListOfEdition (sObject);
+                //sObject.AddonDeleteMe();
+                //NWDDataManager.SharedInstance().DeleteObjectDirect(sObject, AccountDependent());
 			}
 #endif
         }

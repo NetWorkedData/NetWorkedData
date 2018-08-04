@@ -22,18 +22,32 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        private static string GetReferenceOfDataInEdition()
+        {
+            string rReturn = null;
+            NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
+            if (tObject != null)
+            {
+                rReturn = string.Copy(tObject.ReferenceUsedValue());
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         private static void RestaureDataInEditionByReference(string sReference)
         {
             K tObject = null;
-            if (Datas().DatasByReference.ContainsKey(sReference))
+            if (sReference != null)
             {
-                tObject = Datas().DatasByReference[sReference] as K;
-            }
-            if (tObject != null)
-            {
-                if (Datas().NEW_EditorTableDatas.Contains(tObject))
+                if (Datas().DatasByReference.ContainsKey(sReference))
                 {
-                    SetObjectInEdition(tObject);
+                    tObject = Datas().DatasByReference[sReference] as K;
+                }
+                if (tObject != null)
+                {
+                    if (Datas().NEW_EditorTableDatas.Contains(tObject))
+                    {
+                        SetObjectInEdition(tObject);
+                    }
                 }
             }
         }
@@ -635,8 +649,7 @@ namespace NetWorkedData
             // |||||||||||||||||||||||||||||||||||||||||||
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
             {
-                NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
-                string tReference = string.Copy(tObject.ReferenceUsedValue());
+                string tReference = GetReferenceOfDataInEdition();
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 FilterTableEditor();
@@ -644,8 +657,8 @@ namespace NetWorkedData
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_REMOVE_FILTER, EditorStyles.miniButton, GUILayout.Width(120)))
             {
-                NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
-                string tReference = string.Copy(tObject.ReferenceUsedValue());
+
+                string tReference = GetReferenceOfDataInEdition();
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 //m_SearchReference = "";
@@ -660,8 +673,8 @@ namespace NetWorkedData
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_SORT, EditorStyles.miniButton, GUILayout.Width(120)))
             {
-                NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
-                string tReference = string.Copy(tObject.ReferenceUsedValue());
+
+                string tReference = GetReferenceOfDataInEdition();
                 //GUI.FocusControl(null);
                 //SetObjectInEdition(null);
                 SortEditorTableDatas();
@@ -669,8 +682,8 @@ namespace NetWorkedData
             }
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_RELOAD, EditorStyles.miniButton, GUILayout.Width(120)))
             {
-                NWDTypeClass tObject =  NWDDataInspector.ObjectInEdition() as NWDTypeClass;
-                string tReference = string.Copy(tObject.ReferenceUsedValue());
+
+                string tReference = GetReferenceOfDataInEdition();
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 Datas().m_SearchInternalName = "";

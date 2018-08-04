@@ -116,10 +116,6 @@ namespace NetWorkedData
             // TOOD Are you sure to limit to editor?
 #if UNITY_EDITOR
 
-#else
-            Datas().ObjectsList = new List<object> ();
-            Datas().ObjectsByReferenceList = new List<string> ();
-            Datas().ObjectsByKeyList = new List<string> ();
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
