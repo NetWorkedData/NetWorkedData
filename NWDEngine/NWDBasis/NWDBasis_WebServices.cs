@@ -158,24 +158,27 @@ namespace NetWorkedData
         /// <param name="sDataArray">S data array.</param>
         public static NWDBasis<K> SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
-            // Debug.Log("SynchronizationInsertInBase ");
+             //Debug.Log("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV(sDataArray);
             NWDBasis<K> tObject = NEW_GetDataByReference(tReference);
             if (tObject == null)
             {
+                //Debug.Log("SynchronizationTryToUse () NEW DATA");
                 sInfos.RowAddedCounter++;
-                tObject = NewInstanceFromCSV(sEnvironment, sDataArray);
+                tObject = NewDataFromWeb(sEnvironment, sDataArray, tReference);
                 //AddObjectInListOfEdition(tObject);
             }
             else
             {
+                //Debug.Log("SynchronizationTryToUse () OLD DATA");
                 string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
                 if (tObject.Integrity != tActualIntegrity)
                 {
                     // Ok integrity is != I will update data
                     sInfos.RowUpdatedCounter++; 
+                    tObject.UpdateDataFromWeb(sEnvironment, sDataArray);
                 }
-                tObject.UpdateWithCSV(sEnvironment, sDataArray);
+                //tObject.UpdateWithCSV(sEnvironment, sDataArray);
             }
             #if UNITY_EDITOR
             tObject.ErrorCheck();
@@ -223,6 +226,8 @@ namespace NetWorkedData
         /// <param name="sForceToUse">If set to <c>true</c> s force to use.</param>
         public static NWDBasis<K> SynchronizationTryToUse(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string sData, bool sForceToUse = false)
         {
+            //Debug.Log("SynchronizationTryToUse ()");
+
             NWDBasis<K> rReturn = null;
             string[] tDataArray = sData.Split(NWDConstants.kStandardSeparator.ToCharArray());
             for (int tI = 0; tI < tDataArray.Length; tI++)
@@ -496,6 +501,7 @@ namespace NetWorkedData
                                 FlushTrash(tObject);
                             }
                         }
+
                         rReturn = "YES";
 #if UNITY_EDITOR
                         //FilterTableEditor();

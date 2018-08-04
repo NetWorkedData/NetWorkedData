@@ -142,15 +142,15 @@ namespace NetWorkedData
         //    return ClassName();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public string MyClassNamePHP()
-        {
-            return Datas().ClassNamePHP;
-        }
+        //public string MyClassNamePHP()
+        //{
+        //    return Datas().ClassNamePHP;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public override string ClassNameUsedValue()
-        {
-            return Datas().ClassNamePHP;
-        }
+        //public override string ClassNameUsedValue()
+        //{
+        //    return Datas().ClassNamePHP;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //public static Dictionary<string, string> kTableName = new Dictionary<string, string>();
         ////-------------------------------------------------------------------------------------------------------------

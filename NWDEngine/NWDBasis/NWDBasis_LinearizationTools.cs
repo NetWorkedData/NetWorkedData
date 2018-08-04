@@ -353,15 +353,19 @@ namespace NetWorkedData
         /// <returns>The instance from CS.</returns>
         /// <param name="sEnvironment">S environment.</param>
         /// <param name="sDataArray">S data array.</param>
-        private static NWDBasis<K> NewInstanceFromCSV(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray, string sReference)
         {
+
+            Debug.Log("NewDataFromWeb ()");
             NWDBasis<K> rReturnObject = null;
             //rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType());
             rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
             rReturnObject.InstanceInit();
-            rReturnObject.UpdateWithCSV(sEnvironment, sDataArray);
-            //NWDDataManager.SharedInstance().InsertObjectDirect(rReturnObject, AccountDependent());
-            NWDDataManager.SharedInstance().InsertData(rReturnObject, NWDWritingMode.MainThread);
+            rReturnObject.Reference = sReference;
+            rReturnObject.InsertData(false, NWDWritingMode.QueuedMainThread); // PUT IN QUEUE !  because bad values 
+            // Force update with CVS value
+            rReturnObject.FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
+            //Data waiting for queue to finish the process
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -372,12 +376,19 @@ namespace NetWorkedData
 
         #region Instance Methods
 
+        public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        {
+            UpdateData(false, NWDWritingMode.QueuedMainThread, true); // PUT IN QUEUE !  because bad values
+            // Force update with CVS value
+            FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
+            //Data waiting for queue to finish the process
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Updates the with CSV.
         /// </summary>
         /// <param name="sDataArray">data array.</param>
-        public void UpdateWithCSV(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        public void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
             //Debug.Log("UpdateWithCSV ref " + Reference);
             // get key order assembly of cvs
@@ -466,7 +477,7 @@ namespace NetWorkedData
                 }
             }
             //NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
-            NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.MainThread);
+            //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.QueuedMainThread);
             AddonUpdatedMeFromWeb();
         }
         //-------------------------------------------------------------------------------------------------------------

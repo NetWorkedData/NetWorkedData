@@ -95,7 +95,7 @@ namespace NetWorkedData
             }
             else
             {
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, sSelection.ClassNameUsedValue());
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, NWDDatas.FindTypeInfos(sSelection.GetType()).ClassNamePHP);
                 EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, sSelection.ReferenceUsedValue());
             }
         }

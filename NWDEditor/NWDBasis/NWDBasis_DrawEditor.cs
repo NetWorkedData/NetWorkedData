@@ -85,7 +85,8 @@ namespace NetWorkedData
             }
             else
             {
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, tObject.MyClassNamePHP());
+                
+                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDDatas.FindTypeInfos(tObject.GetType()).ClassNamePHP);
                 EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
             }
             //Debug.Log("NWDBasis<K> SaveObjectInEdition() NWD_LastTypeEdited : " + EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY));
