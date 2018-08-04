@@ -478,7 +478,7 @@ namespace NetWorkedData
 
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
-                var tMethodInfo = tType.GetMethod("GetAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                var tMethodInfo = tType.GetMethod("NEW_FindDatas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
                     object[] tObjectsArray = tMethodInfo.Invoke(null, new object[] { this.Reference }) as object[];
