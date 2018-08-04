@@ -63,7 +63,11 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		// Your properties
 		//PROPERTIES
-		public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         public string StringValue {get; set;}
 		public bool BoolValue {get; set;}
 		public int IntValue {get; set;}

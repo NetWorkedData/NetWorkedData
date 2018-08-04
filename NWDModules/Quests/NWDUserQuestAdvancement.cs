@@ -65,6 +65,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         [NWDTooltips("Original quest")]
         public NWDReferenceType<NWDQuest> QuestReference
         {

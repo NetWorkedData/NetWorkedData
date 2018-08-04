@@ -53,10 +53,10 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
-                                       "\n "+
-                                       "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n"+
-                                       "\t{\n"+
-                                       "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n"+
+                                       "\n " +
+                                       "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
+                                       "\t{\n" +
+                                       "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n" +
                                        "\t}\n")]
     public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
     {
@@ -67,9 +67,22 @@ namespace NetWorkedData
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Instance Properties
         [NWDHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account {get; set;}
-        public string Nickname {get; set;}
-        public string UniqueNickname {get; set;}
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
+        public string Nickname
+        {
+            get; set;
+        }
+        public string UniqueNickname
+        {
+            get; set;
+        }
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         public delegate void SyncNicknameBlock(bool error, NWDOperationResult result = null);
         public SyncNicknameBlock SyncNicknameBlockDelegate;

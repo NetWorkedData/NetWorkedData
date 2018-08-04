@@ -475,7 +475,7 @@ namespace NetWorkedData
             // Tool box of account connected objects
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Connected NWDBasis Objects", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
+            /*
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
                 var tMethodInfo = tType.GetMethod("NEW_FindDatas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -495,7 +495,7 @@ namespace NetWorkedData
                     }
                     tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
                 }
-            }
+            }*/
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------

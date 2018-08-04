@@ -60,7 +60,11 @@ namespace NetWorkedData
 		// Your properties
 		[NWDGroupStartAttribute("Informations",true, true, true)] // ok
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
 		public NWDReferencesQuantityType<NWDItem> ItemQuantitySpent { get; set; }
 		public NWDReferencesQuantityType<NWDItem> ItemQuantityGot { get; set; }
 //		[NWDGroupEndAttribute]

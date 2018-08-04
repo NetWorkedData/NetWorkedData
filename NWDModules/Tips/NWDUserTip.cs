@@ -59,6 +59,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		[Indexed ("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set;}
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         public NWDReferenceType<NWDTip> Tip { get; set;}
         public bool IsActive { get; set; }
 		//-------------------------------------------------------------------------------------------------------------

@@ -64,6 +64,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         [NWDTooltips("Item used to render Avatar in simple game ")]
         public NWDReferenceType<NWDItem> RenderItem
         {

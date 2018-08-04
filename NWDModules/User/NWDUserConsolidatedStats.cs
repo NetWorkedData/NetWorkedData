@@ -64,6 +64,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         //public string StringValue
         //{
         //    get; set;

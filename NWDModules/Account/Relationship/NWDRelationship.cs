@@ -1012,42 +1012,42 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Methods
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserOwnership[] GetAllObjectsForRelationshipAndGameSave(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
-        {
-            if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
-               )
-            {
-                return new NWDUserOwnership[0];
-            }
+        //public static NWDUserOwnership[] GetAllObjectsForRelationshipAndGameSave(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        //{
+        //    if (sLimitByRelationAuthorization == true &&
+        //        (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+        //         sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+        //       )
+        //    {
+        //        return new NWDUserOwnership[0];
+        //    }
 
-            List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
+        //    List<NWDUserOwnership> rReturn = new List<NWDUserOwnership>();
 
-            NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
-            NWDGameSave tGoodSave = null;
-            foreach (NWDGameSave tSave in tSaveArray)
-            {
-                if (tSave.IsCurrent)
-                {
-                    tGoodSave = tSave;
-                    break;
-                }
-            }
-            if (tGoodSave!=null)
-            {
-                NWDUserOwnership[] tSSS = NWDUserOwnership.NEW_FindDatas(sRelationship.PublisherReference.GetReference());
+        //    NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
+        //    NWDGameSave tGoodSave = null;
+        //    foreach (NWDGameSave tSave in tSaveArray)
+        //    {
+        //        if (tSave.IsCurrent)
+        //        {
+        //            tGoodSave = tSave;
+        //            break;
+        //        }
+        //    }
+        //    if (tGoodSave!=null)
+        //    {
+        //        NWDUserOwnership[] tSSS = NWDUserOwnership.NEW_FindDatas(sRelationship.PublisherReference.GetReference());
 
-                foreach (NWDUserOwnership tDDD in tSSS)
-                {
-                    if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
-                    {
-                        rReturn.Add(tDDD);
-                    }
-                }
-            }
-            return rReturn.ToArray();
-        }
+        //        foreach (NWDUserOwnership tDDD in tSSS)
+        //        {
+        //            if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+        //            {
+        //                rReturn.Add(tDDD);
+        //            }
+        //        }
+        //    }
+        //    return rReturn.ToArray();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
@@ -1087,41 +1087,41 @@ namespace NetWorkedData
         //    return NEW_GetDataAccountByReference(sReferences, sRelationship.PublisherReference.GetReference());
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserConsolidatedStats GetObjectByInternalKeyForRelationshipAndGameSave(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
-        {
-            if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
-               )
-            {
-                return null;
-            }
-            NWDUserConsolidatedStats rReturn = null;
+        //public static NWDUserConsolidatedStats GetObjectByInternalKeyForRelationshipAndGameSave(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
+        //{
+        //    if (sLimitByRelationAuthorization == true &&
+        //        (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
+        //         sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+        //       )
+        //    {
+        //        return null;
+        //    }
+        //    NWDUserConsolidatedStats rReturn = null;
                
-            NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
-            NWDGameSave tGoodSave = null;
-            foreach (NWDGameSave tSave in tSaveArray)
-            {
-                if (tSave.IsCurrent)
-                {
-                    tGoodSave = tSave;
-                    break;
-                }
-            }
-            if (tGoodSave != null)
-            {
-                NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.NEWFindDatasByInternalKey(sInternalKey,false, NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference());
-                 foreach (NWDUserConsolidatedStats tDDD in tSSS)
-                {
-                    if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
-                    {
-                        rReturn = tDDD;
-                        break;
-                    }
-                }
-            }
-            return rReturn;
-        }
+        //    NWDGameSave[] tSaveArray = NWDGameSave.GetAllObjectsForRelationship(sRelationship, sLimitByRelationAuthorization);
+        //    NWDGameSave tGoodSave = null;
+        //    foreach (NWDGameSave tSave in tSaveArray)
+        //    {
+        //        if (tSave.IsCurrent)
+        //        {
+        //            tGoodSave = tSave;
+        //            break;
+        //        }
+        //    }
+        //    if (tGoodSave != null)
+        //    {
+        //        NWDUserConsolidatedStats[] tSSS = NWDUserConsolidatedStats.NEWFindDatasByInternalKey(sInternalKey,false, NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference());
+        //         foreach (NWDUserConsolidatedStats tDDD in tSSS)
+        //        {
+        //            if (tDDD.GameSaveTag == tGoodSave.GameSaveTag)
+        //            {
+        //                rReturn = tDDD;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
@@ -1132,7 +1132,8 @@ namespace NetWorkedData
             {
                 return null;
             }
-            return NEW_FirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference());
+            NWDGameSave tGamesaveToUse = NWDGameSave.CurrentForAccount(sRelationship.PublisherReference.GetReference());
+            return NEW_FirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
@@ -1145,7 +1146,8 @@ namespace NetWorkedData
             {
                 return new K[0];
             }
-            return NEWFindDatasByInternalKey(sInternalKey, false, NWDWritingMode.MainThread,sRelationship.PublisherReference.GetReference());
+            NWDGameSave tGamesaveToUse = NWDGameSave.CurrentForAccount(sRelationship.PublisherReference.GetReference());
+            return NEWFindDatasByInternalKey(sInternalKey, false, NWDWritingMode.MainThread,sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used

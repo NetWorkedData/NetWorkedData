@@ -61,7 +61,11 @@ namespace NetWorkedData
 		/// </summary>
 		/// <value>The account reference.</value>
 		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
 		/// <summary>
 		/// Get or set the value.
 		/// </summary>
