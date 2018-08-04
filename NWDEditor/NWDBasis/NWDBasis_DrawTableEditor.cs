@@ -28,10 +28,10 @@ namespace NetWorkedData
         /// </summary>
         public static void SortEditorTableDatas()
         {
-            BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> SortEditorTableDatas()");
+            //BTBBenchmark.Start();
+            //Debug.Log("NWDBasis<K> SortEditorTableDatas()");
             Datas().NEW_EditorTableDatas.Sort((x, y) => string.Compare(x.InternalKeyValue(), y.InternalKeyValue(), StringComparison.Ordinal));
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void IntegritySelection()
@@ -284,8 +284,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void FilterTableEditor()
         {
-            BTBBenchmark.Start();
-            Debug.Log("FilterTableEditor()");
+            //BTBBenchmark.Start();
+            //Debug.Log("FilterTableEditor()");
 
 
             Datas().NEW_EditorTableDatas = new List<NWDTypeClass>();
@@ -413,7 +413,7 @@ namespace NetWorkedData
             }
 
             */
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RepaintTableEditor()

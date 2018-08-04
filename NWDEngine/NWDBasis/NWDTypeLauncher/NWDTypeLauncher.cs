@@ -151,10 +151,10 @@ namespace NetWorkedData
                     tIndexOfActualClass++;
                 }
 
-                foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-                {
-                    Debug.Log("tType in sync " + tType.Name);
-                }
+                //foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+                //{
+                //    Debug.Log("tType in sync " + tType.Name);
+                //}
 
                 AllTypes = tTypeList.ToArray();
                 //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);

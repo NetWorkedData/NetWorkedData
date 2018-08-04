@@ -151,7 +151,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Declare(Type sType, bool sClassSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
         {
-            Debug.Log("NWDDatas Declare for " + sType.Name + " !");
+            //Debug.Log("NWDDatas Declare for " + sType.Name + " !");
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 // find infos object if exists or create 
@@ -487,7 +487,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             // all datas prepare handler
             Datas = new List<NWDTypeClass>();
             DatasByReference = new Dictionary<string, NWDTypeClass>();
@@ -511,7 +511,7 @@ namespace NetWorkedData
             NEW_EditorDatasMenu = new Dictionary<string, string>();
             NEW_EditorDatasMenu.Add("", "");
 #endif
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UserChangedReloadDatas()
@@ -567,14 +567,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void AddData(NWDTypeClass sData)
         {
-            Debug.Log("NWDDatas AddData()");
+            //Debug.Log("NWDDatas AddData()");
             //BTBBenchmark.Start();
             // get reference
             string tReference = sData.ReferenceUsedValue();
             // Anyway I check if Data is allready in datalist
             if (DatasByReference.ContainsKey(tReference) == false)
             {
-                Debug.Log("NWDDatas AddData() add data");
+                //Debug.Log("NWDDatas AddData() add data");
                 // get internal key
                 string tInternalKey = sData.InternalKeyValue();
                 // Anyway I add Data in datalist
@@ -603,7 +603,7 @@ namespace NetWorkedData
                 //    Debug.LogWarning("Try to add not integrity data!");
                 //}
 
-                Debug.Log("NWDDatas AddData() add data Datas count = " + Datas.Count);
+                //Debug.Log("NWDDatas AddData() add data Datas count = " + Datas.Count);
             }
             else
             {
@@ -671,8 +671,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RemoveData(NWDTypeClass sData)
         {
-            Debug.Log("NWDDatas RemoveData()");
-            BTBBenchmark.Start();
+            //Debug.Log("NWDDatas RemoveData()");
+            //BTBBenchmark.Start();
             // get reference
             string tReference = sData.ReferenceUsedValue();
             // Anyway I check if Data is allready in datalist
@@ -725,7 +725,7 @@ namespace NetWorkedData
             }
             /*NEW*/
 #endif
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         //public void UpdateDataReachable(NWDTypeClass sData)
@@ -755,7 +755,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateData(NWDTypeClass sData)
         {
-            Debug.Log("NWDDatas UpdateData()");
+            //Debug.Log("NWDDatas UpdateData()");
             string tReference = sData.ReferenceUsedValue();
             string tInternalKey = sData.InternalKeyValue();
             string tOldInternalKey = DatasByReverseInternalKey[sData];
@@ -1254,10 +1254,10 @@ namespace NetWorkedData
                                 NWDSwitchIntegrity sIntegrity = NWDSwitchIntegrity.Integrity
                                 )
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             //Debug.Log("Datas() Datas count = " + Datas().Datas.Count);
             K[] rReturn = NEW_FilterDatas(Datas().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1462,8 +1462,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadFromDatabase()
         {
-            BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> LoadFromDatabase()");
+            //BTBBenchmark.Start();
+            //Debug.Log("NWDBasis<K> LoadFromDatabase()");
             // select the good database
             SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
             if (AccountDependent())
@@ -1486,7 +1486,7 @@ namespace NetWorkedData
                 }
             }
             //RepaintTableEditor();
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool DataIntegrityState()

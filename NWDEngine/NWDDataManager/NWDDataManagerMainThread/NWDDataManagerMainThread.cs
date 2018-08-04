@@ -185,21 +185,21 @@ namespace NetWorkedData
             // not necessary to lock int
             if (InsertCompleted > 0)
             {
-                Debug.Log("NWDDataManagerMainThread Update() InsertCompleted detected!");
+                //Debug.Log("NWDDataManagerMainThread Update() InsertCompleted detected!");
                 InsertCompleted--;
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
             }
             // not necessary to lock int
             if (UpdateCompleted > 0)
             {
-                Debug.Log("NWDDataManagerMainThread Update() UpdateCompleted detected!");
+                //Debug.Log("NWDDataManagerMainThread Update() UpdateCompleted detected!");
                 UpdateCompleted--;
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
             }
             // not necessary to lock int
             if (DeleteCompleted > 0)
             {
-                Debug.Log("NWDDataManagerMainThread Update() DeleteCompleted detected!");
+                //Debug.Log("NWDDataManagerMainThread Update() DeleteCompleted detected!");
                 DeleteCompleted--;
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
             }
@@ -208,7 +208,7 @@ namespace NetWorkedData
             {
                 if (ListInsertCompleted.Count>0)
                 {
-                    Debug.Log("NWDDataManagerMainThread Update() ListInsertCompleted detected!");
+                    //Debug.Log("NWDDataManagerMainThread Update() ListInsertCompleted detected!");
                     List<Type> tTypeList =  ListInsertCompleted[0];
                     ListInsertCompleted.RemoveAt(0);
                     BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
@@ -225,7 +225,7 @@ namespace NetWorkedData
             {
                 if (ListUpdateCompleted.Count > 0)
                 {
-                    Debug.Log("NWDDataManagerMainThread Update() ListUpdateCompleted detected!");
+                    //Debug.Log("NWDDataManagerMainThread Update() ListUpdateCompleted detected!");
                     List<Type> tTypeList = ListUpdateCompleted[0];
                     ListUpdateCompleted.RemoveAt(0);
                     BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
@@ -242,7 +242,7 @@ namespace NetWorkedData
             {
                 if (ListDeleteCompleted.Count > 0)
                 {
-                    Debug.Log("NWDDataManagerMainThread Update() ListDeleteCompleted detected!");
+                    //Debug.Log("NWDDataManagerMainThread Update() ListDeleteCompleted detected!");
                     List<Type> tTypeList = ListDeleteCompleted[0];
                     ListDeleteCompleted.RemoveAt(0);
                     BTBNotificationManager.SharedInstance().PostNotification(tTypeList, NWDNotificationConstants.K_DATA_LOCAL_DELETE);

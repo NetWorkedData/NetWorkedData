@@ -477,7 +477,7 @@ namespace NetWorkedData
         public override void InsertDataProceed()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> InsertDataProceed()");
+            //Debug.Log("NWDBasis<K> InsertDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
@@ -492,7 +492,7 @@ namespace NetWorkedData
         public override void InsertDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -511,7 +511,7 @@ namespace NetWorkedData
         public override void InsertDataFinish()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> InsertDataFinish()");
+            //Debug.Log("NWDBasis<K> InsertDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
             //BTBBenchmark.Finish();
@@ -663,7 +663,7 @@ namespace NetWorkedData
         public override void UpdateDataProceed()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> UpdateDataProceed()");
+            //Debug.Log("NWDBasis<K> UpdateDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
@@ -678,7 +678,7 @@ namespace NetWorkedData
         public override void UpdateDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -697,7 +697,7 @@ namespace NetWorkedData
         public override void UpdateDataFinish()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> UpdateDataFinish()");
+            //Debug.Log("NWDBasis<K> UpdateDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
             //BTBBenchmark.Finish();
@@ -860,7 +860,7 @@ namespace NetWorkedData
         public override void DeleteDataProceed()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> DeleteDataProceed()");
+            //Debug.Log("NWDBasis<K> DeleteDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
@@ -875,7 +875,7 @@ namespace NetWorkedData
         public override void DeleteDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -894,7 +894,7 @@ namespace NetWorkedData
         public override void DeleteDataFinish()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> DeleteDataFinish()");
+            //Debug.Log("NWDBasis<K> DeleteDataFinish()");
             WritingLockRemove();
             WritingPending = NWDWritingPending.InDatabase;
 #if UNITY_EDITOR

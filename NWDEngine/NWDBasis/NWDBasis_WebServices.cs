@@ -26,12 +26,12 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static string SynchronizeKeyData = "data";
-        public static string SynchronizeKeyDataCount = "rowCount";
-        public static string SynchronizeKeyClean = "clean";
-        public static string SynchronizeKeyTimestamp = "sync";
-        public static string SynchronizeKeyLastTimestamp = "last";
-        public static string SynchronizeKeyInWaitingTimestamp = "waiting";
+        public const string SynchronizeKeyData = "data";
+        public const string SynchronizeKeyDataCount = "rowCount";
+        public const string SynchronizeKeyClean = "clean";
+        public const string SynchronizeKeyTimestamp = "sync";
+        public const string SynchronizeKeyLastTimestamp = "last";
+        public const string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
 #region Synchronization informations
         //-------------------------------------------------------------------------------------------------------------
@@ -187,38 +187,6 @@ namespace NetWorkedData
             #endif
             return tObject;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Synchronizations the insert in memory.
-        /// </summary>
-        /// <param name="sDataArray">S data array.</param>
-        //public static void SynchronizationInsertInMemory(NWDAppEnvironment sEnvironment, string[] sDataArray)
-        //{
-        //    //Debug.Log ("SynchronizationInsertInMemory ");
-        //    // if NWDject.reference allready in memory I must replace this object and distroy old object
-        //    NWDBasis<K> tFindObject = null;
-        //    string tReference = GetReferenceValueFromCSV(sDataArray);
-        //    foreach (NWDBasis<K> tObject in ObjectsList)
-        //    {
-        //        if (tObject.Reference == tReference)
-        //        {
-        //            tFindObject = tObject;
-        //        }
-        //    }
-        //    if (tFindObject != null)
-        //    {
-        //        if (tFindObject.DM <= GetDMValueFromCSV(sDataArray))
-        //        {
-        //            tFindObject.UpdateWithCSV(sEnvironment, sDataArray);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        tFindObject = NewInstanceFromCSV(sEnvironment, sDataArray);
-        //        tFindObject.UpdateWithCSV(sEnvironment, sDataArray);
-        //        AddObjectInListOfEdition(tFindObject);
-        //    }
-        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the try to use.
@@ -584,7 +552,6 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
         public static bool PullFromWebService(NWDAppEnvironment sEnvironment)
         {
             bool rReturn = false;
@@ -608,7 +575,6 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
         public static bool PullFromWebServiceForce(NWDAppEnvironment sEnvironment)
         {
             bool rReturn = false;
@@ -632,7 +598,6 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
         public static bool SynchronizationFromWebServiceForce(NWDAppEnvironment sEnvironment)
         {
             bool rReturn = false;
@@ -656,7 +621,6 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
         public static bool SynchronizationFromWebService(NWDAppEnvironment sEnvironment)
         {
             bool rReturn = false;
@@ -680,7 +644,6 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-        /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
         public static bool SynchronizationFromWebServiceClean(NWDAppEnvironment sEnvironment)
         {
             bool rReturn = false;
