@@ -167,6 +167,9 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
+
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDGameSave kCurrentGameSave;
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke
         {
@@ -188,18 +191,37 @@ namespace NetWorkedData
         /// </summary>
         public static NWDGameSave Current()
         {
-            Debug.Log("NWDGameSave Current()");
-            NWDGameSave rParty = CurrentForAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-            if (rParty == null)
+            //Debug.Log("NWDGameSave Current()");
+            NWDGameSave rParty = null;
+            if (kCurrentGameSave != null)
             {
-                rParty = NWDGameSave.NewCurrent();
+                if (kCurrentGameSave.IsReacheableByAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference))
+                {
+                    // It's ok
+                }
+                else
+                {
+                    kCurrentGameSave = null;
+                }
+            }
+            if (kCurrentGameSave == null)
+            {
+                rParty = CurrentForAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+                if (rParty == null)
+                {
+                    rParty = NWDGameSave.NewCurrent();
+                }
+            }
+            else
+            {
+                rParty = kCurrentGameSave;
             }
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave CurrentForAccount(string sAccountReference)
         {
-            Debug.Log("NWDGameSave Current()");
+            //Debug.Log("NWDGameSave CurrentForAccount()");
             NWDGameSave rParty = null;
             foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
@@ -238,6 +260,7 @@ namespace NetWorkedData
                 }
             }
             this.IsCurrent = true;
+            kCurrentGameSave = this;
             this.UpdateDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------

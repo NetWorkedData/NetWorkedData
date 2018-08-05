@@ -76,7 +76,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NotNullChecker()
         {
-           //Debug.Log("NWDBasis<K> NotNullChecker()");
+            //Debug.Log("NWDBasis<K> NotNullChecker()");
             Type tType = ClassType();
             //List<string> tPropertiesList = PropertiesOrderArray();
             List<string> tPropertiesList = SLQIntegrityOrder();
@@ -189,10 +189,15 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
+#if UNITY_EDITOR
+            //return HashSum(Datas().SaltA + DynamiqueDataAssembly() + Datas().SaltB);
             return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
+#else
+            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
     }
 }
 //=====================================================================================================================

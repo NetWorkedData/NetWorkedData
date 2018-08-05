@@ -25,6 +25,8 @@ public class NWDCreditsScript : MonoBehaviour
     public GameObject StuffListPanel;
     public GameObject CompanyListPanel;
 
+    public GameObject SeparatorOne;
+    public GameObject SeparatorTwo;
     // Use this for initialization
     void Start()
     {
@@ -37,6 +39,18 @@ public class NWDCreditsScript : MonoBehaviour
     }
     void RemoveCredits()
     {
+        foreach (Transform tChild in CompanyPanel.transform)
+        {
+            GameObject.Destroy(tChild.gameObject);
+        }
+        foreach (Transform tChild in StuffListPanel.transform)
+        {
+            GameObject.Destroy(tChild.gameObject);
+        }
+        foreach (Transform tChild in CompanyListPanel.transform)
+        {
+            GameObject.Destroy(tChild.gameObject);
+        }
     }
     void InstallCredits()
     {
@@ -107,9 +121,27 @@ public class NWDCreditsScript : MonoBehaviour
             }
 
             // install the Credits legal footer 
-            LegalFooter.text = Credits.LegalFooter.GetLocalString();
+            string tLegalFooterText  = Credits.LegalFooter.GetLocalString();
+            if (string.IsNullOrEmpty(tLegalFooterText))
+            {
+                SeparatorOne.SetActive(false);
+            }
+            else
+            {
+                SeparatorOne.SetActive(true);
+            }
+                LegalFooter.text = tLegalFooterText;
             // install the Credits legal copyright 
-            Copyright.text = Credits.Copyright.GetLocalString();
+            string tCopyrightText = Credits.Copyright.GetLocalString();
+            if (string.IsNullOrEmpty(tCopyrightText))
+            {
+                SeparatorTwo.SetActive(false);
+            }
+            else
+            {
+                SeparatorTwo.SetActive(true);
+            }
+            Copyright.text = tCopyrightText;
         }
     }
 

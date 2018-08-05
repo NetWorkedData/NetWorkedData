@@ -482,6 +482,97 @@ namespace NetWorkedData
             //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.QueuedMainThread);
             AddonUpdatedMeFromWeb();
         }
+
+        public string DynamiqueDataAssembly(bool sAsssemblyAsCSV = false)
+        {
+            string rReturn = "";
+            Type tType = ClassType();
+            List<string> tPropertiesList = DataAssemblyPropertiesList();
+
+            // todo get the good version of assembly 
+            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+            int tLastWebService = -1;
+            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
+            {
+                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+                {
+                    if (tKeyValue.Value.ContainsKey(ClassID()))
+                    {
+                        tPropertiesList = tKeyValue.Value[ClassID()];
+                    }
+                }
+            }
+
+            //Debug.Log("DATA ASSEMBLY  initial count =  " + tPropertiesList.Count.ToString());
+            foreach (string tPropertieName in tPropertiesList)
+            {
+                PropertyInfo tProp = tType.GetProperty(tPropertieName);
+                if (tProp != null)
+                {
+                    Type tTypeOfThis = tProp.PropertyType;
+
+                    // Actif to debug the integrity
+                    //rReturn += "|-" + tPropertieName + ":";
+                    // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
+
+                    string tValueString = "";
+
+                    object tValue = tProp.GetValue(this, null);
+                    if (tValue == null)
+                    {
+                        tValue = "";
+                    }
+                    tValueString = tValue.ToString();
+                    if (tTypeOfThis.IsEnum)
+                    {
+                        //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
+                        int tInt = (int)tValue;
+                        tValueString = tInt.ToString();
+                    }
+                    if (tTypeOfThis == typeof(bool))
+                    {
+                        //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+                        if (tValueString == "False")
+                        {
+                            tValueString = "0";
+                        }
+                        else
+                        {
+                            tValueString = "1";
+                        }
+                    }
+                    if (sAsssemblyAsCSV == true)
+                    {
+                        rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
+                    }
+                    else
+                    {
+                        rReturn += NWDToolbox.TextCSVProtect(tValueString);
+                    }
+                }
+            }
+            if (sAsssemblyAsCSV == true)
+            {
+                rReturn = Reference + NWDConstants.kStandardSeparator +
+                DM + NWDConstants.kStandardSeparator +
+                DS + NWDConstants.kStandardSeparator +
+                DevSync + NWDConstants.kStandardSeparator +
+                PreprodSync + NWDConstants.kStandardSeparator +
+                ProdSync + NWDConstants.kStandardSeparator +
+                // Todo Add WebServiceVersion ?
+                //WebServiceVersion + NWDConstants.kStandardSeparator +
+                rReturn +
+                Integrity;
+                //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
+            }
+            else
+            {
+                rReturn = Reference +
+                DM +
+                rReturn;
+            }
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Datas assembly for integrity calculate or cvs export.

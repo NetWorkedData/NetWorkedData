@@ -54,7 +54,7 @@ namespace NetWorkedData
     /// NWDAccountPreference class. This class is used to reccord the preference of an account.
     /// </summary>
 	[NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("PRF")]
+    [NWDClassTrigrammeAttribute("APF")]
     [NWDClassDescriptionAttribute("Account Preferences descriptions Class")]
     [NWDClassMenuNameAttribute("Account Preferences")]
     public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
