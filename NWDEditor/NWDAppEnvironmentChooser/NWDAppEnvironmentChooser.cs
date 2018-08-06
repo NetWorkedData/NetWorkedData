@@ -100,6 +100,10 @@ namespace NetWorkedData
                 {
                     NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
                 }
+                //if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT))
+                //{
+                //    NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
+                //}
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------

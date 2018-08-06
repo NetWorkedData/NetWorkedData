@@ -59,6 +59,8 @@ namespace NetWorkedData
 	//-------------------------------------------------------------------------------------------------------------
 	public partial class NWDUserOwnership :NWDBasis <NWDUserOwnership>
 	{
+        // Create And Index
+        static Dictionary<NWDItem, List<NWDUserOwnership>> kIndexItemReverse = new Dictionary<NWDItem, List<NWDUserOwnership>>();
 		//-------------------------------------------------------------------------------------------------------------
 		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
 		//-------------------------------------------------------------------------------------------------------------
@@ -501,6 +503,16 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonLoadedMe()
+        {
+            NWDItem tItem = Item.GetObject();
+            if (tItem != null)
+            {
+                tItem.SetUserOwnership(this);
+            }
+                
+        }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe ()
 		{
