@@ -296,7 +296,7 @@ namespace NetWorkedData
         static public List<NWDRelationship> GetMasters()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in NEW_FindDatas())
+            foreach (NWDRelationship tObject in FindDatas())
             {
                 if (tObject.PublisherReference.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
@@ -309,7 +309,7 @@ namespace NetWorkedData
         static public List<NWDRelationship> GetSlaves()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in NEW_FindDatas())
+            foreach (NWDRelationship tObject in FindDatas())
             {
                 if (tObject.ReaderReference.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
@@ -622,7 +622,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K[] ObjectsFromPublisher<K>() where K : NWDBasis<K>, new()
         {
-            return NWDBasis<K>.NEW_FindDatas(PublisherReference.GetReference());
+            return NWDBasis<K>.FindDatas(PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddClassesToPublisher(Type sClass)
@@ -930,7 +930,7 @@ namespace NetWorkedData
         public List<NWDRelationship> ReaderReciprocity()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in NEW_FindDatas())
+            foreach (NWDRelationship tObject in FindDatas())
             {
                 if (tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference()
                     && tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference()
@@ -945,7 +945,7 @@ namespace NetWorkedData
         public List<NWDRelationship> PublisherReciprocity()
         {
             List<NWDRelationship> rList = new List<NWDRelationship>();
-            foreach (NWDRelationship tObject in NEW_FindDatas())
+            foreach (NWDRelationship tObject in FindDatas())
             {
                 if (tObject.PublisherReference.GetReference() == this.ReaderReference.GetReference()
                     && tObject.ReaderReference.GetReference() == this.PublisherReference.GetReference()
@@ -1058,7 +1058,7 @@ namespace NetWorkedData
             {
                 return new K[0];
             }
-            return NEW_FindDatas(sRelationship.PublisherReference.GetReference());
+            return FindDatas(sRelationship.PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
@@ -1133,7 +1133,7 @@ namespace NetWorkedData
                 return null;
             }
             NWDGameSave tGamesaveToUse = NWDGameSave.CurrentForAccount(sRelationship.PublisherReference.GetReference());
-            return NEW_FirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
+            return FindFirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
@@ -1147,7 +1147,7 @@ namespace NetWorkedData
                 return new K[0];
             }
             NWDGameSave tGamesaveToUse = NWDGameSave.CurrentForAccount(sRelationship.PublisherReference.GetReference());
-            return NEWFindDatasByInternalKey(sInternalKey, false, NWDWritingMode.MainThread,sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
+            return FindDatasByInternalKey(sInternalKey, false, NWDWritingMode.MainThread,sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used

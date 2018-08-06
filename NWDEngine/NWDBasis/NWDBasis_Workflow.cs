@@ -49,14 +49,14 @@ namespace NetWorkedData
         //        //-------------------------------------------------------------------------------------------------------------
         //#endif
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] NEW_GetAllDatasInCurrentSaveGame()
-        {
-            return NEW_FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference,NWDGameSave.Current());
-        }
+        //public static K[] NEW_GetAllDatasInCurrentSaveGame()
+        //{
+        //    return FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] NEW_GetAllDatasAccount()
+        public static K[] FindDatas()
         {
-            return NEW_FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());
+            return FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllObjects(string sAccountReference = null)
@@ -102,7 +102,7 @@ namespace NetWorkedData
         public static K GetFirstData(string sAccountReference = null, NWDGameSave sGameSave = null)
         {
             K rReturn = null;
-            K[] rDatas = NEW_FindDatas(sAccountReference, sGameSave);
+            K[] rDatas = FindDatas(sAccountReference, sGameSave);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
@@ -128,7 +128,7 @@ namespace NetWorkedData
         public static K[] TrashAllObjects(string sAccountReference = null)
         {
             List<K> rReturn = new List<K>();
-            foreach (K tObject in NWDBasis<K>.NEW_FindDatas(sAccountReference))
+            foreach (K tObject in NWDBasis<K>.FindDatas(sAccountReference))
             {
                 tObject.TrashData();
                 rReturn.Add(tObject);

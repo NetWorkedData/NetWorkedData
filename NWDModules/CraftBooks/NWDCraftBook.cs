@@ -328,7 +328,7 @@ namespace NetWorkedData
         /// <param name="sItemB">S item b.</param>
         public static NWDCraftBook GetFirstCraftBookCollision(NWDItem sItemA, NWDItem sItemB)
         {
-            Debug.Log("GetFirstCraftBookCollision NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_FindDatas().Length);
+            Debug.Log("GetFirstCraftBookCollision NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
             NWDCraftBook tCraftBook = null;
             NWDItemGroup[] tGroupA = sItemA.ItemGroupList.GetObjects();
             NWDItemGroup[] tGroupB = sItemB.ItemGroupList.GetObjects();
@@ -379,7 +379,7 @@ namespace NetWorkedData
         /// <param name="sItemGroupIngredient">S item group ingredient.</param>
         public static NWDCraftBook GetFirstCraftBookFor(NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {
-            Debug.Log("GetFirstCraftBookFor NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_FindDatas().Length);
+            Debug.Log("GetFirstCraftBookFor NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
             NWDCraftBook tCraftBook = null;
             string tRecipientValue = "";
             bool tOrdered = true;
@@ -388,7 +388,7 @@ namespace NetWorkedData
             string tAssemblyB = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToStringSorted();
             string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
             string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-            foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
+            foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
             {
                 if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                 {
@@ -416,7 +416,7 @@ namespace NetWorkedData
         /// <param name="sItemGroupIngredientList">S item group ingredient list.</param>
         public static NWDCraftBook[] GetCraftBookWithRecipients(NWDReferencesListType<NWDRecipientGroup> sRecipientGroup, List<NWDReferencesArrayType<NWDItemGroup>> sItemGroupIngredientList)
         {
-            Debug.Log("GetCraftBookWithRecipients NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.NEW_FindDatas().Length);
+            Debug.Log("GetCraftBookWithRecipients NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
             NWDCraftBook tReturnPrimary = null;
             NWDRecipientGroup tReturnRecipient = null;
             NWDReferencesArrayType<NWDItemGroup> tItemsGroupUsed = new NWDReferencesArrayType<NWDItemGroup>();
@@ -447,7 +447,7 @@ namespace NetWorkedData
                 }
                 foreach (string tRecipientValue in tRecipientsArray)
                 {
-                    NWDRecipientGroup tRecipient = NWDRecipientGroup.NEW_GetDataAccountByReference(tRecipientValue);
+                    NWDRecipientGroup tRecipient = NWDRecipientGroup.FindDataByReference(tRecipientValue);
 
 
                     if (tRecipient != null)
@@ -469,7 +469,7 @@ namespace NetWorkedData
 
                                 Debug.Log("GetCraftBookWithRecipients search for tRecipient " + tRecipient.InternalKey + " Craft !!!only max!!! with " + sItemGroupIngredient.ToString() + "  => hash " + tRecipeHashA + " or " + tRecipeHashB);
 
-                                foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
+                                foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
                                 {
                                     if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                                     {
@@ -499,7 +499,7 @@ namespace NetWorkedData
 
                                 Debug.Log("GetCraftBookWithRecipients search for tRecipient " + tRecipient.InternalKey + " Craft with " + sItemGroupIngredient.ToString() + "  => hash " + tRecipeHashA + " or " + tRecipeHashB);
 
-                                foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
+                                foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
                                 {
                                     if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                                     {
@@ -542,7 +542,7 @@ namespace NetWorkedData
                 // I check all possibilities in rest of recipeint element by element (destructive mode?)
                 foreach (string tRecipientValue in tRecipientsArray)
                 {
-                    NWDRecipientGroup tRecipient = NWDRecipientGroup.NEW_GetDataAccountByReference(tRecipientValue);
+                    NWDRecipientGroup tRecipient = NWDRecipientGroup.FindDataByReference(tRecipientValue);
                     if (tRecipient.CraftUnUsedElements == true)
                     {
 
@@ -557,7 +557,7 @@ namespace NetWorkedData
                             string tAssemblyB = tOrdered.ToString() + tRecipient + tItemReference;
                             string tRecipeHashA = BTBSecurityTools.GenerateSha(tAssemblyA, BTBSecurityShaTypeEnum.Sha1);
                             string tRecipeHashB = BTBSecurityTools.GenerateSha(tAssemblyB, BTBSecurityShaTypeEnum.Sha1);
-                            foreach (NWDCraftBook tCraft in NWDCraftBook.NEW_FindDatas())
+                            foreach (NWDCraftBook tCraft in NWDCraftBook.FindDatas())
                             {
                                 if (tCraft.RecipeHash == tRecipeHashA || tCraft.RecipeHash == tRecipeHashB)
                                 {

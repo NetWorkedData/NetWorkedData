@@ -126,7 +126,7 @@ namespace NetWorkedData
             NWDRelationshipInformations rRelationshipInformations = null;
             if (sRelationship != null)
             {
-                foreach (NWDRelationshipInformations tRelationInfo in NEW_FindDatas())
+                foreach (NWDRelationshipInformations tRelationInfo in FindDatas())
                 {
                     if (tRelationInfo.Relationship.GetObject() == sRelationship)
                     {

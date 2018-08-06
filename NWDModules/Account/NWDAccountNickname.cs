@@ -160,7 +160,7 @@ namespace NetWorkedData
         public static string GetNickname()
         {
             string rNickname = "";
-            NWDAccountNickname[] tNickname = NEW_GetAllDatasAccount();
+            NWDAccountNickname[] tNickname = FindDatas();
             if (tNickname.Length > 0)
             {
                 rNickname = tNickname[0].Nickname;
@@ -171,7 +171,7 @@ namespace NetWorkedData
         public static string GetUniqueNickname()
         {
             string rUniqueNickname = "";
-            NWDAccountNickname[] tNickname = NEW_GetAllDatasAccount();
+            NWDAccountNickname[] tNickname = FindDatas();
             if (tNickname.Length > 0)
             {
                 rUniqueNickname = tNickname[0].UniqueNickname;

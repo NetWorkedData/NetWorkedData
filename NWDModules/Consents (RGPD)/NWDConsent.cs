@@ -132,7 +132,7 @@ namespace NetWorkedData
         {
             List<NWDConsent> rList = new List<NWDConsent>();
             Dictionary<string, NWDConsent> tDico = new Dictionary<string, NWDConsent>();
-            NWDConsent[] tConsentList = NWDConsent.NEW_FindDatas();
+            NWDConsent[] tConsentList = NWDConsent.FindDatas();
             foreach (NWDConsent tConsent in tConsentList)
             {
                 if (tDico.ContainsKey(tConsent.KeyOfConsent) == false)
@@ -283,7 +283,7 @@ namespace NetWorkedData
                         sDefault = sText;
                     }
 
-                    NWDConsent tObject = NEW_FirstDatasByInternalKey(sText, true) as NWDConsent;
+                    NWDConsent tObject = FindFirstDatasByInternalKey(sText, true) as NWDConsent;
                     if (tObject != null)
                     {
                         // Title

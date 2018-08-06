@@ -478,10 +478,10 @@ namespace NetWorkedData
         //public List<string> DatasInEditorRowDescriptionList = new List<string>();
         //public List<bool> DatasInEditorSelectionList = new List<bool>();
 
-        public Dictionary<string, string> NEW_EditorDatasMenu = new Dictionary<string, string>(); // reference/desciption for menu <REF>
+        public Dictionary<string, string> EditorDatasMenu = new Dictionary<string, string>(); // reference/desciption for menu <REF>
 
-        public List<NWDTypeClass> NEW_EditorTableDatas = new List<NWDTypeClass>(); // NWDTypeClass
-        public Dictionary<NWDTypeClass, bool> NEW_EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+        public List<NWDTypeClass> EditorTableDatas = new List<NWDTypeClass>(); // NWDTypeClass
+        public Dictionary<NWDTypeClass, bool> EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
 #endif
         // TODO Futur 
 
@@ -507,12 +507,12 @@ namespace NetWorkedData
             //DatasInEditorSelectionList = new List<bool>();
             //DatasInEditorReferenceList = new List<string>();
 
-            NEW_EditorTableDatas = new List<NWDTypeClass>();
-            NEW_EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+            EditorTableDatas = new List<NWDTypeClass>();
+            EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
 
             // use in pop menu in edition of NWD inspector...
-            NEW_EditorDatasMenu = new Dictionary<string, string>();
-            NEW_EditorDatasMenu.Add("---", "");
+            EditorDatasMenu = new Dictionary<string, string>();
+            EditorDatasMenu.Add("---", "");
 #endif
             //BTBBenchmark.Finish();
         }
@@ -628,17 +628,17 @@ namespace NetWorkedData
 
 
             /*NEW*/
-            if (NEW_EditorTableDatas.Contains(sData) == false)
+            if (EditorTableDatas.Contains(sData) == false)
             {
-                NEW_EditorTableDatas.Add(sData);
+                EditorTableDatas.Add(sData);
             }
-            if (NEW_EditorTableDatasSelected.ContainsKey(sData) == false)
+            if (EditorTableDatasSelected.ContainsKey(sData) == false)
             {
-                NEW_EditorTableDatasSelected.Add(sData, false);
+                EditorTableDatasSelected.Add(sData, false);
             }
-            if (NEW_EditorDatasMenu.ContainsKey(sData.ReferenceUsedValue()) == false)
+            if (EditorDatasMenu.ContainsKey(sData.ReferenceUsedValue()) == false)
             {
-                NEW_EditorDatasMenu.Add(sData.ReferenceUsedValue(), sData.DatasMenu());
+                EditorDatasMenu.Add(sData.ReferenceUsedValue(), sData.DatasMenu());
             }
             /*NEW*/
 
@@ -714,17 +714,17 @@ namespace NetWorkedData
             //DatasInEditorSelectionList.RemoveAt(tIndex);
 
             /*NEW*/
-            if (NEW_EditorTableDatas.Contains(sData) == true)
+            if (EditorTableDatas.Contains(sData) == true)
             {
-                NEW_EditorTableDatas.Remove(sData);
+                EditorTableDatas.Remove(sData);
             }
-            if (NEW_EditorTableDatasSelected.ContainsKey(sData) == true)
+            if (EditorTableDatasSelected.ContainsKey(sData) == true)
             {
-                NEW_EditorTableDatasSelected.Remove(sData);
+                EditorTableDatasSelected.Remove(sData);
             }
-            if (NEW_EditorDatasMenu.ContainsKey(tReference) == true)
+            if (EditorDatasMenu.ContainsKey(tReference) == true)
             {
-                NEW_EditorDatasMenu.Remove(tReference);
+                EditorDatasMenu.Remove(tReference);
             }
             /*NEW*/
 #endif
@@ -761,7 +761,11 @@ namespace NetWorkedData
             //Debug.Log("NWDDatas UpdateData()");
             string tReference = sData.ReferenceUsedValue();
             string tInternalKey = sData.InternalKeyValue();
-            string tOldInternalKey = DatasByReverseInternalKey[sData];
+            string tOldInternalKey = "";
+            if (DatasByReverseInternalKey.ContainsKey(sData))
+            {
+                tOldInternalKey = DatasByReverseInternalKey[sData];
+            }
             if (tOldInternalKey != tInternalKey)
             {
                 int tIndex = Datas.IndexOf(sData);
@@ -774,7 +778,10 @@ namespace NetWorkedData
                         DatasByInternalKey.Remove(tOldInternalKey);
                     }
                 }
-                DatasByReverseInternalKey.Remove(sData);
+                if (DatasByReverseInternalKey.ContainsKey(sData))
+                {
+                    DatasByReverseInternalKey.Remove(sData);
+                }
                 // add internal Key in list
                 if (DatasByInternalKey.ContainsKey(tInternalKey) == true)
                 {
@@ -819,17 +826,17 @@ namespace NetWorkedData
             //}
 
             /*NEW*/
-            if (NEW_EditorTableDatas.Contains(sData) == true)
+            if (EditorTableDatas.Contains(sData) == true)
             {
                 // nothing ... 
             }
-            if (NEW_EditorTableDatasSelected.ContainsKey(sData) == true)
+            if (EditorTableDatasSelected.ContainsKey(sData) == true)
             {
 
             }
-            if (NEW_EditorDatasMenu.ContainsKey(tReference) == true)
+            if (EditorDatasMenu.ContainsKey(tReference) == true)
             {
-                NEW_EditorDatasMenu[sData.ReferenceUsedValue()] = sData.DatasMenu();
+                EditorDatasMenu[sData.ReferenceUsedValue()] = sData.DatasMenu();
             }
             /*NEW*/
 #endif
@@ -1180,9 +1187,9 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        public static Dictionary<string, string> NEW_EditorDatasMenu()
+        public static Dictionary<string, string> EditorDatasMenu()
         {
-            return Datas().NEW_EditorDatasMenu;
+            return Datas().EditorDatasMenu;
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
@@ -1215,7 +1222,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The get data by reference.</returns>
         /// <param name="sReference">S reference.</param>
-        public static K NEW_GetDataByReference(string sReference)
+        public static K GetDataByReference(string sReference)
         {
             K rReturn = null;
             if (Datas().DatasByReference.ContainsKey(sReference))
@@ -1230,7 +1237,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The get data by reference.</returns>
         /// <param name="sReference">S reference.</param>
-        public static K NEW_GetDataAccountByReference(string sReference, string sAccountReference = null)
+        public static K FindDataByReference(string sReference, string sAccountReference = null)
         {
             K rReturn = null;
             if (string.IsNullOrEmpty(sAccountReference))
@@ -1250,7 +1257,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // ANCIEN GetAllObjects()
-        public static K[] NEW_FindDatas(string sAccountReference = null, // use default account
+        public static K[] FindDatas(string sAccountReference = null, // use default account
                                 NWDGameSave sGameSave = null, // use default gamesave
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
                                 NWDSwitchEnable sEnable = NWDSwitchEnable.Enable,
@@ -1259,12 +1266,12 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             //Debug.Log("Datas() Datas count = " + Datas().Datas.Count);
-            K[] rReturn = NEW_FilterDatas(Datas().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rReturn = FilterDatas(Datas().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] NEW_FilterDatas(List<NWDTypeClass> sDatasArray,
+        private static K[] FilterDatas(List<NWDTypeClass> sDatasArray,
                                 string sAccountReference = null, // use default account
                                 NWDGameSave sGameSave = null,// use default gamesave
                                 NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
@@ -1409,7 +1416,7 @@ namespace NetWorkedData
             return rList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K NEW_FirstDatasByInternalKey(
+        public static K FindFirstDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
                                         NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
@@ -1421,7 +1428,7 @@ namespace NetWorkedData
                                        )
         {
             K rReturn = null;
-            K[] rDatas = NEWFindDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rDatas = FindDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (rDatas.Length > 0)
             {
                 rReturn = rDatas[0];
@@ -1429,7 +1436,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static K[] NEWFindDatasByInternalKey(
+        public static K[] FindDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
                                         NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
@@ -1446,7 +1453,7 @@ namespace NetWorkedData
                 tTestList.AddRange(Datas().DatasByInternalKey[sInternalKey]);
             }
 
-            K[] rArray = NEW_FilterDatas(tTestList, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rArray = FilterDatas(tTestList, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
                 if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)

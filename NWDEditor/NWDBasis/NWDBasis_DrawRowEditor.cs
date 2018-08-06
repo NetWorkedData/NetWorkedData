@@ -121,7 +121,7 @@ namespace NetWorkedData
 				if (sSelectAndClick==true) {
 					if (XX == 0 && TestIntegrity ()) {
                         //Datas().DatasInEditorSelectionList[tIndex] = !Datas().DatasInEditorSelectionList [tIndex];
-                        Datas().NEW_EditorTableDatasSelected[this] = !Datas().NEW_EditorTableDatasSelected[this];
+                        Datas().EditorTableDatasSelected[this] = !Datas().EditorTableDatasSelected[this];
                         Event.current.Use ();
 					}
 				}
@@ -171,7 +171,7 @@ namespace NetWorkedData
                 if (TestIntegrity() == false)
                 {
                     EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorError);
-                    Datas().NEW_EditorTableDatasSelected[this] = false;
+                    Datas().EditorTableDatasSelected[this] = false;
                     GUILayout.Label("!!!", GUILayout.Width(NWDConstants.kSelectWidth));
                     //sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_ERROR;
                     sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_INTEGRITY_ERROR;
@@ -180,7 +180,7 @@ namespace NetWorkedData
                 else if (XX > 0)
                 {
                     EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorTrash);
-                    Datas().NEW_EditorTableDatasSelected[this] = false;
+                    Datas().EditorTableDatasSelected[this] = false;
                     GUILayout.Label("   ", GUILayout.Width(NWDConstants.kSelectWidth));
                     sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_TRASH;
                     tString = "<color=#444444ff>" + tString + "</color>";
@@ -193,13 +193,13 @@ namespace NetWorkedData
                         sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
                         tString = "<color=#555555ff>" + tString + "</color>";
                     }
-                    Datas().NEW_EditorTableDatasSelected[this] = EditorGUILayout.ToggleLeft("", Datas().NEW_EditorTableDatasSelected[this], GUILayout.Width(NWDConstants.kSelectWidth));
+                    Datas().EditorTableDatasSelected[this] = EditorGUILayout.ToggleLeft("", Datas().EditorTableDatasSelected[this], GUILayout.Width(NWDConstants.kSelectWidth));
                 }
             }
             else
             {
                 EditorGUI.DrawRect(rRectColored, NWDConstants.kRowColorWarning);
-                Datas().NEW_EditorTableDatasSelected[this] = false;
+                Datas().EditorTableDatasSelected[this] = false;
                 GUILayout.Label("!~!", GUILayout.Width(NWDConstants.kSelectWidth));
                 sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_WEBSERVICE_ERROR;
                 tString = "<color=#cc6600ff>" + tString + "</color>";

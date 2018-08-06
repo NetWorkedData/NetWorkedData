@@ -134,7 +134,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDUserOwnership OwnershipForItem("+sItemReference+")");
             NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
+            foreach (NWDUserOwnership tOwnership in FindDatas())
             {
                 //Debug.Log("NWDUserOwnership OwnershipForItem   test " + tOwnership.Reference + " for item " + tOwnership.Item.GetReference());
                 if (tOwnership.Item.GetReference() == sItemReference)
@@ -150,7 +150,7 @@ namespace NetWorkedData
                 //--------------
                 #if UNITY_EDITOR
                 //--------------
-                NWDItem tItem = NWDItem.NEW_GetDataAccountByReference(sItemReference);
+                NWDItem tItem = NWDItem.FindDataByReference(sItemReference);
                 if (tItem != null)
                 {
                     if (tItem.Name != null)
@@ -199,7 +199,7 @@ namespace NetWorkedData
         public static int QuantityForItem(string sItemReference)
         {
             int rQte = 0;
-            foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
+            foreach (NWDUserOwnership tOwnership in FindDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -218,7 +218,7 @@ namespace NetWorkedData
         public static bool OwnershipForItemExists(string sItemReference)
         {
             NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in NEW_FindDatas())
+            foreach (NWDUserOwnership tOwnership in FindDatas())
             {
                 if (tOwnership.Item.GetReference() == sItemReference)
                 {
@@ -456,7 +456,7 @@ namespace NetWorkedData
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
-            NWDItemGroup tItemGroup = NWDItemGroup.NEW_GetDataAccountByReference(sConditional.Reference);
+            NWDItemGroup tItemGroup = NWDItemGroup.FindDataByReference(sConditional.Reference);
             if (tItemGroup != null)
             {
                 rReturn = false;

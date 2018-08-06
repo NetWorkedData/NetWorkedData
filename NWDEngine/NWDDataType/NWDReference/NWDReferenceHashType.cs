@@ -54,7 +54,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public K GetObject ()
 		{
-            return NWDBasis<K>.NEW_GetDataAccountByReference (Value);
+            return NWDBasis<K>.FindDataByReference (Value);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetObject (K sObject)
@@ -85,7 +85,7 @@ namespace NetWorkedData
             tReferenceList.Add(NWDConstants.kFieldSeparatorA);
             tInternalNameList.Add(NWDConstants.kFieldNone);
 
-            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).NEW_EditorDatasMenu.OrderBy(i => i.Value))
+            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i => i.Value))
             {
                 tReferenceList.Add(tKeyValue.Key);
                 tInternalNameList.Add(tKeyValue.Value);

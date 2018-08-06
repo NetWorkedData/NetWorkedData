@@ -208,7 +208,7 @@ namespace NetWorkedData
             List<NWDTransaction> rTransactionList = new List<NWDTransaction>();
 
             // Init all transactions done by the user for selected shop and type
-            NWDTransaction[] tList = NWDTransaction.NEW_GetAllDatasInCurrentSaveGame();
+            NWDTransaction[] tList = NWDTransaction.FindDatas();
             foreach (NWDTransaction transaction in tList)
             {
                 // Verify we are in the right Shop

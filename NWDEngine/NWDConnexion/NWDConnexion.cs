@@ -40,7 +40,7 @@ namespace NetWorkedData
         /// <returns>The object.</returns>
 		public K GetObject ()
 		{
-            return NWDBasis <K>.NEW_GetDataAccountByReference (Reference);
+            return NWDBasis <K>.FindDataByReference (Reference);
 		}
 		//-------------------------------------------------------------------------------------------------------------
         /// <summary>

@@ -161,7 +161,7 @@ namespace NetWorkedData
         /// <param name="sDefault">default value.</param>
         public static string GetLocalText(string sKey, string sDefault = "")
         {
-            NWDLocalization tObject = NEW_FirstDatasByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             string rReturn = sDefault;
             if (tObject != null)
             {
@@ -176,7 +176,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDMultiType GetAnnexeValue(string sKey, string sDefault = "")
         {
-            NWDLocalization tObject = NEW_FirstDatasByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             NWDMultiType rReturn = new NWDMultiType();
             if (tObject != null)
             {
@@ -191,7 +191,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetAnnexeString(string sKey, string sDefault = "")
         {
-            NWDLocalization tObject = NEW_FirstDatasByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             string rReturn = sDefault;
             if (tObject != null)
             {
@@ -206,7 +206,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool GetAnnexeBool(string sKey, bool sDefault = false)
         {
-            NWDLocalization tObject = NEW_FirstDatasByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             bool rReturn = sDefault;
             if (tObject != null)
             {
@@ -221,7 +221,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static float GetAnnexeFloat(string sKey, float sDefault = 0.0f)
         {
-            NWDLocalization tObject = NEW_FirstDatasByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             float rReturn = sDefault;
             if (tObject != null)
             {
@@ -236,7 +236,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static float GetAnnexeInt(string sKey, int sDefault = 0)
         {
-            NWDLocalization tObject = NEW_FirstDatasByInternalKey(sKey, true) as NWDLocalization;
+            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             int rReturn = sDefault;
             if (tObject != null)
             {
@@ -260,7 +260,7 @@ namespace NetWorkedData
                         sDefault = sText.text;
                     }
 
-                    NWDLocalization tObject = NEW_FirstDatasByInternalKey(sText.text, true) as NWDLocalization;
+                    NWDLocalization tObject = FindFirstDatasByInternalKey(sText.text, true) as NWDLocalization;
                     if (tObject != null)
                     {
                         string tText = tObject.TextValue.GetLocalString();

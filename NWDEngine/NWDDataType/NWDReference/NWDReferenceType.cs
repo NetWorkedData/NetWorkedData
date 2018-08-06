@@ -82,12 +82,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObject(string sAccountReference = null)
         {
-            return NWDBasis<K>.NEW_GetDataAccountByReference(Value, sAccountReference) as K;
+            return NWDBasis<K>.FindDataByReference(Value, sAccountReference) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjects(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.NEW_GetDataAccountByReference(Value, sAccountReference) as K;
+            K tObject = NWDBasis<K>.FindDataByReference(Value, sAccountReference) as K;
             if (tObject != null)
             {
                 return new K[] {tObject};
@@ -100,12 +100,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetObjectAbsolute(string sAccountReference = null)
         {
-            return NWDBasis<K>.NEW_GetDataByReference(Value) as K;
+            return NWDBasis<K>.GetDataByReference(Value) as K;
         }
         //-------------------------------------------------------------------------------------------------------------
         public K[] GetObjectsAbsolute(string sAccountReference = null)
         {
-            K tObject = NWDBasis<K>.NEW_GetDataByReference(Value) as K;
+            K tObject = NWDBasis<K>.GetDataByReference(Value) as K;
             if (tObject != null)
             {
                 return new K[] { tObject };
@@ -133,7 +133,7 @@ namespace NetWorkedData
             List<string> rReturn = new List<string>();
             foreach (string tReference in sReferencesList)
             {
-                if (NWDBasis<K>.NEW_GetDataByReference(tReference) == null)
+                if (NWDBasis<K>.GetDataByReference(tReference) == null)
                 {
                     rReturn.Add(tReference);
                 }
@@ -148,7 +148,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
-                if (NWDBasis<K>.NEW_GetDataByReference(Value) == null)
+                if (NWDBasis<K>.GetDataByReference(Value) == null)
                 {
                     rReturn = true;
                 }
@@ -161,7 +161,7 @@ namespace NetWorkedData
             List<K> rReturn = new List<K>();
             if (string.IsNullOrEmpty(Value) == false)
             {
-                K tObj = NWDBasis<K>.NEW_GetDataByReference(Value) as K;
+                K tObj = NWDBasis<K>.GetDataByReference(Value) as K;
                 //if (tObj != null)
                 {
                     rReturn.Add(tObj);
@@ -184,7 +184,7 @@ namespace NetWorkedData
             int tConnection = 0;
             if (Value != null && Value != "")
             {
-                if (NWDBasis<K>.NEW_GetDataByReference(Value) == null)
+                if (NWDBasis<K>.GetDataByReference(Value) == null)
                 {
                     tConnection = 1;
                 }
@@ -223,7 +223,7 @@ namespace NetWorkedData
             bool tConnection = true;
             if (Value != null && Value != "")
             {
-                if (NWDBasis<K>.NEW_GetDataByReference(Value) == null)
+                if (NWDBasis<K>.GetDataByReference(Value) == null)
                 {
                     tConnection = false;
                 }
@@ -235,7 +235,7 @@ namespace NetWorkedData
             tReferenceList.Add(NWDConstants.kFieldSeparatorA);
             tInternalNameList.Add(NWDConstants.kFieldNone);
 
-            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).NEW_EditorDatasMenu.OrderBy(i=> i.Value))
+            foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i=> i.Value))
             {
                 tReferenceList.Add(tKeyValue.Key);
                 tInternalNameList.Add(tKeyValue.Value);
@@ -290,7 +290,7 @@ namespace NetWorkedData
                 GUIContent tDeleteContent = new GUIContent(NWDConstants.kImageTabReduce, "edit");
                 if (GUI.Button(new Rect(tX + tWidth - tEditWidth, tY, tEditWidth, NWDConstants.kPopupButtonStyle.fixedHeight), tDeleteContent, NWDConstants.kPopupButtonStyle))
                 {
-                    NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.NEW_GetDataByReference(tReferenceList.ElementAt(rIndex)), false);
+                    NWDBasis<K>.SetObjectInEdition(NWDBasis<K>.GetDataByReference(tReferenceList.ElementAt(rIndex)), false);
                 }
             }
             else

@@ -35,9 +35,9 @@ namespace NetWorkedData
 
         public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            if (Datas().NEW_EditorTableDatas.Count > 0)
+            if (Datas().EditorTableDatas.Count > 0)
             {
-                K sObject = Datas().NEW_EditorTableDatas.ElementAt(0) as K;
+                K sObject = Datas().EditorTableDatas.ElementAt(0) as K;
                 //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
                 SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
@@ -66,7 +66,7 @@ namespace NetWorkedData
             {
                 if (sClassPHP == Datas().ClassNamePHP)
                 {
-                    K tObj = NWDBasis<K>.NEW_GetDataByReference(sReference);
+                    K tObj = NWDBasis<K>.GetDataByReference(sReference);
                     rObject = tObj;
                 }
             }

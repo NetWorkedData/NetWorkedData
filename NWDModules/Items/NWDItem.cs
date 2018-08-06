@@ -358,7 +358,7 @@ namespace NetWorkedData
         public void CheckMeFromItemGroups()
         {
             List<NWDItemGroup> tActualItemGroup = ItemGroupList.GetObjectsList();
-            foreach (NWDItemGroup tItemGroup in NWDItemGroup.NEW_FindDatas())
+            foreach (NWDItemGroup tItemGroup in NWDItemGroup.FindDatas())
             {
                 if (tActualItemGroup.Contains(tItemGroup))
                 {
@@ -392,7 +392,7 @@ namespace NetWorkedData
         public void CheckMeFromRecipientGroup()
         {
             List<NWDRecipientGroup> tActualRecipient = RecipientGroupList.GetObjectsList();
-            foreach (NWDRecipientGroup tRecipient in NWDRecipientGroup.NEW_FindDatas())
+            foreach (NWDRecipientGroup tRecipient in NWDRecipientGroup.FindDatas())
             {
                 if (tActualRecipient.Contains(tRecipient))
                 {

@@ -44,7 +44,7 @@ namespace NetWorkedData
                 }
                 if (tObject != null)
                 {
-                    if (Datas().NEW_EditorTableDatas.Contains(tObject))
+                    if (Datas().EditorTableDatas.Contains(tObject))
                     {
                         SetObjectInEdition(tObject);
                     }
@@ -56,19 +56,19 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             //Debug.Log("NWDBasis<K> SortEditorTableDatas()");
-            Datas().NEW_EditorTableDatas.Sort((x, y) => string.Compare(x.DatasMenu(), y.DatasMenu(), StringComparison.Ordinal));
+            Datas().EditorTableDatas.Sort((x, y) => string.Compare(x.DatasMenu(), y.DatasMenu(), StringComparison.Ordinal));
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void IntegritySelection()
         {
-            foreach (K tObject in Datas().NEW_EditorTableDatas)
+            foreach (K tObject in Datas().EditorTableDatas)
             {
                 if (tObject.TestIntegrity() == false || tObject.XX > 0)
                 {
-                    if (Datas().NEW_EditorTableDatasSelected.ContainsKey(tObject))
+                    if (Datas().EditorTableDatasSelected.ContainsKey(tObject))
                     {
-                        Datas().NEW_EditorTableDatasSelected[tObject] = false;
+                        Datas().EditorTableDatasSelected[tObject] = false;
                     }
                 }
             }
@@ -77,13 +77,13 @@ namespace NetWorkedData
         public static void SelectAllObjectInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
-                Datas().NEW_EditorTableDatasSelected[tObject]= true;
+                Datas().EditorTableDatasSelected[tObject]= true;
             }
             IntegritySelection();
         }
@@ -91,13 +91,13 @@ namespace NetWorkedData
         public static void DeselectAllObjectInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
-                Datas().NEW_EditorTableDatasSelected[tObject] = false;
+                Datas().EditorTableDatasSelected[tObject] = false;
             }
             IntegritySelection();
         }
@@ -105,13 +105,13 @@ namespace NetWorkedData
         public static void InverseSelectionOfAllObjectInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
-                Datas().NEW_EditorTableDatasSelected[tObject] = !Datas().NEW_EditorTableDatasSelected[tObject];
+                Datas().EditorTableDatasSelected[tObject] = !Datas().EditorTableDatasSelected[tObject];
             }
             IntegritySelection();
         }
@@ -119,14 +119,14 @@ namespace NetWorkedData
         public static void SelectAllObjectEnableInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
                 K tObjectK = tObject as K;
-                Datas().NEW_EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
+                Datas().EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
             }
             IntegritySelection();
         }
@@ -134,14 +134,14 @@ namespace NetWorkedData
         public static void SelectAllObjectDisableInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
                 K tObjectK = tObject as K;
-                Datas().NEW_EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
+                Datas().EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
             }
             IntegritySelection();
         }
@@ -314,8 +314,8 @@ namespace NetWorkedData
             //Debug.Log("FilterTableEditor()");
 
 
-            Datas().NEW_EditorTableDatas = new List<NWDTypeClass>();
-            Datas().NEW_EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+            Datas().EditorTableDatas = new List<NWDTypeClass>();
+            Datas().EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
 
             foreach (K tObject in Datas().Datas)
             {
@@ -384,13 +384,13 @@ namespace NetWorkedData
                 }
                 if (tOccurence == true)
                 {
-                    if (Datas().NEW_EditorTableDatas.Contains(tObject) == false)
+                    if (Datas().EditorTableDatas.Contains(tObject) == false)
                     {
-                        Datas().NEW_EditorTableDatas.Add(tObject);
+                        Datas().EditorTableDatas.Add(tObject);
                     }
-                    if (Datas().NEW_EditorTableDatasSelected.ContainsKey(tObject) == false)
+                    if (Datas().EditorTableDatasSelected.ContainsKey(tObject) == false)
                     {
-                        Datas().NEW_EditorTableDatasSelected.Add(tObject, false);
+                        Datas().EditorTableDatasSelected.Add(tObject, false);
                     }
                 }
             }
@@ -481,11 +481,11 @@ namespace NetWorkedData
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             Datas().m_ItemPerPage = int.Parse(Datas().m_ItemPerPageOptions[Datas().m_ItemPerPageSelection]);
-            float tNumberOfPage = Datas().NEW_EditorTableDatas.Count / Datas().m_ItemPerPage;
+            float tNumberOfPage = Datas().EditorTableDatas.Count / Datas().m_ItemPerPage;
             int tPagesExpected = (int)Math.Floor(tNumberOfPage);
             if (tPagesExpected != 0)
             {
-                if (Datas().NEW_EditorTableDatas.Count % (tPagesExpected * Datas().m_ItemPerPage) != 0)
+                if (Datas().EditorTableDatas.Count % (tPagesExpected * Datas().m_ItemPerPage) != 0)
                 {
                     tPagesExpected++;
                 }
@@ -575,7 +575,7 @@ namespace NetWorkedData
             tReferenceList.Add("");
             tInternalNameList.Add(NWDConstants.kFieldNone);
 
-            foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.Datas().NEW_EditorDatasMenu.OrderBy(i => i.Value))
+            foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.Datas().EditorDatasMenu.OrderBy(i => i.Value))
             {
                 tReferenceList.Add(tKeyValue.Key);
                 tInternalNameList.Add(tKeyValue.Value);
@@ -604,7 +604,7 @@ namespace NetWorkedData
             tReferenceSaveList.Add("");
             tInternalNameSaveList.Add(NWDConstants.kFieldNone);
 
-            foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.Datas().NEW_EditorDatasMenu.OrderBy(i => i.Value))
+            foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.Datas().EditorDatasMenu.OrderBy(i => i.Value))
             {
                 tReferenceSaveList.Add(tKeyValue.Key);
                 tInternalNameSaveList.Add(tKeyValue.Value);
@@ -754,7 +754,7 @@ namespace NetWorkedData
                 GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
             }
 
-            int tResultReference = Datas().NEW_EditorTableDatas.Count;
+            int tResultReference = Datas().EditorTableDatas.Count;
             if (tResultReference == 0)
             {
                 GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
@@ -849,7 +849,7 @@ namespace NetWorkedData
                             if (tSelected.XX == 0 && tSelected.TestIntegrity())
                             {
                                 //int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
-                                Datas().NEW_EditorTableDatasSelected[tSelected] = !Datas().NEW_EditorTableDatasSelected[tSelected];
+                                Datas().EditorTableDatasSelected[tSelected] = !Datas().EditorTableDatasSelected[tSelected];
                                 Event.current.Use();
                             }
                         }
@@ -863,12 +863,12 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (Datas().NEW_EditorTableDatas.Contains(tSelected))
+                        if (Datas().EditorTableDatas.Contains(tSelected))
                         {
-                            int tIndexSelected = Datas().NEW_EditorTableDatas.IndexOf(tSelected);
-                            if (tIndexSelected < Datas().NEW_EditorTableDatas.Count - 1)
+                            int tIndexSelected = Datas().EditorTableDatas.IndexOf(tSelected);
+                            if (tIndexSelected < Datas().EditorTableDatas.Count - 1)
                             {
-                                K tNextSelected = Datas().NEW_EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
+                                K tNextSelected = Datas().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
                                 SetObjectInEdition(tNextSelected);
                                 float tNumberPage = (tIndexSelected + 1) / Datas().m_ItemPerPage;
                                 int tPageExpected = (int)Math.Floor(tNumberPage);
@@ -891,12 +891,12 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (Datas().NEW_EditorTableDatas.Contains(tSelected))
+                        if (Datas().EditorTableDatas.Contains(tSelected))
                         {
-                            int tIndexSelected = Datas().NEW_EditorTableDatas.IndexOf(tSelected);
+                            int tIndexSelected = Datas().EditorTableDatas.IndexOf(tSelected);
                             if (tIndexSelected > 0)
                             {
-                                K tNextSelected = Datas().NEW_EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
+                                K tNextSelected = Datas().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
                                 float tNumberPage = (tIndexSelected - 1) / Datas().m_ItemPerPage;
                                 int tPageExpected = (int)Math.Floor(tNumberPage);
                                 Datas().m_PageSelected = tPageExpected;
@@ -911,7 +911,7 @@ namespace NetWorkedData
                     }
                 }
 
-                float tNumberOfPage = Datas().NEW_EditorTableDatas.Count / Datas().m_ItemPerPage;
+                float tNumberOfPage = Datas().EditorTableDatas.Count / Datas().m_ItemPerPage;
                 int tPagesExpected = (int)Math.Floor(tNumberOfPage);
 
                 // TODO: add instruction in tab view
@@ -923,9 +923,9 @@ namespace NetWorkedData
                         Datas().m_PageSelected++;
                         // TODO : reselect first object
                         int tIndexSel = Datas().m_ItemPerPage * Datas().m_PageSelected;
-                        if (tIndexSel < Datas().NEW_EditorTableDatas.Count)
+                        if (tIndexSel < Datas().EditorTableDatas.Count)
                         {
-                            K tNextSelected = Datas().NEW_EditorTableDatas.ElementAt(tIndexSel) as K;
+                            K tNextSelected = Datas().EditorTableDatas.ElementAt(tIndexSel) as K;
                             SetObjectInEdition(tNextSelected);
                             Event.current.Use();
                             sEditorWindow.Focus();
@@ -945,7 +945,7 @@ namespace NetWorkedData
                     {
                         Datas().m_PageSelected--;
                         // TODO : reselect first object
-                        K tNextSelected = Datas().NEW_EditorTableDatas.ElementAt(Datas().m_ItemPerPage * Datas().m_PageSelected)as K;
+                        K tNextSelected = Datas().EditorTableDatas.ElementAt(Datas().m_ItemPerPage * Datas().m_PageSelected)as K;
                         SetObjectInEdition(tNextSelected);
                         Event.current.Use();
                         sEditorWindow.Focus();
@@ -968,9 +968,9 @@ namespace NetWorkedData
                 for (int i = 0; i < Datas().m_ItemPerPage; i++)
                 {
                     int tItemIndexInPage = Datas().m_ItemPerPage * Datas().m_PageSelected + i;
-                    if (tItemIndexInPage < Datas().NEW_EditorTableDatas.Count)
+                    if (tItemIndexInPage < Datas().EditorTableDatas.Count)
                     {
-                        K tObject = Datas().NEW_EditorTableDatas.ElementAt(tItemIndexInPage) as K;
+                        K tObject = Datas().EditorTableDatas.ElementAt(tItemIndexInPage) as K;
                         tObject.DrawRowInEditor(tMousePosition, sEditorWindow, tSelectAndClick);
                     }
                 }
@@ -998,8 +998,8 @@ namespace NetWorkedData
             //			GUILayout.Label ("Management", EditorStyles.boldLabel);
 
             int tSelectionCount = 0;
-            int tActualItems = Datas().NEW_EditorTableDatas.Count;
-            foreach (KeyValuePair<NWDTypeClass,bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+            int tActualItems = Datas().EditorTableDatas.Count;
+            foreach (KeyValuePair<NWDTypeClass,bool> tKeyValue in Datas().EditorTableDatasSelected)
             {
                 if (tKeyValue.Value == true)
                 {
@@ -1073,7 +1073,7 @@ namespace NetWorkedData
 
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_REACTIVE, EditorStyles.miniButton))
             {
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                 {
                     if (tKeyValue.Value == true)
                     {
@@ -1085,7 +1085,7 @@ namespace NetWorkedData
 
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_DISACTIVE, EditorStyles.miniButton))
             {
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                 {
                     if (tKeyValue.Value == true)
                     {
@@ -1100,7 +1100,7 @@ namespace NetWorkedData
                 NWDBasis<K> tNextObjectSelected = null;
                 int tNewData = 0;
                 List<K> tListToUse = new List<K>();
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                 {
                     if (tKeyValue.Value == true)
                     {
@@ -1125,7 +1125,7 @@ namespace NetWorkedData
 
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton))
             {
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                 {
                     if (tKeyValue.Value == true)
                     {
@@ -1589,7 +1589,7 @@ namespace NetWorkedData
                 {
 
                     List<object> tListToDelete = new List<object>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -1633,7 +1633,7 @@ namespace NetWorkedData
                 {
 
                     List<object> tListToTrash = new List<object>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().NEW_EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -1755,7 +1755,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void PrepareToPreprodPublish()
         {
-            foreach (K tOb in Datas().NEW_EditorTableDatas)
+            foreach (K tOb in Datas().EditorTableDatas)
                 {
                 if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
                     {
@@ -1767,7 +1767,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void PrepareToProdPublish()
         {
-            foreach (NWDTypeClass tData in Datas().NEW_EditorTableDatas)
+            foreach (NWDTypeClass tData in Datas().EditorTableDatas)
             {
                 K tObject = tData as K;
                 if (tObject.PreprodSync == 0)
@@ -1791,7 +1791,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ProtectInDev()
         {
-            foreach (NWDTypeClass tData in Datas().NEW_EditorTableDatas)
+            foreach (NWDTypeClass tData in Datas().EditorTableDatas)
             {
                 K tObject = tData as K;
                 if (tObject.PreprodSync == 0)

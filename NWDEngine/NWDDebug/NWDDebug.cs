@@ -18,7 +18,7 @@ namespace NetWorkedData
         /// <summary>
         /// Active or not the log.
         /// </summary>
-        public static bool Active = true;
+        public static bool Active = false;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Log the specified sString.

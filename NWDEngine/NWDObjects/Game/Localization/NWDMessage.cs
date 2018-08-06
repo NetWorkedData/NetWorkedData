@@ -137,7 +137,7 @@ namespace NetWorkedData
         public static NWDMessage GetMessageWithCode(string sCode)
         {
             NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.NEW_FindDatas())
+            foreach (NWDMessage tObject in NWDMessage.FindDatas())
             {
                 if (tObject.Code == sCode)
                 {
@@ -151,7 +151,7 @@ namespace NetWorkedData
         public static NWDMessage GetMessageWithDomainAndCode(string sDomain, string sCode)
         {
             NWDMessage rReturn = null;
-            foreach (NWDMessage tObject in NWDMessage.NEW_FindDatas())
+            foreach (NWDMessage tObject in NWDMessage.FindDatas())
             {
                 if (tObject.Code == sCode && tObject.Domain == sDomain)
                 {
@@ -182,7 +182,7 @@ namespace NetWorkedData
         {
             string tReference = "MES-" + sDomain + "-" + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDMessage tError = NWDMessage.NEW_GetDataByReference(tReference);
+            NWDMessage tError = NWDMessage.GetDataByReference(tReference);
             //NWDMessage tError = InstanceByReference(tReference) as NWDMessage;
             if (tError == null)
             {

@@ -160,7 +160,7 @@ namespace NetWorkedData
         {
              //Debug.Log("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV(sDataArray);
-            NWDBasis<K> tObject = NEW_GetDataByReference(tReference);
+            NWDBasis<K> tObject = GetDataByReference(tReference);
             if (tObject == null)
             {
                 //Debug.Log("SynchronizationTryToUse () NEW DATA");

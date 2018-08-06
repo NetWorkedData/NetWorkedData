@@ -133,7 +133,7 @@ namespace NetWorkedData
         public static NWDError GetErrorWithCode(string sCode)
         {
             NWDError rReturn = null;
-            foreach (NWDError tObject in NWDError.NEW_FindDatas())
+            foreach (NWDError tObject in NWDError.FindDatas())
             {
                 if (tObject.Code == sCode)
                 {
@@ -147,7 +147,7 @@ namespace NetWorkedData
         public static NWDError GetErrorWithDomainAndCode(string sDomain, string sCode)
         {
             NWDError rReturn = null;
-            foreach (NWDError tObject in NWDError.NEW_FindDatas())
+            foreach (NWDError tObject in NWDError.FindDatas())
             {
                 if (tObject.Code == sCode && tObject.Domain == sDomain)
                 {
@@ -188,7 +188,7 @@ namespace NetWorkedData
         {
             string tReference = "ERR-" + sDomain + "-" + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
-            NWDError tError = NWDError.NEW_GetDataByReference(tReference);
+            NWDError tError = NWDError.GetDataByReference(tReference);
             if (tError != null && tError.IsTrashed())
             {
                 tError = null;
