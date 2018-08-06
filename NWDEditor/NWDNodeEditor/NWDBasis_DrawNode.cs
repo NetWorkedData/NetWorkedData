@@ -84,8 +84,8 @@ namespace NetWorkedData
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
                                     || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferenceConditionalType<>)
 
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
-                                    || tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesAverageType<>)
+                                    //|| tTypeOfThis.GetGenericTypeDefinition() == typeof(AIRReferencesRangeType<>)
 
                                    )
                                 {

@@ -54,6 +54,10 @@ namespace NetWorkedData
         //    return FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());
         //}
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Finds the datas. = ANCIEN GetAllObjects()
+        /// </summary>
+        /// <returns>The datas.</returns>
         public static K[] FindDatas()
         {
             return FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());

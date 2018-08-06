@@ -234,6 +234,10 @@ namespace NetWorkedData
                     }
                 }
             }
+            if (rParty == null && sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+            {
+                rParty = NWDGameSave.NewCurrent();
+            }
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------

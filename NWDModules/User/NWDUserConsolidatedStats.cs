@@ -391,6 +391,7 @@ namespace NetWorkedData
         {
             NWDUserConsolidatedStats rReturn = NWDUserConsolidatedStats.FindFirstDatasByInternalKey(sInternalKey, true);
             rReturn.AddValue(sAddFloat);
+            rReturn.UpdateData();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

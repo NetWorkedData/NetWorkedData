@@ -1428,6 +1428,7 @@ namespace NetWorkedData
                                        )
         {
             K rReturn = null;
+
             K[] rDatas = FindDatasByInternalKey(sInternalKey, sCreateIfNotExists, sWritingMode, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (rDatas.Length > 0)
             {
@@ -1452,19 +1453,46 @@ namespace NetWorkedData
             {
                 tTestList.AddRange(Datas().DatasByInternalKey[sInternalKey]);
             }
+            if (Datas().kAccountDependent)
+            {
+                // autofill sAccountReference if necessary
+                if (string.IsNullOrEmpty(sAccountReference))
+                {
+                    sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                }
+                //Debug.Log("chercher les data pour " + sAccountReference + " ");
+            }
+            if (Datas().ClassGameSaveDependent)
+            {
+                if (sGameSave == null)
+                {
+                    sGameSave = NWDGameSave.CurrentForAccount(sAccountReference);
+                }
+                //Debug.Log("chercher les data pour " + sAccountReference + " Dans la gamesave " + sGameSave.Reference);
+            }
 
             K[] rArray = FilterDatas(tTestList, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
+                //Debug.Log(" must create object !");
                 if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
                 {
                     if (sGameSave == NWDGameSave.Current())
                     {
+                        //Debug.Log("Creat Ok");
                         K rReturn = NewData(sWritingMode);
                         rReturn.InternalKey = sInternalKey;
                         rReturn.UpdateData(true, sWritingMode);
                         rArray = new K[1] { rReturn };
                     }
+                    else
+                    {
+                        Debug.Log("create not mpossinble in another gamesave!");
+                    }
+                }
+                else
+                {
+                    Debug.Log("create not possible with another account!");
                 }
             }
             return rArray;
