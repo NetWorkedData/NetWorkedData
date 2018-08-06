@@ -4,6 +4,7 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+using System;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -100,10 +101,24 @@ namespace NetWorkedData
                 {
                     NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
                 }
-                //if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT))
-                //{
-                //    NWDDataInspector.InspectNetWorkedData(tAccount, true, true);
-                //}
+                if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+                {
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                    {
+                        NWDDatas.FindTypeInfos(tType).m_SearchAccount = tAccount.Reference;
+                    }
+                }
+                string tGameSaveReference = NWDGameSave.CurrentForAccount(tAccount.Reference).Reference;
+                EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
+
+                if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+                {
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                    {
+                        NWDDatas.FindTypeInfos(tType).m_SearchGameSave = tAccount.Reference;
+                    }
+                }
+            
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------
