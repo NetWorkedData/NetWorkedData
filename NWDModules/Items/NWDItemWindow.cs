@@ -18,9 +18,9 @@ namespace NetWorkedData
         "Items Edition",
         "NWDIcons_02",
         new Type[] {
-            typeof(NWDItemGroup),
             typeof(NWDItem),
-            typeof(NWDItemProperty), 
+            typeof(NWDItemProperty),
+            typeof(NWDItemGroup),
 			/* Add NWDBasis here*/
 		}
     )]

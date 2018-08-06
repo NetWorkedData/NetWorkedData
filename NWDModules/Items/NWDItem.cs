@@ -452,11 +452,11 @@ namespace NetWorkedData
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
 
-            NWDUserOwnership tOwnership = NWDUserOwnership.OwnershipForItem(this);
-            if (tOwnership != null)
-            {
-                GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
-                tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            //NWDUserOwnership tOwnership = NWDUserOwnership.OwnershipForItem(this);
+            //if (tOwnership != null)
+            //{
+            //    GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
+            //    tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
                 if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
                 {
@@ -469,7 +469,7 @@ namespace NetWorkedData
                     NWDUserOwnership.AddItemToOwnership(this, -1);
                 }
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            }
+            //}
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
