@@ -49,7 +49,9 @@ namespace NetWorkedData
         public static string kStandardSeparator = "|";
         public static string kStandardSeparatorSubstitute = "@0#";
         //-------------------------------------------------------------------------------------------------------------
-        public static string kFieldNone = "   none   ";
+        public static string kFieldNone = "none";
+        public static string kFieldEmpty = "empty";
+        public static string kFieldNotEmpty = "not empty";
         public static string kFieldSeparatorA = "•";
         public static string kFieldSeparatorB = ":";
         public static string kFieldSeparatorC = "_";

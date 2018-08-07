@@ -340,17 +340,51 @@ namespace NetWorkedData
 
                 if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
                 {
-                    if(tObject.VisibleByAccount(Datas().m_SearchAccount) == false)
+                    if (Datas().m_SearchAccount == "-=-") // empty
                     {
-                        tOccurence = false;
+                        if (tObject.VisibleByAccountByEqual("") == false)
+                        {
+                            tOccurence = false;
+                        }
+                    }
+                    else if(Datas().m_SearchAccount == "-+-") // not empty
+                    {
+                        if (tObject.VisibleByAccountByEqual("") == true)
+                        {
+                            tOccurence = false;
+                        }
+                    }
+                    else
+                    {
+                        if (tObject.VisibleByAccount(Datas().m_SearchAccount) == false)
+                        {
+                            tOccurence = false;
+                        }
                     }
                 }
 
                 if (string.IsNullOrEmpty(Datas().m_SearchGameSave) == false)
                 {
-                    if (tObject.VisibleByGameSave(Datas().m_SearchGameSave) == false)
+                    if (Datas().m_SearchGameSave == "-=-")
                     {
-                        tOccurence = false;
+                        if (tObject.VisibleByGameSave("") == false)
+                        {
+                            tOccurence = false;
+                        }
+                    }
+                    else if (Datas().m_SearchGameSave == "-+-")
+                    {
+                        if (tObject.VisibleByGameSave("") == true)
+                        {
+                            tOccurence = false;
+                        }
+                    }
+                    else
+                    {
+                        if (tObject.VisibleByGameSave(Datas().m_SearchGameSave) == false)
+                        {
+                            tOccurence = false;
+                        }
                     }
                 }
 
@@ -575,6 +609,15 @@ namespace NetWorkedData
             tReferenceList.Add("");
             tInternalNameList.Add(NWDConstants.kFieldNone);
 
+            tReferenceList.Add("---");
+            tInternalNameList.Add("");
+
+            tReferenceList.Add("-=-");
+            tInternalNameList.Add(NWDConstants.kFieldEmpty);
+
+            tReferenceList.Add("-+-");
+            tInternalNameList.Add(NWDConstants.kFieldNotEmpty);
+
             foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.Datas().EditorDatasMenu.OrderBy(i => i.Value))
             {
                 tReferenceList.Add(tKeyValue.Key);
@@ -603,6 +646,15 @@ namespace NetWorkedData
             List<string> tInternalNameSaveList = new List<string>();
             tReferenceSaveList.Add("");
             tInternalNameSaveList.Add(NWDConstants.kFieldNone);
+
+            tReferenceSaveList.Add("---");
+            tInternalNameSaveList.Add("");
+
+            tReferenceSaveList.Add("-=-");
+            tInternalNameSaveList.Add(NWDConstants.kFieldEmpty);
+
+            tReferenceSaveList.Add("-+-");
+            tInternalNameSaveList.Add(NWDConstants.kFieldNotEmpty);
 
             foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.Datas().EditorDatasMenu.OrderBy(i => i.Value))
             {

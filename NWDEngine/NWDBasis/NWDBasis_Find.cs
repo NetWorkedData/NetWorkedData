@@ -154,6 +154,33 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool VisibleByAccountByEqual(string sAccountReference)
+        {
+            bool rReturn = false;
+            if (AccountDependent())
+            {
+                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                {
+                    var tValue = tInfos.Key.GetValue(this, null);
+                    if (tValue != null)
+                    {
+                        string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                        if (tAccount == sAccountReference)
+                        {
+                            rReturn = true;
+                            break; // I fonud one solution! this user can see this informations
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // non account dependency return acces is true.
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool VisibleByAccount(string sAccountReference)
         {
             bool rReturn = false;
