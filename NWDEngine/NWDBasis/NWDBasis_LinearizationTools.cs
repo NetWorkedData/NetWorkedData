@@ -353,7 +353,10 @@ namespace NetWorkedData
         /// <returns>The instance from CS.</returns>
         /// <param name="sEnvironment">S environment.</param>
         /// <param name="sDataArray">S data array.</param>
-        private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray, string sReference)
+        private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment, 
+                                                  string[] sDataArray, 
+                                                  string sReference, 
+                                                  NWDWritingMode sWritingMode = NWDWritingMode.QueuedMainThread)
         {
             //Debug.Log("NewDataFromWeb ()");
             NWDBasis<K> rReturnObject = null;
@@ -361,11 +364,79 @@ namespace NetWorkedData
             rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
             rReturnObject.InstanceInit();
             rReturnObject.Reference = sReference;
-            rReturnObject.InsertData(false, NWDWritingMode.QueuedMainThread); // PUT IN QUEUE !  because bad values 
-            // Force update with CVS value
-            rReturnObject.FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
-            Datas().UpdateData(rReturnObject);
 
+            rReturnObject.FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
+
+            Datas().AddData(rReturnObject);
+
+            // Verif if Systeme can use the thread (option in Environment)
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
+            {
+                if (sWritingMode == NWDWritingMode.PoolThread)
+                {
+                    sWritingMode = NWDWritingMode.MainThread;
+                }
+                else if (sWritingMode == NWDWritingMode.QueuedPoolThread)
+                {
+                    sWritingMode = NWDWritingMode.QueuedMainThread;
+                }
+            }
+            // Compare with actual State of object and force to follow the actual state
+            // We can only insert free object
+            if (rReturnObject.WritingState == NWDWritingState.Free)
+            {
+                switch (rReturnObject.WritingState)
+                {
+                    case NWDWritingState.Free:
+                        // ok you can change the mode
+                        break;
+                    case NWDWritingState.MainThread:
+                        // strange ... not possible.
+                        break;
+                    case NWDWritingState.MainThreadInQueue:
+                        // you can use only this too because writing can be concomitant
+                        sWritingMode = NWDWritingMode.QueuedMainThread;
+                        Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
+                        break;
+                    case NWDWritingState.PoolThread:
+                        // you can use only this too because writing can be concomitant
+                        sWritingMode = NWDWritingMode.PoolThread;
+                        Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
+                        break;
+                    case NWDWritingState.PoolThreadInQueue:
+                        // you can use only this too because writing can be concomitant
+                        sWritingMode = NWDWritingMode.QueuedPoolThread;
+                        Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
+                        break;
+                }
+                    bool tDoInsert = true;
+                    switch (sWritingMode)
+                    {
+                        case NWDWritingMode.MainThread:
+                            break;
+                        case NWDWritingMode.QueuedMainThread:
+                            if (NWDDataManager.SharedInstance().kInsertDataQueueMain.Contains(rReturnObject))
+                            {
+                                tDoInsert = false;
+                            }
+                            break;
+                        case NWDWritingMode.PoolThread:
+                            break;
+                        case NWDWritingMode.QueuedPoolThread:
+                            if (NWDDataManager.SharedInstance().kInsertDataQueuePool.Contains(rReturnObject))
+                            {
+                                tDoInsert = false;
+                            }
+                            break;
+                    }
+                    if (tDoInsert == true)
+                    {
+                        rReturnObject.WritingLockAdd();
+                        rReturnObject.WritingPending = NWDWritingPending.InsertInMemory;
+                        NWDDataManager.SharedInstance().InsertData(rReturnObject, sWritingMode);
+                    }
+                }
+            //BTBBenchmark.Finish();
             //Data waiting for queue to finish the process
             return rReturnObject;
         }
@@ -377,13 +448,78 @@ namespace NetWorkedData
 
         #region Instance Methods
 
-        public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
+        public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
+                                      string[] sDataArray,
+                                      NWDWritingMode sWritingMode = NWDWritingMode.QueuedMainThread)
         {
-            UpdateData(false, NWDWritingMode.QueuedMainThread, true); // PUT IN QUEUE !  because bad values
             // Force update with CVS value
+
             FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
+
             Datas().UpdateData(this);
             //Data waiting for queue to finish the process
+            if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
+            {
+                if (sWritingMode == NWDWritingMode.PoolThread)
+                {
+                    sWritingMode = NWDWritingMode.MainThread;
+                }
+                else if (sWritingMode == NWDWritingMode.QueuedPoolThread)
+                {
+                    sWritingMode = NWDWritingMode.QueuedMainThread;
+                }
+            }
+            // Compare with actual State of object and force to follow the actual state
+            switch (WritingState)
+            {
+                case NWDWritingState.Free:
+                    // ok you can change the mode
+                    break;
+                case NWDWritingState.MainThread:
+                    // strange ... not possible.
+                    break;
+                case NWDWritingState.MainThreadInQueue:
+                    // you can use only this too because writing can be concomitant
+                    sWritingMode = NWDWritingMode.QueuedMainThread;
+                    Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
+                    break;
+                case NWDWritingState.PoolThread:
+                    // you can use only this too because writing can be concomitant
+                    sWritingMode = NWDWritingMode.PoolThread;
+                    Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
+                    break;
+                case NWDWritingState.PoolThreadInQueue:
+                    // you can use only this too because writing can be concomitant
+                    sWritingMode = NWDWritingMode.QueuedPoolThread;
+                    Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
+                    break;
+            }
+            bool tDoUpdate = true;
+            switch (sWritingMode)
+            {
+                case NWDWritingMode.MainThread:
+                    break;
+                case NWDWritingMode.QueuedMainThread:
+                    if (NWDDataManager.SharedInstance().kUpdateDataQueueMain.Contains(this))
+                    {
+                        tDoUpdate = false;
+                    }
+                    break;
+                case NWDWritingMode.PoolThread:
+                    break;
+                case NWDWritingMode.QueuedPoolThread:
+                    if (NWDDataManager.SharedInstance().kUpdateDataQueuePool.Contains(this))
+                    {
+                        tDoUpdate = false;
+                    }
+                    break;
+            }
+            if (tDoUpdate == true)
+            {
+                WritingLockAdd();
+                WritingPending = NWDWritingPending.UpdateInMemory;
+                NWDDataManager.SharedInstance().UpdateData(this, sWritingMode);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

@@ -180,7 +180,8 @@ namespace NetWorkedData
             Debug.Log("NWDGameSave NewCurrent()");
             NWDGameSave rParty = null;
             rParty = NWDGameSave.NewData(sWritingMode);
-            rParty.Name = "New";
+            rParty.Name = "GameSave " +DateTime.Today.ToShortDateString();
+            rParty.GameSaveTagAdjust();
             rParty.SetCurrent();
             rParty.UpdateData(true, sWritingMode);
             return rParty;
@@ -309,7 +310,7 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonUpdateMe()
         {
-            GameSaveTagAdjust();
+            //rParty.GameSaveTagAdjust();
             // do something when object will be updated
             // TODO verif if method is call in good place in good timing
         }
