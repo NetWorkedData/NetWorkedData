@@ -162,11 +162,14 @@ namespace NetWorkedData
                 foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
                 {
                     var tValue = tInfos.Key.GetValue(this, null);
-                    string tAccount = tInfos.Value.Invoke(tValue, null) as string;
-                    if (tAccount.Contains(sAccountReference))
+                    if (tValue != null)
                     {
-                        rReturn = true;
-                        break; // I fonud one solution! this user can see this informations
+                        string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                        if (tAccount.Contains(sAccountReference))
+                        {
+                            rReturn = true;
+                            break; // I fonud one solution! this user can see this informations
+                        }
                     }
                 }
             }
@@ -191,11 +194,14 @@ namespace NetWorkedData
                 foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
                 {
                     var tValue = tInfos.Key.GetValue(this, null);
-                    string tAccount = tInfos.Value.Invoke(tValue, null) as string;
-                    if (tAccount.Contains(sAccountReference))
+                    if (tValue != null)
                     {
-                        rReturn = true;
-                        break; // I fonud one solution! this user can see this informations
+                        string tAccount = tInfos.Value.Invoke(tValue, null) as string;
+                        if (tAccount.Contains(sAccountReference))
+                        {
+                            rReturn = true;
+                            break; // I fonud one solution! this user can see this informations
+                        }
                     }
                 }
                 //foreach (PropertyInfo tProp in PropertiesAccountConnect())
