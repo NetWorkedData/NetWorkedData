@@ -274,6 +274,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
+            //Debug.Log("AddItemToOwnership ("+sItemsReferenceQuantity.Value+");");
             if (sItemsReferenceQuantity != null)
             {
                 foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())

@@ -294,7 +294,7 @@ namespace NetWorkedData
                 EditorGUI.BeginDisabledGroup(!tConnection);
 
                 // find class and invoke methods
-                Type tType = ClassType();
+                //Type tType = ClassType();
                 List<string> tReferenceList = new List<string>();
                 List<string> tInternalNameList = new List<string>();
 

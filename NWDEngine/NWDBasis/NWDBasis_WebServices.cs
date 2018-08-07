@@ -248,7 +248,7 @@ namespace NetWorkedData
             rSend.Add(Datas().ClassTableName, rSendDatas);
             // create List with all object to synchron on the server
             // create List 
-            List<object> tDatas = new List<object>();
+            //List<object> tDatas = new List<object>();
             // get last synchro
             int tLastSynchronization = SynchronizationGetLastTimestamp(sEnvironment);
             // I get force or not

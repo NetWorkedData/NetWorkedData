@@ -152,19 +152,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserQuestAdvancement GetAdvancementForQuest(NWDQuest sQuest)
         {
+            //Debug.Log("GetAdvancementForQuest");
             NWDUserQuestAdvancement rAdvancement = null;
             foreach (NWDUserQuestAdvancement tAdvancement in FindDatas())
             {
                 if (tAdvancement.QuestReference.GetObject() == sQuest)
                 {
                     rAdvancement = tAdvancement;
+                    //Debug.Log("GetAdvancementForQuest NWDUserQuestAdvancement not null");
                     break;
                 }
             }
+            //Debug.Log("GetAdvancementForQuest step 2");
+
             if (sQuest != null)
             {
+                //Debug.Log("GetAdvancementForQuest quest not null");
                 if (rAdvancement == null)
                 {
+                    //Debug.Log("GetAdvancementForQuest but NWDUserQuestAdvancement is null");
                     rAdvancement = NewData();
                     //--------------
 #if UNITY_EDITOR
@@ -191,6 +197,7 @@ namespace NetWorkedData
                 // else return the advancement for the actual quest part
                 if (rAdvancement.QuestReference.GetReference() != rAdvancement.QuestActualReference.GetReference())
                 {
+                    //Debug.Log("GetAdvancementForQuest Whaooooooooo!");
                     rAdvancement = GetAdvancementForQuest(rAdvancement.QuestActualReference.GetObject());
                 }
             }
@@ -426,7 +433,9 @@ namespace NetWorkedData
                         }
                         break;
                     case NWDQuestState.Success:
-                        if (QuestState == NWDQuestState.Accept || QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
+                        if (QuestState != NWDQuestState.Success)
+
+                        //if (QuestState == NWDQuestState.Accept || QuestState == NWDQuestState.Start || QuestState == NWDQuestState.StartAlternate)
                         {
                             //Debug.Log("NWDQuestUserAdvancement AdvancementDialog (" + sDialog.Reference + ") = > Success");
                             bool tItemsWanted = NWDUserOwnership.ConditionalItems(tQuest.DesiredItems);
@@ -434,7 +443,10 @@ namespace NetWorkedData
                             if (tItemsWanted && tItemsGroupsWanted)
                             {
                                 // put quest in success
-                                QuestState = NWDQuestState.Success;
+                                QuestState = NWDQuestState.Rewarding;
+                                // I reset the dialog historic
+                                DialogResumeList.SetString("");
+
                                 // I must remove the required object or Not?
                                 NWDUserOwnership.RemoveItemToOwnership(tQuest.DesiredItemsToRemove);
                                 // Add items
@@ -564,6 +576,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {
+            //Debug.Log("AddonInsertMe("+Reference+")");
             // do something when object will be inserted
         }
         //-------------------------------------------------------------------------------------------------------------

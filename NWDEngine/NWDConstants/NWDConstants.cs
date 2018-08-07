@@ -472,7 +472,7 @@ namespace NetWorkedData
         // = GUI.contentColor;
 
         static private bool StyleLoaded = false;
-        static private bool ImageLoaded = false;
+        //static private bool ImageLoaded = false;
 
 
         static public Color kNodeLineColor;

@@ -854,7 +854,7 @@ namespace NetWorkedData
 
 
             //string tAnswer = Answer.GetLanguageString(tLangue);
-            string tAnswer = AnswerRichTextForLanguage(tLangue, false);
+            //string tAnswer = AnswerRichTextForLanguage(tLangue, false);
             //GUIContent tContent = new GUIContent(tAnswer);
             //GUIContent tContent = null;
             //switch (AnswerState)

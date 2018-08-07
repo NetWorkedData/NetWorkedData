@@ -610,7 +610,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.LogWarning("Try to add twice data!");
+                //Debug.LogWarning("Try to add twice data!");
             }
             // Ok now I add datas in editor table list
 #if UNITY_EDITOR
@@ -684,7 +684,7 @@ namespace NetWorkedData
                 // get internal key
                 string tInternalKey = sData.InternalKeyValue();
                 // Anyway I add Data in datalist
-                int tIndex = Datas.IndexOf(sData);
+                //int tIndex = Datas.IndexOf(sData);
                 Datas.Remove(sData);
                 DatasByReference.Remove(tReference);
                 if (DatasByInternalKey.ContainsKey(tInternalKey) == true)
@@ -768,7 +768,7 @@ namespace NetWorkedData
             }
             if (tOldInternalKey != tInternalKey)
             {
-                int tIndex = Datas.IndexOf(sData);
+                //int tIndex = Datas.IndexOf(sData);
                 // remove internal Key in list
                 if (DatasByInternalKey.ContainsKey(tOldInternalKey) == true)
                 {

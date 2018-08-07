@@ -96,14 +96,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            Debug.Log("NWDGameSave Initialization()");
+            //Debug.Log("NWDGameSave Initialization()");
             GameSaveTag = -1;
             GameSaveTagReevaluate();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void GameSaveTagReevaluate()
         {
-            Debug.Log("NWDGameSave GameSaveTagReevaluate()");
+            //Debug.Log("NWDGameSave GameSaveTagReevaluate()");
             int tMax = -1;
             NWDGameSave tCurrent = null;
             foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
@@ -132,7 +132,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool GameSaveTagCheckUnicity()
         {
-            Debug.Log("NWDGameSave GameSaveTagCheckUnicity()");
+            //Debug.Log("NWDGameSave GameSaveTagCheckUnicity()");
             bool rReturn = true;
             foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
@@ -153,7 +153,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GameSaveTagAdjust()
         {
-            Debug.Log("NWDGameSave GameSaveTagAdjust()");
+            //Debug.Log("NWDGameSave GameSaveTagAdjust()");
             if (GameSaveTagCheckUnicity() == false)
             {
                 GameSaveTagReevaluate();
@@ -177,7 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave NewCurrent(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
-            Debug.Log("NWDGameSave NewCurrent()");
+            //Debug.Log("NWDGameSave NewCurrent()");
             NWDGameSave rParty = null;
             rParty = NWDGameSave.NewData(sWritingMode);
             rParty.Name = "GameSave " +DateTime.Today.ToShortDateString();

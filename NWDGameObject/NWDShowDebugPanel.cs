@@ -86,15 +86,15 @@ namespace NetWorkedData
         public void AlertTestAction()
         {
             TextDebug.text = "TEST ALERT : NOK";
-            BTBAlert tMessage = new BTBAlert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
-                TextDebug.text = "TEST ALERT : OK";
+            BTBAlert.Alert("Test Alert", "Messsage", "Ok",  delegate (BTBMessageState state) {
+            TextDebug.text = "TEST ALERT : OK";
             });
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DialogTestAction()
         {
             TextDebug.text = "TEST DIALOG: NOK";
-            BTBDialog tMessage = new BTBDialog("Test Dialog", "Choose", "YES", "NO", delegate (BTBMessageState state) {
+            BTBDialog.Dialog("Test Dialog", "Choose", "YES", "NO", delegate (BTBMessageState state) {
                 if (state == BTBMessageState.OK)
                 {
                     TextDebug.text = "TEST DIALOG: YES";

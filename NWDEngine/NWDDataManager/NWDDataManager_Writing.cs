@@ -222,7 +222,7 @@ namespace NetWorkedData
         private void InsertDataExecute(object sObject)
         {
             //BTBBenchmark.Start();
-            Type tType = sObject.GetType();
+            //Type tType = sObject.GetType();
             NWDTypeClass tObject = sObject as NWDTypeClass;
 
             tObject.InsertDataProceedWithTransaction();
@@ -366,7 +366,7 @@ namespace NetWorkedData
         private void UpdateDataExecute(object sObject)
         {
             //BTBBenchmark.Start();
-            Type tType = sObject.GetType();
+            //Type tType = sObject.GetType();
             NWDTypeClass tObject = sObject as NWDTypeClass;
             tObject.UpdateDataProceedWithTransaction();
             //var tMethodInfo = tType.GetMethod("UpdateDataProceedWithTransaction", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
@@ -507,7 +507,7 @@ namespace NetWorkedData
         private void DeleteDataExecute(object sObject)
         {
             //BTBBenchmark.Start();
-            Type tType = sObject.GetType();
+            //Type tType = sObject.GetType();
             NWDTypeClass tObject = sObject as NWDTypeClass;
             tObject.DeleteDataProceed();
             //var tMethodInfo = tType.GetMethod("DeleteDataProceed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);

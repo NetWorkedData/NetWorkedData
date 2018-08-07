@@ -553,7 +553,7 @@ namespace NetWorkedData
             NWDReferencesAverageType<K> tTemporary = new NWDReferencesAverageType<K>();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             tTemporary.Value = Value;
-            Type sFromType = typeof(K);
+            //Type sFromType = typeof(K);
             float tWidth = sPosition.width;
             float tHeight = sPosition.height;
             float tX = sPosition.position.x;

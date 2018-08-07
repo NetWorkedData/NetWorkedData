@@ -271,12 +271,12 @@ namespace NetWorkedData
             {
                 case NWDErrorType.Alert:
                     {
-                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Critical:
                     {
-                        BTBAlert tAlert = new BTBAlert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
+                        BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
                     }
                     break;
                 case NWDErrorType.Ignore:

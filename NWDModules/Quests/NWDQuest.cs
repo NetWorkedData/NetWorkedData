@@ -314,7 +314,7 @@ namespace NetWorkedData
                             if (tQuestUserAdvancement != null)
                             {
                                 tQuestUserAdvancement.QuestState = NWDQuestState.StartAlternate;
-                                UpdateData();
+                                tQuestUserAdvancement.UpdateData();
                             }
                         }
                         // if I Have no valid dialog ... use the available dialog
@@ -326,7 +326,7 @@ namespace NetWorkedData
                                     if (tQuestUserAdvancement != null)
                                         {
                                             tQuestUserAdvancement.QuestState = NWDQuestState.Start;
-                                    UpdateData();
+                                    tQuestUserAdvancement.UpdateData();
                                         }
                                 }
                         }
@@ -340,7 +340,7 @@ namespace NetWorkedData
                             if (tQuestUserAdvancement != null)
                             {
                                 tQuestUserAdvancement.QuestState = NWDQuestState.Start;
-                                UpdateData();
+                                tQuestUserAdvancement.UpdateData();
                             }
                         }
                     }
@@ -355,7 +355,7 @@ namespace NetWorkedData
                         if (tQuestUserAdvancement != null)
                         {
                             tQuestUserAdvancement.QuestState = NWDQuestState.None;
-                            UpdateData();
+                            tQuestUserAdvancement.UpdateData();
                         }
                     }
                 }
