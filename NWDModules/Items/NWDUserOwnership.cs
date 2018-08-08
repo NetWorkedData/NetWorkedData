@@ -43,68 +43,227 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
 	[Serializable]
-	public class NWDUserOwnershipConnection : NWDConnection <NWDUserOwnership> {}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	/// <summary>
-	/// NWD ownership. This class connect the item to the account. The item is decripted in NWDItem, but some informations
-	/// specific to this ownership are available only here. For example : the quantity of this item in chest, the first 
-	/// acquisition statut or some particular values (A, B, C, etc.).
-	/// It's a generic class for traditionla game.
-	/// </summary>
-	//-------------------------------------------------------------------------------------------------------------
-	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("OWS")]
-	[NWDClassDescriptionAttribute ("User Ownership descriptions Class")]
-	[NWDClassMenuNameAttribute ("User Ownership")]
-	//-------------------------------------------------------------------------------------------------------------
-	public partial class NWDUserOwnership :NWDBasis <NWDUserOwnership>
-	{
+    public class NWDUserOwnershipConnection : NWDConnection<NWDUserOwnership>
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWD ownership. This class connect the item to the account. The item is decripted in NWDItem, but some informations
+    /// specific to this ownership are available only here. For example : the quantity of this item in chest, the first 
+    /// acquisition statut or some particular values (A, B, C, etc.).
+    /// It's a generic class for traditionla game.
+    /// </summary>
+    //-------------------------------------------------------------------------------------------------------------
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("OWS")]
+    [NWDClassDescriptionAttribute("User Ownership descriptions Class")]
+    [NWDClassMenuNameAttribute("User Ownership")]
+    //-------------------------------------------------------------------------------------------------------------
+    public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>
+    {
         // Create And Index
-        static Dictionary<NWDItem, List<NWDUserOwnership>> kIndexItemReverse = new Dictionary<NWDItem, List<NWDUserOwnership>>();
-		//-------------------------------------------------------------------------------------------------------------
-		//#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-		//-------------------------------------------------------------------------------------------------------------
-		// YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-		// YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-		// YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-		/// <summary>
-		/// Gets or sets the account reference.
-		/// </summary>
-		/// <value>The account reference.</value>
-		/// 
-		[NWDGroupStart("Ownership",true, true, true)] // ok
-		public bool FirstAcquisition { get; set; }
-		[Indexed ("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-		public NWDReferenceType<NWDItem> Item { get; set; }
-		public int Quantity { get; set; }
-        public string Name { get; set; }
-		[NWDGroupEnd]
+        //-------------------------------------------------------------------------------------------------------------
+        static Dictionary<string, List<NWDUserOwnership>> kIndex = new Dictionary<string, List<NWDUserOwnership>>();
+        private List<NWDUserOwnership> kIndexList;
+        // lors du changement si kIndexList !=  de kIndexItemReverse[item.ref + gamesave.ref] => on a changer l'item ou le gamesave 
+        // je retire de la kIndexList et je cherche la nuvelle kIndexList et je la memorise et la rajoute
+        private void InsertInIndex()
+        {
+            BTBBenchmark.Start();
+            if (Item.GetReference() != null 
+                && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
+                && IsEnable() == true 
+                && IsTrashed() == false 
+                && TestIntegrity() == true)
+            {
+                string tKey = Item.GetReference() + "*" + GameSave.GetReference();
+                if (kIndexList != null)
+                {
+                    // I have allready index
+                    if (kIndex.ContainsKey(tKey))
+                    {
+                        if (kIndex[tKey] == kIndexList)
+                        {
+                            // I am in the good index ... do nothing
+                        }
+                        else
+                        {
+                            // I Changed index! during update ?!!
+                            kIndexList.Remove(this);
+                            kIndexList = null;
+                            kIndexList = kIndex[tKey];
+                            kIndexList.Add(this);
+                        }
+                    }
+                    else
+                    {
+                        kIndexList.Remove(this);
+                        kIndexList = null;
+                        kIndexList = new List<NWDUserOwnership>();
+                        kIndex.Add(tKey, kIndexList);
+                        kIndexList.Add(this);
+                    }
+                }
+                else
+                {
+                    // I need add in index!
+                    if (kIndex.ContainsKey(tKey))
+                    {
+                        // index exists
+                        kIndexList = kIndex[tKey];
+                        kIndexList.Add(this);
+                    }
+                    else
+                    {
+                        // index must be create
+                        kIndexList = new List<NWDUserOwnership>();
+                        kIndex.Add(tKey, kIndexList);
+                        kIndexList.Add(this);
+                    }
+                }
+            }
+            else
+            {
+                if (kIndexList != null)
+                {
+                    kIndexList.Contains(this);
+                    {
+                        kIndexList.Remove(this);
+                    }
+                }
+            }
+            BTBBenchmark.Finish();
+        }
+        static public List<NWDUserOwnership> FindByIndex(NWDItem sItem, NWDGameSave sGameSave)
+        {
+            BTBBenchmark.Start();
+            List<NWDUserOwnership> rReturn = null;
+            if (sItem != null && sGameSave != null)
+            {
+                string tKey = sItem.Reference + "*" + sGameSave.Reference;
+                if (kIndex.ContainsKey(tKey))
+                {
+                    rReturn = kIndex[tKey];
+                }
+            }
+            BTBBenchmark.Finish();
+            return rReturn;
+        }
+        static public List<NWDUserOwnership> FindByIndex(string sItemreference)
+        {
+            BTBBenchmark.Start();
+            List<NWDUserOwnership> rReturn = null;
+            if (sItemreference != null)
+            {
+                string tKey = sItemreference + "*" + NWDGameSave.Current().Reference;
+                if (kIndex.ContainsKey(tKey))
+                {
+                    rReturn = kIndex[tKey];
+                }
+            }
+            BTBBenchmark.Finish();
+            return rReturn;
+        }
+        static public NWDUserOwnership FindFirstByIndex(string sItemreference)
+        {
+            BTBBenchmark.Start();
+            NWDUserOwnership rObject = null;
+            List<NWDUserOwnership> rReturn = null;
+            if (sItemreference != null)
+            {
+                string tKey = sItemreference + "*" + NWDGameSave.Current().Reference;
+                if (kIndex.ContainsKey(tKey))
+                {
+                    rReturn = kIndex[tKey];
+                }
+            }
+            if (rReturn != null)
+            {
+                if (rReturn.Count > 0)
+                {
+                    rObject = rReturn[0];
+                }
+            }
+            BTBBenchmark.Finish();
+            return rObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+
+        // the string is item.reference + gamesave.reference
+        //-------------------------------------------------------------------------------------------------------------
+        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
+        //-------------------------------------------------------------------------------------------------------------
+        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
+        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
+        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        // Your properties
+        /// <summary>
+        /// Gets or sets the account reference.
+        /// </summary>
+        /// <value>The account reference.</value>
+        /// 
+        [NWDGroupStart("Ownership", true, true, true)] // ok
+        public bool FirstAcquisition
+        {
+            get; set;
+        }
+        [Indexed("AccountIndex", 0)]
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDItem> Item
+        {
+            get; set;
+        }
+        public int Quantity
+        {
+            get; set;
+        }
+        public string Name
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-		[NWDGroupStart ("Extensions", true, true, true)]
-        public NWDReferencesListType<NWDUserOwnership> OwnershipList { get; set; }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
-		[NWDGroupEnd]
-		
+        [NWDGroupStart("Extensions", true, true, true)]
+        public NWDReferencesListType<NWDUserOwnership> OwnershipList
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
+
         [NWDGroupSeparator]
 
-		[NWDGroupStart ("Development addons", true, true, true)]
-		public string JSON { get; set; }
-		public string KeysValues { get; set; }
-		//[NWDGroupEndAttribute]
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDUserOwnership()
+        [NWDGroupStart("Development addons", true, true, true)]
+        public string JSON
+        {
+            get; set;
+        }
+        public string KeysValues
+        {
+            get; set;
+        }
+        //[NWDGroupEndAttribute]
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserOwnership()
         {
             //Debug.Log("NWDOwnership Constructor");
         }
@@ -122,7 +281,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDItem)};
+            return new List<Type> { typeof(NWDUserOwnership), typeof(NWDItem) };
         }
         //-------------------------------------------------------------------------------------------------------------
         // OWNERSHIP AND ITEM FOR PLAYER
@@ -135,24 +294,27 @@ namespace NetWorkedData
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
             //Debug.Log("NWDUserOwnership OwnershipForItem("+sItemReference+")");
-            NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in FindDatas())
-            {
-                //Debug.Log("NWDUserOwnership OwnershipForItem   test " + tOwnership.Reference + " for item " + tOwnership.Item.GetReference());
-                if (tOwnership.Item.GetReference() == sItemReference)
-                {
-                    rOwnership = tOwnership;
-                    break;
-                }
-            }
+            NWDUserOwnership rOwnership = FindFirstByIndex(sItemReference);
+
+            //if (rOwnership == null)
+            //{
+            //    foreach (NWDUserOwnership tOwnership in FindDatas())
+            //    {
+            //        //Debug.Log("NWDUserOwnership OwnershipForItem   test " + tOwnership.Reference + " for item " + tOwnership.Item.GetReference());
+            //        if (tOwnership.Item.GetReference() == sItemReference)
+            //        {
+            //            rOwnership = tOwnership;
+            //            break;
+            //        }
+            //    }
+            //}
             if (rOwnership == null)
             {
                 //Debug.Log("NWDUserOwnership OwnershipForItem(" + sItemReference + ") NEED NEW OWNERSHIP");
                 rOwnership = NewData();
                 //--------------
-                #if UNITY_EDITOR
-                //--------------
-                NWDItem tItem = NWDItem.FindDataByReference(sItemReference);
+#if UNITY_EDITOR
+                NWDItem tItem = NWDItem.GetDataByReference(sItemReference);
                 if (tItem != null)
                 {
                     if (tItem.Name != null)
@@ -165,8 +327,7 @@ namespace NetWorkedData
                     }
                 }
                 rOwnership.InternalDescription = NWDAccountNickname.GetNickname();
-                //--------------
-                #endif
+#endif
                 //--------------
                 rOwnership.Item.SetReference(sItemReference);
                 rOwnership.Tag = NWDBasisTag.TagUserCreated;
@@ -200,15 +361,20 @@ namespace NetWorkedData
         /// <param name="sItemReference">item reference.</param>
         public static int QuantityForItem(string sItemReference)
         {
+            NWDUserOwnership rOwnership = OwnershipForItem(sItemReference);
             int rQte = 0;
-            foreach (NWDUserOwnership tOwnership in FindDatas())
+            if (rOwnership != null)
             {
-                if (tOwnership.Item.GetReference() == sItemReference)
-                {
-                    rQte = tOwnership.Quantity;
-                    break;
-                }
+                rQte = rOwnership.Quantity;
             }
+            //foreach (NWDUserOwnership tOwnership in FindDatas())
+            //{
+            //    if (tOwnership.Item.GetReference() == sItemReference)
+            //    {
+            //        rQte = tOwnership.Quantity;
+            //        break;
+            //    }
+            //}
             return rQte;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -219,15 +385,15 @@ namespace NetWorkedData
         /// <param name="sItemReference">item reference.</param>
         public static bool OwnershipForItemExists(string sItemReference)
         {
-            NWDUserOwnership rOwnership = null;
-            foreach (NWDUserOwnership tOwnership in FindDatas())
-            {
-                if (tOwnership.Item.GetReference() == sItemReference)
-                {
-                    rOwnership = tOwnership;
-                    break;
-                }
-            }
+            NWDUserOwnership rOwnership = OwnershipForItem(sItemReference);
+            //foreach (NWDUserOwnership tOwnership in FindDatas())
+            //{
+            //    if (tOwnership.Item.GetReference() == sItemReference)
+            //    {
+            //        rOwnership = tOwnership;
+            //        break;
+            //    }
+            //}
             return rOwnership != null;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -239,15 +405,15 @@ namespace NetWorkedData
         public static bool OwnershipForItemExists(NWDItem sItem)
         {
             return OwnershipForItemExists(sItem.Reference);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static NWDUserOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
-		{
-			NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-			rOwnershipToUse.Quantity = sQuantity;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
+        {
+            NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            rOwnershipToUse.Quantity = sQuantity;
             rOwnershipToUse.UpdateData();
-			return rOwnershipToUse;
-		}
+            return rOwnershipToUse;
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
         {
@@ -322,23 +488,23 @@ namespace NetWorkedData
             }
             return rReturn;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public static bool ContainsItem(NWDItem sItem, int sQuantity)
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ContainsItem(NWDItem sItem, int sQuantity)
         {
-			bool rReturn = true;
-			if (sItem != null)
-			{
+            bool rReturn = true;
+            if (sItem != null)
+            {
                 NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
-				if (rOwnershipToUse.Quantity < sQuantity)
-				{
-					rReturn = false;
-				}
+                if (rOwnershipToUse.Quantity < sQuantity)
+                {
+                    rReturn = false;
+                }
                 if (sQuantity == 0 && rOwnershipToUse.Quantity > 0)
                 {
                     rReturn = false;
                 }
-			}
-			return rReturn;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Verif this method
@@ -385,9 +551,9 @@ namespace NetWorkedData
                             rReturn = true;
                             break;
                         }
-                    } 
+                    }
                 }
-                if (sQuantity == 0 && tQ>0)
+                if (sQuantity == 0 && tQ > 0)
                 {
                     rReturn = false;
                 }
@@ -406,7 +572,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    foreach (NWDReferenceConditionalType < NWDItem > tTest in sItemsReferenceConditional.GetReferenceQuantityConditional())
+                    foreach (NWDReferenceConditionalType<NWDItem> tTest in sItemsReferenceConditional.GetReferenceQuantityConditional())
                     {
                         if (ConditionalItem(tTest) == false)
                         {
@@ -455,7 +621,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-       // TODO : Verif this method
+        // TODO : Verif this method
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
             bool rReturn = true;
@@ -507,88 +673,96 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonLoadedMe()
         {
-            NWDItem tItem = Item.GetObject();
-            if (tItem != null)
-            {
-                tItem.SetUserOwnership(this);
-            }
-                
+            //NWDItem tItem = Item.GetObject();
+            //if (tItem != null)
+            //{
+            //    tItem.SetUserOwnership(this);
+            //}
+            InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe ()
-		{
-			// do something when object will be inserted
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdateMe ()
-		{
-			// do something when object will be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe ()
-		{
-			// do something when object finish to be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDuplicateMe ()
-		{
-			// do something when object will be dupplicate
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonEnableMe ()
-		{
-			// do something when object will be enabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDisableMe ()
-		{
-			// do something when object will be disabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonTrashMe ()
-		{
-			// do something when object will be put in trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUnTrashMe ()
-		{
-			// do something when object will be remove from trash
-		}
+        public override void AddonInsertMe()
+        {
+            // do something when object will be inserted
+            InsertInIndex();
+        }
         //-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		//Addons for Edition
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
-		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
-			}
-			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditor (Rect sInRect)
-		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditorHeight ()
-		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            // do something when object will be updated
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMeFromWeb()
+        {
+            // do something when object will be updated
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMe()
+        {
+            // do something when object finish to be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDuplicateMe()
+        {
+            // do something when object will be dupplicate
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonEnableMe()
+        {
+            // do something when object will be enabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDisableMe()
+        {
+            // do something when object will be disabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            // do something when object will be put in trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            // do something when object will be remove from trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        //Addons for Edition
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonEdited(bool sNeedBeUpdate)
+        {
+            if (sNeedBeUpdate == true)
+            {
+                // do something
+            }
+            return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditorHeight()
+        {
+            // Height calculate for the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

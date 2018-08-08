@@ -451,7 +451,7 @@ namespace NetWorkedData
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
 
-            NWDUserOwnership tOwnership = GetUserOwnership();
+            NWDUserOwnership tOwnership = NWDUserOwnership.FindFirstByIndex(this.Reference);
             if (tOwnership != null)
             {
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
@@ -510,72 +510,72 @@ namespace NetWorkedData
 #endif
 
         //-------------------------------------------------------------------------------------------------------------
-        private NWDUserOwnership UserOwnershipReverse;
+        //private NWDUserOwnership UserOwnershipReverse;
         //-------------------------------------------------------------------------------------------------------------
-        public void SetUserOwnership(NWDUserOwnership sUserOwnership)
-        {
-            bool tTest = true;
-            if (sUserOwnership != null)
-            {
-                if (sUserOwnership.Item.GetReference() != Reference)
-                {
-                    // It's not the good refrence (changed?)
-                    tTest = false;
-                }
-                if (sUserOwnership.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
-                {
-                    // It's not the good refrence (changed?)
-                    tTest = false;
-                }
-                if (sUserOwnership.GameSave!=null)
-                {
-                    if (sUserOwnership.GameSave.GetReference() != NWDGameSave.Current().Reference)
-                    {
-                        // It's not the good refrence (changed?)
-                        tTest = false;
-                    }
-                }
-            }
-            else
-            {
-                tTest = false;
-            }
-            if (tTest == true)
-            {
-                UserOwnershipReverse = sUserOwnership;
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserOwnership GetUserOwnership()
-        {
-            BTBBenchmark.Start();
-            NWDUserOwnership rReturn = UserOwnershipReverse;
-            if (rReturn!=null)
-            {
-                if (rReturn.Item.GetReference() != Reference)
-                {
-                    // It's not the good refrence (changed?)
-                    rReturn = null;
-                }
-                if (rReturn.Account.GetReference()!= NWDAccount.GetCurrentAccountReference())
-                {
-                    // It's not the good refrence (changed?)
-                    rReturn = null;
-                }
-                if (rReturn.GameSave.GetReference() != NWDGameSave.Current().Reference)
-                {
-                    // It's not the good refrence (changed?)
-                    rReturn = null;
-                }
-            }
-            if (rReturn == null)
-            {
-                rReturn = NWDUserOwnership.OwnershipForItem(Reference);
-                UserOwnershipReverse = rReturn;
-            }
-            BTBBenchmark.Finish();
-            return rReturn;
-        }
+        //public void SetUserOwnership(NWDUserOwnership sUserOwnership)
+        //{
+        //    bool tTest = true;
+        //    if (sUserOwnership != null)
+        //    {
+        //        if (sUserOwnership.Item.GetReference() != Reference)
+        //        {
+        //            // It's not the good refrence (changed?)
+        //            tTest = false;
+        //        }
+        //        if (sUserOwnership.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
+        //        {
+        //            // It's not the good refrence (changed?)
+        //            tTest = false;
+        //        }
+        //        if (sUserOwnership.GameSave!=null)
+        //        {
+        //            if (sUserOwnership.GameSave.GetReference() != NWDGameSave.Current().Reference)
+        //            {
+        //                // It's not the good refrence (changed?)
+        //                tTest = false;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        tTest = false;
+        //    }
+        //    if (tTest == true)
+        //    {
+        //        UserOwnershipReverse = sUserOwnership;
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public NWDUserOwnership GetUserOwnership()
+        //{
+        //    BTBBenchmark.Start();
+        //    NWDUserOwnership rReturn = UserOwnershipReverse;
+        //    if (rReturn!=null)
+        //    {
+        //        if (rReturn.Item.GetReference() != Reference)
+        //        {
+        //            // It's not the good refrence (changed?)
+        //            rReturn = null;
+        //        }
+        //        if (rReturn.Account.GetReference()!= NWDAccount.GetCurrentAccountReference())
+        //        {
+        //            // It's not the good refrence (changed?)
+        //            rReturn = null;
+        //        }
+        //        if (rReturn.GameSave.GetReference() != NWDGameSave.Current().Reference)
+        //        {
+        //            // It's not the good refrence (changed?)
+        //            rReturn = null;
+        //        }
+        //    }
+        //    if (rReturn == null)
+        //    {
+        //        rReturn = NWDUserOwnership.OwnershipForItem(Reference);
+        //        UserOwnershipReverse = rReturn;
+        //    }
+        //    BTBBenchmark.Finish();
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 
         #endregion
