@@ -167,16 +167,21 @@ namespace NetWorkedData
 //		[MenuItem (NWDConstants.K_MENU_BASE+NWDConstants.K_MENU_CREATE, false, 9000)]
 //		public static void CreateFiles ()
 //		{
-//		}
+        //		}
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_ERRORS, false, 9001)]
+        public static void CreateErrors()
+        {
+            NWDDataManager.SharedInstance().CreateErrorAllClass();
+        }
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_FILES, false, 9001)]
+		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_FILES, false, 9002)]
 		public static void CreatePHP ()
 		{
-//			NWDFindPackage.SharedInstance ();
 			NWDDataManager.SharedInstance().CreatePHPAllClass();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9002)]
+		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9003)]
 		public static void CreateWebsitesPHP ()
 		{
 //			NWDFindPackage.SharedInstance ();

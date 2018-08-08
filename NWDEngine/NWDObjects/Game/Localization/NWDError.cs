@@ -186,6 +186,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
+            BTBBenchmark.Start();
             string tReference = "ERR-" + sDomain + "-" + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
             NWDError tError = NWDError.GetDataByReference(tReference);
@@ -195,7 +196,7 @@ namespace NetWorkedData
             }
             if (tError == null)
             {
-                tError = NWDBasis<NWDError>.NewData();
+                tError = NWDBasis<NWDError>.NewDataWithReference(tReference, true);
                 //RemoveObjectInListOfEdition(tError);
                 tError.Reference = tReference;
                 // tError.InternalKey = Domain + " : " + sCode;
@@ -221,9 +222,10 @@ namespace NetWorkedData
                 // add-on edited
                 tError.AddonEdited(true);
                 // reccord
-                tError.UpdateData();
+                tError.UpdateData(true, NWDWritingMode.QueuedMainThread);
                 //AddObjectInListOfEdition(tError);
             }
+            BTBBenchmark.Finish();
             return tError;
         }
         //-------------------------------------------------------------------------------------------------------------

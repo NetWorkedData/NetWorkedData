@@ -252,6 +252,8 @@ namespace NetWorkedData
 					if (tMethodInfo != null)
                     {
                         //TODO ???
+                        // reset all datas ?
+                        // Sync force?
 					}
 				}
 			}

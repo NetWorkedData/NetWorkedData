@@ -1714,9 +1714,8 @@ namespace NetWorkedData
                     NWDBasis<K>.ResetTable();
                     //UpdateReferencesList ();
                     //LoadTableEditor();
-                    LoadFromDatabase();
-                    RepaintTableEditor();
-
+                    //LoadFromDatabase();
+                    //RepaintTableEditor();
                 }
             }
             if (tPullProd == true)

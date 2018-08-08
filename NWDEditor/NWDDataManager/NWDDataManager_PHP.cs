@@ -21,23 +21,9 @@ namespace NetWorkedData
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHPAllClass()
+        public void CreateErrorAllClass()
         {
-            //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
-            //tPHPBuild++;
-            //BTBConfigManager.SharedInstance().Set(NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
-            //BTBConfigManager.SharedInstance().Save();
-
-            //NWDAppConfiguration.SharedInstance().WebBuild = tPHPBuild;
-            NWDAppConfiguration.SharedInstance().WebBuild++;
-            NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuild, true);
-            //TODO RECALCULATE THE NEW ORDER FOR THE WEBSERVICE
-            //TODO Class by class re-random the order of property for each class for webservice
-            //TODO memorize in Table by webbuild the new order
-
-            //TODO reccord the new Configuration;
-
-            string tProgressBarTitle = "NetWorkedData Create all php files";
+            string tProgressBarTitle = "NetWorkedData Create error";
             float tCountClass = mTypeList.Count + 1;
             float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation / tCountClass);
@@ -160,6 +146,44 @@ namespace NetWorkedData
             NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
+            foreach (Type tType in mTypeList)
+            {
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
+                tOperation++;
+                var tMethodInfo = tType.GetMethod("CreateAllError", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    tMethodInfo.Invoke(null, null);
+                }
+            }
+
+            NWDDataManager.SharedInstance().DataQueueExecute();
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+            EditorUtility.ClearProgressBar();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CreatePHPAllClass()
+        {
+            //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
+            //tPHPBuild++;
+            //BTBConfigManager.SharedInstance().Set(NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
+            //BTBConfigManager.SharedInstance().Save();
+
+            //NWDAppConfiguration.SharedInstance().WebBuild = tPHPBuild;
+            NWDAppConfiguration.SharedInstance().WebBuild++;
+            NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuild, true);
+            //TODO RECALCULATE THE NEW ORDER FOR THE WEBSERVICE
+            //TODO Class by class re-random the order of property for each class for webservice
+            //TODO memorize in Table by webbuild the new order
+
+            //TODO reccord the new Configuration;
+
+            string tProgressBarTitle = "NetWorkedData Create all php files";
+            float tCountClass = mTypeList.Count + 1;
+            float tOperation = 1;
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation / tCountClass);
+            tOperation++;
+
             if (CreateAllEnvironmentPHP())
             {
                 foreach (Type tType in mTypeList)
@@ -222,9 +246,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool  CopyEnginePHP()
+        public bool CopyEnginePHP()
         {
-           bool rReturn  = false;
+            bool rReturn = false;
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
             string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer/Editor";

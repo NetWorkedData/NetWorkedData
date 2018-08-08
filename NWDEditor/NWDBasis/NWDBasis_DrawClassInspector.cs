@@ -103,8 +103,8 @@ namespace NetWorkedData
 					NWDBasis<K>.ResetTable ();
 //					UpdateReferencesList ();
 					//LoadTableEditor ();
-                    LoadFromDatabase();
-                    RepaintTableEditor();
+                    //LoadFromDatabase();
+                    //RepaintTableEditor();
 				}
 				// -------------------------------------------
 				GUILayout.BeginHorizontal ();

@@ -118,6 +118,7 @@ namespace NetWorkedData
 
         public const string K_MENU_CREATE_PHP = "Creation of files for server";
         public const string K_MENU_CREATE_PHP_FILES = K_MENU_BASE + K_MENU_CREATE_PHP + "/Create PHP Files";
+        public const string K_MENU_CREATE_PHP_ERRORS = K_MENU_BASE + K_MENU_CREATE_PHP + "/Create Generic Errors";
         public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = K_MENU_BASE + K_MENU_CREATE_PHP + "/Export website(s)";
 
         public const string K_MENU_CREATE_CSHARP = "Creation of  files of workflow";

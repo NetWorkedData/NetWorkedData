@@ -112,11 +112,12 @@ namespace NetWorkedData
         public static void ResetTable()
         {
             NWDDataManager.SharedInstance().ResetTable(ClassType(), AccountDependent());
-
-            // TOOD Are you sure to limit to editor?
-#if UNITY_EDITOR
-
-#endif
+// reload empty datas
+            LoadFromDatabase();
+            #if UNITY_EDITOR
+            // refresh the tables windows
+            RepaintTableEditor();
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
