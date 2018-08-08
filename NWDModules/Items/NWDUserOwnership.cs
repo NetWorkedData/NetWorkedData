@@ -61,19 +61,23 @@ namespace NetWorkedData
     //-------------------------------------------------------------------------------------------------------------
     public partial class NWDUserOwnership : NWDBasis<NWDUserOwnership>
     {
+        //-------------------------------------------------------------------------------------------------------------
         // Create And Index
         //-------------------------------------------------------------------------------------------------------------
+        static NWDWritingMode kWritingMode = NWDWritingMode.MainThread;
         static Dictionary<string, List<NWDUserOwnership>> kIndex = new Dictionary<string, List<NWDUserOwnership>>();
         private List<NWDUserOwnership> kIndexList;
         // lors du changement si kIndexList !=  de kIndexItemReverse[item.ref + gamesave.ref] => on a changer l'item ou le gamesave 
         // je retire de la kIndexList et je cherche la nuvelle kIndexList et je la memorise et la rajoute
+        //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
-            BTBBenchmark.Start();
-            if (Item.GetReference() != null 
+            //Debug.Log("InsertInIndex reference =" + Reference);
+            //BTBBenchmark.Start();
+            if (Item.GetReference() != null
                 && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
-                && IsEnable() == true 
-                && IsTrashed() == false 
+                && IsEnable() == true
+                && IsTrashed() == false
                 && TestIntegrity() == true)
             {
                 string tKey = Item.GetReference() + "*" + GameSave.GetReference();
@@ -124,19 +128,42 @@ namespace NetWorkedData
             }
             else
             {
-                if (kIndexList != null)
-                {
-                    kIndexList.Contains(this);
-                    {
-                        kIndexList.Remove(this);
-                    }
-                }
+                RemoveFromIndex();
             }
-            BTBBenchmark.Finish();
+
+            //string tTdbug = "";
+            //tTdbug += " ################";
+            //tTdbug += "InsertInIndex reference =" + Reference+" for item "+Item.GetReference()+" \n";
+            //foreach (KeyValuePair<string, List<NWDUserOwnership>> tkeyvalue in kIndex)
+            //{
+            //    tTdbug += " key = " + tkeyvalue.Key + " : ";
+            //    foreach (NWDUserOwnership tOwner in tkeyvalue.Value)
+            //    {
+            //        tTdbug += " " + tOwner.Reference + "(" + tOwner.GameSave.GetReference() + ")";
+            //    }
+            //    tTdbug += "\n";
+            //}
+            //tTdbug += " ################";
+            //Debug.Log(tTdbug);
+
+            //BTBBenchmark.Finish();
         }
+        //-------------------------------------------------------------------------------------------------------------
+        private void RemoveFromIndex()
+        {
+            if (kIndexList != null)
+            {
+                kIndexList.Contains(this);
+                {
+                    kIndexList.Remove(this);
+                }
+                kIndexList = null;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         static public List<NWDUserOwnership> FindByIndex(NWDItem sItem, NWDGameSave sGameSave)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             List<NWDUserOwnership> rReturn = null;
             if (sItem != null && sGameSave != null)
             {
@@ -146,12 +173,13 @@ namespace NetWorkedData
                     rReturn = kIndex[tKey];
                 }
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn;
         }
+        //-------------------------------------------------------------------------------------------------------------
         static public List<NWDUserOwnership> FindByIndex(string sItemreference)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             List<NWDUserOwnership> rReturn = null;
             if (sItemreference != null)
             {
@@ -161,12 +189,13 @@ namespace NetWorkedData
                     rReturn = kIndex[tKey];
                 }
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rReturn;
         }
+        //-------------------------------------------------------------------------------------------------------------
         static public NWDUserOwnership FindFirstByIndex(string sItemreference)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             NWDUserOwnership rObject = null;
             List<NWDUserOwnership> rReturn = null;
             if (sItemreference != null)
@@ -184,7 +213,7 @@ namespace NetWorkedData
                     rObject = rReturn[0];
                 }
             }
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -293,6 +322,7 @@ namespace NetWorkedData
         /// <param name="sItemReference">S item reference.</param>
         public static NWDUserOwnership OwnershipForItem(string sItemReference)
         {
+            //BTBBenchmark.Start();
             //Debug.Log("NWDUserOwnership OwnershipForItem("+sItemReference+")");
             NWDUserOwnership rOwnership = FindFirstByIndex(sItemReference);
 
@@ -311,7 +341,7 @@ namespace NetWorkedData
             if (rOwnership == null)
             {
                 //Debug.Log("NWDUserOwnership OwnershipForItem(" + sItemReference + ") NEED NEW OWNERSHIP");
-                rOwnership = NewData();
+                rOwnership = NewData(kWritingMode);
                 //--------------
 #if UNITY_EDITOR
                 NWDItem tItem = NWDItem.GetDataByReference(sItemReference);
@@ -332,8 +362,9 @@ namespace NetWorkedData
                 rOwnership.Item.SetReference(sItemReference);
                 rOwnership.Tag = NWDBasisTag.TagUserCreated;
                 rOwnership.Quantity = 0;
-                rOwnership.UpdateData();
+                rOwnership.UpdateData(true, kWritingMode);
             }
+            //BTBBenchmark.Finish();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -360,7 +391,7 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if for item reference exists was ownershiped, <c>false</c> otherwise.</returns>
         /// <param name="sItemReference">item reference.</param>
         public static int QuantityForItem(string sItemReference)
-        {
+        {//BTBBenchmark.Start();
             NWDUserOwnership rOwnership = OwnershipForItem(sItemReference);
             int rQte = 0;
             if (rOwnership != null)
@@ -375,6 +406,7 @@ namespace NetWorkedData
             //        break;
             //    }
             //}
+            //BTBBenchmark.Finish();
             return rQte;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -385,6 +417,7 @@ namespace NetWorkedData
         /// <param name="sItemReference">item reference.</param>
         public static bool OwnershipForItemExists(string sItemReference)
         {
+            //BTBBenchmark.Start();
             NWDUserOwnership rOwnership = OwnershipForItem(sItemReference);
             //foreach (NWDUserOwnership tOwnership in FindDatas())
             //{
@@ -394,6 +427,7 @@ namespace NetWorkedData
             //        break;
             //    }
             //}
+            //BTBBenchmark.Finish();
             return rOwnership != null;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -409,14 +443,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership SetItemToOwnership(NWDItem sItem, int sQuantity)
         {
+            //BTBBenchmark.Start();
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
             rOwnershipToUse.Quantity = sQuantity;
             rOwnershipToUse.UpdateData();
+            //BTBBenchmark.Finish();
             return rOwnershipToUse;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
         {
+            //BTBBenchmark.Start();
             NWDUserOwnership rOwnership = OwnershipForItem(sItem);
             if (sIsIncrement)
             {
@@ -427,19 +464,23 @@ namespace NetWorkedData
                 rOwnership.Quantity = sQuantity;
             }
             rOwnership.UpdateData();
+            //BTBBenchmark.Finish();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
         {
+            //BTBBenchmark.Start();
             NWDUserOwnership rOwnership = OwnershipForItem(sItem);
             rOwnership.Quantity -= sQuantity;
             rOwnership.UpdateData();
+            //BTBBenchmark.Finish();
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
+            //BTBBenchmark.Start();
             //Debug.Log("AddItemToOwnership ("+sItemsReferenceQuantity.Value+");");
             if (sItemsReferenceQuantity != null)
             {
@@ -450,10 +491,12 @@ namespace NetWorkedData
                     rOwnershipToUse.UpdateData();
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void RemoveItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
+            //BTBBenchmark.Start();
             if (sItemsReferenceQuantity != null)
             {
                 foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
@@ -463,10 +506,12 @@ namespace NetWorkedData
                     rOwnershipToUse.UpdateData();
                 }
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool ContainsItems(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sItemsReferenceQuantity != null)
             {
@@ -486,11 +531,13 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool ContainsItem(NWDItem sItem, int sQuantity)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sItem != null)
             {
@@ -504,12 +551,14 @@ namespace NetWorkedData
                     rReturn = false;
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Verif this method
         public static bool ContainsItemGroups(NWDReferencesQuantityType<NWDItemGroup> sItemGroupsReferenceQuantity)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sItemGroupsReferenceQuantity != null)
             {
@@ -529,12 +578,14 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Verif this method
         public static bool ContainsItemGroup(NWDItemGroup sItemGroup, int sQuantity)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sItemGroup != null)
             {
@@ -558,11 +609,13 @@ namespace NetWorkedData
                     rReturn = false;
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConditionalItems(NWDReferencesConditionalType<NWDItem> sItemsReferenceConditional)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sItemsReferenceConditional != null)
             {
@@ -582,23 +635,27 @@ namespace NetWorkedData
                     }
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool ConditionalItem(NWDReferenceConditionalType<NWDItem> sConditional)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sConditional.Reference != null)
             {
                 NWDUserOwnership rOwnershipToUse = OwnershipForItem(sConditional.Reference);
                 rReturn = sConditional.isValid(rOwnershipToUse.Quantity);
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Verif this method
         public static bool ConditionalItemGroups(NWDReferencesConditionalType<NWDItemGroup> sItemGroupsReferenceQuantity)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             if (sItemGroupsReferenceQuantity != null)
             {
@@ -617,13 +674,14 @@ namespace NetWorkedData
                         }
                     }
                 }
-            }
+            }//BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         // TODO : Verif this method
         public static bool ConditionalItemGroup(NWDReferenceConditionalType<NWDItemGroup> sConditional)
         {
+            //BTBBenchmark.Start();
             bool rReturn = true;
             NWDItemGroup tItemGroup = NWDItemGroup.FindDataByReference(sConditional.Reference);
             if (tItemGroup != null)
@@ -638,6 +696,7 @@ namespace NetWorkedData
                 // I Got the quantity
                 rReturn = sConditional.isValid(tQ);
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -684,13 +743,12 @@ namespace NetWorkedData
         public override void AddonInsertMe()
         {
             // do something when object will be inserted
-            InsertInIndex();
+            //InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdateMe()
         {
             // do something when object will be updated
-            InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMeFromWeb()
@@ -702,11 +760,13 @@ namespace NetWorkedData
         public override void AddonUpdatedMe()
         {
             // do something when object finish to be updated
+            InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDuplicateMe()
         {
             // do something when object will be dupplicate
+            InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonEnableMe()
@@ -727,6 +787,14 @@ namespace NetWorkedData
         public override void AddonUnTrashMe()
         {
             // do something when object will be remove from trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Addon method when untrahs me. Can be ovverride in herited Class.
+        /// </summary>
+        public virtual void AddonDeleteMe()
+        {
+            RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
