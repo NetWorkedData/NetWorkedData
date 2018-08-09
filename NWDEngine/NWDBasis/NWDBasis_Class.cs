@@ -241,12 +241,7 @@ namespace NetWorkedData
         ////-------------------------------------------------------------------------------------------------------------
         //public static string PrefSalt()
         //{
-        //    string rReturn = "";
-        //    if (kPrefSalt.ContainsKey(ClassID()))
-        //    {
-        //        rReturn = kPrefSalt[ClassID()];
-        //    }
-        //    return rReturn;
+        //    return Datas().SaltOk;
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static void SetPrefSalt(string sPrefSalt)

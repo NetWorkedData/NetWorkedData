@@ -159,13 +159,20 @@ namespace NetWorkedData
             //Debug.Log("NWDDataManager TestSaltMemorizationForAllClass()");
             bool rReturn = true;
             foreach (Type tType in mTypeList) {
-                var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null) {
-                    string tR = tMethodInfo.Invoke (null, null) as string;
-                    if (tR != "ok") {
-                        rReturn = false;
-                    }
+
+                if (NWDDatas.FindTypeInfos(tType).SaltOk != "ok")
+                {
+                    rReturn = false;
+                    break;
                 }
+
+                //var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tMethodInfo != null) {
+                //    string tR = tMethodInfo.Invoke (null, null) as string;
+                //    if (tR != "ok") {
+                //        rReturn = false;
+                //    }
+                //}
             }
             if (rReturn == false) {
                 // do reccord and recompile
