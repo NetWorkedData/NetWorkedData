@@ -73,7 +73,7 @@ namespace NetWorkedData
         //public Object kObjectInEdition;
         //public Object[] kObjectsArrayInEdition;
         //-------------------------------------------------------------------------------------------------------------
-        static Texture2D Texture = null;
+        private Texture2D Texture = null;
         public Texture2D TextureOfClass()
         {
             if (Texture == null)
