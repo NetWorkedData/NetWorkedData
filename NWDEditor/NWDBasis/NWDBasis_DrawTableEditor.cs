@@ -820,6 +820,14 @@ namespace NetWorkedData
                 GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED);
             }
 
+
+            GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+            {
+                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                tBasisInspector.mTypeInEdition = ClassType();
+                Selection.activeObject = tBasisInspector;
+            }
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
 
@@ -832,12 +840,11 @@ namespace NetWorkedData
 
             GUILayout.BeginVertical(GUILayout.Width(120));
             // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+
+            Texture2D tTextureOfClass = Datas().TextureOfClass();
+            if (tTextureOfClass != null)
             {
-                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                tBasisInspector.mTypeInEdition = ClassType();
-                Selection.activeObject = tBasisInspector;
+                GUILayout.Label(tTextureOfClass, tRightLabel, GUILayout.MaxHeight(64.0F));
             }
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
