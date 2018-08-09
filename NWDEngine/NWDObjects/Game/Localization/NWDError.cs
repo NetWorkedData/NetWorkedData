@@ -242,11 +242,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PostNotificationError()
         {
-            // do something with this object
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void PostAlert()
-        {
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_ERROR, this);
         }
         //-------------------------------------------------------------------------------------------------------------
