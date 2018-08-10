@@ -40,6 +40,7 @@ namespace NetWorkedData
         /// </summary>
         [Header("Optional bind")]
         public Text TextTarget;
+        public TextMesh TextMeshTarget;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         public void LocalizeEditor()
@@ -69,26 +70,73 @@ namespace NetWorkedData
                         NWDLocalization tLocalization = LocalizationReference.GetObject();
                         if (tLocalization != null)
                         {
+                            string tTextString = "";
                             switch (AutoTag)
                             {
                                 case NWDAutolocalizedTag.BaseString:
                                     {
-                                        string tTextString = tLocalization.TextValue.GetBaseString();
-                                        TextTarget.text = tTextString;
+                                        tTextString = tLocalization.TextValue.GetBaseString();
                                     }
                                     break;
                                 case NWDAutolocalizedTag.MarkedBaseString:
                                     {
-                                        string tTextString = tLocalization.TextValue.GetBaseString();
-                                        TextTarget.text = "#" + tTextString + "#";
+                                        tTextString = "#" + tLocalization.TextValue.GetBaseString()+ "#";
                                     }
                                     break;
                                 case NWDAutolocalizedTag.KeyInternal:
                                     {
-                                        string tTextString = tLocalization.InternalKeyValue();
-                                        TextTarget.text = tTextString;
+                                        tTextString = tLocalization.InternalKeyValue();
                                     }
                                     break;
+                            }
+                            if (TextTarget.text != tTextString)
+                            {
+                                TextTarget.text = tTextString;
+                                EditorUtility.SetDirty(TextMeshTarget);
+                            }
+                        }
+                    }
+                    // if not pluging
+                    if (TextMeshTarget == null)
+                    {
+                        // get root text
+                        TextMeshTarget = GetComponent<TextMesh>();
+                    }
+                    // if not find in root object
+                    if (TextMeshTarget == null)
+                    {
+                        // get first children text
+                        TextMeshTarget = GetComponentInChildren<TextMesh>();
+                    }
+                    if (TextMeshTarget != null)
+                    {
+                        // set the localizable text
+                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        if (tLocalization != null)
+                        {
+                            string tTextString = "";
+                            switch (AutoTag)
+                            {
+                                case NWDAutolocalizedTag.BaseString:
+                                    {
+                                        tTextString = tLocalization.TextValue.GetBaseString();
+                                    }
+                                    break;
+                                case NWDAutolocalizedTag.MarkedBaseString:
+                                    {
+                                        tTextString = "#" +tLocalization.TextValue.GetBaseString() + "#";
+                                    }
+                                    break;
+                                case NWDAutolocalizedTag.KeyInternal:
+                                    {
+                                        tTextString = tLocalization.InternalKeyValue();
+                                    }
+                                    break;
+                            }
+                            if (TextMeshTarget.text != tTextString)
+                            {
+                                TextMeshTarget.text = tTextString;
+                                EditorUtility.SetDirty(TextMeshTarget);
                             }
                         }
                     }
@@ -126,6 +174,35 @@ namespace NetWorkedData
                     {
                         string tTextString = tLocalization.GetLocalString();
                         TextTarget.text = tTextString;
+                    }
+                }
+            }// if not pluging
+            if (TextMeshTarget == null)
+            {
+                // get root text
+                TextMeshTarget = GetComponent<TextMesh>();
+            }
+            // if not find in root object
+            if (TextMeshTarget == null)
+            {
+                // get first children text
+                TextMeshTarget = GetComponentInChildren<TextMesh>();
+            }
+            if (TextMeshTarget != null)
+            {
+                // set the localizable text
+                NWDLocalization tLocalization = LocalizationReference.GetObject();
+                if (tLocalization != null)
+                {
+                    if (sUseBaseString == true)
+                    {
+                        string tTextString = tLocalization.TextValue.GetBaseString();
+                        TextMeshTarget.text = tTextString;
+                    }
+                    else
+                    {
+                        string tTextString = tLocalization.GetLocalString();
+                        TextMeshTarget.text = tTextString;
                     }
                 }
             }

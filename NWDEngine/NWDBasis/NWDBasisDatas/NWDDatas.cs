@@ -1240,17 +1240,22 @@ namespace NetWorkedData
         public static K FindDataByReference(string sReference, string sAccountReference = null)
         {
             K rReturn = null;
-            if (string.IsNullOrEmpty(sAccountReference))
+            if (string.IsNullOrEmpty(sReference) == false)
             {
-                sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            }
-
-            if (Datas().DatasByReference.ContainsKey(sReference))
-            {
-                K tObject = Datas().DatasByReference[sReference] as K;
-                if (tObject.IsReacheableByAccount(sAccountReference))
+                if (string.IsNullOrEmpty(sAccountReference))
                 {
-                    rReturn = tObject;
+                    sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                }
+                if (Datas().DatasByReference != null)
+                {
+                    if (Datas().DatasByReference.ContainsKey(sReference))
+                    {
+                        K tObject = Datas().DatasByReference[sReference] as K;
+                        if (tObject.IsReacheableByAccount(sAccountReference))
+                        {
+                            rReturn = tObject;
+                        }
+                    }
                 }
             }
             return rReturn;
