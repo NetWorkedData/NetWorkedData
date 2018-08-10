@@ -217,23 +217,8 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-
-        // the string is item.reference + gamesave.reference
-        //-------------------------------------------------------------------------------------------------------------
-        //#warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        /// <summary>
-        /// Gets or sets the account reference.
-        /// </summary>
-        /// <value>The account reference.</value>
-        /// 
         [NWDGroupStart("Ownership", true, true, true)] // ok
         public bool FirstAcquisition
         {
@@ -749,6 +734,7 @@ namespace NetWorkedData
         public override void AddonUpdateMe()
         {
             // do something when object will be updated
+            // not insert in index because integrity is not reevaluate!
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMeFromWeb()
@@ -792,7 +778,7 @@ namespace NetWorkedData
         /// <summary>
         /// Addon method when untrahs me. Can be ovverride in herited Class.
         /// </summary>
-        public virtual void AddonDeleteMe()
+        public override void AddonDeleteMe()
         {
             RemoveFromIndex();
         }

@@ -12,6 +12,7 @@ using System.Reflection;
 using BasicToolBox;
 using UnityEngine;
 using SQLite4Unity3d;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
@@ -66,8 +67,25 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Texture FromGizmos(string sName)
 		{
-            return NWDFindPackage.PackageEditorTexture(sName+".png");
-		}
+            Texture rTexture = NWDFindPackage.PackageEditorTexture(sName+".png");
+            if (rTexture == null)
+            {
+                string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
+                foreach (string tGUID in sGUIDs)
+                {
+                    //Debug.Log("TextureOfClass GUID " + tGUID);
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    //Debug.Log("tPathFilename = " + tPathFilename);
+                    if (tPathFilename.Equals(sName))
+                    {
+                        //Debug.Log("TextureOfClass " + tPath);
+                        rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                    }
+                }
+            }
+            return rTexture;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBasisWindow(string sTitleKey = "", string sDescriptionKey = "", Type[] sTabTypeList = null)
 		{

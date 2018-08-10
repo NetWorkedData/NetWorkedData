@@ -374,7 +374,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_HEADER_SELECT = " ";
         public const string K_APP_TABLE_HEADER_ID = "ID";
         public const string K_APP_TABLE_HEADER_PREFAB = "PrF";
-        public const string K_APP_TABLE_HEADER_DESCRIPTION = "Description";
+        public const string K_APP_TABLE_HEADER_DESCRIPTION = "Row informations";
         public const string K_APP_TABLE_HEADER_DISK = "Disk";
         public const string K_APP_TABLE_HEADER_SYNCHRO = "Sync";
         public const string K_APP_TABLE_HEADER_DEVSYNCHRO = "Dev";

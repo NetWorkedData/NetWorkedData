@@ -863,8 +863,16 @@ namespace NetWorkedData
                                 else if (tTypeOfThis.IsEnum)
                                 {
                                     Enum tValue = tProp.GetValue(this, null) as Enum;
-                                    Enum tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
-                                    tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                    Enum tValueNext = tValue;
+                                    if (tProp.GetCustomAttributes(typeof(NWDFlagsEnumAttribute), true).Length > 0)
+                                    {
+                                        tValueNext = EditorGUI.EnumFlagsField(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
+                                    }
+                                    else
+                                    {
+                                        tValueNext = EditorGUI.EnumPopup(new Rect(tX, tY, tWidth, tPopupdStyle.fixedHeight), tContent, tValue, tPopupdStyle);
+                                    }
+                                        tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
                                         tProp.SetValue(this, tValueNext, null);

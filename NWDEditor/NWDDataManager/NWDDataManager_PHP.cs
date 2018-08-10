@@ -181,7 +181,7 @@ namespace NetWorkedData
             string tProgressBarTitle = "NetWorkedData Create all php files";
             float tCountClass = mTypeList.Count + 1;
             float tOperation = 1;
-            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create general error index", tOperation / tCountClass);
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create environment php files", tOperation / tCountClass);
             tOperation++;
 
             if (CreateAllEnvironmentPHP())

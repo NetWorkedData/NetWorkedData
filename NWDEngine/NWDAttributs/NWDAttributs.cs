@@ -22,6 +22,14 @@ namespace NetWorkedData
     /// <summary>
     /// NWDNotVersionnableAttribute excluded the NWDBasis<K> from the version systeme restriction. Never use in custom Class!
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    public class NWDFlagsEnumAttribute : Attribute
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDNotVersionnableAttribute excluded the NWDBasis<K> from the version systeme restriction. Never use in custom Class!
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class NWDNotVersionnableAttribute : Attribute
     {
