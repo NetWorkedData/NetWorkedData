@@ -249,7 +249,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "", GameObject tParent = null)
+        /*public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "", GameObject tParent = null)
         {
             if (NWDTypeLauncher.DataLoaded)
             {
@@ -296,7 +296,7 @@ namespace NetWorkedData
                 EditorUtility.DisplayDialog("AutoLocalize", "NWD engine not loaded", "OK");
 #endif
             }
-        }
+        }*/
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Enrichment the specified sText, with sLanguage and sBold.
