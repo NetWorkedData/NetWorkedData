@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
 using System.Reflection;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
@@ -22,6 +23,8 @@ namespace NetWorkedData
     /// </summary>
     public class NWDAppEnvironmentSync : EditorWindow
     {
+        //-------------------------------------------------------------------------------------------------------------
+        GUIContent IconAndTitle;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The dev icon.
@@ -261,7 +264,28 @@ namespace NetWorkedData
             this.minSize = new Vector2(300, 500);
             this.maxSize = new Vector2(300, 4096);
             // set title of window
-            titleContent = new GUIContent(NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE);
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE;
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentSync t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        //Debug.Log("TextureOfClass GUID " + tGUID);
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        //Debug.Log("tPathFilename = " + tPathFilename);
+                        if (tPathFilename.Equals("NWDAppEnvironmentSync"))
+                        {
+                            //Debug.Log("TextureOfClass " + tPath);
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
             // show helpbox
             EditorGUILayout.HelpBox(NWDConstants.K_APP_SYNC_ENVIRONMENT, MessageType.None);
 

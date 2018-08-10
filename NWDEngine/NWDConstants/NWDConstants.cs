@@ -41,9 +41,10 @@ namespace NetWorkedData
         public static string K_PRODUCTION_NAME = "Prod";
         //-------------------------------------------------------------------------------------------------------------
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
-        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "Environment chooser";
+        public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "NWD Chooser";
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
-        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "Environment synchronize";
+        public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
+        public static string K_APP_SYNC_INSPECTOR_TITLE ="NWD Data";
         public static string K_VERSION_LABEL = "Version";
         //-------------------------------------------------------------------------------------------------------------
         public static string kStandardSeparator = "|";
@@ -104,19 +105,19 @@ namespace NetWorkedData
 
         public const string K_MENU_BASE = "NetWorkedDatas/";
         public const string K_MENU_IDEMOBI = K_MENU_BASE + "Developed by ideMobi";
-        public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Editor preferences";
-        public const string K_MENU_EDITOR_NODAL = K_MENU_BASE + "Editor Nodal";
+        public const string K_MENU_EDITOR_PREFERENCES = K_MENU_BASE + "Tools/Editor preferences";
+        public const string K_MENU_EDITOR_NODAL = K_MENU_BASE + "Tools/Editor Nodal";
         public const string K_BUTTON_EDITOR_NODAL = "Nodal view";
-        public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Create New NWDBasis Class";
-        public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Create New Window NWD management";
+        public const string K_MENU_EDITOR_NEWCLASS = K_MENU_BASE + "Tools/New Data/Create New NWDBasis Class";
+        public const string K_MENU_EDITOR_NEWWINDOW = K_MENU_BASE + "Tools/New Data/Create New Window NWD management";
 
-        public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environment configurations";
-        public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environment player chooser";
-        public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environment synchronize";
-        public const string K_MENU_GAME = K_MENU_BASE + "Game/App's configurations";
-        public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "All Data's Classes (herited from NWDBasis<K>)";
+        public const string K_MENU_ENVIRONMENT_EDIT = K_MENU_BASE + "Environments configurations";
+        public const string K_MENU_ENVIRONMENT = K_MENU_BASE + "Environments player chooser";
+        public const string K_MENU_ENVIRONMENT_SYNC = K_MENU_BASE + "Environments synchronize";
+        //public const string K_MENU_GAME = K_MENU_BASE + "Game/App Configurations";
+        public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis<K>)";
 
-        public const string K_MENU_CREATE_PHP = "Creation of files for server";
+        public const string K_MENU_CREATE_PHP = "Tools/Server auto generate";
         public const string K_MENU_CREATE_PHP_FILES = K_MENU_BASE + K_MENU_CREATE_PHP + "/Create PHP Files";
         public const string K_MENU_CREATE_PHP_ERRORS = K_MENU_BASE + K_MENU_CREATE_PHP + "/Create Generic Errors";
         public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = K_MENU_BASE + K_MENU_CREATE_PHP + "/Export website(s)";
@@ -124,7 +125,7 @@ namespace NetWorkedData
         public const string K_MENU_CREATE_CSHARP = "Creation of  files of workflow";
         public const string K_MENU_CREATE_CSHARP_FILES = K_MENU_BASE + K_MENU_CREATE_CSHARP + "/Create CSharp Files Workflow";
 
-        public const string K_MENU_LOCALIZATION = "Localization";
+        public const string K_MENU_LOCALIZATION = "Tools/Localization";
         public const string K_MENU_LOCALIZATION_CONFIG = K_MENU_BASE + K_MENU_LOCALIZATION + "/Localization configuration";
         public const string K_MENU_LOCALIZATION_REORDER = K_MENU_BASE + K_MENU_LOCALIZATION + "/Reorder language in all objects";
         public const string K_MENU_LOCALIZATION_EXPORT = K_MENU_BASE + K_MENU_LOCALIZATION + "/Export in csv";

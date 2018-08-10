@@ -15,19 +15,21 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Items",
-        "Items Edition",
-        "NWDIcons_02",
+        "Items",
+                                 "NWDItemWindow",
         new Type[] {
-            typeof(NWDItem),
-            typeof(NWDItemProperty),
-            typeof(NWDItemGroup),
+        typeof(NWDItem),
+        typeof(NWDBattleProperty),
+        typeof(NWDItemProperty),
+        typeof(NWDItemGroup),
+        typeof(NWDUserOwnership),
 			/* Add NWDBasis here*/
 		}
     )]
     public class NWDItemWindow : NWDBasisWindow<NWDItemWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Item" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Items", false, 530)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {

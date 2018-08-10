@@ -181,7 +181,7 @@ namespace NetWorkedData
 			NWDDataManager.SharedInstance().CreatePHPAllClass();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9003)]
+		[MenuItem (NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9020)]
 		public static void CreateWebsitesPHP ()
 		{
 //			NWDFindPackage.SharedInstance ();

@@ -14,9 +14,9 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDTypeWindowParamAttribute("NWD Classes",
+	[NWDTypeWindowParamAttribute("NWD All",
 		"All NWD Basis herited classes edition window.",
-		"NWDIcons_02",
+         "NWDAllClassesWindow",
 		null
                                 )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -18,20 +18,19 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Craft",
         "Craft edition",
-        "NWDIcons_02",
-        new Type[] {
+        "NWDCraftBookWindow",
+            new Type[] {
+            typeof(NWDCraftBook),
+            typeof(NWDRecipientGroup),
             typeof(NWDItemGroup),
             typeof(NWDItem),
-            typeof(NWDRecipientGroup),
-            typeof(NWDCraftBook),
 			/* Add NWDBasis here*/
 		}
     )]
     public class NWDCraftBookWindow : NWDBasisWindow<NWDCraftBookWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Craft" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
-        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "CraftBooks", false, 531)]
         public static void MenuMethod()
         {
             EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDCraftBookWindow));

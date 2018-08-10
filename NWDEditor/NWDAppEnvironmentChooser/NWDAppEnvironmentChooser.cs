@@ -6,6 +6,7 @@
 //=====================================================================================================================
 using System;
 using UnityEngine;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
@@ -16,7 +17,9 @@ namespace NetWorkedData
     /// NWDAppEnvironmentChooser. This class show window with form to choose the environment using in editor.
 	/// </summary>
 	public class NWDAppEnvironmentChooser : EditorWindow
-	{
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        GUIContent IconAndTitle;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SharedInstance to use from NWDEditorMenu.
@@ -32,11 +35,33 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
 		{
+
             // set the size (min/max)
 			this.minSize = new Vector2 (300, 150);
 			this.maxSize = new Vector2 (300, 4096);
-			// set title of window
-			titleContent = new GUIContent (NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE);
+            // set title of window
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = NWDConstants.K_APP_CHOOSER_ENVIRONMENT_TITLE;
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentChooser t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        //Debug.Log("TextureOfClass GUID " + tGUID);
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        //Debug.Log("tPathFilename = " + tPathFilename);
+                        if (tPathFilename.Equals("NWDAppEnvironmentChooser"))
+                        {
+                            //Debug.Log("TextureOfClass " + tPath);
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
 			// show helpbox
 			EditorGUILayout.HelpBox (NWDConstants.K_APP_CHOOSER_ENVIRONMENT, MessageType.None);
 

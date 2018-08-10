@@ -20,14 +20,14 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Shop",
         "Shop window description",
-        "NWDIcons_02",
+        "NWDShopWindow",
         new Type[] {
             typeof(NWDShop),
             typeof(NWDRack),
             typeof(NWDPack),
             typeof(NWDItemPack),
             typeof(NWDItem),
-            typeof(NWDInAppPack),
+            //typeof(NWDInAppPack),
             typeof(NWDTransaction),
 			/* Add NWDBasis here*/
 		}
@@ -36,7 +36,7 @@ namespace NetWorkedData
     public class NWDShopWindow : NWDBasisWindow<NWDShopWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/Shop" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2010)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Marketplaces/Shop" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 532)]
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {

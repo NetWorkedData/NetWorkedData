@@ -17,30 +17,28 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDTypeWindowParamAttribute("User Party Window",
-                                 "User Party Window",
-                                 "NWDIcons_02", // NWDUserPartyWindow_ICON
+    [NWDTypeWindowParamAttribute("Game Save",
+                                 "Game Save",
+                                 "NWDGameSaveWindow", // NWDUserWindow
         new Type[] {
         typeof(NWDGameSave),
-        typeof(NWDUserOwnership),
-        typeof(NWDUserQuestAdvancement),
-        typeof(NWDUserConsolidatedStats),
-        typeof(NWDUserStats),
+        typeof(NWDAccount),
+        typeof(NWDUserInfos),
 		/* Add NWDBasis here*/
 		}
                                 )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDGameSaveWindow : NWDBasisWindow <NWDGameSaveWindow>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-        [MenuItem (NWDConstants.K_MENU_BASE + "User Game Save" + NWDConstants.K_MENU_BASIS_WINDOWS_MANAGEMENT, false, 2000)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDGameSaveWindow));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
+    public class NWDGameSaveWindow : NWDBasisWindow<NWDGameSaveWindow>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game Save", false, 301)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDGameSaveWindow));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
