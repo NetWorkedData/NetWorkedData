@@ -79,6 +79,34 @@ namespace NetWorkedData
         public static Texture2D PackageEditorTexture(string sAddPath = "")
         {
             return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditorTextures(sAddPath));
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static Texture EditorTexture(string sName)
+        {
+            Texture rTexture = PackageEditorTexture(sName + ".png");
+            if (rTexture == null)
+            {
+                rTexture = PackageEditorTexture(sName + ".psd");
+            }
+            //if (rTexture == null)
+            //{
+            //    rTexture = PackageEditorTexture(sName + ".jpeg");
+            //}
+            if (rTexture == null)
+            {
+                string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
+                foreach (string tGUID in sGUIDs)
+                {
+                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                    if (tPathFilename.Equals(sName))
+                    {
+                        rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                    }
+                }
+            }
+            return rTexture;
         }
 		//-------------------------------------------------------------------------------------------------------------
     }

@@ -20,7 +20,8 @@ namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDBasisWindow <K> : NWDTypeWindow where K : NWDBasisWindow <K>, new()
-	{
+    {
+        //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// The title of window
 		/// </summary>
@@ -65,27 +66,27 @@ namespace NetWorkedData
 			//Debug.Log ("NWDBasisWindow basic construtor");
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Texture FromGizmos(string sName)
-		{
-            Texture rTexture = NWDFindPackage.PackageEditorTexture(sName+".png");
-            if (rTexture == null)
-            {
-                string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
-                foreach (string tGUID in sGUIDs)
-                {
-                    //Debug.Log("TextureOfClass GUID " + tGUID);
-                    string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                    string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                    //Debug.Log("tPathFilename = " + tPathFilename);
-                    if (tPathFilename.Equals(sName))
-                    {
-                        //Debug.Log("TextureOfClass " + tPath);
-                        rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                    }
-                }
-            }
-            return rTexture;
-        }
+		//public Texture FromGizmos(string sName)
+		//{
+        //    Texture rTexture = NWDFindPackage.PackageEditorTexture(sName+".png");
+        //    if (rTexture == null)
+        //    {
+        //        string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
+        //        foreach (string tGUID in sGUIDs)
+        //        {
+        //            //Debug.Log("TextureOfClass GUID " + tGUID);
+        //            string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+        //            string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+        //            //Debug.Log("tPathFilename = " + tPathFilename);
+        //            if (tPathFilename.Equals(sName))
+        //            {
+        //                //Debug.Log("TextureOfClass " + tPath);
+        //                rTexture = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+        //            }
+        //        }
+        //    }
+        //    return rTexture;
+        //}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDBasisWindow(string sTitleKey = "", string sDescriptionKey = "", Type[] sTabTypeList = null)
 		{
@@ -167,11 +168,17 @@ namespace NetWorkedData
 		/// </summary>
 		void OnEnable ()
 		{
+            
             NWDDataManager.SharedInstance().DataQueueExecute();
 			if (typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true).Length > 0) {
 				NWDTypeWindowParamAttribute tNWDBasisWindowParamAttribute = (NWDTypeWindowParamAttribute)typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true) [0];
 				mTitleKey = tNWDBasisWindowParamAttribute.Title;
-				IconOfWindow = FromGizmos(tNWDBasisWindowParamAttribute.IconName);
+				//IconOfWindow = FromGizmos(tNWDBasisWindowParamAttribute.IconName);
+                IconOfWindow = NWDFindPackage.EditorTexture(tNWDBasisWindowParamAttribute.IconName);
+                if (IconOfWindow == null)
+                {
+                    IconOfWindow = NWDFindPackage.PackageEditorTexture("settings.png");
+                }
 				mDescriptionKey = tNWDBasisWindowParamAttribute.Description;
 				if (tNWDBasisWindowParamAttribute.TypeList == null) {
 					mTabTypeList = NWDDataManager.SharedInstance().mTypeList.ToArray ();
@@ -179,7 +186,13 @@ namespace NetWorkedData
 				} else {
 					mTabTypeList = tNWDBasisWindowParamAttribute.TypeList;
 				}
-				DefineTab ();
+                // create the title content
+                titleContent = new GUIContent();
+                titleContent.text = mTitleKey;
+                titleContent.tooltip = mDescriptionKey; // not working :-(
+                titleContent.image = IconOfWindow;
+                // redefine the TabBar navigation
+                DefineTab();
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -229,21 +242,13 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnGUI ()
         {
+            NWDEditorConstants.LoadStyles();
             // prepare the style
             //GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
-            GUIStyle tToolbarStyle = new GUIStyle(EditorStyles.toolbar);
+            //GUIStyle tToolbarStyle = new GUIStyle(GUI.skin.button);
+            GUIStyle tToolbarStyle = NWDEditorConstants.ToolbarStyle;
+            //tToolbarStyle.alignment = TextAnchor.MiddleLeft;
             GUIStyle tPopupStyle = new GUIStyle(EditorStyles.popup);
-            // prepare the GUIContent of title for window
-			titleContent = new GUIContent ();
-            titleContent.text = mTitleKey;
-            titleContent.tooltip = mDescriptionKey; // not working :-(
-			if (IconOfWindow == null) 
-			{
-                IconOfWindow = NWDFindPackage.PackageEditorTexture("settings.png");
-			}
-			if (IconOfWindow != null) {
-				titleContent.image = IconOfWindow;
-			}
             // get width of window
 			float tWidthUsed = EditorGUIUtility.currentViewWidth;
             // determine height
@@ -280,7 +285,7 @@ namespace NetWorkedData
             if (mTabContentList.Length > 1) {
                 GUILayout.Space(NWDConstants.kFieldMarge);
                 if (tWidthUsed > TabsTotalWidthExpected) {
-                    tTabSelected = GUILayout.Toolbar (mTabSelected, mTabContentList);
+                    tTabSelected = GUILayout.Toolbar(mTabSelected, mTabContentList, tToolbarStyle, GUILayout.Height(tHeight));
 				} else {
                     tTabSelected = EditorGUILayout.Popup (mTabSelected, mTabContentList);
                 }
@@ -304,7 +309,9 @@ namespace NetWorkedData
 			if (mTabTypeList.Count ()>0) {
 				Type tType = mTabTypeList [tTabSelected];
 				if (mTabSelected != tTabSelected) {
-					SetClassInEdition (tType);
+                    // POUR ACTIVER LA CLASSE DAN L'INSPECTOR 
+
+					//SetClassInEdition (tType);
 				}
 				mTabSelected = tTabSelected;
 				GUILayout.Space (5.0f);

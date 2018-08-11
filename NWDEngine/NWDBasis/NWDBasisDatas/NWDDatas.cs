@@ -186,7 +186,7 @@ namespace NetWorkedData
                 tTypeInfos.ClassDescription = sDescription;
                 tTypeInfos.ClassSynchronize = sClassSynchronize;
                 // create GUI object
-                tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, sDescription);
+                tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName,tTypeInfos.TextureOfClass(), sDescription);
                 // Prepare engine informlations
                 tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
                 tTypeInfos.PropertiesArrayPrepare();

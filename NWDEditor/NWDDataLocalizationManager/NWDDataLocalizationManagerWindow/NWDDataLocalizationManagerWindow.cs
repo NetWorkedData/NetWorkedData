@@ -24,7 +24,8 @@ namespace NetWorkedData
 		public void OnEnable ()
 		{
 			mTitleKey = "Localization";
-			IconOfWindow = FromGizmos("NWDIcons_03");
+            //IconOfWindow = FromGizmos("NWDIcons_03");
+            IconOfWindow = NWDFindPackage.EditorTexture("NWDIcons_03");
 			mDescriptionKey = "";
 			mTabTypeList = new Type[] {
 				typeof(NWDDataLocalizationManager),

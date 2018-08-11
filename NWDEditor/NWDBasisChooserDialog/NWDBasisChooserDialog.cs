@@ -26,7 +26,6 @@ namespace NetWorkedData
         public object ObjectToUse;
         public PropertyInfo ObjectProperty;
         public NWDBasisChooserMode Mode = NWDBasisChooserMode.Replace;
-
         public string ActualValue;
         public int IndexValue;
         public string ReplaceValue;
