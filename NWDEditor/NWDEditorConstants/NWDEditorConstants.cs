@@ -20,18 +20,18 @@ namespace NetWorkedData
     public class NWDEditorConstants
     {
         //-------------------------------------------------------------------------------------------------------------
-        static private GUISkin Skin;
-        static public  GUIStyle ToolbarStyle;
+        //static private GUISkin Skin;
+        //static public  GUIStyle ToolbarStyle;
         //-------------------------------------------------------------------------------------------------------------
-        static bool StyleLoaded = false;
+        //static bool StyleLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadStyles()
         {
             //if (StyleLoaded == false)
             {
-                StyleLoaded = true;
-                Skin = (GUISkin)Resources.Load("NWDCustomSkin");
-                ToolbarStyle = Skin.GetStyle("NWDToolbar");
+                //StyleLoaded = true;
+                //Skin = (GUISkin)Resources.Load("NWDCustomSkin");
+                //ToolbarStyle = Skin.GetStyle("NWDToolbar");
             }
         }
         //-------------------------------------------------------------------------------------------------------------

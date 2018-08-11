@@ -307,7 +307,7 @@ namespace NetWorkedData
         public const string K_APP_TABLE_SHORTCUT_ZONE_C = "Use 'shift' + 'tab' to navigate throw tabs.";
         public const string K_APP_TABLE_SEARCH_REFERENCE = "Reference";
         public const string K_APP_TABLE_SEARCH_NAME = "Internal Key";
-        public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal Description";
+        public const string K_APP_TABLE_SEARCH_DESCRIPTION = "Internal Desc.";
         public const string K_APP_TABLE_SEARCH_TAG = "Internal Tag";
         public const string K_APP_TABLE_SEARCH_ACCOUNT = "Account";
         public const string K_APP_TABLE_SEARCH_GAMESAVE = "GameSave";

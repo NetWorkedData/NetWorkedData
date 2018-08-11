@@ -66,8 +66,6 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         public bool mSettingsShowing = false;
         //-------------------------------------------------------------------------------------------------------------
         //public Object kObjectInEdition;
@@ -76,6 +74,7 @@ namespace NetWorkedData
         private Texture2D Texture = null;
         public Texture2D TextureOfClass()
         {
+#if UNITY_EDITOR
             if (Texture == null)
             {
                 Texture2D rTexture = null;
@@ -99,9 +98,11 @@ namespace NetWorkedData
                     Texture = NWDConstants.kImageRed;
                 }
             }
+#endif
             return Texture;
         }
 
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 ObjectEditorScrollPosition = Vector2.zero;
         public bool kSyncAndMoreInformations = false;

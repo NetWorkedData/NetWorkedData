@@ -245,8 +245,9 @@ namespace NetWorkedData
             NWDEditorConstants.LoadStyles();
             // prepare the style
             //GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
-            //GUIStyle tToolbarStyle = new GUIStyle(GUI.skin.button);
-            GUIStyle tToolbarStyle = NWDEditorConstants.ToolbarStyle;
+            GUIStyle tToolbarStyle = new GUIStyle(GUI.skin.button);
+            //GUIStyle tToolbarStyle = new GUIStyle(EditorStyles.toolbar);
+            //GUIStyle tToolbarStyle = NWDEditorConstants.ToolbarStyle;
             //tToolbarStyle.alignment = TextAnchor.MiddleLeft;
             GUIStyle tPopupStyle = new GUIStyle(EditorStyles.popup);
             // get width of window
@@ -285,7 +286,7 @@ namespace NetWorkedData
             if (mTabContentList.Length > 1) {
                 GUILayout.Space(NWDConstants.kFieldMarge);
                 if (tWidthUsed > TabsTotalWidthExpected) {
-                    tTabSelected = GUILayout.Toolbar(mTabSelected, mTabContentList, tToolbarStyle, GUILayout.Height(tHeight));
+                    tTabSelected = GUILayout.Toolbar(mTabSelected, mTabContentList, GUILayout.Height(tHeight));
 				} else {
                     tTabSelected = EditorGUILayout.Popup (mTabSelected, mTabContentList);
                 }

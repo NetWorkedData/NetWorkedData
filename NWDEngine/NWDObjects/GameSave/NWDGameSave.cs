@@ -180,7 +180,7 @@ namespace NetWorkedData
             //Debug.Log("NWDGameSave NewCurrent()");
             NWDGameSave rParty = null;
             rParty = NWDGameSave.NewData(sWritingMode);
-            rParty.Name = "GameSave " +DateTime.Today.ToShortDateString();
+            rParty.Name = "GameSave " + DateTime.Today.ToShortDateString();
             rParty.GameSaveTagAdjust();
             rParty.SetCurrent();
             rParty.UpdateData(true, sWritingMode);
@@ -433,9 +433,44 @@ namespace NetWorkedData
         /// <param name="sInRect">S in rect.</param>
         public override float AddonEditor(Rect sInRect)
         {
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            // draw line 
+            EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+
+            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
+            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDDatas.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDDatas.FindTypeInfos(tType).m_SearchGameSave = Reference;
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+
+            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -446,6 +481,16 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+
+            tYadd += tLabelStyle.fixedHeight = tMiniButtonStyle.fixedHeight * 2 + NWDConstants.kFieldMarge * 4;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------

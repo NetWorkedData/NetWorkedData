@@ -588,20 +588,28 @@ namespace NetWorkedData
             //EditorGUILayout.BeginScrollView (Vector2.zero, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (false), GUILayout.ExpandHeight (false));
             // ===========================================
             GUILayout.BeginHorizontal();
+            float tSearchWidth = 200.0F;
+            float tOldLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = 80.0f;
             // -------------------------------------------
-            GUILayout.BeginVertical(GUILayout.Width(300));
+            GUILayout.BeginVertical(GUILayout.Width(tSearchWidth));
 
             GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
             //m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
             //NWDDatas tDatas = Datas();
 
-            Datas().m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, Datas().m_SearchReference, GUILayout.Width(300));
+            Datas().m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, Datas().m_SearchReference, GUILayout.Width(tSearchWidth));
 
 
-            Datas().m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, Datas().m_SearchInternalName, GUILayout.Width(300));
-            Datas().m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, Datas().m_SearchInternalDescription, GUILayout.Width(300));
+            Datas().m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, Datas().m_SearchInternalName, GUILayout.Width(tSearchWidth));
+            Datas().m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, Datas().m_SearchInternalDescription, GUILayout.Width(tSearchWidth));
 
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(GUILayout.Width(tSearchWidth));
+            // |||||||||||||||||||||||||||||||||||||||||||
+            GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             // SELECT ACCOUNT 
             EditorGUI.BeginDisabledGroup(!AccountDependent());
             List<string> tReferenceList = new List<string>();
@@ -629,7 +637,8 @@ namespace NetWorkedData
                 tContentFuturList.Add(new GUIContent(tS));
             }
             int tIndexAccount = tReferenceList.IndexOf(Datas().m_SearchAccount);
-            int tNewIndexAccount = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray());
+            int tNewIndexAccount = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray(),
+                                                                        GUILayout.Width(tSearchWidth));
             if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
             {
                 Datas().m_SearchAccount = tReferenceList[tNewIndexAccount];
@@ -667,7 +676,8 @@ namespace NetWorkedData
                 tContentFuturSaveList.Add(new GUIContent(tS));
             }
             int tIndexSave = tReferenceSaveList.IndexOf(Datas().m_SearchGameSave);
-            int tNewIndexSave = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray());
+            int tNewIndexSave = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray(),
+                                                                        GUILayout.Width(tSearchWidth));
             if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
             {
                 Datas().m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
@@ -691,11 +701,12 @@ namespace NetWorkedData
             Datas().m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
                                                                 (int)Datas().m_SearchTag, tTagStringList.ToArray(),
                                                                 tTagIntList.ToArray(),
-                                                                GUILayout.Width(300));
+                                                                        GUILayout.Width(tSearchWidth));
 
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
+            EditorGUIUtility.labelWidth = tOldLabelWidth;
             GUILayout.BeginVertical(GUILayout.Width(120));
             GUILayout.Label(" ", EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||

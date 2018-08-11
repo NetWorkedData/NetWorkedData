@@ -349,6 +349,19 @@ namespace NetWorkedData
             EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
             tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
+
+            // Draw the interface addon for editor
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDDatas.FindTypeInfos(tType).m_SearchAccount = Reference;
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+
+
             kInternalLogin = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Email to hash", kInternalLogin, tTextFieldStyle);
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
             kInternalPassword = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Password to hash", kInternalPassword, tTextFieldStyle);
@@ -522,7 +535,7 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             tY += NWDConstants.kFieldMarge * 2;
             tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
