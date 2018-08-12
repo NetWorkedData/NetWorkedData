@@ -75,6 +75,7 @@ namespace NetWorkedData
             //Debug.Log("InsertInIndex reference =" + Reference);
             //BTBBenchmark.Start();
             if (Item.GetReference() != null
+                && GameSave!=null
                 && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
                 && IsEnable() == true
                 && IsTrashed() == false
