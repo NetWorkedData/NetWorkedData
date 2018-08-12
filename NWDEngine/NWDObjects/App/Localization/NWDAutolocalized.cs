@@ -92,7 +92,7 @@ namespace NetWorkedData
                             if (TextTarget.text != tTextString)
                             {
                                 TextTarget.text = tTextString;
-                                EditorUtility.SetDirty(TextMeshTarget);
+                                EditorUtility.SetDirty(TextTarget);
                             }
                         }
                     }
