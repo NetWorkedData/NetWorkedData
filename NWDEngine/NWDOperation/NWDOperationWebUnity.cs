@@ -277,11 +277,10 @@ namespace NetWorkedData
                             if (ResultInfos.errorDesc != null)
                             {
                                 ResultInfos.errorDesc.PostNotificationError();
+                                #if UNITY_EDITOR
+                                ResultInfos.errorDesc.ShowNativeAlert();
+                                #endif
                             }
-
-                            #if UNITY_EDITOR
-                            ResultInfos.errorDesc.ShowNativeAlert();
-                            #endif
 
                             // Request Failed, send Invoke
                             FailInvoke(Request.downloadProgress, ResultInfos);
