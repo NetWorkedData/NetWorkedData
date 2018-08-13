@@ -80,7 +80,7 @@ namespace NetWorkedData
         {
             get; set;
         } // TODO : rename by Title ?
-        public NWDLocalizableStringType Message
+        public NWDLocalizableTextType Message
         {
             get; set;
         } // TODO : rename by Description ?
@@ -199,7 +199,7 @@ namespace NetWorkedData
                 tTitle.Value = "BASE:" + sTitle;
                 tError.Title = tTitle;
                 // description
-                NWDLocalizableStringType tDescription = new NWDLocalizableStringType();
+                NWDLocalizableTextType tDescription = new NWDLocalizableTextType();
                 tDescription.Value = "BASE:" + sDescription;
                 tError.Message = tDescription;
                 // add-on edited

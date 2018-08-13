@@ -355,7 +355,7 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetLocalString()         {             string tText = TextValue.GetLocalString();             return tText.Replace("<br>", "\n");         }
+        public string GetLocalString()         {             string tText = TextValue.GetLocalString();             return tText.Replace("<br>", Environment.NewLine);         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
