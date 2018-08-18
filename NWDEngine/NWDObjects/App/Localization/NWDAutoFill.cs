@@ -25,6 +25,7 @@ namespace NetWorkedData
         public NWDLocalizationConnection LocalizationReference;
         public NWDAutolocalizedTag AutoTag = NWDAutolocalizedTag.MarkedBaseString;
         private string StringToUse;
+        public bool AutoStart = true;
         [Header("Optional bind")]
         public Text TextTarget;
         [Header("Fill speed")]
@@ -146,7 +147,10 @@ namespace NetWorkedData
         private void Start()
         {
             StringToUse = string.Copy(TextTarget.text);
-            StartFilling();
+            if (AutoStart == true)
+            {
+                StartFilling();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartFilling()
