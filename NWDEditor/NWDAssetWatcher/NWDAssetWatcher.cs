@@ -52,12 +52,16 @@ namespace NetWorkedData
         /// <param name="sNewPath">new path.</param>
 		public static AssetMoveResult OnWillMoveAsset (string sOldPath, string sNewPath)
 		{
-			AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
-			string tExtension = Path.GetExtension (sOldPath);
-			//UnityEngine.Debug.Log ("OnWillMoveAsset " + sOldPath + " to " + sNewPath);
-			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
-				NWDDataManager.SharedInstance().ChangeAssetPath (sOldPath, sNewPath);
-			}
+            AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
+            if (sOldPath.Contains("Resources"))
+            {
+                string tExtension = Path.GetExtension(sOldPath);
+                //UnityEngine.Debug.Log ("OnWillMoveAsset " + sOldPath + " to " + sNewPath);
+                if (kExtensionsWatchedList.Contains(tExtension.ToLower()))
+                {
+                    NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, sNewPath);
+                }
+            }
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -68,13 +72,17 @@ namespace NetWorkedData
         /// <param name="sOldPath">S old path.</param>
         /// <param name="e">E.</param>
 		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions sUnused)
-		{
-			AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
-			//UnityEngine.Debug.Log ("OnWillDeleteAsset " + sOldPath + "");
-			string tExtension = Path.GetExtension (sOldPath);
-			if (kExtensionsWatchedList.Contains (tExtension.ToLower ())) {
-				NWDDataManager.SharedInstance().ChangeAssetPath (sOldPath, "");
-			}
+        {
+            AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;
+            if (sOldPath.Contains("Resources"))
+            {
+                //UnityEngine.Debug.Log ("OnWillDeleteAsset " + sOldPath + "");
+                string tExtension = Path.GetExtension(sOldPath);
+                if (kExtensionsWatchedList.Contains(tExtension.ToLower()))
+                {
+                    NWDDataManager.SharedInstance().ChangeAssetPath(sOldPath, "");
+                }
+            }
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
