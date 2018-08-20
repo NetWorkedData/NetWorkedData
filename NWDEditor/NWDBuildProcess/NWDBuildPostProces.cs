@@ -21,7 +21,7 @@ using UnityEditor.Build;
 using UnityEditor.iOS.Xcode;
 #endif
 #if UNITY_STANDALONE_OSX
-using UnityEditor.iOS.Xcode;
+//using UnityEditor.iOS.Xcode;
 #endif
 
 //=====================================================================================================================
@@ -48,7 +48,7 @@ namespace NetWorkedData
                 case BuildTarget.StandaloneOSX:
                     {
 #if UNITY_STANDALONE_OSX
-                        // TODO : change project localization 
+                       /* // TODO : change project localization 
                         string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
                         // Get plist
                         string plistPath = path + "/Contents/Info.plist";
@@ -118,6 +118,7 @@ namespace NetWorkedData
                                 }
                             }
                         }
+                        */
 #endif
                     }
                     break;
