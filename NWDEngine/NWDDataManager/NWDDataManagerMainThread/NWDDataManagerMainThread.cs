@@ -57,11 +57,14 @@ namespace NetWorkedData
         /// </summary>
         static NWDDataManagerMainThread()
         {
+#if UNITY_EDITOR
+#else
             if (kSharedInstance == null)
             {
                 kSharedInstance = (NWDDataManagerMainThread)Activator.CreateInstance(typeof(NWDDataManagerMainThread));
                 //kSharedInstance = new NWDDataManagerMainThread();
             }
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
