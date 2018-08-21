@@ -9,9 +9,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using BasicToolBox;
 
-#if COLORED_ADVANCED_DEBUG
-using ColoredAdvancedDebug;
-#endif
+//#if COLORED_ADVANCED_DEBUG
+//using ColoredAdvancedDebug;
+//#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -135,12 +135,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if COLORED_ADVANCED_DEBUG
-        void CADDebugOverlayAddOnCallBack(CADDebugOverlay sDebug)
-        {
-            sDebug.AddString(NWDDataManager.SharedInstance().Informations());
-        }
-        #endif 
+        //#if COLORED_ADVANCED_DEBUG
+        //void CADDebugOverlayAddOnCallBack(CADDebugOverlay sDebug)
+        //{
+        //    sDebug.AddString(NWDDataManager.SharedInstance().Informations());
+        //}
+        //#endif 
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
@@ -152,9 +152,9 @@ namespace NetWorkedData
             });
 
             // Add callback to 
-            #if COLORED_ADVANCED_DEBUG
-            CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
-            #endif
+            //#if COLORED_ADVANCED_DEBUG
+            //CADDebugOverlay.CADDebugOverlayAddOn += CADDebugOverlayAddOnCallBack;
+            //#endif
 
             if (CartridgeImage != null)
             {
@@ -169,9 +169,9 @@ namespace NetWorkedData
         void OnDestroy()
         {
             BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
-            #if COLORED_ADVANCED_DEBUG
-            CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
-            #endif
+            //#if COLORED_ADVANCED_DEBUG
+            //CADDebugOverlay.CADDebugOverlayAddOn -= CADDebugOverlayAddOnCallBack;
+            //#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateParameterText()
