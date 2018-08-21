@@ -625,6 +625,11 @@ namespace NetWorkedData
             return NWDBasis<K>.FindDatas(PublisherReference.GetReference());
         }
         //-------------------------------------------------------------------------------------------------------------
+        public K[] ObjectsFromReader<K>() where K : NWDBasis<K>, new()
+        {
+            return NWDBasis<K>.FindDatas(ReaderReference.GetReference());
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddClassesToPublisher(Type sClass)
         {
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
