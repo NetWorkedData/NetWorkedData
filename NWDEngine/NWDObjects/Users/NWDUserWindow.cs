@@ -25,9 +25,10 @@ namespace NetWorkedData
             typeof(NWDUserNickname),
             typeof(NWDUserAvatar),
             typeof(NWDUserPreference),
-            //typeof(NWDUserOwnership),
             typeof(NWDUserNetWorking),
+            typeof(NWDUserOwnership),
             typeof(NWDUserInterMessage),
+            typeof(NWDMessage),
 		/* Add NWDBasis here*/
 		}
                                 )]
