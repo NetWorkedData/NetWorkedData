@@ -175,8 +175,8 @@ namespace NetWorkedData
             // ok prepare extract
             string rExtract = "[\n\r";
             // TODO : Add account informations ?
-            tList.Add("{ \"PlayerAccountReference\" : \"" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference + "\"}\n\r}");
-            tList.Add("{ \"AnonymousPlayerAccountReference\" : \"" + NWDAppConfiguration.SharedInstance().SelectedEnvironment().AnonymousPlayerAccountReference + "\"}\n\r}");
+            tList.Add("{ \"PlayerAccountReference\" : \"" + NWDAccount.GetCurrentAccountReference() + "\"}\n\r}");
+            tList.Add("{ \"AnonymousPlayerAccountReference\" : \"" + NWDAccount.GetCurrentAnonymousAccountReference() + "\"}\n\r}");
             // TODO : Add email/password ?
             // TODO : Add account type ?
             foreach (Type tClassType in tListClasses)

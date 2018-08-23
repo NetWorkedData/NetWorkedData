@@ -51,7 +51,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] NEW_GetAllDatasInCurrentSaveGame()
         //{
-        //    return FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());
+        //    return FindDatas(NWDAccount.GetCurrentAccountReference(), NWDGameSave.Current());
         //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -60,7 +60,7 @@ namespace NetWorkedData
         /// <returns>The datas.</returns>
         public static K[] FindDatas()
         {
-            return FindDatas(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference, NWDGameSave.Current());
+            return FindDatas(NWDAccount.GetCurrentAccountReference(), NWDGameSave.Current());
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static K[] GetAllObjects(string sAccountReference = null)

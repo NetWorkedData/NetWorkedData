@@ -469,7 +469,7 @@ namespace NetWorkedData
                     }
                 }
                 this.PublisherReference.SetReference(NWDAccount.GetCurrentAccountReference());
-                // this.MasterReference.SetReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+                // this.MasterReference.SetReference(NWDAccount.GetCurrentAccountReference());
                 this.ReaderReference.SetObject(null);
                 this.PublisherClassesShared = string.Join(",", tList.ToArray());
                 this.ReaderClassesAccepted = string.Join(",", tList.ToArray());

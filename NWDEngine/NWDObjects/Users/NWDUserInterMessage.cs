@@ -210,6 +210,36 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInterMessage[] FindSenderDatas()
+        {
+            List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
+            NWDUserInterMessage[] tMessages = FindDatas();
+            foreach (NWDUserInterMessage tMessage in tMessages)
+            {
+                if (tMessage.Sender.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tMessage);
+                }
+            }
+
+            return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInterMessage[] FindReceiverDatas()
+        {
+            List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
+            NWDUserInterMessage[] tMessages = FindDatas();
+            foreach (NWDUserInterMessage tMessage in tMessages)
+            {
+                if (tMessage.Receiver.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tMessage);
+                }
+            }
+
+            return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods

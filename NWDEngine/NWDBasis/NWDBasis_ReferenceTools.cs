@@ -143,7 +143,7 @@ namespace NetWorkedData
         {
             if (AccountDependent() == true)
             {
-                return NewReferenceFromUUID(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+                return NewReferenceFromUUID(NWDAccount.GetCurrentAccountReference());
             }
             else
             {

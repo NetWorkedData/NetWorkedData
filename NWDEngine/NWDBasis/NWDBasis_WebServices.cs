@@ -677,7 +677,7 @@ namespace NetWorkedData
                                                                  // delete all datas for this user
                 foreach (NWDBasis<K> tObject in Datas().Datas)
                 {
-                    if (tObject.IsReacheableByAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference))
+                    if (tObject.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
                     {
                         tObject.DeleteData();
                     }

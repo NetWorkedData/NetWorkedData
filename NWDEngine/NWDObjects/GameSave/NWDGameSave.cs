@@ -108,7 +108,7 @@ namespace NetWorkedData
             NWDGameSave tCurrent = null;
             foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
-                if (tParty.Account.GetReference() == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+                if (tParty.Account.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
                     if (tParty != this)
                     {
@@ -136,7 +136,7 @@ namespace NetWorkedData
             bool rReturn = true;
             foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
-                if (tParty.Account.GetReference() == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+                if (tParty.Account.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
                     if (tParty != this)
                     {
@@ -196,7 +196,7 @@ namespace NetWorkedData
             NWDGameSave rParty = null;
             if (kCurrentGameSave != null)
             {
-                if (kCurrentGameSave.IsReacheableByAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference))
+                if (kCurrentGameSave.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
                 {
                     // It's ok
                 }
@@ -207,7 +207,7 @@ namespace NetWorkedData
             }
             if (kCurrentGameSave == null)
             {
-                rParty = CurrentForAccount(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
+                rParty = CurrentForAccount(NWDAccount.GetCurrentAccountReference());
                 if (rParty == null)
                 {
                     rParty = NWDGameSave.NewCurrent();
@@ -235,7 +235,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            if (rParty == null && sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+            if (rParty == null && sAccountReference == NWDAccount.GetCurrentAccountReference())
             {
                 rParty = NWDGameSave.NewCurrent();
             }
@@ -258,7 +258,7 @@ namespace NetWorkedData
         {
             foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
             {
-                if (tParty.Account.GetReference() == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+                if (tParty.Account.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {
                     tParty.IsCurrent = false;
                     tParty.UpdateDataIfModified();
