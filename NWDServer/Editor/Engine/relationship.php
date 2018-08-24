@@ -312,6 +312,7 @@
                                 $tInsert.= '`RelationState`, ';
                                 $tInsert.= '`ReaderNickname`, ';
                                 $tInsert.= '`ReaderReference`, ';
+                                $tInsert.= '`WebServiceVersion`, ';
                                 $tInsert.= '`Tag`, ';
                                 $tInsert.= '`XX`, ';
                                 $tInsert.= '`Integrity`) ';
@@ -319,9 +320,24 @@
                                 $tInsert.= '\''.$SQL_CON->real_escape_string($tReferenceBilateral).'\',';
                                 $tInsert.= ' \''.$TIME_SYNC.'\',';
                                 $tInsert.= ' \''.$TIME_SYNC.'\',';
+                                if ($ENVSYNC=='DevSync')
+                                {
                                 $tInsert.= ' \''.$TIME_SYNC.'\',';
+                                $tInsert.= ' \'-1\',';
+                                $tInsert.= ' \'-1\',';
+                                }
+                                else if ($ENVSYNC=='PreprodSync')
+                                {
+                                $tInsert.= ' \'-1\',';
                                 $tInsert.= ' \''.$TIME_SYNC.'\',';
+                                $tInsert.= ' \'-1\',';
+                                }
+                                else if ($ENVSYNC=='ProdSync')
+                                {
+                                $tInsert.= ' \'-1\',';
+                                $tInsert.= ' \'-1\',';
                                 $tInsert.= ' \''.$TIME_SYNC.'\',';
+                                }
                                 $tInsert.= ' \'1\', ';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherClassesShared']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['ReaderClassesAccepted']).'\', ';
@@ -341,6 +357,7 @@
                                 $tInsert.= ' \'4\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherNickname']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['PublisherReference']).'\',';
+                                $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['WebServiceVersion']).'\',';
                                 $tInsert.= ' \''.$SQL_CON->real_escape_string($tRow['Tag']).'\',';
                                 $tInsert.= ' \'0\',';
                                 $tInsert.= ' \'\'';
