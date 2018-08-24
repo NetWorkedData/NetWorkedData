@@ -216,7 +216,7 @@ namespace NetWorkedData
                 // is account dependency : get all value and test
                 if (sAccountReference == null || sAccountReference == "") // TODO : replace by  string.IsNullOrEmpty
                 {
-                    sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                    sAccountReference = NWDAccount.GetCurrentAccountReference();
                 }
                 foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
                 {

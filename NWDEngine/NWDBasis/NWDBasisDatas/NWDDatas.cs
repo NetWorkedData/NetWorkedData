@@ -1245,7 +1245,7 @@ namespace NetWorkedData
             {
                 if (string.IsNullOrEmpty(sAccountReference))
                 {
-                    sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                    sAccountReference = NWDAccount.GetCurrentAccountReference();
                 }
                 if (Datas().DatasByReference != null)
                 {
@@ -1294,7 +1294,7 @@ namespace NetWorkedData
                     // autofill sAccountReference if necessary
                     if (string.IsNullOrEmpty(sAccountReference))
                     {
-                        sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                        sAccountReference = NWDAccount.GetCurrentAccountReference();
                     }
                     //Debug.Log("chercher les data pour " + sAccountReference + " ");
                 }
@@ -1464,7 +1464,7 @@ namespace NetWorkedData
                 // autofill sAccountReference if necessary
                 if (string.IsNullOrEmpty(sAccountReference))
                 {
-                    sAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                    sAccountReference = NWDAccount.GetCurrentAccountReference();
                 }
                 //Debug.Log("chercher les data pour " + sAccountReference + " ");
             }
@@ -1481,7 +1481,7 @@ namespace NetWorkedData
             if (sCreateIfNotExists == true && rArray.Length == 0)
             {
                 //Debug.Log(" must create object !");
-                if (sAccountReference == null || sAccountReference == NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference)
+                if (sAccountReference == null || sAccountReference == NWDAccount.GetCurrentAccountReference())
                 {
                     if (sGameSave == NWDGameSave.Current())
                     {

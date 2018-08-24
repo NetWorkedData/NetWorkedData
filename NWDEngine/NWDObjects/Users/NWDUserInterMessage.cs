@@ -143,16 +143,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInterMessage()
         {
-            //Debug.Log("NWDInterUserMessage Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInterMessage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDInterUserMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
+            PublicationDate.SetDateTime(DateTime.Now);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -172,26 +173,32 @@ namespace NetWorkedData
                                 NWDReferencesQuantityType<NWDPack> sReplacePacks = null
                                )
         {
-            NWDUserInterMessage tInterMessage = NWDUserInterMessage.NewData();
+            NWDUserInterMessage tInterMessage = NewData();
             tInterMessage.Message.SetObject(sMessage);
             // put players
             string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             tInterMessage.Sender.SetReference(tPublisher);
             tInterMessage.Receiver.SetReference(sReceiver);
-            // inserrt the replacacble element
+            // insert the replacacble element
             tInterMessage.ReplaceCharacters = sReplaceCharacters;
             tInterMessage.ReplaceItems = sReplaceItems;
             tInterMessage.ReplaceItemGroups = sReplaceItemGroups;
             tInterMessage.ReplacePacks = sReplacePacks;
+            //#if UNITY_EDITOR
+            tInterMessage.InternalKey = NWDAccountNickname.GetNickname();
+            //#endif
             // add datetime
             tInterMessage.PublicationDate.SetDateTime(DateTime.Now);
             // prepare push ?
             tInterMessage.PushMessage.SetObject(sPushMessage);
             tInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
+            tInterMessage.SaveData();
+
             if (sPushMessage!=null)
             {
                 // TODO prepare push json
             }
+
             // send message now?
             if (sNow == true)
             {
@@ -201,6 +208,36 @@ namespace NetWorkedData
             {
                 // send message on the next sync.
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInterMessage[] FindSenderDatas()
+        {
+            List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
+            NWDUserInterMessage[] tMessages = FindDatas();
+            foreach (NWDUserInterMessage tMessage in tMessages)
+            {
+                if (tMessage.Sender.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tMessage);
+                }
+            }
+
+            return rList.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserInterMessage[] FindReceiverDatas()
+        {
+            List<NWDUserInterMessage> rList = new List<NWDUserInterMessage>();
+            NWDUserInterMessage[] tMessages = FindDatas();
+            foreach (NWDUserInterMessage tMessage in tMessages)
+            {
+                if (tMessage.Receiver.GetReference() == NWDAccount.GetCurrentAccountReference())
+                {
+                    rList.Add(tMessage);
+                }
+            }
+
+            return rList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

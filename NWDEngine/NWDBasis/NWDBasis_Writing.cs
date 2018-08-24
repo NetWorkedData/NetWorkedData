@@ -133,7 +133,7 @@ namespace NetWorkedData
             {
                 //Debug.Log("try to insert automatically the account reference in the NWDAccount connection property : " + tPropInfo.Name);
                 NWDReferenceType<NWDAccount> tAtt = new NWDReferenceType<NWDAccount>();
-                tAtt.Value = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
+                tAtt.Value = NWDAccount.GetCurrentAccountReference();
                 tPropInfo.SetValue(this, tAtt, null);
             }
             if (Datas().ClassGameSaveDependent == true)

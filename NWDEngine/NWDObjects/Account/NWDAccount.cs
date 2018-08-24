@@ -173,6 +173,11 @@ namespace NetWorkedData
             return NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetCurrentAnonymousAccountReference()
+        {
+            return NWDAppConfiguration.SharedInstance().SelectedEnvironment().AnonymousPlayerAccountReference;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
         {
@@ -238,11 +243,6 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static NWDAccount GetCurrentAccount() // not possible the object don't exist for real in the data
-        //{
-        //    return NWDAccount.GetObjectByReference(NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
@@ -304,10 +304,10 @@ namespace NetWorkedData
         public static NWDAccount CurrentAccount()
         {
             NWDAccount rAccount = null;
-            string tAccountReference = NWDAppConfiguration.SharedInstance().SelectedEnvironment().PlayerAccountReference;
-            if (NWDAccount.Datas().DatasByReference.ContainsKey(tAccountReference))
+            string tAccountReference = GetCurrentAccountReference();
+            if (Datas().DatasByReference.ContainsKey(tAccountReference))
             {
-                rAccount = NWDAccount.Datas().DatasByReference[tAccountReference] as NWDAccount;
+                rAccount = Datas().DatasByReference[tAccountReference] as NWDAccount;
             }
             return rAccount;
         }
