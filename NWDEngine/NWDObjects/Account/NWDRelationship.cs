@@ -349,7 +349,7 @@ namespace NetWorkedData
                                 bool sNow = true,
                                 NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
                                 NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
-                                NWDReferencesQuantityType<NWDItemGroup> sReplaceItemGroups = null,
+                                NWDReferencesQuantityType<NWDItemPack> sReplaceItemPacks = null,
                                 NWDReferencesQuantityType<NWDPack> sReplacePacks = null
                                )
         {
@@ -360,7 +360,7 @@ namespace NetWorkedData
             {
                 tReceiver = PublisherReference.GetReference();
             }
-            NWDUserInterMessage.SendMessage(sMessage, tReceiver, sNow, null, 60, sReplaceCharacters, sReplaceItems, sReplaceItemGroups, sReplacePacks);
+            NWDUserInterMessage.SendMessage(sMessage, tReceiver, sNow, null, 60, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

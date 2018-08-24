@@ -276,9 +276,10 @@ namespace NetWorkedData
                             // Notification of an Error
                             if (ResultInfos.errorDesc != null)
                             {
-                                ResultInfos.errorDesc.PostNotificationError();
                                 #if UNITY_EDITOR
                                 ResultInfos.errorDesc.ShowNativeAlert();
+                                #else
+                                ResultInfos.errorDesc.PostNotificationError();
                                 #endif
                             }
 

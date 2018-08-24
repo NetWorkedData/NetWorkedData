@@ -15,14 +15,13 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Items",
-        "Items",
+                                 "Items",
                                  "NWDItemWindow",
         new Type[] {
-        typeof(NWDItem),
-        typeof(NWDBattleProperty),
-        typeof(NWDItemProperty),
-        typeof(NWDItemGroup),
-        typeof(NWDUserOwnership),
+            typeof(NWDItem),
+            typeof(NWDItemProperty),
+            typeof(NWDItemGroup),
+            typeof(NWDUserOwnership),
 			/* Add NWDBasis here*/
 		}
     )]

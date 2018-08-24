@@ -54,12 +54,14 @@ namespace NetWorkedData
 	[NWDClassMenuNameAttribute ("Rack")]
 	public partial class NWDRack :NWDBasis <NWDRack>
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		// Your properties
-        [NWDHeaderAttribute("Description Item")]
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        // Your properties
+        [NWDGroupStartAttribute("Description Item", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        [NWDGroupEndAttribute]
+
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]

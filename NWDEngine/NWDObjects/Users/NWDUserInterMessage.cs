@@ -94,23 +94,32 @@ namespace NetWorkedData
         [NWDGroupStart("Message")]
         [NWDTooltips("The Message")]
         public NWDReferenceType<NWDMessage> Message { get; set; }
+
+        [NWDTooltipsAttribute("Select nickname to use in message by these tags" +
+                      "\n •for Nickname : #SenderNickname# …" +
+                      "")]
+        public string ReplaceSenderNickname { get; set; }
+
         [NWDTooltipsAttribute("Select characters to use in message by these tags" +
-                      "\n •for Fistname : #F1# #F2# …" +
-                      "\n •for Lastname : #L1# #L2# …" +
-                      "\n •for Nickname : #N1# #N2# …" +
+                      "\n •for Fistname : #F0# #F1# …" +
+                      "\n •for Lastname : #L0# #L1# …" +
+                      "\n •for Nickname : #N0# #N1# …" +
                       "")]
         public NWDReferencesListType<NWDCharacter> ReplaceCharacters { get; set; }
-        [NWDTooltipsAttribute("Select items to use in message by these tags" +
+
+        [NWDTooltipsAttribute("Select Items to use in message by these tags" +
                               "\n •for item name #I0# #I1# …" +
                               "\n •for quantity and item name #xI0# #xI1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDItem> ReplaceItems { get; set; }
-        [NWDTooltipsAttribute("Select itemgroups to use item to describe the group in message by these tags" +
+
+        [NWDTooltipsAttribute("Select Item Packs to use item to describe the Item Packs in message by these tags" +
                               "\n •for item to describe name #G0# #G1# …" +
                               "\n •for quantity and item to describe name #xG0# #xG1# …" +
                               "")]
-        public NWDReferencesQuantityType<NWDItemGroup> ReplaceItemGroups { get; set; }
-        [NWDTooltipsAttribute("Select Pack to use item to describe the pack in message by these tags" +
+        public NWDReferencesQuantityType<NWDItemPack> ReplaceItemPacks { get; set; }
+
+        [NWDTooltipsAttribute("Select Packs to use item to describe the Pack in message by these tags" +
                               "\n •for item to describe name #P0# #P1# …" +
                               "\n •for quantity and item to describe name #xP0# #xP1# …" +
                               "")]
@@ -169,7 +178,7 @@ namespace NetWorkedData
                                 int sPushDelayInSeconds = 3600,
                                 NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
                                 NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
-                                NWDReferencesQuantityType<NWDItemGroup> sReplaceItemGroups = null,
+                                NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
                                 NWDReferencesQuantityType<NWDPack> sReplacePacks = null
                                )
         {
@@ -182,7 +191,7 @@ namespace NetWorkedData
             // insert the replacacble element
             tInterMessage.ReplaceCharacters = sReplaceCharacters;
             tInterMessage.ReplaceItems = sReplaceItems;
-            tInterMessage.ReplaceItemGroups = sReplaceItemGroups;
+            tInterMessage.ReplaceItemPacks = sReplaceItemPack;
             tInterMessage.ReplacePacks = sReplacePacks;
             //#if UNITY_EDITOR
             tInterMessage.InternalKey = NWDAccountNickname.GetNickname();
@@ -259,7 +268,7 @@ namespace NetWorkedData
             if (tMessage != null)
             {
                 rReturn = tMessage.Message.GetLocalString();
-                rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
+                rReturn = Enrichment(rReturn, null, sBold);
             }
             return rReturn;
         }
@@ -283,7 +292,7 @@ namespace NetWorkedData
             if (tMessage != null)
             {
                 rReturn = tMessage.Title.GetLocalString();
-                rReturn = Enrichment(rReturn, NWDDataManager.SharedInstance().PlayerLanguage, sBold);
+                rReturn = Enrichment(rReturn, null, sBold);
             }
             return rReturn;
         }
@@ -320,9 +329,8 @@ namespace NetWorkedData
             return NWDUserAvatar.GetFirstData(Receiver.GetReference(), NWDGameSave.CurrentForAccount(Receiver.GetReference()));
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string Enrichment(string sText, string sLanguage, bool sBold = true)
+        public string Enrichment(string sText, string sLanguage = null, bool sBold = true)
         {
-            string rText = NWDAccountNickname.Enrichment(sText, sLanguage, sBold);
             string tBstart = "<b>";
             string tBend = "</b>";
             if (sBold == false)
@@ -330,42 +338,45 @@ namespace NetWorkedData
                 tBstart = "";
                 tBend = "";
             }
-            NWDAccountNickname tPublisherObject = PublisherNickname();
-            string tPublisher = "";
-            string tPublisherID = "";
-            if (tPublisherObject != null)
+
+            // Replace Tag by user Nickname
+            string rText = NWDAccountNickname.Enrichment(sText, sLanguage, sBold);
+
+            // Replace Tag by sender Nickname
+            rText = rText.Replace("#SenderNickname#", tBstart + ReplaceSenderNickname + tBend);
+            //rText = rText.Replace("#SenderUniqueNickname#", tBstart + tPublisherID + tBend);
+
+            // Replace Tag by Characters
+            int tCpt = 0;
+            foreach(NWDCharacter k in ReplaceCharacters.GetObjects())
             {
-                tPublisher = tPublisherObject.Nickname;
-                tPublisherID = tPublisherObject.UniqueNickname;
+                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                tCpt++;
             }
 
-            //// Replace the old tag nickname
-            //rText = rText.Replace("@publisher@", tBstart + tPublisher + tBend);
-            //rText = rText.Replace("@publisherid@", tBstart + tPublisherID + tBend);
-            // Replace the new tag nickname
-            rText = rText.Replace("#SenderNickname#", tBstart + tPublisher + tBend);
-            rText = rText.Replace("#SenderUniqueNickname#", tBstart + tPublisherID + tBend);
-            //// Replace the standard tag nickname
-            //rText = rText.Replace("{PublisherNickname}", tBstart + tPublisher + tBend);
-            //rText = rText.Replace("{PublisherUniqueNickname}", tBstart + tPublisherID + tBend);
-
-            NWDAccountNickname tReceiverObject = ReceiverNickname();
-            string tReceiver = "";
-            string tReceiverID = "";
-            if (tReceiverObject != null)
+            // Replace Tag by Items
+            tCpt = 0;
+            foreach (NWDItem k in ReplaceItems.GetObjects())
             {
-                tReceiver = tReceiverObject.Nickname;
-                tReceiverID = tReceiverObject.UniqueNickname;
+                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                tCpt++;
             }
-            //// Replace the old tag nickname
-            //rText = rText.Replace("@receiver@", tBstart + tReceiver + tBend);
-            //rText = rText.Replace("@receiverid@", tBstart + tReceiverID + tBend);
-            // Replace the new tag nickname
-            rText = rText.Replace("#ReceiverNickname#", tBstart + tReceiver + tBend);
-            rText = rText.Replace("#ReceiverUniqueNickname#", tBstart + tReceiverID + tBend);
-            //// Replace the standard tag nickname
-            //rText = rText.Replace("{ReceiverNickname}", tBstart + tReceiver + tBend);
-            //rText = rText.Replace("{ReceiverUniqueNickname}", tBstart + tReceiverID + tBend);
+
+            // Replace Tag by Items Groups
+            tCpt = 0;
+            foreach (NWDItemPack k in ReplaceItemPacks.GetObjects())
+            {
+                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                tCpt++;
+            }
+
+            // Replace Tag by Pack
+            tCpt = 0;
+            foreach (NWDPack k in ReplacePacks.GetObjects())
+            {
+                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                tCpt++;
+            }
 
             return rText;
         }

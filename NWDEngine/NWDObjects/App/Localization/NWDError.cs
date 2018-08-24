@@ -36,6 +36,7 @@ namespace NetWorkedData
         Alert = 20, // System Dialog
         Critical = 30,  // System Dialog and Quit
 
+        UnityEditor = 98, // For Unity NWD Editor
         Ignore = 99, // Do Nothing
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -250,7 +251,9 @@ namespace NetWorkedData
             NWDErrorType tType = Type;
 
             // NWDErrorType set by compile environment
-#if UNITY_IOS
+#if UNITY_EDITOR
+            tType = NWDErrorType.UnityEditor;
+#elif UNITY_IOS
             // NO CHANGE
 #elif UNITY_ANDROID
             // NO CHANGE
@@ -294,6 +297,11 @@ namespace NetWorkedData
                 case NWDErrorType.LogWarning:
                     {
                         Debug.LogWarning("WARNING! " + Title.GetLocalString() + " : " + Description.GetLocalString());
+                    }
+                    break;
+                case NWDErrorType.UnityEditor:
+                    {
+                        BTBAlert.Alert(Title.GetLocalString(), Description.GetLocalString(), Validation.GetLocalString(), sCompleteBlock);
                     }
                     break;
             }

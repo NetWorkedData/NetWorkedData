@@ -323,6 +323,28 @@ namespace NetWorkedData
             UpdateData();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string Enrichment(string sText, int sCpt = 0, string sLanguage = null, bool sBold = true)
+        {
+            string tBstart = "<b>";
+            string tBend = "</b>";
+            if (sBold == false)
+            {
+                tBstart = "";
+                tBend = "";
+            }
+
+            // Replace Tag by Character First Name
+            string rText = sText.Replace("#F" + sCpt + "#", tBstart + FirstName + tBend);
+
+            // Replace Tag by Character Last Name
+            rText = rText.Replace("#L" + sCpt + "#", tBstart + LastName + tBend);
+
+            // Replace Tag by Character Nickname
+            rText = rText.Replace("#N" + sCpt + "#", tBstart + NickName + tBend);
+
+            return rText;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public Sprite GetSpriteForEmotion(NWDCharacterEmotion sEmotion)
         {
             Sprite rSprite = NormalState.ToSprite();

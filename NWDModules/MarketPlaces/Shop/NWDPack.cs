@@ -57,17 +57,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-		[NWDHeaderAttribute("Description Item")]
+        [NWDGroupStartAttribute("Description Item ", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
         [NWDTooltips("Availability schedule of this Pack")]
-        public NWDDateTimeScheduleType AvailabilitySchedule
-        {
-            get; set;
-        }
+        public NWDDateTimeScheduleType AvailabilitySchedule { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
@@ -117,15 +115,33 @@ namespace NetWorkedData
 		{
 			// do something with this class
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public override  void Initialization()
+        public string Enrichment(string sText, int sCpt = 0, string sLanguage = null, bool sBold = true)
         {
+            string tBstart = "<b>";
+            string tBend = "</b>";
+            if (sBold == false)
+            {
+                tBstart = "";
+                tBend = "";
+            }
+
+            // Replace Tag by Item Name
+            NWDItem tItem = DescriptionItem.GetObject();
+            string tName = "[Missing Detail]";
+            if (tItem != null)
+            {
+                tName = tItem.Name.GetLocalString();
+            }
+            string rText = sText.Replace("#P" + sCpt + "#", tBstart + tName + tBend);
+
+            return rText;
         }
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         public string GetIAPKey()
         {
             if (Application.platform == RuntimePlatform.Android)

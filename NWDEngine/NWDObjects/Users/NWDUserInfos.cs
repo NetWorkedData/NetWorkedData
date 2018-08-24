@@ -222,7 +222,7 @@ namespace NetWorkedData
             NWDUserInfos tUserInfos = null;
             foreach (NWDUserInfos user in FindDatas())
             {
-                if (user.Account.GetReference().Equals(sEnvironment.PlayerAccountReference))
+                if (user.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
                 {
                     tUserInfos = user;
                     break;
@@ -231,10 +231,11 @@ namespace NetWorkedData
             if (tUserInfos == null)
             {
                 tUserInfos = NewData();
-                tUserInfos.InternalKey = sEnvironment.PlayerAccountReference;
-                tUserInfos.Account.SetReference(sEnvironment.PlayerAccountReference);
+                tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
                 tUserInfos.AccountType = sEnvironment.PlayerStatut;
                 tUserInfos.Tag = NWDBasisTag.TagUserCreated;
+                tUserInfos.SaveData();
             }
             return tUserInfos;
         }
