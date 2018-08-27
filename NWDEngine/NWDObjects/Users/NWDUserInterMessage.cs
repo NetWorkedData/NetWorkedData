@@ -31,15 +31,15 @@ namespace NetWorkedData
     /// Example :
     /// <code>
     /// public class MyScriptInGame : MonoBehaviour<br/>
+    /// {
+    ///     NWDConnectionAttribut (true, true, true, true)] // optional
+    ///     public NWDExampleConnection MyNetWorkedData;
+    ///     public void UseData()
     ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
+    ///         NWDExample tObject = MyNetWorkedData.GetObject();
+    ///         // Use tObject
     ///     }
+    /// }
     /// </code>
     /// </example>
     /// </summary>
@@ -172,51 +172,63 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public static void SendMessage(NWDMessage sMessage, string sReceiver,
-                                bool sNow = true,
-                                NWDMessage sPushMessage = null,
-                                int sPushDelayInSeconds = 3600,
-                                NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
-                                NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
-                                NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
-                                NWDReferencesQuantityType<NWDPack> sReplacePacks = null
+        public static void SendMessage(NWDMessage sMessage,
+                                       string sReceiver,
+                                       int sPushDelayInSeconds = 0,
+                                       NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
+                                       NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
+                                       NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
+                                       NWDReferencesQuantityType<NWDPack> sReplacePacks = null
                                )
         {
             NWDUserInterMessage tInterMessage = NewData();
-            tInterMessage.Message.SetObject(sMessage);
-            // put players
+
+            // Set Sender
             string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             tInterMessage.Sender.SetReference(tPublisher);
+            tInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
+
+            // Set Receiver
             tInterMessage.Receiver.SetReference(sReceiver);
-            // insert the replacacble element
+
+            // Add Replaceable object if any set in Message
+            if (sMessage.AttachmentItemPack != null)
+            {
+                Dictionary<NWDItemPack, int> tItemPacks = sMessage.AttachmentItemPack.GetObjectAndQuantity();
+                foreach (KeyValuePair<NWDItemPack, int> pair in tItemPacks)
+                {
+                    NWDItemPack tItemPack = pair.Key;
+                    int tItemPackQte = pair.Value;
+                    if (sReplaceItemPack == null)
+                    {
+                        sReplaceItemPack = new NWDReferencesQuantityType<NWDItemPack>();
+                    }
+                    sReplaceItemPack.AddObjectQuantity(tItemPack, tItemPackQte);
+                }
+            }
+
+            // Set Message and insert the Replaceable object
+            tInterMessage.Message.SetObject(sMessage);
+            tInterMessage.ReplaceSenderNickname = NWDAccountNickname.GetNickname();
             tInterMessage.ReplaceCharacters = sReplaceCharacters;
             tInterMessage.ReplaceItems = sReplaceItems;
             tInterMessage.ReplaceItemPacks = sReplaceItemPack;
             tInterMessage.ReplacePacks = sReplacePacks;
-            //#if UNITY_EDITOR
+
+            // Push System
+            //TODO : set a push system here, not implemented yet
+
+            #if UNITY_EDITOR
             tInterMessage.InternalKey = NWDAccountNickname.GetNickname();
-            //#endif
-            // add datetime
-            tInterMessage.PublicationDate.SetDateTime(DateTime.Now);
-            // prepare push ?
-            tInterMessage.PushMessage.SetObject(sPushMessage);
-            tInterMessage.PublicationDate.SetDateTime(DateTime.Now.AddSeconds(sPushDelayInSeconds));
+            #endif
+
             tInterMessage.SaveData();
 
-            if (sPushMessage!=null)
-            {
-                // TODO prepare push json
-            }
+            // Send message
+            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserInterMessage) }, true);
 
-            // send message now?
-            if (sNow == true)
-            {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserInterMessage) }, true);
-            }
-            else
-            {
-                // send message on the next sync.
-            }
+            // Delay System
+            //TODO : set a WebRequest with a delay, not implemented yet
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserInterMessage[] FindSenderDatas()

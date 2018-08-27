@@ -346,21 +346,20 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendMessage(NWDMessage sMessage,
-                                bool sNow = true,
                                 NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
                                 NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
                                 NWDReferencesQuantityType<NWDItemPack> sReplaceItemPacks = null,
                                 NWDReferencesQuantityType<NWDPack> sReplacePacks = null
                                )
         {
-            // put players
+            // Set Player
             string tPublisher = NWDAppEnvironment.SelectedEnvironment().PlayerAccountReference;
             string tReceiver = ReaderReference.GetReference();
             if (PublisherReference.GetReference() != tPublisher && ReaderReference.GetReference() == tPublisher)
             {
                 tReceiver = PublisherReference.GetReference();
             }
-            NWDUserInterMessage.SendMessage(sMessage, tReceiver, sNow, null, 60, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
+            NWDUserInterMessage.SendMessage(sMessage, tReceiver, 0, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

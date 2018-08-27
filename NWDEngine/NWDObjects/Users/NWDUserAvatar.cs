@@ -6,19 +6,7 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -31,15 +19,15 @@ namespace NetWorkedData
     /// Example :
     /// <code>
     /// public class MyScriptInGame : MonoBehaviour<br/>
+    /// {
+    ///     NWDConnectionAttribut (true, true, true, true)] // optional
+    ///     public NWDExampleConnection MyNetWorkedData;
+    ///     public void UseData()
     ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
+    ///         NWDExample tObject = MyNetWorkedData.GetObject();
+    ///         // Use tObject
     ///     }
+    /// }
     /// </code>
     /// </example>
     /// </summary>

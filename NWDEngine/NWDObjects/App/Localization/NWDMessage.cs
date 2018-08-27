@@ -33,15 +33,15 @@ namespace NetWorkedData
     /// Example :
     /// <code>
     /// public class MyScriptInGame : MonoBehaviour<br/>
+    /// {
+    ///     NWDConnectionAttribut (true, true, true, true)] // optional
+    ///     public NWDExampleConnection MyNetWorkedData;
+    ///     public void UseData()
     ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
+    ///         NWDExample tObject = MyNetWorkedData.GetObject();
+    ///         // Use tObject
     ///     }
+    /// }
     /// </code>
     /// </example>
     /// </summary>
@@ -61,59 +61,30 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
-        //public bool DiscoverItYourSelf { get; set; }
-        [NWDGroupStartAttribute("Informations", true, true, true)] //ok
-        public string Domain
-        {
-            get; set;
-        }
-        public string Code
-        {
-            get; set;
-        }
+        [NWDGroupStartAttribute("Informations", true, true, true)]
+        public string Domain { get; set; }
+        public string Code { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Description", true, true, true)] // ok
-        public NWDLocalizableStringType Title
-        {
-            get; set;
-        } // TODO : rename by Title ?
-        public NWDLocalizableTextType Message
-        {
-            get; set;
-        } // TODO : rename by Description ?
+        [NWDGroupStartAttribute("Description", true, true, true)]
+        public NWDLocalizableStringType Title { get; set; }
+        public NWDLocalizableTextType Message { get; set; }
+        public NWDReferencesQuantityType<NWDItem> AttachmentItem { get; set; }
+        public NWDReferencesQuantityType<NWDItemPack> AttachmentItemPack { get; set; }
+        public NWDReferencesQuantityType<NWDPack> AttachmentPack { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("User choose", true, true, true)] // ok
-        public bool HasValidButton
-        {
-            get; set;
-        }
-        public NWDLocalizableStringType ValidText
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDAction> ValidAction
-        {
-            get; set;
-        }
-        public bool HasCancelButton
-        {
-            get; set;
-        }
-        public NWDLocalizableStringType CancelText
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDAction> CancelAction
-        {
-            get; set;
-        }
-        //public NWDLocalizableStringType Cancel { get; set; }
+        [NWDGroupStartAttribute("User choose", true, true, true)]
+        public bool HasValidButton { get; set; }
+        public NWDLocalizableStringType ValidText { get; set; }
+        public NWDReferenceType<NWDAction> ValidAction { get; set; }
+        public bool HasCancelButton { get; set; }
+        public NWDLocalizableStringType CancelText { get; set; }
+        public NWDReferenceType<NWDAction> CancelAction { get; set; }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -122,12 +93,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDMessage()
         {
-            //Debug.Log("NWDMessage Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDMessage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
