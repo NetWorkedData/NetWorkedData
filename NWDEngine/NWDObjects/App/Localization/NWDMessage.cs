@@ -71,9 +71,9 @@ namespace NetWorkedData
         [NWDGroupStartAttribute("Description", true, true, true)]
         public NWDLocalizableStringType Title { get; set; }
         public NWDLocalizableTextType Message { get; set; }
-        public NWDReferencesQuantityType<NWDItem> AttachmentItem { get; set; }
-        public NWDReferencesQuantityType<NWDItemPack> AttachmentItemPack { get; set; }
-        public NWDReferencesQuantityType<NWDPack> AttachmentPack { get; set; }
+        //public NWDReferencesQuantityType<NWDItem> AttachmentItem { get; set; }
+        //public NWDReferencesQuantityType<NWDItemPack> AttachmentItemPack { get; set; }
+        //public NWDReferencesQuantityType<NWDPack> AttachmentPack { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]

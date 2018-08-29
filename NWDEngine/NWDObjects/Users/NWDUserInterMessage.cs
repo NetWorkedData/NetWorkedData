@@ -124,6 +124,7 @@ namespace NetWorkedData
                               "\n •for quantity and item to describe name #xP0# #xP1# …" +
                               "")]
         public NWDReferencesQuantityType<NWDPack> ReplacePacks { get; set; }
+        //public bool AttachmentReceived { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -169,9 +170,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Exampel of implement for class method.
-        /// </summary>
         public static void SendMessage(NWDMessage sMessage,
                                        string sReceiver,
                                        int sPushDelayInSeconds = 0,
@@ -192,7 +190,7 @@ namespace NetWorkedData
             tInterMessage.Receiver.SetReference(sReceiver);
 
             // Add Replaceable object if any set in Message
-            if (sMessage.AttachmentItemPack != null)
+            /*if (sMessage.AttachmentItemPack != null)
             {
                 Dictionary<NWDItemPack, int> tItemPacks = sMessage.AttachmentItemPack.GetObjectAndQuantity();
                 foreach (KeyValuePair<NWDItemPack, int> pair in tItemPacks)
@@ -205,7 +203,7 @@ namespace NetWorkedData
                     }
                     sReplaceItemPack.AddObjectQuantity(tItemPack, tItemPackQte);
                 }
-            }
+            }*/
 
             // Set Message and insert the Replaceable object
             tInterMessage.Message.SetObject(sMessage);
@@ -362,7 +360,7 @@ namespace NetWorkedData
             int tCpt = 0;
             foreach(NWDCharacter k in ReplaceCharacters.GetObjects())
             {
-                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
             }
 
@@ -370,7 +368,7 @@ namespace NetWorkedData
             tCpt = 0;
             foreach (NWDItem k in ReplaceItems.GetObjects())
             {
-                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
             }
 
@@ -378,7 +376,7 @@ namespace NetWorkedData
             tCpt = 0;
             foreach (NWDItemPack k in ReplaceItemPacks.GetObjects())
             {
-                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
             }
 
@@ -386,7 +384,7 @@ namespace NetWorkedData
             tCpt = 0;
             foreach (NWDPack k in ReplacePacks.GetObjects())
             {
-                rText = k.Enrichment(sText, tCpt, sLanguage, sBold);
+                rText = k.Enrichment(rText, tCpt, sLanguage, sBold);
                 tCpt++;
             }
 

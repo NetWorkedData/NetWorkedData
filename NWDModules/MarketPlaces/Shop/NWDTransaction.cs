@@ -48,19 +48,20 @@ namespace NetWorkedData
 	[Serializable]
     public class NWDTransactionConnection : NWDConnection <NWDTransaction> {}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronizeAttribute (true)]
+    public enum TransactionType
+    {
+        None,
+        Daily,
+        Weekly,
+        Monthly
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("TRS")]
 	[NWDClassDescriptionAttribute ("Transaction descriptions Class")]
 	[NWDClassMenuNameAttribute ("Transaction")]
 	public partial class NWDTransaction :NWDBasis <NWDTransaction>
 	{
-        //-----------------------------------------------------------------------------------------------------------------
-        public enum TransactionType {
-            None, 
-            Daily, 
-            Weekly, 
-            Monthly 
-        }
         //-----------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------

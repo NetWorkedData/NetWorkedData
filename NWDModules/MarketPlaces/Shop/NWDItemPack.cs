@@ -63,7 +63,7 @@ namespace NetWorkedData
 
         [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Items Pack in this Item Pack", true, true, true)]
+        [NWDGroupStartAttribute("Items in this Item Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItem> Items { get; set; }
         [NWDGroupEndAttribute]
 

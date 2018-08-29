@@ -166,7 +166,7 @@ namespace NetWorkedData
         /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
         /// <param name="sPack">NWDPack the pack we just buy.</param>
         /// <param name="sType">Enum to represente the type of the transaction (Daily, Weekly, Monthly).</param>
-        public void BuyPack(NWDRack sRack, NWDPack sPack, NWDTransaction.TransactionType sType)
+        public void BuyPack(NWDRack sRack, NWDPack sPack, TransactionType sType)
         {
             // Sync with the server
             List<Type> tList = new List<Type>
@@ -308,7 +308,7 @@ namespace NetWorkedData
             return rUserCanBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult EnoughPackToBuy(NWDShop sShop, NWDRack sRack, NWDPack sPack, NWDTransaction.TransactionType sType)
+        private BuyPackResult EnoughPackToBuy(NWDShop sShop, NWDRack sRack, NWDPack sPack, TransactionType sType)
         {
             BuyPackResult rEnoughPackToBuy = BuyPackResult.None;
 

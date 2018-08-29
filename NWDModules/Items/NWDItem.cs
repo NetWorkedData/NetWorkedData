@@ -73,7 +73,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDLocalizableStringType Description
+        public NWDLocalizableLongTextType Description
         {
             get; set;
         }
