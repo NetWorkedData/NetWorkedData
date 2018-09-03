@@ -50,7 +50,7 @@ namespace NetWorkedData
         public const string K_ACCOUNT_BANNED = "K_ACCOUNT_BANNED_o4dH1dKJ"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         // Web operation
-        public const string K_OPERATION_WEB_ERROR = "K_OPERATION_WEB_ERROR_Oz6kk4eS"; // OK Needed by test & verify
+        public const string K_WEB_OPERATION_ERROR = "K_OPERATION_WEB_ERROR_Oz6kk4eS"; // OK Needed by test & verify
         public const string K_WEB_OPERATION_UPLOAD_START = "K_OPERATION_WEB_UPLOAD_START_ee8yd4e"; // OK Needed by test & verify
         public const string K_WEB_OPERATION_UPLOAD_IN_PROGRESS = "K_OPERATION_WEB_UPLOAD_IN_PROGRESS_geuydhfe"; // OK Needed by test & verify
         public const string K_WEB_OPERATION_DOWNLOAD_IN_PROGRESS = "K_OPERATION_WEB_DOWNLOAD_IN_PROGRESS_ujehdtss"; // OK Needed by test & verify

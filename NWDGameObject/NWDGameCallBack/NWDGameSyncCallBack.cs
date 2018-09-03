@@ -111,7 +111,7 @@ namespace NetWorkedData
             if (TrackWebOperationError == true)
             {
 
-                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR, delegate (BTBNotification sNotification)
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_ERROR, delegate (BTBNotification sNotification)
                 {
                     NotificationWebOperationError(sNotification);
                 });
@@ -132,7 +132,7 @@ namespace NetWorkedData
 
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_FAILED);
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_ERROR);
-            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_OPERATION_WEB_ERROR);
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_WEB_OPERATION_ERROR);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void TrackReset()

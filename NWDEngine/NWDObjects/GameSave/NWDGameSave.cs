@@ -167,9 +167,8 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
-
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave kCurrentGameSave;
+        private static NWDGameSave kCurrentGameSave;
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassInitialization() // call by invoke
         {
@@ -179,11 +178,12 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDGameSave NewCurrent()");
             NWDGameSave rParty = null;
-            rParty = NWDGameSave.NewData(sWritingMode);
+            rParty = NewData(sWritingMode);
             rParty.Name = "GameSave " + DateTime.Today.ToShortDateString();
             rParty.GameSaveTagAdjust();
             rParty.SetCurrent();
             rParty.UpdateData(true, sWritingMode);
+
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -192,31 +192,32 @@ namespace NetWorkedData
         /// </summary>
         public static NWDGameSave Current()
         {
-            //Debug.Log("NWDGameSave Current()");
-            NWDGameSave rParty = null;
-            if (kCurrentGameSave != null)
+            NWDGameSave rParty = kCurrentGameSave;
+            if (rParty != null)
             {
-                if (kCurrentGameSave.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
+                if (rParty.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
                 {
-                    // It's ok
+                    // Gamesave is reacheable, return the Gamesave
+                    return rParty;
                 }
-                else
-                {
-                    kCurrentGameSave = null;
-                }
+
+                // Set Gamesave to null
+                rParty = null;
             }
-            if (kCurrentGameSave == null)
+
+            if (rParty == null)
             {
+                // Get last Gamesave or create a new one
                 rParty = CurrentForAccount(NWDAccount.GetCurrentAccountReference());
                 if (rParty == null)
                 {
-                    rParty = NWDGameSave.NewCurrent();
+                    // Possible error, create a new Gamesabe
+                    rParty = NewCurrent();
                 }
             }
-            else
-            {
-                rParty = kCurrentGameSave;
-            }
+
+            kCurrentGameSave = rParty;
+
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -224,7 +225,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDGameSave CurrentForAccount()");
             NWDGameSave rParty = null;
-            foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
+            foreach (NWDGameSave tParty in Datas().Datas)
             {
                 if (tParty.Account.GetReference() == sAccountReference)
                 {
@@ -235,10 +236,12 @@ namespace NetWorkedData
                     }
                 }
             }
+
             if (rParty == null && sAccountReference == NWDAccount.GetCurrentAccountReference())
             {
-                rParty = NWDGameSave.NewCurrent();
+                rParty = NewCurrent();
             }
+
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -256,7 +259,7 @@ namespace NetWorkedData
         /// </summary>
         public void SetCurrent()
         {
-            foreach (NWDGameSave tParty in NWDGameSave.Datas().Datas)
+            foreach (NWDGameSave tParty in Datas().Datas)
             {
                 if (tParty.Account.GetReference() == NWDAccount.GetCurrentAccountReference())
                 {

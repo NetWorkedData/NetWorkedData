@@ -254,7 +254,7 @@ namespace NetWorkedData
                             else
                             {
                                 // Notification of a Web Error
-                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_OPERATION_WEB_ERROR, ResultInfos));
+                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
 
                                 if (ResultInfos.errorDesc != null)
                                 {
