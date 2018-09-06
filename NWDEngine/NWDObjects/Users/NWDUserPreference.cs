@@ -128,11 +128,11 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">S value.</param>
-		public static void SetString (string sKey, string sValue)
+		public static void SetString (string sKey, string sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue);
 			tObject.Value.SetString (sValue);
-            tObject.UpdateData ();
+            tObject.UpdateData (true, sWritingMode);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -152,11 +152,11 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">S value.</param>
-		public static void SetInt (string sKey, int sValue)
+		public static void SetInt (string sKey, int sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetInt (sValue);
-            tObject.UpdateData ();
+            tObject.UpdateData (true, sWritingMode);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -176,11 +176,11 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">If set to <c>true</c> s value.</param>
-		public static void SetBool (string sKey, bool sValue)
+		public static void SetBool (string sKey, bool sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetBool (sValue);
-            tObject.UpdateData ();
+            tObject.UpdateData (true, sWritingMode);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -200,11 +200,11 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">S value.</param>
-		public static void SetFloat (string sKey, float sValue)
+		public static void SetFloat (string sKey, float sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetFloat (sValue);
-            tObject.UpdateData ();
+            tObject.UpdateData (true, sWritingMode);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion

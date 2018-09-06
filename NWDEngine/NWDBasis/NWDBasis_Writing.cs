@@ -545,6 +545,11 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void UpdateData(NWDWritingMode sWritingMode)
+        {
+            UpdateData(true, sWritingMode, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true)
         {
             //BTBBenchmark.Start();
@@ -917,33 +922,33 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-//        public static void LoadAllDatas()
-//        {
-//            //BTBBenchmark.Start();
-//            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-//            if (AccountDependent())
-//            {
-//                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-//            }
-//            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-//            Datas().ObjectsList = new List<object>();
-//            Datas().ObjectsByReferenceList = new List<string>();
-//            Datas().ObjectsByKeyList = new List<string>();
-//#if UNITY_EDITOR
-//            Datas().DatasInEditorRowDescriptionList = new List<string>();
-//            Datas().DatasInEditorSelectionList = new List<bool>();
-//            Datas().DatasInEditorReferenceList = new List<string>();
-//#endif
-//            if (tEnumerable != null)
-//            {
-//                foreach (NWDBasis<K> tData in tEnumerable)
-//                {
-//                    tData.LoadedFromDatabase();
-//                }
-//            }
-//#if UNITY_EDITOR
-//            RepaintTableEditor();
-//#endif
+        //        public static void LoadAllDatas()
+        //        {
+        //            //BTBBenchmark.Start();
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (AccountDependent())
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
+        //            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+        //            Datas().ObjectsList = new List<object>();
+        //            Datas().ObjectsByReferenceList = new List<string>();
+        //            Datas().ObjectsByKeyList = new List<string>();
+        //#if UNITY_EDITOR
+        //            Datas().DatasInEditorRowDescriptionList = new List<string>();
+        //            Datas().DatasInEditorSelectionList = new List<bool>();
+        //            Datas().DatasInEditorReferenceList = new List<string>();
+        //#endif
+        //            if (tEnumerable != null)
+        //            {
+        //                foreach (NWDBasis<K> tData in tEnumerable)
+        //                {
+        //                    tData.LoadedFromDatabase();
+        //                }
+        //            }
+        //#if UNITY_EDITOR
+        //            RepaintTableEditor();
+        //#endif
         //    //BTBBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------

@@ -142,15 +142,21 @@ namespace NetWorkedData
             {
                 tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             }
-            const float timeout = 10f;
+            const float timeout = 10.0f;
             float startTime = Time.timeSinceLevelLoad;
             var ping = new Ping(AddressPing);
             while (true)
             {
                 if (ping.isDone)
                 {
-                    NetworkStatutChange(NWDNetworkState.OnLine);
-
+                    if (Time.timeSinceLevelLoad - startTime > timeout)
+                    {
+                        NetworkStatutChange(NWDNetworkState.OffLine);
+                    }
+                    else
+                    {
+                        NetworkStatutChange(NWDNetworkState.OnLine);
+                    }
                     if (DebugLog == true)
                     {
                         tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
