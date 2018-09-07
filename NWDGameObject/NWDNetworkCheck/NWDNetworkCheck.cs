@@ -27,6 +27,7 @@ namespace NetWorkedData
         UnityLLAPI_Head,
         Ping,
         Net,
+        UnityReacha,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -124,6 +125,11 @@ namespace NetWorkedData
                         HttpRequestAsync();
                     }
                     break;
+                case NWDNetworkCheckType.UnityReacha:
+                    {
+                        Reach();
+                    }
+                    break;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -142,14 +148,14 @@ namespace NetWorkedData
             {
                 tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             }
-            const float timeout = 10.0f;
+            const float timeout = 0.50f;
             float startTime = Time.timeSinceLevelLoad;
             var ping = new Ping(AddressPing);
             while (true)
             {
                 if (ping.isDone)
                 {
-                    if (Time.timeSinceLevelLoad - startTime > timeout)
+                    if (ping.time<0)
                     {
                         NetworkStatutChange(NWDNetworkState.OffLine);
                     }
@@ -161,7 +167,7 @@ namespace NetWorkedData
                     {
                         tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                         tDelta = tFinishTimestamp - tStartTimestamp;
-                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") : " + tDelta.ToString("F3") + " seconds");
+                        Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") "+ ping.time + ": " + tDelta.ToString("F3") + " seconds");
                     }
                     yield break;
                 }
@@ -291,6 +297,27 @@ namespace NetWorkedData
                 Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
             }
             yield break;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void Reach()
+        {
+            Debug.Log("NWDNetworkCheck Reach()");
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(MakeRequest));
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                NetworkStatutChange(NWDNetworkState.OffLine);
+            }
+            //Check if the device can reach the internet via a carrier data network
+            else if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork)
+            {
+                NetworkStatutChange(NWDNetworkState.OnLine);
+            }
+            //Check if the device can reach the internet via a LAN
+            else if (Application.internetReachability == NetworkReachability.ReachableViaLocalAreaNetwork)
+            {
+                NetworkStatutChange(NWDNetworkState.OnLine);
+            }
+
         }
         //-------------------------------------------------------------------------------------------------------------
         void HttpRequestAsync()
