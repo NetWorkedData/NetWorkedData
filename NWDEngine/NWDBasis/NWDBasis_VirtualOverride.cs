@@ -137,6 +137,16 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddonIndexMe()
+        {
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual void AddonDesindexMe()
+        {
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade

@@ -102,6 +102,8 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
 
+            Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
+
             Datas().PrefLoad();
 
             PrepareOrders();

@@ -199,6 +199,7 @@ namespace NetWorkedData
                     rReturnObject.UpdateDataOperation(sAutoDate);
                     // Insert Data as new Data!
                     rReturnObject.AddonDuplicateMe();
+                    rReturnObject.AddonIndexMe();
                     rReturnObject.InsertData(sAutoDate, sWritingMode);
                 }
                 else
@@ -545,6 +546,11 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void UpdateDataLater()
+        {
+            UpdateData(true, NWDWritingMode.QueuedMainThread, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void UpdateData(NWDWritingMode sWritingMode)
         {
             UpdateData(true, sWritingMode, true);
@@ -590,6 +596,15 @@ namespace NetWorkedData
                     Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                     break;
             }
+
+            this.AddonUpdateMe(); // call override method
+            UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
+            this.AddonUpdatedMe(); // call override method
+            this.AddonIndexMe();
+                                   //UpdateObjectInListOfEdition(this);
+
+            Datas().UpdateData(this);
+
             bool tDoUpdate = true;
             switch (sWritingMode)
             {
@@ -612,11 +627,6 @@ namespace NetWorkedData
             }
             if (tDoUpdate == true)
             {
-                this.AddonUpdateMe(); // call override method
-                UpdateDataOperation(sAutoDate, sWebServiceUpgrade);
-                this.AddonUpdatedMe(); // call override method
-
-                Datas().UpdateData(this);
                 //UpdateObjectInListOfEdition(this);
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.UpdateInMemory;
@@ -848,6 +858,7 @@ namespace NetWorkedData
                     WritingLockRemove();
                 }
                 this.AddonDeleteMe(); // call override method
+                this.AddonDesindexMe(); // call override method
                 DeleteDataOperation();
                 Datas().RemoveData(this);
                 //RemoveObjectInListOfEdition(this);
@@ -918,6 +929,7 @@ namespace NetWorkedData
             FromDatabase = true;
             WritingPending = NWDWritingPending.InDatabase;
             AddonLoadedMe();
+            AddonIndexMe();
             Datas().AddData(this);
             //BTBBenchmark.Finish();
         }

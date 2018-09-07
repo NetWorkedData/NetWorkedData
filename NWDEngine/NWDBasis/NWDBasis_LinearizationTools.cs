@@ -617,6 +617,7 @@ namespace NetWorkedData
             //NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
             //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.QueuedMainThread);
             AddonUpdatedMeFromWeb();
+            AddonIndexMe();
         }
 
         public string DynamiqueDataAssembly(bool sAsssemblyAsCSV = false)
