@@ -72,7 +72,9 @@ namespace NetWorkedData
         public NWDReferenceType<NWDRack> RackReference { get; set; }
         public NWDReferenceType<NWDPack> PackReference { get; set; }
         [NWDGroupEndAttribute]
+
         [NWDGroupSeparatorAttribute]
+
         [NWDGroupStartAttribute("Other", true, true, true)]
         public string Platform { get; set; }
         public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
@@ -109,12 +111,16 @@ namespace NetWorkedData
         {
             // Set a NWDTransaction
             NWDTransaction rTransaction = NewData();
+
+            #if UNITY_EDITOR
             rTransaction.InternalKey = sItem.Name.GetBaseString();
-            rTransaction.InternalDescription = NWDUserPreference.GetString("NickNameKey", "no nickname");
+            rTransaction.InternalDescription = NWDAccountNickname.GetNickname();
+            #endif
             rTransaction.ShopReference.SetReference(sShop.Reference);
             rTransaction.RackReference.SetReference(sRack.Reference);
             rTransaction.PackReference.SetReference(sPack.Reference);
-            rTransaction.UpdateData();
+            rTransaction.SaveData();
+
             return rTransaction;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -220,6 +220,7 @@ namespace NetWorkedData
             tInterMessage.InternalKey = NWDAccountNickname.GetNickname();
             #endif
 
+            tInterMessage.Tag = NWDBasisTag.TagUserCreated;
             tInterMessage.SaveData();
 
             // Send message

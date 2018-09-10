@@ -5,14 +5,9 @@
 //
 //=====================================================================================================================
 
-using System;
-
-using UnityEngine;
-
-using SQLite4Unity3d;
-
 #if UNITY_EDITOR
 using UnityEditor;
+using System;
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -22,6 +17,10 @@ namespace NetWorkedData
                                  "NWDInAppPurchaseWindow window description",
                                  "NWDInAppPurchaseWindow",
         new Type[] {
+            typeof(NWDShop),
+            typeof(NWDRack),
+            typeof(NWDPack),
+            typeof(NWDItemPack),
             typeof(NWDItem),
             typeof(NWDInAppPack),
             typeof(NWDTransaction),
@@ -36,7 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDInAppPurchaseWindow));
+            EditorWindow tWindow = GetWindow(typeof(NWDInAppPurchaseWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------

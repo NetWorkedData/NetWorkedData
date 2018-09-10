@@ -64,37 +64,23 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Informations", true, true, true)]
-        public NWDLocalizableStringType Name
-        {
-            get; set;
-        }
+        public NWDLocalizableStringType Name { get; set; }
         [NWDGroupEndAttribute]
-        [NWDGroupSeparatorAttribute]
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem
-        {
-            get; set;
-        }
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        [Obsolete(NWDConstants.K_WILL_BE_REMOVED)]
-        public NWDReferencesListType<NWDWorld> WorldList
-        {
-            get; set;
-        }
-        [Obsolete(NWDConstants.K_WILL_BE_REMOVED)]
-        public NWDReferencesListType<NWDCategory> CategoryList
-        {
-            get; set;
-        }
 
-        public NWDReferencesListType<NWDFamily> FamilyList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> KeywordList
-        {
-            get; set;
-        }
+        [NWDGroupSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Description", true, true, true)]
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Classification", true, true, true)]
+        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
+
+        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
+        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
+        public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion

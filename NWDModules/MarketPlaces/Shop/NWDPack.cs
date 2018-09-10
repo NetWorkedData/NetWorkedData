@@ -153,7 +153,7 @@ namespace NetWorkedData
                 return AppleID;
             }
 
-            return "";
+            return "NoSupportedKeyFound";
         }
         //-------------------------------------------------------------------------------------------------------------
 		public NWDItem[] GetAllItemsInPack ()
