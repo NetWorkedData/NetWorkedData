@@ -215,7 +215,7 @@ namespace NetWorkedData
             List<NWDTransaction> rTransactionList = new List<NWDTransaction>();
 
             // Init all transactions done by the user for selected shop and type
-            NWDTransaction[] tList = NWDTransaction.FindDatas();
+            NWDTransaction[] tList = FindDatas();
             foreach (NWDTransaction transaction in tList)
             {
                 // Verify we are in the right Shop
@@ -240,9 +240,14 @@ namespace NetWorkedData
                                     }
                                     break;
                                 case TransactionType.Weekly:
+                                    //TODO: GetTransactionsByShopAndType weekly not implemented
                                     isValidate = true;
                                     break;
                                 case TransactionType.Monthly:
+                                    //TODO: GetTransactionsByShopAndType monthly not implemented
+                                    isValidate = true;
+                                    break;
+                                case TransactionType.None:
                                     isValidate = true;
                                     break;
                             }
