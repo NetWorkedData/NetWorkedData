@@ -46,8 +46,11 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
     [Serializable]
-    public class NWDCraftBookConnection : NWDConnection<NWDCraftBook>
+    public class NWDCraftBookConnection : NWDConnection<NWDCraftBook> {}
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDItem : NWDBasis<NWDItem>
     {
+        public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment { get; set; }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
@@ -67,62 +70,32 @@ namespace NetWorkedData
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Description", true, true, true)] // ok
-        public NWDReferenceType<NWDItem> DescriptionItem
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Recipe attribut", true, true, true)] // ok
-        public bool OrderIsImportant
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDRecipientGroup> RecipientGroup
-        {
-            get; set;
-        }
-        public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemResult
-        {
-            get; set;
-        }
+        public bool OrderIsImportant { get; set; }
+        public NWDReferenceType<NWDRecipientGroup> RecipientGroup { get; set; }
+        public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
-        public NWDPrefabType SuccessParticles
-        {
-            get; set;
-        }
-        public NWDPrefabType SuccessSound
-        {
-            get; set;
-        }
-        public NWDPrefabType FailParticles
-        {
-            get; set;
-        }
-        public NWDPrefabType FailSound
-        {
-            get; set;
-        }
+        public NWDPrefabType SuccessParticles { get; set; }
+        public NWDPrefabType SuccessSound { get; set; }
+        public NWDPrefabType FailParticles { get; set; }
+        public NWDPrefabType FailSound { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
         [NWDNotEditableAttribute]
-        public string RecipeHash
-        {
-            get; set;
-        }
+        public string RecipeHash { get; set; }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
