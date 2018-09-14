@@ -150,7 +150,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDAchievement)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDAchievement) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

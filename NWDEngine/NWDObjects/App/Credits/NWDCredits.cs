@@ -169,7 +169,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDCredits)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDCredits) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

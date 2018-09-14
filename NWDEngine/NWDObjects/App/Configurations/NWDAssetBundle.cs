@@ -134,7 +134,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDAssetBundle)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDAssetBundle) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

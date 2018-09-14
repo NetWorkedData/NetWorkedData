@@ -196,7 +196,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDAccountConsent)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDAccountConsent) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

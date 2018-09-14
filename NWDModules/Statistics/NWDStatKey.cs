@@ -501,7 +501,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDStatKey)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDStatKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
