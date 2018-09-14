@@ -122,7 +122,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDYoghurtLyric)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDYoghurtLyric) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
