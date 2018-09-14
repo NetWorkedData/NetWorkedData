@@ -119,7 +119,7 @@ namespace NetWorkedData
                     string tValue = tValueObject.Value;
                     Dictionary<string, string> tResultSplitDico = new Dictionary<string, string>();
 
-                    if (tValue != null && tValue != "")
+                     if (tValue != null && tValue != "" && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)
                     {
                         string[] tValueArray = tValue.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string tValueArrayLine in tValueArray)
@@ -135,8 +135,6 @@ namespace NetWorkedData
                                 }
                             }
                         }
-                    }
-
                     tRows += "\"" + Datas().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
                     foreach (string tLang in sLanguageArray)
                     {
@@ -155,6 +153,8 @@ namespace NetWorkedData
                         tRows += ";";
                     }
                     tRows += "\n";
+                    }
+
                 }
                 //
                 //				if (tTypeOfThis == typeof(NWDLocalizableTextType)) {
