@@ -13,7 +13,7 @@ using UnityEngine.Events;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDActionInScene : NWDCallBack
+    public class NWDActionInScene :  MonoBehaviour// NWDCallBack
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDActionConnection ActionReference;
@@ -82,25 +82,25 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         // Use this for initialization
-        protected override void OnEnable()
+        /*protected override*/ void OnEnable()
         {
             //Debug.Log("NWDActionInScene OnEnable()");
-            base.OnEnable(); // onstall notifi from other 
+            /*base.OnEnable();*/ // onstall notifi from other 
             InstallAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
+        public /*override*/ void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
             //Debug.Log("NWDActionInScene NotificationDatasLoaded()");
             // create your method by override
             InstallAction();
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected override void OnDisable()
+        protected /*override*/ void OnDisable()
         {
             //Debug.Log("NWDActionInScene OnDisable()");
             RemoveAction();
-            base.OnDisable();
+            //base.OnDisable();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
