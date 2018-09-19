@@ -77,6 +77,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP()
         {
+            BTBBenchmark.Start();
             foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
             {
                 CreatePHP(tEnvironement);
@@ -87,10 +88,12 @@ namespace NetWorkedData
             //			if (tMethodInfo != null) {
             //				tMethodInfo.Invoke (null, null);
             //			}
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreatePHP(NWDAppEnvironment sEnvironment)
         {
+            BTBBenchmark.Start();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tEnvironmentFolder = sEnvironment.Environment;
             Type tType = ClassType();
@@ -1236,6 +1239,8 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tServerRootFolder + "/" + tClassName + "Webservice.php");
             // try to create special file for the special operation in PHP
             */
+
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -164,6 +164,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass()
         {
+            BTBBenchmark.Start("Step one");
             //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
             //tPHPBuild++;
             //BTBConfigManager.SharedInstance().Set(NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
@@ -177,14 +178,16 @@ namespace NetWorkedData
             //TODO memorize in Table by webbuild the new order
 
             //TODO reccord the new Configuration;
-
             string tProgressBarTitle = "NetWorkedData Create all php files";
             float tCountClass = mTypeList.Count + 1;
             float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create environment php files", tOperation / tCountClass);
             tOperation++;
+            bool tCreated = CreateAllEnvironmentPHP();
+            BTBBenchmark.Finish("Step one");
 
-            if (CreateAllEnvironmentPHP())
+            BTBBenchmark.Start("Step two");
+            if (tCreated)
             {
                 foreach (Type tType in mTypeList)
                 {
@@ -197,6 +200,7 @@ namespace NetWorkedData
                     }
                 }
             }
+            BTBBenchmark.Finish("Step two");
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
 
