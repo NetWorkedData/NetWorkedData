@@ -421,6 +421,13 @@ namespace NetWorkedData
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string[] GetSortedReferences()
+        {
+            string[] tResult = GetReferences();
+            Array.Sort(tResult, StringComparer.InvariantCulture);
+            return tResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetReferenceQuantityConditional(List<NWDReferenceConditionalType<K>> sList)
         {
             List<string> tValueList = new List<string>();

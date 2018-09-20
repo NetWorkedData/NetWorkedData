@@ -50,6 +50,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis<NWDItem>
     {
+        //[NWDNotEditable]
         public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment { get; set; }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -62,14 +63,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
-        private static Dictionary<string, NWDCraftBook> HashByCraftDictionary = new Dictionary<string, NWDCraftBook>();
-        private static Dictionary<string, NWDCraftBook> ItemByCraftDictionary = new Dictionary<string, NWDCraftBook>();
+        //private static Dictionary<string, NWDCraftBook> HashByCraftDictionary = new Dictionary<string, NWDCraftBook>();
+        //private static Dictionary<string, NWDCraftBook> ItemByCraftDictionary = new Dictionary<string, NWDCraftBook>();
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Description", true, true, true)] // ok
+        [NWDNotEditable]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupEndAttribute]
 
@@ -128,170 +130,170 @@ namespace NetWorkedData
         /// Count the craft book in dictionary of hash.
         /// </summary>
         /// <returns>The craft book in hash dictionary.</returns>
-        private static int CountCraftBookInHashDictionary()
-        {
-            return HashByCraftDictionary.Count;
-        }
+        //private static int CountCraftBookInHashDictionary()
+        //{
+        //    return HashByCraftDictionary.Count;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Add the craft book in dictionary of hash.
         /// </summary>
         /// <param name="sCraftBook">S craft book.</param>
-        private static void AddCraftBookInHashDictionary(NWDCraftBook sCraftBook)
-        {
-            if (sCraftBook != null)
-            {
-                if (HashByCraftDictionary != null)
-                {
-                    if (sCraftBook.RecipeHash != null)
-                    {
-                        //HashByCraftDictionary
-                        if (HashByCraftDictionary.ContainsValue(sCraftBook))
-                        {
-                            string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-                            HashByCraftDictionary.Remove(tKey);
-                        }
-                        if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
-                        {
-                        }
-                        else
-                        {
-                            HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
-                        }
-                        // ItemByCraftDictionary
-                        if (sCraftBook.DescriptionItem != null)
-                        {
-                            if (sCraftBook.DescriptionItem.Value != "")
-                            {
-                                if (ItemByCraftDictionary.ContainsValue(sCraftBook))
-                                {
-                                    string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-                                    ItemByCraftDictionary.Remove(tKey);
-                                }
-                                if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
-                                {
-                                }
-                                else
-                                {
-                                    ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        //private static void AddCraftBookInHashDictionary(NWDCraftBook sCraftBook)
+        //{
+        //    if (sCraftBook != null)
+        //    {
+        //        if (HashByCraftDictionary != null)
+        //        {
+        //            if (sCraftBook.RecipeHash != null)
+        //            {
+        //                //HashByCraftDictionary
+        //                if (HashByCraftDictionary.ContainsValue(sCraftBook))
+        //                {
+        //                    string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+        //                    HashByCraftDictionary.Remove(tKey);
+        //                }
+        //                if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+        //                {
+        //                }
+        //                else
+        //                {
+        //                    HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
+        //                }
+        //                // ItemByCraftDictionary
+        //                if (sCraftBook.DescriptionItem != null)
+        //                {
+        //                    if (sCraftBook.DescriptionItem.Value != "")
+        //                    {
+        //                        if (ItemByCraftDictionary.ContainsValue(sCraftBook))
+        //                        {
+        //                            string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+        //                            ItemByCraftDictionary.Remove(tKey);
+        //                        }
+        //                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
+        //                        {
+        //                        }
+        //                        else
+        //                        {
+        //                            ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Remove the craft book in dictionary of hash.
         /// </summary>
         /// <param name="sCraftBook">S craft book.</param>
-        private static void RemoveCraftBookInHashDictionary(NWDCraftBook sCraftBook)
-        {
-            if (sCraftBook != null)
-            {
-                //HashByCraftDictionary
-                if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
-                {
-                    HashByCraftDictionary.Remove(sCraftBook.RecipeHash);
-                }
-                //ItemByCraftDictionary
-                if (sCraftBook.DescriptionItem != null)
-                {
-                    if (sCraftBook.DescriptionItem.Value != "")
-                    {
-                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
-                        {
-                            ItemByCraftDictionary.Remove(sCraftBook.DescriptionItem.Value);
-                        }
-                    }
-                }
-            }
-        }
+        //private static void RemoveCraftBookInHashDictionary(NWDCraftBook sCraftBook)
+        //{
+        //    if (sCraftBook != null)
+        //    {
+        //        //HashByCraftDictionary
+        //        if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+        //        {
+        //            HashByCraftDictionary.Remove(sCraftBook.RecipeHash);
+        //        }
+        //        //ItemByCraftDictionary
+        //        if (sCraftBook.DescriptionItem != null)
+        //        {
+        //            if (sCraftBook.DescriptionItem.Value != "")
+        //            {
+        //                if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
+        //                {
+        //                    ItemByCraftDictionary.Remove(sCraftBook.DescriptionItem.Value);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Update the craft book dictionary of hash.
         /// </summary>
         /// <param name="sCraftBook">S craft book.</param>
-        private static void UpdateCraftBookInHashDictionary(NWDCraftBook sCraftBook)
-        {
-            if (sCraftBook != null)
-            {
-                if (HashByCraftDictionary.ContainsValue(sCraftBook))
-                {
-                    // TODO : remove old key/value ... but which key to used?
-                    string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-                    HashByCraftDictionary.Remove(tKey);
-                }
-                if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
-                {
-                    // BIG ERROR Hash is not unique!
-                }
-                else
-                {
-                    HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
-                }
-                // ItemByCraftDictionary
-                if (sCraftBook.DescriptionItem != null)
-                {
-                    if (sCraftBook.DescriptionItem.Value != "")
-                    {
-                        if (ItemByCraftDictionary.ContainsValue(sCraftBook))
-                        {
-                            string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
-                            ItemByCraftDictionary.Remove(tKey);
-                        }
-                        if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
-                        {
-                        }
-                        else
-                        {
-                            ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
-                        }
-                    }
-                }
-            }
-        }
+        //private static void UpdateCraftBookInHashDictionary(NWDCraftBook sCraftBook)
+        //{
+        //    if (sCraftBook != null)
+        //    {
+        //        if (HashByCraftDictionary.ContainsValue(sCraftBook))
+        //        {
+        //            // TODO : remove old key/value ... but which key to used?
+        //            string tKey = HashByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+        //            HashByCraftDictionary.Remove(tKey);
+        //        }
+        //        if (HashByCraftDictionary.ContainsKey(sCraftBook.RecipeHash) == true)
+        //        {
+        //            // BIG ERROR Hash is not unique!
+        //        }
+        //        else
+        //        {
+        //            HashByCraftDictionary.Add(sCraftBook.RecipeHash, sCraftBook);
+        //        }
+        //        // ItemByCraftDictionary
+        //        if (sCraftBook.DescriptionItem != null)
+        //        {
+        //            if (sCraftBook.DescriptionItem.Value != "")
+        //            {
+        //                if (ItemByCraftDictionary.ContainsValue(sCraftBook))
+        //                {
+        //                    string tKey = ItemByCraftDictionary.FirstOrDefault(x => x.Value == sCraftBook).Key;
+        //                    ItemByCraftDictionary.Remove(tKey);
+        //                }
+        //                if (ItemByCraftDictionary.ContainsKey(sCraftBook.DescriptionItem.Value) == true)
+        //                {
+        //                }
+        //                else
+        //                {
+        //                    ItemByCraftDictionary.Add(sCraftBook.DescriptionItem.Value, sCraftBook);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Find the craft book dictionary of hash by a specific hash.
         /// </summary>
         /// <returns>The craft book in hash dictionary.</returns>
         /// <param name="sHash">S hash.</param>
-        private static NWDCraftBook FindCraftBookInHashDictionary(string sHash)
-        {
-            NWDCraftBook rReturn = null;
-            if (HashByCraftDictionary.ContainsKey(sHash) == true)
-            {
-                rReturn = HashByCraftDictionary[sHash];
-            }
-            return rReturn;
-        }
+        //private static NWDCraftBook FindCraftBookInHashDictionary(string sHash)
+        //{
+        //    NWDCraftBook rReturn = null;
+        //    if (HashByCraftDictionary.ContainsKey(sHash) == true)
+        //    {
+        //        rReturn = HashByCraftDictionary[sHash];
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the craft book by item.
         /// </summary>
         /// <returns>The craft book by item.</returns>
         /// <param name="item">Item.</param>
-        public static NWDCraftBook GetCraftBookByItem(NWDItem sItem)
-        {
-            //			NWDCraftBook rReturn = null;
-            //			NWDCraftBook[] tRecipes = GetAllObjects ();
-            //			foreach (NWDCraftBook recipe in tRecipes) {
-            //				if (recipe.ItemToDescribe.ContainsReference (item.Reference)) {
-            //					rReturn = recipe;
-            //					break;
-            //				}
-            //			}
-            //			return rReturn;
-            //
-            NWDCraftBook rReturn = null;
-            if (ItemByCraftDictionary.ContainsKey(sItem.Reference) == true)
-            {
-                rReturn = ItemByCraftDictionary[sItem.Reference];
-            }
-            return rReturn;
-        }
+        //public static NWDCraftBook GetCraftBookByItem(NWDItem sItem)
+        //{
+        //    //			NWDCraftBook rReturn = null;
+        //    //			NWDCraftBook[] tRecipes = GetAllObjects ();
+        //    //			foreach (NWDCraftBook recipe in tRecipes) {
+        //    //				if (recipe.ItemToDescribe.ContainsReference (item.Reference)) {
+        //    //					rReturn = recipe;
+        //    //					break;
+        //    //				}
+        //    //			}
+        //    //			return rReturn;
+        //    //
+        //    NWDCraftBook rReturn = null;
+        //    if (ItemByCraftDictionary.ContainsKey(sItem.Reference) == true)
+        //    {
+        //        rReturn = ItemByCraftDictionary[sItem.Reference];
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get the first craft book collision (no recipient, just two ietm chock themselves).
@@ -586,7 +588,7 @@ namespace NetWorkedData
         {
             // do something when object was loaded
             // TODO verif if method is call in good place in good timing
-            NWDCraftBook.AddCraftBookInHashDictionary(this);
+            //NWDCraftBook.AddCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -596,7 +598,7 @@ namespace NetWorkedData
         {
             // do something when object will be unload
             // TODO verif if method is call in good place in good timing
-            NWDCraftBook.RemoveCraftBookInHashDictionary(this);
+            //NWDCraftBook.RemoveCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -605,7 +607,7 @@ namespace NetWorkedData
         public override void AddonInsertMe()
         {
             // do something when object will be inserted
-            NWDCraftBook.AddCraftBookInHashDictionary(this);
+            //NWDCraftBook.AddCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -620,6 +622,14 @@ namespace NetWorkedData
             // TODO recalculate all sign possibilities
             // I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
 
+            if (DescriptionItem.GetObject()!=null)
+            {
+                NWDItem tItem = DescriptionItem.GetObject();
+                tItem.CraftRecipeAttachment.SetObject(this);
+                tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", "");
+                tItem.UpdateDataIfModified();
+            }
+
             if (RecipientGroup == null)
             {
                 RecipientGroup = new NWDReferenceType<NWDRecipientGroup>();
@@ -628,22 +638,7 @@ namespace NetWorkedData
             {
                 ItemGroupIngredient = new NWDReferencesArrayType<NWDItemGroup>();
             }
-
-            string tAssembly = "";
-            if (OrderIsImportant == true)
-            {
-                tAssembly = OrderIsImportant.ToString() +
-                RecipientGroup.ToString() +
-                ItemGroupIngredient.ToString();
-            }
-            else
-            {
-                tAssembly = OrderIsImportant.ToString() +
-                RecipientGroup.ToString() +
-                ItemGroupIngredient.ToStringSorted();
-            }
-            RecipeHash = BTBSecurityTools.GenerateSha(tAssembly, BTBSecurityShaTypeEnum.Sha1);
-
+            RecipeHash = IndexKey(OrderIsImportant, RecipientGroup, ItemGroupIngredient);
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             NWDDataInspector.ActiveRepaint();
             //--------------
@@ -657,7 +652,7 @@ namespace NetWorkedData
         public override void AddonUpdatedMe()
         {
             // do something when object finish to be updated
-            NWDCraftBook.UpdateCraftBookInHashDictionary(this);
+            //NWDCraftBook.UpdateCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -667,7 +662,7 @@ namespace NetWorkedData
         {
             // do something when object finish to be updated from CSV from WebService response
             // TODO verif if method is call in good place in good timing
-            NWDCraftBook.UpdateCraftBookInHashDictionary(this);
+            //NWDCraftBook.UpdateCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -676,7 +671,7 @@ namespace NetWorkedData
         public override void AddonDuplicateMe()
         {
             // do something when object will be dupplicate
-            NWDCraftBook.AddCraftBookInHashDictionary(this);
+            //NWDCraftBook.AddCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -685,7 +680,7 @@ namespace NetWorkedData
         public override void AddonEnableMe()
         {
             // do something when object will be enabled
-            NWDCraftBook.AddCraftBookInHashDictionary(this);
+            //NWDCraftBook.AddCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -694,7 +689,7 @@ namespace NetWorkedData
         public override void AddonDisableMe()
         {
             // do something when object will be disabled
-            NWDCraftBook.RemoveCraftBookInHashDictionary(this);
+            //NWDCraftBook.RemoveCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -703,7 +698,7 @@ namespace NetWorkedData
         public override void AddonTrashMe()
         {
             // do something when object will be put in trash
-            NWDCraftBook.RemoveCraftBookInHashDictionary(this);
+            //NWDCraftBook.RemoveCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -712,10 +707,19 @@ namespace NetWorkedData
         public override void AddonUnTrashMe()
         {
             // do something when object will be remove from trash
-            NWDCraftBook.AddCraftBookInHashDictionary(this);
+            //NWDCraftBook.AddCraftBookInHashDictionary(this);
         }
         //-------------------------------------------------------------------------------------------------------------
-
+        public override void AddonIndexMe()
+        {
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDesindexMe()
+        {
+            RemoveFromIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -760,7 +764,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

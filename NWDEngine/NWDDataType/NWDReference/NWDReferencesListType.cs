@@ -95,9 +95,16 @@ namespace NetWorkedData
 		public string[] GetReferences ()
 		{
 			return Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public bool ContainsObject (K sObject)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string[] GetSortedReferences()
+        {
+            string[] tResult = GetReferences();
+            Array.Sort(tResult, StringComparer.InvariantCulture);
+            return tResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ContainsObject (K sObject)
 		{
 			if (sObject == null) {
 				return false;

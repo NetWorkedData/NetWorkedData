@@ -280,6 +280,13 @@ namespace NetWorkedData
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string[] GetSortedReferences()
+        {
+            string[] tResult = GetReferences();
+            Array.Sort(tResult, StringComparer.InvariantCulture);
+            return tResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetReferenceAndQuantity(Dictionary<string, int> sDico)
         {
             List<string> tValueList = new List<string>();

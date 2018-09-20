@@ -118,6 +118,13 @@ namespace NetWorkedData
             return Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string[] GetSortedReferences()
+        {
+            string[] tResult = GetReferences();
+            Array.Sort(tResult, StringComparer.InvariantCulture);
+            return tResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddReferencesArray(NWDReferencesArrayType<K> sArrayToRemove)
         {
             this.AddReferences(sArrayToRemove.GetReferences());

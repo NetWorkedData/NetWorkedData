@@ -352,6 +352,13 @@ namespace NetWorkedData
             return tValueList.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string[] GetSortedReferences()
+        {
+            string[] tResult = GetReferences();
+            Array.Sort(tResult, StringComparer.InvariantCulture);
+            return tResult;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetReferenceAndAverage(Dictionary<string, NWDAverage> sDico)
         {
             List<string> tValueList = new List<string>();
