@@ -307,6 +307,18 @@ namespace NetWorkedData
             // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static string GetNickname(string sReference)
+        {
+            NWDCharacter tCharacter = GetDataByReference(sReference);
+            string tNickname = "???";
+            if (tCharacter != null)
+            {
+                tNickname = tCharacter.NickName.GetLocalString();
+            }
+
+            return tNickname;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
