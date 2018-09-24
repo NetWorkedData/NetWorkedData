@@ -228,7 +228,7 @@ namespace NetWorkedData
                               "\nreplace by user : #Nickname#" +
                               "\nreplace by user : #Nicknameid#" +
                               "")]
-        public NWDLocalizableTextType Dialog
+        public NWDLocalizableLongTextType Dialog
         {
             get; set;
         }
