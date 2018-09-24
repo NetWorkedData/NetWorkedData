@@ -26,6 +26,14 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDItemNotification : int
+    {
+        NoNotification      =   0,
+        Notification        =   1,
+        SmallNotification   =   2,
+        BigNotification     =   3,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
     /// <para>The GameObject can use the object referenced by binding in game. </para>
@@ -61,22 +69,31 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
         [NWDGroupStartAttribute("Description", true, true, true)]
+        [NWDTooltips("The name usable in game for 0 or 1 object")]
         public NWDLocalizableStringType Name
         {
             get; set;
         }
+        [NWDTooltips("The name usable in game for 2 and more objects")]
         public NWDLocalizableStringType PluralName
         {
             get; set;
         }
+        [NWDTooltips("The sub name in game")]
         public NWDLocalizableStringType SubName
         {
             get; set;
         }
+        [NWDTooltips("The description of object in game")]
         public NWDLocalizableLongTextType Description
         {
             get; set;
         }
+        //[NWDTooltips("The description's panel style")]
+        //public int DescriptionStyle
+        //{
+        //    get; set;
+        //}
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
@@ -102,6 +119,25 @@ namespace NetWorkedData
 
         [NWDGroupSeparatorAttribute]
 
+        [NWDGroupStartAttribute("Notifications", true, true, true)]
+        public NWDItemNotification FirstAcquisitionNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification AddItemNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification RemoveItemNotification
+        {
+            get; set;
+        }
+        public NWDItemNotification NoMoreItemNotification
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+
         [NWDGroupStartAttribute("Rarity", true, true, true)]
         [NWDFloatSliderAttribute(0.0F, 1.0F)]
         [NWDEntitledAttribute("Rarity : float [0,1]")]
@@ -114,6 +150,7 @@ namespace NetWorkedData
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Usage", true, true, true)]
+        //[NWDNotEditableAttribute]
         [NWDTooltips("Item is countable or not?")]
         public bool Uncountable
         {
@@ -146,23 +183,22 @@ namespace NetWorkedData
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Craft Usage", true, true, true)]
-        //[NWDNotEditableAttribute]
         public NWDReferencesListType<NWDItemGroup> ItemGroupList
         {
             get; set;
         }
-        public float DelayBeforeCraft
-        {
-            get; set;
-        }
-        public float DurationOfCraft
-        {
-            get; set;
-        }
-        public float DelayOfImmunity
-        {
-            get; set;
-        }
+        //public float DelayBeforeCraft
+        //{
+        //    get; set;
+        //}
+        //public float DurationOfCraft
+        //{
+        //    get; set;
+        //}
+        //public float DelayOfImmunity
+        //{
+        //    get; set;
+        //}
         public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList
         {
             get; set;

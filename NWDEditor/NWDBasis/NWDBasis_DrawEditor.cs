@@ -528,6 +528,8 @@ namespace NetWorkedData
 
 
             bool rNeedBeUpdate = false;
+            EditorGUI.BeginChangeCheck();
+
             if (sWithScrollview == true)
             {
                 float tScrollBarMarge = 0;
@@ -962,6 +964,11 @@ namespace NetWorkedData
                 GUI.EndScrollView();
             }
 
+            if (EditorGUI.EndChangeCheck())
+            {
+                rNeedBeUpdate = true;
+            }
+
             if (AddonEdited(rNeedBeUpdate) == true)
             {
                 rNeedBeUpdate = true;
@@ -973,11 +980,11 @@ namespace NetWorkedData
                 {
                     ErrorCheck();
                     WebserviceVersionCheckMe();
-                    if (IntegrityValue() != this.Integrity)
+                    //if (IntegrityValue() != this.Integrity)
                     {
                         //Debug.Log("change need UpdateMeLater() call ");
-                        DM = NWDToolbox.Timestamp();
-                        UpdateIntegrity();
+                        //DM = NWDToolbox.Timestamp();
+                        //UpdateIntegrity();
                         UpdateData(true, NWDWritingMode.QueuedMainThread);
                         // TODO Imagine an timer to refresh if modified
                     }
