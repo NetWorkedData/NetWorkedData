@@ -507,16 +507,18 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WebserviceVersionCheckMe()
         {
+            //Debug.Log("NWDBasis WebserviceVersionCheckMe()");
             // Find the good webservice version
             int tWebBuildUsed = WebServiceVersionToUse();
             // test the web service version
             if (WebServiceVersion < tWebBuildUsed && WebServiceVersion!=0)
             {
+                //Debug.Log("NWDBasis WebserviceVersionCheckMe() Update version");
                 this.AddonWebversionUpgradeMe(WebServiceVersion, tWebBuildUsed);
                 // use to update NWDBasis when push to server.
                 this.AddonVersionMe(); // Modify the special webservice override ( for example version)
 
-                this.UpdateData(true, NWDWritingMode.MainThread, false);
+                this.UpdateData(false, NWDWritingMode.MainThread, true);
                 //NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
             }
         }
