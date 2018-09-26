@@ -107,6 +107,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDReferencesQuantityType<NWDItem> ItemFailedResult
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
         [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Item(s) use as recipient", true, true, true)] // ok

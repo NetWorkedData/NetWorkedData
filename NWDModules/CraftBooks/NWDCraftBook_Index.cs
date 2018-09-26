@@ -153,6 +153,33 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
+        static public NWDCraftBook FindFirstByIndex(NWDRecipientGroup sRecipientGroup, NWDReferencesArrayType<NWDItem> sItemIngredient)
+        {
+            //BTBBenchmark.Start();
+            NWDCraftBook rObject = null;
+            NWDReferenceType<NWDRecipientGroup> tRecipent = new NWDReferenceType<NWDRecipientGroup>();
+            NWDReferencesArrayType<NWDItemGroup> tIngredients = new NWDReferencesArrayType<NWDItemGroup>();
+            tRecipent.SetObject(sRecipientGroup);
+            // TODO : RECOMPOSE ALL POSSIBILITIES!
+            foreach (NWDItem tItem in sItemIngredient.GetObjects())
+            {
+                if (tItem.ItemGroupList.GetObjects().Length>0)
+                {
+                    tIngredients.AddObject(tItem.ItemGroupList.GetObjects()[0]);
+                }
+            }
+            List <NWDCraftBook> tReturn = FindByIndex(tRecipent, tIngredients);
+            if (tReturn != null)
+            {
+                if (tReturn.Count > 0)
+                {
+                    rObject = tReturn[0];
+                }
+            }
+            //BTBBenchmark.Finish();
+            return rObject;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

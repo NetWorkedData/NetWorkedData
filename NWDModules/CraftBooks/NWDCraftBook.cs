@@ -46,12 +46,17 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
     [Serializable]
-    public class NWDCraftBookConnection : NWDConnection<NWDCraftBook> {}
+    public class NWDCraftBookConnection : NWDConnection<NWDCraftBook>
+    {
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDItem : NWDBasis<NWDItem>
     {
         //[NWDNotEditable]
-        public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment { get; set; }
+        public NWDReferenceType<NWDCraftBook> CraftRecipeAttachment
+        {
+            get; set;
+        }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
@@ -72,32 +77,70 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Description", true, true, true)] // ok
         [NWDNotEditable]
-        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        public NWDReferenceType<NWDItem> DescriptionItem
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Recipe attribut", true, true, true)] // ok
-        public bool OrderIsImportant { get; set; }
-        public NWDReferenceType<NWDRecipientGroup> RecipientGroup { get; set; }
-        public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemResult { get; set; }
+        public bool OrderIsImportant
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDRecipientGroup> RecipientGroup
+        {
+            get; set;
+        }
+        public NWDReferencesArrayType<NWDItemGroup> ItemGroupIngredient
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> ItemResult
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> ItemAdditionalReward
+        {
+            get; set;
+        }
+        public int ItemAdditionalRewardNumber
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("FX (Special Effects)", true, true, true)]
-        public NWDPrefabType SuccessParticles { get; set; }
-        public NWDPrefabType SuccessSound { get; set; }
-        public NWDPrefabType FailParticles { get; set; }
-        public NWDPrefabType FailSound { get; set; }
+        public NWDPrefabType SuccessParticles
+        {
+            get; set;
+        }
+        public NWDPrefabType SuccessSound
+        {
+            get; set;
+        }
+        public NWDPrefabType FailParticles
+        {
+            get; set;
+        }
+        public NWDPrefabType FailSound
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
         [NWDNotEditableAttribute]
-        public string RecipeHash { get; set; }
+        public string RecipeHash
+        {
+            get; set;
+        }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -622,7 +665,7 @@ namespace NetWorkedData
             // TODO recalculate all sign possibilities
             // I need test all possibilities .. I use an Hack : if ordered == false I sort by Name before
 
-            if (DescriptionItem.GetObject()!=null)
+            if (DescriptionItem.GetObject() != null)
             {
                 NWDItem tItem = DescriptionItem.GetObject();
                 tItem.CraftRecipeAttachment.SetObject(this);
