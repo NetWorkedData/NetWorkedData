@@ -70,81 +70,39 @@ namespace NetWorkedData
         // Your properties
         [NWDGroupStartAttribute("Description", true, true, true)]
         [NWDTooltips("The name usable in game for 0 or 1 object")]
-        public NWDLocalizableStringType Name
-        {
-            get; set;
-        }
+        public NWDLocalizableStringType Name { get; set; }
         [NWDTooltips("The name usable in game for 2 and more objects")]
-        public NWDLocalizableStringType PluralName
-        {
-            get; set;
-        }
+        public NWDLocalizableStringType PluralName { get; set; }
         [NWDTooltips("The sub name in game")]
-        public NWDLocalizableStringType SubName
-        {
-            get; set;
-        }
+        public NWDLocalizableStringType SubName { get; set; }
         [NWDTooltips("The description of object in game")]
-        public NWDLocalizableLongTextType Description
-        {
-            get; set;
-        }
-        //[NWDTooltips("The description's panel style")]
-        //public int DescriptionStyle
-        //{
-        //    get; set;
-        //}
+        public NWDLocalizableLongTextType Description { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> CategoryList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FamilyList
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> KeywordList
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
+        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
+        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
+        public NWDReferencesListType<NWDKeyword> KeywordList { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Notifications", true, true, true)]
-        public NWDItemNotification FirstAcquisitionNotification
-        {
-            get; set;
-        }
-        public NWDItemNotification AddItemNotification
-        {
-            get; set;
-        }
-        public NWDItemNotification RemoveItemNotification
-        {
-            get; set;
-        }
-        public NWDItemNotification NoMoreItemNotification
-        {
-            get; set;
-        }
+        public NWDItemNotification FirstAcquisitionNotification { get; set; }
+        public NWDItemNotification AddItemNotification { get; set; }
+        public NWDItemNotification RemoveItemNotification { get; set; }
+        public NWDItemNotification NoMoreItemNotification { get; set; }
         [NWDGroupEndAttribute]
+
+        [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Rarity", true, true, true)]
         [NWDFloatSliderAttribute(0.0F, 1.0F)]
         [NWDEntitledAttribute("Rarity : float [0,1]")]
-        public float Rarity
-        {
-            get; set;
-        }
+        public float Rarity { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
@@ -152,41 +110,20 @@ namespace NetWorkedData
         [NWDGroupStartAttribute("Usage", true, true, true)]
         //[NWDNotEditableAttribute]
         [NWDTooltips("Item is countable or not?")]
-        public bool Uncountable
-        {
-            get; set;
-        }
+        public bool Uncountable { get; set; }
         [NWDTooltips("Item is never visible by the player")]
-        public bool HiddenInGame
-        {
-            get; set;
-        }
+        public bool HiddenInGame { get; set; }
         [NWDTooltips("Item is usable or not?")]
-        public bool Usable
-        {
-            get; set;
-        }
-        public float DelayBeforeUse
-        {
-            get; set;
-        }
-        public float DurationOfUse
-        {
-            get; set;
-        }
-        public float DelayBeforeReUse
-        {
-            get; set;
-        }
+        public bool Usable { get; set; }
+        public float DelayBeforeUse { get; set; }
+        public float DurationOfUse { get; set; }
+        public float DelayBeforeReUse { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Craft Usage", true, true, true)]
-        public NWDReferencesListType<NWDItemGroup> ItemGroupList
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDItemGroup> ItemGroupList { get; set; }
         //public float DelayBeforeCraft
         //{
         //    get; set;
@@ -199,100 +136,50 @@ namespace NetWorkedData
         //{
         //    get; set;
         //}
-        public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDRecipientGroup> RecipientGroupList { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Extensions", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity
-        {
-            get; set;
-        }
+        public NWDReferencesQuantityType<NWDItem> ItemExtensionQuantity { get; set; }
+        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Assets", true, true, true)]
         [NWDHeaderAttribute("Textures")]
-        public NWDTextureType PrimaryTexture
-        {
-            get; set;
-        }
-        public NWDTextureType SecondaryTexture
-        {
-            get; set;
-        }
-        public NWDTextureType TertiaryTexture
-        {
-            get; set;
-        }
+        public NWDTextureType PrimaryTexture { get; set; }
+        public NWDTextureType SecondaryTexture { get; set; }
+        public NWDTextureType TertiaryTexture { get; set; }
         [NWDHeaderAttribute("Colors")]
-        public NWDColorType PrimaryColor
-        {
-            get; set;
-        }
-        public NWDColorType SecondaryColor
-        {
-            get; set;
-        }
-        public NWDColorType TertiaryColor
-        {
-            get; set;
-        }
+        public NWDColorType PrimaryColor { get; set; }
+        public NWDColorType SecondaryColor { get; set; }
+        public NWDColorType TertiaryColor { get; set; }
         [NWDHeaderAttribute("Prefabs")]
-        public NWDPrefabType PrimaryPrefab
-        {
-            get; set;
-        }
-        public NWDPrefabType SecondaryPrefab
-        {
-            get; set;
-        }
-        public NWDPrefabType TertiaryPrefab
-        {
-            get; set;
-        }
+        public NWDPrefabType PrimaryPrefab { get; set; }
+        public NWDPrefabType SecondaryPrefab { get; set; }
+        public NWDPrefabType TertiaryPrefab { get; set; }
 
         [NWDTooltips("Particules effect used overlay render (for special item)")]
-        public NWDPrefabType EffectPrefab
-        {
-            get; set;
-        }
+        public NWDPrefabType EffectPrefab { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Development addons", true, true, true)]
-        public string JSON
-        {
-            get; set;
-        }
-        public string KeysValues
-        {
-            get; set;
-        }
+        public string JSON { get; set; }
+        public string KeysValues { get; set; }
         //[NWDGroupEndAttribute]
         //[NWDGroupSeparatorAttribute]
         //[NWDGroupStartAttribute ("Precalculate", true, true, true)]
         //[NWDNotEditableAttribute]
         //[NWDGroupEndAttribute]
-
         //-------------------------------------------------------------------------------------------------------------
-
         #endregion
-
         //-------------------------------------------------------------------------------------------------------------
-
         #region Constructors
-
         //-------------------------------------------------------------------------------------------------------------
         public NWDItem()
         {

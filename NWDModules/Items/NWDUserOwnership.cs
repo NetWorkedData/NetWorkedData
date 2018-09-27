@@ -197,7 +197,7 @@ namespace NetWorkedData
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
             rOwnershipToUse.Quantity = sQuantity;
-            if (sQuantity > 0)
+            if (sQuantity != 0)
             {
                 rOwnershipToUse.FirstAcquisition = true;
             }
@@ -205,23 +205,33 @@ namespace NetWorkedData
             return rOwnershipToUse;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity, bool sIsIncrement = true)
+        public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
         {
             NWDUserOwnership rOwnership = OwnershipForItem(sItem);
-            if (sIsIncrement)
-            {
-                rOwnership.Quantity += sQuantity;
-            }
-            else
-            {
-                rOwnership.Quantity = sQuantity;
-            }
+            rOwnership.Quantity += sQuantity;
             if (sQuantity > 0)
             {
                 rOwnership.FirstAcquisition = true;
             }
             rOwnership.UpdateData();
             return rOwnership;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsAndQuantity)
+        {
+            if (sItemsAndQuantity != null)
+            {
+                foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
+                {
+                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tQte.Key);
+                    rOwnershipToUse.Quantity += tQte.Value;
+                    if (rOwnershipToUse.Quantity > 0)
+                    {
+                        rOwnershipToUse.FirstAcquisition = true;
+                    }
+                    rOwnershipToUse.UpdateData();
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership RemoveItemToOwnership(NWDItem sItem, int sQuantity)
@@ -236,31 +246,14 @@ namespace NetWorkedData
             return rOwnership;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void AddItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
+        public static void RemoveItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsAndQuantity)
         {
-            if (sItemsReferenceQuantity != null)
+            if (sItemsAndQuantity != null)
             {
-                foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
+                foreach (KeyValuePair<string, int> tQte in sItemsAndQuantity.GetReferenceAndQuantity())
                 {
-                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
-                    rOwnershipToUse.Quantity += tItemQuantity.Value;
-                    if (rOwnershipToUse.Quantity > 0)
-                    {
-                        rOwnershipToUse.FirstAcquisition = true;
-                    }
-                    rOwnershipToUse.UpdateData();
-                }
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void RemoveItemToOwnership(NWDReferencesQuantityType<NWDItem> sItemsReferenceQuantity)
-        {
-            if (sItemsReferenceQuantity != null)
-            {
-                foreach (KeyValuePair<string, int> tItemQuantity in sItemsReferenceQuantity.GetReferenceAndQuantity())
-                {
-                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tItemQuantity.Key);
-                    rOwnershipToUse.Quantity -= tItemQuantity.Value;
+                    NWDUserOwnership rOwnershipToUse = OwnershipForItem(tQte.Key);
+                    rOwnershipToUse.Quantity -= tQte.Value;
                     if (rOwnershipToUse.Quantity < 0)
                     {
                         rOwnershipToUse.FirstAcquisition = true;
