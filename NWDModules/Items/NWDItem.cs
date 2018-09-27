@@ -65,6 +65,11 @@ namespace NetWorkedData
     public partial class NWDItem : NWDBasis<NWDItem>
     {
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_FirstAcquisitionNotificationKey = "NWDItem_FirstAcquisition";
+        public const string K_AddNotificationKey = "NWDItem_Add";
+        public const string K_RemoveNotificationKey = "NWDItem_Remove";
+        public const string K_NoMoreNotificationKey = "NWDItem_NoMore";
+        //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your properties
