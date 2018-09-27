@@ -165,6 +165,7 @@ namespace SpiritOfBottle
         //-------------------------------------------------------------------------------------------------------------
         public void ShowPanel(NWDSetOfQuests sQuests)
         {
+            SOBBlurPanel.Show();
             gameObject.SetActive(true);
             DestroyAfterClosing = true;
             SetQuestList(sQuests);
@@ -172,6 +173,7 @@ namespace SpiritOfBottle
         //-------------------------------------------------------------------------------------------------------------
         public void SetQuest(NWDQuest sQuest)
         {
+            SOBBlurPanel.Show();
             ActiveQuest = sQuest;
             NWDUserQuestAdvancement tQuestUserAdvancement = NWDUserQuestAdvancement.GetAdvancementForQuest(ActiveQuest);
             NWDDialog tDialog = ActiveQuest.FirstDialogOnShowQuest(tQuestUserAdvancement);
@@ -180,6 +182,7 @@ namespace SpiritOfBottle
         //-------------------------------------------------------------------------------------------------------------
         public void SetDialog(NWDDialog sDialog)
         {
+            SOBBlurPanel.Show();
             ActiveQuest = null;
             ShowFirstdialogue(sDialog);
         }
@@ -520,6 +523,7 @@ namespace SpiritOfBottle
         //-------------------------------------------------------------------------------------------------------------
         public void ClosePanel()
         {
+            SOBBlurPanel.Hide();
             if (PanelShowQuestList.activeInHierarchy)
             {
                 PanelAnim.SetTrigger("Hide");
