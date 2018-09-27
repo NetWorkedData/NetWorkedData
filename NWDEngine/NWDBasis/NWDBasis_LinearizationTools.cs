@@ -79,7 +79,7 @@ namespace NetWorkedData
             {
                 tAssembly += sDataArray[i];
             }
-            string tCalculateIntegrity = HashSum(Datas().SaltA + tAssembly +Datas().SaltB);
+            string tCalculateIntegrity = HashSum(Datas().SaltA + tAssembly + Datas().SaltB);
             if (tActualIntegrity != tCalculateIntegrity)
             {
                 rReturn = false;
@@ -119,7 +119,11 @@ namespace NetWorkedData
         /// <returns>The assembly order array.</returns>
         public static string[] CSVAssemblyOrderArray()
         {
+#if UNITY_EDITOR
+            // never use the cache
+#else
             if (kCSVAssemblyOrderArray.ContainsKey(ClassID()) == false)
+#endif
             {
                 List<string> rReturn = new List<string>();
                 rReturn.AddRange(PropertiesOrderArray());
@@ -159,7 +163,11 @@ namespace NetWorkedData
         /// <returns>The assembly order array.</returns>
         public static string[] SLQAssemblyOrderArray() //  for insert of $sCsvList
         {
+#if UNITY_EDITOR
+            // never use the cache
+#else
             if (kSLQAssemblyOrderArray.ContainsKey(ClassID()) == false)
+#endif
             {
                 List<string> rReturn = new List<string>();
                 rReturn.AddRange(PropertiesOrderArray());
@@ -198,7 +206,11 @@ namespace NetWorkedData
         /// <returns>The assembly order.</returns>
         public static string SLQAssemblyOrder()
         {
+#if UNITY_EDITOR
+            // never use the cache
+#else
             if (kSLQAssemblyOrder.ContainsKey(ClassID()) == false)
+#endif
             {
                 List<string> rReturn = new List<string>();
                 rReturn.AddRange(PropertiesOrderArray());
@@ -238,7 +250,11 @@ namespace NetWorkedData
         /// <returns>The assembly order.</returns>
         public static List<string> SLQIntegrityOrder()
         {
+#if UNITY_EDITOR
+// never use the cache
+#else
             if (kSLQIntegrityOrder.ContainsKey(ClassID()) == false)
+#endif
             {
                 List<string> rReturn = new List<string>();
                 rReturn.AddRange(PropertiesOrderArray());
@@ -319,7 +335,12 @@ namespace NetWorkedData
         /// <returns>The assembly order.</returns>
         public static List<string> DataAssemblyPropertiesList()
         {
+#if UNITY_EDITOR
+            // never use the cache
+#else
             if (kDataAssemblyPropertiesList.ContainsKey(ClassID()) == false)
+
+#endif
             {
                 List<string> rReturn = new List<string>();
                 rReturn.AddRange(PropertiesOrderArray());
@@ -442,11 +463,11 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 
-        #endregion
+#endregion
 
         //-------------------------------------------------------------------------------------------------------------
 
-        #region Instance Methods
+#region Instance Methods
 
         public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
                                       string[] sDataArray,
@@ -808,7 +829,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 
-        #endregion
+#endregion
 
 
         // TODO : Create WebService memorize
