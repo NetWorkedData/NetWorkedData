@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using System;
+using UnityEditor.Build.Reporting;
 
 #if UNITY_EDITOR
 
@@ -20,12 +21,12 @@ using UnityEditor.Build;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDBuildPreProcess : IPreprocessBuild
+    public class NWDBuildPreProcess : IPreprocessBuildWithReport
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public int callbackOrder { get { return 0; } }
-		//-------------------------------------------------------------------------------------------------------------
-		public void OnPreprocessBuild(BuildTarget target, string path)
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnPreprocessBuild(BuildReport report)
         {
             //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
             //Force all datas to be write in database
@@ -142,8 +143,8 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().DevEnvironment.Selected = true;
             }
 		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

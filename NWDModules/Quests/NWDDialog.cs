@@ -832,7 +832,7 @@ namespace NetWorkedData
             //GUI.Label(sRect, sPpropertyName+ "<"+ClassNamePHP() + "> "+InternalKey, EditorStyles.wordWrappedLabel);
             //GUI.Box(sRect, sPpropertyName + "<" + ClassNamePHP() + "> " + InternalKey, tBox);
 
-            string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
+            //string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
 
             //float tButtonWidth = 150.0F;
 

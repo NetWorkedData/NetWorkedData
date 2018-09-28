@@ -12,6 +12,7 @@ using System.Reflection;
 using System.IO;
 using UnityEngine;
 using SQLite4Unity3d;
+using UnityEditor.Build.Reporting;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -28,7 +29,7 @@ using UnityEditor.iOS.Xcode;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDBuildPostProcess : IPostprocessBuild
+    public class NWDBuildPostProcess : IPostprocessBuildWithReport
     {
         //-------------------------------------------------------------------------------------------------------------
         public int callbackOrder
@@ -39,7 +40,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void OnPostprocessBuild(BuildTarget target, string path)
+        public void OnPostprocessBuild(BuildReport report)
         {
             //Debug.Log ("NWDBuildPostProcess OnPostprocessBuild for target " + target + " at path " + path);
             BuildTarget tBuildTarget = EditorUserBuildSettings.activeBuildTarget;
@@ -234,10 +235,10 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.Tizen:
-                    {
-                    }
-                    break;
+                //case BuildTarget.Tizen:
+                    //{
+                    //}
+                    //break;
                 case BuildTarget.PSP2:
                     {
                     }
@@ -254,10 +255,10 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.WiiU:
-                    {
-                    }
-                    break;
+                //case BuildTarget.WiiU:
+                    //{
+                    //}
+                    //break;
                 case BuildTarget.tvOS:
                     {
                     }
