@@ -22,6 +22,9 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reorder all localizations in all object for all properties (clean the string value).
+        /// </summary>
         public static void ReOrderAllLocalizations()
         {
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
@@ -32,6 +35,10 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reorder all localizations in object for all properties (clean the string value).
+        /// </summary>
+        /// <param name="sLanguageArray">languages array to use.</param>
         public void ReOrderLocalizationsValues(string[] sLanguageArray)
         {
             if (TestIntegrity() == true)
@@ -54,32 +61,6 @@ namespace NetWorkedData
                             tUpdate = true;
                         }
                     }
-                    //					if (tTypeOfThis == typeof(NWDLocalizableStringType)) {
-                    //						NWDLocalizableStringType tValueStruct = (NWDLocalizableStringType)tProp.GetValue (this, null);
-                    //						NWDLocalizableStringType tValueStructNext = tValueStruct.ReOrder (sLanguageArray);
-                    //						if (tValueStructNext.Value != tValueStruct.Value) {
-                    //							tUpdate = true;
-                    //						}
-                    //					}
-                    //
-                    //					if (tTypeOfThis == typeof(NWDLocalizableTextType)) {
-                    //						NWDLocalizableTextType tValueStruct = (NWDLocalizableTextType)tProp.GetValue (this, null);
-                    //						NWDLocalizableTextType tValueStructNext = tValueStruct.ReOrder (sLanguageArray);
-                    //						if (tValueStructNext.Value != tValueStruct.Value) {
-                    //							tProp.SetValue (this, tValueStructNext, null);
-                    //							tUpdate = true;
-                    //						}
-                    //					}
-                    //
-                    //					if (tTypeOfThis == typeof(NWDLocalizablePrefabType)) {
-                    //						NWDLocalizablePrefabType tValueStruct = (NWDLocalizablePrefabType)tProp.GetValue (this, null);
-                    //						NWDLocalizablePrefabType tValueStructNext = tValueStruct.ReOrder (sLanguageArray);
-                    //						if (tValueStructNext.Value != tValueStruct.Value) {
-                    //							tProp.SetValue (this, tValueStructNext, null);
-                    //							tUpdate = true;
-                    //						}
-                    //					}
-
                 }
                 if (tUpdate == true)
                 {
@@ -87,23 +68,54 @@ namespace NetWorkedData
                 }
             }
         }
-
-        // export CSV
-
         //-------------------------------------------------------------------------------------------------------------
-        public static string ExportAllLocalization()
+        /// <summary>
+        /// Exports the localization.
+        /// </summary>
+        public static void ExportLocalization()
+        {
+            //Debug.Log ("ExportThisLocalization");
+            NWDDataManager.SharedInstance().DataQueueExecute();
+            // ask for final file path
+            string tPath = EditorUtility.SaveFilePanel(
+                "Export Localization CSV",
+                "",
+                Datas().ClassName + ".csv",
+                "csv");
+            if (tPath != null)
+            {
+                // prepare header
+                string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" +
+                                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString.Replace(";", "\";\"") + "\"\n";
+                // start to create file
+                string tFile = tHeaders;tFile += ExportLocalizationInCSV();
+                // write file
+                File.WriteAllText(tPath, tFile);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Exports all localization in CVS string.
+        /// </summary>
+        /// <returns>The all localization.</returns>
+        public static string ExportLocalizationInCSV()
         {
             string tRows = "";
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
             {
-                tRows += tObject.ExportLocalization(tLanguageArray);
+                tRows += tObject.ExportCSV(tLanguageArray);
             }
             return tRows;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string ExportLocalization(string[] sLanguageArray)
+        /// <summary>
+        /// Exports localizations in csv for this object.
+        /// </summary>
+        /// <returns>The csv.</returns>
+        /// <param name="sLanguageArray">S language array.</param>
+        public string ExportCSV(string[] sLanguageArray)
         {
             string tRows = "";
             Type tType = ClassType();
@@ -119,7 +131,7 @@ namespace NetWorkedData
                     string tValue = tValueObject.Value;
                     Dictionary<string, string> tResultSplitDico = new Dictionary<string, string>();
 
-                     if (tValue != null && tValue != "" && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)
+                    if (tValue != null && tValue != "" && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)
                     {
                         string[] tValueArray = tValue.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string tValueArrayLine in tValueArray)
@@ -135,71 +147,35 @@ namespace NetWorkedData
                                 }
                             }
                         }
-                    tRows += "\"" + Datas().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
-                    foreach (string tLang in sLanguageArray)
-                    {
-                        if (tResultSplitDico.ContainsKey(tLang) == true)
+                        tRows += "\"" + Datas().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
+                        foreach (string tLang in sLanguageArray)
                         {
-                            string tValueToWrite = tResultSplitDico[tLang];
-                            tValueToWrite = tValueToWrite.Replace("\"", "&quot;");
-                            tValueToWrite = tValueToWrite.Replace(";", "&#59");
-                            tValueToWrite = tValueToWrite.Replace("\r\n", "\n");
-                            tValueToWrite = tValueToWrite.Replace("\n\r", "\n");
-                            tValueToWrite = tValueToWrite.Replace("\r", "\n");
-                            tValueToWrite = tValueToWrite.Replace("\n", "&#00");
+                            if (tResultSplitDico.ContainsKey(tLang) == true)
+                            {
+                                string tValueToWrite = tResultSplitDico[tLang];
+                                tValueToWrite = tValueToWrite.Replace("\"", "&quot;");
+                                tValueToWrite = tValueToWrite.Replace(";", "&#59");
+                                tValueToWrite = tValueToWrite.Replace("\r\n", "\n");
+                                tValueToWrite = tValueToWrite.Replace("\n\r", "\n");
+                                tValueToWrite = tValueToWrite.Replace("\r", "\n");
+                                tValueToWrite = tValueToWrite.Replace("\n", "&#00");
 
-                            tRows += "\"" + tValueToWrite + "\"";
+                                tRows += "\"" + tValueToWrite + "\"";
+                            }
+                            tRows += ";";
                         }
-                        tRows += ";";
+                        tRows += "\n";
                     }
-                    tRows += "\n";
-                    }
-
                 }
-                //
-                //				if (tTypeOfThis == typeof(NWDLocalizableTextType)) {
-                //					NWDLocalizableTextType tValueStruct = (NWDLocalizableTextType)tProp.GetValue (this, null);
-                //					string tValue = tValueStruct.Value;
-                //					Dictionary<string,string> tResultSplitDico = new Dictionary<string,string> ();
-                //
-                //					if (tValue != null && tValue != "") {
-                //						string[] tValueArray = tValue.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-                //						foreach (string tValueArrayLine in tValueArray) {
-                //							string[] tLineValue = tValueArrayLine.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
-                //							if (tLineValue.Length == 2) {
-                //								string tLangague = tLineValue [0];
-                //								string tText = tLineValue [1];
-                //								if (tResultSplitDico.ContainsKey (tLangague) == false) {
-                //									tResultSplitDico.Add (tLangague, tText);
-                //								}
-                //							}
-                //						}
-                //					}
-                //
-                //					tRows += "\"" + ClassTrigramme () + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
-                //					foreach (string tLang in sLanguageArray) {
-                //						if (tResultSplitDico.ContainsKey (tLang) == true) {
-                //							string tValueToWrite = tResultSplitDico [tLang];
-                //							tValueToWrite = tValueToWrite.Replace ("\"", "&quot;");
-                //							tValueToWrite = tValueToWrite.Replace (";", "&#59");
-                //							tValueToWrite = tValueToWrite.Replace ("\r\n", "\n");
-                //							tValueToWrite = tValueToWrite.Replace ("\n\r", "\n");
-                //							tValueToWrite = tValueToWrite.Replace ("\r", "\n");
-                //							tValueToWrite = tValueToWrite.Replace ("\n", "&#00");
-                //
-                //							tRows += "\"" + tValueToWrite + "\"";
-                //						}
-                //						tRows += ";";
-                //					}
-                //					tRows += "\n";
-                //				}
             }
             return tRows;
         }
-
-        // import CSV
-
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Imports all localizations.
+        /// </summary>
+        /// <param name="sLanguageArray">S language array.</param>
+        /// <param name="sCSVFileArray">S CSVF ile array.</param>
         public static void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
             //Debug.Log ("ImportAllLocalizations");
@@ -216,11 +192,15 @@ namespace NetWorkedData
                 NWDBasis<K>.ImportLocalization(sLanguageArray, tKeysArray, sCSVFileArray[tI]);
             }
         }
-
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Imports the localization CVS rows.
+        /// </summary>
+        /// <param name="sLanguageArray">S language array.</param>
+        /// <param name="sKeysArray">S keys array.</param>
+        /// <param name="sCSVrow">S CSV row.</param>
         public static void ImportLocalization(string[] sLanguageArray, string[] sKeysArray, string sCSVrow)
         {
-
             //Debug.Log ("sCSVrow = " + sCSVrow);
             //string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" + 
             string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -273,37 +253,15 @@ namespace NetWorkedData
                                 if (tPropertyValueOld.Value != tNextValue)
                                 {
                                     tPropertyValueOld.Value = tNextValue;
-                                    NWDDataManager.SharedInstance().UpdateData(tObject, NWDWritingMode.QueuedMainThread);
-
+                                    //NWDDataManager.SharedInstance().UpdateData(tObject, NWDWritingMode.QueuedMainThread);
+                                    tObject.UpdateData(true, NWDWritingMode.QueuedMainThread);
                                 }
                             }
-                            //								
-                            //							//TODO : (FUTUR ADDS) Insert new NWDxxxxType Localizable
-                            //							if (tInfo.PropertyType == typeof(NWDLocalizableStringType)) {
-                            //								NWDLocalizableStringType tPropertyValue = new NWDLocalizableStringType ();
-                            //								tPropertyValue.Value = tNextValue;
-                            //
-                            //								NWDLocalizableStringType tPropertyValueOld = (NWDLocalizableStringType)tInfo.GetValue (tObject, null);
-                            //								if (tPropertyValueOld.Value != tPropertyValue.Value) {
-                            //									tInfo.SetValue (tObject, tPropertyValue, null);
-                            //									NWDDataManager.SharedInstance().AddObjectToUpdateQueue (tObject);
-                            //								}
-                            //							}
-                            //							if (tInfo.PropertyType == typeof(NWDLocalizableTextType)) {
-                            //								NWDLocalizableTextType tPropertyValue = new NWDLocalizableTextType ();
-                            //								tPropertyValue.Value = tNextValue;
-                            //
-                            //								NWDLocalizableTextType tPropertyValueOld = (NWDLocalizableTextType)tInfo.GetValue (tObject, null);
-                            //								if (tPropertyValueOld.Value != tPropertyValue.Value) {
-                            //									tInfo.SetValue (tObject, tPropertyValue, null);
-                            //									NWDDataManager.SharedInstance().AddObjectToUpdateQueue (tObject);
-                            //								}
-                            //							}
-
                         }
                     }
                 }
             }
+            NWDDataManager.SharedInstance().DataQueueExecute();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

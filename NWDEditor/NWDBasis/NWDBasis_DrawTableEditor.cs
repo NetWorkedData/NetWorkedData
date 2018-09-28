@@ -1205,8 +1205,15 @@ namespace NetWorkedData
                 }
             }
 
-
+            GUILayout.Space(EditorStyles.miniButton.fixedHeight+NWDConstants.kFieldMarge);
             EditorGUI.EndDisabledGroup();
+
+            bool tLocalizeLocalTable = false; //prevent GUIlayout error
+            if (GUILayout.Button("Export localization data", EditorStyles.miniButton))
+            {
+                tLocalizeLocalTable = true;
+            }
+
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
@@ -1824,6 +1831,10 @@ namespace NetWorkedData
                 {
                     CleanTable();
                 }
+            }
+            if (tLocalizeLocalTable == true)
+            {
+                ExportLocalization();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

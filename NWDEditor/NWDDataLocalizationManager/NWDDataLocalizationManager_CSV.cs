@@ -1,6 +1,6 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
@@ -19,6 +19,9 @@ namespace NetWorkedData
 	public partial class NWDDataLocalizationManager
 	{
 		//-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Reorder all localizations and clean datas.
+        /// </summary>
 		public void ReOrderAllLocalizations ()
 		{
 			string tProgressBarTitle = "NetWorkedData Reorder localization";
@@ -40,8 +43,11 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void ExportToCSV ()
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Exports Localizations to csv.
+        /// </summary>
+        public void ExportToCSV ()
 		{
 			//Debug.Log ("ExportToCSV");
 			// apply the pending modification : prevent lost modification
@@ -60,7 +66,7 @@ namespace NetWorkedData
 				string tFile = tHeaders;
 				// populate file by class result
 				foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
-					var tMethodInfo = tType.GetMethod ("ExportAllLocalization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+					var tMethodInfo = tType.GetMethod ("ExportLocalizationInCSV", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
 						string tResult = tMethodInfo.Invoke (null, null) as string;
 						tFile += tResult;
@@ -70,8 +76,11 @@ namespace NetWorkedData
 				File.WriteAllText (tPath, tFile);
 			}
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void ImportFromCSV ()
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Imports Localizations from csv.
+        /// </summary>
+        public void ImportFromCSV ()
 		{
 			//Debug.Log ("ImportFromCSV");
 			string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", "", "csv");
