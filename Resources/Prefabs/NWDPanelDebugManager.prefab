@@ -649,7 +649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1416023718922054
 GameObject:
   m_ObjectHideFlags: 1
@@ -1025,23 +1025,6 @@ GameObject:
   - component: {fileID: 114381337194004688}
   m_Layer: 5
   m_Name: Template
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!1 &1592874403194006
-GameObject:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4528863132988274}
-  - component: {fileID: 114486347954836172}
-  - component: {fileID: 114801130689150696}
-  m_Layer: 0
-  m_Name: NWDPanelDebugOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1674,19 +1657,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4528863132988274
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1592874403194006}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -51.52798, y: -1466, z: -31.310425}
-  m_LocalScale: {x: 4.4729147, y: 4.4729147, z: 4.4729147}
-  m_Children: []
-  m_Father: {fileID: 224260223982752302}
-  m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114020189551314158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1969,18 +1939,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114964403087870670}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 114801130689150696}
-        m_MethodName: ShowLog
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114094501081516780
@@ -3936,18 +3895,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114486347954836172
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1592874403194006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6965a50fa75ac4912854e37859821f4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FrameRateOverride: 60
 --- !u!114 &114510134603140334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5354,33 +5301,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Option A
---- !u!114 &114801130689150696
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1592874403194006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9391b4164e0874f179a7fe5699732d61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Overlay: 1
-  WidthPercent: 0.3
-  FontSizePercent: 0.02
-  BackGroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.2}
-  FontNormalColor: {r: 0, g: 0, b: 0.5, a: 1}
-  FontAlertColor: {r: 1, g: 0, b: 0, a: 1}
-  FramePerSecond: 1
-  FramePerSecondMinAlert: 25
-  FrameRateListLimit: 25
-  FramePerSecondRange: 1
-  ShowLogs: 1
-  DeviceModel: 1
-  GraphicsMemorySize: 1
-  GraphicsShaderLevel: 1
-  MaxTextureSize: 1
-  GameDataManager: 1
 --- !u!114 &114805602479945448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7389,7 +7309,6 @@ RectTransform:
   - {fileID: 224720803302322454}
   - {fileID: 224508149476071496}
   - {fileID: 224385834026153278}
-  - {fileID: 4528863132988274}
   - {fileID: 224517002772097954}
   m_Father: {fileID: 224947371630646960}
   m_RootOrder: 0
@@ -7910,7 +7829,7 @@ RectTransform:
   - {fileID: 224028372937530288}
   - {fileID: 224351281455990966}
   m_Father: {fileID: 224260223982752302}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
