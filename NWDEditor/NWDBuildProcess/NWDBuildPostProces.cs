@@ -12,11 +12,11 @@ using System.Reflection;
 using System.IO;
 using UnityEngine;
 using SQLite4Unity3d;
-using UnityEditor.Build.Reporting;
 
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 #if UNITY_IOS
 using UnityEditor.iOS.Xcode;

@@ -10,12 +10,12 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using System;
-using UnityEditor.Build.Reporting;
 
 #if UNITY_EDITOR
 
 using UnityEditor;
 using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 //=====================================================================================================================
 namespace NetWorkedData
