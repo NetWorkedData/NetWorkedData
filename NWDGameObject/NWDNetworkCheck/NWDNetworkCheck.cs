@@ -30,6 +30,8 @@ namespace NetWorkedData
         UnityReacha,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public delegate void NWDNetworkFinishDelegate(NWDNetworkState sNetworkState);
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     ///
     /// </summary>
@@ -44,6 +46,7 @@ namespace NetWorkedData
         string AddressPing = "";
         private bool IsPaused = false;
         UnityWebRequest Request;
+        public NWDNetworkFinishDelegate TestFinishedBlock;
         //-------------------------------------------------------------------------------------------------------------
         private IEnumerator CheckCoroutine;
         //-------------------------------------------------------------------------------------------------------------
@@ -94,9 +97,16 @@ namespace NetWorkedData
             //yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void TestNetwork(NWDNetworkFinishDelegate sNetworkTestFinishedBlock = null)
+        {
+            //Debug.Log("NWDNetworkCheck TestNetwork()");
+            TestFinishedBlock = sNetworkTestFinishedBlock;
+            NetworkTest();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void NetworkTest()
         {
-            //Debug.Log("NWDNetworkCheck PingTest()");
+            Debug.Log("NWDNetworkCheck PingTest()");
             NetworkStatutChange(NWDNetworkState.Check);
             switch (RequestType)
             {
@@ -133,14 +143,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void TestNetwork()
-        {
-            //Debug.Log("NWDNetworkCheck TestNetwork()");
-            NetworkTest();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         IEnumerator PingAsync()
         {
+            Debug.Log("NWDNetworkCheck PingAsync()");
             double tStartTimestamp = 0;
             double tFinishTimestamp = 0;
             double tDelta = -1;
@@ -169,6 +174,11 @@ namespace NetWorkedData
                         tDelta = tFinishTimestamp - tStartTimestamp;
                         Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " ("+AddressPing+") "+ ping.time + ": " + tDelta.ToString("F3") + " seconds");
                     }
+                    if (TestFinishedBlock != null)
+                    {
+                        TestFinishedBlock(NetworkState);
+                        TestFinishedBlock = null;
+                    }
                     yield break;
                 }
                 if (Time.timeSinceLevelLoad - startTime > timeout)
@@ -181,6 +191,11 @@ namespace NetWorkedData
                         tDelta = tFinishTimestamp - tStartTimestamp;
                         Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + AddressPing + ") : " + tDelta.ToString("F3") + " seconds");
                     }
+                    if (TestFinishedBlock != null)
+                    {
+                        TestFinishedBlock(NetworkState);
+                        TestFinishedBlock = null;
+                    }
                     yield break;
                 }
                 //yield return new WaitForEndOfFrame();
@@ -191,7 +206,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator UnityRequestAsync()
         {
-            //Debug.Log("NWDNetworkCheck UnityRequestAsync()");
+            Debug.Log("NWDNetworkCheck UnityRequestAsync()");
             double tStartTimestamp = 0;
             if (DebugLog == true)
             {
@@ -296,6 +311,11 @@ namespace NetWorkedData
                 double tDelta = tFinishTimestamp - tStartTimestamp;
                 Debug.Log("NWD => NWDNetworkCheck test " + RequestType.ToString() + " (" + URL + ") : " + tDelta.ToString("F3") + " seconds");
             }
+            if (TestFinishedBlock != null)
+            {
+                TestFinishedBlock(NetworkState);
+                TestFinishedBlock = null;
+            }
             yield break;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -317,7 +337,11 @@ namespace NetWorkedData
             {
                 NetworkStatutChange(NWDNetworkState.OnLine);
             }
-
+            if (TestFinishedBlock != null)
+            {
+                TestFinishedBlock(NetworkState);
+                TestFinishedBlock = null;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         void HttpRequestAsync()

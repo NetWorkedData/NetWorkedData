@@ -237,11 +237,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDNetworkCheck NetWorkCheck;
         //-------------------------------------------------------------------------------------------------------------
-        public void TestNetWork()
+        public void TestNetWork(NWDNetworkFinishDelegate sNetworkTestFinishedBlock = null)
         {
             if (NetWorkCheck != null)
             {
-                NetWorkCheck.TestNetwork();
+                NetWorkCheck.TestNetwork(sNetworkTestFinishedBlock);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
