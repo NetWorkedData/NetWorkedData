@@ -98,7 +98,7 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Extensions", true, true, true)]
-        public NWDReferencesListType<NWDUserOwnership> OwnershipList
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList
         {
             get; set;
         }
