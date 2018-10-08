@@ -254,6 +254,22 @@ namespace NetWorkedData
             return rOwnershipToUse;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool IsDiscovered(NWDItem sItem)
+        {
+            NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            return rOwnershipToUse.FirstAcquisitionNotify;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetDiscovered(NWDItem sItem, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
+            if (rOwnershipToUse.FirstAcquisitionNotify == false)
+            {
+                rOwnershipToUse.FirstAcquisitionMethod();
+                rOwnershipToUse.UpdateData(true, sWritingMode);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserOwnership AddItemToOwnership(NWDItem sItem, int sQuantity)
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);

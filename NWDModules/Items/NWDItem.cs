@@ -230,6 +230,11 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SetDiscovered(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        {
+            NWDUserOwnership.SetDiscovered(this, sWritingMode);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()

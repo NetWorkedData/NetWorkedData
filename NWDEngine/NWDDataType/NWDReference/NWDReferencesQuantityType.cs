@@ -172,6 +172,14 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void AddObjectsList(List<K> sObjectsList)
+        {
+            foreach (K tObject in sObjectsList)
+            {
+                AddObjectQuantity(tObject, 1);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddReferencesQuantity(NWDReferencesQuantityType<K> sReferencesQuantity)
         {
             // I compare all element
@@ -370,9 +378,20 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public K GetOneObjectByRandom()
         {
-            List<K> tlist = ExploseInItemsList();
-            int tRandom = UnityEngine.Random.Range(0, tlist.Count);
-            return tlist[tRandom];
+            List<K> tList = ExploseInItemsList();
+            int tRandom = UnityEngine.Random.Range(0, tList.Count);
+            return tList[tRandom];
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public List<K> GetObjectsByRandom(int sQuantity)
+        {
+            List<K> tList = ExploseInItemsList();
+            while (tList.Count > sQuantity)
+            {
+                int tRandom = UnityEngine.Random.Range(0, tList.Count);
+                tList.RemoveAt(tRandom);
+            }
+            return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
         public List<K> ExploseInItemsList()
