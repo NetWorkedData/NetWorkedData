@@ -242,33 +242,25 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public bool ContainedIn(NWDReferencesConditionalType<K> sReferencesQuantity, bool sExceptIfIsEmpty = true)
-        //{
-        //    bool rReturn = true;
-        //    if (sExceptIfIsEmpty && Value == "")
-        //    {
-        //        return false;
-        //    }
-        //    // I compare all elemnt
-        //    Dictionary<string, int> tThis = GetReferenceAndQuantity();
-        //    Dictionary<string, int> tOther = sReferencesQuantity.GetReferenceAndQuantity();
-        //    foreach (KeyValuePair<string, int> tKeyValue in tThis)
-        //    {
-        //        if (tOther.ContainsKey(tKeyValue.Key) == false)
-        //        {
-        //            rReturn = false;
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            if (tKeyValue.Value > tOther[tKeyValue.Key])
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
-        //    return rReturn;
-        //}
+        public bool IsValid(NWDReferencesQuantityType<K> sReferencesQuantity, bool sExceptIfIsEmpty = false)
+        {
+            bool rReturn = true;
+            if (sExceptIfIsEmpty && Value == "")
+            {
+                return false;
+            }
+            Dictionary<string, int> tDico =  sReferencesQuantity.GetReferenceAndQuantity();
+            foreach (NWDReferenceConditionalType<K> tConditional in GetReferenceQuantityConditional())
+            {
+                int tQuantity = tDico[tConditional.Reference];
+                if (tConditional.isValid(tQuantity) ==false)
+                {
+                    rReturn = false;
+                    break;
+                }
+            }
+            return rReturn;
+        }
         ////-------------------------------------------------------------------------------------------------------------
         //public bool ContainsReferencesQuantity(NWDReferencesConditionalType<K> sReferencesQuantity)
         //{

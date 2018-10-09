@@ -102,11 +102,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferencesQuantityType<NWDItem> ItemAdditionalReward
-        {
-            get; set;
-        }
-        public int ItemAdditionalRewardNumber
+        public NWDReferencesListType<NWDCraftBookAdd> AdditionalReward
         {
             get; set;
         }
@@ -164,6 +160,19 @@ namespace NetWorkedData
         {
             OrderIsImportant = true;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesQuantityType<NWDItem> GetAdditionalItem(NWDReferencesQuantityType<NWDItem> sItemInCraft)
+        {
+            NWDReferencesQuantityType<NWDItem> rReturn = new NWDReferencesQuantityType<NWDItem>();
+            foreach (NWDCraftBookAdd tAdd in AdditionalReward.GetObjects())
+            {
+                if (tAdd.ItemConditional.IsValid(sItemInCraft))
+                {
+                    rReturn.AddReferencesQuantity(tAdd.GetItemRewards());
+                }
+            }
+            return rReturn;
+         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

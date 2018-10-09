@@ -21,6 +21,7 @@ namespace NetWorkedData
         "NWDCraftBookWindow",
             new Type[] {
             typeof(NWDCraftBook),
+            typeof(NWDCraftBookAdd),
             typeof(NWDRecipientGroup),
             typeof(NWDItemGroup),
             typeof(NWDItem),

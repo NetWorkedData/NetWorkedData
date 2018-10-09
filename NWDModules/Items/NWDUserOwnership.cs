@@ -254,7 +254,7 @@ namespace NetWorkedData
             return rOwnershipToUse;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsDiscovered(NWDItem sItem)
+        public static bool IsDiscovered(NWDItem sItem)
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
             return rOwnershipToUse.FirstAcquisitionNotify;
