@@ -22,8 +22,8 @@ namespace NetWorkedData
                                  "NWDGameSaveWindow", // NWDUserWindow
         new Type[] {
         typeof(NWDGameSave),
+        typeof(NWDUserOwnership),
         typeof(NWDAccount),
-        typeof(NWDUserInfos),
 		/* Add NWDBasis here*/
 		}
                                 )]
@@ -35,7 +35,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDGameSaveWindow));
+            EditorWindow tWindow = GetWindow(typeof(NWDGameSaveWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------
