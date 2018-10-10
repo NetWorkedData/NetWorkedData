@@ -15,7 +15,9 @@ using System.Reflection;
 using UnityEngine;
 
 using BasicToolBox;
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
 using UnityEngine.Analytics;
+#endif
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -132,6 +134,8 @@ namespace NetWorkedData
 
             if (sStatKey.UnityStat == true)
             {
+
+#if ENABLE_CLOUD_SERVICES_ANALYTICS
                 AnalyticsEvent.Custom(sStatKey.InternalKey, new Dictionary<string, object>
             {
                     {"nwd_account_ref", Account.GetReference()},
@@ -146,6 +150,7 @@ namespace NetWorkedData
                 {"nwd_min", Min},
                 */
             });
+#endif
             }
             if (Max < sValue)
             {
