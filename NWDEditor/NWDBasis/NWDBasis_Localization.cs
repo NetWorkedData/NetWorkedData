@@ -80,7 +80,7 @@ namespace NetWorkedData
             string tPath = EditorUtility.SaveFilePanel(
                 "Export Localization CSV",
                 "",
-                Datas().ClassName + ".csv",
+                Datas().ClassNamePHP + ".csv",
                 "csv");
             if (tPath != null)
             {

@@ -126,6 +126,7 @@ namespace NetWorkedData
                 case BuildTarget.iOS:
                     {
 #if UNITY_IOS
+                        /*
                         // TODO : change project localization 
                         string tProjetcLanguage = NWDAppConfiguration.SharedInstance().ProjetcLanguage;
                         // Get plist
@@ -200,6 +201,8 @@ namespace NetWorkedData
                                 }
                             }
                         }
+
+                        */
 #endif
                     }
                     break;
