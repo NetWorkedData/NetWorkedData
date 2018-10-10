@@ -153,57 +153,69 @@ namespace NetWorkedData
                 // get root text
                 TextTarget = GetComponent<Text>();
             }
+
             // if not find in root object
             if (TextTarget == null)
             {
                 // get first children text
                 TextTarget = GetComponentInChildren<Text>();
             }
+
+            // if Text found
             if (TextTarget != null)
             {
                 // set the localizable text
                 NWDLocalization tLocalization = LocalizationReference.GetObject();
                 if (tLocalization != null)
                 {
+                    string tTextString = "";
                     if (sUseBaseString == true)
                     {
-                        string tTextString = tLocalization.TextValue.GetBaseString();
-                        TextTarget.text = tTextString;
+                        tTextString = tLocalization.TextValue.GetBaseString();
                     }
                     else
                     {
-                        string tTextString = tLocalization.GetLocalString();
-                        TextTarget.text = tTextString;
+                        tTextString = tLocalization.GetLocalString();
                     }
+
+                    // Enrich text
+                    TextTarget.text = Enrichment(tTextString);
                 }
-            }// if not pluging
+            }
+
+            // if not pluging
             if (TextMeshTarget == null)
             {
                 // get root text
                 TextMeshTarget = GetComponent<TextMesh>();
             }
+
             // if not find in root object
             if (TextMeshTarget == null)
             {
                 // get first children text
                 TextMeshTarget = GetComponentInChildren<TextMesh>();
             }
+
+            // TextMesh found
             if (TextMeshTarget != null)
             {
                 // set the localizable text
                 NWDLocalization tLocalization = LocalizationReference.GetObject();
                 if (tLocalization != null)
                 {
+                    string tTextString = "";
                     if (sUseBaseString == true)
                     {
-                        string tTextString = tLocalization.TextValue.GetBaseString();
-                        TextMeshTarget.text = tTextString;
+                        tTextString = tLocalization.TextValue.GetBaseString();
                     }
                     else
                     {
-                        string tTextString = tLocalization.GetLocalString();
-                        TextMeshTarget.text = tTextString;
+                        tTextString = tLocalization.GetLocalString();
                     }
+
+                    // Enrich text
+                    TextMeshTarget.text = Enrichment(tTextString);
                 }
             }
         }
@@ -211,6 +223,11 @@ namespace NetWorkedData
         void Awake()
         {
             Localize(false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        string Enrichment(string sText)
+        {
+            return NWDAccountNickname.Enrichment(NWDLocalization.Enrichment(sText));
         }
         //-------------------------------------------------------------------------------------------------------------
     }
