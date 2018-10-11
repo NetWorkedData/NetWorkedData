@@ -561,7 +561,7 @@ namespace NetWorkedData
             string tDigestKey = UnSecureDigestKey;
             string tParamValue = "";
             string tDigestValue = "";
-            NWDDebug.Log("Data : " + Json.Serialize(Data));
+            NWDDebug.Log("Data : " + Json.Serialize(Data).Replace("/r","").Replace("/n", ""));
 
             if (SecureData)
             {

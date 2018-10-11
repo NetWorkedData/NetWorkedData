@@ -95,7 +95,7 @@ namespace NetWorkedData
 
 			#if UNITY_EDITOR
 			#else
-			DontDestroyOnLoad (tGameObjectToSpawn);
+			//DontDestroyOnLoad (tGameObjectToSpawn);
 			#endif
 
 			return rReturn;

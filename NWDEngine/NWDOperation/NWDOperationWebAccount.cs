@@ -99,7 +99,7 @@ namespace NetWorkedData
 
 			#if UNITY_EDITOR
 			#else
-			DontDestroyOnLoad (tGameObjectToSpawn);
+			//DontDestroyOnLoad (tGameObjectToSpawn);
 			#endif
 			// ELSE IF BTBOperationWWW
 			// rReturn = new BTBOperationSynchronisation();
