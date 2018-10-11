@@ -207,7 +207,9 @@ namespace NetWorkedData
             //    tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
             //}
 
-            tConstantsFile+= "$SQL_" + tClassName + "_WebService = "+tWebBuildUsed+";\n" +
+            tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
+
+            tConstantsFile += "$SQL_" + tClassName + "_WebService = "+tWebBuildUsed+";\n" +
                 "//-------------------- \n";
 
             //string tGlobal = "global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, ";
