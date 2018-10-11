@@ -106,7 +106,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void NetworkTest()
         {
-            Debug.Log("NWDNetworkCheck PingTest()");
+            //Debug.Log("NWDNetworkCheck PingTest()");
             NetworkStatutChange(NWDNetworkState.Check);
             switch (RequestType)
             {
@@ -145,7 +145,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator PingAsync()
         {
-            Debug.Log("NWDNetworkCheck PingAsync()");
+            //Debug.Log("NWDNetworkCheck PingAsync()");
             double tStartTimestamp = 0;
             double tFinishTimestamp = 0;
             double tDelta = -1;
@@ -206,7 +206,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator UnityRequestAsync()
         {
-            Debug.Log("NWDNetworkCheck UnityRequestAsync()");
+            //Debug.Log("NWDNetworkCheck UnityRequestAsync()");
             double tStartTimestamp = 0;
             if (DebugLog == true)
             {
@@ -321,7 +321,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Reach()
         {
-            Debug.Log("NWDNetworkCheck Reach()");
+            //Debug.Log("NWDNetworkCheck Reach()");
             //ThreadPool.QueueUserWorkItem(new WaitCallback(MakeRequest));
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
@@ -346,7 +346,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void HttpRequestAsync()
         {
-            Debug.Log("NWDNetworkCheck HttpRequestAsync()");
+            //Debug.Log("NWDNetworkCheck HttpRequestAsync()");
             //ThreadPool.QueueUserWorkItem(new WaitCallback(MakeRequest));
             MakeRequest(this);
         }
