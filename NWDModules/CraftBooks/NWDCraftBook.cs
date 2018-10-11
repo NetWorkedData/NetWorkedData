@@ -76,7 +76,7 @@ namespace NetWorkedData
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Description", true, true, true)] // ok
-        [NWDNotEditable]
+        //[NWDNotEditable]
         public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;

@@ -391,6 +391,7 @@ namespace NetWorkedData
                 int tRandom = UnityEngine.Random.Range(0, tList.Count);
                 tList.RemoveAt(tRandom);
             }
+            Debug.LogWarning("RETURN "+ tList.Count.ToString()+"/" + sQuantity);
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------
