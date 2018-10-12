@@ -28,25 +28,53 @@ namespace NetWorkedData
     public enum NWDWritingMode : int
     {
         /// <summary>
+        /// The data is writing By default Configuration.
+        /// </summary>
+        ByEditorDefault = -3,
+        /// <summary>
+        /// The data is writing By default Configuration.
+        /// </summary>
+        ByDefaultWebService = -2,
+        /// <summary>
+        /// The data is writing By default Configuration.
+        /// </summary>
+        ByDefaultLocal = -1,
+        /// <summary>
         /// The data is writing in main thread now.
         /// </summary>
-        MainThread, // Main Thread
+        MainThread = 0, // Main Thread
         /// <summary>
         /// The data is writing in background thread now. 
         /// Can be concurrence by main thread an webservice!
         /// </summary>
-        PoolThread, // Pool Thread
+        PoolThread = 1, // Pool Thread
         /// <summary>
         /// The data is pull in queue in main thread. 
         /// The data will be writing directly on QueueExecution.
         /// </summary>
-        QueuedMainThread, // Main Thread In Queue
+        QueuedMainThread = 2, // Main Thread In Queue
         /// <summary>
         /// The data is pull in queue in background thread. 
         /// The data will be writing in background on QueueExecution. 
         /// Can be concurrence by main thread an webservice!
         /// </summary>
-        QueuedPoolThread, // Pool Thread In Queue
+        QueuedPoolThread = 3, // Pool Thread In Queue
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDWritingModeConfig : int
+    {
+        MainThread = NWDWritingMode.MainThread,
+        PoolThread = NWDWritingMode.PoolThread,
+        QueuedMainThread = NWDWritingMode.QueuedMainThread,
+        QueuedPoolThread = NWDWritingMode.QueuedPoolThread,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDWritingModeConfigSync : int
+    {
+        MainThread = NWDWritingMode.MainThread,
+        //PoolThread = NWDWritingMode.PoolThread,
+        //QueuedMainThread = NWDWritingMode.QueuedMainThread,
+        QueuedPoolThread = NWDWritingMode.QueuedPoolThread,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

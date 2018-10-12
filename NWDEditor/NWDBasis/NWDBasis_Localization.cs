@@ -253,8 +253,7 @@ namespace NetWorkedData
                                 if (tPropertyValueOld.Value != tNextValue)
                                 {
                                     tPropertyValueOld.Value = tNextValue;
-                                    //NWDDataManager.SharedInstance().UpdateData(tObject, NWDWritingMode.QueuedMainThread);
-                                    tObject.UpdateData(true, NWDWritingMode.QueuedMainThread);
+                                    tObject.UpdateData(true, NWDWritingMode.ByEditorDefault);
                                 }
                             }
                         }

@@ -28,7 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Create And Index
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.MainThread;
+        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDUserOwnership>> kIndex = new Dictionary<string, List<NWDUserOwnership>>();
         private List<NWDUserOwnership> kIndexList;
         // lors du changement si kIndexList !=  de kIndexItemReverse[item.ref + gamesave.ref] => on a changer l'item ou le gamesave 

@@ -84,7 +84,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The data.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        static public K NewData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             K rReturnObject = NewDataWithReference(null, true, sWritingMode);
@@ -99,7 +99,7 @@ namespace NetWorkedData
         /// <param name="sReference">S reference.</param>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.QueuedMainThread)
+        static public K NewDataWithReference(string sReference, bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             NWDBasis<K> rReturnObject = null;
@@ -154,7 +154,7 @@ namespace NetWorkedData
         /// <returns>The data.</returns>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public K DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public K DuplicateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             NWDBasis<K> rReturnObject = null;
@@ -343,9 +343,11 @@ namespace NetWorkedData
         #endregion Duplicate Data
         #region Insert Data
         //-------------------------------------------------------------------------------------------------------------
-        public bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public bool InsertData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
+            // Determine the default mode
+             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             bool rReturn = false;
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
@@ -525,7 +527,7 @@ namespace NetWorkedData
         /// Save data.
         /// </summary>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void SaveData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             UpdateData(true, sWritingMode);
         }
@@ -535,7 +537,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns><c>true</c>, if data if modified : save, <c>false</c> otherwise.</returns>
         /// <param name="sWritingMode">S writing mode.</param>
-        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public bool SaveDataIfModified(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             bool tReturn = false;
             if (this.Integrity != this.IntegrityValue())
@@ -546,11 +548,13 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [Obsolete("Use UpdateData()")]
         public void UpdateDataLater()
         {
             UpdateData(true, NWDWritingMode.QueuedMainThread, true);
         }
         //-------------------------------------------------------------------------------------------------------------
+        //[Obsolete("Use UpdateData()")]
         public void UpdateData(NWDWritingMode sWritingMode)
         {
             UpdateData(true, sWritingMode, true);
@@ -559,6 +563,8 @@ namespace NetWorkedData
         public void UpdateData(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread, bool sWebServiceUpgrade = true)
         {
             //BTBBenchmark.Start();
+            // Determine the default mode
+             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
@@ -718,7 +724,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool UpdateDataIfModified(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public bool UpdateDataIfModified(bool sAutoDate = true, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             bool tReturn = false;
@@ -731,7 +737,7 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void EnableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             this.AC = true;
@@ -740,7 +746,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void DisableData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             this.DD = NWDToolbox.Timestamp();
@@ -750,7 +756,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void TrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             int tTimestamp = NWDToolbox.Timestamp();
@@ -762,7 +768,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void UnTrashData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             this.XX = 0;
@@ -775,7 +781,7 @@ namespace NetWorkedData
         #endregion Update Data
         #region Delete Data
         //-------------------------------------------------------------------------------------------------------------
-        public void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void DeleteData(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //BTBBenchmark.Start();
             // Verif if Systeme can use the thread (option in Environment)

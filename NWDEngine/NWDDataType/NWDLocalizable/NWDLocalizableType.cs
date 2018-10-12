@@ -153,8 +153,11 @@ namespace NetWorkedData
 
             if (kSplitDico.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
-                Debug.Log("no base in localizable string");
+                Debug.LogWarning("no Base in localizable string");
                 AddBaseString("");
+#if UNITY_EDITOR
+                    // mark object to save! ?
+#endif
             }
         }
         //-------------------------------------------------------------------------------------------------------------

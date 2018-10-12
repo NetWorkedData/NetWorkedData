@@ -79,11 +79,14 @@ namespace NetWorkedData
 
         // TODO : check if working
         public bool ThreadPoolForce = true;
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		#region constructor
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDAppEnvironment ()
+        public NWDWritingMode WritingModeLocal = NWDWritingMode.QueuedMainThread;
+        public NWDWritingMode WritingModeWebService = NWDWritingMode.QueuedMainThread;
+        public NWDWritingMode WritingModeEditor = NWDWritingMode.QueuedMainThread;
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        #region constructor
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAppEnvironment ()
 		{
 			PlayerAccountReference = NWDToolbox.GenerateUniqueID ();
 			FormatVerification ();

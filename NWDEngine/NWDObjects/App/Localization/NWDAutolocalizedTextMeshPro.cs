@@ -17,19 +17,10 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [SerializeField]
-    public enum NWDAutolocalizedTag : int
-    {
-        None,
-        BaseString,
-        MarkedBaseString,
-        KeyInternal,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// Autolocalized text with an NWDLocalizationConnection reference selected by popmenu in editor.
     /// </summary>
-    public class NWDAutolocalized : MonoBehaviour
+    public class NWDAutolocalizedTextMeshPro : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -42,10 +33,10 @@ namespace NetWorkedData
         /// The text target (optional).
         /// </summary>
         [Header("Optional binding")]
-        public bool TextBinding = true;
-        public Text TextTarget;
-        public bool TextMeshBinding = true;
-        public TextMesh TextMeshTarget;
+        public bool TextMeshProUGUIBinding = true;
+        public TextMeshProUGUI TextMeshProUGUITarget;
+        public bool TextMeshProBinding = true;
+        public TextMeshPro TextMeshProTarget;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
@@ -63,23 +54,22 @@ namespace NetWorkedData
             {
                 if (AutoTag != NWDAutolocalizedTag.None)
                 {
-
-                    // text
-                    if (TextBinding == true)
+                    //TextMeshProUGUI
+                    if (TextMeshProUGUIBinding == true)
                     {
                         // if not pluging
-                        if (TextTarget == null)
+                        if (TextMeshProUGUITarget == null)
                         {
                             // get root text
-                            TextTarget = GetComponent<Text>();
+                            TextMeshProUGUITarget = GetComponent<TextMeshProUGUI>();
                         }
                         // if not find in root object
-                        if (TextTarget == null)
+                        if (TextMeshProUGUITarget == null)
                         {
                             // get first children text
-                            TextTarget = GetComponentInChildren<Text>();
+                            TextMeshProUGUITarget = GetComponentInChildren<TextMeshProUGUI>();
                         }
-                        if (TextTarget != null)
+                        if (TextMeshProUGUITarget != null)
                         {
                             // set the localizable text
                             NWDLocalization tLocalization = LocalizationReference.GetObject();
@@ -104,31 +94,31 @@ namespace NetWorkedData
                                         }
                                         break;
                                 }
-                                if (TextTarget.text != tTextString)
+                                if (TextMeshProUGUITarget.text != tTextString)
                                 {
-                                    TextTarget.text = tTextString;
-                                    EditorUtility.SetDirty(TextTarget);
+                                    TextMeshProUGUITarget.text = tTextString;
+                                    EditorUtility.SetDirty(TextMeshProUGUITarget);
                                 }
                             }
                         }
                     }
 
-                    //TextMesh
-                    if (TextMeshBinding == true)
+                    //TextMeshPro 
+                    if (TextMeshProBinding == true)
                     {
                         // if not pluging
-                        if (TextMeshTarget == null)
+                        if (TextMeshProTarget == null)
                         {
                             // get root text
-                            TextMeshTarget = GetComponent<TextMesh>();
+                            TextMeshProTarget = GetComponent<TextMeshPro>();
                         }
                         // if not find in root object
-                        if (TextMeshTarget == null)
+                        if (TextMeshProTarget == null)
                         {
                             // get first children text
-                            TextMeshTarget = GetComponentInChildren<TextMesh>();
+                            TextMeshProTarget = GetComponentInChildren<TextMeshPro>();
                         }
-                        if (TextMeshTarget != null)
+                        if (TextMeshProTarget != null)
                         {
                             // set the localizable text
                             NWDLocalization tLocalization = LocalizationReference.GetObject();
@@ -153,10 +143,10 @@ namespace NetWorkedData
                                         }
                                         break;
                                 }
-                                if (TextMeshTarget.text != tTextString)
+                                if (TextMeshProTarget.text != tTextString)
                                 {
-                                    TextMeshTarget.text = tTextString;
-                                    EditorUtility.SetDirty(TextMeshTarget);
+                                    TextMeshProTarget.text = tTextString;
+                                    EditorUtility.SetDirty(TextMeshProTarget);
                                 }
                             }
                         }
@@ -168,64 +158,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Localize(bool sUseBaseString = false)
         {
-            //Text
-            if (TextBinding == true)
+            //TextMeshProUGUI 
+            if (TextMeshProUGUIBinding == true)
             {
                 // if not pluging
-                if (TextTarget == null)
+                if (TextMeshProUGUITarget == null)
                 {
                     // get root text
-                    TextTarget = GetComponent<Text>();
+                    TextMeshProUGUITarget = GetComponent<TextMeshProUGUI>();
                 }
 
                 // if not find in root object
-                if (TextTarget == null)
+                if (TextMeshProUGUITarget == null)
                 {
                     // get first children text
-                    TextTarget = GetComponentInChildren<Text>();
-                }
-
-                // if Text found
-                if (TextTarget != null)
-                {
-                    // set the localizable text
-                    NWDLocalization tLocalization = LocalizationReference.GetObject();
-                    if (tLocalization != null)
-                    {
-                        string tTextString = "";
-                        if (sUseBaseString == true)
-                        {
-                            tTextString = tLocalization.TextValue.GetBaseString();
-                        }
-                        else
-                        {
-                            tTextString = tLocalization.GetLocalString();
-                        }
-
-                        // Enrich text
-                        TextTarget.text = Enrichment(tTextString);
-                    }
-                }
-            }
-            //TextMesh 
-            if (TextMeshBinding == true)
-            {
-                // if not pluging
-                if (TextMeshTarget == null)
-                {
-                    // get root text
-                    TextMeshTarget = GetComponent<TextMesh>();
-                }
-
-                // if not find in root object
-                if (TextMeshTarget == null)
-                {
-                    // get first children text
-                    TextMeshTarget = GetComponentInChildren<TextMesh>();
+                    TextMeshProUGUITarget = GetComponentInChildren<TextMeshProUGUI>();
                 }
 
                 // TextMesh found
-                if (TextMeshTarget != null)
+                if (TextMeshProUGUITarget != null)
                 {
                     // set the localizable text
                     NWDLocalization tLocalization = LocalizationReference.GetObject();
@@ -242,7 +193,47 @@ namespace NetWorkedData
                         }
 
                         // Enrich text
-                        TextMeshTarget.text = Enrichment(tTextString);
+                        TextMeshProUGUITarget.text = Enrichment(tTextString);
+                    }
+                }
+            }
+            
+            //TextMeshPro 
+            if (TextMeshProBinding == true)
+            {
+                // if not pluging
+                if (TextMeshProTarget == null)
+                {
+                    // get root text
+                    TextMeshProTarget = GetComponent<TextMeshPro>();
+                }
+
+                // if not find in root object
+                if (TextMeshProTarget == null)
+                {
+                    // get first children text
+                    TextMeshProTarget = GetComponentInChildren<TextMeshPro>();
+                }
+
+                // TextMesh found
+                if (TextMeshProTarget != null)
+                {
+                    // set the localizable text
+                    NWDLocalization tLocalization = LocalizationReference.GetObject();
+                    if (tLocalization != null)
+                    {
+                        string tTextString = "";
+                        if (sUseBaseString == true)
+                        {
+                            tTextString = tLocalization.TextValue.GetBaseString();
+                        }
+                        else
+                        {
+                            tTextString = tLocalization.GetLocalString();
+                        }
+
+                        // Enrich text
+                        TextMeshProTarget.text = Enrichment(tTextString);
                     }
                 }
             }

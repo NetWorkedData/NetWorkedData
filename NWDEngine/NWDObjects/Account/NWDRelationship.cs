@@ -1135,7 +1135,7 @@ namespace NetWorkedData
                 return null;
             }
             NWDGameSave tGamesaveToUse = NWDGameSave.CurrentForAccount(sRelationship.PublisherReference.GetReference());
-            return FindFirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.MainThread, sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
+            return FindFirstDatasByInternalKey(sInternalKey, false,NWDWritingMode.ByDefaultLocal, sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used
@@ -1149,7 +1149,7 @@ namespace NetWorkedData
                 return new K[0];
             }
             NWDGameSave tGamesaveToUse = NWDGameSave.CurrentForAccount(sRelationship.PublisherReference.GetReference());
-            return FindDatasByInternalKey(sInternalKey, false, NWDWritingMode.MainThread,sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
+            return FindDatasByInternalKey(sInternalKey, false, NWDWritingMode.ByDefaultLocal,sRelationship.PublisherReference.GetReference(), tGamesaveToUse);
         }
         //-------------------------------------------------------------------------------------------------------------
         // Not used

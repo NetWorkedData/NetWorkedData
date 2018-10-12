@@ -108,6 +108,9 @@ namespace NetWorkedData
             EditorGUILayout.LabelField ("version", NWDVersion.GetMaxVersionStringForEnvironemt (this), EditorStyles.boldLabel);
             EditorGUILayout.TextField("SQL Thread Activation " + Environment, EditorStyles.boldLabel);
             ThreadPoolForce = EditorGUILayout.Toggle("SQL Thread", ThreadPoolForce);
+            WritingModeLocal = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Local", (NWDWritingModeConfig)WritingModeLocal);
+            WritingModeWebService = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing WebService", (NWDWritingModeConfig)WritingModeWebService);
+            WritingModeEditor = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Editor", (NWDWritingModeConfig)WritingModeEditor);
             EditorGUILayout.TextField("Last Build infos " + Environment, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build date", this.BuildDate, EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Build Timestamp", this.BuildTimestamp.ToString(), EditorStyles.boldLabel);

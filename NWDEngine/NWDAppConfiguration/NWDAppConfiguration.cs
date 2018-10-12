@@ -24,13 +24,13 @@ namespace NetWorkedData
         #region properties
         //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
-        public NWDAppEnvironment DevEnvironment = new NWDAppEnvironment (NWDConstants.K_DEVELOPMENT_NAME, true);
-        public NWDAppEnvironment PreprodEnvironment = new NWDAppEnvironment (NWDConstants.K_PREPRODUCTION_NAME, false);
-        public NWDAppEnvironment ProdEnvironment = new NWDAppEnvironment (NWDConstants.K_PRODUCTION_NAME, false);
-        public Dictionary<string,string> IntegritySaltDictionary = new Dictionary<string,string> ();
-        public Dictionary<string,string> GenerateSaltDictionary = new Dictionary<string,string> ();
+        public NWDAppEnvironment DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, true);
+        public NWDAppEnvironment PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
+        public NWDAppEnvironment ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
+        public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
+        public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
-        public int WebBuild=0;
+        public int WebBuild = 0;
         public bool RowDataIntegrity = true;
         public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
         public Dictionary<int, string> TagList = new Dictionary<int, string>();
@@ -52,10 +52,11 @@ namespace NetWorkedData
 
         #region shareInstance
         //-------------------------------------------------------------------------------------------------------------
-        private static readonly NWDAppConfiguration kSharedInstance = new NWDAppConfiguration ();
+        private static readonly NWDAppConfiguration kSharedInstance = new NWDAppConfiguration();
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAppConfiguration SharedInstance () {
-            return kSharedInstance; 
+        public static NWDAppConfiguration SharedInstance()
+        {
+            return kSharedInstance;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -64,14 +65,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string kEnvironmentSelectedKey = "kEnvironmentSelectedKey";
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAppConfiguration ()
+        public NWDAppConfiguration()
         {
-            Type tType = this.GetType ();
-            var tMethodInfo = tType.GetMethod ("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
-            if (tMethodInfo != null) {
-                tMethodInfo.Invoke (this, null);
-            } 
-            else 
+            Type tType = this.GetType();
+            var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
+            if (tMethodInfo != null)
+            {
+                tMethodInfo.Invoke(this, null);
+            }
+            else
             {
                 this.ProdEnvironment.Selected = false;
                 this.PreprodEnvironment.Selected = false;
@@ -79,105 +81,147 @@ namespace NetWorkedData
             }
 
             // But in unity we bypass the restaure configuration to use the environment selected in the editor's preferences 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             // reset all environement to false
             this.ProdEnvironment.Selected = false;
             this.PreprodEnvironment.Selected = false;
             this.DevEnvironment.Selected = false;
             // We restaured environement selected in the preference and override the configurations file
-            int tEnvironmentSelected = EditorPrefs.GetInt (kEnvironmentSelectedKey);
+            int tEnvironmentSelected = EditorPrefs.GetInt(kEnvironmentSelectedKey);
             switch (tEnvironmentSelected)
             {
-            case 1 : this.PreprodEnvironment.Selected = true;
-                break;
-            case 2 : this.ProdEnvironment.Selected = true;
-                break;
-            case 0 :
-            default : this.DevEnvironment.Selected = true;
-                break;
+                case 1:
+                    this.PreprodEnvironment.Selected = true;
+                    break;
+                case 2:
+                    this.ProdEnvironment.Selected = true;
+                    break;
+                case 0:
+                default:
+                    this.DevEnvironment.Selected = true;
+                    break;
             }
-            #endif
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
         #region instance method
         //-------------------------------------------------------------------------------------------------------------
-        public void SetSalt (string sKeyFirst, string sKeySecond, string sValue)
+        public void SetSalt(string sKeyFirst, string sKeySecond, string sValue)
         {
             string sKey = sKeyFirst + sKeySecond;
-            if (IntegritySaltDictionary.ContainsKey (sKey)) {
-                IntegritySaltDictionary [sKey] = sValue;
-            } else {
-                IntegritySaltDictionary.Add (sKey, sValue);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetSalt (string sKeyFirst, string sKeySecond, string sKeyValid)
-        {
-            string sKey = sKeyFirst + sKeySecond;
-            string rReturn = "";
-            if (IntegritySaltDictionary.ContainsKey (sKey)) {
-                rReturn = IntegritySaltDictionary [sKey];
-            }
-            if (rReturn == "") 
+            if (IntegritySaltDictionary.ContainsKey(sKey))
             {
-                rReturn = NWDToolbox.RandomString (UnityEngine.Random.Range (12, 24));
-                IntegritySaltDictionary.Add (sKey, rReturn);
-                SetSaltValid (sKeyFirst, sKeyValid , "");
+                IntegritySaltDictionary[sKey] = sValue;
+            }
+            else
+            {
+                IntegritySaltDictionary.Add(sKey, sValue);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetSalt(string sKeyFirst, string sKeySecond, string sKeyValid)
+        {
+            string sKey = sKeyFirst + sKeySecond;
+            string rReturn = "";
+            if (IntegritySaltDictionary.ContainsKey(sKey))
+            {
+                rReturn = IntegritySaltDictionary[sKey];
+            }
+            if (rReturn == "")
+            {
+                rReturn = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                IntegritySaltDictionary.Add(sKey, rReturn);
+                SetSaltValid(sKeyFirst, sKeyValid, "");
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetSaltValid (string sKeyFirst, string sKeyValid, string sValue)
+        public void SetSaltValid(string sKeyFirst, string sKeyValid, string sValue)
         {
             string sKey = sKeyFirst + sKeyValid;
-            if (GenerateSaltDictionary.ContainsKey (sKey)) {
-                GenerateSaltDictionary [sKey] = sValue;
-            } else {
-                GenerateSaltDictionary.Add (sKey, sValue);
+            if (GenerateSaltDictionary.ContainsKey(sKey))
+            {
+                GenerateSaltDictionary[sKey] = sValue;
+            }
+            else
+            {
+                GenerateSaltDictionary.Add(sKey, sValue);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetSaltValid (string sKeyFirst, string sKeyValid)
+        public string GetSaltValid(string sKeyFirst, string sKeyValid)
         {
             string sKey = sKeyFirst + sKeyValid;
             string rReturn = "";
-            if (GenerateSaltDictionary.ContainsKey (sKey)) {
-                rReturn = GenerateSaltDictionary [sKey];
+            if (GenerateSaltDictionary.ContainsKey(sKey))
+            {
+                rReturn = GenerateSaltDictionary[sKey];
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAppEnvironment SelectedEnvironment ()
+        public NWDAppEnvironment SelectedEnvironment()
         {
             NWDAppEnvironment rReturn = ProdEnvironment;
-            if (DevEnvironment.Selected == true) {
+            if (DevEnvironment.Selected == true)
+            {
                 rReturn = DevEnvironment;
-            } else if (PreprodEnvironment.Selected == true) {
+            }
+            else if (PreprodEnvironment.Selected == true)
+            {
                 rReturn = PreprodEnvironment;
-            } else {
+            }
+            else
+            {
                 rReturn = ProdEnvironment;
             }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsProdEnvironement ()
+        // Determine the default mode
+        // sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
+        public static NWDWritingMode WritingMode(NWDWritingMode sWritingMode)
+        {
+            NWDWritingMode rWritingMode = sWritingMode;
+            if (rWritingMode == NWDWritingMode.ByDefaultLocal)
+            {
+                rWritingMode = NWDAppEnvironment.SelectedEnvironment().WritingModeLocal;
+            }
+            else if (rWritingMode == NWDWritingMode.ByDefaultWebService)
+            {
+                rWritingMode = NWDAppEnvironment.SelectedEnvironment().WritingModeWebService;
+            }
+            else if (rWritingMode == NWDWritingMode.ByEditorDefault)
+            {
+                rWritingMode = NWDAppEnvironment.SelectedEnvironment().WritingModeEditor;
+            }
+            if (rWritingMode == NWDWritingMode.ByDefaultLocal
+                || rWritingMode == NWDWritingMode.ByDefaultWebService
+                || rWritingMode == NWDWritingMode.ByEditorDefault)
+            {
+                rWritingMode = NWDWritingMode.MainThread;
+            }
+            return rWritingMode;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool IsProdEnvironement()
         {
             return ProdEnvironment.Selected;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsPreprodEnvironement ()
+        public bool IsPreprodEnvironement()
         {
             return PreprodEnvironment.Selected;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool IsDevEnvironement ()
+        public bool IsDevEnvironement()
         {
             return DevEnvironment.Selected;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAppEnvironment[] AllEnvironements ()
+        public NWDAppEnvironment[] AllEnvironements()
         {
             NWDAppEnvironment[] tEnvironnements = new NWDAppEnvironment[] {
                 DevEnvironment,

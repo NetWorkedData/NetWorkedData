@@ -26,7 +26,7 @@ namespace NetWorkedData
     public partial class NWDCraftBook : NWDBasis<NWDCraftBook>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
+        //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDCraftBook>> kIndex = new Dictionary<string, List<NWDCraftBook>>();
         private List<NWDCraftBook> kIndexList;
         //-------------------------------------------------------------------------------------------------------------

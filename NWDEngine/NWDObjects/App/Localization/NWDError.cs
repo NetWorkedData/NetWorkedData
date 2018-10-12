@@ -223,7 +223,7 @@ namespace NetWorkedData
                 // add-on edited
                 tError.AddonEdited(true);
                 // reccord
-                tError.UpdateData(true, NWDWritingMode.QueuedMainThread);
+                tError.UpdateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tError);
             }
             BTBBenchmark.Finish();

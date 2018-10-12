@@ -29,6 +29,7 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
             string tConstantsFile = "";
+            int t_Next = (WebBuild + 1);
             tConstantsFile += "" +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
             "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -44,6 +45,8 @@ namespace NetWorkedData
             "\tpublic partial class NWDAppConfiguration\n" +
             "\t{\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
+            //"\t\tpublic static int K_NEXT_WS = " + t_Next.ToString()+ ";\n" +
+            //"\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\tpublic void RestaureConfigurations ()\n" +
             "\t\t{\n" +
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
@@ -188,7 +191,14 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.AppProtocol = \"" + this.ProdEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
-                                                                "\t\t\tthis.ProdEnvironment.ThreadPoolForce = " + this.ProdEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.ThreadPoolForce = " + this.ProdEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
+
+            "\t\t\tthis.ProdEnvironment.WritingModeLocal = NWDWritingMode." + this.ProdEnvironment.WritingModeLocal.ToString()+";\n" +
+            "\t\t\tthis.ProdEnvironment.WritingModeWebService = NWDWritingMode." + this.ProdEnvironment.WritingModeWebService.ToString() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.WritingModeEditor = NWDWritingMode." + this.ProdEnvironment.WritingModeEditor.ToString() + ";\n" +
+
+
+
             "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("F2") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.g.ToString("F2") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.b.ToString("F2") + "F," +
@@ -239,7 +249,10 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.AppProtocol = \"" + this.PreprodEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SpeedOfGameTime = " + this.PreprodEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.PreprodEnvironment.BuildTimestamp = " + this.PreprodEnvironment.BuildTimestamp.ToString() + ";\n" +
-                                                                "\t\t\tthis.PreprodEnvironment.ThreadPoolForce = " + this.PreprodEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.ThreadPoolForce = " + this.PreprodEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.WritingModeLocal = NWDWritingMode." + this.PreprodEnvironment.WritingModeLocal.ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.WritingModeWebService = NWDWritingMode." + this.PreprodEnvironment.WritingModeWebService.ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.WritingModeEditor = NWDWritingMode." + this.PreprodEnvironment.WritingModeEditor.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("F2")+"F," +
                                                                 this.PreprodEnvironment.CartridgeColor.g.ToString("F2") +"F," +
                                                                 this.PreprodEnvironment.CartridgeColor.b.ToString("F2") + "F," +
@@ -289,7 +302,10 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.AppProtocol = \"" + this.DevEnvironment.AppProtocol.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SpeedOfGameTime = " + this.DevEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.DevEnvironment.BuildTimestamp = " + this.DevEnvironment.BuildTimestamp.ToString() + ";\n" +
-                                                                "\t\t\tthis.DevEnvironment.ThreadPoolForce = " + this.DevEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
+            "\t\t\tthis.DevEnvironment.ThreadPoolForce = " + this.DevEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
+            "\t\t\tthis.DevEnvironment.WritingModeLocal = NWDWritingMode." + this.DevEnvironment.WritingModeLocal.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.WritingModeWebService = NWDWritingMode." + this.DevEnvironment.WritingModeWebService.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.WritingModeEditor = NWDWritingMode." + this.DevEnvironment.WritingModeEditor.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("F2") + "F," +
                                                                 this.DevEnvironment.CartridgeColor.g.ToString("F2") + "F," +
                                                                 this.DevEnvironment.CartridgeColor.b.ToString("F2") + "F," +

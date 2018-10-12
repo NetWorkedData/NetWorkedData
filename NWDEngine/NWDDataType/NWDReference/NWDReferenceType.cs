@@ -170,7 +170,7 @@ namespace NetWorkedData
             return rReturn.ToArray();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void EditorAddNewObject(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void EditorAddNewObject(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             K tNewObject = NWDBasis<K>.NewData(sWritingMode);
             this.SetObject(tNewObject);

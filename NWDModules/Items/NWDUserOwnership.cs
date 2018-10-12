@@ -260,7 +260,7 @@ namespace NetWorkedData
             return rOwnershipToUse.FirstAcquisitionNotify;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void SetDiscovered(NWDItem sItem, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public static void SetDiscovered(NWDItem sItem, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             NWDUserOwnership rOwnershipToUse = OwnershipForItem(sItem);
             if (rOwnershipToUse.FirstAcquisitionNotify == false)

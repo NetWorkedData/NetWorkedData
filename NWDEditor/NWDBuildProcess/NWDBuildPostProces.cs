@@ -19,7 +19,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
 #if UNITY_IOS
-using UnityEditor.iOS.Xcode;
+//using UnityEditor.iOS.Xcode;
 #endif
 #if UNITY_STANDALONE_OSX
 //using UnityEditor.iOS.Xcode;

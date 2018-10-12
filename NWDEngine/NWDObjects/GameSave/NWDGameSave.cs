@@ -174,7 +174,7 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave NewCurrent(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public static NWDGameSave NewCurrent(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             //Debug.Log("NWDGameSave NewCurrent()");
             NWDGameSave rParty = null;

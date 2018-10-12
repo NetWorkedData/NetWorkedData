@@ -128,7 +128,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">S value.</param>
-		public static void SetString (string sKey, string sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public static void SetString (string sKey, string sValue, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue);
 			tObject.Value.SetString (sValue);
@@ -152,7 +152,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">S value.</param>
-		public static void SetInt (string sKey, int sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public static void SetInt (string sKey, int sValue, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetInt (sValue);
@@ -176,7 +176,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">If set to <c>true</c> s value.</param>
-		public static void SetBool (string sKey, bool sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+		public static void SetBool (string sKey, bool sValue, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetBool (sValue);
@@ -200,7 +200,7 @@ namespace NetWorkedData
 		/// </summary>
 		/// <param name="sKey">S key.</param>
 		/// <param name="sValue">S value.</param>
-		public static void SetFloat (string sKey, float sValue, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+		public static void SetFloat (string sKey, float sValue, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sValue.ToString ());
 			tObject.Value.SetFloat (sValue);

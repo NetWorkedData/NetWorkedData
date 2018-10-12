@@ -1425,7 +1425,7 @@ namespace NetWorkedData
         public static K FindFirstDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
-                                        NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
+                                         NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
                                         string sAccountReference = null,
                                         NWDGameSave sGameSave = null,
                                         NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,
@@ -1446,7 +1446,7 @@ namespace NetWorkedData
         public static K[] FindDatasByInternalKey(
                                         string sInternalKey,
                                         bool sCreateIfNotExists = false,
-                                        NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
+            NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal,
                                         string sAccountReference = null,
                                         NWDGameSave sGameSave = null,
                                         NWDSwitchTrashed sTrashed = NWDSwitchTrashed.NoTrashed,

@@ -230,7 +230,7 @@ namespace NetWorkedData
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetDiscovered(NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void SetDiscovered(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             NWDUserOwnership.SetDiscovered(this, sWritingMode);
         }

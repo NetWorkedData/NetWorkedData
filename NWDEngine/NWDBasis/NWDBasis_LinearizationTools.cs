@@ -377,8 +377,10 @@ namespace NetWorkedData
         private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment, 
                                                   string[] sDataArray, 
                                                   string sReference, 
-                                                  NWDWritingMode sWritingMode = NWDWritingMode.QueuedMainThread)
+                                                  NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
+            // 
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //Debug.Log("NewDataFromWeb ()");
             NWDBasis<K> rReturnObject = null;
             //rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType());
@@ -471,8 +473,10 @@ namespace NetWorkedData
 
         public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
                                       string[] sDataArray,
-                                      NWDWritingMode sWritingMode = NWDWritingMode.QueuedMainThread)
+                                      NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
+            // Determine the default mode
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             // Force update with CVS value
 
             FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
@@ -635,8 +639,6 @@ namespace NetWorkedData
                     }
                 }
             }
-            //NWDDataManager.SharedInstance().UpdateObjectDirect(this, AccountDependent());
-            //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.QueuedMainThread);
             AddonUpdatedMeFromWeb();
             AddonIndexMe();
         }

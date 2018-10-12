@@ -167,8 +167,10 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sObject">S object.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void InsertData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void InsertData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
+            // Determine the default mode
+             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //BTBBenchmark.Start();
             switch (sWritingMode)
             {
@@ -309,8 +311,10 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sObject">S object.</param>
         /// <param name="sWritingMode">S writing mode.</param>
-        public void UpdateData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
+        public void UpdateData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
+            // Determine the default mode
+             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //BTBBenchmark.Start();
             switch (sWritingMode)
             {
@@ -453,7 +457,9 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public void DeleteData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.MainThread)
         {
-            //BTBBenchmark.Start();
+            // Determine the default mode
+          sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
+         //BTBBenchmark.Start();
             switch (sWritingMode)
             {
                 case NWDWritingMode.MainThread:

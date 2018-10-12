@@ -86,7 +86,7 @@ namespace NetWorkedData
         ///// <param name="sFlushOlderDupplicate">If set to <c>true</c> s flush older dupplicate.</param>
         //public static K UniqueDataByInternalKey(string sInternalKey,
         //                                     bool sCreateIfNotExists = false,
-        //                                     NWDWritingMode sWritingMode = NWDWritingMode.MainThread,
+        //                                     NWDWritingMode sWritingMode = NWDWritingMode.ByDefault,
         //                                     string sInternalDescription = "", 
         //                                     string sAccountReference = null,
         //                                     bool sFlushOlderDupplicate = false)

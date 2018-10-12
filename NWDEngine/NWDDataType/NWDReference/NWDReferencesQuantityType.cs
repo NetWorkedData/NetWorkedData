@@ -172,6 +172,54 @@ namespace NetWorkedData
             SetReferenceAndQuantity(tThis);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator +(NWDReferencesQuantityType<K> sLeft, NWDReferencesQuantityType<K> sRight)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            rReturn.AddReferencesQuantity(sLeft);
+            rReturn.AddReferencesQuantity(sRight);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator -(NWDReferencesQuantityType<K> sLeft, NWDReferencesQuantityType<K> sRight)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            rReturn.AddReferencesQuantity(sLeft);
+            rReturn.RemoveReferencesQuantity(sRight, true, false);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator *(NWDReferencesQuantityType<K> sLeft, int sCoefficient)
+        {
+            return sLeft.Multiply(sCoefficient);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDReferencesQuantityType<K> operator /(NWDReferencesQuantityType<K> sLeft, int sCoefficient)
+        {
+            return sLeft.Divise(sCoefficient);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesQuantityType<K> Multiply(int sCoefficient)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            Dictionary<string, int> tDico = GetReferenceAndQuantity();
+            foreach (KeyValuePair<string, int> tRefQ in tDico)
+            {
+                rReturn.AddReferenceQuantity(tRefQ.Key, tRefQ.Value * sCoefficient);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDReferencesQuantityType<K> Divise(int sCoefficient)
+        {
+            NWDReferencesQuantityType<K> rReturn = new NWDReferencesQuantityType<K>();
+            Dictionary<string, int> tDico = GetReferenceAndQuantity();
+            foreach (KeyValuePair<string, int> tRefQ in tDico)
+            {
+                rReturn.AddReferenceQuantity(tRefQ.Key, tRefQ.Value / sCoefficient);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void AddObjectsList(List<K> sObjectsList)
         {
             foreach (K tObject in sObjectsList)
@@ -391,7 +439,7 @@ namespace NetWorkedData
                 int tRandom = UnityEngine.Random.Range(0, tList.Count);
                 tList.RemoveAt(tRandom);
             }
-            Debug.LogWarning("RETURN "+ tList.Count.ToString()+"/" + sQuantity);
+            Debug.LogWarning("RETURN " + tList.Count.ToString() + "/" + sQuantity);
             return tList;
         }
         //-------------------------------------------------------------------------------------------------------------

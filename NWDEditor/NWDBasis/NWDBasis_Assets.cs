@@ -71,7 +71,7 @@ namespace NetWorkedData
                 }
                 if (tUpdate == true)
                 {
-                    UpdateData(true, NWDWritingMode.QueuedMainThread);
+                    UpdateData(true, NWDWritingMode.ByDefaultLocal);
                 }
             }
         }

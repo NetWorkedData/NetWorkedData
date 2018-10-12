@@ -983,7 +983,7 @@ namespace NetWorkedData
                     if (IntegrityValue() != this.Integrity)
                     {
                         //Debug.Log("change need UpdateMeLater() call ");
-                        UpdateData(true, NWDWritingMode.QueuedMainThread);
+                        UpdateData(true, NWDWritingMode.ByEditorDefault);
                     }
                 }
             }
@@ -1371,8 +1371,8 @@ namespace NetWorkedData
                 Preview = tPreFabGameObject;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
-                //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.QueuedMainThread);
-                UpdateData(true, NWDWritingMode.QueuedMainThread);
+                //NWDDataManager.SharedInstance().UpdateData(this, NWDWritingMode.ByEditorDefault);
+                UpdateData(true, NWDWritingMode.ByEditorDefault);
             }
 
 
@@ -1395,7 +1395,7 @@ namespace NetWorkedData
                     UpdateIntegrity();
                     //UpdateObjectInListOfEdition(this);
                     //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                    UpdateData(true, NWDWritingMode.QueuedMainThread);
+                    UpdateData(true, NWDWritingMode.ByEditorDefault);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     NWDNodeEditor.UpdateNodeWindow(this);
                 }
@@ -1417,7 +1417,7 @@ namespace NetWorkedData
                 UpdateIntegrity();
                 //UpdateObjectInListOfEdition(this);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                UpdateData(true, NWDWritingMode.QueuedMainThread);
+                UpdateData(true, NWDWritingMode.ByEditorDefault);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 NWDNodeEditor.UpdateNodeWindow(this);
             }
@@ -1464,7 +1464,7 @@ namespace NetWorkedData
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
                     //UpdateObjectInListOfEdition(this);
-                    UpdateData(true, NWDWritingMode.MainThread ,false);
+                    UpdateData(true, NWDWritingMode.ByEditorDefault, false);
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     NWDNodeEditor.UpdateNodeWindow(this);
                 }
@@ -1498,7 +1498,7 @@ namespace NetWorkedData
                 UpdateIntegrity();
                 //UpdateObjectInListOfEdition(this);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                UpdateData(true, NWDWritingMode.QueuedMainThread);
+                UpdateData(true, NWDWritingMode.ByEditorDefault);
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                 NWDNodeEditor.UpdateNodeWindow(this);
             }
@@ -1686,7 +1686,7 @@ namespace NetWorkedData
                 UpdateIntegrity();
                 //UpdateObjectInListOfEdition(this);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                UpdateData(true, NWDWritingMode.QueuedMainThread);
+                UpdateData(true, NWDWritingMode.ByEditorDefault);
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }
@@ -1715,9 +1715,9 @@ namespace NetWorkedData
 
                 // todo not update if not modified
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
-                UpdateData(true, NWDWritingMode.QueuedMainThread);
+                UpdateData(true, NWDWritingMode.ByEditorDefault);
                 //K tNexObject = (K)DuplicateMe();
-                K tNexObject = DuplicateData(true, NWDWritingMode.QueuedMainThread);
+                K tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tNexObject);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
                 SetObjectInEdition(tNexObject);
@@ -1784,7 +1784,7 @@ namespace NetWorkedData
                 {
                     //RemoveObjectInListOfEdition(this);
                     //DeleteMe();
-                    DeleteData(NWDWritingMode.MainThread);
+                    DeleteData(NWDWritingMode.ByEditorDefault);
                     SetObjectInEdition(null);
                     //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
                     RepaintTableEditor();

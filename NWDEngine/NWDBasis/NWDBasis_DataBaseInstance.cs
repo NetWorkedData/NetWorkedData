@@ -518,7 +518,7 @@ namespace NetWorkedData
                 // use to update NWDBasis when push to server.
                 this.AddonVersionMe(); // Modify the special webservice override ( for example version)
 
-                this.UpdateData(false, NWDWritingMode.MainThread, true);
+                this.UpdateData(false, NWDWritingMode.ByDefaultLocal, true);
                 //NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
             }
         }
@@ -734,7 +734,7 @@ namespace NetWorkedData
         //    this.AC = false;
         //    //          this.UpdateIntegrity ();
         //    this.AddonTrashMe(); // call override method
-        //    this.UpdateData(true, NWDWritingMode.QueuedMainThread);
+        //    this.UpdateData(true, NWDWritingMode.ByDefault);
         //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

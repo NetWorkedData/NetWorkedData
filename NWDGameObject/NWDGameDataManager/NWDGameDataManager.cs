@@ -317,9 +317,11 @@ namespace NetWorkedData
                     // Add component NWDGameDatManager to easly manage data from NWD
                     NWDGameDataManager tGameDataManager = tObjToSpawn.AddComponent<NWDGameDataManager>();
                     // Add thread utility
-                    /* NWDDataManagerMainThread tGameDataManagerMainThread = */tObjToSpawn.AddComponent<NWDDataManagerMainThread>();
+                    /* NWDDataManagerMainThread tGameDataManagerMainThread = */
+                    tObjToSpawn.AddComponent<NWDDataManagerMainThread>();
                     // Add component to check user online
-                    /*NWDUserNetWorkingScript tUserNetWorkingScript = */tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
+                    /*NWDUserNetWorkingScript tUserNetWorkingScript = */
+                    tObjToSpawn.AddComponent<NWDUserNetWorkingScript>();
                     // Add component to check the network state
                     NWDNetworkCheck tNetWorkCheckScript = tObjToSpawn.AddComponent<NWDNetworkCheck>();
                     tGameDataManager.NetWorkCheck = tNetWorkCheckScript;
@@ -339,6 +341,21 @@ namespace NetWorkedData
                 else if (tOtherList.Count == 1)
                 {
                     kUnitySingleton = tOtherList[0];
+                    while (kUnitySingleton.transform.childCount > 0)
+                    {
+#if UNITY_EDITOR
+                        if (EditorApplication.isPlaying == true)
+                        {
+                            Destroy(kUnitySingleton.transform.GetChild(0).gameObject);
+                        }
+                        else
+                        {
+                            DestroyImmediate(kUnitySingleton.transform.GetChild(0).gameObject);
+                        }
+#else
+                    Destroy (kUnitySingleton.transform.GetChild(0).gameObject);
+#endif
+                    }
                 }
                 else
                 {
@@ -632,6 +649,11 @@ namespace NetWorkedData
         public override void NotificationGeneric(BTBNotification sNotification)
         {
             // create your method by override
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnDrawGizmos()
+        {
+            // purge ?
         }
         //-------------------------------------------------------------------------------------------------------------
     }
