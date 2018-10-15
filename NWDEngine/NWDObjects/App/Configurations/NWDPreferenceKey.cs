@@ -90,9 +90,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetString(string sValue)
+        public string GetString(string sNotExistValue = "")
         {
-            string rReturn = "";
+            string rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
@@ -101,9 +101,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public int GetInt(int sValue)
+        public int GetInt(int sNotExistValue = 0)
         {
-            int rReturn = 0;
+            int rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
@@ -112,9 +112,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float GetFloat(float sValue)
+        public float GetFloat(float sNotExistValue = 0.0F)
         {
-            float rReturn = 0.0F;
+            float rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
@@ -123,9 +123,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool GetBool(bool sValue)
+        public bool GetBool(bool sNotExistValue = true)
         {
-            bool rReturn = true;
+            bool rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
