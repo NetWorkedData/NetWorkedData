@@ -162,7 +162,7 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHPAllClass()
+        public void CreatePHPAllClass(bool sIncrement = true)
         {
             BTBBenchmark.Start("Step one");
             //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
@@ -171,8 +171,7 @@ namespace NetWorkedData
             //BTBConfigManager.SharedInstance().Save();
 
             //NWDAppConfiguration.SharedInstance().WebBuild = tPHPBuild;
-            NWDAppConfiguration.SharedInstance().WebBuild++;
-            NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuild, true);
+
             //TODO RECALCULATE THE NEW ORDER FOR THE WEBSERVICE
             //TODO Class by class re-random the order of property for each class for webservice
             //TODO memorize in Table by webbuild the new order
@@ -183,6 +182,23 @@ namespace NetWorkedData
             float tOperation = 1;
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create environment php files", tOperation / tCountClass);
             tOperation++;
+
+            if (sIncrement == true)
+            {
+                NWDAppConfiguration.SharedInstance().WebBuild++;
+                NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuild, true);
+            }
+            else
+            {
+                // I must delete the actual folder and regenerate
+                string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+                string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
+                if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/" + tWebServiceFolder) == false)
+                {
+                    AssetDatabase.DeleteAsset(tOwnerServerFolderPath);
+                }
+            }
+
             bool tCreated = CreateAllEnvironmentPHP();
             BTBBenchmark.Finish("Step one");
 
