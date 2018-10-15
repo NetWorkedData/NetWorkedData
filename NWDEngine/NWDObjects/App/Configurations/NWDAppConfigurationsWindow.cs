@@ -25,6 +25,7 @@ namespace NetWorkedData
         new Type[] {
             typeof(NWDVersion),
             typeof(NWDParameter),
+            typeof(NWDPreferenceKey),
             typeof(NWDAssetBundle),
 			/* Add NWDBasis here*/
 		}
