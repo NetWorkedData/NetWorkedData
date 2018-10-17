@@ -184,7 +184,7 @@ namespace NetWorkedData
             int tCount = sCSVFileArray.Length;
             string tKeys = sCSVFileArray[0];
             //Debug.Log ("ImportAllLocalizations tKeys = " + tKeys);
-            string[] tKeysArray = tKeys.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tKeysArray = tKeys.Split(new string[] { ";" }, StringSplitOptions.None);
 
             //Debug.Log ("ImportAllLocalizations tCount = " + tCount);
             for (tI = 1; tI < tCount; tI++)
@@ -203,7 +203,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("sCSVrow = " + sCSVrow);
             //string tHeaders = "\"Type\";\"Reference\";\"InternalKey\";\"InternalDescription\";\"PropertyName\";\"" + 
-            string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] tValuesArray = sCSVrow.Split(new string[] { ";" }, StringSplitOptions.None);
             Dictionary<string, string> tDico = new Dictionary<string, string>();
             int i = 0;
             for (i = 0; i < tValuesArray.Length; i++)
@@ -246,14 +246,21 @@ namespace NetWorkedData
                             string tPropertyName = tDico["PropertyName"];
 
                             PropertyInfo tInfo = tObject.GetType().GetProperty(tPropertyName);
-
-                            if (tInfo.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
+                            if (tInfo == null)
                             {
-                                NWDLocalizableType tPropertyValueOld = (NWDLocalizableType)tInfo.GetValue(tObject, null);
-                                if (tPropertyValueOld.Value != tNextValue)
+                                Debug.LogError("tPropertyName not exist : " + tPropertyName);
+                            }
+                            else
+                            {
+                                if (tInfo.PropertyType.IsSubclassOf(typeof(NWDLocalizableType)))
                                 {
-                                    tPropertyValueOld.Value = tNextValue;
-                                    tObject.UpdateData(true, NWDWritingMode.ByEditorDefault);
+                                    Debug.Log("import : " + tDico["Type"] + " "+ tPropertyName);
+                                    NWDLocalizableType tPropertyValueOld = (NWDLocalizableType)tInfo.GetValue(tObject, null);
+                                    if (tPropertyValueOld.Value != tNextValue)
+                                    {
+                                        tPropertyValueOld.Value = tNextValue;
+                                        tObject.UpdateData(true, NWDWritingMode.ByEditorDefault);
+                                    }
                                 }
                             }
                         }
