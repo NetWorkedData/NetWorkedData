@@ -207,7 +207,7 @@ namespace NetWorkedData
             //    tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
             //}
 
-            tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
+            //tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
 
             tConstantsFile += "$SQL_" + tClassName + "_WebService = "+tWebBuildUsed+";\n" +
                 "//-------------------- \n";
@@ -910,7 +910,7 @@ namespace NetWorkedData
             tSynchronizationFile += "" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.'';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$WSBUILD.'';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             //"\t\t\t\t\t\t\t\t\t\telse\n" +
             //"\t\t\t\t\t\t\t\t\t\t\t{\n" +
@@ -987,7 +987,7 @@ namespace NetWorkedData
                 "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';\n" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+                "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -1038,7 +1038,7 @@ namespace NetWorkedData
                 "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';\n" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-                "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+                "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -1081,7 +1081,7 @@ namespace NetWorkedData
             tSynchronizationFile += "';\n" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$SQL_" + tClassName + "_WebService.';';\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "";
             // I do the result operation
