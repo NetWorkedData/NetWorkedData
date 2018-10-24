@@ -138,21 +138,21 @@ namespace NetWorkedData
             //Debug.Log("NWDUserStatKeyValue AddEnter("+sValue.ToString()+")");
             if (sStatKey.UnityStat == true)
             {
-                AnalyticsEvent.Custom(sStatKey.InternalKey, new Dictionary<string, object>
-            {
-                {"nwd_account_ref", Account.GetReference()},
-                {"nwd_gamesave_ref", GameSave.GetReference()},
-                {"nwd_value", sValue},
-                /*
-                {"nwd_total", Total},
-                {"nwd_counter", Counter},
-                {"nwd_average", Average},
-                {"nwd_average_parent", AverageWithParent},
-                {"nwd_last", Last},
-                {"nwd_max", Max},
-                {"nwd_min", Min},
-                */
-            });
+            //    AnalyticsEvent.Custom(sStatKey.InternalKey, new Dictionary<string, object>
+            //{
+            //    {"nwd_account_ref", Account.GetReference()},
+            //    {"nwd_gamesave_ref", GameSave.GetReference()},
+            //    {"nwd_value", sValue},
+            //    /*
+            //    {"nwd_total", Total},
+            //    {"nwd_counter", Counter},
+            //    {"nwd_average", Average},
+            //    {"nwd_average_parent", AverageWithParent},
+            //    {"nwd_last", Last},
+            //    {"nwd_max", Max},
+            //    {"nwd_min", Min},
+            //    */
+            //});
             }
             if (Max < sValue)
             {

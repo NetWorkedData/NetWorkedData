@@ -134,22 +134,21 @@ namespace NetWorkedData
 
             if (sStatKey.UnityStat == true)
             {
-
 #if ENABLE_CLOUD_SERVICES_ANALYTICS
-                AnalyticsEvent.Custom(sStatKey.InternalKey, new Dictionary<string, object>
-            {
-                    {"nwd_account_ref", Account.GetReference()},
-                    {"nwd_value", sValue},
-                    /*
-                {"nwd_total", Total},
-                {"nwd_counter", Counter},
-                {"nwd_average", Average},
-                {"nwd_average_parent", AverageWithParent},
-                {"nwd_last", Last},
-                {"nwd_max", Max},
-                {"nwd_min", Min},
-                */
-            });
+            //    AnalyticsEvent.Custom(sStatKey.InternalKey, new Dictionary<string, object>
+            //{
+            //        {"nwd_account_ref", Account.GetReference()},
+            //        {"nwd_value", sValue},
+            //        /*
+            //    {"nwd_total", Total},
+            //    {"nwd_counter", Counter},
+            //    {"nwd_average", Average},
+            //    {"nwd_average_parent", AverageWithParent},
+            //    {"nwd_last", Last},
+            //    {"nwd_max", Max},
+            //    {"nwd_min", Min},
+            //    */
+            //});
 #endif
             }
             if (Max < sValue)

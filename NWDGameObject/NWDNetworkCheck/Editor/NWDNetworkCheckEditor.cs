@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 using NetWorkedData;
 using System.IO;
-using SceneTransitionSystem;
 
 #if UNITY_EDITOR
 using UnityEditor;
