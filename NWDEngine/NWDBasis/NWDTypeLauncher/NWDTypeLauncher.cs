@@ -66,8 +66,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Launcher()
         {
+            long tStartMemory = System.GC.GetTotalMemory(true);
+
             //Debug.Log("NWDTypeLauncher Launcher()");
-           //double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            //double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             if (IsLaunched == false && IsLaunching == false)
             {
                 List<Type> tTypeList = new List<Type>();
@@ -159,10 +161,13 @@ namespace NetWorkedData
                 AllTypes = tTypeList.ToArray();
                 //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 //double tDelta = tFinishTimestamp - tStartTimestamp;
-                   //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
+                //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
                 // Notify NWD is launch
                 IsLaunched = true;
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
+
+
+                long tMiddleMemory = System.GC.GetTotalMemory(true);
                 if (DataLoaded == false)
                 {
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true)
@@ -171,6 +176,16 @@ namespace NetWorkedData
                         tShareInstance.ReloadAllObjects();
                     }
                 }
+
+                long tFinishMemory = System.GC.GetTotalMemory(true);
+                long tStartMem = tStartMemory / 1024 / 1024;
+                long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024/ 1024;
+                long tDataMemory = (tFinishMemory - tMiddleMemory) / 1024 / 1024;
+                long tMemory = tFinishMemory / 1024 / 1024;
+                Debug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
+                Debug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
+                Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
+
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
         }
