@@ -491,6 +491,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
+            Debug.Log("ResetDatas()");
             //BTBBenchmark.Start();
             // all datas prepare handler
             Datas = new List<NWDTypeClass>();
@@ -594,7 +595,10 @@ namespace NetWorkedData
                     tList.Add(sData);
                     DatasByInternalKey.Add(tInternalKey, tList);
                 }
-                DatasByReverseInternalKey.Add(sData, tInternalKey);
+                if (DatasByReverseInternalKey.ContainsKey(sData) == false)
+                {
+                    DatasByReverseInternalKey.Add(sData, tInternalKey);
+                }
 
                 // Ok now I check if I need to install it in reachable data
                 //bool tDataIsValid = sData.DataIntegrityState();
@@ -1506,6 +1510,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void LoadFromDatabase()
         {
+            NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());
+            tTypeInfos = Datas();
+            // Reset the Handler of datas index
+            tTypeInfos.ResetDatas();
+
             //BTBBenchmark.Start();
             //Debug.Log("NWDBasis<K> LoadFromDatabase()");
             // select the good database
@@ -1517,18 +1526,17 @@ namespace NetWorkedData
             // Create all instance from database
             IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
 
-            NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());
-            tTypeInfos = Datas();
-            // Reset the Handler of datas index
-            tTypeInfos.ResetDatas();
             // Prepare the datas
+            int tCount = 0;
             if (tEnumerable != null)
             {
                 foreach (NWDBasis<K> tItem in tEnumerable)
                 {
+                    tCount++;
                     tItem.LoadedFromDatabase();
                 }
             }
+            Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
             //RepaintTableEditor();
             //BTBBenchmark.Finish();
         }

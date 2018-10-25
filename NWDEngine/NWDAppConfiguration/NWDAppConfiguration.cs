@@ -30,6 +30,8 @@ namespace NetWorkedData
         public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
         public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
+        public string EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+        public string AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
         public int WebBuild = 0;
         public bool RowDataIntegrity = true;
         public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
@@ -67,6 +69,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppConfiguration()
         {
+            EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+            AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+
             Type tType = this.GetType();
             var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
             if (tMethodInfo != null)
@@ -160,6 +165,17 @@ namespace NetWorkedData
                 rReturn = GenerateSaltDictionary[sKey];
             }
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetAccountPass()
+        {
+            return NWDAppConfiguration.SharedInstance().AccountHashSalt;
+            //return NWDAccount.HashSum("w*€Ô`d s" + SystemInfo.deviceUniqueIdentifier + "-" + NWDAppConfiguration.SharedInstance().AccountHashSalt + "dƒs@&g");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetEditorPass()
+        {
+            return NWDAppConfiguration.SharedInstance().EditorPass;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment SelectedEnvironment()

@@ -61,12 +61,12 @@ namespace NetWorkedData
         public SQLiteConnection SQLiteConnectionEditor;
         public string DatabasePathEditor = "Assets/StreamingAssets";
         public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
-        public SQLiteConnection SQLiteConnectionEditorV4;
+        //public SQLiteConnection SQLiteConnectionEditorV4;
         // Members properties for account dependant database (data from user)
         public SQLiteConnection SQLiteConnectionAccount;
         public string DatabasePathAccount = "Assets";
         public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
-        public SQLiteConnection SQLiteConnectionAccountV4;
+        //public SQLiteConnection SQLiteConnectionAccountV4;
         //public BTBNotificationManager NotificationCenter;
         public bool NeedCopy = false;
         public bool IsLoaded = false;

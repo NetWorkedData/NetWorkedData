@@ -734,6 +734,7 @@ namespace NetWorkedData
                 FilterTableEditor();
                 RestaureDataInEditionByReference(tReference);
             }
+
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_SORT, EditorStyles.miniButton, GUILayout.Width(120)))
             {
 
@@ -743,23 +744,23 @@ namespace NetWorkedData
                 SortEditorTableDatas();
                 RestaureDataInEditionByReference(tReference);
             }
+
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_SEARCH_RELOAD, EditorStyles.miniButton, GUILayout.Width(120)))
             {
-
+                Debug.Log(NWDConstants.K_APP_TABLE_SEARCH_RELOAD + "Action");
                 string tReference = GetReferenceOfDataInEdition();
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 Datas().m_SearchInternalName = "";
                 Datas().m_SearchInternalDescription = "";
-                //				ReloadAllObjects ();
-                				//LoadTableEditor ();
+                //ReloadAllObjects ();
+                //LoadTableEditor ();
                 LoadFromDatabase();
                 SortEditorTableDatas();
                 RestaureDataInEditionByReference(tReference);
             }
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
-
 
             GUILayout.BeginVertical(GUILayout.Width(120));
             GUILayout.Label(NWDConstants.K_APP_TABLE_FILTER_ZONE, EditorStyles.boldLabel);

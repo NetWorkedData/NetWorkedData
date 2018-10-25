@@ -424,21 +424,24 @@ namespace NetWorkedData
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
             int.TryParse(tVersionString.Replace(".", ""), out tVersionInt);
-            foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
+            if (NWDVersion.Datas() != null)
             {
-                if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
+                foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
                 {
-                    if ((NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) ||
-                        (NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
-                        (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
+                    if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                     {
-                        int tVersionInteger = 0;
-                        int.TryParse(tVersionObject.Version.ToString().Replace(".", ""), out tVersionInteger);
-                        if (tVersionInt < tVersionInteger)
+                        if ((NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment && tVersionObject.ActiveDev == true) ||
+                            (NWDAppConfiguration.SharedInstance().PreprodEnvironment == sEnvironment && tVersionObject.ActivePreprod == true) ||
+                            (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
                         {
-                            tVersionInt = tVersionInteger;
-                            tVersionString = tVersionObject.Version.ToString();
-                            tVersion = tVersionObject;
+                            int tVersionInteger = 0;
+                            int.TryParse(tVersionObject.Version.ToString().Replace(".", ""), out tVersionInteger);
+                            if (tVersionInt < tVersionInteger)
+                            {
+                                tVersionInt = tVersionInteger;
+                                tVersionString = tVersionObject.Version.ToString();
+                                tVersion = tVersionObject;
+                            }
                         }
                     }
                 }

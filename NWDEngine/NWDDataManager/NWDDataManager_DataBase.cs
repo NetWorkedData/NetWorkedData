@@ -125,12 +125,17 @@ namespace NetWorkedData
                 //SQLiteConnection conn = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
                 //conn.("password");
                 Debug.Log("ConnectToDatabase () CONNECTION");
-                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,null, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,null, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                SQLiteConnectionEditorV4 = new SQLiteConnection(tDatabasePathEditor + "ssl", "aaa", SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
+                string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
 
-                SQLiteConnectionAccountV4 = new SQLiteConnection(tDatabasePathAccount + "ssl", "aaa", SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                //SQLiteConnectionEditorV4 = new SQLiteConnection(tDatabasePathEditor + "ssl", tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                //SQLiteConnectionAccountV4 = new SQLiteConnection(tDatabasePathAccount + "ssl", tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
                 //BTBBenchmark.Finish();
             }
@@ -452,12 +457,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.CreateTableByType(sType);
-                SQLiteConnectionAccountV4.CreateTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionAccountV4.CreateTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.CreateTableByType(sType);
-                SQLiteConnectionEditorV4.CreateTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionEditorV4.CreateTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -468,12 +473,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.MigrateTableByType(sType);
-                SQLiteConnectionAccountV4.MigrateTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionAccountV4.MigrateTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.MigrateTableByType(sType);
-                SQLiteConnectionEditorV4.MigrateTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionEditorV4.MigrateTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -482,12 +487,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.TruncateTableByType(sType);
-                SQLiteConnectionAccountV4.TruncateTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionAccountV4.TruncateTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.TruncateTableByType(sType);
-                SQLiteConnectionEditorV4.TruncateTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionEditorV4.TruncateTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -496,12 +501,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.DropTableByType(sType);
-                SQLiteConnectionAccountV4.DropTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionAccountV4.DropTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.DropTableByType(sType);
-                SQLiteConnectionEditorV4.DropTableByType(typeof(NWDDatasRows));
+                //SQLiteConnectionEditorV4.DropTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------

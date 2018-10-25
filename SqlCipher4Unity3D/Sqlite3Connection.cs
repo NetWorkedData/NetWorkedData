@@ -1847,18 +1847,42 @@ namespace SQLite4Unity3d
 
                 while (SQLite3.Step(stmt) == SQLite3.Result.Row)
                 {
-                    object obj = Activator.CreateInstance(map.MappedType);
-                    for (int i = 0; i < cols.Length; i++)
-                    {
-                        if (cols[i] == null)
-                            continue;
-                        SQLite3.ColType colType = SQLite3.ColumnType(stmt, i);
-                        object val = ReadCol(stmt, i, colType, cols[i].ColumnType);
-                        cols[i].SetValue(obj, val);
-                    }
 
-                    OnInstanceCreated(obj);
-                    yield return (T) obj;
+                    //------------------------------------------
+                    //---------- ADD IDEMOBI START -------------
+                    if (map.MappedType.Namespace == "NetWorkedData")
+                    {
+                        // I need to by pass the constructor by special constructor (constructor from database)
+                        var obj = Activator.CreateInstance(map.MappedType, new object[] { false });
+                        for (int i = 0; i < cols.Length; i++)
+                        {
+                            if (cols[i] == null)
+                                continue;
+                            SQLite3.ColType colType = SQLite3.ColumnType(stmt, i);
+                            var val = ReadCol(stmt, i, colType, cols[i].ColumnType);
+                            cols[i].SetValue(obj, val);
+                        }
+                        OnInstanceCreated(obj);
+                        yield return (T)obj;
+
+                    }
+                    else
+                    {
+                        object obj = Activator.CreateInstance(map.MappedType);
+                        for (int i = 0; i < cols.Length; i++)
+                        {
+                            if (cols[i] == null)
+                                continue;
+                            SQLite3.ColType colType = SQLite3.ColumnType(stmt, i);
+                            object val = ReadCol(stmt, i, colType, cols[i].ColumnType);
+                            cols[i].SetValue(obj, val);
+                        }
+
+                        OnInstanceCreated(obj);
+                        yield return (T)obj;
+                    }
+                    //---------- ADD IDEMOBI FINISH ------------
+                    //------------------------------------------
                 }
             }
             finally
@@ -1998,7 +2022,7 @@ namespace SQLite4Unity3d
                 {
                     tValue = Activator.CreateInstance(value.GetType()) as BTBDataType;
                 }
-                SQLite3.BindText(stmt, index, tValue.ToString(), -1, NegativePointer);
+                return SQLite3.BindText(stmt, index, tValue.ToString(), -1, NegativePointer);
             }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------

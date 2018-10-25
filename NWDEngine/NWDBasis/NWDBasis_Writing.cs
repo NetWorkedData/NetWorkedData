@@ -480,20 +480,20 @@ namespace NetWorkedData
         public override void InsertDataProceed()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> InsertDataProceed()");
+            Debug.Log("NWDBasis<K> InsertDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
+                                                                                                //this.DataAssembly(true),
+                                                                                                //this.IntegrityValue());
             }
             else
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
+                                                                                                //this.DataAssembly(true),
+                                                                                                //this.IntegrityValue());
             }
             //BTBBenchmark.Finish();
         }
@@ -501,18 +501,18 @@ namespace NetWorkedData
         public override void InsertDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
+            Debug.Log("NWDBasis<K> InsertDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
 
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.InsertDatas(this.Reference,
+                //                                                                                this.DataAssembly(true),
+                //                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
             }
             else
             {
@@ -520,11 +520,11 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Insert(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
 
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.InsertDatas(this.Reference,
+                //                                                                                this.DataAssembly(true),
+                //                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
             }
             //BTBBenchmark.Finish();
         }
@@ -702,20 +702,20 @@ namespace NetWorkedData
         public override void UpdateDataProceed()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataProceed()");
+            Debug.Log("NWDBasis<K> UpdateDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
+                                                                                                //this.DataAssembly(true),
+                                                                                                //this.IntegrityValue());
             }
             else
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
+                                                                                                //this.DataAssembly(true),
+                                                                                                //this.IntegrityValue());
             }
             //BTBBenchmark.Finish();
         }
@@ -723,18 +723,18 @@ namespace NetWorkedData
         public override void UpdateDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
+            Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
 
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.UpdateDatas(this.Reference,
+                //                                                                                this.DataAssembly(true),
+                //                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
             }
             else
             {
@@ -742,11 +742,11 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Update(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
 
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
-                                                                                                this.DataAssembly(true),
-                                                                                                this.IntegrityValue());
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.UpdateDatas(this.Reference,
+                //                                                                                this.DataAssembly(true),
+                //                                                                                this.IntegrityValue());
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
             }
             //BTBBenchmark.Finish();
         }
@@ -918,16 +918,16 @@ namespace NetWorkedData
         public override void DeleteDataProceed()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataProceed()");
+            Debug.Log("NWDBasis<K> DeleteDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.DeleteDatas(this.Reference);
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.DeleteDatas(this.Reference);
             }
             else
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.DeleteDatas(this.Reference);
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.DeleteDatas(this.Reference);
             }
             //BTBBenchmark.Finish();
         }
@@ -935,16 +935,16 @@ namespace NetWorkedData
         public override void DeleteDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
+            Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
 
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.DeleteDatas(this.Reference);
-                NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.BeginTransaction();
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.DeleteDatas(this.Reference);
+                //NWDDataManager.SharedInstance().SQLiteConnectionAccountV4.Commit();
             }
             else
             {
@@ -952,9 +952,9 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Delete(this);
                 NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
 
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.DeleteDatas(this.Reference);
-                NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.BeginTransaction();
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.DeleteDatas(this.Reference);
+                //NWDDataManager.SharedInstance().SQLiteConnectionEditorV4.Commit();
             }
             //BTBBenchmark.Finish();
         }
