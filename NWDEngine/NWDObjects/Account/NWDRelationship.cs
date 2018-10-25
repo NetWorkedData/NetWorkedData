@@ -17,6 +17,7 @@ using UnityEngine;
 using SQLite4Unity3d;
 
 using BasicToolBox;
+using SQLite.Attribute;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -101,7 +102,7 @@ namespace NetWorkedData
             get; set;
         }
         [Indexed("PinIndex", 0)]
-        [Indexed("RelationshipIndex", 1)]
+        //[Indexed("RelationshipIndex", 1)]
         public NWDRelationshipPinState RelationState
         {
             get; set;

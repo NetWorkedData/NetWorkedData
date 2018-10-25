@@ -22,6 +22,34 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDDatasRows
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDatasRows(string sReference, string sDatas, string sIntegrity)
+        {
+            Reference = sReference;
+            Datas = sDatas;
+            Integrity = sIntegrity;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Reference
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Datas
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Integrity
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -33,10 +61,12 @@ namespace NetWorkedData
         public SQLiteConnection SQLiteConnectionEditor;
         public string DatabasePathEditor = "Assets/StreamingAssets";
         public string DatabaseNameEditor  = "NWDDatabaseEditor.prp";
+        public SQLiteConnection SQLiteConnectionEditorV4;
         // Members properties for account dependant database (data from user)
         public SQLiteConnection SQLiteConnectionAccount;
         public string DatabasePathAccount = "Assets";
         public string DatabaseNameAccount = "NWDDatabaseAccount.prp";
+        public SQLiteConnection SQLiteConnectionAccountV4;
         //public BTBNotificationManager NotificationCenter;
         public bool NeedCopy = false;
         public bool IsLoaded = false;
@@ -190,5 +220,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

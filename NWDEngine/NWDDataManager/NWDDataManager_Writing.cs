@@ -170,7 +170,7 @@ namespace NetWorkedData
         public void InsertData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             // Determine the default mode
-             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //BTBBenchmark.Start();
             switch (sWritingMode)
             {
@@ -314,7 +314,7 @@ namespace NetWorkedData
         public void UpdateData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             // Determine the default mode
-             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
+            sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //BTBBenchmark.Start();
             switch (sWritingMode)
             {

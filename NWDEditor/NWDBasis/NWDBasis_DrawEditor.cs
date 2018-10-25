@@ -1454,10 +1454,11 @@ namespace NetWorkedData
                                                                  "Web service " + WebServiceVersion + "(/" + tWebBuilt.ToString() + ")",
                                                                  tWebServiceVersionOldIndex, tWebServicesString.ToArray());
                 tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-
-                int tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
-
+                int tWebServiceVersionNew = 0;
+                if (tWebServicesInt.Count > 0)
+                {
+                    tWebServiceVersionNew = tWebServicesInt[tWebServiceVersionIndex];
+                }
                 if (WebServiceVersion != tWebServiceVersionNew)
                 {
                     WebServiceVersion = tWebServiceVersionNew;

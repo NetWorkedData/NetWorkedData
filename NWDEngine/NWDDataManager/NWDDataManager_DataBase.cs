@@ -31,8 +31,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<object> kObjectToUpdateQueue = new List<object>();
         //-------------------------------------------------------------------------------------------------------------
+        public void RecreateDatabase()
+        {
+            Debug.Log("RecreateDatabase ()");
+            kConnectedToDatabase = false;
+            ConnectToDatabase();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
+            Debug.Log("ConnectToDatabase ()");
             if (kConnectedToDatabase == false)
             {
                 //BTBBenchmark.Start();
@@ -114,8 +122,16 @@ namespace NetWorkedData
                 //Debug.Log("tDatabasePathEditor = " + tDatabasePathEditor);
                 //Debug.Log("tPathAccount = " + tPathAccount);
 #endif
-                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                //SQLiteConnection conn = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+                //conn.("password");
+                Debug.Log("ConnectToDatabase () CONNECTION");
+                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,null, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,null, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                SQLiteConnectionEditorV4 = new SQLiteConnection(tDatabasePathEditor + "ssl", "aaa", SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                SQLiteConnectionAccountV4 = new SQLiteConnection(tDatabasePathAccount + "ssl", "aaa", SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
                 //BTBBenchmark.Finish();
             }
         }
@@ -158,7 +174,6 @@ namespace NetWorkedData
         //    }
         //    //BTBBenchmark.Finish();
         //}
-
         //-------------------------------------------------------------------------------------------------------------
         //public void InsertObjectDirect(object sObject, bool sAccountConnected)
         //{
@@ -437,10 +452,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.CreateTableByType(sType);
+                SQLiteConnectionAccountV4.CreateTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.CreateTableByType(sType);
+                SQLiteConnectionEditorV4.CreateTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -451,10 +468,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.MigrateTableByType(sType);
+                SQLiteConnectionAccountV4.MigrateTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.MigrateTableByType(sType);
+                SQLiteConnectionEditorV4.MigrateTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -463,10 +482,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.TruncateTableByType(sType);
+                SQLiteConnectionAccountV4.TruncateTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.TruncateTableByType(sType);
+                SQLiteConnectionEditorV4.TruncateTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -475,10 +496,12 @@ namespace NetWorkedData
             if (sAccountConnected)
             {
                 SQLiteConnectionAccount.DropTableByType(sType);
+                SQLiteConnectionAccountV4.DropTableByType(typeof(NWDDatasRows));
             }
             else
             {
                 SQLiteConnectionEditor.DropTableByType(sType);
+                SQLiteConnectionEditorV4.DropTableByType(typeof(NWDDatasRows));
             }
         }
         //-------------------------------------------------------------------------------------------------------------

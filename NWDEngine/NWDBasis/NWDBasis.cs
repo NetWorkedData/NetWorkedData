@@ -21,6 +21,7 @@ using SQLite4Unity3d;
 
 // Basic method by ideMobi
 using BasicToolBox;
+using SQLite.Attribute;
 
 #if UNITY_EDITOR
 // unity3D editor lib
@@ -47,8 +48,8 @@ namespace NetWorkedData
             get; set;
         }
         [Indexed("UpdateIndex", 0)]
-        [Indexed("EditorIndex", 0)]
-        [Indexed("InternalIndex", 0)]
+        //[Indexed("EditorIndex", 0)]
+        //[Indexed("InternalIndex", 0)]
         [NWDNotEditable]
         public string Reference
         {
@@ -69,14 +70,14 @@ namespace NetWorkedData
         //    get; set;
         //}
         [Indexed("GetIndex", 0)]
-        [Indexed("EditorIndex", 0)]
+        //[Indexed("EditorIndex", 0)]
         [NWDNotEditable]
         public int WebServiceVersion
         {
             get; set;
         }
         [Indexed("InternalIndex", 0)]
-        [Indexed("EditorIndex", 0)]
+        //[Indexed("EditorIndex", 0)]
         public string InternalKey
         {
             get; set;
@@ -136,21 +137,21 @@ namespace NetWorkedData
         }
         [NWDNotEditable]
         [Indexed("GetIndex", 3)]
-        [Indexed("UpdateIndex", 3)]
+        //[Indexed("UpdateIndex", 3)]
         public int DevSync
         {
             get; set;
         }
         [NWDNotEditable]
         [Indexed("GetIndex", 2)]
-        [Indexed("UpdateIndex", 2)]
+        //[Indexed("UpdateIndex", 2)]
         public int PreprodSync
         {
             get; set;
         }
         [NWDNotEditable]
         [Indexed("GetIndex", 1)]
-        [Indexed("UpdateIndex", 1)]
+        //[Indexed("UpdateIndex", 1)]
         public int ProdSync
         {
             get; set;

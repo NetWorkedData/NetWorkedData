@@ -386,7 +386,15 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ResetAllTablesLocal();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS, false, 9205)]
+        public static void CreateAllDataBases()
+        {
+            NWDDataManager.SharedInstance().RecreateDatabase();
+            NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
