@@ -128,6 +128,10 @@ namespace NetWorkedData
                 EditorGUILayout.EndHorizontal();
             }
 
+
+
+
+            // DATABASE PARAMS
             EditorGUILayout.HelpBox("Databases", MessageType.None);
             EditorGUILayout.LabelField("Databases config for all environements", EditorStyles.boldLabel);
             NWDAppConfiguration.SharedInstance().EditorPass = EditorGUILayout.TextField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
@@ -135,7 +139,12 @@ namespace NetWorkedData
             NWDAppConfiguration.SharedInstance().AccountHashSalt = EditorGUILayout.TextField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
             EditorGUILayout.TextField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
             EditorGUILayout.HelpBox("Webservices", MessageType.None);
+            //NWDDataManager.SharedInstance().SQLiteConnectionEditor.
 
+
+
+
+            // WEBSERVICES PARAMS
             EditorGUILayout.LabelField("Webservices config for all environements", EditorStyles.boldLabel);
             if (tColum > 1)
             {

@@ -48,7 +48,6 @@ namespace NetWorkedData
         public Dictionary<Type, int> kLastWebBuildClass = new Dictionary<Type, int>();
         public string ProjetcLanguage = "en";
         public bool PreloadDatas = true;
-
         //-------------------------------------------------------------------------------------------------------------
         #endregion
 
@@ -69,8 +68,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppConfiguration()
         {
-            EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-            AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+            EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
+            AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
 
             Type tType = this.GetType();
             var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
@@ -169,8 +168,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountPass()
         {
-            return NWDAppConfiguration.SharedInstance().AccountHashSalt;
-            //return NWDAccount.HashSum("w*€Ô`d s" + SystemInfo.deviceUniqueIdentifier + "-" + NWDAppConfiguration.SharedInstance().AccountHashSalt + "dƒs@&g");
+            string tDeviceUniqueID = SystemInfo.deviceUniqueIdentifier;
+            //Debug.Log("GetAccountPass () : tDeviceUniqueID = " + tDeviceUniqueID);
+            string tPass = NWDAccount.HashSum("w*€Ô`d s" + SystemInfo.deviceUniqueIdentifier + "-" + NWDAppConfiguration.SharedInstance().AccountHashSalt + "dƒs@&g");
+            //Debug.Log("GetAccountPass () : tPass = " + tPass);
+            return tPass.Substring(0, 24);
+            //return NWDAppConfiguration.SharedInstance().AccountHashSalt;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetEditorPass()
