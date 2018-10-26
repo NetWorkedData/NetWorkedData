@@ -26,6 +26,40 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDDatasRows
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public string ObjectClass
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Reference
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Datas
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string Integrity
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDatasRows(string sObjectClass, string sReference, string sDatas, string sIntegrity)
+        {
+            ObjectClass = sObjectClass;
+            Reference = sReference;
+            Datas = sDatas;
+            Integrity = sIntegrity;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -33,17 +67,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void RecreateDatabase()
         {
-            Debug.Log("RecreateDatabase ()");
+            //Debug.Log("RecreateDatabase ()");
             kConnectedToDatabase = false;
+            DeleteDatabase();
             ConnectToDatabase();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
             Debug.Log("ConnectToDatabase ()");
+            //BTBBenchmark.Start();
+            //if (kConnectedToDatabase == true)
+            //{
+            //    if (SQLiteConnectionAccount.Trace )
+            //    {
+            //    }
+            //}
             if (kConnectedToDatabase == false)
             {
-                //BTBBenchmark.Start();
                 kConnectedToDatabase = true;
 #if UNITY_EDITOR
                 // create the good folder
@@ -55,10 +96,10 @@ namespace NetWorkedData
                 string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
                 string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
 #else
-				// Get saved App version from pref
-				// check if file exists in Application.persistentDataPath
-				string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
-				string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
+                // Get saved App version from pref
+                // check if file exists in Application.persistentDataPath
+                string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+                string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
@@ -66,18 +107,18 @@ namespace NetWorkedData
                     File.Delete(tPathEditor);
                 }
                 // Write editor database
-				if (!File.Exists (tPathEditor))
+                if (!File.Exists (tPathEditor))
                 {
-					// if it doesn't ->
-					// open StreamingAssets directory and load the db ->
+                    // if it doesn't ->
+                    // open StreamingAssets directory and load the db ->
 #if UNITY_ANDROID
-			        var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
-				    while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
-				    // then save to Application.persistentDataPath
-				    File.WriteAllBytes(tPathEditor, loadDb.bytes);
+                    var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
+                    while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
+                    // then save to Application.persistentDataPath
+                    File.WriteAllBytes(tPathEditor, loadDb.bytes);
 #elif UNITY_IOS
-					var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
-					// then save to Application.persistentDataPath
+                    var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
+                    // then save to Application.persistentDataPath
                     File.Copy (loadDb, tPathEditor);
 #elif UNITY_TVOS
                     var loadDb = Application.dataPath + "/Raw/" + DatabaseNameEditor;  // this is the path to your StreamingAssets in iOS
@@ -89,12 +130,12 @@ namespace NetWorkedData
                     File.Copy(loadDb, tPathEditor);
 #elif UNITY_WP8
                     var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-				    // then save to Application.persistentDataPath
-				    File.Copy(loadDb, tPathEditor);
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
 #elif UNITY_WINRT
                     var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
-				    // then save to Application.persistentDataPath
-				    File.Copy(loadDb, tPathEditor);
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
 #elif UNITY_WSA_10_0
                     var loadDb = Application.dataPath + "/StreamingAssets/" + DatabaseNameEditor;
                     // then save to Application.persistentDataPath
@@ -109,14 +150,14 @@ namespace NetWorkedData
                     File.Copy(loadDb, tPathEditor);
 #else
                     var loadDb = Application.dataPath + "/Resources/StreamingAssets/" + DatabaseNameEditor;
-				    // then save to Application.persistentDataPath
-				    File.Copy(loadDb, tPathEditor);
+                    // then save to Application.persistentDataPath
+                    File.Copy(loadDb, tPathEditor);
 #endif
-					// Save App version in pref for futur used
-					//BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
-				}
+                    // Save App version in pref for futur used
+                    //BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
+                }
 
-				string tDatabasePathEditor = tPathEditor;
+                string tDatabasePathEditor = tPathEditor;
                 string tDatabasePathAccount = tPathAccount;
                 //Debug.Log("Application.dataPath = "+Application.dataPath);
                 //Debug.Log("tDatabasePathEditor = " + tDatabasePathEditor);
@@ -124,21 +165,86 @@ namespace NetWorkedData
 #endif
                 //SQLiteConnection conn = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
                 //conn.("password");
-                Debug.Log("ConnectToDatabase () CONNECTION");
+                Debug.Log("ConnectToDatabase () CONNECTION PREPARE");
+                Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor);
+                Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
 
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
+                Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
+                Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
 
-                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionEditor");
+                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,
+                tEditorPass,
+                SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount");
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
+                tAccountPass,
+                SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+
+                Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount.BusyTimeout" + SQLiteConnectionAccount.BusyTimeout.ToString());
+                // waiting the tables and file will be open...
+                // TODO: REAL DISPO! MARCHE PAS?!
+                double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds +
+                SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
+                Debug.Log("ConnectToDatabase () CONNECTION tSeconds : " + tSeconds.ToString());
+                // BYPASS 
+                // tSeconds = 0.2;
+
+                DateTime t = DateTime.Now;
+                DateTime tf = DateTime.Now.AddSeconds(tSeconds);
+                while (t < tf)
+                {
+                    t = DateTime.Now;
+                }
+
+                // TEST WHILE / MARCHE PAS 
+                while (SQLiteConnectionAccount.IsOpen() == false && SQLiteConnectionEditor.IsOpen() == false)
+                {
+                    // waiting
+                    // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
+                    // TODO : Detruire fichier et reinstaller ? 
+                }
+
 
                 //SQLiteConnectionEditorV4 = new SQLiteConnection(tDatabasePathEditor + "ssl", tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
                 //SQLiteConnectionAccountV4 = new SQLiteConnection(tDatabasePathAccount + "ssl", tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                //BTBBenchmark.Finish();
             }
+            //BTBBenchmark.Finish();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DeleteDatabase()
+        {
+            Debug.Log("DeleteDatabase ()");
+            if (SQLiteConnectionAccount != null)
+            {
+                SQLiteConnectionAccount.Close();
+            }
+            if (SQLiteConnectionEditor != null)
+            {
+                SQLiteConnectionEditor.Close();
+            }
+            kConnectedToDatabase = false;
+#if UNITY_EDITOR
+            if (AssetDatabase.IsValidFolder(DatabasePathEditor) == false)
+            {
+                AssetDatabase.CreateFolder("Assets", "StreamingAssets");
+            }
+            // path for base editor
+            string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
+            string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
+            File.Delete(tDatabasePathEditor);
+            File.Delete(tDatabasePathAccount);
+#else
+				string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
+				string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
+                File.Delete(tPathEditor);
+                File.Delete(tPathAccount);
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateBuildTimestamp()
@@ -166,235 +272,6 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public void InsertObject(object sObject, bool sAccountConnected)
-        //{
-        //    //BTBBenchmark.Start();
-        //    if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
-        //    {
-        //        ThreadPool.QueueUserWorkItem(InsertObjectThread, new object[] { sObject, sAccountConnected });
-        //    }
-        //    else
-        //    {
-        //        InsertObjectDirect(sObject, sAccountConnected);
-        //    }
-        //    //BTBBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public void InsertObjectDirect(object sObject, bool sAccountConnected)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager InsertObjectDirect()");
-        //    if (sAccountConnected)
-        //    {
-        //        SQLiteConnectionAccount.Insert(sObject);
-        //    }
-        //    else
-        //    {
-        //        SQLiteConnectionEditor.Insert(sObject);
-        //    }
-        //    BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void InsertObjectThread(object sState)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager InsertObjectThread()");
-        //    object[] tParam = sState as object[];
-        //    object sObject = tParam[0];
-        //    bool sAccountConnected = (bool)tParam[1];
-        //    if (sAccountConnected)
-        //    {
-        //        SQLiteConnectionAccount.Insert(sObject);
-        //    }
-        //    else
-        //    {
-        //        SQLiteConnectionEditor.Insert(sObject);
-        //    }
-        //    BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_INSERT);
-        //    //BTBBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public void UpdateObject(object sObject, bool sAccountConnected)
-        //{
-        //    //BTBBenchmark.Start();
-        //    if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
-        //    {
-        //        ThreadPool.QueueUserWorkItem(UpdateObjectThread, new object[] { sObject, sAccountConnected });
-        //    }
-        //    else
-        //    {
-        //        UpdateObjectDirect(sObject, sAccountConnected);
-        //    }
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void UpdateObjectDirect(object sObject, bool sAccountConnected)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager UpdateObjectDirect()");
-        //    if (sAccountConnected)
-        //    {
-        //        SQLiteConnectionAccount.Update(sObject);
-        //    }
-        //    else
-        //    {
-        //        SQLiteConnectionEditor.Update(sObject);
-        //    }
-        //    BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void UpdateObjectThread(object sState)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager UpdateObjectThread()");
-        //    object[] tParam = sState as object[];
-        //    object sObject = tParam[0];
-        //    bool sAccountConnected = (bool)tParam[1];
-        //    if (sAccountConnected)
-        //    {
-        //        SQLiteConnectionAccount.Update(sObject);
-        //    }
-        //    else
-        //    {
-        //        SQLiteConnectionEditor.Update(sObject);
-        //    }
-        //    BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_UPDATE);
-        //    //BTBBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public void DeleteObject(object sObject, bool sAccountConnected)
-        //{
-        //    //BTBBenchmark.Start();
-        //    if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
-        //    {
-        //        ThreadPool.QueueUserWorkItem(DeleteObjectThread, new object[] { sObject, sAccountConnected });
-        //    }
-        //    else
-        //    {
-        //        DeleteObjectDirect(sObject, sAccountConnected);
-        //    }
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void DeleteObjectDirect(object sObject, bool sAccountConnected)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager DeleteObjectDirect()");
-        //    //  update disable with date to delete
-        //    if (sAccountConnected)
-        //    {
-        //        SQLiteConnectionAccount.Delete(sObject);
-        //    }
-        //    else
-        //    {
-        //        SQLiteConnectionEditor.Delete(sObject);
-        //    }
-        //    BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void DeleteObjectThread(object sState)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager DeleteObjectThread()");
-        //    object[] tParam = sState as object[];
-        //    object sObject = tParam[0];
-        //    bool sAccountConnected = (bool)tParam[1];
-        //    //  update disable with date to delete
-        //    if (sAccountConnected)
-        //    {
-        //        SQLiteConnectionAccount.Delete(sObject);
-        //    }
-        //    else
-        //    {
-        //        SQLiteConnectionEditor.Delete(sObject);
-        //    }
-        //    BTBNotificationManager.SharedInstance().PostNotification(sObject, NWDNotificationConstants.K_DATA_LOCAL_DELETE);
-        //    //BTBBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public void AddObjectToUpdateQueue(object sObject)
-        //{
-        //    //BTBBenchmark.Start();
-        //    if (kObjectToUpdateQueue.Contains(sObject) == false)
-        //    {
-        //        kObjectToUpdateQueue.Add(sObject);
-        //    }
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public int UpdateQueueCounter()
-        //{
-        //    return kObjectToUpdateQueue.Count();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public void UpdateQueueExecute()
-        //{
-        //    //BTBBenchmark.Start();
-        //    //if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolSQLActive == true)
-        //    //{
-        //    //    ThreadPool.QueueUserWorkItem(UpdateQueueExecuteThread, null);
-        //    //}
-        //    //else
-        //    //{
-        //    //    UpdateQueueExecuteDirect();
-        //    //}
-
-        //    UpdateQueueExecuteDirect();
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void UpdateQueueExecuteDirect()
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager UpdateQueueExecuteDirect() with " + kObjectToUpdateQueue.Count + " Object(s)");
-        //    if (kObjectToUpdateQueue.Count > 0)
-        //    {
-        //        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-        //        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-        //        foreach (object tObject in kObjectToUpdateQueue)
-        //        {
-        //            Type tType = tObject.GetType();
-        //            var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-        //            if (tMethodInfo != null)
-        //            {
-        //                tMethodInfo.Invoke(tObject, new object[] { true });
-        //            }
-        //        }
-        //        kObjectToUpdateQueue = new List<object>();
-        //        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-        //        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-        //    }
-        //    //BTBBenchmark.Finish();
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public void UpdateQueueExecuteThread(object sState)
-        //{
-        //    //BTBBenchmark.Start();
-        //    //Debug.Log("NWDDataManager UpdateQueueExecuteThread() with " + kObjectToUpdateQueue.Count + " Object(s)");
-        //    if (kObjectToUpdateQueue.Count > 0)
-        //    {
-        //        NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
-        //        NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
-        //        foreach (object tObject in kObjectToUpdateQueue)
-        //        {
-        //            Type tType = tObject.GetType();
-        //            var tMethodInfo = tType.GetMethod("UpdateMeQueue", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
-        //            if (tMethodInfo != null)
-        //            {
-        //                tMethodInfo.Invoke(tObject, new object[] { true });
-        //            }
-        //        }
-        //        kObjectToUpdateQueue = new List<object>();
-        //        NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
-        //        NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-        //    }
-        //    //BTBBenchmark.Finish();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        // Table management
         public void CreateAllTablesLocal()
         {
             foreach (Type tType in mTypeList)
@@ -522,5 +399,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

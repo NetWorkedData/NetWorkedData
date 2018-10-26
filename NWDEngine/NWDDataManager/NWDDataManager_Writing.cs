@@ -169,7 +169,7 @@ namespace NetWorkedData
         /// <param name="sWritingMode">S writing mode.</param>
         public void InsertData(NWDTypeClass sObject, NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
-            Debug.Log("NWDDataManager InsertData()");
+//            Debug.Log("NWDDataManager InsertData()");
             // Determine the default mode
             sWritingMode = NWDAppConfiguration.WritingMode(sWritingMode);
             //BTBBenchmark.Start();

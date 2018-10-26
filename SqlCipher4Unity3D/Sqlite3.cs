@@ -116,6 +116,8 @@ namespace SQLite4Unity3d
 		const string DLL_NAME = "sqlcipher";
 #elif UNITY_IOS
 		const string DLL_NAME = "__Internal";
+#else
+        private const string DLL_NAME = "sqlcipher";
 #endif
 
         [DllImport(DLL_NAME, EntryPoint = "sqlite3_open", CallingConvention = CallingConvention.Cdecl)]

@@ -164,7 +164,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreatePHPAllClass(bool sIncrement = true)
         {
-            BTBBenchmark.Start("Step one");
+            //BTBBenchmark.Start("Step one");
             //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
             //tPHPBuild++;
             //BTBConfigManager.SharedInstance().Set(NWDConstants.K_NWD_WS_BUILD, tPHPBuild);
@@ -200,9 +200,9 @@ namespace NetWorkedData
             }
 
             bool tCreated = CreateAllEnvironmentPHP();
-            BTBBenchmark.Finish("Step one");
+            //BTBBenchmark.Finish("Step one");
 
-            BTBBenchmark.Start("Step two");
+            //BTBBenchmark.Start("Step two");
             if (tCreated)
             {
                 foreach (Type tType in mTypeList)
@@ -216,7 +216,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            BTBBenchmark.Finish("Step two");
+            //BTBBenchmark.Finish("Step two");
             EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
             EditorUtility.ClearProgressBar();
 

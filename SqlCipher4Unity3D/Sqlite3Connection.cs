@@ -111,7 +111,7 @@ namespace SQLite4Unity3d
             // in the case where the path may include Unicode
             // force open to using UTF-8 using sqlite3_open_v2
             byte[] databasePathAsBytes = GetNullTerminatedUtf8(this.DatabasePath);
-            SQLite3.Result r = SQLite3.Open(databasePathAsBytes, out handle, (int) openFlags, IntPtr.Zero);
+             SQLite3.Result r = SQLite3.Open(databasePathAsBytes, out handle, (int) openFlags, IntPtr.Zero);
 
             this.Handle = handle;
             if (r != SQLite3.Result.OK)
@@ -126,11 +126,11 @@ namespace SQLite4Unity3d
                         string.Format("Could not open database file: {0} ({1})", this.DatabasePath, r));
             }
 
-            this._open = true;
-
             this.StoreDateTimeAsTicks = storeDateTimeAsTicks;
 
             this.BusyTimeout = TimeSpan.FromSeconds(0.1);
+
+            this._open = true;
         }
 
         public Sqlite3DatabaseHandle Handle { get; private set; }
@@ -143,6 +143,10 @@ namespace SQLite4Unity3d
 
         public bool StoreDateTimeAsTicks { get; private set; }
 
+        public bool IsOpen()
+        {
+            return this._open;
+        }
         /// <summary>
         ///     Sets a busy handler to sleep the specified amount of time when a table is locked.
         ///     The handler will sleep multiple times until a total time of <see cref="BusyTimeout" /> has accumulated.

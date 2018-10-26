@@ -115,40 +115,42 @@ namespace SQLite4Unity3d
 		{
             TableMapping tTableMapping = new TableMapping(sType);
             string tTableName = tTableMapping.TableName;
-			//Debug.Log ("CreateTableByType " + sType.Name);
-            var indexes = new Dictionary<string, SQLite4Unity3d.SQLiteConnection.IndexInfo>();
+
+			Debug.Log ("CreateTableByType " + sType.Name);
+
+            var indexes = new Dictionary<string, SQLiteConnection.IndexInfo>();
             foreach (var c in tTableMapping.Columns)
             {
                 foreach (var i in c.Indices)
                 {
                     var iname = i.Name ?? tTableName + "_" + c.Name;
-                    SQLite4Unity3d.SQLiteConnection.IndexInfo iinfo;
+                    SQLiteConnection.IndexInfo iinfo;
                     if (!indexes.TryGetValue(iname, out iinfo))
                     {
-                        iinfo = new SQLite4Unity3d.SQLiteConnection.IndexInfo
+                        iinfo = new SQLiteConnection.IndexInfo
                         {
                             IndexName = iname,
                             TableName = tTableName,
                             Unique = i.Unique,
-                            Columns = new List<SQLite4Unity3d.SQLiteConnection.IndexedColumn>()
+                            Columns = new List<SQLiteConnection.IndexedColumn>()
                         };
                         indexes.Add(iname, iinfo);
                     }
                     if (i.Unique != iinfo.Unique)
                         throw new Exception("All the columns in an index must have the same value for their Unique property");
-                    iinfo.Columns.Add(new SQLite4Unity3d.SQLiteConnection.IndexedColumn
+                    iinfo.Columns.Add(new SQLiteConnection.IndexedColumn
                     {
                         Order = i.Order,
                         ColumnName = c.Name
                     });
                 }
             }
-
+            /*
             foreach (var indexName in indexes.Keys)
             {
                 Execute("DROP INDEX IF EXISTS " + tTableName + "." + indexName + "");
             }
-
+            */
 			return CreateTable(sType, CreateFlags.None);
 		}
 

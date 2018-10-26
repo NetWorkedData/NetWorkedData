@@ -47,7 +47,7 @@ namespace NetWorkedData
             NWDDatas rDatas = NWDDatas.FindTypeInfos(typeof(K));
             if (rDatas == null)
             {
-                Debug.LogWarning("ERROR NWDDatas.FindTypeInfos(typeof(K)) NOT RETRUN FOR " + typeof(K).Name);
+                Debug.LogWarning("ERROR NWDDatas.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
             }
             return rDatas;
         }
@@ -321,7 +321,7 @@ namespace NetWorkedData
         public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
         {
 
-            //Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
+            Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
 
             string tTableName = sType.Name;
             string tClassName = sType.AssemblyQualifiedName;
@@ -412,6 +412,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
             CreateTable();
+
             if (NWDDataManager.SharedInstance().NeedCopy == true)
             {
                 CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);

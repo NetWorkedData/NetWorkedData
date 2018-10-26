@@ -1536,7 +1536,7 @@ namespace NetWorkedData
                     tItem.LoadedFromDatabase();
                 }
             }
-            Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
+            //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());
             //RepaintTableEditor();
             //BTBBenchmark.Finish();
         }

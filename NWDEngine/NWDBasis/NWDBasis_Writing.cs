@@ -480,7 +480,7 @@ namespace NetWorkedData
         public override void InsertDataProceed()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> InsertDataProceed()");
+           // Debug.Log("NWDBasis<K> InsertDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Insert(this);
@@ -702,7 +702,7 @@ namespace NetWorkedData
         public override void UpdateDataProceed()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> UpdateDataProceed()");
+            //Debug.Log("NWDBasis<K> UpdateDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Update(this);
@@ -723,7 +723,7 @@ namespace NetWorkedData
         public override void UpdateDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
+           //Debug.Log("NWDBasis<K> UpdateDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
@@ -918,7 +918,7 @@ namespace NetWorkedData
         public override void DeleteDataProceed()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> DeleteDataProceed()");
+            //Debug.Log("NWDBasis<K> DeleteDataProceed()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.Delete(this);
@@ -935,7 +935,7 @@ namespace NetWorkedData
         public override void DeleteDataProceedWithTransaction()
         {
             //BTBBenchmark.Start();
-            Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
+            //Debug.Log("NWDBasis<K> DeleteDataProceedWithTransaction()");
             if (AccountDependent())
             {
                 NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();

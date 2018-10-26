@@ -329,7 +329,10 @@ namespace NetWorkedData
                     if (sText.Contains(tObject.KeyValue))
                     {
                         tJ++;
-                        rText = rText.Replace(tObject.InternalKey, tBstart + tObject.TextValue.GetLanguageString(sLanguage) + tBend);
+                        if (string.IsNullOrEmpty(tObject.InternalKey) == false)
+                        {
+                            rText = rText.Replace(tObject.InternalKey, tBstart + tObject.TextValue.GetLanguageString(sLanguage) + tBend);
+                        }
                     }
                 }
                 if (tJ == 0)

@@ -80,7 +80,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void GDPRTestAction()
         {
-            Debug.Log(NWDGDPR.ExtractAndSave());
+            NWDGDPR.ExtractAndSave();
+            //Debug.Log(NWDGDPR.ExtractAndSave());
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AlertTestAction()

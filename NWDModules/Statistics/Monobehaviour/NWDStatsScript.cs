@@ -54,17 +54,17 @@ public class NWDStatsScript : MonoBehaviour
     //-------------------------------------------------------------------------------------------------------------
     void OnEnable()
     {
-        BTBBenchmark.Start();
+        //BTBBenchmark.Start();
         if (AutoCountDuration == true)
         {
             StartChrono();
         }
-        BTBBenchmark.Finish();
+        //BTBBenchmark.Finish();
     }
     //-------------------------------------------------------------------------------------------------------------
     void OnDisable()
     {
-        BTBBenchmark.Start();
+        //BTBBenchmark.Start();
         if (AutoCountDuration == true)
         {
             StopChrono();
@@ -73,7 +73,7 @@ public class NWDStatsScript : MonoBehaviour
         {
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
-        BTBBenchmark.Finish();
+        //BTBBenchmark.Finish();
     }
     //-------------------------------------------------------------------------------------------------------------
 }

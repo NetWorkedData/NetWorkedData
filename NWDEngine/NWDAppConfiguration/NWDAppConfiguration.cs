@@ -168,17 +168,31 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountPass()
         {
-            string tDeviceUniqueID = SystemInfo.deviceUniqueIdentifier;
-            //Debug.Log("GetAccountPass () : tDeviceUniqueID = " + tDeviceUniqueID);
-            string tPass = NWDAccount.HashSum("w*€Ô`d s" + SystemInfo.deviceUniqueIdentifier + "-" + NWDAppConfiguration.SharedInstance().AccountHashSalt + "dƒs@&g");
-            //Debug.Log("GetAccountPass () : tPass = " + tPass);
-            return tPass.Substring(0, 24);
-            //return NWDAppConfiguration.SharedInstance().AccountHashSalt;
+            if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().AccountHashSalt))
+            {
+                return "";
+            }
+            else
+            {
+                string tDeviceUniqueID = SystemInfo.deviceUniqueIdentifier;
+                //Debug.Log("GetAccountPass () : tDeviceUniqueID = " + tDeviceUniqueID);
+                string tPass = NWDAccount.HashSum("w*€Ô`ds" + SystemInfo.deviceUniqueIdentifier + "-" +
+                                                  NWDAppConfiguration.SharedInstance().AccountHashSalt + "dƒs@&g");
+                //Debug.Log("GetAccountPass () : tPass = " + tPass);
+                return tPass.Substring(0, 24);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetEditorPass()
         {
-            return NWDAppConfiguration.SharedInstance().EditorPass;
+            if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().EditorPass))
+            {
+                return "";
+            }
+            else
+            {
+                return "Ôûw*€dñ" + NWDAppConfiguration.SharedInstance().EditorPass + "&s@g";
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment SelectedEnvironment()

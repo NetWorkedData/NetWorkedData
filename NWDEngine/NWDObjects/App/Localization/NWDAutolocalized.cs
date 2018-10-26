@@ -82,32 +82,35 @@ namespace NetWorkedData
                         if (TextTarget != null)
                         {
                             // set the localizable text
-                            NWDLocalization tLocalization = LocalizationReference.GetObject();
-                            if (tLocalization != null)
+                            if (LocalizationReference != null)
                             {
-                                string tTextString = "";
-                                switch (AutoTag)
+                                NWDLocalization tLocalization = LocalizationReference.GetObject();
+                                if (tLocalization != null)
                                 {
-                                    case NWDAutolocalizedTag.BaseString:
-                                        {
-                                            tTextString = tLocalization.TextValue.GetBaseString();
-                                        }
-                                        break;
-                                    case NWDAutolocalizedTag.MarkedBaseString:
-                                        {
-                                            tTextString = "#" + tLocalization.TextValue.GetBaseString() + "#";
-                                        }
-                                        break;
-                                    case NWDAutolocalizedTag.KeyInternal:
-                                        {
-                                            tTextString = tLocalization.InternalKeyValue();
-                                        }
-                                        break;
-                                }
-                                if (TextTarget.text != tTextString)
-                                {
-                                    TextTarget.text = tTextString;
-                                    EditorUtility.SetDirty(TextTarget);
+                                    string tTextString = "";
+                                    switch (AutoTag)
+                                    {
+                                        case NWDAutolocalizedTag.BaseString:
+                                            {
+                                                tTextString = tLocalization.TextValue.GetBaseString();
+                                            }
+                                            break;
+                                        case NWDAutolocalizedTag.MarkedBaseString:
+                                            {
+                                                tTextString = "#" + tLocalization.TextValue.GetBaseString() + "#";
+                                            }
+                                            break;
+                                        case NWDAutolocalizedTag.KeyInternal:
+                                            {
+                                                tTextString = tLocalization.InternalKeyValue();
+                                            }
+                                            break;
+                                    }
+                                    if (TextTarget.text != tTextString)
+                                    {
+                                        TextTarget.text = tTextString;
+                                        EditorUtility.SetDirty(TextTarget);
+                                    }
                                 }
                             }
                         }
@@ -131,32 +134,35 @@ namespace NetWorkedData
                         if (TextMeshTarget != null)
                         {
                             // set the localizable text
-                            NWDLocalization tLocalization = LocalizationReference.GetObject();
-                            if (tLocalization != null)
+                            if (LocalizationReference != null)
                             {
-                                string tTextString = "";
-                                switch (AutoTag)
+                                NWDLocalization tLocalization = LocalizationReference.GetObject();
+                                if (tLocalization != null)
                                 {
-                                    case NWDAutolocalizedTag.BaseString:
-                                        {
-                                            tTextString = tLocalization.TextValue.GetBaseString();
-                                        }
-                                        break;
-                                    case NWDAutolocalizedTag.MarkedBaseString:
-                                        {
-                                            tTextString = "#" + tLocalization.TextValue.GetBaseString() + "#";
-                                        }
-                                        break;
-                                    case NWDAutolocalizedTag.KeyInternal:
-                                        {
-                                            tTextString = tLocalization.InternalKeyValue();
-                                        }
-                                        break;
-                                }
-                                if (TextMeshTarget.text != tTextString)
-                                {
-                                    TextMeshTarget.text = tTextString;
-                                    EditorUtility.SetDirty(TextMeshTarget);
+                                    string tTextString = "";
+                                    switch (AutoTag)
+                                    {
+                                        case NWDAutolocalizedTag.BaseString:
+                                            {
+                                                tTextString = tLocalization.TextValue.GetBaseString();
+                                            }
+                                            break;
+                                        case NWDAutolocalizedTag.MarkedBaseString:
+                                            {
+                                                tTextString = "#" + tLocalization.TextValue.GetBaseString() + "#";
+                                            }
+                                            break;
+                                        case NWDAutolocalizedTag.KeyInternal:
+                                            {
+                                                tTextString = tLocalization.InternalKeyValue();
+                                            }
+                                            break;
+                                    }
+                                    if (TextMeshTarget.text != tTextString)
+                                    {
+                                        TextMeshTarget.text = tTextString;
+                                        EditorUtility.SetDirty(TextMeshTarget);
+                                    }
                                 }
                             }
                         }
@@ -189,21 +195,24 @@ namespace NetWorkedData
                 if (TextTarget != null)
                 {
                     // set the localizable text
-                    NWDLocalization tLocalization = LocalizationReference.GetObject();
-                    if (tLocalization != null)
+                    if (LocalizationReference != null)
                     {
-                        string tTextString = "";
-                        if (sUseBaseString == true)
+                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        if (tLocalization != null)
                         {
-                            tTextString = tLocalization.TextValue.GetBaseString();
-                        }
-                        else
-                        {
-                            tTextString = tLocalization.GetLocalString();
-                        }
+                            string tTextString = "";
+                            if (sUseBaseString == true)
+                            {
+                                tTextString = tLocalization.TextValue.GetBaseString();
+                            }
+                            else
+                            {
+                                tTextString = tLocalization.GetLocalString();
+                            }
 
-                        // Enrich text
-                        TextTarget.text = Enrichment(tTextString);
+                            // Enrich text
+                            TextTarget.text = Enrichment(tTextString);
+                        }
                     }
                 }
             }
@@ -228,21 +237,24 @@ namespace NetWorkedData
                 if (TextMeshTarget != null)
                 {
                     // set the localizable text
-                    NWDLocalization tLocalization = LocalizationReference.GetObject();
-                    if (tLocalization != null)
+                    if (LocalizationReference != null)
                     {
-                        string tTextString = "";
-                        if (sUseBaseString == true)
+                        NWDLocalization tLocalization = LocalizationReference.GetObject();
+                        if (tLocalization != null)
                         {
-                            tTextString = tLocalization.TextValue.GetBaseString();
-                        }
-                        else
-                        {
-                            tTextString = tLocalization.GetLocalString();
-                        }
+                            string tTextString = "";
+                            if (sUseBaseString == true)
+                            {
+                                tTextString = tLocalization.TextValue.GetBaseString();
+                            }
+                            else
+                            {
+                                tTextString = tLocalization.GetLocalString();
+                            }
 
-                        // Enrich text
-                        TextMeshTarget.text = Enrichment(tTextString);
+                            // Enrich text
+                            TextMeshTarget.text = Enrichment(tTextString);
+                        }
                     }
                 }
             }
