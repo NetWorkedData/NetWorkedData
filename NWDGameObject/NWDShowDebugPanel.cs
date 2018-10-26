@@ -31,6 +31,7 @@ namespace NetWorkedData
         public GameObject PanelShowDebug;
         //-------------------------------------------------------------------------------------------------------------
         public Image CartridgeImage;
+        public Image CartridgeImageSecond;
         public Text CartridgeText;
         public Text TextDebug;
         //-------------------------------------------------------------------------------------------------------------
@@ -161,7 +162,15 @@ namespace NetWorkedData
             {
                 CartridgeImage.color = NWDAppEnvironment.SelectedEnvironment().CartridgeColor;
             }
-            if (CartridgeText != null)
+            if (CartridgeImageSecond != null)
+            {
+                NWDVersion tVersion = NWDVersion.GetActualVersion();
+                if (tVersion != null)
+                {
+                    CartridgeImageSecond.color = tVersion.Cartridge.GetColor();
+                }
+            }
+                if (CartridgeText != null)
             {
                 CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version + " WS"+ NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+" ©Unity3D " + Application.unityVersion + "";
             }

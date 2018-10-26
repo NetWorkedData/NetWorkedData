@@ -387,10 +387,18 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS, false, 9205)]
+        [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS, false, 9305)]
         public static void CreateAllDataBases()
         {
             NWDDataManager.SharedInstance().RecreateDatabase();
+            NWDDataManager.SharedInstance().CreateAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_CREATE_DATAS_AND_PASS, false, 9305)]
+        public static void CreateAllDataBasesAndPass()
+        {
+            NWDDataManager.SharedInstance().RecreateDatabase(true, true);
             NWDDataManager.SharedInstance().CreateAllTablesLocal();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }

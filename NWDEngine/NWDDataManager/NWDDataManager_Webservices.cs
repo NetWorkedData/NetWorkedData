@@ -318,7 +318,7 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			Debug.Log ("###### DEBUG ####### AddWebRequestAllSynchronizationWithBlock");
+			//Debug.Log ("###### DEBUG ####### AddWebRequestAllSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, false, sPriority);
 		}

@@ -321,7 +321,7 @@ namespace NetWorkedData
         public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
         {
 
-            Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
+           // Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
 
             string tTableName = sType.Name;
             string tClassName = sType.AssemblyQualifiedName;

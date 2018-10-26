@@ -491,7 +491,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ResetDatas()
         {
-            Debug.Log("ResetDatas()");
+            //Debug.Log("ResetDatas()");
             //BTBBenchmark.Start();
             // all datas prepare handler
             Datas = new List<NWDTypeClass>();

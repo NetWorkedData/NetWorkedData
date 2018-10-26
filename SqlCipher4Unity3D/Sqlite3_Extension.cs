@@ -96,17 +96,17 @@ namespace SQLite4Unity3d
             }
             // rename the actual table to "xxxx_old"
             string SQLRename = "ALTER TABLE `" + tTableName + "` RENAME TO `" + tTableName + sOldSuffix+"`";
-            Debug.Log("SQLRename = " + SQLRename);
+            //Debug.Log("SQLRename = " + SQLRename);
             Execute(SQLRename);
             // create new table with perfect schemas (no additionnal old columns
             CreateTable(sType, CreateFlags.None);
             string SQLCopy = "INSERT INTO `" + tTableName + "` (`" + string.Join("`, `", tColumnsList.ToArray()) + "`) SELECT `" + string.Join("`, `", tColumnsList.ToArray()) + "` FROM `" + tTableName + sOldSuffix + "`";
-            Debug.Log("SQLCopy = " + SQLCopy);
+            //Debug.Log("SQLCopy = " + SQLCopy);
             Execute(SQLCopy);
             if (sDeleteOld == true)
             {
                 string SQLDrop = "DROP TABLE IF EXISTS `" + tTableName + sOldSuffix + "`";
-                Debug.Log("SQLDrop = " + SQLDrop);
+                //Debug.Log("SQLDrop = " + SQLDrop);
                 Execute(SQLDrop);
             }
         }
@@ -116,7 +116,7 @@ namespace SQLite4Unity3d
             TableMapping tTableMapping = new TableMapping(sType);
             string tTableName = tTableMapping.TableName;
 
-			Debug.Log ("CreateTableByType " + sType.Name);
+			//Debug.Log ("CreateTableByType " + sType.Name);
 
             var indexes = new Dictionary<string, SQLiteConnection.IndexInfo>();
             foreach (var c in tTableMapping.Columns)

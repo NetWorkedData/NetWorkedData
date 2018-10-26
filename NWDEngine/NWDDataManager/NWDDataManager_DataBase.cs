@@ -65,17 +65,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<object> kObjectToUpdateQueue = new List<object>();
         //-------------------------------------------------------------------------------------------------------------
-        public void RecreateDatabase()
-        {
-            //Debug.Log("RecreateDatabase ()");
-            kConnectedToDatabase = false;
-            DeleteDatabase();
-            ConnectToDatabase();
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
-            Debug.Log("ConnectToDatabase ()");
+            //Debug.Log("ConnectToDatabase ()");
             //BTBBenchmark.Start();
             //if (kConnectedToDatabase == true)
             //{
@@ -165,31 +157,31 @@ namespace NetWorkedData
 #endif
                 //SQLiteConnection conn = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
                 //conn.("password");
-                Debug.Log("ConnectToDatabase () CONNECTION PREPARE");
-                Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor);
-                Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
+                //Debug.Log("ConnectToDatabase () CONNECTION PREPARE");
+                //Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor);
+                //Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
 
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
-                Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
+                //Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-                Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
+                //Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
 
-                Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionEditor");
+                //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionEditor");
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,
                 tEditorPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount");
+                //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount");
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
                 tAccountPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount.BusyTimeout" + SQLiteConnectionAccount.BusyTimeout.ToString());
+                //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount.BusyTimeout" + SQLiteConnectionAccount.BusyTimeout.ToString());
                 // waiting the tables and file will be open...
                 // TODO: REAL DISPO! MARCHE PAS?!
                 double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds +
                 SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
-                Debug.Log("ConnectToDatabase () CONNECTION tSeconds : " + tSeconds.ToString());
+                //Debug.Log("ConnectToDatabase () CONNECTION tSeconds : " + tSeconds.ToString());
                 // BYPASS 
                 // tSeconds = 0.2;
 
@@ -219,7 +211,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeleteDatabase()
         {
-            Debug.Log("DeleteDatabase ()");
+            //Debug.Log("DeleteDatabase ()");
             if (SQLiteConnectionAccount != null)
             {
                 SQLiteConnectionAccount.Close();
@@ -246,6 +238,31 @@ namespace NetWorkedData
                 File.Delete(tPathAccount);
 #endif
         }
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public void RecreateDatabase(bool sRegeneratePassword = false, bool sRegenerateDeviceSalt = false)
+        {
+            //Debug.Log("RecreateDatabase ()");
+            kConnectedToDatabase = false;
+            DeleteDatabase();
+            bool tCSharpRegenerate = false;
+            if (sRegeneratePassword == true)
+            {
+                NWDAppConfiguration.SharedInstance().EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
+                tCSharpRegenerate = true;
+            }
+            if (sRegeneratePassword == true)
+            {
+                NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
+                tCSharpRegenerate = true;
+            }
+            ConnectToDatabase();
+            if (tCSharpRegenerate == true)
+            {
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
+        }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public bool UpdateBuildTimestamp()
         {

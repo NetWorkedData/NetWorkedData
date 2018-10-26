@@ -86,6 +86,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public NWDColorType Cartridge
+        {
+            get; set;
+        }
         [NWDTooltips("This version can be used to build")]
         public bool Buildable
         {

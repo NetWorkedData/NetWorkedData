@@ -182,9 +182,9 @@ namespace NetWorkedData
                 long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024/ 1024;
                 long tDataMemory = (tFinishMemory - tMiddleMemory) / 1024 / 1024;
                 long tMemory = tFinishMemory / 1024 / 1024;
-                Debug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
-                Debug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
-                Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
+                //Debug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
+                //Debug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
+                //Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
 
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
