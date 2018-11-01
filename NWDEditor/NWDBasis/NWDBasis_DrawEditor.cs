@@ -1717,9 +1717,14 @@ namespace NetWorkedData
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(this);
                 UpdateData(true, NWDWritingMode.ByEditorDefault);
                 //K tNexObject = (K)DuplicateMe();
-                K tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
+                NWDBasis<K> tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tNexObject);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
+                if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                {
+                    tNexObject.Tag = Datas().m_SearchTag;
+                    tNexObject.UpdateData();
+                }
                 SetObjectInEdition(tNexObject);
                 Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 NWDDataManager.SharedInstance().DataQueueExecute();
