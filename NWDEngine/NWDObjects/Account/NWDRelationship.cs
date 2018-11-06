@@ -359,7 +359,7 @@ namespace NetWorkedData
             {
                 tReceiver = PublisherReference.GetReference();
             }
-            NWDUserInterMessage.SendMessage(sMessage, tReceiver, 0, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
+            NWDUserInterMessage.SendMessage(sMessage, tReceiver, null, null, 0, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -784,10 +784,10 @@ namespace NetWorkedData
         public bool AskWaitingFromServer(
                                          //float sTimer, float sDateTimeMarge = 10.0F, // sTimer repeat every x seconds ..... sDateTimeMarge is marge about sDateTimeMax to cancel
                                          BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
+                                         BTBOperationBlock sErrorBlock = null,
+                                         BTBOperationBlock sCancelBlock = null,
+                                         BTBOperationBlock sProgressBlock = null,
+                                         bool sPriority = true,
                                          NWDAppEnvironment sEnvironment = null)
         {
             bool rReturn = false;

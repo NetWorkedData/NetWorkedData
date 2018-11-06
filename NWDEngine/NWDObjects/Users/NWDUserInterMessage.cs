@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using BasicToolBox;
 using UnityEngine;
 
 //=====================================================================================================================
@@ -44,11 +45,7 @@ namespace NetWorkedData
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDUserInterMessage : NWDBasis<NWDUserInterMessage>
     {
-        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        #region Class Properties
-        // Your static properties
-        #endregion
-        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         [NWDGroupStart("Sender")]
         [NWDTooltips("The Sender account reference")]
@@ -161,12 +158,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SendMessage(NWDMessage sMessage,
                                        string sReceiver,
+                                       BTBOperationBlock sSuccessBlock = null,
+                                       BTBOperationBlock sErrorBlock = null,
                                        int sPushDelayInSeconds = 0,
                                        NWDReferencesListType<NWDCharacter> sReplaceCharacters = null,
                                        NWDReferencesQuantityType<NWDItem> sReplaceItems = null,
                                        NWDReferencesQuantityType<NWDItemPack> sReplaceItemPack = null,
                                        NWDReferencesQuantityType<NWDPack> sReplacePacks = null
-                               )
+                                      )
         {
             NWDUserInterMessage tInterMessage = NewData();
 
@@ -206,14 +205,14 @@ namespace NetWorkedData
             //TODO : set a push system here, not implemented yet
 
             #if UNITY_EDITOR
-            tInterMessage.InternalKey = NWDAccountNickname.GetNickname();
+            tInterMessage.InternalKey = NWDAccountNickname.GetNickname() + " - " + sMessage.Title.GetBaseString();
             #endif
 
             tInterMessage.Tag = NWDBasisTag.TagUserCreated;
             tInterMessage.SaveData();
 
             // Send message
-            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserInterMessage) }, true);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(new List<Type>() { typeof(NWDUserInterMessage) }, sSuccessBlock, sErrorBlock);
 
             // Delay System
             //TODO : set a WebRequest with a delay, not implemented yet
