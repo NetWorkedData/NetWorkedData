@@ -80,6 +80,7 @@ namespace NetWorkedData
         private NWDDataManager ()
         {
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
+            PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             //Debug.Log("NWDDataManager private Constructor");
             //NotificationCenter = BTBNotificationManager.SharedInstance();
             LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
