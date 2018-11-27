@@ -215,9 +215,9 @@ namespace NetWorkedData
         public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
         {
             List<Type> tList = new List<Type>(sClasses);
-            if (tList.Contains(typeof(NWDUserInfos)) == false)
+            if (tList.Contains(typeof(NWDAccountInfos)) == false)
             {
-                tList.Add(typeof(NWDUserInfos));
+                tList.Add(typeof(NWDAccountInfos));
             }
             NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
             return tRelation;
@@ -456,7 +456,7 @@ namespace NetWorkedData
                 BTBConsole.Clear();
 
                 List<Type> tListClasses = new List<Type>();
-                tListClasses.Add(typeof(NWDUserInfos));
+                tListClasses.Add(typeof(NWDAccountInfos));
                 tListClasses.Add(typeof(NWDUserOwnership));
                 List<string> tList = new List<string>();
                 foreach (Type tClass in tListClasses.ToArray())

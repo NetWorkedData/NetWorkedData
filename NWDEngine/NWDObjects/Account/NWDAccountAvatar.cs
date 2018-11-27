@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -6,40 +6,11 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
-#if UNITY_IOS
-using NotificationServices = UnityEngine.iOS.NotificationServices;
-using NotificationType = UnityEngine.iOS.NotificationType;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperatingSystem : int
-    {
-        IOS = 0,
-        OSX = 1,
-        AppleTV = 2,
-        Android = 3,
-        WINRT = 8,
-        WIN = 9,
-
-        UNITY = 99,
-    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
@@ -48,158 +19,66 @@ namespace NetWorkedData
     /// Example :
     /// <code>
     /// public class MyScriptInGame : MonoBehaviour<br/>
+    /// {
+    ///     NWDConnectionAttribut (true, true, true, true)] // optional
+    ///     public NWDExampleConnection MyNetWorkedData;
+    ///     public void UseData()
     ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
+    ///         NWDExample tObject = MyNetWorkedData.GetObject();
+    ///         // Use tObject
     ///     }
+    /// }
     /// </code>
     /// </example>
     /// </summary>
     [Serializable]
-    public class NWDUserInfosConnection : NWDConnection<NWDUserInfos>
+    public class NWDAccountAvatarConnection : NWDConnection<NWDAccountAvatar>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UFO")]
-    [NWDClassDescriptionAttribute("General User Informations")]
-    [NWDClassMenuNameAttribute("User Infos")]
-    public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
+    [NWDClassTrigrammeAttribute("AVA")]
+    [NWDClassDescriptionAttribute("Avatar composer for account")]
+    [NWDClassMenuNameAttribute("Account Avatar")]
+    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
+    public partial class NWDAccountAvatar : NWDBasis<NWDAccountAvatar>
     {
-        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        #region Properties
-        [NWDGroupStart("Player Informations")]
-        [NWDTooltips("")]
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        #region Instance Properties
+        [NWDGroupReset]
+        [NWDGroupStart("Account and final render")]
+        [NWDTooltips("The account reference of user")]
         public NWDReferenceType<NWDAccount> Account
         {
             get; set;
         }
-        public NWDReferenceType<NWDGameSave> GameSave
+        [NWDTooltips("Item used to render Avatar in simple game ")]
+        public NWDReferenceType<NWDItem> RenderItem
         {
             get; set;
         }
-        public NWDReferenceType<NWDUserAvatar> Avatar
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDUserNickname> Nickname
-        {
-            get; set;
-        }
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
-        [NWDGroupStart("Localization Options")]
-        public NWDLanguageType Language
-        {
-            get; set;
-        }
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
-        [NWDGroupStart("Push notification Options")]
-
-        public NWDOperatingSystem OSLastSignIn
-        {
-            get; set;
-        }
-        public bool AcceptTradePush
-        {
-            get; set;
-        }
-        public bool AcceptBarterPush
-        {
-            get; set;
-        }
-        public bool AcceptShopPush
-        {
-            get; set;
-        }
-        public bool AcceptRelationshipPush
-        {
-            get; set;
-        }
-        public bool AcceptUserInterMessagePush
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the apple notification token for message.
-        /// </summary>
-        /// <value>The apple notification token.</value>
-        public string AppleNotificationToken
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the google notification token for message.
-        /// </summary>
-        /// <value>The google notification token.</value>
-        public string GoogleNotificationToken
-        {
-            get; set;
-        }
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
-        [NWDGroupStart("Game Options")]
-        public bool SFX
-        {
-            get; set;
-        }
-        public float SFXVolume
-        {
-            get; set;
-        }
-        public bool Music
-        {
-            get; set;
-        }
-        public float MusicVolume
-        {
-            get; set;
-        }
-        public NWDLocalizableStringType MusicVolumeLangu
-        {
-            get; set;
-        }
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
-        [NWDGroupStart("Last Game Informations")]
-        public NWDReferenceType<NWDItem> LastItemUsedReference
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> LastItemWinReference
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> LastSpiritUsedReference
+        [NWDTooltips("PNG bytes file used to render Avatar in game (use as picture or as render)")]
+        public NWDImagePNGType AvatarRender
         {
             get; set;
         }
         #endregion
-        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos()
+        public NWDAccountAvatar()
         {
-            //Debug.Log("NWDUserInfos Constructor");
+            //Debug.Log("NWDAvatar Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDAccountAvatar(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDUserInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDAvatar Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
+           
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -207,94 +86,16 @@ namespace NetWorkedData
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Get active user information
+        /// Exampel of implement for class method.
         /// </summary>
-        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
+        public static void MyClassMethod()
         {
-            NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos user in FindDatas())
-            {
-                if (user.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
-                {
-                    tUserInfos = user;
-                    break;
-                }
-            }
-            if (tUserInfos == null)
-            {
-                tUserInfos = NewData();
-                tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
-                tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                //tUserInfos.AccountType = sEnvironment.PlayerStatut;
-                tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                tUserInfos.SaveData();
-            }
-            return tUserInfos;
+            // do something with this class
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public void StartOnDevice()
-        {
-#if UNITY_ANDROID
-            OSLastSignIn = NWDOperatingSystem.Android;
-            // TODO register notification token
-
-#elif UNITY_IOS
-            OSLastSignIn = NWDOperatingSystem.IOS;
-            // TODO register notification token
-
-            NotificationServices.RegisterForNotifications( NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
-
-            byte[] tToken = NotificationServices.deviceToken;
-            if (tToken != null)
-            {
-                AppleNotificationToken = "%" + System.BitConverter.ToString(tToken).Replace('-', '%');
-            }
-
-#elif UNITY_STANDALONE_OSX
-            OSLastSignIn = NWDOperatingSystem.OSX;
-            // TODO register notification token
-
-#elif UNITY_STANDALONE_WIN
-            OSLastSignIn = NWDOperatingSystem.WIN;
-
-#elif UNITY_WP8
-            OSLastSignIn = NWDOperatingSystem.WIN;
-
-#elif UNITY_WINRT
-            OSLastSignIn = NWDOperatingSystem.WINRT;
-
-#endif
-
-            if (UpdateDataIfModified())
-            {
-                // TODO send to server immediatly
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDUserInfos)}, true);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Get Account type of active user
-        /// </summary>
-        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDUserInfos user)
-        //{
-        //    NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
-        //    if (user != null)
-        //    {
-        //        Debug.Log("--GetUserStatut : " + user.AccountType.ToString());
-        //        //rPlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), user.AccountType, true);
-        //        rPlayerStatut = user.AccountType;
-        //    }
-
-        //    return rPlayerStatut;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for instance method.
@@ -303,6 +104,8 @@ namespace NetWorkedData
         {
             // do something with this object
         }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
@@ -405,6 +208,9 @@ namespace NetWorkedData
             // TODO verif if method is call in good place in good timing
         }
         //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Editor
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
@@ -442,15 +248,53 @@ namespace NetWorkedData
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Adds the width of node draw.
+        /// </summary>
+        /// <returns>The on node draw width.</returns>
+        /// <param name="sDocumentWidth">S document width.</param>
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        {
+            return 250.0f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Adds the height of node draw.
+        /// </summary>
+        /// <returns>The on node draw height.</returns>
+        public override float AddOnNodeDrawHeight(float sCardWidth)
+        {
+            return 220.0f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Adds node draw.
+        /// </summary>
+        /// <param name="sRect">S rect.</param>
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        {
+            //Rect tSpriteRect = new Rect(sRect.x, sRect.y, 200.0F, 200.0F);
+
+            //if (Face.GetObject() != null)
+            //{
+            //    Face.GetObject().RenderInRect(tSpriteRect, FaceOffsetX, FaceOffsetY, FaceScale, FaceRotation);
+            //}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Adds color on node.
+        /// </summary>
+        /// <returns>The on node color.</returns>
+        public override Color AddOnNodeColor()
+        {
+            return Color.gray;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }

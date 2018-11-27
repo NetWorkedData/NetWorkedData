@@ -63,16 +63,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Ownership", true, true, true)]
-        public bool FirstAcquisitionNotify
-        {
-            get; set;
-        }
-
-        public NWDDateTimeType FirstAcquisitionDate
-        {
-            get; set;
-        }
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -83,6 +73,15 @@ namespace NetWorkedData
             get; set;
         }
         public NWDReferenceType<NWDItem> Item
+        {
+            get; set;
+        }
+        [NWDGroupStart("Ownership", true, true, true)]
+        public bool FirstAcquisitionNotify
+        {
+            get; set;
+        }
+        public NWDDateTimeType FirstAcquisitionDate
         {
             get; set;
         }

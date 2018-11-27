@@ -316,7 +316,7 @@ namespace NetWorkedData
                             {
                                 tUserChange = true;
 
-                                NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                                NWDAccountInfos tActiveUser = NWDAccountInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                                 Environment.PlayerStatut = ResultInfos.sign;
                                 tActiveUser.AccountType = ResultInfos.sign;
 

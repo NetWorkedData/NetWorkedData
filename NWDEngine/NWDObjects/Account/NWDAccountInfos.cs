@@ -29,47 +29,16 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperatingSystem : int
-    {
-        IOS = 0,
-        OSX = 1,
-        AppleTV = 2,
-        Android = 3,
-        WINRT = 8,
-        WIN = 9,
-
-        UNITY = 99,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
     [Serializable]
-    public class NWDUserInfosConnection : NWDConnection<NWDUserInfos>
+    public class NWDAccountInfosConnection : NWDConnection<NWDAccountInfos>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UFO")]
-    [NWDClassDescriptionAttribute("General User Informations")]
-    [NWDClassMenuNameAttribute("User Infos")]
-    public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
+    [NWDClassDescriptionAttribute("General Account Informations")]
+    [NWDClassMenuNameAttribute("Account Infos")]
+    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Properties
@@ -79,15 +48,23 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDGameSave> GameSave
+        public NWDAppEnvironmentPlayerStatut AccountType
         {
             get; set;
         }
-        public NWDReferenceType<NWDUserAvatar> Avatar
+        //public NWDReferenceType<NWD> Avatar
+        //{
+        //    get; set;
+        //}
+        public NWDReferenceType<NWDAccountNickname> Nickname
         {
             get; set;
         }
-        public NWDReferenceType<NWDUserNickname> Nickname
+        public string FirstName
+        {
+            get; set;
+        }
+        public string LastName
         {
             get; set;
         }
@@ -192,14 +169,14 @@ namespace NetWorkedData
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos()
+        public NWDAccountInfos()
         {
-            //Debug.Log("NWDUserInfos Constructor");
+            //Debug.Log("NWDAccountInfos Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDUserInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDAccountInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -209,10 +186,10 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
+        public static NWDAccountInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
         {
-            NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos user in FindDatas())
+            NWDAccountInfos tUserInfos = null;
+            foreach (NWDAccountInfos user in FindDatas())
             {
                 if (user.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
                 {
@@ -225,7 +202,7 @@ namespace NetWorkedData
                 tUserInfos = NewData();
                 tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
                 tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                //tUserInfos.AccountType = sEnvironment.PlayerStatut;
+                tUserInfos.AccountType = sEnvironment.PlayerStatut;
                 tUserInfos.Tag = NWDBasisTag.TagUserCreated;
                 tUserInfos.SaveData();
             }
@@ -268,14 +245,14 @@ namespace NetWorkedData
             if (UpdateDataIfModified())
             {
                 // TODO send to server immediatly
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDUserInfos)}, true);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos) }, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get Account type of active user
         /// </summary>
-        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDUserInfos user)
+        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDAccountInfos user)
         //{
         //    NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
         //    if (user != null)
