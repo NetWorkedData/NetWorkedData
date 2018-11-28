@@ -21,9 +21,9 @@ namespace NetWorkedData
                                  "Game Save",
                                  "NWDGameSaveWindow", // NWDUserWindow
         new Type[] {
+        typeof(NWDAccount),
         typeof(NWDGameSave),
         typeof(NWDUserOwnership),
-        typeof(NWDAccount),
 		/* Add NWDBasis here*/
 		}
                                 )]

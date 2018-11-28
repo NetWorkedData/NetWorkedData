@@ -68,9 +68,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
-        //private static Dictionary<string, NWDCraftBook> HashByCraftDictionary = new Dictionary<string, NWDCraftBook>();
-        //private static Dictionary<string, NWDCraftBook> ItemByCraftDictionary = new Dictionary<string, NWDCraftBook>();
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
