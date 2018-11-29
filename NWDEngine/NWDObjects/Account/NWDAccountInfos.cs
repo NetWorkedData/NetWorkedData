@@ -42,6 +42,10 @@ namespace NetWorkedData
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Properties
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
         [NWDGroupStart("Player Informations")]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDAppEnvironmentPlayerStatut AccountType { get; set; }
