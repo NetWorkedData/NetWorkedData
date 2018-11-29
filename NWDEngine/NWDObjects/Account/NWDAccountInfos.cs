@@ -35,17 +35,13 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UFO")]
+    [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]
     [NWDClassMenuNameAttribute("Account Infos")]
     public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Properties
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
         [NWDGroupStart("Player Informations")]
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDAppEnvironmentPlayerStatut AccountType { get; set; }

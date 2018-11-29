@@ -66,7 +66,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UFO")]
+    [NWDClassTrigrammeAttribute("UIF")]
     [NWDClassDescriptionAttribute("General User Informations")]
     [NWDClassMenuNameAttribute("User Infos")]
     public partial class NWDUserInfos : NWDBasis<NWDUserInfos>

@@ -37,7 +37,7 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("AVA")]
+    [NWDClassTrigrammeAttribute("AAV")]
     [NWDClassDescriptionAttribute("Avatar composer for account")]
     [NWDClassMenuNameAttribute("Account Avatar")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
