@@ -86,11 +86,31 @@ namespace NetWorkedData
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Exampel of implement for class method.
+        /// Get Account NWDItem Avatar
         /// </summary>
-        public static void MyClassMethod()
+        public static NWDItem GetRenderAvatar()
         {
-            // do something with this class
+            NWDItem rItem = null;
+            NWDAccountAvatar[] tAvatars = FindDatas();
+            if (tAvatars.Length > 0)
+            {
+                return tAvatars[0].RenderItem.GetObject();
+            }
+            return rItem;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get Account Sprite Avatar
+        /// </summary>
+        public static Sprite GetSpiritAvatar()
+        {
+            Sprite rSprite = null;
+            NWDAccountAvatar[] tAvatars = FindDatas();
+            if (tAvatars.Length > 0)
+            {
+                return tAvatars[0].AvatarRender.ToSprite();
+            }
+            return rSprite;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
