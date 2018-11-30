@@ -204,7 +204,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDRelationship),typeof(NWDGameSave), typeof(NWDUserNickname), typeof(NWDAccountNickname), typeof(NWDUserAvatar) };
+            return new List<Type> {
+                typeof(NWDRelationship),
+                typeof(NWDGameSave),
+                typeof(NWDUserInfos),
+                typeof(NWDUserNickname),
+                typeof(NWDUserAvatar),
+                typeof(NWDAccountInfos),
+                typeof(NWDAccountNickname),
+                typeof(NWDAccountAvatar)
+            };
         }
         //-------------------------------------------------------------------------------------------------------------
         static NWDRelationship()
@@ -240,6 +249,7 @@ namespace NetWorkedData
             tReturn.PublisherClassesShared = string.Join(",", tList.ToArray());
             tReturn.ReaderClassesAccepted = string.Join(",", tList.ToArray());
             tReturn.FirstSync = true;
+            tReturn.Tag = NWDBasisTag.TagUserCreated;
             tReturn.RelationState = NWDRelationshipPinState.None;
             tReturn.InsertData();
 
@@ -648,7 +658,6 @@ namespace NetWorkedData
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-
                 string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
                  // remove if exists
                 sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");

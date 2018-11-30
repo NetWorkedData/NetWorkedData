@@ -45,8 +45,10 @@ namespace NetWorkedData
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDUserInterMessage : NWDBasis<NWDUserInterMessage>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance Properties
+        //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        #region Properties
+        [NWDGroupSeparator]
+
         [NWDGroupStart("Sender")]
         [NWDTooltips("The Sender account reference")]
         [NWDNeedUserAvatarAttribute()]
