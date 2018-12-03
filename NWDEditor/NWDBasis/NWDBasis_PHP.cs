@@ -363,7 +363,8 @@ namespace NetWorkedData
                     tColumn.Name != "XX")
                 {
                     tManagementFile +=
-                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` ADD " + Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ") + ";';\n" +
+                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` ADD " + 
+                        Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") + ";';\n" +
                     "$tResult = $SQL_CON->query($tQuery);\n" +
                     //"if (!$tResult)\n" +
                     //"{\n" +
@@ -373,7 +374,8 @@ namespace NetWorkedData
                     "";
                     tManagementFile +=
                         //					"$tQuery ='ALTER TABLE `'.$ENV.'" + tTableName + "` CHANGE `" + tColumn.Name + "` " + Orm.SqlDecl (tColumn, true).Replace ("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL") + ";';\n" +
-                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " + Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ") + ";';\n" +
+                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " + 
+                        Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") + ";';\n" +
                     "$tResult = $SQL_CON->query($tQuery);\n" +
                     //"if (!$tResult)\n" +
                     //"{\n" +
@@ -659,8 +661,8 @@ namespace NetWorkedData
             "\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\tif (!$tUpdateResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x77');\n" +
             "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\terror('" + tTrigramme + "x77');\n" +
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n";
@@ -706,8 +708,8 @@ namespace NetWorkedData
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x31');\n" +
             "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\terror('" + tTrigramme + "x31');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
             "\t\t\t{\n" +
@@ -723,8 +725,8 @@ namespace NetWorkedData
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
             "\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\terror('" + tTrigramme + "x91');\n" +
             "\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t\t\terror('" + tTrigramme + "x91');\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t}\n" +
             "\t\t\t}\n" +
@@ -741,8 +743,8 @@ namespace NetWorkedData
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
-            "\t\t\t\terror('" + tTrigramme + "x31');\n" +
             "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\terror('" + tTrigramme + "x31');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
             "\t\t\t{\n" +
@@ -860,8 +862,8 @@ namespace NetWorkedData
             "\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\t\t\tif (!$tResult)\n" +
             "\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\terror('" + tTrigramme + "x31');\n" +
             "\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\terror('" + tTrigramme + "x31');\n" +
             "\t\t\t\t\t}\n" +
             "\t\t\t\telse\n" +
             "\t\t\t\t\t{\n" +
@@ -873,8 +875,8 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t$tInsertResult = $SQL_CON->query($tInsert);\n" +
             "\t\t\t\t\t\t\t\t\t\tif (!$tInsertResult)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x32');\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tInsertResult.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x32');\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\telse\n" +
@@ -919,8 +921,8 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\t\t\t\t\tif (!$tUpdateResult)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n " +
-            "\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x38');\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tUpdate.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t\t\t\t\t\t\terror('" + tTrigramme + "x38');\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             //"\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +

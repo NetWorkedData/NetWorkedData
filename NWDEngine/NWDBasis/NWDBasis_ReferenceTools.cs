@@ -169,8 +169,15 @@ namespace NetWorkedData
             }
             Reference = tNewReference;
             UpdateData();
+
             //UpdateObjectInListOfEdition(this);
+            
+            LoadFromDatabase();
+            SortEditorTableDatas();
+            RestaureDataInEditionByReference(tNewReference);
+
             NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------

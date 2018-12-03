@@ -132,17 +132,34 @@ namespace NetWorkedData
 
 
             // DATABASE PARAMS
+            EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Databases", MessageType.None);
-            EditorGUILayout.LabelField("Databases config for all environements", EditorStyles.boldLabel);
-            /*NWDAppConfiguration.SharedInstance().EditorPass =*/ EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
-            EditorGUILayout.LabelField("Editor pass ", NWDAppConfiguration.SharedInstance().GetEditorPass());
-           /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/ EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
-            EditorGUILayout.LabelField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
+            string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
+            string tDatabasePathAccount = NWDDataManager.SharedInstance().DatabasePathAccount + "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
+
+            EditorGUILayout.LabelField("Databases Editor config for all environements", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
+            if (GUILayout.Button("Editor Database File"))
+            {
+               EditorUtility.RevealInFinder(tDatabasePathEditor);
+            }
+            /*NWDAppConfiguration.SharedInstance().EditorPass =*/ EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPass);
+            EditorGUILayout.TextField("Editor pass ", NWDAppConfiguration.SharedInstance().GetEditorPass());
+
+            EditorGUILayout.LabelField("Databases Accountconfig for all environements (by device)", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
+            if (GUILayout.Button("Account Database File"))
+            {
+                EditorUtility.RevealInFinder(tDatabasePathAccount);
+            }
+           /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/ EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
+            EditorGUILayout.TextField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
 
 
 
 
             // WEBSERVICES PARAMS
+            EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Webservices", MessageType.None);
             EditorGUILayout.LabelField("Webservices config for all environements", EditorStyles.boldLabel);
             if (tColum > 1)
@@ -192,7 +209,8 @@ namespace NetWorkedData
             }
 
 
-
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox("Tags", MessageType.None);
 
             EditorGUILayout.LabelField("Tag managment (all environements)", EditorStyles.boldLabel);
             if (tColum > 1)

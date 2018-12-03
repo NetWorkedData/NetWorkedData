@@ -29,177 +29,77 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDOperatingSystem : int
-    {
-        IOS = 0,
-        OSX = 1,
-        AppleTV = 2,
-        Android = 3,
-        WINRT = 8,
-        WIN = 9,
-
-        UNITY = 99,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
     [Serializable]
-    public class NWDUserInfosConnection : NWDConnection<NWDUserInfos>
+    public class NWDAccountInfosConnection : NWDConnection<NWDAccountInfos>
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UIF")]
-    [NWDClassDescriptionAttribute("General User Informations")]
-    [NWDClassMenuNameAttribute("User Infos")]
-    public partial class NWDUserInfos : NWDBasis<NWDUserInfos>
+    [NWDClassTrigrammeAttribute("AIF")]
+    [NWDClassDescriptionAttribute("General Account Informations")]
+    [NWDClassMenuNameAttribute("Account Infos")]
+    public partial class NWDAccountInfos : NWDBasis<NWDAccountInfos>
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Properties
+        [NWDGroupSeparator]
+
         [NWDGroupStart("Player Informations")]
-        [NWDTooltips("")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDUserAvatar> Avatar
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDUserNickname> Nickname
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDAppEnvironmentPlayerStatut AccountType { get; set; }
+        public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
+        public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Localization Options")]
-        public NWDLanguageType Language
-        {
-            get; set;
-        }
+        public NWDLanguageType Language { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Push notification Options")]
-
-        public NWDOperatingSystem OSLastSignIn
-        {
-            get; set;
-        }
-        public bool AcceptTradePush
-        {
-            get; set;
-        }
-        public bool AcceptBarterPush
-        {
-            get; set;
-        }
-        public bool AcceptShopPush
-        {
-            get; set;
-        }
-        public bool AcceptRelationshipPush
-        {
-            get; set;
-        }
-        public bool AcceptUserInterMessagePush
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the apple notification token for message.
-        /// </summary>
-        /// <value>The apple notification token.</value>
-        public string AppleNotificationToken
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the google notification token for message.
-        /// </summary>
-        /// <value>The google notification token.</value>
-        public string GoogleNotificationToken
-        {
-            get; set;
-        }
+        public NWDOperatingSystem OSLastSignIn { get; set; }
+        public bool AcceptTradePush { get; set; }
+        public bool AcceptBarterPush { get; set; }
+        public bool AcceptShopPush { get; set; }
+        public bool AcceptRelationshipPush { get; set; }
+        public bool AcceptUserInterMessagePush { get; set; }
+        public string AppleNotificationToken { get; set; }
+        public string GoogleNotificationToken { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Game Options")]
-        public bool SFX
-        {
-            get; set;
-        }
-        public float SFXVolume
-        {
-            get; set;
-        }
-        public bool Music
-        {
-            get; set;
-        }
-        public float MusicVolume
-        {
-            get; set;
-        }
-        public NWDLocalizableStringType MusicVolumeLangu
-        {
-            get; set;
-        }
+        public bool SFX { get; set; }
+        public float SFXVolume { get; set; }
+        public bool Music { get; set; }
+        public float MusicVolume { get; set; }
+        public NWDLocalizableStringType MusicVolumeLangu { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Last Game Informations")]
-        public NWDReferenceType<NWDItem> LastItemUsedReference
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> LastItemWinReference
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> LastSpiritUsedReference
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
+        public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
+        public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
         #endregion
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos()
+        public NWDAccountInfos()
         {
-            //Debug.Log("NWDUserInfos Constructor");
+            //Debug.Log("NWDAccountInfos Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDUserInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+            //Debug.Log("NWDAccountInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -209,10 +109,10 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
+        public static NWDAccountInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
         {
-            NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos user in FindDatas())
+            NWDAccountInfos tUserInfos = null;
+            foreach (NWDAccountInfos user in FindDatas())
             {
                 if (user.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
                 {
@@ -225,7 +125,7 @@ namespace NetWorkedData
                 tUserInfos = NewData();
                 tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
                 tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                //tUserInfos.AccountType = sEnvironment.PlayerStatut;
+                tUserInfos.AccountType = sEnvironment.PlayerStatut;
                 tUserInfos.Tag = NWDBasisTag.TagUserCreated;
                 tUserInfos.SaveData();
             }
@@ -268,14 +168,14 @@ namespace NetWorkedData
             if (UpdateDataIfModified())
             {
                 // TODO send to server immediatly
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDUserInfos)}, true);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos) }, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get Account type of active user
         /// </summary>
-        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDUserInfos user)
+        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDAccountInfos user)
         //{
         //    NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
         //    if (user != null)

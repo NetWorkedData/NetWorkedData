@@ -64,62 +64,33 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Ownership", true, true, true)]
-        public bool FirstAcquisitionNotify
-        {
-            get; set;
-        }
-
-        public NWDDateTimeType FirstAcquisitionDate
-        {
-            get; set;
-        }
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> Item
-        {
-            get; set;
-        }
-        public int Quantity
-        {
-            get; set;
-        }
-        public string Name
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDItem> Item { get; set; }
+        public int Quantity { get; set; }
+        public string Name { get; set; }
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Acquisition", true, true, true)]
+        public bool FirstAcquisitionNotify { get; set; }
+        public NWDDateTimeType FirstAcquisitionDate { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Extensions", true, true, true)]
-        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity
-        {
-            get; set;
-        }
+        public NWDReferencesArrayType<NWDUserOwnership> OwnershipList { get; set; }
+        public NWDReferencesQuantityType<NWDItemProperty> ItemPropertyQuantity { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Development addons", true, true, true)]
-        public string JSON
-        {
-            get; set;
-        }
-        public string KeysValues
-        {
-            get; set;
-        }
+        public string JSON { get; set; }
+        public string KeysValues { get; set; }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -634,9 +605,44 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+
+            // draw line 
+            EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
+            tY += NWDConstants.kFieldMarge * 2;
+
+            EditorGUI.LabelField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), "Tools box", tLabelStyle);
+            tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDDatas.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+            tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+            {
+                foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                {
+                    NWDDatas.FindTypeInfos(tType).m_SearchGameSave = GameSave.GetReference();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                }
+            }
+
+            return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight()

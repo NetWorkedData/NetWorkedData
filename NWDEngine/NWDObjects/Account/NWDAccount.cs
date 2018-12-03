@@ -121,7 +121,7 @@ namespace NetWorkedData
         /// Gets or sets the apple notification token for message.
         /// </summary>
         /// <value>The apple notification token.</value>
-        [Obsolete("See NWDUserInfos")]
+        [Obsolete("See NWDAccountInfos")]
         public string AppleNotificationToken
         {
             get; set;
@@ -131,7 +131,7 @@ namespace NetWorkedData
         /// Gets or sets the google notification token for message.
         /// </summary>
         /// <value>The google notification token.</value>
-        [Obsolete("See NWDUserInfos")]
+        [Obsolete("See NWDAccountInfos")]
         public string GoogleNotificationToken
         {
             get; set;

@@ -204,7 +204,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDRelationship),typeof(NWDGameSave), typeof(NWDUserNickname), typeof(NWDAccountNickname), typeof(NWDUserAvatar) };
+            return new List<Type> {
+                typeof(NWDRelationship),
+                typeof(NWDGameSave),
+                typeof(NWDUserInfos),
+                typeof(NWDUserNickname),
+                typeof(NWDUserAvatar),
+                typeof(NWDAccountInfos),
+                typeof(NWDAccountNickname),
+                typeof(NWDAccountAvatar)
+            };
         }
         //-------------------------------------------------------------------------------------------------------------
         static NWDRelationship()
@@ -215,9 +224,9 @@ namespace NetWorkedData
         public static NWDRelationship CreateNewRelationshipDefault(Type[] sClasses)
         {
             List<Type> tList = new List<Type>(sClasses);
-            if (tList.Contains(typeof(NWDUserInfos)) == false)
+            if (tList.Contains(typeof(NWDAccountInfos)) == false)
             {
-                tList.Add(typeof(NWDUserInfos));
+                tList.Add(typeof(NWDAccountInfos));
             }
             NWDRelationship tRelation = CreateNewRelationship(tList.ToArray());
             return tRelation;
@@ -240,6 +249,7 @@ namespace NetWorkedData
             tReturn.PublisherClassesShared = string.Join(",", tList.ToArray());
             tReturn.ReaderClassesAccepted = string.Join(",", tList.ToArray());
             tReturn.FirstSync = true;
+            tReturn.Tag = NWDBasisTag.TagUserCreated;
             tReturn.RelationState = NWDRelationshipPinState.None;
             tReturn.InsertData();
 
@@ -360,7 +370,7 @@ namespace NetWorkedData
             {
                 tReceiver = PublisherReference.GetReference();
             }
-            NWDUserInterMessage.SendMessage(sMessage, tReceiver, 0, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
+            NWDUserInterMessage.SendMessage(sMessage, tReceiver, null, null, 0, sReplaceCharacters, sReplaceItems, sReplaceItemPacks, sReplacePacks);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -456,7 +466,7 @@ namespace NetWorkedData
                 BTBConsole.Clear();
 
                 List<Type> tListClasses = new List<Type>();
-                tListClasses.Add(typeof(NWDUserInfos));
+                tListClasses.Add(typeof(NWDAccountInfos));
                 tListClasses.Add(typeof(NWDUserOwnership));
                 List<string> tList = new List<string>();
                 foreach (Type tClass in tListClasses.ToArray())
@@ -648,7 +658,6 @@ namespace NetWorkedData
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-
                 string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
                  // remove if exists
                 sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
@@ -785,10 +794,10 @@ namespace NetWorkedData
         public bool AskWaitingFromServer(
                                          //float sTimer, float sDateTimeMarge = 10.0F, // sTimer repeat every x seconds ..... sDateTimeMarge is marge about sDateTimeMax to cancel
                                          BTBOperationBlock sSuccessBlock = null,
-                                                                       BTBOperationBlock sErrorBlock = null,
-                                                                       BTBOperationBlock sCancelBlock = null,
-                                                                       BTBOperationBlock sProgressBlock = null,
-                                                                       bool sPriority = true,
+                                         BTBOperationBlock sErrorBlock = null,
+                                         BTBOperationBlock sCancelBlock = null,
+                                         BTBOperationBlock sProgressBlock = null,
+                                         bool sPriority = true,
                                          NWDAppEnvironment sEnvironment = null)
         {
             bool rReturn = false;

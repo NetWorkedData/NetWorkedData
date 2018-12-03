@@ -1183,6 +1183,11 @@ namespace NetWorkedData
                 {
                     tNewData++;
                     K tNextObject = tObject.DuplicateData();
+                    if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                    {
+                        tNextObject.Tag = Datas().m_SearchTag;
+                        tNextObject.UpdateData();
+                    }
                     tNextObjectSelected = tNextObject;
                 }
                 if (tNewData != 1)
@@ -1580,6 +1585,11 @@ namespace NetWorkedData
                 //				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
                 //				AddObjectInListOfEdition (tNewObject);
                 K tNewObject = NWDBasis<K>.NewData();
+                if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                {
+                    tNewObject.Tag = Datas().m_SearchTag;
+                    tNewObject.UpdateData();
+                }
                 Datas().m_PageSelected = Datas().m_MaxPage * 3;
                 SetObjectInEdition(tNewObject);
                 //				sEditorWindow.Repaint ();

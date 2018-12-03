@@ -325,7 +325,7 @@ namespace NetWorkedData
 		void Update ()
 		{
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            NWDUserInfos tActiveUser = NWDUserInfos.GetUserInfoByEnvironmentOrCreate(tApp);
+            NWDAccountInfos tActiveUser = NWDAccountInfos.GetUserInfoByEnvironmentOrCreate(tApp);
 
             TextEnvironment.text = tApp.Environment;
 
