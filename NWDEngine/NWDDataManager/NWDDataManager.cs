@@ -57,6 +57,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void PlayerLanguageSave(string sNewLanguage)
         {
+            Debug.Log("NWDDataManager PlayerLanguageSave()");
             NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, "");
             tUserLanguage.Value.SetString(sNewLanguage);
             tUserLanguage.UpdateData();
@@ -67,6 +68,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguageLoad()
         {
+            Debug.Log("NWDDataManager PlayerLanguageLoad()");
             NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey,"");
             if (tUserLanguage.Value.GetString() == "")
             {
@@ -74,13 +76,16 @@ namespace NetWorkedData
                 tUserLanguage.UpdateData();
             }
             PlayerLanguage = tUserLanguage.Value.GetString();
+            PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             return PlayerLanguage;
         }
         //-------------------------------------------------------------------------------------------------------------
         private NWDDataManager ()
         {
+            Debug.Log("NWDDataManager private Constructor");
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
-            //Debug.Log("NWDDataManager private Constructor");
+            PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
+
             //NotificationCenter = BTBNotificationManager.SharedInstance();
             LoadPreferences (NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }

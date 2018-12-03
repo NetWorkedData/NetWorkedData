@@ -51,7 +51,8 @@ namespace NetWorkedData
             }
             NWDTypeLauncher.DataLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
-            #if UNITY_EDITOR
+            //PlayerLanguageLoad();
+#if UNITY_EDITOR
             EditorRefresh();
             #endif
         }
@@ -93,7 +94,8 @@ namespace NetWorkedData
             }
             NWDTypeLauncher.DataLoaded = true;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_LOADED);
-            #if UNITY_EDITOR
+            //PlayerLanguageLoad();
+#if UNITY_EDITOR
             EditorRefresh();
             #endif
 

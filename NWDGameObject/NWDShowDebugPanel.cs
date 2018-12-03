@@ -172,7 +172,10 @@ namespace NetWorkedData
             }
                 if (CartridgeText != null)
             {
-                CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version + " WS"+ NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+" ©Unity3D " + Application.unityVersion + "";
+                CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version+
+                    " (" + Application.systemLanguage + ">" + NWDDataManager.SharedInstance().PlayerLanguage + ") " + 
+                    " WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+
+                    " ©Unity3D " + Application.unityVersion + "";
             }
         }
         //-------------------------------------------------------------------------------------------------------------
