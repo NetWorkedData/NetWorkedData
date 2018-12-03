@@ -63,7 +63,7 @@ namespace NetWorkedData
             if (sCounter>=0 && sCounter < mTypeList.Count)
             {
                 Type tType = mTypeList[sCounter];
-                var tMethodInfo = tType.GetMethod("LoadTableEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                var tMethodInfo = tType.GetMethod("LoadFromDatabase", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(null, null);
@@ -82,7 +82,7 @@ namespace NetWorkedData
             NWDTypeLauncher.ClassesDataLoaded = 0;
 			foreach( Type tType in mTypeList)
 			{
-				var tMethodInfo = tType.GetMethod("LoadTableEditor", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				var tMethodInfo = tType.GetMethod("LoadFromDatabase", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) 
 				{
 					tMethodInfo.Invoke(null, null);

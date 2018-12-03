@@ -144,6 +144,10 @@ namespace NetWorkedData
                EditorUtility.RevealInFinder(tDatabasePathEditor);
             }
             /*NWDAppConfiguration.SharedInstance().EditorPass =*/ EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPass);
+            /*NWDAppConfiguration.SharedInstance().EditorPassA =*/
+            EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPassA);
+            /*NWDAppConfiguration.SharedInstance().EditorPassB =*/
+            EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPassB);
             EditorGUILayout.TextField("Editor pass ", NWDAppConfiguration.SharedInstance().GetEditorPass());
 
             EditorGUILayout.LabelField("Databases Accountconfig for all environements (by device)", EditorStyles.boldLabel);
@@ -152,7 +156,12 @@ namespace NetWorkedData
             {
                 EditorUtility.RevealInFinder(tDatabasePathAccount);
             }
-           /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/ EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
+            /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/
+            EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
+            /*NWDAppConfiguration.SharedInstance().AccountHashSaltA =*/
+            EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
+            /*NWDAppConfiguration.SharedInstance().AccountHashSaltB =*/
+            EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
             EditorGUILayout.TextField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
 
 

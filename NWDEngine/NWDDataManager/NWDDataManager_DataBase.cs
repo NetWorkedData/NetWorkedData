@@ -162,9 +162,9 @@ namespace NetWorkedData
                 //Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
 
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
-                Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
+                //Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-                Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
+                //Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
 
                 //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionEditor");
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,
@@ -244,19 +244,31 @@ namespace NetWorkedData
         {
             //Debug.Log("RecreateDatabase ()");
             kConnectedToDatabase = false;
+            //Close SLQite
+            SQLiteConnectionEditor.Close();
+            SQLiteConnectionEditor = null;
+            SQLiteConnectionAccount.Close();
+            SQLiteConnectionAccount = null;
+            // reload empty object
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+            // delete DataBase
             DeleteDatabase();
             bool tCSharpRegenerate = false;
             if (sRegeneratePassword == true)
             {
-                NWDAppConfiguration.SharedInstance().EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
+                NWDAppConfiguration.SharedInstance().EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+                NWDAppConfiguration.SharedInstance().EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+                NWDAppConfiguration.SharedInstance().EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
                 tCSharpRegenerate = true;
             }
             if (sRegeneratePassword == true)
             {
-                NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
+                NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+                NWDAppConfiguration.SharedInstance().AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+                NWDAppConfiguration.SharedInstance().AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
                 tCSharpRegenerate = true;
             }
-            ConnectToDatabase();
+            //ConnectToDatabase(); // Do by tCSharpRegenerate
             if (tCSharpRegenerate == true)
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());

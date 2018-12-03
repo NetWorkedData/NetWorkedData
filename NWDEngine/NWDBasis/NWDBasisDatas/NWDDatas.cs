@@ -187,7 +187,7 @@ namespace NetWorkedData
                 tTypeInfos.ClassDescription = sDescription;
                 tTypeInfos.ClassSynchronize = sClassSynchronize;
                 // create GUI object
-                tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName,tTypeInfos.TextureOfClass(), sDescription);
+                tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
                 // Prepare engine informlations
                 tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
                 tTypeInfos.PropertiesArrayPrepare();
@@ -1384,7 +1384,8 @@ namespace NetWorkedData
                             {
                                 string tGameIndex = sGameSave.Reference;
                                 var tValue = Datas().ClassGameDependentProperties.GetValue(tDatas, null);
-                                if(tValue==null){
+                                if (tValue == null)
+                                {
                                     tValue = "";
                                 }
                                 string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
@@ -1523,17 +1524,19 @@ namespace NetWorkedData
             {
                 tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
             }
-            // Create all instance from database
-            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
-
-            // Prepare the datas
-            int tCount = 0;
-            if (tEnumerable != null)
+            if (tSQLiteConnection != null)
             {
-                foreach (NWDBasis<K> tItem in tEnumerable)
+                // Create all instance from database
+                IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey);
+                // Prepare the datas
+                int tCount = 0;
+                if (tEnumerable != null)
                 {
-                    tCount++;
-                    tItem.LoadedFromDatabase();
+                    foreach (NWDBasis<K> tItem in tEnumerable)
+                    {
+                        tCount++;
+                        tItem.LoadedFromDatabase();
+                    }
                 }
             }
             //Debug.Log("NWDBasis<K> LoadFromDatabase() tEnumerable tCount :" + tCount.ToString());

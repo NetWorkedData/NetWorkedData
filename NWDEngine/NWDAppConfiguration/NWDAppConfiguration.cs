@@ -30,8 +30,12 @@ namespace NetWorkedData
         public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
         public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
-        public string EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-        public string AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+        public string EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+        public string EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+        public string AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+        public string AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
         public int WebBuild = 0;
         public bool RowDataIntegrity = true;
         public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
@@ -68,8 +72,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppConfiguration()
         {
-            EditorPass = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
-            AccountHashSalt = NWDToolbox.RandomString(UnityEngine.Random.Range(24, 24));
+            EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+            EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+            EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+            AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
+            AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+            AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
 
             Type tType = this.GetType();
             var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
@@ -168,31 +176,36 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountPass()
         {
+            string tDeviceUniqueID = SystemInfo.deviceUniqueIdentifier;
+            string tPass = tDeviceUniqueID;
             if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().AccountHashSalt))
             {
-                return "";
+                tPass = BasicToolBox.BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier);
             }
             else
             {
-                string tDeviceUniqueID = SystemInfo.deviceUniqueIdentifier;
-                //Debug.Log("GetAccountPass () : tDeviceUniqueID = " + tDeviceUniqueID);
-                string tPass = NWDAccount.HashSum("w*€Ô`ds" + SystemInfo.deviceUniqueIdentifier + "-" +
-                                                  NWDAppConfiguration.SharedInstance().AccountHashSalt + "dƒs@&g");
-                //Debug.Log("GetAccountPass () : tPass = " + tPass);
-                return tPass.Substring(0, 24);
+                tPass = NWDAppConfiguration.SharedInstance().AccountHashSaltA.Substring(0, 8) +
+                    BasicToolBox.BTBSecurityTools.GenerateSha(SystemInfo.deviceUniqueIdentifier +
+                    NWDAppConfiguration.SharedInstance().AccountHashSalt) +
+                    NWDAppConfiguration.SharedInstance().AccountHashSaltB.Substring(2, 8);
             }
+            return tPass;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetEditorPass()
         {
+            string tPass = "";
             if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().EditorPass))
             {
-                return "";
+                tPass = "";
             }
             else
             {
-                return "Ôûw*€dñ" + NWDAppConfiguration.SharedInstance().EditorPass + "&s@g";
+                tPass = NWDAppConfiguration.SharedInstance().EditorPassA.Substring(1, 8) +
+                    NWDAppConfiguration.SharedInstance().EditorPass +
+                    NWDAppConfiguration.SharedInstance().EditorPassB.Substring(3, 8);
             }
+            return tPass;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppEnvironment SelectedEnvironment()

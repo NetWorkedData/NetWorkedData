@@ -52,7 +52,11 @@ namespace NetWorkedData
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
             "\t\t\tWebBuild = " + WebBuild + ";\n" +
             "\t\t\tEditorPass = \"" + EditorPass + "\";\n" +
+            "\t\t\tEditorPassA = \"" + EditorPassA + "\";\n" +
+            "\t\t\tEditorPassB = \"" + EditorPassB + "\";\n" +
             "\t\t\tAccountHashSalt = \"" + AccountHashSalt + "\";\n" +
+            "\t\t\tAccountHashSaltA = \"" + AccountHashSaltA + "\";\n" +
+            "\t\t\tAccountHashSaltB = \"" + AccountHashSaltB + "\";\n" +
             "\t\t\tRowDataIntegrity = " + RowDataIntegrity.ToString().ToLower() + ";\n" +
             "\t\t\tPreloadDatas = " + PreloadDatas.ToString().ToLower() + ";\n" +
             "\t\t\t//Debug.Log(\"NWDAppConfiguration Restaure Config\");\n" +
