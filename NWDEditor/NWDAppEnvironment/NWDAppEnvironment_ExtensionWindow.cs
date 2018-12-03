@@ -134,10 +134,10 @@ namespace NetWorkedData
             // DATABASE PARAMS
             EditorGUILayout.HelpBox("Databases", MessageType.None);
             EditorGUILayout.LabelField("Databases config for all environements", EditorStyles.boldLabel);
-            /*NWDAppConfiguration.SharedInstance().EditorPass =*/ EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
-            EditorGUILayout.LabelField("Editor pass ", NWDAppConfiguration.SharedInstance().GetEditorPass());
-           /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/ EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
-            EditorGUILayout.LabelField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
+            /*NWDAppConfiguration.SharedInstance().EditorPass =*/ EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPass);
+            EditorGUILayout.TextField("Editor pass ", NWDAppConfiguration.SharedInstance().GetEditorPass());
+           /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/ EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
+            EditorGUILayout.TextField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
 
 
 
