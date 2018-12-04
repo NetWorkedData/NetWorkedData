@@ -1516,6 +1516,7 @@ namespace NetWorkedData
             // Reset the Handler of datas index
             tTypeInfos.ResetDatas();
 
+            CreateTable();
             //BTBBenchmark.Start();
             //Debug.Log("NWDBasis<K> LoadFromDatabase()");
             // select the good database

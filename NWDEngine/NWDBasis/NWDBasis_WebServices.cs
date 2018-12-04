@@ -105,6 +105,19 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void SynchronizationSetToZeroTimestamp()
+        {
+#if UNITY_EDITOR
+            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
+            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
+            EditorPrefs.SetInt(SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
+#else
+            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().DevEnvironment), 0);
+            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().PreprodEnvironment), 0);
+            PlayerPrefs.SetInt (SynchronizationPrefsKey(NWDAppConfiguration.SharedInstance().ProdEnvironment), 0);
+#endif
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Synchronizations the get last timestamp.
         /// </summary>

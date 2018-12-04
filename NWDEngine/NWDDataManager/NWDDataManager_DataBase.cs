@@ -80,29 +80,37 @@ namespace NetWorkedData
                 kConnectedToDatabase = true;
 #if UNITY_EDITOR
                 // create the good folder
-                if (AssetDatabase.IsValidFolder(DatabasePathEditor) == false)
+                if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
                 {
-                    AssetDatabase.CreateFolder("Assets", "StreamingAssets");
+                    AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
+                }
+                if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+                {
+                    AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
                 }
                 // path for base editor
-                string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
-                string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
+                string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
+                string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
+                 NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
                 string tPathEditor = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameEditor);
-                string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, DatabaseNameAccount);
+                string tPathAccount = string.Format ("{0}/{1}", Application.persistentDataPath, NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount);
                 // if must be update by build version : delete old editor data!
                 if (UpdateBuildTimestamp() == true) // must update the editor base
                 {
-                    //Debug.Log("Application must be updated with the database from bundle! Copy the New database");
+                    Debug.Log("#DATABASE# Application must be updated with the database from bundle! Copy the New database");
+                    Debug.Log("#DATABASE# Application will delete database : " + tPathEditor);
                     File.Delete(tPathEditor);
+                    Debug.Log("#DATABASE# Application has delete database : " + tPathEditor);
                 }
                 // Write editor database
                 if (!File.Exists (tPathEditor))
                 {
                     // if it doesn't ->
                     // open StreamingAssets directory and load the db ->
+                    Debug.Log("#DATABASE# Application will copy database : " + tPathEditor);
 #if UNITY_ANDROID
                     var loadDb = new WWW("jar:file://" + Application.dataPath + "!/assets/" + DatabaseNameEditor);  // this is the path to your StreamingAssets in android
                     while (!loadDb.isDone) { }  // CAREFUL here, for safety reasons you shouldn't let this while loop unattended, place a timer and error check
@@ -145,9 +153,15 @@ namespace NetWorkedData
                     // then save to Application.persistentDataPath
                     File.Copy(loadDb, tPathEditor);
 #endif
+                    Debug.Log("#DATABASE# Application was copied database : " + tPathEditor);
+                    Debug.Log("#DATABASE# Database Editor just created");
                     // Save App version in pref for futur used
                     //BTBPrefsManager.ShareInstance ().set ("APP_VERSION", tBuildTimeStamp);
                 }
+                else
+                {
+                    Debug.Log("#DATABASE# Database allready exists");
+}
 
                 string tDatabasePathEditor = tPathEditor;
                 string tDatabasePathAccount = tPathAccount;
@@ -166,12 +180,25 @@ namespace NetWorkedData
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
                 //Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
 
-                //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionEditor");
+                Debug.Log("#DATABASE# ConnectToDatabase () CONNECTION SQLiteConnectionEditor at " + tDatabasePathEditor);
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,
                 tEditorPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
-                //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount");
+                if (File.Exists(tDatabasePathAccount) == false)
+                {
+                    Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount not exist ");
+                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+                    {
+                        Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount reset class sync  to Zero" + tType.FullName);
+                        var tMethodInfo = tType.GetMethod("SynchronizationSetToZeroTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        if (tMethodInfo != null)
+                        {
+                            tMethodInfo.Invoke(null,null);
+                        }
+                    }
+                }
+                Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount at " + tDatabasePathAccount);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
                 tAccountPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
@@ -212,23 +239,37 @@ namespace NetWorkedData
         public void DeleteDatabase()
         {
             //Debug.Log("DeleteDatabase ()");
-            if (SQLiteConnectionAccount != null)
-            {
-                SQLiteConnectionAccount.Close();
-            }
+            kConnectedToDatabase = false;
+            //Close SLQite
             if (SQLiteConnectionEditor != null)
             {
                 SQLiteConnectionEditor.Close();
             }
+            SQLiteConnectionEditor = null;
+            if (SQLiteConnectionAccount != null)
+            {
+                SQLiteConnectionAccount.Close();
+            }
+            SQLiteConnectionAccount = null;
+            // reload empty object
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+            // database is not connected
             kConnectedToDatabase = false;
 #if UNITY_EDITOR
-            if (AssetDatabase.IsValidFolder(DatabasePathEditor) == false)
+            if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
             {
-                AssetDatabase.CreateFolder("Assets", "StreamingAssets");
+                AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
             }
             // path for base editor
-            string tDatabasePathEditor = DatabasePathEditor + "/" + DatabaseNameEditor;
-            string tDatabasePathAccount = DatabasePathAccount + "/" + DatabaseNameAccount;
+            if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+            {
+                AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
+            }
+            // path for base editor
+            string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
+            string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
+             NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
+
             File.Delete(tDatabasePathEditor);
             File.Delete(tDatabasePathAccount);
 #else
@@ -243,14 +284,6 @@ namespace NetWorkedData
         public void RecreateDatabase(bool sRegeneratePassword = false, bool sRegenerateDeviceSalt = false)
         {
             //Debug.Log("RecreateDatabase ()");
-            kConnectedToDatabase = false;
-            //Close SLQite
-            SQLiteConnectionEditor.Close();
-            SQLiteConnectionEditor = null;
-            SQLiteConnectionAccount.Close();
-            SQLiteConnectionAccount = null;
-            // reload empty object
-            NWDDataManager.SharedInstance().ReloadAllObjects();
             // delete DataBase
             DeleteDatabase();
             bool tCSharpRegenerate = false;
@@ -259,10 +292,19 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
                 NWDAppConfiguration.SharedInstance().EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
                 NWDAppConfiguration.SharedInstance().EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
+                // force data base to be copy on next install!
+                int tTimeStamp = NWDToolbox.Timestamp();
+                NWDAppConfiguration.SharedInstance().DevEnvironment.BuildTimestamp = tTimeStamp;
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.BuildTimestamp = tTimeStamp;
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.BuildTimestamp = tTimeStamp;
                 tCSharpRegenerate = true;
             }
-            if (sRegeneratePassword == true)
+            if (sRegenerateDeviceSalt == true)
             {
+                //NWDAppConfiguration.SharedInstance().DatabasePrefix = "NWD_" +
+                //NWDAppConfiguration.SharedInstance().DatabasePrefix.Replace("NWD_","") +
+                //NWDToolbox.RandomStringAlpha(UnityEngine.Random.Range(1, 1));
+                NWDAppConfiguration.SharedInstance().DatabasePrefix = "NWD" + BTBDateHelper.ConvertToTimestamp(DateTime.Now).ToString("F0");
                 NWDAppConfiguration.SharedInstance().AccountHashSalt = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
                 NWDAppConfiguration.SharedInstance().AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
                 NWDAppConfiguration.SharedInstance().AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
@@ -287,8 +329,12 @@ namespace NetWorkedData
             {
                 rReturn = true;
                 // delete all sync of data 
+
+                Debug.Log("#DATABASE# Database must upadte by bundle mTypeNotAccountDependantList count " + mTypeNotAccountDependantList.Count());
+
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
                 {
+                    Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionEditor reset class sync " + tType.FullName);
                     var tMethodInfo = tType.GetMethod("SynchronizationUpadteTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
@@ -298,6 +344,14 @@ namespace NetWorkedData
                 BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
             }
             // Save App version in pref for futur used
+            if (rReturn == true)
+            {
+                Debug.Log("#DATABASE# Database must upadte by bundle");
+            }
+            else
+            {
+                Debug.Log("#DATABASE# Database is ok (no update needed)");
+            }
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

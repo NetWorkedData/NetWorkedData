@@ -321,7 +321,7 @@ namespace NetWorkedData
         public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
         {
 
-           // Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
+            Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
 
             string tTableName = sType.Name;
             string tClassName = sType.AssemblyQualifiedName;
@@ -411,7 +411,6 @@ namespace NetWorkedData
 
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
-            CreateTable();
 
             if (NWDDataManager.SharedInstance().NeedCopy == true)
             {
@@ -427,15 +426,15 @@ namespace NetWorkedData
 
 
 
-            //LoadTableEditor();
-            LoadFromDatabase();
+//            //LoadTableEditor();
+//            LoadFromDatabase();
 
-#if UNITY_EDITOR
-            FilterTableEditor();
-            Datas().PrefSave();
-            //PrepareOrders(); // don't do that here: that's fake the weservice number / order
-#else
-#endif
+//#if UNITY_EDITOR
+//            FilterTableEditor();
+//            Datas().PrefSave();
+//            //PrepareOrders(); // don't do that here: that's fake the weservice number / order
+//#else
+//#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         //static public string kPrefSaltValidKey = "SaltValid";

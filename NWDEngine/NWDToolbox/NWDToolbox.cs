@@ -142,6 +142,23 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The string unix.</returns>
         /// <param name="sLength">length.</param>
+        public static string RandomStringAlpha(int sLength)
+        {
+            string rReturn = "";
+            const string tChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int tCharLenght = tChars.Length;
+            while (rReturn.Length < sLength)
+            {
+                rReturn += tChars[UnityEngine.Random.Range(0, tCharLenght)];
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return random string with length = sLength and char random in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_".
+        /// </summary>
+        /// <returns>The string unix.</returns>
+        /// <param name="sLength">length.</param>
         public static string RandomStringUnix (int sLength)
 		{
 			string rReturn = "";
