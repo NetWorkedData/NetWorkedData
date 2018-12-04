@@ -52,17 +52,19 @@ namespace NetWorkedData
             Value = "";
         }
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetDateTime (DateTime sDatetime)
+		public void SetDate(DateTime sDatetime)
 		{
 			Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
-				sDatetime.Month+NWDConstants.kFieldSeparatorA+
-				sDatetime.Day+NWDConstants.kFieldSeparatorA+
-				sDatetime.Hour+NWDConstants.kFieldSeparatorA+
-				sDatetime.Minute+NWDConstants.kFieldSeparatorA+
-				sDatetime.Second;
+				    sDatetime.Month+NWDConstants.kFieldSeparatorA+
+				    sDatetime.Day+NWDConstants.kFieldSeparatorA;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public DateTime ToDateTime ()
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetCurrentDate()
+        {
+            SetDate(DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public DateTime ToDateTime ()
 		{
 			string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 			int tYear = 1970;
