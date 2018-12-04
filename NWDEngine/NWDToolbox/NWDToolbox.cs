@@ -122,11 +122,11 @@ namespace NetWorkedData
             string rReturn = "";
             const string tChars = 
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"+
-            "()[]{}" +
-            "+=_" +
-            "#$%&" +
-            "<^>" +
-            ".!?:;" +
+            //"()[]{}" +
+            //"+=_" +
+            //"#$%&" +
+            //"<^>" +
+            //".!?:;" +
             "0123456789" +
             "";
             int tCharLenght = tChars.Length;

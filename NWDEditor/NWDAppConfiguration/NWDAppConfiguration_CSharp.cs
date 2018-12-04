@@ -51,6 +51,7 @@ namespace NetWorkedData
             "\t\t{\n" +
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
             "\t\t\tWebBuild = " + WebBuild + ";\n" +
+            "\t\t\tDatabasePrefix = \"" + DatabasePrefix + "\";\n" +
             "\t\t\tEditorPass = \"" + EditorPass + "\";\n" +
             "\t\t\tEditorPassA = \"" + EditorPassA + "\";\n" +
             "\t\t\tEditorPassB = \"" + EditorPassB + "\";\n" +
