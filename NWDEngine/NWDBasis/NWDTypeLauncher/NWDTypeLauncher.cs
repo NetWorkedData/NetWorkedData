@@ -67,26 +67,29 @@ namespace NetWorkedData
         public static void Launcher()
         {
             BTBBenchmark.Start();
-
+            // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
+            // start to reccord the memeories used
             long tStartMemory = System.GC.GetTotalMemory(true);
-
-            //Debug.Log("NWDTypeLauncher Launcher()");
-            //double tStartTimestamp =  BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            // not double lauch
+            // not double launching!
             if (IsLaunched == false && IsLaunching == false)
             {
-                List<Type> tTypeList = new List<Type>();
+                // lauching in progress
                 IsLaunching = true;
-                // Get ShareInstance
+                // craeta a list to reccord all classes
+                List<Type> tTypeList = new List<Type>();
+                // Get ShareInstance of datamanager instance
                 NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
                 // Find all Type of NWDType
                 Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+                // sort and filter by NWDBasis (NWDTypeClass subclass)
                 Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                        where type.IsSubclassOf(typeof(NWDTypeClass))
                                        select type).ToArray();
                 // Force launch and register class type
-                int tTrigrammeAbstract = 111;
+                int tTrigrammeAbstract = 111; // refault trigramme
                 //int tNumberOfClasses = tAllNWDTypes.Count ();
-                int tIndexOfActualClass = 0;
+                //int tIndexOfActualClass = 0;
 
                 //int tOperationsNeeded = tAllNWDTypes.Count();
                 //int tOPerationInProgress = 0;
@@ -140,39 +143,18 @@ namespace NetWorkedData
                         {
                             tMethodDeclare.Invoke(null, new object[] { tServerSynchronize, tTrigramme, tMenuName, tDescription });
                         }
-
-                        /* DEBUG */
-                        //var tMethodInfo = tType.GetMethod ("ClassInformations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        //                        if (tMethodInfo != null) {
-                        //                            tMethodInfo.Invoke (null, new object[]{ "Launcher " });
-                        //                        }
-                        /* DEBUG */
-                        //double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
-                        //Debug.Log("tOperationsNeeded = " + tOPerationInProgress.ToString() + "/" + tOperationsNeeded.ToString() + " at "+ tTimeStamp.ToString());
                     }
-                    tIndexOfActualClass++;
+                    //tIndexOfActualClass++;
                 }
-
-                //foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-                //{
-                //    Debug.Log("tType in sync " + tType.Name);
-                //}
-
                 AllTypes = tTypeList.ToArray();
                 //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 //double tDelta = tFinishTimestamp - tStartTimestamp;
                 //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
-
                 // Notify NWD is launched
                 IsLaunched = true;
-
-
                 Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count =" + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());
-
-
                 // connect to database;
                 tShareInstance.ConnectToDatabase();
-
                 // Ok engine is launched
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
                 // reccord the memory score!
@@ -190,13 +172,12 @@ namespace NetWorkedData
                 // reccord the memory score!
                 long tFinishMemory = System.GC.GetTotalMemory(true);
                 long tStartMem = tStartMemory / 1024 / 1024;
-                long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024/ 1024;
+                long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024 / 1024;
                 long tDataMemory = (tFinishMemory - tMiddleMemory) / 1024 / 1024;
                 long tMemory = tFinishMemory / 1024 / 1024;
                 Debug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
                 Debug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
                 Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
-
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
             BTBBenchmark.Finish();
