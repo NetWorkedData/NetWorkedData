@@ -55,9 +55,9 @@ namespace NetWorkedData
                 sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             }
             GameObject tGameObjectToSpawn = new GameObject(sName);
+
             // Add sync in the unitySingleton
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-            // 
             rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
             rReturn.GameObjectToSpawn = tGameObjectToSpawn;
             rReturn.Environment = sEnvironment;
@@ -95,7 +95,7 @@ namespace NetWorkedData
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string rURL = Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
-            NWDDebug.Log("URL : " + rURL);
+            Debug.Log("URL : " + rURL);
             return rURL;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -194,9 +194,9 @@ namespace NetWorkedData
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
 
                     // Notification of an Download is done
-                    NWDDebug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+                    Debug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
-                    NWDDebug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+                    Debug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
                 }
 
                 // Check for error
@@ -524,27 +524,16 @@ namespace NetWorkedData
             {
                 tHeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
             }
-            string tDebug = "";
+            #endif
 
             // insert dico of header in request header
+            string tDebug = "";
             foreach (KeyValuePair<string, object> tEntry in tHeaderParams)
             {
                 Request.SetRequestHeader(tEntry.Key, tEntry.Value.ToString());
-                tDebug += tEntry.Key + " = '" + tEntry.Value.ToString() + "' , ";
+                tDebug += tEntry.Key + " = '" + tEntry.Value + "' , ";
             }
-
-            NWDDebug.Log("Header : " + tDebug);
-            #else
-            // insert dico of header in request header
-            string tDebug = "";
-            foreach (KeyValuePair<string, object> tEntry in tHeaderParams)
-            {
-                 Request.SetRequestHeader (tEntry.Key, tEntry.Value.ToString ());
-                tDebug += tEntry.Key + " = '" + tEntry.Value.ToString() + "' , ";
-            }
-
-            NWDDebug.Log("Header : " + tDebug);
-            #endif
+            Debug.Log("Header : " + tDebug);
         }
         //-------------------------------------------------------------------------------------------------------------
         static string UnSecureKey = "prm";
@@ -561,7 +550,8 @@ namespace NetWorkedData
             string tDigestKey = UnSecureDigestKey;
             string tParamValue = "";
             string tDigestValue = "";
-            NWDDebug.Log("Data : " + Json.Serialize(Data).Replace("/r","").Replace("/n", ""));
+
+            Debug.Log("Data : " + Json.Serialize(Data).Replace("/r","").Replace("/n", ""));
 
             if (SecureData)
             {
