@@ -253,8 +253,13 @@ namespace NetWorkedData
 				sDatetime.Minute+NWDConstants.kFieldSeparatorA+
 				sDatetime.Second;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public DateTime ToDateTime ()
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetCurrentDateTime()
+        {
+            SetDateTime(DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public DateTime ToDateTime ()
 		{
 			string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 			int tYear = 1970;
