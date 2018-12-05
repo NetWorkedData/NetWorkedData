@@ -66,7 +66,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Launcher()
         {
-            BTBBenchmark.Start();
+            BTBBenchmark.Start("Launcher()");
+            BTBBenchmark.Start("Launcher() Engine");
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
             // start to reccord the memeories used
             long tStartMemory = System.GC.GetTotalMemory(true);
@@ -87,7 +88,7 @@ namespace NetWorkedData
                                        where type.IsSubclassOf(typeof(NWDTypeClass))
                                        select type).ToArray();
                 // Force launch and register class type
-                int tTrigrammeAbstract = 111; // refault trigramme
+                //int tTrigrammeAbstract = 111; // refault trigramme
                 //int tNumberOfClasses = tAllNWDTypes.Count ();
                 //int tIndexOfActualClass = 0;
 
@@ -97,53 +98,58 @@ namespace NetWorkedData
                 foreach (Type tType in tAllNWDTypes)
                 {
                     //tOPerationInProgress++;
-                    tTrigrammeAbstract++;
+                    //tTrigrammeAbstract++;
                     if (tType.ContainsGenericParameters == false)
                     {
                         tTypeList.Add(tType);
-                        //Debug.Log ("FIND tType = " + tType.Name);
-                        string tTrigramme = tTrigrammeAbstract.ToString();
-                        if (tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
-                        {
-                            NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true)[0];
-                            tTrigramme = tTrigrammeAttribut.Trigramme;
-                            if (tTrigramme == null || tTrigramme == "")
-                            {
-                                tTrigramme = tTrigrammeAbstract.ToString();
-                            }
-                        }
-                        bool tServerSynchronize = true;
-                        if (tType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
-                        {
-                            NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
-                            tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
-                        }
-                        string tDescription = "no description";
-                        if (tType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
-                        {
-                            NWDClassDescriptionAttribute tDescriptionAttribut = (NWDClassDescriptionAttribute)tType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true)[0];
-                            tDescription = tDescriptionAttribut.Description;
-                            if (tDescription == null || tDescription == "")
-                            {
-                                tDescription = "empty description";
-                            }
-                        }
-                        string tMenuName = tType.Name + " menu";
-                        if (tType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true).Length > 0)
-                        {
-                            NWDClassMenuNameAttribute tMenuNameAttribut = (NWDClassMenuNameAttribute)tType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true)[0];
-                            tMenuName = tMenuNameAttribut.MenuName;
-                            if (tMenuName == null || tMenuName == "")
-                            {
-                                tMenuName = tType.Name + " menu";
-                            }
-                        }
-                        var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodDeclare != null)
-                        {
-                            tMethodDeclare.Invoke(null, new object[] { tServerSynchronize, tTrigramme, tMenuName, tDescription });
-                        }
+                        ////Debug.Log ("FIND tType = " + tType.Name);
+                        //string tTrigramme = tTrigrammeAbstract.ToString();
+                        //if (tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
+                        //{
+                        //    NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true)[0];
+                        //    tTrigramme = tTrigrammeAttribut.Trigramme;
+                        //    if (tTrigramme == null || tTrigramme == "")
+                        //    {
+                        //        tTrigramme = tTrigrammeAbstract.ToString();
+                        //    }
+                        //}
+                        //bool tServerSynchronize = true;
+                        //if (tType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
+                        //{
+                        //    NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
+                        //    tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
+                        //}
+                        //string tDescription = "no description";
+                        //if (tType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
+                        //{
+                        //    NWDClassDescriptionAttribute tDescriptionAttribut = (NWDClassDescriptionAttribute)tType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true)[0];
+                        //    tDescription = tDescriptionAttribut.Description;
+                        //    if (tDescription == null || tDescription == "")
+                        //    {
+                        //        tDescription = "empty description";
+                        //    }
+                        //}
+                        //string tMenuName = tType.Name + " menu";
+                        //if (tType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true).Length > 0)
+                        //{
+                        //    NWDClassMenuNameAttribute tMenuNameAttribut = (NWDClassMenuNameAttribute)tType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true)[0];
+                        //    tMenuName = tMenuNameAttribut.MenuName;
+                        //    if (tMenuName == null || tMenuName == "")
+                        //    {
+                        //        tMenuName = tType.Name + " menu";
+                        //    }
+                        //}
+                    //    var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //    if (tMethodDeclare != null)
+                    //    {
+                    //        tMethodDeclare.Invoke(null, new object[] { tServerSynchronize, tTrigramme, tMenuName, tDescription });
+                    //}
+                    var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodDeclare != null)
+                    {
+                        tMethodDeclare.Invoke(null, null);
                     }
+                }
                     //tIndexOfActualClass++;
                 }
                 AllTypes = tTypeList.ToArray();
@@ -154,7 +160,11 @@ namespace NetWorkedData
                 IsLaunched = true;
                 Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count =" + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());
                 // connect to database;
+                BTBBenchmark.Finish("Launcher() Engine");
+                BTBBenchmark.Start("Launcher() Connect to Database");
                 tShareInstance.ConnectToDatabase();
+                BTBBenchmark.Finish("Launcher() Connect to Database");
+                BTBBenchmark.Start("Launcher() load Datas");
                 // Ok engine is launched
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
                 // reccord the memory score!
@@ -180,7 +190,8 @@ namespace NetWorkedData
                 Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-            BTBBenchmark.Finish();
+            BTBBenchmark.Finish("Launcher() load Datas");
+            BTBBenchmark.Finish("Launcher()");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

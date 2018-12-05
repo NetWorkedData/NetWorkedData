@@ -41,7 +41,7 @@ namespace NetWorkedData
         public string DatabaseNameAccount = "Account.prp";
         //public SQLiteConnection SQLiteConnectionAccountV4;
         //public BTBNotificationManager NotificationCenter;
-        public bool NeedCopy = false;
+        //public bool NeedCopy = false;
         public bool IsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

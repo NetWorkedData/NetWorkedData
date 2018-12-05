@@ -76,6 +76,8 @@ namespace NetWorkedData
 		public void ReloadAllObjects ()
         {
             //double tStartTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
+            BTBBenchmark.Start();
+            long tStartMemory = System.GC.GetTotalMemory(true);
             NWDTypeLauncher.DataLoaded = false;
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_DATAS_START_LOADING);
             NWDTypeLauncher.ClassesExpected = mTypeList.Count();
@@ -97,11 +99,15 @@ namespace NetWorkedData
             //PlayerLanguageLoad();
 #if UNITY_EDITOR
             EditorRefresh();
-            #endif
+#endif
 
+            long tFinishMemory = System.GC.GetTotalMemory(true);
+            long tDataMemory = (tFinishMemory - tStartMemory) / 1024 / 1024;
+            Debug.Log("#### ReloadAllObjects Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
             //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
             //double tDelta = tFinishTimestamp - tStartTimestamp;
             //Debug.Log("NWD => NetWorkeData load all datas in " + tDelta.ToString() + " seconds");
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void RestaureObjectInEdition()

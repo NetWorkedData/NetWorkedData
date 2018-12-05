@@ -30,16 +30,159 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static void ClassDeclare(bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription)
+        public static void ClassDeclare()
         {
-            Type tType = MethodBase.GetCurrentMethod().DeclaringType;
+            //Type tType = MethodBase.GetCurrentMethod().DeclaringType;
+
+            Type tActualType = typeof(K);
+
+            bool tServerSynchronize = true;
+            if (tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
+            {
+                NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
+                tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
+            }
+
+            string tClassTrigramme = "XXX";
+            if (tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
+            {
+                NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true)[0];
+                tClassTrigramme = tTrigrammeAttribut.Trigramme;
+                if (string.IsNullOrEmpty(tClassTrigramme))
+                {
+                    tClassTrigramme = "EEE";
+                }
+            }
+            string tDescription = "No description!";
+            if (tActualType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
+            {
+                NWDClassDescriptionAttribute tDescriptionAttribut = (NWDClassDescriptionAttribute)tActualType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true)[0];
+                tDescription = tDescriptionAttribut.Description;
+                if (string.IsNullOrEmpty(tDescription))
+                {
+                    tDescription = "Empty description!";
+                }
+            }
+            string tMenuName = tActualType.Name + " menu";
+            if (tActualType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true).Length > 0)
+            {
+                NWDClassMenuNameAttribute tMenuNameAttribut = (NWDClassMenuNameAttribute)tActualType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true)[0];
+                tMenuName = tMenuNameAttribut.MenuName;
+                if (string.IsNullOrEmpty(tMenuName))
+                {
+                    tMenuName = tActualType.Name + " menu";
+                }
+            }
+
+
             //Debug.Log("NWDBasis<K> ClassDeclare tType() : " + typeof(K).Name);
             //Debug.Log ("K : " + typeof(K).Name);
-            NWDDatas.Declare(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+            NWDDatas.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
             //NWDDataManager.SharedInstance().AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
-            redefineClassToUse(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
+            //redefineClassToUse(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
 
+            //string tTableName = tActualType.Name;
+            //string tClassName = tActualType.AssemblyQualifiedName;
+            //SetClassType(sType);
+            //SetTableName(tTableName);
+            //SetClassTrigramme(sClassTrigramme);
+
+            //SetPrefBaseKey(tTableName + "_");
+            //SetMenuName(sMenuName);
+            //SetClassDescription(sDescription);
+
+
+
+
+            Datas().PrefLoad();
+
+            AccountDependentAnalyze();
+
+
+
+            if (NWDDataManager.SharedInstance().mTypeList.Contains(tActualType) == false)
+            {
+                NWDDataManager.SharedInstance().mTypeList.Add(tActualType);
+            }
+            if (tServerSynchronize == true)
+            {
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(tActualType);
+                }
+
+                if (AccountDependent())
+                {
+                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
+                    {
+                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(tActualType);
+                    }
+                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
+                    {
+                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
+                    }
+                }
+                else
+                {
+                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == false)
+                    {
+                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(tActualType);
+                    }
+                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
+                    {
+                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
+                    }
+                }
+
+            }
+            else
+            {
+                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(tActualType) == false)
+                {
+                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
+                }
+                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(tActualType) == true)
+                {
+                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(tActualType);
+                }
+            }
+            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
+            {
+                Debug.LogWarning("ERROR in " + tActualType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, tActualType);
+            }
+
+            NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
+
+
+            //if (NWDDataManager.SharedInstance().NeedCopy == true)
+            //{
+            //    CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
+            //}
+            // Invoke the Class Initialization method
+            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodInfo != null)
+            {
+                tMethodInfo.Invoke(null, null);
+            }
+
+            Datas().Loaded = true;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas Datas()
@@ -402,7 +545,7 @@ namespace NetWorkedData
             }
             if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(sClassTrigramme))
             {
-                Debug.LogWarning("ERROR in " + tClassName + ", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[sClassTrigramme] + ")");
+                Debug.LogWarning("ERROR in " + sType.AssemblyQualifiedName + ", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[sClassTrigramme] + ")");
             }
             else
             {
@@ -412,10 +555,10 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
 
 
-            if (NWDDataManager.SharedInstance().NeedCopy == true)
-            {
-                CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
-            }
+            //if (NWDDataManager.SharedInstance().NeedCopy == true)
+            //{
+            //    CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
+            //}
             // Invoke the Class Initialization method
             var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)

@@ -29,6 +29,8 @@ namespace NetWorkedData
     public class NWDDatas
     {
         //-------------------------------------------------------------------------------------------------------------
+        public bool Loaded = false; 
+        //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
         public string ClassName = "";
         public string ClassNamePHP = "";
