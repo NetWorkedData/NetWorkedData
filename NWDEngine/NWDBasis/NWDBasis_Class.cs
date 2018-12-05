@@ -33,6 +33,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassDeclare()
         {
+            BTBBenchmark.Start();
             Type tActualType = typeof(K);
 
             bool tServerSynchronize = true;
@@ -92,9 +93,7 @@ namespace NetWorkedData
             //SetClassDescription(sDescription);
 
 
-
-
-            Datas().PrefLoad();
+            //Datas().PrefLoad();
 
             AccountDependentAnalyze();
 
@@ -166,22 +165,14 @@ namespace NetWorkedData
             {
                 NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, tActualType);
             }
-
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
-
-
-            //if (NWDDataManager.SharedInstance().NeedCopy == true)
-            //{
-            //    CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
-            //}
-            // Invoke the Class Initialization method
             var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
                 tMethodInfo.Invoke(null, null);
             }
-
-            Datas().Loaded = true;
+            Datas().ClassLoaded = true;
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas Datas()

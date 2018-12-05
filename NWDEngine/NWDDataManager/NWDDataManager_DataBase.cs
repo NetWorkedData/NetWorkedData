@@ -180,17 +180,17 @@ namespace NetWorkedData
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
                 //Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
 
-                Debug.Log("#DATABASE# ConnectToDatabase () CONNECTION SQLiteConnectionEditor at " + tDatabasePathEditor);
+                //Debug.Log("#DATABASE# ConnectToDatabase () CONNECTION SQLiteConnectionEditor at " + tDatabasePathEditor);
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,
                 tEditorPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
                 if (File.Exists(tDatabasePathAccount) == false)
                 {
-                    Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount not exist ");
+                    //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount not exist ");
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
                     {
-                        Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount reset class sync  to Zero" + tType.FullName);
+                        //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount reset class sync  to Zero" + tType.FullName);
                         var tMethodInfo = tType.GetMethod("SynchronizationSetToZeroTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                         if (tMethodInfo != null)
                         {
@@ -198,7 +198,7 @@ namespace NetWorkedData
                         }
                     }
                 }
-                Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount at " + tDatabasePathAccount);
+                //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount at " + tDatabasePathAccount);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
                 tAccountPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);

@@ -29,7 +29,7 @@ namespace NetWorkedData
     public class NWDDatas
     {
         //-------------------------------------------------------------------------------------------------------------
-        public bool Loaded = false; 
+        public bool ClassLoaded = false; 
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
         public string ClassName = "";
