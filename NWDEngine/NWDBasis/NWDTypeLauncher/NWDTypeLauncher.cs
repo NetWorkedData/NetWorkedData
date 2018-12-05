@@ -29,13 +29,11 @@ namespace NetWorkedData
 #if UNITY_EDITOR
     [InitializeOnLoad]
 #endif
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDTypeLauncher
     {
-        //private static NWDTypeLauncher InitialLaucher = new NWDTypeLauncher();
         //-------------------------------------------------------------------------------------------------------------
-        public static bool IsLaunching = false;// to protect dupplicate launch editor/player
-        public static bool IsLaunched = false;// to protect dupplicate launch editor/player
+        public static bool IsLaunching = false;
+        public static bool IsLaunched = false;
         public static bool DataLoaded = false;
         public static int ClassesExpected = 0;
         public static int ClassesDataLoaded = 0;
@@ -43,19 +41,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDTypeLauncher()
         {
-            //Debug.Log("NWDTypeLauncher Class Constructor NWDTypeLauncher()");
-            //Debug.Log("screen Screen.width = " + Screen.width.ToString());
-            //Debug.Log("screen Screen.height = " + Screen.height.ToString());
-            //if (Application.isPlaying == true)
-            //{
-            //    Debug.Log("create a scene ? ");
-            //    //Scene tSceneLoader = SceneManager.CreateScene("NetWorkedDataTemporaryScene");
-            //    //SceneManager.SetActiveScene(tSceneLoader);
-            //}
-            //else
-            //{
-            //    Debug.Log("Application is not playing");
-            //}
             Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -66,15 +51,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Launcher()
         {
-            BTBBenchmark.Start("Launcher()");
-            BTBBenchmark.Start("Launcher() Engine");
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
-            // start to reccord the memeories used
-            long tStartMemory = System.GC.GetTotalMemory(true);
+            BTBBenchmark.Start("Launcher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)
             {
+                // start to reccord memory usage
+                long tStartMemory = System.GC.GetTotalMemory(true);
+                BTBBenchmark.Start("Launcher() Engine");
                 // lauching in progress
                 IsLaunching = true;
                 // craeta a list to reccord all classes
@@ -82,91 +67,45 @@ namespace NetWorkedData
                 // Get ShareInstance of datamanager instance
                 NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
                 // Find all Type of NWDType
+                //BTBBenchmark.Start("Launcher() reflexion");
                 Type[] tAllTypes = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
                 // sort and filter by NWDBasis (NWDTypeClass subclass)
                 Type[] tAllNWDTypes = (from System.Type type in tAllTypes
                                        where type.IsSubclassOf(typeof(NWDTypeClass))
                                        select type).ToArray();
-                // Force launch and register class type
-                //int tTrigrammeAbstract = 111; // refault trigramme
-                //int tNumberOfClasses = tAllNWDTypes.Count ();
-                //int tIndexOfActualClass = 0;
-
-                //int tOperationsNeeded = tAllNWDTypes.Count();
-                //int tOPerationInProgress = 0;
-
+                //BTBBenchmark.Finish("Launcher() reflexion");
                 foreach (Type tType in tAllNWDTypes)
                 {
                     //tOPerationInProgress++;
-                    //tTrigrammeAbstract++;
+                    // not the NWDBasis<K> because it's generic class
                     if (tType.ContainsGenericParameters == false)
                     {
+                        // add type in list of class
                         tTypeList.Add(tType);
-                        ////Debug.Log ("FIND tType = " + tType.Name);
-                        //string tTrigramme = tTrigrammeAbstract.ToString();
-                        //if (tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
-                        //{
-                        //    NWDClassTrigrammeAttribute tTrigrammeAttribut = (NWDClassTrigrammeAttribute)tType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true)[0];
-                        //    tTrigramme = tTrigrammeAttribut.Trigramme;
-                        //    if (tTrigramme == null || tTrigramme == "")
-                        //    {
-                        //        tTrigramme = tTrigrammeAbstract.ToString();
-                        //    }
-                        //}
-                        //bool tServerSynchronize = true;
-                        //if (tType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
-                        //{
-                        //    NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
-                        //    tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
-                        //}
-                        //string tDescription = "no description";
-                        //if (tType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true).Length > 0)
-                        //{
-                        //    NWDClassDescriptionAttribute tDescriptionAttribut = (NWDClassDescriptionAttribute)tType.GetCustomAttributes(typeof(NWDClassDescriptionAttribute), true)[0];
-                        //    tDescription = tDescriptionAttribut.Description;
-                        //    if (tDescription == null || tDescription == "")
-                        //    {
-                        //        tDescription = "empty description";
-                        //    }
-                        //}
-                        //string tMenuName = tType.Name + " menu";
-                        //if (tType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true).Length > 0)
-                        //{
-                        //    NWDClassMenuNameAttribute tMenuNameAttribut = (NWDClassMenuNameAttribute)tType.GetCustomAttributes(typeof(NWDClassMenuNameAttribute), true)[0];
-                        //    tMenuName = tMenuNameAttribut.MenuName;
-                        //    if (tMenuName == null || tMenuName == "")
-                        //    {
-                        //        tMenuName = tType.Name + " menu";
-                        //    }
-                        //}
-                    //    var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    //    if (tMethodDeclare != null)
-                    //    {
-                    //        tMethodDeclare.Invoke(null, new object[] { tServerSynchronize, tTrigramme, tMenuName, tDescription });
-                    //}
-                    var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodDeclare != null)
-                    {
-                        tMethodDeclare.Invoke(null, null);
+                        // invoke the ClassDeclare method!
+                        var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        if (tMethodDeclare != null)
+                        {
+                            tMethodDeclare.Invoke(null, null);
+                        }
                     }
                 }
-                    //tIndexOfActualClass++;
-                }
                 AllTypes = tTypeList.ToArray();
-                //double tFinishTimestamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
-                //double tDelta = tFinishTimestamp - tStartTimestamp;
-                //Debug.Log("NWD => NetWorkeData launch in " + tDelta.ToString() + " seconds");
                 // Notify NWD is launched
                 IsLaunched = true;
                 Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count =" + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());
                 // connect to database;
                 BTBBenchmark.Finish("Launcher() Engine");
+                // Ok engine is launched
+                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
+                // start connexion to database file
                 BTBBenchmark.Start("Launcher() Connect to Database");
                 tShareInstance.ConnectToDatabase();
                 BTBBenchmark.Finish("Launcher() Connect to Database");
+                // Ok database is connected
+                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
+                // start to lauch datas from database
                 BTBBenchmark.Start("Launcher() load Datas");
-                // Ok engine is launched
-                BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_ENGINE_LAUNCH);
                 // reccord the memory score!
                 long tMiddleMemory = System.GC.GetTotalMemory(true);
                 // Loaded data 
@@ -180,6 +119,7 @@ namespace NetWorkedData
                     }
                 }
                 // reccord the memory score!
+                BTBBenchmark.Finish("Launcher() load Datas");
                 long tFinishMemory = System.GC.GetTotalMemory(true);
                 long tStartMem = tStartMemory / 1024 / 1024;
                 long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024 / 1024;
@@ -190,10 +130,10 @@ namespace NetWorkedData
                 Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-            BTBBenchmark.Finish("Launcher() load Datas");
             BTBBenchmark.Finish("Launcher()");
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

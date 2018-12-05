@@ -24,6 +24,8 @@ namespace NetWorkedData
         // Launch NWD engine
         public const string K_ENGINE_LAUNCH = "K_ENGINE_LAUNCH_Bbf8ke4t"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_DATABASE_CONNECTED = "K_DATABASE_CONNECTED_de4be4t"; // OK Needed by test & verify
+        //-------------------------------------------------------------------------------------------------------------
         // Load datas
         public const string K_DATAS_START_LOADING = "K_DATAS_START_LOADING_Mr524ztr"; // OK Needed by test & verify
         public const string K_DATAS_PARTIAL_LOADED = "K_DATAS_PARTIAL_LOADED_fZt875df"; // OK Needed by test & verify

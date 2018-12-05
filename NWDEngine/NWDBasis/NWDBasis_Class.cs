@@ -25,6 +25,7 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -32,8 +33,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassDeclare()
         {
-            //Type tType = MethodBase.GetCurrentMethod().DeclaringType;
-
             Type tActualType = typeof(K);
 
             bool tServerSynchronize = true;
@@ -461,141 +460,141 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
-        {
+        //        public static void redefineClassToUse(Type sType, bool sServerSynchronize, string sClassTrigramme, string sMenuName, string sDescription = "")
+        //        {
 
-            Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
+        //            Debug.Log("NWDBasis<K> redefineClassToUse tType() : " + typeof(K).Name);
 
-            string tTableName = sType.Name;
-            string tClassName = sType.AssemblyQualifiedName;
-            //SetClassType(sType);
-            //SetTableName(tTableName);
-            //SetClassTrigramme(sClassTrigramme);
+        //            string tTableName = sType.Name;
+        //            string tClassName = sType.AssemblyQualifiedName;
+        //            //SetClassType(sType);
+        //            //SetTableName(tTableName);
+        //            //SetClassTrigramme(sClassTrigramme);
 
-            //SetPrefBaseKey(tTableName + "_");
-            //SetMenuName(sMenuName);
-            //SetClassDescription(sDescription);
-
-
-
-
-            Datas().PrefLoad();
-
-            AccountDependentAnalyze();
-
-
-
-            if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
-            {
-                NWDDataManager.SharedInstance().mTypeList.Add(sType);
-            }
-            if (sServerSynchronize == true)
-            {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(sType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(sType);
-                }
-
-                if (AccountDependent())
-                {
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(sType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
-                    }
-                }
-                else
-                {
-                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == false)
-                    {
-                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(sType);
-                    }
-                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
-                    {
-                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
-                    }
-                }
-
-            }
-            else
-            {
-                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(sType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == false)
-                {
-                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(sType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
-                }
-                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
-                {
-                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
-                }
-            }
-            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(sClassTrigramme))
-            {
-                Debug.LogWarning("ERROR in " + sType.AssemblyQualifiedName + ", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[sClassTrigramme] + ")");
-            }
-            else
-            {
-                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(sClassTrigramme, sType);
-            }
-
-            NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
-
-
-            //if (NWDDataManager.SharedInstance().NeedCopy == true)
-            //{
-            //    CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
-            //}
-            // Invoke the Class Initialization method
-            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(null, null);
-            }
+        //            //SetPrefBaseKey(tTableName + "_");
+        //            //SetMenuName(sMenuName);
+        //            //SetClassDescription(sDescription);
 
 
 
 
-//            //LoadTableEditor();
-//            LoadFromDatabase();
+        //            Datas().PrefLoad();
 
-//#if UNITY_EDITOR
-//            FilterTableEditor();
-//            Datas().PrefSave();
-//            //PrepareOrders(); // don't do that here: that's fake the weservice number / order
-//#else
-//#endif
-        }
+        //            AccountDependentAnalyze();
+
+
+
+        //            if (NWDDataManager.SharedInstance().mTypeList.Contains(sType) == false)
+        //            {
+        //                NWDDataManager.SharedInstance().mTypeList.Add(sType);
+        //            }
+        //            if (sServerSynchronize == true)
+        //            {
+        //                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == false)
+        //                {
+        //                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Add(sType);
+        //                }
+        //                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == true)
+        //                {
+        //                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(sType);
+        //                }
+
+        //                if (AccountDependent())
+        //                {
+        //                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == false)
+        //                    {
+        //                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Add(sType);
+        //                    }
+        //                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
+        //                    {
+        //                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == false)
+        //                    {
+        //                        NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Add(sType);
+        //                    }
+        //                    if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
+        //                    {
+        //                        NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
+        //                    }
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                if (NWDDataManager.SharedInstance().mTypeSynchronizedList.Contains(sType) == true)
+        //                {
+        //                    NWDDataManager.SharedInstance().mTypeSynchronizedList.Remove(sType);
+        //                }
+        //                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(sType) == false)
+        //                {
+        //                    NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Add(sType);
+        //                }
+        //                if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(sType) == true)
+        //                {
+        //                    NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(sType);
+        //                }
+        //                if (NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Contains(sType) == true)
+        //                {
+        //                    NWDDataManager.SharedInstance().mTypeNotAccountDependantList.Remove(sType);
+        //                }
+        //            }
+        //            if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(sClassTrigramme))
+        //            {
+        //                Debug.LogWarning("ERROR in " + sType.AssemblyQualifiedName + ", this trigramme '" + sClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[sClassTrigramme] + ")");
+        //            }
+        //            else
+        //            {
+        //                NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(sClassTrigramme, sType);
+        //            }
+
+        //            NWDDataManager.SharedInstance().mTypeLoadedList.Add(sType);
+
+
+        //            //if (NWDDataManager.SharedInstance().NeedCopy == true)
+        //            //{
+        //            //    CopyTable(/*NWDDataManager.SharedInstance().SQLiteConnectionFromBundleCopy*/);
+        //            //}
+        //            // Invoke the Class Initialization method
+        //            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        //            if (tMethodInfo != null)
+        //            {
+        //                tMethodInfo.Invoke(null, null);
+        //            }
+
+
+
+
+        ////            //LoadTableEditor();
+        ////            LoadFromDatabase();
+
+        ////#if UNITY_EDITOR
+        ////            FilterTableEditor();
+        ////            Datas().PrefSave();
+        ////            //PrepareOrders(); // don't do that here: that's fake the weservice number / order
+        ////#else
+        ////#endif
+        //}
         //-------------------------------------------------------------------------------------------------------------
         //static public string kPrefSaltValidKey = "SaltValid";
         //static public string kPrefSaltAKey = "SaltA";
         //static public string kPrefSaltBKey = "SaltB";
 
 
-//        //-------------------------------------------------------------------------------------------------------------
-//        protected static void PrefSave()
-//        {
-//            //Debug.Log ("PrefSave");
-//            // reccord data to user's preferences
-//            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, PrefSaltA());
-//            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, PrefSaltB());
-//            NWDAppConfiguration.SharedInstance().SetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
-//#if UNITY_EDITOR
-//            //NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
-//#endif
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        protected static void PrefSave()
+        //        {
+        //            //Debug.Log ("PrefSave");
+        //            // reccord data to user's preferences
+        //            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltAKey, PrefSaltA());
+        //            NWDAppConfiguration.SharedInstance().SetSalt(Datas().PrefBaseKey, NWDConstants.kPrefSaltBKey, PrefSaltB());
+        //            NWDAppConfiguration.SharedInstance().SetSaltValid(Datas().PrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
+        //#if UNITY_EDITOR
+        //            //NWDAppConfiguration.SharedInstance().SaveNewCSharpFile ();
+        //#endif
         //}
         ////-------------------------------------------------------------------------------------------------------------
         //public static void PrefLoad()
@@ -649,6 +648,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AccountDependentAnalyze()
         {
+            BTBBenchmark.Start();
             bool rAccountConnected = false;
             bool rAssetConnected = false;
             bool rLockedObject = true;
@@ -658,7 +658,7 @@ namespace NetWorkedData
             Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
             Type tType = ClassType();
 
-            Datas().ClassGameSaveDependent= false;
+            Datas().ClassGameSaveDependent = false;
             Datas().ClassGameDependentProperties = null;
             // TODO : check 
             // exception for NWDAccount table
@@ -726,7 +726,7 @@ namespace NetWorkedData
                 }
             }
 
-                Datas().kAccountDependent = rAccountConnected;
+            Datas().kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
             Datas().kAccountDependentProperties = tPropertyList.ToArray();
 
@@ -739,12 +739,12 @@ namespace NetWorkedData
 #if UNITY_EDITOR
             rLockedObject = false;
 #endif
-                Datas().kLockedObject= rLockedObject;
+            Datas().kLockedObject = rLockedObject;
 
             // reccord if class' object is asset dependent
             Datas().kAssetDependent = rAssetConnected;
-            Datas().kAssetDependentProperties= tAssetPropertyList.ToArray();
-
+            Datas().kAssetDependentProperties = tAssetPropertyList.ToArray();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static PropertyInfo[] PropertiesAccountDependent()
@@ -794,5 +794,6 @@ namespace NetWorkedData
         #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
