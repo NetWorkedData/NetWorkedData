@@ -56,7 +56,8 @@ namespace NetWorkedData
         public static void Launcher()
         {
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
-            BTBBenchmark.Start("NWDTypeLauncher Launcher()");
+            Debug.Log("NWDTypeLauncher Launcher()");
+            BTBBenchmark.Start("Launcher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)

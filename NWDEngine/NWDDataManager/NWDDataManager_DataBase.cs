@@ -26,38 +26,38 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDatasRows
-    {
-        //-------------------------------------------------------------------------------------------------------------
-        public string ObjectClass
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Reference
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Datas
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string Integrity
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDDatasRows(string sObjectClass, string sReference, string sDatas, string sIntegrity)
-        {
-            ObjectClass = sObjectClass;
-            Reference = sReference;
-            Datas = sDatas;
-            Integrity = sIntegrity;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-    }
+    //public class NWDDatasRows
+    //{
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public string ObjectClass
+    //    {
+    //        get; set;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public string Reference
+    //    {
+    //        get; set;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public string Datas
+    //    {
+    //        get; set;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public string Integrity
+    //    {
+    //        get; set;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //    public NWDDatasRows(string sObjectClass, string sReference, string sDatas, string sIntegrity)
+    //    {
+    //        ObjectClass = sObjectClass;
+    //        Reference = sReference;
+    //        Datas = sDatas;
+    //        Integrity = sIntegrity;
+    //    }
+    //    //-------------------------------------------------------------------------------------------------------------
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDDataManager
     {
@@ -66,7 +66,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
-            //Debug.Log("ConnectToDatabase ()");
+            Debug.Log("NWDDataManager ConnectToDatabase ()");
             //BTBBenchmark.Start();
             //if (kConnectedToDatabase == true)
             //{
@@ -74,13 +74,14 @@ namespace NetWorkedData
             //    {
             //    }
             //}
-            if (kConnectedToDatabase == false)
+            if (kConnectedToDatabase == false && kConnectedToDatabaseIsProgress == false)
             {
-                kConnectedToDatabase = true;
+                kConnectedToDatabaseIsProgress = true;
+                Debug.Log("NWDDataManager ConnectToDatabase () kConnectedToDatabase is false ... connect me!");
 #if UNITY_EDITOR
                 // create the good folder
                 int tTestNumber = 100;
-                while (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false && tTestNumber>0)
+                while (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false && tTestNumber > 0)
                 {
                     tTestNumber--;
                     if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
@@ -96,7 +97,7 @@ namespace NetWorkedData
                         AssetDatabase.Refresh();
                     }
                 }
-                if (tTestNumber==0)
+                if (tTestNumber == 0)
                 {
                     Debug.LogWarning("Impossible to create Database's folder");
                 }
@@ -206,7 +207,7 @@ namespace NetWorkedData
                         var tMethodInfo = tType.GetMethod("SynchronizationSetToZeroTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                         if (tMethodInfo != null)
                         {
-                            tMethodInfo.Invoke(null,null);
+                            tMethodInfo.Invoke(null, null);
                         }
                     }
                 }
@@ -243,6 +244,9 @@ namespace NetWorkedData
                     // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
                     // TODO : Detruire fichier et reinstaller ? 
                 }
+                // finish
+                kConnectedToDatabase = true;
+                kConnectedToDatabaseIsProgress = false;
             }
             //BTBBenchmark.Finish();
         }

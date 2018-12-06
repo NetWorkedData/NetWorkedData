@@ -28,6 +28,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static readonly NWDDataManager kSharedInstance = new NWDDataManager ();
         private bool kConnectedToDatabase = false;
+        private bool kConnectedToDatabaseIsProgress = false;
         //-------------------------------------------------------------------------------------------------------------
         public string PlayerLanguage = "en";
         // Memebes properties for editor data
