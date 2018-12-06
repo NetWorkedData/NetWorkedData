@@ -80,7 +80,21 @@ namespace NetWorkedData
                 Debug.Log("NWDDataManager ConnectToDatabase () kConnectedToDatabase is false ... connect me!");
 #if UNITY_EDITOR
                 // create the good folder
-                int tTestNumber = 100;
+                string tAccessPath = Application.dataPath;
+                if (Directory.Exists(tAccessPath + "Assets/" + DatabasePathEditor) == false)
+                {
+                    AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
+                    AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor);
+                    AssetDatabase.Refresh();
+                }
+                if (Directory.Exists(tAccessPath + "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+                {
+                    AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
+                    AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount);
+                    AssetDatabase.Refresh();
+                }
+
+                /*int tTestNumber = 100;
                 while (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false && tTestNumber > 0)
                 {
                     tTestNumber--;
@@ -100,11 +114,11 @@ namespace NetWorkedData
                 if (tTestNumber == 0)
                 {
                     Debug.LogWarning("Impossible to create Database's folder");
-                }
+                }*/
                 // path for base editor
                 string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
                 string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
-                 NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
+                NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
 #else
                 // Get saved App version from pref
                 // check if file exists in Application.persistentDataPath
