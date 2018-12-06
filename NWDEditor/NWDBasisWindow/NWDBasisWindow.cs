@@ -140,6 +140,10 @@ namespace NetWorkedData
                     {
                         TabWidthMax = tTypeInfos.ClassMenuName.Length;
                     }
+                    if (tTypeInfos.ClassMenuNameContent == null)
+                    {
+                        tTypeInfos.ClassMenuNameContent = new GUIContent(tTypeInfos.ClassMenuName, tTypeInfos.TextureOfClass(), tTypeInfos.ClassDescription);
+                    }
                     tTabContentList.Add(tTypeInfos.ClassMenuNameContent);
                     // I add this window to window update for this Type of Datas
                     NWDDataManager.SharedInstance().AddWindowInManager(this, mTabTypeList);
@@ -168,7 +172,6 @@ namespace NetWorkedData
 		/// </summary>
 		void OnEnable ()
 		{
-            
             NWDDataManager.SharedInstance().DataQueueExecute();
 			if (typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true).Length > 0) {
 				NWDTypeWindowParamAttribute tNWDBasisWindowParamAttribute = (NWDTypeWindowParamAttribute)typeof(K).GetCustomAttributes (typeof(NWDTypeWindowParamAttribute), true) [0];

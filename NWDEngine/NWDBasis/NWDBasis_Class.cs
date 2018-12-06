@@ -33,16 +33,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void ClassDeclare()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
+            //BTBBenchmark.Start("ClassDeclare step 1");
             Type tActualType = typeof(K);
-
             bool tServerSynchronize = true;
             if (tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true).Length > 0)
             {
                 NWDClassServerSynchronizeAttribute tServerSynchronizeAttribut = (NWDClassServerSynchronizeAttribute)tActualType.GetCustomAttributes(typeof(NWDClassServerSynchronizeAttribute), true)[0];
                 tServerSynchronize = tServerSynchronizeAttribut.ServerSynchronize;
             }
-
             string tClassTrigramme = "XXX";
             if (tActualType.GetCustomAttributes(typeof(NWDClassTrigrammeAttribute), true).Length > 0)
             {
@@ -73,32 +72,14 @@ namespace NetWorkedData
                     tMenuName = tActualType.Name + " menu";
                 }
             }
-
-
-            //Debug.Log("NWDBasis<K> ClassDeclare tType() : " + typeof(K).Name);
-            //Debug.Log ("K : " + typeof(K).Name);
+            //BTBBenchmark.Finish("ClassDeclare step 1");
+            //BTBBenchmark.Start("ClassDeclare step 2");
             NWDDatas.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
-            //NWDDataManager.SharedInstance().AddClassToManage (typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
-
-            //redefineClassToUse(typeof(K), sServerSynchronize, sClassTrigramme, sMenuName, sDescription);
-
-            //string tTableName = tActualType.Name;
-            //string tClassName = tActualType.AssemblyQualifiedName;
-            //SetClassType(sType);
-            //SetTableName(tTableName);
-            //SetClassTrigramme(sClassTrigramme);
-
-            //SetPrefBaseKey(tTableName + "_");
-            //SetMenuName(sMenuName);
-            //SetClassDescription(sDescription);
-
-
-            //Datas().PrefLoad();
-
+            //BTBBenchmark.Finish("ClassDeclare step 2");
+            //BTBBenchmark.Start("ClassDeclare step 3");
             AccountDependentAnalyze();
-
-
-
+            //BTBBenchmark.Finish("ClassDeclare step 3");
+            //BTBBenchmark.Start("ClassDeclare step 4");
             if (NWDDataManager.SharedInstance().mTypeList.Contains(tActualType) == false)
             {
                 NWDDataManager.SharedInstance().mTypeList.Add(tActualType);
@@ -113,7 +94,6 @@ namespace NetWorkedData
                 {
                     NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Remove(tActualType);
                 }
-
                 if (AccountDependent())
                 {
                     if (NWDDataManager.SharedInstance().mTypeAccountDependantList.Contains(tActualType) == false)
@@ -136,7 +116,6 @@ namespace NetWorkedData
                         NWDDataManager.SharedInstance().mTypeAccountDependantList.Remove(tActualType);
                     }
                 }
-
             }
             else
             {
@@ -166,13 +145,16 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().mTrigramTypeDictionary.Add(tClassTrigramme, tActualType);
             }
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
+            //BTBBenchmark.Finish("ClassDeclare step 4");
+            //BTBBenchmark.Start("ClassDeclare step 5");
             var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
                 tMethodInfo.Invoke(null, null);
             }
             Datas().ClassLoaded = true;
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish("ClassDeclare step 5");
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas Datas()
@@ -639,7 +621,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void AccountDependentAnalyze()
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             bool rAccountConnected = false;
             bool rAssetConnected = false;
             bool rLockedObject = true;
@@ -735,7 +717,7 @@ namespace NetWorkedData
             // reccord if class' object is asset dependent
             Datas().kAssetDependent = rAssetConnected;
             Datas().kAssetDependentProperties = tAssetPropertyList.ToArray();
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static PropertyInfo[] PropertiesAccountDependent()

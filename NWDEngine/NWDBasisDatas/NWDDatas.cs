@@ -40,7 +40,7 @@ namespace NetWorkedData
         public string ClassMenuName = "";
         public string ClassTableName = "";
         public string ClassPrefBaseKey = "";
-        public GUIContent ClassMenuNameContent = GUIContent.none;
+        public GUIContent ClassMenuNameContent = null;
         //-------------------------------------------------------------------------------------------------------------
         public bool kLockedObject; // false if account dependant but bypass in editor mode (allways false to authorize sync)
         //-------------------------------------------------------------------------------------------------------------
@@ -157,9 +157,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Declare(Type sType, bool sClassSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
         {
+            //BTBBenchmark.Start();
             //Debug.Log("NWDDatas Declare for " + sType.Name + " !");
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
+
+                //BTBBenchmark.Start("Declare() step A");
                 // find infos object if exists or create 
                 NWDDatas tTypeInfos = null;
                 if (TypesDictionary.ContainsKey(sType))
@@ -177,19 +180,27 @@ namespace NetWorkedData
                 tTypeInfos.ClassPrefBaseKey = tTypeInfos.ClassTableName + "_";
 
                 tTypeInfos.ClassName = sType.AssemblyQualifiedName;
+                //BTBBenchmark.Finish("Declare() step A");
+                //BTBBenchmark.Start("Declare() step B");
 
                 TableMapping tTableMapping = new TableMapping(sType);
                 string rClassName = tTableMapping.TableName;
                 tTypeInfos.ClassNamePHP = rClassName;
-
-
+                //BTBBenchmark.Finish("Declare() step B");
+                //BTBBenchmark.Start("Declare() step C");
                 // insert attributs infos
                 tTypeInfos.ClassTrigramme = sTrigrammeName;
                 tTypeInfos.ClassMenuName = sMenuName;
                 tTypeInfos.ClassDescription = sDescription;
                 tTypeInfos.ClassSynchronize = sClassSynchronize;
+                //BTBBenchmark.Finish("Declare() step C");
+                //BTBBenchmark.Start("Declare() step D");
                 // create GUI object
-                tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
+#if UNITY_EDITOR
+               // tTypeInfos.ClassMenuNameContent = new GUIContent(sMenuName, tTypeInfos.TextureOfClass(), sDescription);
+#endif
+                //BTBBenchmark.Finish("Declare() step D");
+                //BTBBenchmark.Start("Declare() step E");
                 // Prepare engine informlations
                 tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
                 tTypeInfos.PropertiesArrayPrepare();
@@ -199,9 +210,13 @@ namespace NetWorkedData
                 tTypeInfos.SLQIntegrityOrderPrepare();
                 tTypeInfos.DataAssemblyPropertiesListPrepare();
 
+                //BTBBenchmark.Finish("Declare() step E");
+                //BTBBenchmark.Start("Declare() step F");
                 // get salt 
                 tTypeInfos.PrefLoad();
+                //BTBBenchmark.Finish("Declare() step F");
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void PrefSave()

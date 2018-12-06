@@ -98,7 +98,7 @@ namespace NetWorkedData
                 AllTypes = tTypeList.ToArray();
                 // Notify NWD is launched
                 IsLaunched = true;
-                Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count =" + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());
+                //Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count = " + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());
                 // connect to database;
                 BTBBenchmark.Finish("Launcher() Engine");
                 // Ok engine is launched
