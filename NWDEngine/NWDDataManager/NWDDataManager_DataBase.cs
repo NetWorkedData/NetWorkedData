@@ -80,13 +80,26 @@ namespace NetWorkedData
                 kConnectedToDatabase = true;
 #if UNITY_EDITOR
                 // create the good folder
-                if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
+                int tTestNumber = 100;
+                while (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false && tTestNumber>0)
                 {
-                    AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
+                    tTestNumber--;
+                    if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor) == false)
+                    {
+                        AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
+                        AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor);
+                        AssetDatabase.Refresh();
+                    }
+                    if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+                    {
+                        AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
+                        AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount);
+                        AssetDatabase.Refresh();
+                    }
                 }
-                if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+                if (tTestNumber==0)
                 {
-                    AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
+                    Debug.LogWarning("Impossible to create Database's folder");
                 }
                 // path for base editor
                 string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
@@ -218,20 +231,21 @@ namespace NetWorkedData
                 {
                     t = DateTime.Now;
                 }
-
-                // TEST WHILE / MARCHE PAS 
-                while (SQLiteConnectionAccount.IsOpen() == false && SQLiteConnectionEditor.IsOpen() == false)
+                // TEST WHILE / MARCHE PAS
+                while (SQLiteConnectionEditor.IsOpen() == false)
                 {
+                    Debug.LogWarning("SQLiteConnectionEditor is not opened!");
                     // waiting
                     // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
                     // TODO : Detruire fichier et reinstaller ? 
                 }
-
-
-                //SQLiteConnectionEditorV4 = new SQLiteConnection(tDatabasePathEditor + "ssl", tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-
-                //SQLiteConnectionAccountV4 = new SQLiteConnection(tDatabasePathAccount + "ssl", tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-
+                while (SQLiteConnectionAccount.IsOpen() == false)
+                {
+                    Debug.LogWarning("SQLiteConnectionAccount is not opened!");
+                    // waiting
+                    // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
+                    // TODO : Detruire fichier et reinstaller ? 
+                }
             }
             //BTBBenchmark.Finish();
         }
