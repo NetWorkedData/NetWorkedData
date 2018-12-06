@@ -81,14 +81,16 @@ namespace NetWorkedData
 #if UNITY_EDITOR
                 // create the good folder
                 string tAccessPath = Application.dataPath;
-                if (Directory.Exists(tAccessPath + "Assets/" + DatabasePathEditor) == false)
+                if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor) == false)
                 {
+                    Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor);
                     AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
                     AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor);
                     AssetDatabase.Refresh();
                 }
-                if (Directory.Exists(tAccessPath + "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+                if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
                 {
+                    Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount);
                     AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
                     AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount);
                     AssetDatabase.Refresh();
