@@ -44,14 +44,14 @@ namespace NetWorkedData
         //public bool NeedCopy = false;
         public bool IsLoaded = false;
         //-------------------------------------------------------------------------------------------------------------
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         //-------------------------------------------------------------------------------------------------------------
-        public static bool StartNetWorkedData()
-        {
-            //Debug.Log("NWDDataManager StartNetWorkedData()");
-            // just to init the class
-            return NWDTypeLauncher.IsLaunched;
-        }
+        //public static bool StartNetWorkedData()
+        //{
+        //    //Debug.Log("NWDDataManager StartNetWorkedData()");
+        //    // just to init the class
+        //    return NWDTypeLauncher.IsLaunched;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         const string PlayerLanguageKey = "PlayerLanguageKey";
         //-------------------------------------------------------------------------------------------------------------

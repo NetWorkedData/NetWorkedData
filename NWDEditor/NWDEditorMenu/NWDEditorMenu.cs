@@ -26,7 +26,7 @@ namespace NetWorkedData
 		/// </summary>
 		public NWDEditorMenu ()
 		{
-			NWDDataManager.SharedInstance().ConnectToDatabase ();
+			//NWDDataManager.SharedInstance().ConnectToDatabase ();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 #if UNITY_MENU_IDEMOBI

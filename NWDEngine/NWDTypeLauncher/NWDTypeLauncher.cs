@@ -49,10 +49,14 @@ namespace NetWorkedData
             //Debug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
         }
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        [InitializeOnLoadMethod()]
+#endif
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void Launcher()
         {
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
-            BTBBenchmark.Start("Launcher()");
+            BTBBenchmark.Start("NWDTypeLauncher Launcher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)
@@ -128,6 +132,9 @@ namespace NetWorkedData
                 Debug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
                 Debug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
                 Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
+                // finish launch
+                IsLaunched = true;
+                IsLaunching = false;
             }
             //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
             BTBBenchmark.Finish("Launcher()");

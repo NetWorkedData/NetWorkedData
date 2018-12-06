@@ -22,7 +22,6 @@ using SQLite4Unity3d;
 
 using BasicToolBox;
 //using ColoredAdvancedDebug;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -215,7 +214,6 @@ namespace NetWorkedData
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
                 tAccountPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-
                 //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount.BusyTimeout" + SQLiteConnectionAccount.BusyTimeout.ToString());
                 // waiting the tables and file will be open...
                 // TODO: REAL DISPO! MARCHE PAS?!
@@ -224,7 +222,6 @@ namespace NetWorkedData
                 //Debug.Log("ConnectToDatabase () CONNECTION tSeconds : " + tSeconds.ToString());
                 // BYPASS 
                 // tSeconds = 0.2;
-
                 DateTime t = DateTime.Now;
                 DateTime tf = DateTime.Now.AddSeconds(tSeconds);
                 while (t < tf)
@@ -426,7 +423,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateTable(Type sType, bool sAccountConnected)
         {
-            ConnectToDatabase();
+            //ConnectToDatabase();
 
             if (sAccountConnected)
             {
@@ -442,7 +439,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void MigrateTable(Type sType, bool sAccountConnected)
         {
-            ConnectToDatabase();
+            //ConnectToDatabase();
 
             if (sAccountConnected)
             {
