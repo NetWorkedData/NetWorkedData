@@ -51,22 +51,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         [InitializeOnLoadMethod()]
-#endif
+#else
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+#endif
         public static void Launcher()
         {
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
             Debug.Log("NWDTypeLauncher Launcher()");
-            BTBBenchmark.Start("Launcher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)
             {
+                // lauching in progress
+                IsLaunching = true;
+                // benchmark
+                BTBBenchmark.Start();
                 // start to reccord memory usage
                 long tStartMemory = System.GC.GetTotalMemory(true);
                 BTBBenchmark.Start("Launcher() Engine");
-                // lauching in progress
-                IsLaunching = true;
                 // craeta a list to reccord all classes
                 List<Type> tTypeList = new List<Type>();
                 // Get ShareInstance of datamanager instance
@@ -136,9 +138,9 @@ namespace NetWorkedData
                 // finish launch
                 IsLaunched = true;
                 IsLaunching = false;
+                //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
+                BTBBenchmark.Finish();
             }
-            //Debug.Log ("#### NWDTypeLauncher Launcher FINISHED");
-            BTBBenchmark.Finish("Launcher()");
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -123,7 +123,7 @@ namespace NetWorkedData
 		public void DefineTab ()
 		{
             // force to check database connection
-			NWDDataManager.SharedInstance().ConnectToDatabase ();
+			//NWDDataManager.SharedInstance().ConnectToDatabase ();
             // prepare futur list results
             TabsTotalWidthExpected = 0;
             TabWidthMax = 0;
