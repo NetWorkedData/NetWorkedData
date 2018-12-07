@@ -176,6 +176,12 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
+        static NWDBasis()
+        {
+            Debug.Log("NWDBasis Static Class Constructor()");
+            NWDTypeLauncher.Launcher();
+        }
+        //-------------------------------------------------------------------------------------------------------------
 
 
         //public static string m_SearchReference = "";
@@ -194,169 +200,169 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-//        public static void AddObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … AddObjectInListOfManagment
-//        {
+        //        public static void AddObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … AddObjectInListOfManagment
+        //        {
 
-//            Datas().AddData(sObject);
-//            // test object validity (integer or corrupt)
-//            bool tObjectIsValid = sObject.TestIntegrity();
-//            //if (tObjectIsValid == true)
-//            //{
-//            //    if (ObjectsList.Contains(sObject) == false)
-//            //    {
-//            //        // launch method specific on load object
-//            //        sObject.AddonLoadedMe();
-//            //        if (sObject.IsTrashed() == false)
-//            //        {
-//            //            if (sObject.IsReacheableByAccount())
-//            //            {
-//            //                InGameObjectsList.Add(sObject);
-//            //                InGameObjectsByReference.Add(sObject.Reference);
-//            //                InGameObjectsByKey.Add(sObject.InternalKey);
-//            //            }
-//            //        }
-//            //    }
-//            //}
+        //            Datas().AddData(sObject);
+        //            // test object validity (integer or corrupt)
+        //            bool tObjectIsValid = sObject.TestIntegrity();
+        //            //if (tObjectIsValid == true)
+        //            //{
+        //            //    if (ObjectsList.Contains(sObject) == false)
+        //            //    {
+        //            //        // launch method specific on load object
+        //            //        sObject.AddonLoadedMe();
+        //            //        if (sObject.IsTrashed() == false)
+        //            //        {
+        //            //            if (sObject.IsReacheableByAccount())
+        //            //            {
+        //            //                InGameObjectsList.Add(sObject);
+        //            //                InGameObjectsByReference.Add(sObject.Reference);
+        //            //                InGameObjectsByKey.Add(sObject.InternalKey);
+        //            //            }
+        //            //        }
+        //            //    }
+        //            //}
 
 
-//#if UNITY_EDITOR
-//            // override the insertion for unity editor
-//            tObjectIsValid = true;
-//#endif
-//            // if integrity is ok insert in ObjectsList
-//            if (tObjectIsValid == true)
-//            {
-//                if (Datas().ObjectsList.Contains(sObject) == false)
-//                {
-//                    // upgrade object between the old web service (add properties init, etc.)
-//                    //sObject.WebserviceVersionCheckMe(); // fait planter la mise à jupr de la table
-//                    // launch method specific on load object
-//                    sObject.AddonLoadedMe();
-//                    // add object in lists 
-//                    Datas().ObjectsList.Add(sObject);
-//                    Datas().ObjectsByReferenceList.Add(sObject.Reference);
-//                    Datas().ObjectsByKeyList.Add(sObject.InternalKey);
-//#if UNITY_EDITOR
-//                    sObject.ErrorCheck();
+        //#if UNITY_EDITOR
+        //            // override the insertion for unity editor
+        //            tObjectIsValid = true;
+        //#endif
+        //            // if integrity is ok insert in ObjectsList
+        //            if (tObjectIsValid == true)
+        //            {
+        //                if (Datas().ObjectsList.Contains(sObject) == false)
+        //                {
+        //                    // upgrade object between the old web service (add properties init, etc.)
+        //                    //sObject.WebserviceVersionCheckMe(); // fait planter la mise à jupr de la table
+        //                    // launch method specific on load object
+        //                    sObject.AddonLoadedMe();
+        //                    // add object in lists 
+        //                    Datas().ObjectsList.Add(sObject);
+        //                    Datas().ObjectsByReferenceList.Add(sObject.Reference);
+        //                    Datas().ObjectsByKeyList.Add(sObject.InternalKey);
+        //#if UNITY_EDITOR
+        //                    sObject.ErrorCheck();
 
-//                    // add load object in editor table
-//                    if (Datas().DatasInEditorReferenceList.Contains(sObject.Reference) == false)
-//                    {
-//                        // Active to auto remove on filter
-//                        // if (sObject.Tag == (int)m_SearchTag)
-//                        {
-//                            Datas().DatasInEditorReferenceList.Add(sObject.Reference);
-//                        }
-//                    }
-//                    Datas().DatasInEditorRowDescriptionList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
-//                    Datas().DatasInEditorSelectionList.Add(false);
-//#endif
-//                }
-//            }
-//        }
-//        //-------------------------------------------------------------------------------------------------------------
-//        public static void RemoveObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … RemoveObjectFromListOfManagment
-//        {
-//            if (Datas().ObjectsList.Contains(sObject) == true)
-//            {
-//                sObject.AddonUnloadMe();
-//                //int tIndexInGame = InGameObjectsList.IndexOf(sObject);
-//                //InGameObjectsList.RemoveAt(tIndexInGame);
-//                //InGameObjectsByReference.RemoveAt(tIndexInGame);
-//                //InGameObjectsByKey.RemoveAt(tIndexInGame);
+        //                    // add load object in editor table
+        //                    if (Datas().DatasInEditorReferenceList.Contains(sObject.Reference) == false)
+        //                    {
+        //                        // Active to auto remove on filter
+        //                        // if (sObject.Tag == (int)m_SearchTag)
+        //                        {
+        //                            Datas().DatasInEditorReferenceList.Add(sObject.Reference);
+        //                        }
+        //                    }
+        //                    Datas().DatasInEditorRowDescriptionList.Add(sObject.InternalKey + " <" + sObject.Reference + ">");
+        //                    Datas().DatasInEditorSelectionList.Add(false);
+        //#endif
+        //                }
+        //            }
+        //        }
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        public static void RemoveObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … RemoveObjectFromListOfManagment
+        //        {
+        //            if (Datas().ObjectsList.Contains(sObject) == true)
+        //            {
+        //                sObject.AddonUnloadMe();
+        //                //int tIndexInGame = InGameObjectsList.IndexOf(sObject);
+        //                //InGameObjectsList.RemoveAt(tIndexInGame);
+        //                //InGameObjectsByReference.RemoveAt(tIndexInGame);
+        //                //InGameObjectsByKey.RemoveAt(tIndexInGame);
 
-//                int tIndex = Datas().ObjectsList.IndexOf(sObject);
-//                Datas().ObjectsList.RemoveAt(tIndex);
-//                Datas().ObjectsByReferenceList.RemoveAt(tIndex);
-//                Datas().ObjectsByKeyList.RemoveAt(tIndex);
-//#if UNITY_EDITOR
-//                int tIndexB = Datas().DatasInEditorReferenceList.IndexOf(sObject.Reference);
-//                if (tIndexB >= 0 && tIndexB < Datas().DatasInEditorReferenceList.Count())
-//                {
-//                    Datas().DatasInEditorReferenceList.RemoveAt(tIndexB);
-//                }
-//                Datas().DatasInEditorRowDescriptionList.RemoveAt(tIndex);
-//                Datas().DatasInEditorSelectionList.RemoveAt(tIndex);
-//#endif
-//            }
-//        }
-//        //-------------------------------------------------------------------------------------------------------------
-//        public static void UpdateObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … UpdateObjectInListOfManagment
-//        {
+        //                int tIndex = Datas().ObjectsList.IndexOf(sObject);
+        //                Datas().ObjectsList.RemoveAt(tIndex);
+        //                Datas().ObjectsByReferenceList.RemoveAt(tIndex);
+        //                Datas().ObjectsByKeyList.RemoveAt(tIndex);
+        //#if UNITY_EDITOR
+        //                int tIndexB = Datas().DatasInEditorReferenceList.IndexOf(sObject.Reference);
+        //                if (tIndexB >= 0 && tIndexB < Datas().DatasInEditorReferenceList.Count())
+        //                {
+        //                    Datas().DatasInEditorReferenceList.RemoveAt(tIndexB);
+        //                }
+        //                Datas().DatasInEditorRowDescriptionList.RemoveAt(tIndex);
+        //                Datas().DatasInEditorSelectionList.RemoveAt(tIndex);
+        //#endif
+        //            }
+        //        }
+        //        //-------------------------------------------------------------------------------------------------------------
+        //        public static void UpdateObjectInListOfEdition(NWDBasis<K> sObject) // TO DO Rename … UpdateObjectInListOfManagment
+        //        {
 
-//            Datas().UpdateData(sObject);
+        //            Datas().UpdateData(sObject);
 
-//            if (Datas().ObjectsList.Contains(sObject) == true)
-//            {
-//                int tIndex = Datas().ObjectsList.IndexOf(sObject);
-//                Datas().ObjectsByReferenceList.RemoveAt(tIndex);
-//                Datas().ObjectsByReferenceList.Insert(tIndex, sObject.Reference);
-//                Datas().ObjectsByKeyList.RemoveAt(tIndex);
-//                Datas().ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
-//#if UNITY_EDITOR
+        //            if (Datas().ObjectsList.Contains(sObject) == true)
+        //            {
+        //                int tIndex = Datas().ObjectsList.IndexOf(sObject);
+        //                Datas().ObjectsByReferenceList.RemoveAt(tIndex);
+        //                Datas().ObjectsByReferenceList.Insert(tIndex, sObject.Reference);
+        //                Datas().ObjectsByKeyList.RemoveAt(tIndex);
+        //                Datas().ObjectsByKeyList.Insert(tIndex, sObject.InternalKey);
+        //#if UNITY_EDITOR
 
-//                Datas().DatasInEditorRowDescriptionList.RemoveAt(tIndex);
-//                Datas().DatasInEditorSelectionList.RemoveAt(tIndex);
+        //                Datas().DatasInEditorRowDescriptionList.RemoveAt(tIndex);
+        //                Datas().DatasInEditorSelectionList.RemoveAt(tIndex);
 
-//                Datas().DatasInEditorRowDescriptionList.Insert(tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
-//                Datas().DatasInEditorSelectionList.Insert(tIndex, false);
+        //                Datas().DatasInEditorRowDescriptionList.Insert(tIndex, sObject.InternalKey + " <" + sObject.Reference + ">");
+        //                Datas().DatasInEditorSelectionList.Insert(tIndex, false);
 
-//                int tIndexB = Datas().DatasInEditorReferenceList.IndexOf(sObject.Reference);
-//                if (tIndexB >= 0 && tIndexB < Datas().DatasInEditorReferenceList.Count())
-//                {
-//                    Datas().DatasInEditorReferenceList.RemoveAt(tIndexB);
-//                    // Active to auto remove on filter
-//                   // if (sObject.Tag == (int)m_SearchTag)
-//                    {
-//                        Datas().DatasInEditorReferenceList.Insert(tIndexB, sObject.Reference);
-//                    }
-//                }
-//                else
-//                {
-//                    if (sObject.Tag == Datas().m_SearchTag)
-//                    {
-//                        Datas().DatasInEditorReferenceList.Add(sObject.Reference);
-//                    }
-//                }
-//#endif
+        //                int tIndexB = Datas().DatasInEditorReferenceList.IndexOf(sObject.Reference);
+        //                if (tIndexB >= 0 && tIndexB < Datas().DatasInEditorReferenceList.Count())
+        //                {
+        //                    Datas().DatasInEditorReferenceList.RemoveAt(tIndexB);
+        //                    // Active to auto remove on filter
+        //                   // if (sObject.Tag == (int)m_SearchTag)
+        //                    {
+        //                        Datas().DatasInEditorReferenceList.Insert(tIndexB, sObject.Reference);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    if (sObject.Tag == Datas().m_SearchTag)
+        //                    {
+        //                        Datas().DatasInEditorReferenceList.Add(sObject.Reference);
+        //                    }
+        //                }
+        //#endif
         //    }
         //}
         //-------------------------------------------------------------------------------------------------------------
-//        public static void LoadTableEditor()
-//        {
-//            //Debug.Log ("LoadTableEditor ##########");
-//            LoadFromDatabase();
+        //        public static void LoadTableEditor()
+        //        {
+        //            //Debug.Log ("LoadTableEditor ##########");
+        //            LoadFromDatabase();
 
-//            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
-//            if (AccountDependent())
-//            {
-//                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
-//            }
+        //            SQLiteConnection tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionEditor;
+        //            if (AccountDependent())
+        //            {
+        //                tSQLiteConnection = NWDDataManager.SharedInstance().SQLiteConnectionAccount;
+        //            }
 
 
-//#if UNITY_EDITOR
-//            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // Normal using of SQLITE
-//#else
-//            //TODO Modify request for release
-//			//IEnumerable tEnumerable = NWDDataManager.SharedInstance().SQLiteConnection.Table<K> ().Where (x => x.AC.Equals (bool.TrueString)).OrderBy(x => x.InternalKey);
-//			IEnumerable tEnumerable = tSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
-//            //TODO Add restriction of AccountReference is AccountReference Exist
-//#endif
+        //#if UNITY_EDITOR
+        //            IEnumerable tEnumerable = tSQLiteConnection.Table<K>().OrderBy(x => x.InternalKey); // Normal using of SQLITE
+        //#else
+        //            //TODO Modify request for release
+        //			//IEnumerable tEnumerable = NWDDataManager.SharedInstance().SQLiteConnection.Table<K> ().Where (x => x.AC.Equals (bool.TrueString)).OrderBy(x => x.InternalKey);
+        //			IEnumerable tEnumerable = tSQLiteConnection.Table<K> ().OrderBy(x => x.InternalKey);
+        //            //TODO Add restriction of AccountReference is AccountReference Exist
+        //#endif
 
-//            //InGameObjectsList = new List<object>();
-//            //InGameObjectsByReference = new List<string>();
-//            //InGameObjectsByKey = new List<string>();
+        //            //InGameObjectsList = new List<object>();
+        //            //InGameObjectsByReference = new List<string>();
+        //            //InGameObjectsByKey = new List<string>();
 
-//            Datas().ObjectsList = new List<object>();
-//            Datas().ObjectsByReferenceList = new List<string>();
-//            Datas().ObjectsByKeyList = new List<string>();
+        //            Datas().ObjectsList = new List<object>();
+        //            Datas().ObjectsByReferenceList = new List<string>();
+        //            Datas().ObjectsByKeyList = new List<string>();
 
-//#if UNITY_EDITOR
+        //#if UNITY_EDITOR
 
-//            Datas().DatasInEditorRowDescriptionList = new List<string>();
-//            Datas().DatasInEditorSelectionList = new List<bool>();
-//            Datas().DatasInEditorReferenceList = new List<string>();
-//#endif
+        //            Datas().DatasInEditorRowDescriptionList = new List<string>();
+        //            Datas().DatasInEditorSelectionList = new List<bool>();
+        //            Datas().DatasInEditorReferenceList = new List<string>();
+        //#endif
 
         //    if (tEnumerable != null)
         //    {

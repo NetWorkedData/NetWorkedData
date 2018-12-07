@@ -41,6 +41,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDTypeLauncher()
         {
+            Debug.Log("NWDTypeLauncher Static Class Constructor()");
             Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -49,15 +50,21 @@ namespace NetWorkedData
             //Debug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        [InitializeOnLoadMethod()]
-#else
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-#endif
         public static void Launcher()
         {
+            if (IsLaunched == false && IsLaunching == false)
+            {
+                RunLauncher();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
+                [InitializeOnLoadMethod()]
+        #endif
+        public static void RunLauncher()
+        {
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
-            Debug.Log("NWDTypeLauncher Launcher()");
+            Debug.Log("NWDTypeLauncher RunLauncher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)
@@ -112,21 +119,25 @@ namespace NetWorkedData
                 // Ok database is connected
                 BTBNotificationManager.SharedInstance().PostNotification(null, NWDNotificationConstants.K_DATABASE_CONNECTED);
                 // start to lauch datas from database
-                BTBBenchmark.Start("Launcher() load Datas");
                 // reccord the memory score!
                 long tMiddleMemory = System.GC.GetTotalMemory(true);
                 // Loaded data 
                 if (DataLoaded == false)
                 {
-                    // But only if preloaddatas is true!
-                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == true)
+                    bool tEditorByPass = false;
+#if UNITY_EDITOR
+                    tEditorByPass = true;
+                    Debug.Log("NWD => Preload Datas bypass by editor");
+#endif
+                    if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
                     {
-                        //Debug.Log("NWD => Preload Datas");
+                        BTBBenchmark.Start("Launcher() load Datas");
+                        Debug.Log("NWD => Preload Datas");
                         tShareInstance.ReloadAllObjects();
+                        BTBBenchmark.Finish("Launcher() load Datas");
                     }
                 }
                 // reccord the memory score!
-                BTBBenchmark.Finish("Launcher() load Datas");
                 long tFinishMemory = System.GC.GetTotalMemory(true);
                 long tStartMem = tStartMemory / 1024 / 1024;
                 long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024 / 1024;

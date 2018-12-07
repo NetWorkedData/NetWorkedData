@@ -33,7 +33,7 @@ namespace NetWorkedData
     /// App Configuration
     /// Notification Center
     /// </summary>
-    [ExecuteInEditMode] // We use this only in playmode so don't attribut ExecuteInEditMode
+    //[ExecuteInEditMode] // We use this only in playmode so don't attribut ExecuteInEditMode
     public partial class NWDGameDataManager : NWDCallBack //MonoBehaviour 
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -435,6 +435,10 @@ namespace NetWorkedData
             if (NWDTypeLauncher.DataLoaded == false)
             {
                 //Debug.LogWarning("NWD => Datas ARE NOT LOADED ... load async now");
+                if (LoadingDatasGauge != null)
+                {
+                    LoadingDatasGauge.IsVisible = true;
+                }
                 ReloadAllDatas();
             }
             else
@@ -530,7 +534,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasPartialLoaded(BTBNotification sNotification, bool sPreloadDatas, float sPurcent)
         {
-            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
+            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_PARTIAL_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.SetHorizontalValue(sPurcent);
@@ -539,7 +543,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasLoaded(BTBNotification sNotification, bool sPreloadDatas)
         {
-            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
+            Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADED NOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = false;

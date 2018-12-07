@@ -83,7 +83,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private NWDDataManager ()
         {
-            Debug.Log("NWDDataManager private Constructor");
+            Debug.Log("NWDDataManager private instance Constructor");
             PlayerLanguage = NWDDataLocalizationManager.SystemLanguageString();
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
 

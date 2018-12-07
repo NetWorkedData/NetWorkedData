@@ -8,6 +8,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -38,9 +39,9 @@ namespace NetWorkedData
         [Header("Connect the localizable Text")]
         public NWDLocalizationConnection LocalizationReference;
         public NWDAutolocalizedTag AutoTag = NWDAutolocalizedTag.MarkedBaseString;
-        /// <summary>
-        /// The text target (optional).
-        /// </summary>
+        public bool EmptyIfNotLoaded = true;
+        public bool EnrichmentByReference = true;
+
         [Header("Optional binding")]
         public bool TextBinding = true;
         public Text TextTarget;
@@ -51,11 +52,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnDrawGizmos()
         {
+            //Debug.Log("NWDAutolocalized OnDrawGizmos()");
             LocalizeEditor();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void LocalizeEditor()
         {
+           //Debug.Log("NWDAutolocalized LocalizeEditor()");
             if (EditorApplication.isPlaying)
             {
             }
@@ -174,6 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Localize(bool sUseBaseString = false)
         {
+            Debug.Log("NWDAutolocalized Localize()");
             //Text
             if (TextBinding == true)
             {
@@ -183,14 +187,12 @@ namespace NetWorkedData
                     // get root text
                     TextTarget = GetComponent<Text>();
                 }
-
                 // if not find in root object
                 if (TextTarget == null)
                 {
                     // get first children text
                     TextTarget = GetComponentInChildren<Text>();
                 }
-
                 // if Text found
                 if (TextTarget != null)
                 {
@@ -211,7 +213,14 @@ namespace NetWorkedData
                             }
 
                             // Enrich text
-                            TextTarget.text = Enrichment(tTextString);
+                            if (EnrichmentByReference == true)
+                            {
+                                TextTarget.text = Enrichment(tTextString);
+                            }
+                            else
+                            {
+                                TextTarget.text = tTextString;
+                            }
                         }
                     }
                 }
@@ -225,14 +234,12 @@ namespace NetWorkedData
                     // get root text
                     TextMeshTarget = GetComponent<TextMesh>();
                 }
-
                 // if not find in root object
                 if (TextMeshTarget == null)
                 {
                     // get first children text
                     TextMeshTarget = GetComponentInChildren<TextMesh>();
                 }
-
                 // TextMesh found
                 if (TextMeshTarget != null)
                 {
@@ -251,18 +258,102 @@ namespace NetWorkedData
                             {
                                 tTextString = tLocalization.GetLocalString();
                             }
-
-                            // Enrich text
-                            TextMeshTarget.text = Enrichment(tTextString);
+                            if (EnrichmentByReference == true)
+                            {
+                                TextMeshTarget.text = Enrichment(tTextString);
+                            }
+                            else
+                            {
+                                TextMeshTarget.text = tTextString;
+                            }
                         }
                     }
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void Empty()
+        {
+            Debug.Log("NWDAutolocalized Empty()");
+            //Text
+            if (TextBinding == true)
+            {
+                // if not pluging
+                if (TextTarget == null)
+                {
+                    // get root text
+                    TextTarget = GetComponent<Text>();
+                }
+                // if not find in root object
+                if (TextTarget == null)
+                {
+                    // get first children text
+                    TextTarget = GetComponentInChildren<Text>();
+                }
+                // if Text found
+                if (TextTarget != null)
+                {
+                    TextTarget.text = "";
+                }
+            }
+            //TextMesh 
+            if (TextMeshBinding == true)
+            {
+                // if not pluging
+                if (TextMeshTarget == null)
+                {
+                    // get root text
+                    TextMeshTarget = GetComponent<TextMesh>();
+                }
+                // if not find in root object
+                if (TextMeshTarget == null)
+                {
+                    // get first children text
+                    TextMeshTarget = GetComponentInChildren<TextMesh>();
+                }
+                // TextMesh found
+                if (TextMeshTarget != null)
+                {
+                    // set the localizable text
+                    TextMeshTarget.text = "";
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void DataIsLoaded()
+        {
+            Debug.Log("NWDAutolocalized DataIsLoaded()");
+            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
+            Localize(false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
-            Localize(false);
+            Debug.Log("NWDAutolocalized Awake()");
+            if (NWDTypeLauncher.DataLoaded == false)
+            {
+                if (EmptyIfNotLoaded == true)
+                {
+                    Empty();
+                }
+                BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+                tNotificationManager.AddObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED, delegate (BTBNotification sNotification)
+                {
+                    DataIsLoaded();
+                });
+            }
+            else
+            {
+                Localize(false);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void OnDestroy()
+        {
+            Debug.Log("NWDAutolocalized OnDestroy()");
+            BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
+            tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
         }
         //-------------------------------------------------------------------------------------------------------------
         string Enrichment(string sText)
