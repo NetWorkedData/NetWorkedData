@@ -153,6 +153,10 @@ namespace NetWorkedData
                 //Request.timeout = kTimeOutOfRequest;
                 Request.timeout = Environment.WebTimeOut;
 
+#if UNITY_EDITOR
+                Request.timeout = Environment.EditorWebTimeOut;
+#endif
+
                 // I prepare the header 
                 // I put the header in my request
                 InsertHeaderInRequest();

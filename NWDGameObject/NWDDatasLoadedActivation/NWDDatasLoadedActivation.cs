@@ -25,7 +25,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void DataIsLoaded()
         {
-            Debug.Log("NWDAutolocalized DataIsLoaded()");
+            //Debug.Log("NWDAutolocalized DataIsLoaded()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
             foreach (Transform tChild in transform)
@@ -36,7 +36,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Awake()
         {
-            Debug.Log("NWDAutolocalized Awake()");
+            //Debug.Log("NWDAutolocalized Awake()");
             if (NWDTypeLauncher.DataLoaded == false)
             {
                 foreach (Transform tChild in transform)
@@ -60,7 +60,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void OnDestroy()
         {
-            Debug.Log("NWDAutolocalized OnDestroy()");
+            //Debug.Log("NWDAutolocalized OnDestroy()");
             BTBNotificationManager tNotificationManager = BTBNotificationManager.SharedInstance();
             tNotificationManager.RemoveObserverForAll(this, NWDNotificationConstants.K_DATAS_LOADED);
         }

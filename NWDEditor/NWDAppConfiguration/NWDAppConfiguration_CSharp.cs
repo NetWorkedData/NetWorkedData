@@ -184,6 +184,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.SaltStart = \"" + this.ProdEnvironment.SaltStart.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SaltEnd = \"" + this.ProdEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.WebTimeOut = " + this.ProdEnvironment.WebTimeOut.ToString() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.EditorWebTimeOut = " + this.ProdEnvironment.EditorWebTimeOut.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.SaltFrequency = " + this.ProdEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.AddressPing = \"" + this.ProdEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHTTPS = \"" + this.ProdEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
@@ -242,6 +243,7 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.SaltStart = \"" + this.PreprodEnvironment.SaltStart.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SaltEnd = \"" + this.PreprodEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.WebTimeOut = " + this.PreprodEnvironment.WebTimeOut.ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.EditorWebTimeOut = " + this.PreprodEnvironment.EditorWebTimeOut.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.SaltFrequency = " + this.PreprodEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.AddressPing = \"" + this.PreprodEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerHTTPS = \"" + this.PreprodEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
@@ -295,6 +297,7 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.SaltStart = \"" + this.DevEnvironment.SaltStart.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SaltEnd = \"" + this.DevEnvironment.SaltEnd.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.WebTimeOut = " + this.DevEnvironment.WebTimeOut.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.EditorWebTimeOut = " + this.DevEnvironment.EditorWebTimeOut.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SaltFrequency = " + this.DevEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.AddressPing = \"" + this.DevEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerHTTPS = \"" + this.DevEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +

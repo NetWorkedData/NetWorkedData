@@ -66,7 +66,8 @@ namespace NetWorkedData
 		public string AppName = "MyGameApp";
         public string PreProdTimeFormat = "_yyyy_MM_dd_HHmmss";
         public string AppProtocol = "MyGameApp://";
-        public int WebTimeOut = 30;
+        public int EditorWebTimeOut = 600;
+        public int WebTimeOut = 10;
 
         public float SpeedOfGameTime = 1.0F;
         //public string Version = "0.00.00";

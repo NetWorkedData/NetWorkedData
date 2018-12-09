@@ -72,6 +72,7 @@ namespace NetWorkedData
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
+            EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
 
             EditorGUILayout.TextField("Mail Params for " + Environment, EditorStyles.boldLabel);
             MailHost = EditorGUILayout.TextField("Mail Host", MailHost);

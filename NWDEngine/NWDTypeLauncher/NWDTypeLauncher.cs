@@ -6,17 +6,10 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using System.Reflection;
-
-using UnityEngine;
-
 using BasicToolBox;
-using UnityEngine.SceneManagement;
-using System.Threading;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,30 +19,60 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDTypeLauncher is the first class launch in the NetWorkedData lib. It's used to determine the class model and interaction.
+    /// </summary>
 #if UNITY_EDITOR
     [InitializeOnLoad]
 #endif
     public class NWDTypeLauncher
     {
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The lib is launching.
+        /// </summary>
         public static bool IsLaunching = false;
+        /// <summary>
+        /// The lib is launched.
+        /// </summary>
         public static bool IsLaunched = false;
+        /// <summary>
+        /// The datas are loaded.
+        /// </summary>
         public static bool DataLoaded = false;
+        /// <summary>
+        /// Classes expected.
+        /// </summary>
         public static int ClassesExpected = 0;
+        /// <summary>
+        /// Classes NWDbasis generic data loaded.
+        /// </summary>
         public static int ClassesDataLoaded = 0;
+        /// <summary>
+        /// All Types array.
+        /// </summary>
         public static Type[] AllTypes;
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes the <see cref="T:NetWorkedData.NWDTypeLauncher"/> class.
+        /// </summary>
         static NWDTypeLauncher()
         {
-            Debug.Log("NWDTypeLauncher Static Class Constructor()");
+            NWDDebug.Log("NWDTypeLauncher Static Class Constructor()");
             Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDTypeLauncher"/> class.
+        /// </summary>
         public NWDTypeLauncher()
         {
-            //Debug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
+            NWDDebug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
         }
         //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Launcher this daemon lib.
+        /// </summary>
         public static void Launcher()
         {
             if (IsLaunched == false && IsLaunching == false)
@@ -58,13 +81,16 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
-                [InitializeOnLoadMethod()]
-        #endif
+        /// <summary>
+        /// Runs the launcher.
+        /// </summary>
+#if UNITY_EDITOR
+        [InitializeOnLoadMethod()]
+#endif
         public static void RunLauncher()
         {
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
-            Debug.Log("NWDTypeLauncher RunLauncher()");
+            NWDDebug.Log("NWDTypeLauncher RunLauncher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)
@@ -127,12 +153,12 @@ namespace NetWorkedData
                     bool tEditorByPass = false;
 #if UNITY_EDITOR
                     tEditorByPass = true;
-                    Debug.Log("NWD => Preload Datas bypass by editor");
+                    NWDDebug.Log("NWD => Preload Datas bypass by editor");
 #endif
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
                     {
                         BTBBenchmark.Start("Launcher() load Datas");
-                        Debug.Log("NWD => Preload Datas");
+                        NWDDebug.Log("NWD => Preload Datas");
                         tShareInstance.ReloadAllObjects();
                         BTBBenchmark.Finish("Launcher() load Datas");
                     }
@@ -143,9 +169,9 @@ namespace NetWorkedData
                 long tEngineMemory = (tMiddleMemory - tStartMemory) / 1024 / 1024;
                 long tDataMemory = (tFinishMemory - tMiddleMemory) / 1024 / 1024;
                 long tMemory = tFinishMemory / 1024 / 1024;
-                Debug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
-                Debug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
-                Debug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
+                NWDDebug.Log("#### NWDTypeLauncher Launcher FINISHED engine memory = " + tEngineMemory.ToString() + "Mo");
+                NWDDebug.Log("#### NWDTypeLauncher Launcher FINISHED Data memory = " + tDataMemory.ToString() + "Mo");
+                NWDDebug.Log("#### NWDTypeLauncher memory = " + tStartMem.ToString() + "Mo => " + tMemory.ToString() + "Mo");
                 // finish launch
                 IsLaunched = true;
                 IsLaunching = false;

@@ -31,7 +31,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static NWDDatas()
         {
-            Debug.Log("NWDDatas Static Class Constructor()");
+            //Debug.Log("NWDDatas Static Class Constructor()");
             NWDTypeLauncher.Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
