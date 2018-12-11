@@ -320,10 +320,6 @@ namespace NetWorkedData
                             {
                                 tUserChange = true;
 
-                                NWDAccountInfos tActiveUser = NWDAccountInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                                Environment.PlayerStatut = ResultInfos.sign;
-                                tActiveUser.AccountType = ResultInfos.sign;
-
                                 if (ResultInfos.isSignUp == true)
                                 {
                                     Environment.ResetAnonymousSession();
@@ -365,7 +361,16 @@ namespace NetWorkedData
                                 //TODO : need reload data ?
                             }
 
+                            // Update Data
                             DataDownloadedCompute(ResultInfos);
+
+                            // Create or load User Account infos
+                            if (ResultInfos.isSignUpdate)
+                            {
+                                NWDAccountInfos tActiveUser = NWDAccountInfos.GetUserInfoByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                                Environment.PlayerStatut = ResultInfos.sign;
+                                tActiveUser.AccountType = ResultInfos.sign;
+                            }
 
                             // Notification of a Download success
                             BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
