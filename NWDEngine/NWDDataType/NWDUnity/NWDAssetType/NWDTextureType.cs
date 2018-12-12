@@ -49,7 +49,7 @@ namespace NetWorkedData
 		public Texture2D ToTexture ()
 		{
 			Texture2D rTexture = null;
-			if (Value != null && Value != "")
+            if (!string.IsNullOrEmpty(Value))
             {
 				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
                 #if UNITY_EDITOR
