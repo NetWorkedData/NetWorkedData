@@ -64,27 +64,20 @@ namespace NetWorkedData
 			}
 			if (sEnvironment == null) {
 				sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
-			}
-
-			// IF BTBOperationUnity
-            GameObject tGameObjectToSpawn = new GameObject (sName);
-            // Add sync in the unitySingleton
+            }
+            GameObject tGameObjectToSpawn = new GameObject(sName);
+#if UNITY_EDITOR
+            tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
+#else
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-            // 
+#endif 
             rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebNoPage> ();
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
-
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
 			rReturn.ForceSync = sForceSync;
 			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
-
-			#if UNITY_EDITOR
-			#else
-			//DontDestroyOnLoad (tGameObjectToSpawn);
-			#endif
-
-			return rReturn;
+            return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
