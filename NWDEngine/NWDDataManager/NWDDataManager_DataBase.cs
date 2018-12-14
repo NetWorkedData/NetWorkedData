@@ -388,48 +388,60 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateAllTablesLocal()
         {
-            foreach (Type tType in mTypeList)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                var tMethodInfo = tType.GetMethod("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                foreach (Type tType in mTypeList)
                 {
-                    tMethodInfo.Invoke(null, null);
+                    var tMethodInfo = tType.GetMethod("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void CleanAllTablesLocal()
         {
-            foreach (Type tType in mTypeList)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                var tMethodInfo = tType.GetMethod("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                foreach (Type tType in mTypeList)
                 {
-                    tMethodInfo.Invoke(null, null);
+                    var tMethodInfo = tType.GetMethod("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void UpdateAllTablesLocal()
         {
-            foreach (Type tType in mTypeList)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                var tMethodInfo = tType.GetMethod("UpdateDataTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                foreach (Type tType in mTypeList)
                 {
-                    tMethodInfo.Invoke(null, null);
+                    var tMethodInfo = tType.GetMethod("UpdateDataTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetAllTablesLocal()
         {
-            foreach (Type tType in mTypeList)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                var tMethodInfo = tType.GetMethod("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
+                foreach (Type tType in mTypeList)
                 {
-                    tMethodInfo.Invoke(null, null);
+                    var tMethodInfo = tType.GetMethod("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
                 }
             }
         }
@@ -443,67 +455,99 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void CreateTable(Type sType, bool sAccountConnected)
         {
-            //ConnectToDatabase();
-
-            if (sAccountConnected)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                SQLiteConnectionAccount.CreateTableByType(sType);
-                //SQLiteConnectionAccountV4.CreateTableByType(typeof(NWDDatasRows));
-            }
-            else
-            {
-                SQLiteConnectionEditor.CreateTableByType(sType);
-                //SQLiteConnectionEditorV4.CreateTableByType(typeof(NWDDatasRows));
+                if (sAccountConnected)
+                {
+                    if (SQLiteConnectionAccount != null)
+                    {
+                        SQLiteConnectionAccount.CreateTableByType(sType);
+                        //SQLiteConnectionAccountV4.CreateTableByType(typeof(NWDDatasRows));
+                    }
+                }
+                else
+                {
+                    if (SQLiteConnectionEditor != null)
+                    {
+                        SQLiteConnectionEditor.CreateTableByType(sType);
+                        //SQLiteConnectionEditorV4.CreateTableByType(typeof(NWDDatasRows));
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void MigrateTable(Type sType, bool sAccountConnected)
         {
-            //ConnectToDatabase();
-
-            if (sAccountConnected)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                SQLiteConnectionAccount.MigrateTableByType(sType);
-                //SQLiteConnectionAccountV4.MigrateTableByType(typeof(NWDDatasRows));
-            }
-            else
-            {
-                SQLiteConnectionEditor.MigrateTableByType(sType);
-                //SQLiteConnectionEditorV4.MigrateTableByType(typeof(NWDDatasRows));
+                if (sAccountConnected)
+                {
+                    if (SQLiteConnectionAccount != null)
+                    {
+                        SQLiteConnectionAccount.MigrateTableByType(sType);
+                        //SQLiteConnectionAccountV4.MigrateTableByType(typeof(NWDDatasRows));
+                    }
+                }
+                else
+                {
+                    if (SQLiteConnectionEditor != null)
+                    {
+                        SQLiteConnectionEditor.MigrateTableByType(sType);
+                        //SQLiteConnectionEditorV4.MigrateTableByType(typeof(NWDDatasRows));
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void EmptyTable(Type sType, bool sAccountConnected)
         {
-            if (sAccountConnected)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                SQLiteConnectionAccount.TruncateTableByType(sType);
-                //SQLiteConnectionAccountV4.TruncateTableByType(typeof(NWDDatasRows));
-            }
-            else
-            {
-                SQLiteConnectionEditor.TruncateTableByType(sType);
-                //SQLiteConnectionEditorV4.TruncateTableByType(typeof(NWDDatasRows));
+                if (sAccountConnected)
+                {
+                    if (SQLiteConnectionAccount != null)
+                    {
+                        SQLiteConnectionAccount.TruncateTableByType(sType);
+                        //SQLiteConnectionAccountV4.TruncateTableByType(typeof(NWDDatasRows));
+                    }
+                }
+                else
+                {
+                    if (SQLiteConnectionEditor != null)
+                    {
+                        SQLiteConnectionEditor.TruncateTableByType(sType);
+                        //SQLiteConnectionEditorV4.TruncateTableByType(typeof(NWDDatasRows));
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void DropTable(Type sType, bool sAccountConnected)
         {
-            if (sAccountConnected)
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
             {
-                SQLiteConnectionAccount.DropTableByType(sType);
-                //SQLiteConnectionAccountV4.DropTableByType(typeof(NWDDatasRows));
-            }
-            else
-            {
-                SQLiteConnectionEditor.DropTableByType(sType);
-                //SQLiteConnectionEditorV4.DropTableByType(typeof(NWDDatasRows));
+                if (sAccountConnected)
+                {
+                    if (SQLiteConnectionAccount != null)
+                    {
+                        SQLiteConnectionAccount.DropTableByType(sType);
+                        //SQLiteConnectionAccountV4.DropTableByType(typeof(NWDDatasRows));
+                    }
+                }
+                else
+                {
+                    if (SQLiteConnectionEditor != null)
+                    {
+                        SQLiteConnectionEditor.DropTableByType(sType);
+                        //SQLiteConnectionEditorV4.DropTableByType(typeof(NWDDatasRows));
+                    }
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReInitializeTable(Type sType, bool sAccountConnected)
         {
-            EmptyTable(sType, sAccountConnected);
+                EmptyTable(sType, sAccountConnected);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ResetTable(Type sType, bool sAccountConnected)
