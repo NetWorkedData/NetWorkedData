@@ -59,12 +59,7 @@ namespace NetWorkedData
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDCraftBookAdd : NWDBasis<NWDCraftBookAdd>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
+       //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties

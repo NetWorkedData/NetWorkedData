@@ -29,7 +29,7 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
             string tConstantsFile = "";
-            int t_Next = (WebBuild + 1);
+            //int t_Next = (WebBuild + 1);
             tConstantsFile += "" +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
             "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +

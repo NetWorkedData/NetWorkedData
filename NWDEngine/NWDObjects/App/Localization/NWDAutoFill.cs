@@ -164,7 +164,7 @@ namespace NetWorkedData
             TextShow(CharVisible);
             if (UseMaskColor)
             {
-                TextTarget.supportRichText = true; 
+                TextTarget.supportRichText = true;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool IsRunning()
         {
-            return Running; 
+            return Running;
         }
         //-------------------------------------------------------------------------------------------------------------
         private void TextShow(int sIndex)
@@ -211,7 +211,7 @@ namespace NetWorkedData
                 {
                     if (FastChar == true)
                     {
-                        TimeCounter += Time.deltaTime * FastAccelerator;;
+                        TimeCounter += Time.deltaTime * FastAccelerator; ;
                         CharVisible = (int)(TimeCounter * CharPerSecond);
                     }
                     else
@@ -264,7 +264,7 @@ namespace NetWorkedData
                         {
                             TextTarget.text = string.Copy(StringToUse);
                             Running = false;
-                            if (FinishedToRead!=null)
+                            if (FinishedToRead != null)
                             {
                                 FinishedToRead.Invoke();
                             }

@@ -24,7 +24,7 @@ namespace NetWorkedData
         public override void OnInspectorGUI()
         {
 
-            bool tNextSceneEdition = false;
+            //bool tNextSceneEdition = false;
             // Update the serializedProperty - always do this in the beginning of OnInspectorGUI.
             this.serializedObject.Update();
             // Script Editor

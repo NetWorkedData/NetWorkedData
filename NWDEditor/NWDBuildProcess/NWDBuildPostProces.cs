@@ -242,10 +242,10 @@ namespace NetWorkedData
                     //{
                     //}
                     //break;
-                case BuildTarget.PSP2:
-                    {
-                    }
-                    break;
+                //case BuildTarget.PSP2:
+                    //{
+                    //}
+                    //break;
                 case BuildTarget.PS4:
                     {
                     }
@@ -254,10 +254,10 @@ namespace NetWorkedData
                     {
                     }
                     break;
-                case BuildTarget.N3DS:
-                    {
-                    }
-                    break;
+                //case BuildTarget.N3DS:
+                    //{
+                    //}
+                    //break;
                 //case BuildTarget.WiiU:
                     //{
                     //}
