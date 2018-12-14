@@ -20,6 +20,7 @@ using BasicToolBox;
 
 using ZXing;
 using ZXing.QrCode;
+using UnityEngine.Networking;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -271,10 +272,10 @@ namespace NetWorkedData
                             tText += " Android : " + tVersion.GooglePlayURL + "\r\n";
                         }
                         //tText = tText.Replace(";", "");
-                        tText = WWW.EscapeURL(tText).Replace("+", "%20");
+                        tText = UnityWebRequest.EscapeURL(tText).Replace("+", "%20");
 
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
-                        tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
+                        tSubject = UnityWebRequest.EscapeURL(tSubject).Replace("+", "%20");
                         string tSMS = "sms:?body=" + tText;
                         //Debug.Log("NWDVersion RecommendationBy SMS => " + tSMS);
                         Application.OpenURL(tSMS);
@@ -298,10 +299,10 @@ namespace NetWorkedData
                             tText += " Android : " + tVersion.GooglePlayURL + "\n\r";
                         }
                         tText += "";
-                        tText = WWW.EscapeURL(tText).Replace("+", "%20");
+                        tText = UnityWebRequest.EscapeURL(tText).Replace("+", "%20");
 
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
-                        tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
+                        tSubject = UnityWebRequest.EscapeURL(tSubject).Replace("+", "%20");
                         string tEmail = "mailto:?subject=" + tSubject + "&body=" + tText;
                         //Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
                         Application.OpenURL(tEmail);
@@ -328,10 +329,10 @@ namespace NetWorkedData
                         //tText += "</BODY></HTML>";
                         //tText = tText.Replace("<", "");
                         //tText = tText.Replace(">", "");
-                        tText = WWW.EscapeURL(tText).Replace("+", "%20");
+                        tText = UnityWebRequest.EscapeURL(tText).Replace("+", "%20");
 
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
-                        tSubject = WWW.EscapeURL(tSubject).Replace("+", "%20");
+                        tSubject = UnityWebRequest.EscapeURL(tSubject).Replace("+", "%20");
                         string tEmail = "mailto:?subject=" + tSubject + "&body=" + tText;
                         //Debug.Log("NWDVersion RecommendationBy Email => " + tEmail);
                         Application.OpenURL(tEmail);

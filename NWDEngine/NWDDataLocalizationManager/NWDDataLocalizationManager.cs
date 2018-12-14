@@ -37,7 +37,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public string SystemLanguageString ()
         {
-            Debug.Log("NWDDataLocalizationManager SystemLanguageString()");
+            //Debug.Log("NWDDataLocalizationManager SystemLanguageString()");
             string tReturn = "";
             SystemLanguage tLocalLanguage = Application.systemLanguage;
             switch (tLocalLanguage)

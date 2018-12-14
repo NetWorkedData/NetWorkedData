@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Networking;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -212,7 +213,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDGDPR ExtractAndSave()");
             string rReturn = Extract(tListAddon);
-            string tEmail = "mailto:?subject=DGPR%20Export&body=" + WWW.EscapeURL(rReturn.Replace(" ","%20")).Replace("%20", " ");
+            string tEmail = "mailto:?subject=DGPR%20Export&body=" + UnityWebRequest.EscapeURL(rReturn.Replace(" ","%20")).Replace("%20", " ");
             Application.OpenURL(tEmail);
             return rReturn;
         }

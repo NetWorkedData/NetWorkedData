@@ -18,6 +18,7 @@ using BasicToolBox;
 
 using ZXing;
 using ZXing.QrCode;
+using UnityEngine.Networking;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -152,18 +153,18 @@ namespace NetWorkedData
             string tText = sProtocol;
             tText = tText.Replace(":", "");
             tText = tText.Replace("/", "");
-            tText += "://do?A=" + WWW.EscapeURL(Reference);
+            tText += "://do?A=" + UnityWebRequest.EscapeURL(Reference);
             if (string.IsNullOrEmpty(Message) == false)
             {
-                tText += "&M=" + WWW.EscapeURL(Message);
+                tText += "&M=" + UnityWebRequest.EscapeURL(Message);
             }
             if (string.IsNullOrEmpty(Parameter) == false)
             {
-                tText += "&P=" + WWW.EscapeURL(Parameter);
+                tText += "&P=" + UnityWebRequest.EscapeURL(Parameter);
             }
             if (string.IsNullOrEmpty(sAdditional) == false)
             {
-                tText += "&A=" + WWW.EscapeURL(sAdditional);
+                tText += "&A=" + UnityWebRequest.EscapeURL(sAdditional);
             }
             return tText;
         }
