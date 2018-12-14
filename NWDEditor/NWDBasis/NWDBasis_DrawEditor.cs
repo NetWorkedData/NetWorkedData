@@ -1356,9 +1356,10 @@ namespace NetWorkedData
             string tPreFabGameObject = "";
             if (pObj != null)
             {
+                if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
                 //if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
                 {
-                    tPreFabGameObject = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabObject(pObj));
+                    tPreFabGameObject = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabInstanceHandle(pObj));
                 }
             }
 

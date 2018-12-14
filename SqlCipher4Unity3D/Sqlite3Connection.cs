@@ -48,7 +48,7 @@ namespace SQLite4Unity3d
         ///     Used to list some code that we want the MonoTouch linker
         ///     to see, but that we never want to actually execute.
         /// </summary>
-        private static bool _preserveDuringLinkMagic;
+        //private static bool _preserveDuringLinkMagic;
 
         private readonly Random _rand = new Random();
 
@@ -63,11 +63,11 @@ namespace SQLite4Unity3d
 
         static SQLiteConnection()
         {
-            if (_preserveDuringLinkMagic)
-            {
-                ColumnInfo ti = new ColumnInfo();
-                ti.Name = "magic";
-            }
+            //if (_preserveDuringLinkMagic)
+            //{
+            //    ColumnInfo ti = new ColumnInfo();
+            //    ti.Name = "magic";
+            //}
         }
 
         /// <summary>
