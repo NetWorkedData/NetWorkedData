@@ -109,7 +109,7 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDAccountInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
+        public static NWDAccountInfos GetAccountInfosByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
         {
             NWDAccountInfos tUserInfos = null;
             foreach (NWDAccountInfos user in FindDatas())

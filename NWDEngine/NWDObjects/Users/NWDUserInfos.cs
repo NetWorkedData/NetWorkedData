@@ -209,7 +209,7 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate()
+        public static NWDUserInfos GetCurrent()
         {
             NWDUserInfos tUserInfos = null;
             foreach (NWDUserInfos user in FindDatas())

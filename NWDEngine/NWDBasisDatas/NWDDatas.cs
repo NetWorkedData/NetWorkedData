@@ -239,6 +239,12 @@ namespace NetWorkedData
             SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey);
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SaltRegenerate()
+        {
+            PrefLoad();
+            PrefSave();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public bool TestSaltValid()
         {
             bool rReturn = false;

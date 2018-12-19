@@ -142,8 +142,9 @@ namespace NetWorkedData
             {
                 rReturn = IntegritySaltDictionary[sKey];
             }
-            if (rReturn == "")
+            if (string.IsNullOrEmpty(rReturn))
             {
+                Debug.Log("Generate Salt for " + sKey);
                 rReturn = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 IntegritySaltDictionary.Add(sKey, rReturn);
                 SetSaltValid(sKeyFirst, sKeyValid, "");

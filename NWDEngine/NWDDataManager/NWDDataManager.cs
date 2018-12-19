@@ -171,8 +171,10 @@ namespace NetWorkedData
 
                 if (NWDDatas.FindTypeInfos(tType).SaltOk != "ok")
                 {
+                    Debug.LogWarning(" Erreur in salt for " + NWDDatas.FindTypeInfos(tType).ClassName);
+                    NWDDatas.FindTypeInfos(tType).SaltRegenerate();
                     rReturn = false;
-                    break;
+                    //break;
                 }
 
                 //var tMethodInfo = tType.GetMethod ("PrefSalt", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
