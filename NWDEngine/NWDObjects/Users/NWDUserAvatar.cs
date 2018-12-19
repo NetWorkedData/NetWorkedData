@@ -48,39 +48,27 @@ namespace NetWorkedData
         [NWDGroupReset]
         [NWDGroupStart("Account and final render")]
         [NWDTooltips("The account reference of user")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDTooltips("Item used to render Avatar in simple game ")]
-        public NWDReferenceType<NWDItem> RenderItem
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDItem> RenderItem { get; set; }
         [NWDTooltips("PNG bytes file used to render Avatar in game (use as picture or as render)")]
-        public NWDImagePNGType AvatarRender
-        {
-            get; set;
-        }
+        public NWDImagePNGType RenderTexture { get; set; }
         #endregion
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar()
         {
-            //Debug.Log("NWDAvatar Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserAvatar(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDAvatar Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        public override void Initialization()
         {
            
         }
@@ -90,11 +78,31 @@ namespace NetWorkedData
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Exampel of implement for class method.
+        /// Get Account NWDItem Avatar
         /// </summary>
-        public static void MyClassMethod()
+        public static NWDItem GetNWDItemAvatar()
         {
-            // do something with this class
+            NWDItem rItem = null;
+            NWDUserAvatar[] tAvatars = FindDatas();
+            if (tAvatars.Length > 0)
+            {
+                return tAvatars[0].RenderItem.GetObject();
+            }
+            return rItem;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get Account Sprite Avatar
+        /// </summary>
+        public static Sprite GetTextureAvatar()
+        {
+            Sprite rSprite = null;
+            NWDUserAvatar[] tAvatars = FindDatas();
+            if (tAvatars.Length > 0)
+            {
+                return tAvatars[0].RenderTexture.ToSprite();
+            }
+            return rSprite;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -102,11 +110,19 @@ namespace NetWorkedData
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Exampel of implement for instance method.
+        /// Get User NWDItem Avatar
         /// </summary>
-        public void MyInstanceMethod()
+        public NWDItem GetNWDItem()
         {
-            // do something with this object
+            return RenderItem.GetObject();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get User Sprite Avatar
+        /// </summary>
+        public Sprite GetTexture()
+        {
+            return RenderTexture.ToSprite();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

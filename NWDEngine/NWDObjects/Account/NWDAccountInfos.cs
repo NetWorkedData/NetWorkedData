@@ -94,12 +94,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos()
         {
-            //Debug.Log("NWDAccountInfos Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDAccountInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

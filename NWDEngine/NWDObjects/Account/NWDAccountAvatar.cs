@@ -48,32 +48,23 @@ namespace NetWorkedData
         [NWDGroupReset]
         [NWDGroupStart("Account and final render")]
         [NWDTooltips("The account reference of user")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
         [NWDTooltips("Item used to render Avatar in simple game ")]
-        public NWDReferenceType<NWDItem> RenderItem
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDItem> RenderItem { get; set; }
         [NWDTooltips("PNG bytes file used to render Avatar in game (use as picture or as render)")]
-        public NWDImagePNGType AvatarRender
-        {
-            get; set;
-        }
+        public NWDImagePNGType RenderTexture { get; set; }
         #endregion
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountAvatar()
         {
-            //Debug.Log("NWDAvatar Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDAccountAvatar(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDAvatar Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -88,7 +79,7 @@ namespace NetWorkedData
         /// <summary>
         /// Get Account NWDItem Avatar
         /// </summary>
-        public static NWDItem GetRenderAvatar()
+        public static NWDItem GetNWDItemAvatar()
         {
             NWDItem rItem = null;
             NWDAccountAvatar[] tAvatars = FindDatas();
@@ -102,13 +93,13 @@ namespace NetWorkedData
         /// <summary>
         /// Get Account Sprite Avatar
         /// </summary>
-        public static Sprite GetSpiritAvatar()
+        public static Sprite GetTextureAvatar()
         {
             Sprite rSprite = null;
             NWDAccountAvatar[] tAvatars = FindDatas();
             if (tAvatars.Length > 0)
             {
-                return tAvatars[0].AvatarRender.ToSprite();
+                return tAvatars[0].RenderTexture.ToSprite();
             }
             return rSprite;
         }
@@ -118,11 +109,19 @@ namespace NetWorkedData
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Exampel of implement for instance method.
+        /// Get Account NWDItem Avatar
         /// </summary>
-        public void MyInstanceMethod()
+        public NWDItem GetNWDItem()
         {
-            // do something with this object
+            return RenderItem.GetObject();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get Account Sprite Avatar
+        /// </summary>
+        public Sprite GetTexture()
+        {
+            return RenderTexture.ToSprite();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
