@@ -138,7 +138,7 @@ namespace NetWorkedData
             }
             if (NWDDataManager.SharedInstance().mTrigramTypeDictionary.ContainsKey(tClassTrigramme))
             {
-                Debug.LogWarning("ERROR in " + tActualType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is allreday use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
+                Debug.LogWarning("ERROR in " + tActualType.AssemblyQualifiedName + ", this trigramme '" + tClassTrigramme + "' is already use by another class! (" + NWDDataManager.SharedInstance().mTrigramTypeDictionary[tClassTrigramme] + ")");
             }
             else
             {

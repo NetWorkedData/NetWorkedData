@@ -209,7 +209,7 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
+        public static NWDUserInfos GetUserInfoByEnvironmentOrCreate()
         {
             NWDUserInfos tUserInfos = null;
             foreach (NWDUserInfos user in FindDatas())
@@ -225,7 +225,6 @@ namespace NetWorkedData
                 tUserInfos = NewData();
                 tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
                 tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                //tUserInfos.AccountType = sEnvironment.PlayerStatut;
                 tUserInfos.Tag = NWDBasisTag.TagUserCreated;
                 tUserInfos.SaveData();
             }
