@@ -324,14 +324,12 @@ namespace NetWorkedData
 		// Update is called once per frame
 		void Update ()
 		{
+            NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosOrCreate();
             NWDAppEnvironment tApp = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-            NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosByEnvironmentOrCreate(tApp);
 
             TextEnvironment.text = tApp.Environment;
-
             TextAccount.text = tApp.PlayerAccountReference + "\n" + tApp.PlayerStatut + "\n(" + tActiveUser.FirstName + " " + tActiveUser.LastName + ")";
             TextToken.text = tApp.RequesToken;
-
             TextAnonymousAccount.text = tApp.AnonymousPlayerAccountReference;
 			TextAnonymousToken.text = "????";
         }

@@ -366,9 +366,8 @@ namespace NetWorkedData
                             // Create or load User Account infos
                             if (ResultInfos.isSignUpdate)
                             {
-                                NWDAccountInfos tActiveUser = NWDAccountInfos.GetAccountInfosByEnvironmentOrCreate(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                                NWDAccountInfos.SetAccountType(ResultInfos.sign);
                                 Environment.PlayerStatut = ResultInfos.sign;
-                                tActiveUser.AccountType = ResultInfos.sign;
                             }
 
                             // Notification of a Download success

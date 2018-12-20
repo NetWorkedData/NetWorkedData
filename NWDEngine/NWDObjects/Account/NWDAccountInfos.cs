@@ -107,29 +107,40 @@ namespace NetWorkedData
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
-        /// Get active user information
+        /// Get active account information
         /// </summary>
-        public static NWDAccountInfos GetAccountInfosByEnvironmentOrCreate(NWDAppEnvironment sEnvironment)
+        public static NWDAccountInfos GetAccountInfosOrCreate()
         {
-            NWDAccountInfos tUserInfos = null;
-            foreach (NWDAccountInfos user in FindDatas())
+            NWDAccountInfos tAccountInfos = null;
+            foreach (NWDAccountInfos k in FindDatas())
             {
-                if (user.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
+                if (k.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
                 {
-                    tUserInfos = user;
+                    tAccountInfos = k;
                     break;
                 }
             }
-            if (tUserInfos == null)
+            if (tAccountInfos == null)
             {
-                tUserInfos = NewData();
-                tUserInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
-                tUserInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                tUserInfos.AccountType = sEnvironment.PlayerStatut;
-                tUserInfos.Tag = NWDBasisTag.TagUserCreated;
-                tUserInfos.SaveData();
+                NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+
+                tAccountInfos = NewData();
+                tAccountInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
+                tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
+                tAccountInfos.SaveData();
             }
-            return tUserInfos;
+            return tAccountInfos;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
+        {
+            NWDAccountInfos tActiveAccount = GetAccountInfosOrCreate();
+            if (tActiveAccount != null)
+            {
+                tActiveAccount.AccountType = tStatus;
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void StartOnDevice()

@@ -29,6 +29,7 @@ namespace NetWorkedData
 	[SerializeField]
 	public class NWDUnityType : BTBDataType
 	{
+
 	}
 }
 //=====================================================================================================================

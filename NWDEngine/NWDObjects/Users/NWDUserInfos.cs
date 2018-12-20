@@ -75,131 +75,59 @@ namespace NetWorkedData
         #region Properties
         [NWDGroupStart("Player Informations")]
         [NWDTooltips("")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDUserAvatar> Avatar
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDUserNickname> Nickname
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDUserAvatar> Avatar { get; set; }
+        public NWDReferenceType<NWDUserNickname> Nickname { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Localization Options")]
-        public NWDLanguageType Language
-        {
-            get; set;
-        }
+        public NWDLanguageType Language { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Push notification Options")]
-
-        public NWDOperatingSystem OSLastSignIn
-        {
-            get; set;
-        }
-        public bool AcceptTradePush
-        {
-            get; set;
-        }
-        public bool AcceptBarterPush
-        {
-            get; set;
-        }
-        public bool AcceptShopPush
-        {
-            get; set;
-        }
-        public bool AcceptRelationshipPush
-        {
-            get; set;
-        }
-        public bool AcceptUserInterMessagePush
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the apple notification token for message.
-        /// </summary>
-        /// <value>The apple notification token.</value>
-        public string AppleNotificationToken
-        {
-            get; set;
-        }
-        /// <summary>
-        /// Gets or sets the google notification token for message.
-        /// </summary>
-        /// <value>The google notification token.</value>
-        public string GoogleNotificationToken
-        {
-            get; set;
-        }
+        public NWDOperatingSystem OSLastSignIn { get; set; }
+        public bool AcceptTradePush { get; set; }
+        public bool AcceptBarterPush { get; set; }
+        public bool AcceptShopPush { get; set; }
+        public bool AcceptRelationshipPush { get; set; }
+        public bool AcceptUserInterMessagePush { get; set; }
+        public string AppleNotificationToken { get; set; }
+        public string GoogleNotificationToken { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Game Options")]
-        public bool SFX
-        {
-            get; set;
-        }
-        public float SFXVolume
-        {
-            get; set;
-        }
-        public bool Music
-        {
-            get; set;
-        }
-        public float MusicVolume
-        {
-            get; set;
-        }
-        public NWDLocalizableStringType MusicVolumeLangu
-        {
-            get; set;
-        }
+        public bool SFX { get; set; }
+        public float SFXVolume { get; set; }
+        public bool Music { get; set; }
+        public float MusicVolume { get; set; }
+        public NWDLocalizableStringType MusicVolumeLangu { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Last Game Informations")]
-        public NWDReferenceType<NWDItem> LastItemUsedReference
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> LastItemWinReference
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDItem> LastSpiritUsedReference
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
+        public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
+        public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
         #endregion
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos()
         {
-            //Debug.Log("NWDUserInfos Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserInfos(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDUserInfos Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -209,14 +137,14 @@ namespace NetWorkedData
         /// <summary>
         /// Get active user information
         /// </summary>
-        public static NWDUserInfos GetCurrent()
+        public static NWDUserInfos GetUserInfosOrCreate()
         {
             NWDUserInfos tUserInfos = null;
-            foreach (NWDUserInfos user in FindDatas())
+            foreach (NWDUserInfos k in FindDatas())
             {
-                if (user.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
+                if (k.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
                 {
-                    tUserInfos = user;
+                    tUserInfos = k;
                     break;
                 }
             }
