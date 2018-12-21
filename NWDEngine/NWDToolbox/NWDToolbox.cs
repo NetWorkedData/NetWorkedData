@@ -178,7 +178,7 @@ namespace NetWorkedData
 		public static string SaltCleaner (string sString)
 		{
 			//Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-			Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\,\\;\\:\\!]");
+			Regex rgx = new Regex ("[^a-zA-Z0-9 -_\\(\\)\\[\\]\\{\\}\\,\\;\\:\\!]");
 			return rgx.Replace (sString, string.Empty);
 		}
 		//-------------------------------------------------------------------------------------------------------------
