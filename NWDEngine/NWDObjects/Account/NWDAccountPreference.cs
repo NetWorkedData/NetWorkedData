@@ -91,7 +91,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountPreference GetPreferenceByInternalKeyOrCreate(string sInternalKey, string sDefaultValue, string sInternalDescription = "")
+        public static NWDAccountPreference GetPreferenceByInternalKeyOrCreate(string sInternalKey,
+         string sDefaultValue,
+             string sInternalDescription = BTBConstants.K_EMPTY_STRING)
         {
             //Debug.Log ("GetPreferenceByInternalKeyOrCreate");
             NWDAccountPreference rObject = FindFirstDatasByInternalKey(sInternalKey) as NWDAccountPreference;

@@ -28,9 +28,9 @@ namespace NetWorkedData
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = tTime.ToString("yyyy-MM-dd");
             string tYearString = tTime.ToString("yyyy");
-            string tConstantsFile = "";
+            string tConstantsFile = string.Empty;
             //int t_Next = (WebBuild + 1);
-            tConstantsFile += "" +
+            tConstantsFile += string.Empty +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
             "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
             "//Created by Jean-François CONTART\n" +

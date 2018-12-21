@@ -19,7 +19,7 @@ namespace NetWorkedData
         public string DGPRLinearization(bool sAsssemblyAsCSV = true)
         {
             Debug.Log("NWDBasis<K> DGPRLinearization()");
-            string rReturn = "";
+            string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
 
@@ -46,12 +46,12 @@ namespace NetWorkedData
 
                     // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
-                    string tValueString = "";
+                    string tValueString = string.Empty;
 
                     object tValue = tProp.GetValue(this, null);
                     if (tValue == null)
                     {
-                        tValue = "";
+                        tValue = string.Empty;
                     }
                     tValueString = tValue.ToString();
                     if (tTypeOfThis.IsEnum)

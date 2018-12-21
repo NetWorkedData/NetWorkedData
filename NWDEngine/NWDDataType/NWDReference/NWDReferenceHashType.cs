@@ -36,12 +36,12 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDReferenceHashType ()
 		{
-			Value = "";
+			Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public bool ContainsObject (K sObject)
@@ -69,7 +69,7 @@ namespace NetWorkedData
             return NWDConstants.kPopupdStyle.fixedHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDReferenceHashType<K> tTemporary = new NWDReferenceHashType<K> ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

@@ -36,13 +36,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDMinutesScheduleType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDMinutesScheduleType (string sValue = "")
+		public NWDMinutesScheduleType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -68,7 +68,7 @@ namespace NetWorkedData
 			return tHeight * (tCountE) + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override  object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override  object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDMinutesScheduleType tTemporary = new NWDMinutesScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

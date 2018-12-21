@@ -90,8 +90,8 @@ namespace NetWorkedData
         {
             if (sSelection == null)
             {
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, "");
-                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, "");
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_TYPE_KEY, string.Empty);
+                EditorPrefs.SetString(K_NODE_EDITOR_LAST_REFERENCE_KEY, string.Empty);
             }
             else
             {

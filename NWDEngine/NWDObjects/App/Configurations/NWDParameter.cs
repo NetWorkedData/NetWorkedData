@@ -122,7 +122,7 @@ namespace NetWorkedData
         /// <returns>The local string.</returns>
         /// <param name="sKey">key.</param>
         /// <param name="sDefault">default value.</param>
-        public static string GetLocalString(string sKey, string sDefault = "")
+        public static string GetLocalString(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDParameter tObject = NWDBasis<NWDParameter>.FindFirstDatasByInternalKey(sKey) as NWDParameter;
             string rReturn = sDefault;

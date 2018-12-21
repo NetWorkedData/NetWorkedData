@@ -22,45 +22,45 @@ namespace NetWorkedData
 		public string Environment = NWDConstants.K_PRODUCTION_NAME;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
-		public string PlayerAccountReference = "";
-		public string RequesToken = "";
+		public string PlayerAccountReference = string.Empty;
+		public string RequesToken = string.Empty;
 		//-------------------------------------------------------------------------------------------------------------
-		public string AnonymousPlayerAccountReference = "";
+		public string AnonymousPlayerAccountReference = string.Empty;
 		// reccord the first anonymous value to restaure old original account
-		public string AnonymousResetPassword = "";
+		public string AnonymousResetPassword = string.Empty;
 		// reccord the secretKey to reset token
 		//-------------------------------------------------------------------------------------------------------------
-		public string DataSHAPassword = "";
-		public string DataSHAVector = "";
-		public string SaltStart = "";
-        public string SaltEnd = "";
+		public string DataSHAPassword = string.Empty;
+		public string DataSHAVector = string.Empty;
+		public string SaltStart = string.Empty;
+        public string SaltEnd = string.Empty;
 #if UNITY_EDITOR
-        public string SaltServer = "";
-        public string MailHost = "";
+        public string SaltServer = string.Empty;
+        public string MailHost = string.Empty;
         public int MailPort = 465;
-        public string MailUserName = "";
-        public string MailPassword = "";
-        public string MailDomain = "";
+        public string MailUserName = string.Empty;
+        public string MailPassword = string.Empty;
+        public string MailDomain = string.Empty;
         public string MailAuthentication = "plain";
         public string MailEnableStarttlsAuto = "true";
         public string MailOpenSSLVerifyMode = "peer";
-        public string MailFrom = "";
-        public string MailReplyTo = "";
+        public string MailFrom = string.Empty;
+        public string MailReplyTo = string.Empty;
         public string RescueEmail = "no-reply@my-web-site.com";
         public string ServerHost = "localhost";
         public string ServerUser = "user";
-        public string ServerPassword = "";
+        public string ServerPassword = string.Empty;
         public string ServerBase = "myDatabase";
-        public string AdminKey = "";
+        public string AdminKey = string.Empty;
 #endif
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
 		public string ServerHTTPS = "https://www.my-web-site.com/";
-		public string FacebookAppID = "";
-		public string FacebookAppSecret = "";
-		public string GoogleAppKey = "";
-		public string UnityAppKey = "";
-		public string TwitterAppKey = "";
+		public string FacebookAppID = string.Empty;
+		public string FacebookAppSecret = string.Empty;
+		public string GoogleAppKey = string.Empty;
+		public string UnityAppKey = string.Empty;
+		public string TwitterAppKey = string.Empty;
 		public int BuildTimestamp = 0;
 		public int TokenHistoric = 6;
 		public string AppName = "MyGameApp";
@@ -72,9 +72,9 @@ namespace NetWorkedData
         public float SpeedOfGameTime = 1.0F;
         //public string Version = "0.00.00";
 
-        public string AccountsForTests = "";
+        public string AccountsForTests = string.Empty;
 
-        public string BuildDate = "";
+        public string BuildDate = string.Empty;
 
         public Color CartridgeColor = new Color(1.0F,1.0F,1.0F);
 
@@ -113,10 +113,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void AnonymousVerification ()
 		{
-			if (AnonymousPlayerAccountReference == "") {
+			if (AnonymousPlayerAccountReference == string.Empty) {
 				AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID ();
 			}
-			if (AnonymousResetPassword == "") {
+			if (AnonymousResetPassword == string.Empty) {
 				AnonymousResetPassword = NWDToolbox.RandomStringUnix (36);
 			}
 		}
@@ -135,29 +135,29 @@ namespace NetWorkedData
             // ServerPassword = NWDToolbox.SaltCleaner (ServerPassword);
             AdminKey = NWDToolbox.SaltCleaner (AdminKey);
 			//check salts are not mull
-			if (DataSHAPassword == "") {
+			if (DataSHAPassword == string.Empty) {
 				DataSHAPassword = NWDToolbox.RandomString (16);
 			}
-			if (DataSHAVector == "") {
+			if (DataSHAVector == string.Empty) {
 				DataSHAVector = NWDToolbox.RandomString (16);
 			}
-			if (SaltStart == "") {
+			if (SaltStart == string.Empty) {
 				SaltStart = NWDToolbox.RandomString (16);
 			}
-			if (SaltEnd == "") {
+			if (SaltEnd == string.Empty) {
 				SaltEnd = NWDToolbox.RandomString (16);
             }
-            if (SaltServer == "")
+            if (SaltServer == string.Empty)
             {
                 SaltServer = NWDToolbox.RandomString(16);
             }
             if (SaltFrequency <= 400) {
 				SaltFrequency = UnityEngine.Random.Range (400, 800);
 			}
-			if (ServerPassword == "") {
+			if (ServerPassword == string.Empty) {
 				ServerPassword = NWDToolbox.RandomString (16);
 			}
-			if (AdminKey == "") {
+			if (AdminKey == string.Empty) {
 				AdminKey = NWDToolbox.RandomString (16);
 			}
 			if (TokenHistoric < 1 || TokenHistoric > 10) {

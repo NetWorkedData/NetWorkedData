@@ -205,7 +205,7 @@ namespace NetWorkedData
                 // Check for error
                 if (Request.isNetworkError ||
                     Request.isHttpError ||
-                    Request.downloadHandler.text.Equals(""))
+                    Request.downloadHandler.text.Equals(string.Empty))
                 {
                     RequestError();
                 }
@@ -232,7 +232,7 @@ namespace NetWorkedData
                         ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
 
                         // memorize the token for next connection
-                        if (!ResultInfos.token.Equals(""))
+                        if (!ResultInfos.token.Equals(string.Empty))
                         {
                             Environment.RequesToken = ResultInfos.token;
                         }
@@ -292,7 +292,7 @@ namespace NetWorkedData
                         else if (ResultInfos.isNewUser && ResultInfos.isUserTransfert)
                         {
                             string tUUID = ResultInfos.uuid;
-                            if (!tUUID.Equals(""))
+                            if (!tUUID.Equals(string.Empty))
                             {
                                 tUserChange = true;
 
@@ -310,7 +310,7 @@ namespace NetWorkedData
                                 tUserChange = true;
                             }
 
-                            if (!tUUID.Equals(""))
+                            if (!tUUID.Equals(string.Empty))
                             {
                                 Environment.PlayerAccountReference = tUUID;
                             }
@@ -328,11 +328,11 @@ namespace NetWorkedData
                                 {
                                     case NWDAppEnvironmentPlayerStatut.Anonymous:
                                         {
-                                            if (!tUUID.Equals(""))
+                                            if (!tUUID.Equals(string.Empty))
                                             {
                                                 Environment.AnonymousPlayerAccountReference = tUUID;
                                             }
-                                            if (!ResultInfos.signkey.Equals(""))
+                                            if (!ResultInfos.signkey.Equals(string.Empty))
                                             {
                                                 Environment.AnonymousResetPassword = ResultInfos.signkey;
                                             }
@@ -534,7 +534,7 @@ namespace NetWorkedData
             #endif
 
             // insert dico of header in request header
-            string tDebug = "";
+            string tDebug = string.Empty;
             foreach (KeyValuePair<string, object> tEntry in tHeaderParams)
             {
                 Request.SetRequestHeader(tEntry.Key, tEntry.Value.ToString());
@@ -555,10 +555,10 @@ namespace NetWorkedData
             WWWForm tBodyData = new WWWForm();
             string tParamKey = UnSecureKey;
             string tDigestKey = UnSecureDigestKey;
-            string tParamValue = "";
-            string tDigestValue = "";
+            string tParamValue = string.Empty;
+            string tDigestValue = string.Empty;
 
-            Debug.Log("Data : " + Json.Serialize(Data).Replace("/r","").Replace("/n", ""));
+            Debug.Log("Data : " + Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty));
 
             if (SecureData)
             {

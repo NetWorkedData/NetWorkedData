@@ -37,11 +37,11 @@ namespace NetWorkedData
             Value = 0.0F+ NWDConstants.kFieldSeparatorA + 0.0F+NWDConstants.kFieldSeparatorA + 0.0F;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDVector3(string sValue = "")
+        public NWDVector3(string sValue = BTBConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
-                Value = "";
+                Value = string.Empty;
             }
             else
             {
@@ -51,7 +51,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector3 sVector)
@@ -82,11 +82,11 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             GUIStyle tStyle = new GUIStyle(EditorStyles.textField);
-            float tHeight = tStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            float tHeight = tStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
             return tHeight*2;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDVector3 tTemporary = new NWDVector3();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

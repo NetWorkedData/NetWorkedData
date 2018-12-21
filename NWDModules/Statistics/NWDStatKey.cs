@@ -408,7 +408,7 @@ namespace NetWorkedData
         /// </summary>
         public string ReturnWithFormat(float sValue)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             switch (Format)
             {
                 case NWDStatKeyFormat.Integer:

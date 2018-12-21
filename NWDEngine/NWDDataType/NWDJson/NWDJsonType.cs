@@ -36,13 +36,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDJsonType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDJsonType (string sValue = "")
+		public NWDJsonType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -76,7 +76,7 @@ namespace NetWorkedData
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDJsonType tTemporary = new NWDJsonType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

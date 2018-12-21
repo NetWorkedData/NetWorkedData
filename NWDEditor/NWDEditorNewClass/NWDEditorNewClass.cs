@@ -26,19 +26,19 @@ namespace NetWorkedData
 		/// <summary>
 		/// The futur name of the class.
 		/// </summary>
-		string ClassName = "";
+		string ClassName = string.Empty;
 		/// <summary>
 		/// The futur trigramme of the class.
 		/// </summary>
-		string ClassNameTrigramme = "";
+		string ClassNameTrigramme = string.Empty;
 		/// <summary>
 		/// The futur class description.
 		/// </summary>
-		string ClassNameDescription = "";
-		/// <summary>
-		/// The futur menu name use for this class.
-		/// </summary>
-		string ClassNameMenuName = "";
+		string ClassNameDescription = string.Empty;
+        /// <summary>
+        /// The futur menu name use for this class.
+        /// </summary>
+        string ClassNameMenuName = string.Empty;
 		/// <summary>
 		/// The class name properties list.
 		/// </summary>
@@ -62,7 +62,7 @@ namespace NetWorkedData
 			// prepare properties 
 			Dictionary<string,string> tPropertiesDico = new Dictionary<string,string> ();
 			foreach (KeyValuePair<string,string> tKeyValue in ClassNameProperties) {
-				if (tKeyValue.Key != "" && tKeyValue.Value != " " && tKeyValue.Value != "") {
+				if (tKeyValue.Key != string.Empty && tKeyValue.Value != " " && tKeyValue.Value != string.Empty) {
 					if (tPropertiesDico.ContainsKey (tKeyValue.Key) == false) {
 						string tTypeString = tKeyValue.Value;
 						if (tTypeString.Contains ("<K>/")) {
@@ -84,10 +84,10 @@ namespace NetWorkedData
 			string tFilePath = tOwnerClassesFolderPath + "/" + ClassName + ".cs";
 			File.WriteAllText (tFilePath, tClassExample);
 			// flush params
-			ClassName = "";
-			ClassNameTrigramme = "";
-			ClassNameDescription = "";
-			ClassNameMenuName = "";
+			ClassName = string.Empty;
+			ClassNameTrigramme = string.Empty;
+			ClassNameDescription = string.Empty;
+			ClassNameMenuName = string.Empty;
 			ClassNameProperties = new List<KeyValuePair<string,string>> ();
 			// import new script
 			AssetDatabase.ImportAsset (tFilePath);
@@ -124,7 +124,7 @@ namespace NetWorkedData
 			EditorGUILayout.LabelField ("Class informations", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 			ClassName = EditorGUILayout.TextField ("Name ", ClassName);
-			ClassName = tRegExpression.Replace (ClassName, "");
+			ClassName = tRegExpression.Replace (ClassName, string.Empty);
 			if (ClassName.Length < 3) {
 				EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
 				tCanCreate = false;
@@ -142,7 +142,7 @@ namespace NetWorkedData
 				}
 			}
 			ClassNameTrigramme = EditorGUILayout.TextField ("Trigramme", ClassNameTrigramme);
-			ClassNameTrigramme = tRegExpression.Replace (ClassNameTrigramme, "");
+			ClassNameTrigramme = tRegExpression.Replace (ClassNameTrigramme, string.Empty);
 			ClassNameTrigramme = ClassNameTrigramme.ToUpper ();
 			if (ClassNameTrigramme.Length < 2) {
 				EditorGUILayout.LabelField (" ", "trigramme must be longer than 1 characters");
@@ -164,13 +164,13 @@ namespace NetWorkedData
 			EditorGUILayout.LabelField ("Class description", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 			ClassNameDescription = EditorGUILayout.TextField ("Description", ClassNameDescription);
-			ClassNameDescription = ClassNameDescription.Replace ("\\", "");
+			ClassNameDescription = ClassNameDescription.Replace ("\\", string.Empty);
 			EditorGUI.indentLevel--;
 			EditorGUILayout.LabelField ("Menu in interface", EditorStyles.boldLabel);
 			EditorGUI.indentLevel++;
 			// futur class menu name
 			ClassNameMenuName = EditorGUILayout.TextField ("Menu name", ClassNameMenuName);
-			ClassNameMenuName = ClassNameMenuName.Replace ("\\", "");
+			ClassNameMenuName = ClassNameMenuName.Replace ("\\", string.Empty);
 			if (ClassNameMenuName.Length < 3) {
 				EditorGUILayout.LabelField (" ", "menu name must be longer than 2 characters");
 				tCanCreate = false;
@@ -247,8 +247,8 @@ namespace NetWorkedData
 				tPropertyType = tRegExpressionEmptyType.Replace (tPropertyType, " ");
 				string tPropertyName = tKeyValue.Key;
 				tPropertyName = EditorGUILayout.TextField (tPropertyName, GUILayout.MaxWidth (160));
-				tPropertyName = tRegExpressionProperties.Replace (tPropertyName, "");
-				if (tPropertyType != "" || tPropertyName != "") {
+				tPropertyName = tRegExpressionProperties.Replace (tPropertyName, string.Empty);
+				if (tPropertyType != string.Empty || tPropertyName != string.Empty) {
 					KeyValuePair<string,string> tEnter = new KeyValuePair<string,string> (tPropertyName, tPropertyType);
 					tNextClassNameProperties.Add (tEnter);
 				}
@@ -260,10 +260,10 @@ namespace NetWorkedData
 			tNextIndex = EditorGUILayout.Popup ("New Property", tNextIndex, tListOfType.ToArray ());
 			string tNextPropertyType = tListOfType [tNextIndex];
 			tNextPropertyType = tRegExpressionEmptyType.Replace (tNextPropertyType, " ");
-			string tNextPropertyName = "";
+			string tNextPropertyName = string.Empty;
 			tNextPropertyName = EditorGUILayout.TextField (tNextPropertyName, GUILayout.MaxWidth (160));
-			tNextPropertyName = tRegExpressionProperties.Replace (tNextPropertyName, "");
-			if (tNextPropertyType != "" || tNextPropertyName != "") {
+			tNextPropertyName = tRegExpressionProperties.Replace (tNextPropertyName, string.Empty);
+			if (tNextPropertyType != string.Empty || tNextPropertyName != string.Empty) {
 				KeyValuePair<string,string> tEnter = new KeyValuePair<string,string> (tNextPropertyName, tNextPropertyType);
 				tNextClassNameProperties.Add (tEnter);
 			}
@@ -301,7 +301,7 @@ namespace NetWorkedData
 		bool RemoveAllPredicate (KeyValuePair<string,string> tObject)
 		{
 			bool tReturn = false;
-			if (tObject.Key == "" && tObject.Value == " ") {
+			if (tObject.Key == string.Empty && tObject.Value == " ") {
 				tReturn = true; 
 			}
 			return tReturn;

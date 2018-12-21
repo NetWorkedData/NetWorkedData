@@ -37,10 +37,10 @@ namespace NetWorkedData
             Value = 0.0F + NWDConstants.kFieldSeparatorA + 1.0F;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDFloatRange (string sValue = "")
+		public NWDFloatRange (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -105,7 +105,7 @@ namespace NetWorkedData
 			return tHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDFloatRange tTemporary = new NWDFloatRange ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

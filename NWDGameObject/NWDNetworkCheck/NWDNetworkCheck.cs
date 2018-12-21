@@ -42,8 +42,8 @@ namespace NetWorkedData
         public NWDNetworkState NetworkState = NWDNetworkState.Unknow;
         public bool DebugLog = false;
         public NWDNetworkCheckType RequestType = NWDNetworkCheckType.Ping;
-        string URL = "";
-        string AddressPing = "";
+        string URL = string.Empty;
+        string AddressPing = string.Empty;
         private bool IsPaused = false;
         UnityWebRequest Request;
         public NWDNetworkFinishDelegate TestFinishedBlock;

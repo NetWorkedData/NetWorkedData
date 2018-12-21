@@ -206,12 +206,12 @@ namespace NetWorkedData
             PreprodSync = 0;
             ProdSync = 0;
 
-            ServerHash = "";
-            ServerLog = "";
+            ServerHash = string.Empty;
+            ServerLog = string.Empty;
 
-            InternalKey = "";
-            InternalDescription = "";
-            Preview = "";
+            InternalKey = string.Empty;
+            InternalDescription = string.Empty;
+            Preview = string.Empty;
             WebServiceVersion = WebServiceVersionToUse();
             //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
             Type tType = ClassType();
@@ -224,7 +224,7 @@ namespace NetWorkedData
                     var tMethodInfo = tObject.GetType().GetMethod("SetString", BindingFlags.Public | BindingFlags.Instance);
                     if (tMethodInfo != null)
                     {
-                        tMethodInfo.Invoke(tObject, new object[] { "" });
+                        tMethodInfo.Invoke(tObject, new object[] { string.Empty });
                     }
                     tPropertyInfo.SetValue(this, tObject, null);
                 }

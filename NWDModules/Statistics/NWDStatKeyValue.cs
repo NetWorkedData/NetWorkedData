@@ -260,7 +260,7 @@ namespace NetWorkedData
         {
             NWDStatKey tStaKey = StatKey.GetObject();
             string tTotalFormatted = tStaKey.ReturnWithFormat(Total);
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (Total == 0.0f)
             {
                 rReturn = tStaKey.NoTotalFormat.GetLocalString().Replace("#x#",tTotalFormatted);
@@ -284,7 +284,7 @@ namespace NetWorkedData
             {
                 tAverageFormatted = (Average * 100.0F).ToString("F2") + " %";
             }
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (Average == 0.0f)
             {
                 rReturn = tStaKey.NoAverageFormat.GetLocalString().Replace("#x#", tAverageFormatted);
@@ -308,7 +308,7 @@ namespace NetWorkedData
             {
                 tAverageWithParentFormatted = (AverageWithParent * 100.0F).ToString("F2") + " %";
             }
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (AverageWithParent == 0.0f)
             {
                 rReturn = tStaKey.NoAverageWithParentFormat.GetLocalString().Replace("#x#", tAverageWithParentFormatted);
@@ -328,7 +328,7 @@ namespace NetWorkedData
         {
             NWDStatKey tStaKey = StatKey.GetObject();
             string tLastFormatted = tStaKey.ReturnWithFormat(Last);
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (Last == 0.0f)
             {
                 rReturn = tStaKey.NoLastFormat.GetLocalString().Replace("#x#", tLastFormatted);
@@ -349,7 +349,7 @@ namespace NetWorkedData
         {
             NWDStatKey tStaKey = StatKey.GetObject();
             string tMinFormatted = tStaKey.ReturnWithFormat(Min);
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (Min == 0.0f)
             {
                 rReturn = tStaKey.NoMinFormat.GetLocalString().Replace("#x#", tMinFormatted);
@@ -370,7 +370,7 @@ namespace NetWorkedData
         {
             NWDStatKey tStaKey = StatKey.GetObject();
             string tMaxFormatted = tStaKey.ReturnWithFormat(Max);
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (Max == 0.0f)
             {
                 rReturn = tStaKey.NoMaxFormat.GetLocalString().Replace("#x#", tMaxFormatted);
@@ -391,7 +391,7 @@ namespace NetWorkedData
         {
             NWDStatKey tStaKey = StatKey.GetObject();
             string tCounterFormatted = ((int)Counter).ToString();
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (Counter == 0.0f)
             {
                 rReturn = tStaKey.NoCounterFormat.GetLocalString().Replace("#x#", tCounterFormatted);

@@ -34,13 +34,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDSpriteType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSpriteType (string sValue = "")
+		public NWDSpriteType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -51,7 +51,7 @@ namespace NetWorkedData
             Sprite rSprite = null;
 			if (!string.IsNullOrEmpty(Value))
             {
-				string tPath = Value.Replace(kAssetDelimiter, "");
+				string tPath = Value.Replace(kAssetDelimiter, string.Empty);
 				#if UNITY_EDITOR
 				rSprite = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
                 #else
@@ -79,7 +79,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    string tPath = Value.Replace(kAssetDelimiter, "");
+                    string tPath = Value.Replace(kAssetDelimiter, string.Empty);
                     Sprite tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Sprite)) as Sprite;
                     if (tObject == null)
                     {
@@ -93,7 +93,7 @@ namespace NetWorkedData
 		public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
-			if (Value != "") 
+			if (Value != string.Empty) 
 			{
 				tAdd = 1;
 			}
@@ -111,7 +111,7 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDSpriteType tTemporary = new NWDSpriteType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -139,8 +139,8 @@ namespace NetWorkedData
 
 			bool tRessource = true;
 
-			if (Value != null && Value != "") {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+			if (Value != null && Value != string.Empty) {
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty);
 				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Sprite)) as Sprite;
 				if (tObject == null) {
 					tRessource = false;
@@ -163,7 +163,7 @@ namespace NetWorkedData
 			if (pObj != null) {
 				tTemporary.Value = NWDAssetType.kAssetDelimiter+AssetDatabase.GetAssetPath (pObj)+NWDAssetType.kAssetDelimiter;
 			} else {
-				tTemporary.Value = "";
+				tTemporary.Value = string.Empty;
 			}
 			EditorGUI.EndDisabledGroup ();
 			if (tRessource == true) {
@@ -177,7 +177,7 @@ namespace NetWorkedData
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
+					tTemporary.Value = string.Empty;
 				}
 				GUI.backgroundColor = tOldColor;
 				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;

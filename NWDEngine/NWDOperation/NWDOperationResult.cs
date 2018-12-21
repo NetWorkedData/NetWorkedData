@@ -201,8 +201,8 @@ namespace NetWorkedData
             timestamp = 0;
             perform = 0.0f;
             isError = false;
-            errorCode = "";
-            token = "";
+            errorCode = string.Empty;
+            token = string.Empty;
             isSignIn = false;
             isSignOut = false;
             //isGoogleSignIn = false;
@@ -210,13 +210,13 @@ namespace NetWorkedData
             //isFacebookSignIn = false;
             //isFacebookSignUp = false;
             isCreateAnonymous = false;
-            signkey = "";
+            signkey = string.Empty;
             sign = NWDAppEnvironmentPlayerStatut.Unknow;
             isSignUpdate = false;
             isNewUser = false;
             isUserTransfert = false;
             isReloadingData = false;
-            uuid = "";
+            uuid = string.Empty;
 
             param = new Dictionary<string, object>();
 

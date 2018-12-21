@@ -79,7 +79,7 @@ namespace NetWorkedData
             // ask for final file path
             string tPath = EditorUtility.SaveFilePanel(
                 "Export Localization CSV",
-                "",
+                string.Empty,
                 Datas().ClassNamePHP + ".csv",
                 "csv");
             if (tPath != null)
@@ -100,7 +100,7 @@ namespace NetWorkedData
         /// <returns>The all localization.</returns>
         public static string ExportLocalizationInCSV()
         {
-            string tRows = "";
+            string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
@@ -117,7 +117,7 @@ namespace NetWorkedData
         /// <param name="sLanguageArray">S language array.</param>
         public string ExportCSV(string[] sLanguageArray)
         {
-            string tRows = "";
+            string tRows = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = PropertiesOrderArray();
             foreach (string tPropertieName in tPropertiesList)
@@ -131,7 +131,7 @@ namespace NetWorkedData
                     string tValue = tValueObject.Value;
                     Dictionary<string, string> tResultSplitDico = new Dictionary<string, string>();
 
-                    if (tValue != null && tValue != "" && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)
+                    if (tValue != null && tValue != string.Empty && tValue != NWDDataLocalizationManager.kBaseDev + NWDConstants.kFieldSeparatorB)
                     {
                         string[] tValueArray = tValue.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string tValueArrayLine in tValueArray)
@@ -241,7 +241,7 @@ namespace NetWorkedData
                             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
                             if (tNextValue == NWDConstants.kFieldSeparatorB)
                             {
-                                tNextValue = "";
+                                tNextValue = string.Empty;
                             }
                             string tPropertyName = tDico["PropertyName"];
 

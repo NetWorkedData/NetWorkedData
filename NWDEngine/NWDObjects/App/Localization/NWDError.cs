@@ -188,7 +188,7 @@ namespace NetWorkedData
         public static NWDError CreateGenericError(string sDomain, string sCode, string sTitle, string sDescription, string sValidation, NWDErrorType sType = NWDErrorType.LogVerbose, NWDBasisTag sTag = NWDBasisTag.TagInternal)
         {
             //BTBBenchmark.Start();
-            string tReference = "ERR-" + sDomain + "-" + sCode;
+            string tReference = "ERR-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
             NWDError tError = NWDError.GetDataByReference(tReference);
             if (tError != null && tError.IsTrashed())
@@ -357,7 +357,7 @@ namespace NetWorkedData
         {
             if (sNeedBeUpdate == true)
             {
-                if (Domain == null || Domain == "")
+                if (Domain == null || Domain == string.Empty)
                 {
                     Domain = "Unknow";
                 }

@@ -43,7 +43,7 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
 	[Serializable]
-    public class NWDLocalizationConnection : NWDConnection<NWDLocalization>     {         public string GetLocalString(string sDefault = "")         {             NWDLocalization tObject = GetObject();             if (tObject != null)             {                 return GetObject().GetLocalString();             }              return sDefault;         }     }
+    public class NWDLocalizationConnection : NWDConnection<NWDLocalization>     {         public string GetLocalString(string sDefault = BTBConstants.K_EMPTY_STRING)         {             NWDLocalization tObject = GetObject();             if (tObject != null)             {                 return GetObject().GetLocalString();             }              return sDefault;         }     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("LCL")]
@@ -121,11 +121,11 @@ namespace NetWorkedData
         /// <returns>The base string.</returns>
         /// <param name="sKey">key.</param>
         /// <param name="sDefault">default value.</param>
-        public static NWDLocalization CreateLocalizationTextValue(string sKey, string sDefault = "")
+        public static NWDLocalization CreateLocalizationTextValue(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalization rReturn = NewData();
             rReturn.InternalKey = sKey;
-            if (sDefault != "")
+            if (sDefault != string.Empty)
             {
                 rReturn.TextValue.AddBaseString(sDefault);
             }
@@ -159,7 +159,7 @@ namespace NetWorkedData
         /// <returns>The local string.</returns>
         /// <param name="sKey">key.</param>
         /// <param name="sDefault">default value.</param>
-        public static string GetLocalText(string sKey, string sDefault = "")
+        public static string GetLocalText(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             string rReturn = sDefault;
@@ -174,7 +174,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDMultiType GetAnnexeValue(string sKey, string sDefault = "")
+        public static NWDMultiType GetAnnexeValue(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             NWDMultiType rReturn = new NWDMultiType();
@@ -189,7 +189,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string GetAnnexeString(string sKey, string sDefault = "")
+        public static string GetAnnexeString(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
             string rReturn = sDefault;
@@ -312,8 +312,8 @@ namespace NetWorkedData
             string tBend = "</b>";
             if (sBold == false)
             {
-                tBstart = "";
-                tBend = "";
+                tBstart = string.Empty;
+                tBend = string.Empty;
             }
             if (sLanguage == null)
             {

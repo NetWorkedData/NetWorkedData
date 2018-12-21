@@ -107,7 +107,7 @@ namespace NetWorkedData
 		/// <param name="sLength">length.</param>
 		public static string RandomString (int sLength)
 		{
-			string rReturn = "";
+			string rReturn = string.Empty;
 			//const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_()[]{}%,?;.:!&";
 			const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_()[]{},;:!";
 			int tCharLenght = tChars.Length;
@@ -119,7 +119,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string RandomStringCypher(int sLength)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             const string tChars = 
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"+
             //"()[]{}" +
@@ -144,7 +144,7 @@ namespace NetWorkedData
         /// <param name="sLength">length.</param>
         public static string RandomStringAlpha(int sLength)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             const string tChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
@@ -161,7 +161,7 @@ namespace NetWorkedData
         /// <param name="sLength">length.</param>
         public static string RandomStringUnix (int sLength)
 		{
-			string rReturn = "";
+			string rReturn = string.Empty;
 			const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
 			int tCharLenght = tChars.Length;
 			while (rReturn.Length < sLength) {
@@ -179,7 +179,7 @@ namespace NetWorkedData
 		{
 			//Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
 			Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\,\\;\\:\\!]");
-			return rgx.Replace (sString, "");
+			return rgx.Replace (sString, string.Empty);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -190,7 +190,7 @@ namespace NetWorkedData
 		public static string SplitCamelCase (string input)
 		{
 			string rReturn = Regex.Replace (input, "([A-Z])", " $1", RegexOptions.ECMAScript).Trim ();
-			rReturn = rReturn.Replace ("_", "");
+			rReturn = rReturn.Replace ("_", string.Empty);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -250,7 +250,7 @@ namespace NetWorkedData
 			//Debug.Log ("copy folder from = " + sFromFolder + " to " + sToFolder);
 			string[] tSubFoldersArray = AssetDatabase.GetSubFolders (sFromFolder);
 			foreach (string tSubFolder in tSubFoldersArray) {
-				string tSubFolderLast = tSubFolder.Replace (sFromFolder + "/", "");
+				string tSubFolderLast = tSubFolder.Replace (sFromFolder + "/", string.Empty);
 
 				//Debug.Log ("copy sub folder from = " + tSubFolder + " to " + sToFolder + "/" + tSubFolderLast);
 
@@ -339,10 +339,10 @@ namespace NetWorkedData
 		/// </summary>
 		public static string GenerateUniqueID ()
 		{
-			string rReturn = "";
+			string rReturn = string.Empty;
 			int tUnixCurrentTime = Timestamp ();
 			int tTime = tUnixCurrentTime - 1492710000;
-			rReturn = "ACC-" + tTime.ToString () + "-" + UnityEngine.Random.Range (1000000, 9999999).ToString () + UnityEngine.Random.Range (1000000, 9999999).ToString () + "T";
+			rReturn = "ACC-" + tTime.ToString () + BTBConstants.K_MINUS + UnityEngine.Random.Range (1000000, 9999999).ToString () + UnityEngine.Random.Range (1000000, 9999999).ToString () + "T";
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -411,7 +411,7 @@ namespace NetWorkedData
 				Type tFindClassesType = Type.GetType ("NetWorkedData." + sFindClassName);
 				var tMethodInfo = tFindClassesType.GetMethod ("PathOfPackage", BindingFlags.Public | BindingFlags.Static);
 				if (tMethodInfo != null) {
-					tEngineRoot = tMethodInfo.Invoke (null, new object[]{ "" }) as string;
+					tEngineRoot = tMethodInfo.Invoke (null, new object[]{ string.Empty }) as string;
 				}
 				tEngineRootFolder = tEngineRoot; // root is directly the good path of final folder
 			}
@@ -421,7 +421,7 @@ namespace NetWorkedData
 			}
 
 			if (tFindClassesFolder == false) {
-				string tFindClassesClass = "" +
+				string tFindClassesClass = string.Empty +
 				                           "using System.Collections;\n" +
 				                           "using System.Collections.Generic;\n" +
 				                           "using System.IO;\n" +

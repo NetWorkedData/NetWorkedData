@@ -111,7 +111,7 @@ namespace NetWorkedData
                 return AppleID;
             }
 
-            return "";
+            return string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#region NetWorkedData addons methods

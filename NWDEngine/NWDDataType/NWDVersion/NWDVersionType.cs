@@ -48,13 +48,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public int ToInt()
         {
             int rVersionInteger = 0;
-            int.TryParse(ToString().Replace(".", ""), out rVersionInteger);
+            int.TryParse(ToString().Replace(".", string.Empty), out rVersionInteger);
             return rVersionInteger;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace NetWorkedData
             return NWDConstants.kPopupdStyle.fixedHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDVersionType tTemporary = new NWDVersionType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

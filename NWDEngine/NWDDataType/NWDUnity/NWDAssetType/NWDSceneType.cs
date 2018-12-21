@@ -33,13 +33,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDSceneType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDSceneType (string sValue = "")
+		public NWDSceneType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -47,7 +47,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
          public bool IsEmpty()
         {
-            return (Value == "");
+            return (Value == string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
@@ -63,7 +63,7 @@ namespace NetWorkedData
                     tScenesInBuildList.Add(tSettingScene.path);
                 }
             }
-            tScenesInBuildList.Insert(0, "");
+            tScenesInBuildList.Insert(0, string.Empty);
             bool rReturn = false;
             if (string.IsNullOrEmpty(Value) == false)
             {
@@ -84,12 +84,12 @@ namespace NetWorkedData
             GUIStyle tPopupFieldStyle = new GUIStyle (EditorStyles.popup);
             tPopupFieldStyle.fixedHeight = tPopupFieldStyle.CalcHeight (new GUIContent ("A"), 100.0f);
             GUIStyle tMiniButtonStyle = new GUIStyle (EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
             return tPopupFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDSceneType tTemporary = new NWDSceneType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -117,7 +117,7 @@ namespace NetWorkedData
                 }
             }
             tScenesInBuildList.Sort((tA, tB) => tA.CompareTo(tB));
-            tScenesInBuildList.Insert(0, "");
+            tScenesInBuildList.Insert(0, string.Empty);
             tScenesInBuildList.Insert(1, " ");
             foreach (string tSettingSceneName in tScenesInBuildList)
             {
@@ -132,7 +132,7 @@ namespace NetWorkedData
             tTemporary.Value = tScenesInBuildList[tNextSceneIndex];
             if (tTemporary.Value == " ")
             {
-                tTemporary.Value = "";
+                tTemporary.Value = string.Empty;
             }
             tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
             if (IsInError() == true) {
@@ -140,7 +140,7 @@ namespace NetWorkedData
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
+					tTemporary.Value = string.Empty;
 				}
 				GUI.backgroundColor = tOldColor;
 				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;

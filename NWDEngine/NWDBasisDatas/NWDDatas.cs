@@ -38,14 +38,14 @@ namespace NetWorkedData
         public bool ClassLoaded = false; 
         //-------------------------------------------------------------------------------------------------------------
         public Type ClassType = null;
-        public string ClassName = "";
-        public string ClassNamePHP = "";
+        public string ClassName = string.Empty;
+        public string ClassNamePHP = string.Empty;
         public bool ClassSynchronize;
-        public string ClassTrigramme = "";
-        public string ClassDescription = "";
-        public string ClassMenuName = "";
-        public string ClassTableName = "";
-        public string ClassPrefBaseKey = "";
+        public string ClassTrigramme = string.Empty;
+        public string ClassDescription = string.Empty;
+        public string ClassMenuName = string.Empty;
+        public string ClassTableName = string.Empty;
+        public string ClassPrefBaseKey = string.Empty;
         public GUIContent ClassMenuNameContent = null;
         //-------------------------------------------------------------------------------------------------------------
         public bool kLockedObject; // false if account dependant but bypass in editor mode (allways false to authorize sync)
@@ -62,9 +62,9 @@ namespace NetWorkedData
         public bool kAssetDependent;
         public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
-        public string SaltA = "";
-        public string SaltB = "";
-        public string SaltOk = "";
+        public string SaltA = string.Empty;
+        public string SaltB = string.Empty;
+        public string SaltOk = string.Empty;
 
         //public List<object> ObjectsList = new List<object>();
         //public List<string> ObjectsByReferenceList = new List<string>();
@@ -86,7 +86,7 @@ namespace NetWorkedData
             if (Texture == null)
             {
                 Texture2D rTexture = null;
-                string[] sGUIDs = AssetDatabase.FindAssets("" + ClassNamePHP + " t:texture2D");
+                string[] sGUIDs = AssetDatabase.FindAssets( ClassNamePHP + " t:texture2D");
                 foreach (string tGUID in sGUIDs)
                 {
                     //Debug.Log("TextureOfClass GUID " + tGUID);
@@ -116,12 +116,12 @@ namespace NetWorkedData
         public bool kSyncAndMoreInformations = false;
 
 
-        public string m_SearchReference = "";
-        public string m_SearchInternalName = "";
-        public string m_SearchInternalDescription = "";
+        public string m_SearchReference = string.Empty;
+        public string m_SearchInternalName = string.Empty;
+        public string m_SearchInternalDescription = string.Empty;
 
-        public string m_SearchAccount = "";
-        public string m_SearchGameSave = "";
+        public string m_SearchAccount = string.Empty;
+        public string m_SearchGameSave = string.Empty;
         public NWDBasisTag m_SearchTag = NWDBasisTag.NoTag;
 
         public Vector2 m_ScrollPositionList;
@@ -274,7 +274,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string Informations(Type sType)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             NWDDatas tTypeInfos = FindTypeInfos(sType);
             if (tTypeInfos == null)
             {
@@ -294,7 +294,7 @@ namespace NetWorkedData
             "ServerSynchronize = '" + ClassSynchronize + "' " +
             "ClassDescription = '" + ClassDescription + "' " +
             "MenuName = '" + ClassMenuName + "' " +
-            "";
+            string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static void AllInfos ()
@@ -543,7 +543,7 @@ namespace NetWorkedData
 
             // use in pop menu in edition of NWD inspector...
             EditorDatasMenu = new Dictionary<string, string>();
-            EditorDatasMenu.Add("---", "");
+            EditorDatasMenu.Add("---", string.Empty);
 #endif
             //BTBBenchmark.Finish();
         }
@@ -1415,7 +1415,7 @@ namespace NetWorkedData
                                 var tValue = Datas().ClassGameDependentProperties.GetValue(tDatas, null);
                                 if (tValue == null)
                                 {
-                                    tValue = "";
+                                    tValue = string.Empty;
                                 }
                                 string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
                                 if (tSaveIndex != tGameIndex)

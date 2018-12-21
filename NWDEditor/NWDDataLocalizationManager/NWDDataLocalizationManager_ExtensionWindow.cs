@@ -77,7 +77,7 @@ namespace NetWorkedData
             {
                 if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tLang) == false)
                 {
-                    NWDAppConfiguration.SharedInstance().BundleName.Add(tLang,"");   
+                    NWDAppConfiguration.SharedInstance().BundleName.Add(tLang, string.Empty);   
                 }
                 NWDAppConfiguration.SharedInstance().BundleName[tLang] = EditorGUILayout.TextField(tLang, NWDAppConfiguration.SharedInstance().BundleName[tLang]);
             }

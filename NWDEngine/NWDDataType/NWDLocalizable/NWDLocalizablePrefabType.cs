@@ -15,6 +15,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,15 +32,15 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDLocalizablePrefabType ()
 		{
-            Value = "";
-            AddBaseString("");
+            Value = string.Empty;
+            AddBaseString(string.Empty);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDLocalizablePrefabType (string sValue = "")
+		public NWDLocalizablePrefabType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-                Value = "";
-                AddBaseString("");
+                Value = string.Empty;
+                AddBaseString(string.Empty);
 			} else {
 				Value = sValue;
 			}
@@ -118,7 +119,7 @@ namespace NetWorkedData
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
 			int tRow = 0;
-			if (Value != null && Value != "") {
+			if (Value != null && Value != string.Empty) {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tRow += tValueArray.Count ();
 			}
@@ -127,7 +128,7 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
@@ -141,7 +142,7 @@ namespace NetWorkedData
             float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
 
 			List<string> tLocalizationList = new List<string> ();
-			tLocalizationList.Add ("-");
+			tLocalizationList.Add (BTBConstants.K_MINUS);
 
 			string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
 			string[] tLanguageArray = tLanguage.Split (new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -154,7 +155,7 @@ namespace NetWorkedData
 
 			Dictionary<string,string> tResult = new Dictionary<string,string> ();
 
-			if (Value != null && Value != "") {
+			if (Value != null && Value != string.Empty) {
 				string[] tValueArray = Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
 				tValueList = new List<string> (tValueArray);
 			}
@@ -169,15 +170,15 @@ namespace NetWorkedData
 			}
 			string[] tLangageArray = tLocalizationList.ToArray ();
 			//Debug.Log (" tLangageArray =  " + string.Join(".",tLangageArray));
-			tValueList.Add ("");
+			tValueList.Add (string.Empty);
 			for (int i = 0; i < tValueList.Count; i++) {
 				//string tFieldName = sEntitled;
 				if (i > 0) {
 					//tFieldName = "   ";
                     tContent = new GUIContent("   ");
 				}
-				string tLangague = "";
-				string tText = "";
+				string tLangague = string.Empty;
+				string tText = string.Empty;
 				string tLine = tValueList.ElementAt (i);
 				string[] tLineValue = tLine.Split (new string[]{ NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
 				if (tLineValue.Length == 2) {
@@ -210,14 +211,14 @@ namespace NetWorkedData
 				tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight (new GUIContent ("A"), tWidth);
 
 				GameObject tObject = null;
-				if (tText != null && tText != "") {
+				if (tText != null && tText != string.Empty) {
 					tObject = AssetDatabase.LoadAssetAtPath (tText, typeof(GameObject)) as GameObject;
 				}
 				Texture2D tTexture2D = AssetPreview.GetAssetPreview (tObject);
 				if (tTexture2D != null) {
 					EditorGUI.DrawPreviewTexture (new Rect (tWidth - NWDConstants.kPrefabSize, tY + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize), tTexture2D);
 				}
-				if (tLangague != "") {
+				if (tLangague != string.Empty) {
 
                      //remove EditorGUI.indentLevel to draw next controller without indent 
                     int tIndentLevel = EditorGUI.indentLevel;
@@ -244,11 +245,11 @@ namespace NetWorkedData
 					tResult.Add (tLangague, tText);
 				}
 			}
-			tResult.Remove ("-"); // remove default value
-            tResult.Remove (""); // remove empty value
+			tResult.Remove (BTBConstants.K_MINUS); // remove default value
+            tResult.Remove (string.Empty); // remove empty value
             if (tResult.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
-                tResult.Add(NWDDataLocalizationManager.kBaseDev, "");
+                tResult.Add(NWDDataLocalizationManager.kBaseDev, string.Empty);
             }
 			foreach (KeyValuePair<string,string> tKeyValue in tResult) {
 				tValueNextList.Add (tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value);
@@ -258,7 +259,7 @@ namespace NetWorkedData
 			string tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
 			tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 			if (tNextValue == NWDConstants.kFieldSeparatorB) {
-				tNextValue = "";
+				tNextValue = string.Empty;
 			}
 			tTemporary.Value = tNextValue;
 			return tTemporary;

@@ -204,12 +204,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesConditionalType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ContainsObject(K sObject)
@@ -225,7 +225,7 @@ namespace NetWorkedData
         public bool IsEmpty()
         {
             bool rReturn = true;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 rReturn = false;
             }
@@ -235,7 +235,7 @@ namespace NetWorkedData
         public bool IsNotEmpty()
         {
             bool rReturn = false;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 rReturn = true;
             }
@@ -245,7 +245,7 @@ namespace NetWorkedData
         public bool IsValid(NWDReferencesQuantityType<K> sReferencesQuantity, bool sExceptIfIsEmpty = false)
         {
             bool rReturn = true;
-            if (sExceptIfIsEmpty && Value == "")
+            if (sExceptIfIsEmpty && Value == string.Empty)
             {
                 return false;
             }
@@ -398,7 +398,7 @@ namespace NetWorkedData
         public string[] GetReferences()
         {
             List<string> tValueList = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -436,7 +436,7 @@ namespace NetWorkedData
         public List<NWDReferenceConditionalType<K>> GetReferenceQuantityConditional()
         {
             List<NWDReferenceConditionalType<K>> rList = new List<NWDReferenceConditionalType<K>>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -450,7 +450,7 @@ namespace NetWorkedData
         public string Description()
         {
             List<NWDReferenceConditionalType<K>> tList = GetReferenceQuantityConditional();
-            string rDescription = "";
+            string rDescription = string.Empty;
             foreach (NWDReferenceConditionalType<K> tKeyValue in tList)
             {
                 rDescription += tKeyValue.Description();
@@ -509,7 +509,7 @@ namespace NetWorkedData
         public List<K> ExploseInItemsList()
         {
             List<K> rList = new List<K>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -590,7 +590,7 @@ namespace NetWorkedData
         {
             int tRow = 1;
             int tConnection = 0;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
@@ -610,7 +610,7 @@ namespace NetWorkedData
                                NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
             // test if error in reference and add button height
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
                 {
@@ -621,7 +621,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
@@ -676,7 +676,7 @@ namespace NetWorkedData
 
             List<string> tValueList = new List<string>();
             //List<string> tValueListReferenceAllReady = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tValueList = new List<string>(tValueArray);
@@ -694,8 +694,8 @@ namespace NetWorkedData
             bool tDown = false;
             int tIndexToMove = -1;
 
-            tValueList.Add("");
-            string tNewReferenceQuantity = "";
+            tValueList.Add(string.Empty);
+            string tNewReferenceQuantity = string.Empty;
             for (int i = 0; i < tValueList.Count; i++)
             {
                 //string tFieldName = sEntitled;
@@ -708,7 +708,7 @@ namespace NetWorkedData
                 int tIndex = 0;
                 int tQ = 1;
                 int tC = 0;
-                string tV = "";
+                string tV = string.Empty;
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                 if (tLineValue.Length == 2)
@@ -796,7 +796,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tValueList[i] = "";
+                    tValueList[i] = string.Empty;
                 }
             }
             if (tDown == true)

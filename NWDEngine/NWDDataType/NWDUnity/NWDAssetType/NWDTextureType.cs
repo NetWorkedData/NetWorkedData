@@ -34,13 +34,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDTextureType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDTextureType (string sValue = "")
+		public NWDTextureType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -51,7 +51,7 @@ namespace NetWorkedData
 			Texture2D rTexture = null;
             if (!string.IsNullOrEmpty(Value))
             {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty);
                 #if UNITY_EDITOR
                 rTexture = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
                 #else
@@ -90,7 +90,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
                     Texture2D tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(Texture2D)) as Texture2D;
                     if (tObject == null)
                     {
@@ -104,7 +104,7 @@ namespace NetWorkedData
 		public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
-			if (Value != "") {
+			if (Value != string.Empty) {
 				tAdd = 1;
 			}
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
@@ -149,8 +149,8 @@ namespace NetWorkedData
 
 			bool tRessource = true;
 
-			if (Value != null && Value != "") {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+			if (Value != null && Value != string.Empty) {
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty);
 				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(Texture2D)) as Texture2D;
 				if (tObject == null) {
 					tRessource = false;
@@ -168,7 +168,7 @@ namespace NetWorkedData
 			if (pObj != null) {
 				tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath (pObj) + NWDAssetType.kAssetDelimiter;
 			} else {
-				tTemporary.Value = "";
+				tTemporary.Value = string.Empty;
 			}
 			EditorGUI.EndDisabledGroup ();
 			if (tRessource == true) {
@@ -177,12 +177,12 @@ namespace NetWorkedData
 
 				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_ASSET_MUST_BE_DOWNLOAD, tLabelStyle);
 				tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
-				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty),tLabelAssetStyle);
 				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
+					tTemporary.Value = string.Empty;
 				}
 				GUI.backgroundColor = tOldColor;
 				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;

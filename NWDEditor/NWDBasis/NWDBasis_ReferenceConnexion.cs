@@ -26,7 +26,7 @@ namespace NetWorkedData
         {
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sValue);
             //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sValue);
@@ -36,7 +36,7 @@ namespace NetWorkedData
             //}
             if (tObject != null)
             {
-                if (tObject.InternalDescription != "" && tObject.InternalDescription != null)
+                if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
                 {
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     float tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth - 20);
@@ -45,7 +45,7 @@ namespace NetWorkedData
                 if (sShowInspector == true)
                 {
                     GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-                    tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+                    tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                     rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                     rReturn += tObject.DrawObjectInspectorHeight() + NWDConstants.kFieldMarge * 2;
                 }
@@ -67,9 +67,9 @@ namespace NetWorkedData
             float tY = sPosition.y;
             float tWidth = sPosition.width;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), 100);
+            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
             Type tType = ClassType();
             List<string> tReferenceList = new List<string>();
             List<string> tInternalNameList = new List<string>();
@@ -122,7 +122,7 @@ namespace NetWorkedData
                     }
                 }
                 float tHelpBoxHeight = 0;
-                if (tObject.InternalDescription != "" && tObject.InternalDescription != null)
+                if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
                 {
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth);
@@ -134,7 +134,7 @@ namespace NetWorkedData
                 {
                     GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
                     tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
-                    tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), 100);
+                    tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
                     Rect tRectToDrawHeader = new Rect(
                                                  tX + tMargeInspector,
                                                  tY,
@@ -189,7 +189,7 @@ namespace NetWorkedData
         {
             float tWidth = EditorGUIUtility.currentViewWidth;
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             float rReturn = tPopupdStyle.fixedHeight;
             NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(sProperty.FindPropertyRelative("Reference").stringValue);
             //int tObjectIndex = Datas().ObjectsByReferenceList.IndexOf(sProperty.FindPropertyRelative("Reference").stringValue);
@@ -199,7 +199,7 @@ namespace NetWorkedData
             //}
             if (tObject != null)
             {
-                if (tObject.InternalDescription != "" && tObject.InternalDescription != null)
+                if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
                 {
                     GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                     float tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth - 20);
@@ -212,7 +212,7 @@ namespace NetWorkedData
                     if (kInspectorFoldout == true)
                     {
                         GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-                        tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+                        tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                         rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                         rReturn += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                         rReturn += tObject.DrawObjectInspectorHeight() + NWDConstants.kFieldMarge * 2;
@@ -221,12 +221,12 @@ namespace NetWorkedData
             }
             // check if value must be clean or not 
             string tValue = sProperty.FindPropertyRelative("Reference").stringValue;
-            if (tValue != null && tValue != "")
+            if (tValue != null && tValue != string.Empty)
             {
                 if (NWDBasis<K>.GetDataByReference(tValue) == null)
                 {
                     GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                    tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+                    tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
                     rReturn = rReturn + tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
                 }
             }
@@ -268,21 +268,21 @@ namespace NetWorkedData
                 float tWidth = sPosition.width;
 
                 GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-                tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), 100);
+                tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+                tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-                tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), 100);
+                tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
                 tBoldLabelStyle.alignment = TextAnchor.MiddleCenter;
-                tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), 100);
+                tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
                 // test if connection is ok or ko
                 bool tConnection = true;
-                if (tValue != null && tValue != "")
+                if (tValue != null && tValue != string.Empty)
                 {
                     if (NWDBasis<K>.GetDataByReference(tValue) == null)
                     {
@@ -356,7 +356,7 @@ namespace NetWorkedData
                         }
                     }
                     float tHelpBoxHeight = 0;
-                    if (tObject.InternalDescription != "" && tObject.InternalDescription != null)
+                    if (tObject.InternalDescription != string.Empty && tObject.InternalDescription != null)
                     {
                         GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
                         tHelpBoxHeight = tHelpBoxStyle.CalcHeight(new GUIContent(tObject.InternalDescription), tWidth);
@@ -379,7 +379,7 @@ namespace NetWorkedData
                                 sPosition.height - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tPopupdStyle.fixedHeight - NWDConstants.kFieldMarge - tHelpBoxHeight);
 
 
-                            EditorGUI.HelpBox(tRectToHelpBox, "", MessageType.None);
+                            EditorGUI.HelpBox(tRectToHelpBox, string.Empty, MessageType.None);
                             //EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
                             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + Datas().ClassNamePHP, tBoldLabelStyle);
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -439,7 +439,7 @@ namespace NetWorkedData
                     GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                     if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
                     {
-                        sProperty.FindPropertyRelative("Reference").stringValue = "";
+                        sProperty.FindPropertyRelative("Reference").stringValue = string.Empty;
                     }
                     GUI.backgroundColor = tOldColor;
                     tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;

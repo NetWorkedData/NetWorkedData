@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using UnityEngine;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -628,8 +629,8 @@ namespace NetWorkedData
                 StyleMiniButton = new GUIStyle(GUI.skin.button);
                 StyleMiniButton.padding = new RectOffset(2, 2, 3, 3);
 
-                HeightButton = StyleButton.CalcHeight(new GUIContent("-"), 100.0f);
-                HeightMiniButton = StyleMiniButton.CalcHeight(new GUIContent("-"), 100.0f);
+                HeightButton = StyleButton.CalcHeight(new GUIContent(BTBConstants.K_MINUS), 100.0f);
+                HeightMiniButton = StyleMiniButton.CalcHeight(new GUIContent(BTBConstants.K_MINUS), 100.0f);
 
                 HeightMiniButton = HeightButton;
 
@@ -638,24 +639,24 @@ namespace NetWorkedData
                 // used in form of inspector
 
                 kLabelStyle = new GUIStyle(EditorStyles.label);
-                kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kLabelRightStyle = new GUIStyle(EditorStyles.label);
                 kLabelRightStyle.alignment = TextAnchor.MiddleRight;
-                kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kLabelRightStyle.fixedHeight = kLabelRightStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-                kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kBoldLabelStyle.fixedHeight = kBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kPopupdStyle = new GUIStyle(EditorStyles.popup);
-                kPopupdStyle.fixedHeight = kPopupdStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kPopupdStyle.fixedHeight = kPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kPopupButtonStyle = new GUIStyle(EditorStyles.miniButton);
                 kPopupButtonStyle.fixedHeight = kPopupdStyle.fixedHeight; // use kPopupdStyle to fixe the good size of button from popup
                 kPopupButtonStyle.padding = new RectOffset(2, 2, 2, 2);
 
                 kTextFieldStyle = new GUIStyle(EditorStyles.textField);
-                kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent("A"), 100.0f);
+                kTextFieldStyle.fixedHeight = kTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
 
                 //kTextAreaStyle = new GUIStyle(EditorStyles.textArea);
                 kTextAreaStyle = new GUIStyle(EditorStyles.textField);
@@ -663,23 +664,23 @@ namespace NetWorkedData
 
 
                 kRedLabelStyle = new GUIStyle(EditorStyles.label);
-                kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kRedLabelStyle.fixedHeight = kRedLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 kRedLabelStyle.normal.textColor = Color.red;
 
                 kGrayLabelStyle = new GUIStyle(EditorStyles.label);
                 kGrayLabelStyle.fontSize = 9;
-                kGrayLabelStyle.fixedHeight = kGrayLabelStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kGrayLabelStyle.fixedHeight = kGrayLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
                 kGrayLabelStyle.normal.textColor = Color.gray;
 
                 kMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kMiniButtonStyle.fixedHeight = kMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kDeleteButtonStyle = new GUIStyle(EditorStyles.miniButton);
-                kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kSeparatorStyle = new GUIStyle(EditorStyles.label);
                 kSeparatorStyle.alignment = TextAnchor.MiddleCenter;
-                kSeparatorStyle.fixedHeight = kSeparatorStyle.CalcHeight(new GUIContent("A"), 100.0F);
+                kSeparatorStyle.fixedHeight = kSeparatorStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
             }
 
             kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);

@@ -181,7 +181,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public static string GetAccountsForConfig(NWDAccountEnvironment sEnvironment)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             List<string> tList = new List<string>();
             switch (sEnvironment)
             {
@@ -217,7 +217,7 @@ namespace NetWorkedData
         {
             List<NWDAccounTest> rReturn = new List<NWDAccounTest>();
             string tValue = NWDAppConfiguration.SharedInstance().SelectedEnvironment().AccountsForTests;
-            if (tValue != null && tValue != "")
+            if (!string.IsNullOrEmpty(tValue))
             {
                 string[] tValueArray = tValue.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tValueArrayLine in tValueArray)
@@ -334,13 +334,13 @@ namespace NetWorkedData
             float tY = sInRect.y;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 
             EditorGUI.DrawRect(new Rect(tX, tY + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
@@ -369,7 +369,7 @@ namespace NetWorkedData
 
             float tWidthTiers = (tWidth - NWDConstants.kFieldMarge * 1) / 2.0f;
 
-            EditorGUI.BeginDisabledGroup(kInternalLogin == "" || kInternalPassword == "" || kInternalLogin == null || kInternalPassword == null);
+            EditorGUI.BeginDisabledGroup(kInternalLogin == string.Empty || kInternalPassword == string.Empty || kInternalLogin == null || kInternalPassword == null);
 
             if (GUI.Button(new Rect(tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignUp dev", tMiniButtonStyle))
             {
@@ -377,8 +377,8 @@ namespace NetWorkedData
                 this.Email = BTBSecurityTools.GenerateSha(kInternalLogin + tEnvironmentDev.SaltStart, BTBSecurityShaTypeEnum.Sha1);
                 this.Password = BTBSecurityTools.GenerateSha(kInternalPassword + tEnvironmentDev.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
                 this.InternalDescription = "Account for Dev test (" + kInternalLogin + " / " + kInternalPassword + ")";
-                kInternalLogin = "";
-                kInternalPassword = "";
+                kInternalLogin = string.Empty;
+                kInternalPassword = string.Empty;
                 this.UpdateDataIfModified();
             }
 
@@ -388,8 +388,8 @@ namespace NetWorkedData
                 this.Email = BTBSecurityTools.GenerateSha(kInternalLogin + tEnvironmentPreprod.SaltStart, BTBSecurityShaTypeEnum.Sha1);
                 this.Password = BTBSecurityTools.GenerateSha(kInternalPassword + tEnvironmentPreprod.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
                 this.InternalDescription = "Account for Preprod test (" + kInternalLogin + " / " + kInternalPassword + ")";
-                kInternalLogin = "";
-                kInternalPassword = "";
+                kInternalLogin = string.Empty;
+                kInternalPassword = string.Empty;
                 this.UpdateDataIfModified();
             }
 
@@ -418,7 +418,7 @@ namespace NetWorkedData
                 };
             };
 
-            EditorGUI.BeginDisabledGroup(kInternalLogin == "" || kInternalLogin == null);
+            EditorGUI.BeginDisabledGroup(kInternalLogin == string.Empty || kInternalLogin == null);
 
             if (GUI.Button(new Rect(tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "Rescue dev", tMiniButtonStyle))
             {
@@ -449,7 +449,7 @@ namespace NetWorkedData
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
             EditorGUI.EndDisabledGroup();
 
-            EditorGUI.BeginDisabledGroup(Email == "" || Password == "");
+            EditorGUI.BeginDisabledGroup(Email == string.Empty || Password == string.Empty);
             if (GUI.Button(new Rect(tX, tY, tWidthTiers, tMiniButtonStyle.fixedHeight), "SignIn dev", tMiniButtonStyle))
             {
                 NWDAppEnvironment tEnvironmentDev = NWDAppConfiguration.SharedInstance().DevEnvironment;
@@ -516,13 +516,13 @@ namespace NetWorkedData
         {
             //Debug.Log ("AddonEditorHeight");
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             float tY = NWDConstants.kFieldMarge;
 

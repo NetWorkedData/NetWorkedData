@@ -298,7 +298,7 @@ namespace NetWorkedData
                         {
                             tText += " Android : " + tVersion.GooglePlayURL + "\n\r";
                         }
-                        tText += "";
+                        tText += string.Empty;
                         tText = UnityWebRequest.EscapeURL(tText).Replace("+", "%20");
 
                         string tSubject = tVersion.RecommendationSubject.GetLocalString();
@@ -310,7 +310,7 @@ namespace NetWorkedData
                     break;
                 case NWDRecommendationType.EmailHTML:
                     {
-                        string tText = "";
+                        string tText = string.Empty;
                         //tText+= "<HTML><BODY>";
                         tText += tVersion.Recommendation.GetLocalString() + "</BR>";
                         tText += " Magic link : <A HREF='" + tToFlash + "'> got to store</A></BR>";
@@ -428,7 +428,7 @@ namespace NetWorkedData
             NWDVersion tVersion = null;
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
-            int.TryParse(tVersionString.Replace(".", ""), out tVersionInt);
+            int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
             if (NWDVersion.Datas() != null)
             {
                 foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
@@ -440,7 +440,7 @@ namespace NetWorkedData
                             (NWDAppConfiguration.SharedInstance().ProdEnvironment == sEnvironment && tVersionObject.ActiveProd == true))
                         {
                             int tVersionInteger = 0;
-                            int.TryParse(tVersionObject.Version.ToString().Replace(".", ""), out tVersionInteger);
+                            int.TryParse(tVersionObject.Version.ToString().Replace(".", string.Empty), out tVersionInteger);
                             if (tVersionInt < tVersionInteger)
                             {
                                 tVersionInt = tVersionInteger;
@@ -510,7 +510,7 @@ namespace NetWorkedData
             // I will change the last version of my App
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
-            int.TryParse(tVersionString.Replace(".", ""), out tVersionInt);
+            int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
             NWDVersion tMaxVersionObject = null;
             foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
             {
@@ -521,7 +521,7 @@ namespace NetWorkedData
                         (NWDAppConfiguration.SharedInstance().IsProdEnvironement() && tVersionObject.ActiveProd == true))
                     {
                         int tVersionInteger = 0;
-                        int.TryParse(tVersionObject.Version.ToString().Replace(".", ""), out tVersionInteger);
+                        int.TryParse(tVersionObject.Version.ToString().Replace(".", string.Empty), out tVersionInteger);
                         if (tVersionInt < tVersionInteger)
                         {
                             tVersionInt = tVersionInteger;
@@ -642,10 +642,10 @@ namespace NetWorkedData
             float tY = sInRect.position.y + NWDConstants.kFieldMarge;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             float tYadd = 0.0f;
             // darw information about actual bundle 
@@ -707,9 +707,9 @@ namespace NetWorkedData
         {
             // Height calculate for the interface addon for editor
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             float tYadd = 0.0f;
 

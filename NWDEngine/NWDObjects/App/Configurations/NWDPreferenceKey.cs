@@ -90,7 +90,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public string GetString(string sNotExistValue = "")
+        public string GetString(string sNotExistValue = BTBConstants.K_EMPTY_STRING)
         {
             string rReturn = sNotExistValue;
             NWDPreferenceKey tPref = GetObject();

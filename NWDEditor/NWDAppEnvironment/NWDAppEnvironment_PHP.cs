@@ -61,7 +61,7 @@ namespace NetWorkedData
                 }
             }
             //========= CONSTANTS FILE
-            string tConstantsFile = "";
+            string tConstantsFile = string.Empty;
             tConstantsFile += "<?php\n" +
                 "\t\t//NWD Autogenerate File at " + tDateTimeString + "\n" +
                 "\t\t//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -81,7 +81,7 @@ namespace NetWorkedData
             {
                 tConstantsFile += "\t$NWD_LOG = false;\n";
             }
-            tConstantsFile += "" +
+            tConstantsFile += string.Empty +
                 "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT FOR WEB\n" +
                 "\t$HTTP_URL = '" + ServerHTTPS.TrimEnd('/') +"/"+ NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
@@ -148,7 +148,7 @@ namespace NetWorkedData
 
             //========= MANAGEMENT TABLE FUNCTIONS FILE
 
-            string tManagementFile = "";
+            string tManagementFile = string.Empty;
             tManagementFile += "<?php\n" +
                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +
                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -209,7 +209,7 @@ namespace NetWorkedData
             AssetDatabase.ImportAsset(tServerRootFolder + "/management.php");
 
             //========= WEBSERVICE FILE
-            string tWebServices = "";
+            string tWebServices = string.Empty;
             tWebServices += "<?php\n" +
                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +
                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -277,7 +277,7 @@ namespace NetWorkedData
 
 
             //========= WEBSERVICE FILE AS ANNEXE OF ANOTHER FILE
-            string tWebServicesAnnexe = "";
+            string tWebServicesAnnexe = string.Empty;
             tWebServicesAnnexe += "<?php\n" +
                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +
                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -325,7 +325,7 @@ namespace NetWorkedData
             File.WriteAllText(tServerRootFolder + "/webservices_inside.php", tWebServicesAnnexe);
             AssetDatabase.ImportAsset(tServerRootFolder + "/webservices_inside.php");
 
-             //========= WEBSERVICE FILE AS ADDON OF ANOTHER FILE             string tWebServicesAddon = "";             tWebServicesAddon += "<?php\n" +                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +                 "//Created by Jean-Françis CONTART\n" +                 "//--------------------\n" +                 "// WEBSERVICES FUNCTIONS FOR ADDON INCLUDING\n" +                 //"//--------------------\n" +                 //"// Ok I create a permanent account if temporary before\n" +                 //"AccountAnonymeGenerate();\n" +                 //"//--------------------\n" +                 //"if ($ban == true)\n" +                 //"\t{\n" +                 //"\t\terror('ACC99');\n" +                 //"\t}\n" +                 "//--------------------\n" +                 "if (!errorDetected())\n" +                 "\t{\n";             // I need include ALL tables management files to manage ALL tables             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)             {
+             //========= WEBSERVICE FILE AS ADDON OF ANOTHER FILE             string tWebServicesAddon = string.Empty;             tWebServicesAddon += "<?php\n" +                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +                 "//Created by Jean-Françis CONTART\n" +                 "//--------------------\n" +                 "// WEBSERVICES FUNCTIONS FOR ADDON INCLUDING\n" +                 //"//--------------------\n" +                 //"// Ok I create a permanent account if temporary before\n" +                 //"AccountAnonymeGenerate();\n" +                 //"//--------------------\n" +                 //"if ($ban == true)\n" +                 //"\t{\n" +                 //"\t\terror('ACC99');\n" +                 //"\t}\n" +                 "//--------------------\n" +                 "if (!errorDetected())\n" +                 "\t{\n";             // I need include ALL tables management files to manage ALL tables             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)             {
                 bool tCanBeAddoned = false;
 
                 foreach (Type tSecondType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
@@ -389,7 +389,7 @@ namespace NetWorkedData
 
 
             //========= WEBSERVICE FILE WHEN ACCOUNT IS SIGN-IN SUCCESSED
-            string tAccountServices = "";
+            string tAccountServices = string.Empty;
             tAccountServices += "<?php\n" +
                 "//NWD Autogenerate File at " + tDateTimeString + "\n" +
                 "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -417,7 +417,7 @@ namespace NetWorkedData
                     tAccountServices += "\t\t\t\t\t\tSynchronize" + tClassName + " ($dico, $uuid, false);\n";
                     tAccountServices += "\t\t\t\t\t\t\n";
             }
-            tAccountServices += "" +
+            tAccountServices += string.Empty +
                 "\t\t\t\t\t}\n" +
                 "\t\t\t}\n" +
                 "\t\t}\n" +

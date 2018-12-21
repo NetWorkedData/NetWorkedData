@@ -34,13 +34,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDImageJPGType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDImageJPGType (string sValue = "")
+		public NWDImageJPGType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -59,7 +59,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public Texture2D ToTexture ()
 		{
-			if (Value != null && Value != "") {
+			if (Value != null && Value != string.Empty) {
 				try {
 					byte[] tDecodedBytes = Convert.FromBase64String (Value);
 					if (tDecodedBytes != null) {
@@ -85,7 +85,7 @@ namespace NetWorkedData
 					Value = Convert.ToBase64String (tByteOfPicture);
 				}
 			} else {
-				Value = "";
+				Value = string.Empty;
 			}
 		}
         //-------------------------------------------------------------------------------------------------------------
@@ -109,7 +109,7 @@ namespace NetWorkedData
 		public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
-			if (Value != "") {
+			if (Value != string.Empty) {
 				tAdd = 1;
 			}
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
@@ -126,7 +126,7 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDImageJPGType tTemporary = new NWDImageJPGType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -159,15 +159,15 @@ namespace NetWorkedData
             //EditorGUI.indentLevel = 0;
 
 			Texture2D tTexture = tTemporary.ToTexture ();
-			if (Value != null && Value != "" && tTexture == null) {
+			if (Value != null && Value != string.Empty && tTexture == null) {
                 EditorGUI.LabelField (new Rect (tX, tY, tWidth, tObjectFieldStyle.fixedHeight), tContent);
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
+					tTemporary.Value = string.Empty;
 				}
 				GUI.backgroundColor = tOldColor;
-			} else if (Value != null && Value != "") {
+			} else if (Value != null && Value != string.Empty) {
 						
 				if (tTexture != null) {
 					EditorGUI.DrawPreviewTexture (new Rect (tX + EditorGUIUtility.labelWidth, tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize)
@@ -177,7 +177,7 @@ namespace NetWorkedData
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
+					tTemporary.Value = string.Empty;
 				}
 				GUI.backgroundColor = tOldColor;
 			} else {

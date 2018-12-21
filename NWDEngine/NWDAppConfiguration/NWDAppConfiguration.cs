@@ -137,7 +137,7 @@ namespace NetWorkedData
         public string GetSalt(string sKeyFirst, string sKeySecond, string sKeyValid)
         {
             string sKey = sKeyFirst + sKeySecond;
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (IntegritySaltDictionary.ContainsKey(sKey))
             {
                 rReturn = IntegritySaltDictionary[sKey];
@@ -147,7 +147,7 @@ namespace NetWorkedData
                 Debug.Log("Generate Salt for " + sKey);
                 rReturn = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
                 IntegritySaltDictionary.Add(sKey, rReturn);
-                SetSaltValid(sKeyFirst, sKeyValid, "");
+                SetSaltValid(sKeyFirst, sKeyValid, string.Empty);
             }
             return rReturn;
         }
@@ -168,7 +168,7 @@ namespace NetWorkedData
         public string GetSaltValid(string sKeyFirst, string sKeyValid)
         {
             string sKey = sKeyFirst + sKeyValid;
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (GenerateSaltDictionary.ContainsKey(sKey))
             {
                 rReturn = GenerateSaltDictionary[sKey];
@@ -196,10 +196,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetEditorPass()
         {
-            string tPass = "";
+            string tPass = string.Empty;
             if (string.IsNullOrEmpty(NWDAppConfiguration.SharedInstance().EditorPass))
             {
-                tPass = "";
+                tPass = string.Empty;
             }
             else
             {

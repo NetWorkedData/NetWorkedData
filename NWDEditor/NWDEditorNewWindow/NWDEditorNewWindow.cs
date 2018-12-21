@@ -22,9 +22,9 @@ namespace NetWorkedData
 	public class NWDEditorNewWindow : EditorWindow
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		string WindowName = "";
-		string WindowMenuName = "";
-		string WindowDescription = "";
+		string WindowName = string.Empty;
+		string WindowMenuName = string.Empty;
+		string WindowDescription = string.Empty;
 		int WindowMenuPosition = 0; // 0-1000 + 2000 : => [2000 … 3000]
 		List<string> ClassesList = new List<string> ();
 		//-------------------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ namespace NetWorkedData
 			tClassExample = tClassExample.Replace ("NWDWindowExample", WindowName);
 			tClassExample = tClassExample.Replace ("//[MenuItem ", "[MenuItem ");
 			// place the classes
-			string tClassesLinearize = "";
+			string tClassesLinearize = string.Empty;
 			foreach (string tKey in ClassesList) {
 				tClassesLinearize += "typeof("+tKey+"),\n\t\t";
 			}
@@ -55,9 +55,9 @@ namespace NetWorkedData
             string tFilePath = tOwnerClassesFolderPath + "/" + WindowName + ".cs";
 			File.WriteAllText (tFilePath, tClassExample);
 			// flush params
-			WindowName = "";
-			WindowMenuName = "";
-			WindowDescription = "";
+			WindowName = string.Empty;
+			WindowMenuName = string.Empty;
+			WindowDescription = string.Empty;
 			WindowMenuPosition = 1000;
 			ClassesList = new List<string> ();
 			// import new script
@@ -94,7 +94,7 @@ namespace NetWorkedData
 		EditorGUILayout.LabelField ("Class informations", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
 			WindowName = EditorGUILayout.TextField ("Name ", WindowName);
-			WindowName = tRegExpression.Replace (WindowName, "");
+			WindowName = tRegExpression.Replace (WindowName, string.Empty);
 			if (WindowName.Length < 3) {
 			EditorGUILayout.LabelField (" ", "name must be longer than 3 characters");
 			tCanCreate = false;
@@ -116,13 +116,13 @@ namespace NetWorkedData
 		EditorGUILayout.LabelField ("Window description", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
 			WindowDescription = EditorGUILayout.TextField ("Description", WindowDescription);
-			WindowDescription = WindowDescription.Replace ("\\", "");
+			WindowDescription = WindowDescription.Replace ("\\", string.Empty);
 		EditorGUI.indentLevel--;
 		EditorGUILayout.LabelField ("Menu in interface", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
 		// futur class menu name
 			WindowMenuName = EditorGUILayout.TextField ("Menu name", WindowMenuName);
-			WindowMenuName = WindowMenuName.Replace ("\\", "");
+			WindowMenuName = WindowMenuName.Replace ("\\", string.Empty);
 			if (WindowMenuName.Length < 3) {
 			EditorGUILayout.LabelField (" ", "menu name must be longer than 2 characters");
 			tCanCreate = false;

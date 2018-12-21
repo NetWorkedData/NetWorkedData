@@ -303,7 +303,7 @@ namespace NetWorkedData
             foreach (KeyValuePair<string, bool> tKeyValue in tAnalyzeTheseClassesCopy)
             {
                 tCounter++;
-                bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), "", tKeyValue.Value);
+                bool tNew = EditorGUI.ToggleLeft(new Rect(tXB, MargeHeight + NWDConstants.kFieldMarge + HeightProperty * tCounter, tWidthB, HeightProperty), string.Empty, tKeyValue.Value);
                 if (AnalyzeTheseClasses[tKeyValue.Key] != tNew)
                 {
                     tChanged = true;

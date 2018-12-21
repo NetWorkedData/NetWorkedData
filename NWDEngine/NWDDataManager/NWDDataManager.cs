@@ -59,7 +59,7 @@ namespace NetWorkedData
         public void PlayerLanguageSave(string sNewLanguage)
         {
             Debug.Log("NWDDataManager PlayerLanguageSave()");
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, "");
+            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, string.Empty);
             tUserLanguage.Value.SetString(sNewLanguage);
             tUserLanguage.UpdateData();
             PlayerLanguage = sNewLanguage;
@@ -70,8 +70,8 @@ namespace NetWorkedData
         public string PlayerLanguageLoad()
         {
             Debug.Log("NWDDataManager PlayerLanguageLoad()");
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey,"");
-            if (tUserLanguage.Value.GetString() == "")
+            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, string.Empty);
+            if (tUserLanguage.Value.GetString() == string.Empty)
             {
                 tUserLanguage.Value.SetString(NWDDataLocalizationManager.SystemLanguageString());
                 tUserLanguage.UpdateData();

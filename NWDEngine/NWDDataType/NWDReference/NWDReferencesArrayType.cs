@@ -36,29 +36,29 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType(string[] sReferences)
         {
-            Value = "";
+            Value = string.Empty;
             this.SetReferences(sReferences);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType(K[] sObjects)
         {
-            Value = "";
+            Value = string.Empty;
             this.SetObjects(sObjects);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesArrayType(NWDReferencesArrayType<K> sArray)
         {
-            Value = "" + sArray.Value;
+            Value = string.Empty + sArray.Value;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ContainsReference(string sReference)
@@ -84,7 +84,7 @@ namespace NetWorkedData
         public void AddReferences(string[] sReferences)
         {
             List<string> tList = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tList = new List<string>(tValueArray);
@@ -100,7 +100,7 @@ namespace NetWorkedData
         public void RemoveReferences(string[] sReferences)
         {
             List<string> tList = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tList = new List<string>(tValueArray);
@@ -319,7 +319,7 @@ namespace NetWorkedData
             int tRow = 1;
 
             int tConnection = 0;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
@@ -335,7 +335,7 @@ namespace NetWorkedData
                                           NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
             // test if error in reference and add button height
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
                 {
@@ -346,7 +346,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
@@ -396,7 +396,7 @@ namespace NetWorkedData
                 tContentFuturList.Add(new GUIContent(tS));
             }
             List<string> tValueList = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tValueList = new List<string>(tValueArray);
@@ -415,8 +415,8 @@ namespace NetWorkedData
             bool tDown = false;
             int tIndexToMove = -1;
 
-            tValueList.Add("");
-            string tNewReference = "";
+            tValueList.Add(string.Empty);
+            string tNewReference = string.Empty;
             for (int i = 0; i < tValueList.Count; i++)
             {
                 //string tFieldName = sEntitled;
@@ -477,7 +477,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tValueList[i] = "";
+                    tValueList[i] = string.Empty;
                 }
             }
             if (tDown == true)

@@ -52,7 +52,7 @@ namespace NetWorkedData
 			if (sObject != null) {
 				Reference = sObject.Reference;
 			} else {
-				Reference = "";
+				Reference = string.Empty;
 			}
 		}
 		//-------------------------------------------------------------------------------------------------------------

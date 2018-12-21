@@ -113,8 +113,8 @@ namespace NetWorkedData
             string tBend = "</b>";
             if (sBold == false)
             {
-                tBstart = "";
-                tBend = "";
+                tBstart = string.Empty;
+                tBend = string.Empty;
             }
 
             // Replace Tag by Item Name
@@ -124,7 +124,7 @@ namespace NetWorkedData
             {
                 tName = tItem.Name.GetLocalString();
             }
-            string rText = sText.Replace("#G" + sCpt + "#", tBstart + tName + tBend);
+            string rText = sText.Replace("#G" + sCpt + BTBConstants.K_HASHTAG, tBstart + tName + tBend);
 
             return rText;
         }

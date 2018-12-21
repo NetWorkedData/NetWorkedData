@@ -32,14 +32,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static string IndexKey(bool sOrderIsImportant, NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             if (sOrderIsImportant == false)
             {
-                rReturn = sOrderIsImportant.ToString() + "*" + sRecipientGroup.GetReference() + "*" + string.Join("#", sItemGroupIngredient.GetSortedReferences());
+                rReturn = sOrderIsImportant.ToString() + "*" + sRecipientGroup.GetReference() + "*" + string.Join(BTBConstants.K_HASHTAG, sItemGroupIngredient.GetSortedReferences());
             }
             else
             {
-                rReturn = sOrderIsImportant.ToString() + "*" + sRecipientGroup.GetReference() + "*" + string.Join("#", sItemGroupIngredient.GetReferences());
+                rReturn = sOrderIsImportant.ToString() + "*" + sRecipientGroup.GetReference() + "*" + string.Join(BTBConstants.K_HASHTAG, sItemGroupIngredient.GetReferences());
             }
             // Use to Hash more quickly
             rReturn = BTBSecurityTools.GenerateSha(rReturn, BTBSecurityShaTypeEnum.Sha1);

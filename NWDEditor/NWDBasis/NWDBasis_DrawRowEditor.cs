@@ -79,7 +79,7 @@ namespace NetWorkedData
             //int tIndex = Datas().ObjectsByReferenceList.IndexOf(Reference);
 
             // check error in data 
-            string tIsInError = "";
+            string tIsInError = string.Empty;
             //IsInErrorCheck();
             if (InError == true)
             {
@@ -91,7 +91,7 @@ namespace NetWorkedData
             // to check the versioning active this line
             //tString+= "minversion = '" + MinVersion.ToString()+"'";
 
-            tString = tString.Replace("()", "");
+            tString = tString.Replace("()", string.Empty);
             tRowHeight = tStyleForInfos.CalcHeight(new GUIContent(tString), NWDConstants.kDescriptionMinWidth);
 
             if (tRowHeight < NWDConstants.kRowHeight)
@@ -103,7 +103,7 @@ namespace NetWorkedData
 			// start line
             GUILayout.Space(NWDConstants.kRowHeightSpace);
             GUILayout.BeginHorizontal (GUILayout.Height (tRowHeight));
-            GUILayout.Label ("", GUILayout.Width(NWDConstants.kOriginWidth));
+            GUILayout.Label (string.Empty, GUILayout.Width(NWDConstants.kOriginWidth));
 			Rect tRect = GUILayoutUtility.GetLastRect ();
 			// determine rect to select and draw
             Rect rRect = new Rect (tRect.x, tRect.y-5, tWidthUsed, tRowHeight);
@@ -138,7 +138,7 @@ namespace NetWorkedData
             string tStringReference = "<" + Reference + ">";
             // prepare prefab 
             GameObject tObject = null;
-            if (Preview != null && Preview != "")
+            if (Preview != null && Preview != string.Empty)
             {
                 tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(GameObject)) as GameObject;
             }
@@ -193,7 +193,7 @@ namespace NetWorkedData
                         sStateInfos = NWDConstants.K_APP_TABLE_ROW_OBJECT_DISACTIVE;
                         tString = "<color=#555555ff>" + tString + "</color>";
                     }
-                    Datas().EditorTableDatasSelected[this] = EditorGUILayout.ToggleLeft("", Datas().EditorTableDatasSelected[this], GUILayout.Width(NWDConstants.kSelectWidth));
+                    Datas().EditorTableDatasSelected[this] = EditorGUILayout.ToggleLeft(string.Empty, Datas().EditorTableDatasSelected[this], GUILayout.Width(NWDConstants.kSelectWidth));
                 }
             }
             else

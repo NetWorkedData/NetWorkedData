@@ -49,8 +49,8 @@ namespace NetWorkedData
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
 	public class NWDEntitledAttribute : Attribute
 	{
-		public string Entitled = "";
-		public string ToolsTips = "";
+		public string Entitled = string.Empty;
+		public string ToolsTips = string.Empty;
 
 		public NWDEntitledAttribute (string sEntitled)
 		{
@@ -70,7 +70,7 @@ namespace NetWorkedData
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class NWDTooltipsAttribute : Attribute
     {
-        public string ToolsTips = "";
+        public string ToolsTips = string.Empty;
         public NWDTooltipsAttribute(string sToolsTips)
         {
             this.ToolsTips = sToolsTips;
@@ -124,8 +124,8 @@ namespace NetWorkedData
 	[AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
 	public class NWDGroupStartAttribute : Attribute
 	{
-        public string mGroupName = "";
-        public string mToolsTips = "";
+        public string mGroupName = string.Empty;
+        public string mToolsTips = string.Empty;
 		public bool mBoldHeader;
 		public bool mReducible;
         public bool mOpen;

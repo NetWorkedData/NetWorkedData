@@ -175,7 +175,7 @@ namespace NetWorkedData
                 CartridgeText.text = NWDAppEnvironment.SelectedEnvironment().Environment + " " + Application.version+
                     " (" + Application.systemLanguage + ">" + NWDDataManager.SharedInstance().PlayerLanguage + ") " + 
                     " WS" + NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")+
-                    " ©Unity3D " + Application.unityVersion + "";
+                    " ©Unity3D " + Application.unityVersion + string.Empty;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

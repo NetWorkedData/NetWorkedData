@@ -55,7 +55,7 @@ namespace NetWorkedData
 			// ask for final file path
 			string tPath = EditorUtility.SaveFilePanel(
 				"Export Localization CSV",
-				"",
+                string.Empty,
 				"NWDDataLocalization.csv",
 				"csv");
 			if (tPath != null) {
@@ -83,7 +83,7 @@ namespace NetWorkedData
         public void ImportFromCSV ()
 		{
 			//Debug.Log ("ImportFromCSV");
-			string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", "", "csv");
+			string tPath = EditorUtility.OpenFilePanel("Import Localization CSV", string.Empty, "csv");
 			// more complexe 
 
 			if (tPath != null) {

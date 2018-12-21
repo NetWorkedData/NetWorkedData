@@ -72,8 +72,8 @@ namespace NetWorkedData
             NWDBasis<K> tObject = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
             if (tObject == null)
             {
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, "");
-                EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, "");
+                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, string.Empty);
+                EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, string.Empty);
             }
             else
             {
@@ -170,7 +170,7 @@ namespace NetWorkedData
             PreviewTextureIsLoaded = true;
             PreviewTexture = null;
             UnityEngine.Object tObject = null;
-            if (Preview != null && Preview != "")
+            if (Preview != null && Preview != string.Empty)
             {
                 //tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(GameObject)) as GameObject;
                 tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
@@ -228,41 +228,41 @@ namespace NetWorkedData
             //EditorGUI.indentLevel = 0;
             //            ResetDrawable ();
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
-            tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
             tHelpBoxStyle.fixedHeight = tHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), 100);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), 100);
+            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tColorFieldStyle = new GUIStyle(EditorStyles.colorField);
-            tColorFieldStyle.fixedHeight = tColorFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tColorFieldStyle.fixedHeight = tColorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), 100);
+            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tToggleStyle = new GUIStyle(EditorStyles.toggle);
-            tToggleStyle.fixedHeight = tToggleStyle.CalcHeight(new GUIContent("A"), 100);
+            tToggleStyle.fixedHeight = tToggleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tBoldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
             tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
-            tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent("A"), 100);
+            tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             Type tType = ClassType();
 
@@ -490,41 +490,41 @@ namespace NetWorkedData
             float tY = sInRect.position.y + NWDConstants.kFieldMarge;
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
-            tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
             tHelpBoxStyle.fixedHeight = tHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), tWidth);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tColorFieldStyle = new GUIStyle(EditorStyles.colorField);
-            tColorFieldStyle.fixedHeight = tColorFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tColorFieldStyle.fixedHeight = tColorFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tPopupdStyle.fixedHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tToggleStyle = new GUIStyle(EditorStyles.toggle);
-            tToggleStyle.fixedHeight = tToggleStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tToggleStyle.fixedHeight = tToggleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tBoldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
             tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
-            tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 
             bool rNeedBeUpdate = false;
@@ -687,7 +687,7 @@ namespace NetWorkedData
 
                         // get entitled and toolstips
                         string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
-                        string tToolsTips = "";
+                        string tToolsTips = string.Empty;
                         if (tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true).Length > 0)
                         {
                             NWDEntitledAttribute tReference = (NWDEntitledAttribute)tProp.GetCustomAttributes(typeof(NWDEntitledAttribute), true)[0];
@@ -797,9 +797,9 @@ namespace NetWorkedData
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
 
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
+                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
-                                string tValueNext = "";
+                                string tValueNext = string.Empty;
                                 if (tValueIntNext < tV.Length && tValueIntNext >= 0)
                                 {
                                     tValueNext = tV[tValueIntNext];
@@ -824,7 +824,7 @@ namespace NetWorkedData
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
 
-                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), "", tValueInt, tV, tPopupdStyle);
+                                int tValueIntNext = EditorGUI.Popup(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth - EditorGUIUtility.labelWidth, tPopupdStyle.fixedHeight), string.Empty, tValueInt, tV, tPopupdStyle);
                                 tY += tPopupdStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 int tValueNext = 0;
                                 if (tValueIntNext < tI.Length && tValueIntNext >= 0)
@@ -1003,39 +1003,39 @@ namespace NetWorkedData
             //            int tRow = 0;
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniLabelStyle = new GUIStyle(EditorStyles.miniLabel);
-            tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniLabelStyle.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniLabelStyleCenter = new GUIStyle(EditorStyles.miniLabel);
-            tMiniLabelStyleCenter.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniLabelStyleCenter.fixedHeight = tMiniLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             tMiniLabelStyleCenter.alignment = TextAnchor.MiddleCenter;
 
             GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
-            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tBoldLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tBoldLabelStyle.fixedHeight = tBoldLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
 
             GUIStyle tTitleLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tTitleLabelStyle.alignment = TextAnchor.MiddleCenter;
             tTitleLabelStyle.fontSize = 14;
-            tTitleLabelStyle.fixedHeight = tTitleLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTitleLabelStyle.fixedHeight = tTitleLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             tTitleLabelStyle.richText = true;
 
             GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
             tHelpBoxStyle.fixedHeight = tHelpBoxStyle.CalcHeight(new GUIContent("A\nA\nA"), tWidth);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             bool tCanBeEdit = true;
             bool tTestIntegrity = TestIntegrity();
@@ -1047,7 +1047,7 @@ namespace NetWorkedData
 
             if (string.IsNullOrEmpty(tTitle))
             {
-                tTitle = "Unamed " + Datas().ClassNamePHP + "";
+                tTitle = "Unamed " + Datas().ClassNamePHP + string.Empty;
                 //                tTitle = ClassNamePHP () + "'s Object";
             }
             if (InError == true)
@@ -1200,7 +1200,7 @@ namespace NetWorkedData
             //GUI.Label (new Rect (NWDConstants.kFieldMarge, tY, tImageWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_PREVIEW, tMiniLabelStyle);
 
             UnityEngine.Object tObject = null;
-            if (Preview != null && Preview != "")
+            if (Preview != null && Preview != string.Empty)
             {
                 tObject = AssetDatabase.LoadAssetAtPath(Preview, typeof(UnityEngine.Object)) as UnityEngine.Object;
             }
@@ -1353,7 +1353,7 @@ namespace NetWorkedData
                                                             (UnityEngine.Object)tObject, typeof(UnityEngine.Object), false);
             tY += tObjectFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            string tPreFabGameObject = "";
+            string tPreFabGameObject = string.Empty;
             if (pObj != null)
             {
                 if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)

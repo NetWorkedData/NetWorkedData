@@ -121,8 +121,8 @@ namespace NetWorkedData
             string tBend = "</b>";
             if (sBold == false)
             {
-                tBstart = "";
-                tBend = "";
+                tBstart = string.Empty;
+                tBend = string.Empty;
             }
             if (sLanguage == null)
             {
@@ -130,8 +130,8 @@ namespace NetWorkedData
             }
             // Replace the nickname
             NWDUserNickname tNicknameObject = NWDUserNickname.GetFirstData();
-            string tNickname = "";
-            string tNicknameID = "";
+            string tNickname = string.Empty;
+            string tNicknameID = string.Empty;
             if (tNicknameObject != null)
             {
                 tNickname = tNicknameObject.Nickname;
@@ -153,7 +153,7 @@ namespace NetWorkedData
         {
             NWDUserNickname rNickname = NewData();
             rNickname.InternalKey = name;
-            rNickname.InternalDescription = "";
+            rNickname.InternalDescription = string.Empty;
             rNickname.Nickname = name;
             rNickname.UpdateData();
             return rNickname;
@@ -161,7 +161,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetNickname()
         {
-            string rNickname = "";
+            string rNickname = string.Empty;
             NWDUserNickname[] tNickname = FindDatas();
             if (tNickname.Length > 0)
             {
@@ -172,7 +172,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string GetUniqueNickname()
         {
-            string rUniqueNickname = "";
+            string rUniqueNickname = string.Empty;
             NWDUserNickname[] tNickname = FindDatas();
             if (tNickname.Length > 0)
             {
@@ -256,13 +256,13 @@ namespace NetWorkedData
             //tYadd = sInRect.y;
 
             //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             //EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), kRowColorLine);
             //tYadd += NWDConstants.kFieldMarge * 2;
@@ -300,13 +300,13 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             //GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            //tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             //GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            //tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             //GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            //tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             //tYadd = NWDConstants.kFieldMarge;
 

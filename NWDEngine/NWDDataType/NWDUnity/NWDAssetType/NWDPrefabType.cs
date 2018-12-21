@@ -33,13 +33,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDPrefabType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDPrefabType (string sValue = "")
+		public NWDPrefabType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -48,9 +48,9 @@ namespace NetWorkedData
 		public GameObject ToPrefab ()
 		{
 			GameObject tObject = null;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
-                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
 
 #if UNITY_EDITOR
                 tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
@@ -78,7 +78,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool IsEmpty()
         {
-            return (Value == "");
+            return (Value == string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
         #if UNITY_EDITOR
@@ -94,7 +94,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
                     GameObject tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(GameObject)) as GameObject;
                     if (tObject == null)
                     {
@@ -108,7 +108,7 @@ namespace NetWorkedData
         public override float ControlFieldHeight ()
 		{
 			int tAdd = 0;
-			if (Value != "") {
+			if (Value != string.Empty) {
 				tAdd = 1;
 			}
 			GUIStyle tObjectFieldStyle = new GUIStyle (EditorStyles.objectField);
@@ -125,7 +125,7 @@ namespace NetWorkedData
 			return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDPrefabType tTemporary = new NWDPrefabType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -153,8 +153,8 @@ namespace NetWorkedData
 
 			bool tRessource = true;
 
-			if (Value != null && Value != "") {
-				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, "");
+			if (Value != null && Value != string.Empty) {
+				string tPath = Value.Replace (NWDAssetType.kAssetDelimiter, string.Empty);
 				tObject = AssetDatabase.LoadAssetAtPath (tPath, typeof(GameObject)) as GameObject;
 				if (tObject == null) {
 					tRessource = false;
@@ -181,7 +181,7 @@ namespace NetWorkedData
 					tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabInstanceHandle(pObj)) + NWDAssetType.kAssetDelimiter;
 				}
 			} else {
-				tTemporary.Value = "";
+				tTemporary.Value = string.Empty;
 			}
 			EditorGUI.EndDisabledGroup ();
 			if (tRessource == true) {
@@ -195,7 +195,7 @@ namespace NetWorkedData
 				Color tOldColor = GUI.backgroundColor;
 				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
 				if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle)) {
-					tTemporary.Value = "";
+					tTemporary.Value = string.Empty;
 				}
 				GUI.backgroundColor = tOldColor;
 				tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;

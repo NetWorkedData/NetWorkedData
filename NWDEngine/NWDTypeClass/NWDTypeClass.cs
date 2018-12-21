@@ -30,22 +30,22 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual string InternalKeyValue()
         {
-            return "";
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual string InternalDescriptionValue()
         {
-            return "";
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual string ReferenceUsedValue()
         {
-            return "";
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual string ClassNameUsedValue()
         {
-            return "";
+            return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool DataIntegrityState()

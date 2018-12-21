@@ -342,14 +342,14 @@ namespace NetWorkedData
                 {
                     if (Datas().m_SearchAccount == "-=-") // empty
                     {
-                        if (tObject.VisibleByAccountByEqual("") == false)
+                        if (tObject.VisibleByAccountByEqual(string.Empty) == false)
                         {
                             tOccurence = false;
                         }
                     }
                     else if(Datas().m_SearchAccount == "-+-") // not empty
                     {
-                        if (tObject.VisibleByAccountByEqual("") == true)
+                        if (tObject.VisibleByAccountByEqual(string.Empty) == true)
                         {
                             tOccurence = false;
                         }
@@ -367,14 +367,14 @@ namespace NetWorkedData
                 {
                     if (Datas().m_SearchGameSave == "-=-")
                     {
-                        if (tObject.VisibleByGameSave("") == false)
+                        if (tObject.VisibleByGameSave(string.Empty) == false)
                         {
                             tOccurence = false;
                         }
                     }
                     else if (Datas().m_SearchGameSave == "-+-")
                     {
-                        if (tObject.VisibleByGameSave("") == true)
+                        if (tObject.VisibleByGameSave(string.Empty) == true)
                         {
                             tOccurence = false;
                         }
@@ -533,7 +533,7 @@ namespace NetWorkedData
             for (int p = 0; p < tPagesExpected; p++)
             {
                 int tP = p + 1;
-                tListOfPagesName[p] = "" + tP.ToString();
+                tListOfPagesName[p] = string.Empty + tP.ToString();
             }
             int t_PageSelected = Datas().m_PageSelected;
             if (tPagesExpected == 0 || tPagesExpected == 1)
@@ -614,11 +614,11 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(!AccountDependent());
             List<string> tReferenceList = new List<string>();
             List<string> tInternalNameList = new List<string>();
-            tReferenceList.Add("");
+            tReferenceList.Add(string.Empty);
             tInternalNameList.Add(NWDConstants.kFieldNone);
 
             tReferenceList.Add("---");
-            tInternalNameList.Add("");
+            tInternalNameList.Add(string.Empty);
 
             tReferenceList.Add("-=-");
             tInternalNameList.Add(NWDConstants.kFieldEmpty);
@@ -645,7 +645,7 @@ namespace NetWorkedData
             }
             else
             {
-                Datas().m_SearchAccount = "";
+                Datas().m_SearchAccount = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
 
@@ -653,11 +653,11 @@ namespace NetWorkedData
             EditorGUI.BeginDisabledGroup(!GameSaveDependent());
             List<string> tReferenceSaveList = new List<string>();
             List<string> tInternalNameSaveList = new List<string>();
-            tReferenceSaveList.Add("");
+            tReferenceSaveList.Add(string.Empty);
             tInternalNameSaveList.Add(NWDConstants.kFieldNone);
 
             tReferenceSaveList.Add("---");
-            tInternalNameSaveList.Add("");
+            tInternalNameSaveList.Add(string.Empty);
 
             tReferenceSaveList.Add("-=-");
             tInternalNameSaveList.Add(NWDConstants.kFieldEmpty);
@@ -684,7 +684,7 @@ namespace NetWorkedData
             }
             else
             {
-                Datas().m_SearchGameSave = "";
+                Datas().m_SearchGameSave = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
 
@@ -725,12 +725,12 @@ namespace NetWorkedData
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 //m_SearchReference = "";
-                Datas().m_SearchReference = "";
-                Datas().m_SearchInternalName = "";
-                Datas().m_SearchInternalDescription = "";
+                Datas().m_SearchReference = string.Empty;
+                Datas().m_SearchInternalName = string.Empty;
+                Datas().m_SearchInternalDescription = string.Empty;
                 Datas().m_SearchTag = NWDBasisTag.NoTag;
-                Datas().m_SearchAccount = "";
-                Datas().m_SearchGameSave = "";
+                Datas().m_SearchAccount = string.Empty;
+                Datas().m_SearchGameSave = string.Empty;
                 FilterTableEditor();
                 RestaureDataInEditionByReference(tReference);
             }
@@ -751,8 +751,8 @@ namespace NetWorkedData
                 string tReference = GetReferenceOfDataInEdition();
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
-                Datas().m_SearchInternalName = "";
-                Datas().m_SearchInternalDescription = "";
+                Datas().m_SearchInternalName = string.Empty;
+                Datas().m_SearchInternalDescription = string.Empty;
                 //ReloadAllObjects ();
                 //LoadTableEditor ();
                 LoadFromDatabase();
@@ -1662,7 +1662,7 @@ namespace NetWorkedData
 
                 if (tDeleteSelection == true)
             {
-                string tDialog = "";
+                string tDialog = string.Empty;
                 if (tSelectionCount == 0)
                 {
                     tDialog = NWDConstants.K_APP_TABLE_DELETE_NO_OBJECT;
@@ -1706,7 +1706,7 @@ namespace NetWorkedData
 
             if (tTrashSelection == true)
             {
-                string tDialog = "";
+                string tDialog = string.Empty;
                 if (tSelectionCount == 0)
                 {
                     tDialog = NWDConstants.K_APP_TABLE_TRASH_NO_OBJECT;

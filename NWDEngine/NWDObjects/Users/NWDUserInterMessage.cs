@@ -264,7 +264,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string MessageRichText(bool sBold = true)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             NWDMessage tMessage = Message.GetObject();
             if (tMessage != null)
             {
@@ -276,7 +276,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string MessageRichTextForLanguage(string sLanguage, bool sBold = true)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             NWDMessage tMessage = Message.GetObject();
             if (tMessage != null)
             {
@@ -288,7 +288,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string TitleRichText(bool sBold = true)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             NWDMessage tMessage = Message.GetObject();
             if (tMessage != null)
             {
@@ -300,7 +300,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string TitleRichTextForLanguage(string sLanguage, bool sBold = true)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             NWDMessage tMessage = Message.GetObject();
             if (tMessage != null)
             {
@@ -336,8 +336,8 @@ namespace NetWorkedData
             string tBend = "</b>";
             if (sBold == false)
             {
-                tBstart = "";
-                tBend = "";
+                tBstart = string.Empty;
+                tBend = string.Empty;
             }
 
             // Replace Tag by user Nickname

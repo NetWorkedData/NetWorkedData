@@ -407,8 +407,8 @@ namespace NetWorkedData
             string tBend = "</b>";
             if (sBold == false)
             {
-                tBstart = "";
-                tBend = "";
+                tBstart = string.Empty;
+                tBend = string.Empty;
             }
             if (sLanguage == null)
             {
@@ -425,7 +425,7 @@ namespace NetWorkedData
                         string tLastName = tCharacter.LastName.GetLanguageString(sLanguage);
                         if (tLastName != null)
                         {
-                            rText = rText.Replace("#L" + tCounter.ToString() + "#", tBstart + tLastName + tBend);
+                            rText = rText.Replace("#L" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tLastName + tBend);
                         }
                     }
                     if (tCharacter.FirstName != null)
@@ -433,7 +433,7 @@ namespace NetWorkedData
                         string tFirstName = tCharacter.FirstName.GetLanguageString(sLanguage);
                         if (tFirstName != null)
                         {
-                            rText = rText.Replace("#F" + tCounter.ToString() + "#", tBstart + tFirstName + tBend);
+                            rText = rText.Replace("#F" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tFirstName + tBend);
                         }
                     }
                     if (tCharacter.NickName != null)
@@ -441,7 +441,7 @@ namespace NetWorkedData
                         string tNickName = tCharacter.NickName.GetLanguageString(sLanguage);
                         if (tNickName != null)
                         {
-                            rText = rText.Replace("#N" + tCounter.ToString() + "#", tBstart + tNickName + tBend);
+                            rText = rText.Replace("#N" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNickName + tBend);
                         }
                     }
                     tCounter++;
@@ -455,9 +455,9 @@ namespace NetWorkedData
                     NWDItem tItem = tKeyValue.Key;
                     if (tItem != null)
                     {
-                        string tNameQuantity = "";
-                        string tNameSingular = "";
-                        string tNamePlural = "";
+                        string tNameQuantity = string.Empty;
+                        string tNameSingular = string.Empty;
+                        string tNamePlural = string.Empty;
                         if (tItem.Name != null)
                         {
                             tNameSingular = tItem.Name.GetLanguageString(sLanguage);
@@ -474,9 +474,9 @@ namespace NetWorkedData
                         {
                             tNameQuantity = tKeyValue.Value + " " + tNameSingular;
                         }
-                        rText = rText.Replace("#I" + tCounter.ToString() + "#", tBstart + tNameSingular + tBend);
+                        rText = rText.Replace("#I" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNameSingular + tBend);
                         rText = rText.Replace("#I" + tCounter.ToString() + "s#", tBstart + tNamePlural + tBend);
-                        rText = rText.Replace("#xI" + tCounter.ToString() + "#", tBstart + tNameQuantity + tBend);
+                        rText = rText.Replace("#xI" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNameQuantity + tBend);
                     }
                     tCounter++;
                 }
@@ -489,9 +489,9 @@ namespace NetWorkedData
                     NWDItem tItem = tKeyValue.Key.DescriptionItem.GetObject();
                     if (tItem != null)
                     {
-                        string tNameQuantity = "";
-                        string tNameSingular = "";
-                        string tNamePlural = "";
+                        string tNameQuantity = string.Empty;
+                        string tNameSingular = string.Empty;
+                        string tNamePlural = string.Empty;
                         if (tItem.Name != null)
                         {
                             tNameSingular = tItem.Name.GetLanguageString(sLanguage);
@@ -508,9 +508,9 @@ namespace NetWorkedData
                         {
                             tNameQuantity = tKeyValue.Value + " " + tNameSingular;
                         }
-                        rText = rText.Replace("#G" + tCounter.ToString() + "#", tBstart + tNameSingular + tBend);
+                        rText = rText.Replace("#G" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNameSingular + tBend);
                         rText = rText.Replace("#G" + tCounter.ToString() + "s#", tBstart + tNamePlural + tBend);
-                        rText = rText.Replace("#xG" + tCounter.ToString() + "#", tBstart + tNameQuantity + tBend);
+                        rText = rText.Replace("#xG" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNameQuantity + tBend);
                     }
                     tCounter++;
                 }
@@ -523,9 +523,9 @@ namespace NetWorkedData
                     NWDItem tItem = tKeyValue.Key.DescriptionItem.GetObject();
                     if (tItem != null)
                     {
-                        string tNameQuantity = "";
-                        string tNameSingular = "";
-                        string tNamePlural = "";
+                        string tNameQuantity = string.Empty;
+                        string tNameSingular = string.Empty;
+                        string tNamePlural = string.Empty;
                         if (tItem.Name != null)
                         {
                             tNameSingular = tItem.Name.GetLanguageString(sLanguage);
@@ -542,9 +542,9 @@ namespace NetWorkedData
                         {
                             tNameQuantity = tKeyValue.Value + " " + tNameSingular;
                         }
-                        rText = rText.Replace("#P" + tCounter.ToString() + "#", tBstart + tNameSingular + tBend);
+                        rText = rText.Replace("#P" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNameSingular + tBend);
                         rText = rText.Replace("#P" + tCounter.ToString() + "s#", tBstart + tNamePlural + tBend);
-                        rText = rText.Replace("#xP" + tCounter.ToString() + "#", tBstart + tNameQuantity + tBend);
+                        rText = rText.Replace("#xP" + tCounter.ToString() + BTBConstants.K_HASHTAG, tBstart + tNameQuantity + tBend);
                     }
                     tCounter++;
                 }
@@ -722,12 +722,12 @@ namespace NetWorkedData
 
             GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
             tStyle.richText = true;
-            string tText = "";
+            string tText = string.Empty;
             // if answer
             string tLangue = NWDNodeEditor.SharedInstance().GetLanguage();
 
             string tAnswer = AnswerRichTextForLanguage(tLangue);
-            if (tAnswer != "")
+            if (tAnswer != string.Empty)
             {
                 tText += "For the answer : \"" + tAnswer + "\"…\n";
             }

@@ -15,6 +15,7 @@ using System.IO;
 using UnityEngine;
 
 using SQLite4Unity3d;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,16 +34,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDLocalizableLongTextType()
         {
-            Value = "";
-            AddBaseString("");
+            Value = string.Empty;
+            AddBaseString(string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizableLongTextType(string sValue = "")
+        public NWDLocalizableLongTextType(string sValue = BTBConstants.K_EMPTY_STRING)
         {
             if (string.IsNullOrEmpty(sValue))
             {
-                Value = "";
-                AddBaseString("");
+                Value = string.Empty;
+                AddBaseString(string.Empty);
             }
             else
             {
@@ -138,7 +139,7 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             int tRow = 0;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
@@ -149,7 +150,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDLocalizableLongTextType tTemporary = new NWDLocalizableLongTextType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -161,7 +162,7 @@ namespace NetWorkedData
             float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
 
             List<string> tLocalizationList = new List<string>();
-            tLocalizationList.Add("-");
+            tLocalizationList.Add(BTBConstants.K_MINUS);
 
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
@@ -174,7 +175,7 @@ namespace NetWorkedData
 
             Dictionary<string, string> tResult = new Dictionary<string, string>();
 
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tValueList = new List<string>(tValueArray);
@@ -201,8 +202,8 @@ namespace NetWorkedData
                     //tFieldName = "   ";
                     tContent = new GUIContent("   ");
                 }
-                string tLangague = "";
-                string tText = "";
+                string tLangague = string.Empty;
+                string tText = string.Empty;
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                 if (tLineValue.Length == 2)
@@ -234,7 +235,7 @@ namespace NetWorkedData
                     tIndex = 0;
                 }
                 tLangague = tValueFuturList[tIndex];
-                if (tLangague != "")
+                if (tLangague != string.Empty)
                 {
 
              //remove EditorGUI.indentLevel to draw next controller without indent 
@@ -258,11 +259,11 @@ namespace NetWorkedData
                     tResult.Add(tLangague, tText);
                 }
             }
-            tResult.Remove("-"); // remove default value
-            tResult.Remove(""); // remove empty value
+            tResult.Remove(BTBConstants.K_MINUS); // remove default value
+            tResult.Remove(string.Empty); // remove empty value
             if (tResult.ContainsKey(NWDDataLocalizationManager.kBaseDev) == false)
             {
-                tResult.Add(NWDDataLocalizationManager.kBaseDev, "");
+                tResult.Add(NWDDataLocalizationManager.kBaseDev, string.Empty);
             }
             foreach (KeyValuePair<string, string> tKeyValue in tResult)
             {
@@ -274,7 +275,7 @@ namespace NetWorkedData
             tNextValue = tNextValue.Trim(NWDConstants.kFieldSeparatorA.ToCharArray()[0]);
             if (tNextValue == NWDConstants.kFieldSeparatorB)
             {
-                tNextValue = "";
+                tNextValue = string.Empty;
             }
             tTemporary.Value = tNextValue;
             return tTemporary;

@@ -35,13 +35,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDateType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateType (string sValue = "")
+		public NWDDateType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -49,7 +49,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDate(DateTime sDatetime)
@@ -104,7 +104,7 @@ namespace NetWorkedData
             return NWDConstants.kPopupdStyle.fixedHeight;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDDateType tTemporary = new NWDDateType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

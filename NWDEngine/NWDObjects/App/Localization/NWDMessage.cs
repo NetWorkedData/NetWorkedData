@@ -151,7 +151,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDMessage CreateGenericMessage(string sDomain, string sCode, string sTitle, string sDescription)
         {
-            string tReference = "MES-" + sDomain + "-" + sCode;
+            string tReference = "MES-" + sDomain + BTBConstants.K_MINUS + sCode;
             // TODO: alert if reference is too long for ereg / or substring if too long
             NWDMessage tError = NWDMessage.GetDataByReference(tReference);
             //NWDMessage tError = InstanceByReference(tReference) as NWDMessage;
@@ -247,7 +247,7 @@ namespace NetWorkedData
         {
             if (sNeedBeUpdate == true)
             {
-                if (Domain == null || Domain == "")
+                if (Domain == null || Domain == string.Empty)
                 {
                     Domain = "Unknow";
                 }

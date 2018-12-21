@@ -32,10 +32,10 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public NWDLanguageType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public NWDLanguageType (string sValue = "")
+        public NWDLanguageType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = "en";
@@ -57,7 +57,7 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDLanguageType tTemporary = new NWDLanguageType ();
             tTemporary.Value = Value;
@@ -71,7 +71,7 @@ namespace NetWorkedData
             float tLangWidth = EditorGUIUtility.labelWidth + NWDConstants.kLangWidth;
 
 			List<string> tLocalizationList = new List<string> ();
-			tLocalizationList.Add ("-");
+			tLocalizationList.Add (BTBConstants.K_MINUS);
 
 			string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
 			string[] tLanguageArray = tLanguage.Split (new string[]{ ";" }, StringSplitOptions.RemoveEmptyEntries);

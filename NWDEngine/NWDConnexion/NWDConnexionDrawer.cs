@@ -97,7 +97,7 @@ namespace NetWorkedData
 				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionFieldSerialized", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null)
 				{
-					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, "", tReferenceConnection.ShowInspector, tReferenceConnection.Editable, tReferenceConnection.EditButton, tReferenceConnection.NewButton});
+					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector, tReferenceConnection.Editable, tReferenceConnection.EditButton, tReferenceConnection.NewButton});
 				}
 			//EditorGUI.EndDisabledGroup();
 			//if (tConnection == false)

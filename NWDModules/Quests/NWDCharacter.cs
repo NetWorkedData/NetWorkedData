@@ -218,18 +218,18 @@ namespace NetWorkedData
             string tBend = "</b>";
             if (sBold == false)
             {
-                tBstart = "";
-                tBend = "";
+                tBstart = string.Empty;
+                tBend = string.Empty;
             }
 
             // Replace Tag by Character First Name
-            string rText = sText.Replace("#F" + sCpt + "#", tBstart + FirstName + tBend);
+            string rText = sText.Replace("#F" + sCpt + BTBConstants.K_HASHTAG, tBstart + FirstName + tBend);
 
             // Replace Tag by Character Last Name
-            rText = rText.Replace("#L" + sCpt + "#", tBstart + LastName + tBend);
+            rText = rText.Replace("#L" + sCpt + BTBConstants.K_HASHTAG, tBstart + LastName + tBend);
 
             // Replace Tag by Character Nickname
-            rText = rText.Replace("#N" + sCpt + "#", tBstart + NickName + tBend);
+            rText = rText.Replace("#N" + sCpt + BTBConstants.K_HASHTAG, tBstart + NickName + tBend);
 
             return rText;
         }

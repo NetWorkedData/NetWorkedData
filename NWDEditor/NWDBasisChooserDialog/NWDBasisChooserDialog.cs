@@ -60,7 +60,7 @@ namespace NetWorkedData
             tWindow.IndexValue = sIndexValue;
             if (tWindow.Mode == NWDBasisChooserMode.Add)
             {
-                tWindow.ReplaceValue = "";
+                tWindow.ReplaceValue = string.Empty;
             }
             else
             {

@@ -67,7 +67,7 @@ namespace NetWorkedData
                 AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
                 AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
                 PlayerAccountReference = AnonymousPlayerAccountReference;
-                RequesToken = "";
+                RequesToken = string.Empty;
                 PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
                 SavePreferences();
             }
@@ -84,7 +84,7 @@ namespace NetWorkedData
             AnonymousPlayerAccountReference = NWDToolbox.GenerateUniqueID();
             AnonymousResetPassword = NWDToolbox.RandomStringUnix(36);
             PlayerAccountReference = AnonymousPlayerAccountReference;
-            RequesToken = "";
+            RequesToken = string.Empty;
             PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
@@ -95,7 +95,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("ResetPlayerSession in " + Environment);
             PlayerAccountReference = NWDToolbox.GenerateUniqueID();
-            RequesToken = "";
+            RequesToken = string.Empty;
             PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
             SavePreferences();
             // add notification
@@ -116,7 +116,7 @@ namespace NetWorkedData
         {
             //Debug.Log ("RestaureAnonymousSession in " + Environment);
             PlayerAccountReference = AnonymousPlayerAccountReference;
-            RequesToken = "";
+            RequesToken = string.Empty;
             PlayerStatut = NWDAppEnvironmentPlayerStatut.Anonymous;
             // TODO :  must connect to server
             SavePreferences();

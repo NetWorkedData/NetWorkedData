@@ -645,7 +645,7 @@ namespace NetWorkedData
 
         public string DynamiqueDataAssembly(bool sAsssemblyAsCSV = false)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
 
@@ -675,12 +675,12 @@ namespace NetWorkedData
                     //rReturn += "|-" + tPropertieName + ":";
                     // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
-                    string tValueString = "";
+                    string tValueString = string.Empty;
 
                     object tValue = tProp.GetValue(this, null);
                     if (tValue == null)
                     {
-                        tValue = "";
+                        tValue = string.Empty;
                     }
                     tValueString = tValue.ToString();
                     if (tTypeOfThis.IsEnum)
@@ -741,7 +741,7 @@ namespace NetWorkedData
         /// <param name="sAsssemblyAsCVS">If set to <c>true</c> asssembly as CSV.</param>
         public string DataAssembly(bool sAsssemblyAsCSV = false)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
 
@@ -771,12 +771,12 @@ namespace NetWorkedData
                     //rReturn += "|-" + tPropertieName + ":";
                     // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
-                    string tValueString = "";
+                    string tValueString = string.Empty;
 
                     object tValue = tProp.GetValue(this, null);
                     if (tValue == null)
                     {
-                        tValue = "";
+                        tValue = string.Empty;
                     }
                     tValueString = tValue.ToString();
                     if (tTypeOfThis.IsEnum)
@@ -856,7 +856,7 @@ namespace NetWorkedData
             //Debug.Log("PrepareOrders for webservice : "+tWebBuild.ToString());
 
             // TODO test old version is diffeerent from new version of data
-            string tLastRegister = "";
+            string tLastRegister = string.Empty;
             int tLast = 0;
             foreach (KeyValuePair<int, Dictionary<string, string>> tPair in tApp.kWebBuildkSLQAssemblyOrder)
             {

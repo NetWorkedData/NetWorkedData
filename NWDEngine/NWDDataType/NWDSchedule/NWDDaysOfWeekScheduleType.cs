@@ -36,13 +36,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDDaysOfWeekScheduleType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDaysOfWeekScheduleType (string sValue = "")
+		public NWDDaysOfWeekScheduleType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -90,7 +90,7 @@ namespace NetWorkedData
 			return tHeight * tCount + tHeightTitle;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDDaysOfWeekScheduleType tTemporary = new NWDDaysOfWeekScheduleType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

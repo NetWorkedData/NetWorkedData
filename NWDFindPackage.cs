@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 using UnityEngine;
+using BasicToolBox;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -58,7 +59,7 @@ namespace NetWorkedData
 			FileInfo tFileInfo = new FileInfo (ScriptFilePath);
 			ScriptFolder = tFileInfo.Directory.ToString ();
 			ScriptFolder = ScriptFolder.Replace ("\\", "/");
-			ScriptFolderFromAssets = "Assets"+ScriptFolder.Replace (Application.dataPath, "");
+			ScriptFolderFromAssets = "Assets"+ScriptFolder.Replace (Application.dataPath, string.Empty);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -66,17 +67,17 @@ namespace NetWorkedData
 		/// </summary>
 		/// <returns>The path.</returns>
 		/// <param name="sAddPath">S add path.</param>
-		public static string PathOfPackage (string sAddPath="")
+		public static string PathOfPackage (string sAddPath= BTBConstants.K_EMPTY_STRING)
 		{
 			return SharedInstance ().ScriptFolderFromAssets + sAddPath;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string PathEditorTextures(string sAddPath = "")
+        public static string PathEditorTextures(string sAddPath = BTBConstants.K_EMPTY_STRING)
         {
             return SharedInstance().ScriptFolderFromAssets +"/NWDEditor/Editor/Resources/Textures/"+ sAddPath;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Texture2D PackageEditorTexture(string sAddPath = "")
+        public static Texture2D PackageEditorTexture(string sAddPath = BTBConstants.K_EMPTY_STRING)
         {
             return AssetDatabase.LoadAssetAtPath<Texture2D>(PathEditorTextures(sAddPath));
 
@@ -95,7 +96,7 @@ namespace NetWorkedData
             //}
             if (rTexture == null)
             {
-                string[] sGUIDs = AssetDatabase.FindAssets("" + sName + " t:texture");
+                string[] sGUIDs = AssetDatabase.FindAssets( sName + " t:texture");
                 foreach (string tGUID in sGUIDs)
                 {
                     string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);

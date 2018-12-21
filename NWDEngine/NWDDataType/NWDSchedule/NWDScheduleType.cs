@@ -49,14 +49,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDScheduleType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDScheduleType(string sValue = "")
+        public NWDScheduleType(string sValue = BTBConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
-                Value = "";
+                Value = string.Empty;
             }
             else
             {
@@ -66,12 +66,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public string StringResultOfDate(DateTime sDateTime)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             DayOfWeek tDayOfWeek = sDateTime.DayOfWeek;
             switch (tDayOfWeek)
             {
@@ -139,11 +139,11 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             GUIStyle tPopupdStyle = new GUIStyle(EditorStyles.popup);
-            float tHeight = tPopupdStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            float tHeight = tPopupdStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDScheduleType tTemporary = new NWDScheduleType();
             //GUIContent tContent = new GUIContent(sEntitled, sTooltips);

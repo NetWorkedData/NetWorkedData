@@ -63,12 +63,12 @@ namespace NetWorkedData
         /// <param name="sUUID">UUID.</param>
         public string UUIDTransformForReference(string sUUID)
         {
-            string tUUID = "-" + sUUID;
-            tUUID = tUUID.Replace("ACC", "");
-            tUUID = tUUID.Replace("S", "");
-            tUUID = tUUID.Replace("C", "");
+            string tUUID = BTBConstants.K_MINUS + sUUID;
+            tUUID = tUUID.Replace("ACC", string.Empty);
+            tUUID = tUUID.Replace("S", string.Empty);
+            tUUID = tUUID.Replace("C", string.Empty);
             //tUUID = tUUID.Replace ("T", ""); // Je ne remplace pas le T de l'accompte ... ainsi je verrai les References crée sur un compte temporaire non vérifié
-            tUUID = tUUID.Replace("-", "");
+            tUUID = tUUID.Replace(BTBConstants.K_MINUS, string.Empty);
             return tUUID;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -79,11 +79,11 @@ namespace NetWorkedData
         /// <param name="sUUID">UUID.</param>
         public string NewReferenceFromUUID(string sUUID)
         {
-            string rReturn = "";
+            string rReturn = string.Empty;
             bool tValid = false;
-            if (sUUID != null && sUUID != "")
+            if (sUUID != null && sUUID != string.Empty)
             {
-                sUUID = UUIDTransformForReference(sUUID) + "-";
+                sUUID = UUIDTransformForReference(sUUID) + BTBConstants.K_MINUS;
             }
             //int tTimeRef = 0;
             //int.TryParse(sUUID, out tTimeRef);
@@ -91,7 +91,7 @@ namespace NetWorkedData
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 20h00
             while (tValid == false)
             {
-                rReturn = Datas().ClassTrigramme + "-" + sUUID + tTime.ToString() + "-" + UnityEngine.Random.Range(100, 999).ToString();
+                rReturn = Datas().ClassTrigramme + BTBConstants.K_MINUS + sUUID + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -147,7 +147,7 @@ namespace NetWorkedData
             }
             else
             {
-                return NewReferenceFromUUID("");
+                return NewReferenceFromUUID(string.Empty);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

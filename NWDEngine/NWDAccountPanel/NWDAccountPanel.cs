@@ -243,7 +243,7 @@ namespace NetWorkedData
         /// </summary>
         public void SignUpTest()
         {
-            string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + "-" + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
+            string tEmail = "Test" + NWDToolbox.Timestamp().ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100000, 999999).ToString() + "@idemobi.com";
             string tPassword = "Pass" + UnityEngine.Random.Range(100000, 999999).ToString();
             //Debug.Log("Sign-up with " + tEmail + " and " + tPassword);
             NWDDataManager.SharedInstance().AddWebRequestSignUpWithBlock(tEmail,tPassword,tPassword,
@@ -452,10 +452,10 @@ namespace NetWorkedData
         string ShowError(BTBOperationResult sResult)
         {
             NWDOperationResult tResult = (NWDOperationResult)sResult;
-            string tDescription = "";
+            string tDescription = string.Empty;
             if (tResult.errorDesc != null)
             {
-                string tErrorDesc = "";
+                string tErrorDesc = string.Empty;
                 if( tResult.errorDesc.Description != null)
                 {
                     tErrorDesc = tResult.errorDesc.Description.GetLocalString();

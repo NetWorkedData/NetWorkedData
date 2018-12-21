@@ -434,13 +434,13 @@ namespace NetWorkedData
             float tYadd = sInRect.y;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             EditorGUI.DrawRect(new Rect(tX, tYadd + NWDConstants.kFieldMarge, tWidth, 1), NWDConstants.kRowColorLine);
             tYadd += NWDConstants.kFieldMarge * 2;
@@ -483,10 +483,10 @@ namespace NetWorkedData
                 this.ReaderReference.SetObject(null);
                 this.PublisherClassesShared = string.Join(",", tList.ToArray());
                 this.ReaderClassesAccepted = string.Join(",", tList.ToArray());
-                this.PublisherNickname = "";
-                this.ReaderNickname = "";
+                this.PublisherNickname = string.Empty;
+                this.ReaderNickname = string.Empty;
                 this.Reciprocity.SetReference(null);
-                this.PinCode = "";
+                this.PinCode = string.Empty;
                 this.PinLimit = 0;
                 this.FirstSync = true;
                 this.RelationState = NWDRelationshipPinState.None;
@@ -579,13 +579,13 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
             tYadd = NWDConstants.kFieldMarge;
 
@@ -668,7 +668,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeClassesToPublisher(Type[] sClasses)
         {
-            string sPublisherClassesShared = "";
+            string sPublisherClassesShared = string.Empty;
             foreach (Type sClass in sClasses)
             {
                 if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
@@ -715,7 +715,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ChangeClassesToReader(Type[] sClasses)
         {
-            string sReaderClassesAccepted = "";
+            string sReaderClassesAccepted = string.Empty;
             foreach (Type sClass in sClasses)
             {
                 if (sClass.IsSubclassOf(typeof(NWDTypeClass)))

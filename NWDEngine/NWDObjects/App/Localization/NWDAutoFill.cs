@@ -7,6 +7,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -87,7 +88,7 @@ namespace NetWorkedData
                                 case NWDAutolocalizedTag.MarkedBaseString:
                                     {
                                         string tTextString = tLocalization.TextValue.GetBaseString();
-                                        TextTarget.text = "#" + tTextString + "#";
+                                        TextTarget.text = BTBConstants.K_HASHTAG + tTextString + BTBConstants.K_HASHTAG;
                                     }
                                     break;
                                 case NWDAutolocalizedTag.KeyInternal:

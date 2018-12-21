@@ -39,17 +39,17 @@ namespace NetWorkedData
 		/// </summary>
 		public NWDGeolocType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NetWorkedData.NWDGeolocType"/> class.
 		/// </summary>
 		/// <param name="sValue">S value.</param>
-		public NWDGeolocType (string sValue = "")
+		public NWDGeolocType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -57,7 +57,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -113,7 +113,7 @@ namespace NetWorkedData
 		/// <param name="sPosition">S position.</param>
 		/// <param name="sEntitled">S entitled.</param>
 		/// <param name="sPos">S position.</param>
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
             NWDGeolocType tTemporary = new NWDGeolocType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

@@ -52,8 +52,8 @@ namespace NetWorkedData
 		public string ConfirmPassword;
 		public string SocialToken;
 		//-------------------------------------------------------------------------------------------------------------
-		public string AnonymousPlayerAccountReference = "";
-		public string AnonymousResetPassword = "";
+		public string AnonymousPlayerAccountReference = string.Empty;
+		public string AnonymousResetPassword = string.Empty;
 		//-------------------------------------------------------------------------------------------------------------
 		static public NWDOperationWebAccount AddOperation (string sName,
 		                                                   BTBOperationBlock sSuccessBlock = null, 

@@ -88,7 +88,7 @@ namespace NetWorkedData
         //    return rTexture;
         //}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDBasisWindow(string sTitleKey = "", string sDescriptionKey = "", Type[] sTabTypeList = null)
+		public NWDBasisWindow(string sTitleKey = BTBConstants.K_EMPTY_STRING, string sDescriptionKey = BTBConstants.K_EMPTY_STRING, Type[] sTabTypeList = null)
 		{
 			//Debug.Log ("NWDBasisWindow advanced constructor");
 			this.mTitleKey = sTitleKey;
@@ -262,11 +262,11 @@ namespace NetWorkedData
             {
                 if (tWidthUsed > TabsTotalWidthExpected)
                 {
-                    tHeight += tToolbarStyle.CalcHeight(new GUIContent("A"), tWidthUsed);
+                    tHeight += tToolbarStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
                 }
                 else
                 {
-                    tHeight += tPopupStyle.CalcHeight(new GUIContent("A"), tWidthUsed);
+                    tHeight += tPopupStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidthUsed);
                 }
                 tHeight += NWDConstants.kFieldMarge * 2;
             }

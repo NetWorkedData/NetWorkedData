@@ -36,12 +36,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferencesAmountType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ContainsObject(K sObject)
@@ -57,7 +57,7 @@ namespace NetWorkedData
         public bool IsEmpty()
         {
             bool rReturn = true;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 rReturn = false;
             }
@@ -67,7 +67,7 @@ namespace NetWorkedData
         public bool IsNotEmpty()
         {
             bool rReturn = false;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 rReturn = true;
             }
@@ -82,7 +82,7 @@ namespace NetWorkedData
         public bool ContainedIn(NWDReferencesAmountType<K> sReferencesAmount, bool sExceptIfIsEmpty = true)
         {
             bool rReturn = true;
-            if (sExceptIfIsEmpty && Value == "")
+            if (sExceptIfIsEmpty && Value == string.Empty)
             {
                 return false;
             }
@@ -255,7 +255,7 @@ namespace NetWorkedData
         public string[] GetReferences()
         {
             List<string> tValueList = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -293,7 +293,7 @@ namespace NetWorkedData
         public Dictionary<string, float> GetReferenceAndAmount()
         {
             Dictionary<string, float> tValueDico = new Dictionary<string, float>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -316,7 +316,7 @@ namespace NetWorkedData
         public Dictionary<K, float> GetObjectAndAmount(string sAccountReference = null)
         {
             Dictionary<K, float> tValueDico = new Dictionary<K, float>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -343,7 +343,7 @@ namespace NetWorkedData
         public Dictionary<K, float> GetObjectAndAmountAbsolute()
         {
             Dictionary<K, float> tValueDico = new Dictionary<K, float>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -370,7 +370,7 @@ namespace NetWorkedData
         public List<K> ExploseInItemsList()
         {
             List<K> rList = new List<K>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string tLine in tValueArray)
@@ -396,7 +396,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
         {
-            string rDescription = "";
+            string rDescription = string.Empty;
             Dictionary<string, float> tDescDico = GetReferenceAndAmount();
             foreach (KeyValuePair<string, float> tKeyValue in tDescDico)
             {
@@ -470,7 +470,7 @@ namespace NetWorkedData
         {
             int tRow = 1;
             int tConnection = 0;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tRow += tValueArray.Count();
@@ -490,7 +490,7 @@ namespace NetWorkedData
                                NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
             // test if error in reference and add button height
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
                 {
@@ -501,7 +501,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
@@ -554,7 +554,7 @@ namespace NetWorkedData
 
             List<string> tValueList = new List<string>();
             List<string> tValueListReferenceAllReady = new List<string>();
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 string[] tValueArray = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
                 tValueList = new List<string>(tValueArray);
@@ -572,8 +572,8 @@ namespace NetWorkedData
             bool tDown = false;
             int tIndexToMove = -1;
 
-            tValueList.Add("");
-            string tNewReferenceQuantity = "";
+            tValueList.Add(string.Empty);
+            string tNewReferenceQuantity = string.Empty;
             for (int i = 0; i < tValueList.Count; i++)
             {
                 //string tFieldName = sEntitled;
@@ -585,7 +585,7 @@ namespace NetWorkedData
 
                 int tIndex = 0;
                 float tQ = 1;
-                string tV = "";
+                string tV = string.Empty;
                 string tLine = tValueList.ElementAt(i);
                 string[] tLineValue = tLine.Split(new string[] { NWDConstants.kFieldSeparatorB }, StringSplitOptions.RemoveEmptyEntries);
                 if (tLineValue.Length == 2)
@@ -661,7 +661,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tValueList[i] = "";
+                    tValueList[i] = string.Empty;
                 }
             }
 

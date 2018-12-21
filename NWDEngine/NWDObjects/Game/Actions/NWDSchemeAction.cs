@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -128,7 +128,7 @@ namespace NetWorkedData
         public Texture2D FlashMyApp(string sProto, bool sRedirection, int sDimension)
         {
             Texture2D rTexture = new Texture2D(sDimension, sDimension);
-            var color32 = Encode(URISchemePath(sProto, ""), rTexture.width, rTexture.height);
+            var color32 = Encode(URISchemePath(sProto, string.Empty), rTexture.width, rTexture.height);
             rTexture.SetPixels32(color32);
             rTexture.Apply();
             return rTexture;
@@ -151,8 +151,8 @@ namespace NetWorkedData
         public string URISchemePath(string sProtocol, string sAdditional)
         {
             string tText = sProtocol;
-            tText = tText.Replace(":", "");
-            tText = tText.Replace("/", "");
+            tText = tText.Replace(":", string.Empty);
+            tText = tText.Replace("/", string.Empty);
             tText += "://do?A=" + UnityWebRequest.EscapeURL(Reference);
             if (string.IsNullOrEmpty(Message) == false)
             {
@@ -314,10 +314,10 @@ namespace NetWorkedData
             float tY = sInRect.position.y + NWDConstants.kFieldMarge;
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             float tYadd = 0.0f;
 
@@ -329,12 +329,12 @@ namespace NetWorkedData
 
             foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
             {
-                string tProto = tProtocol.Replace("://", "");
-                EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(tProto,""));
+                string tProto = tProtocol.Replace("://", string.Empty);
+                EditorGUI.TextField(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", URISchemePath(tProto, string.Empty));
                 tYadd += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                 if (GUI.Button(new Rect(tX, tY + tYadd, tWidth, tTextFieldStyle.fixedHeight), "URI Scheme Action", tMiniButtonStyle))
                 {
-                    Application.OpenURL(URISchemePath(tProto,""));
+                    Application.OpenURL(URISchemePath(tProto, string.Empty));
                 }
                 tYadd += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
@@ -354,7 +354,7 @@ namespace NetWorkedData
         public override float AddonEditorHeight()
         {
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
-            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent("A"), 100);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
             // Height calculate for the interface addon for editor
             float tYadd = 0.0F;
             foreach (string tProtocol in NWDAppEnvironment.SelectedEnvironment().AppProtocol.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))

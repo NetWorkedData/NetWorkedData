@@ -254,7 +254,7 @@ namespace NetWorkedData
 
 
             // craete constants of erro in php
-            tConstantsFile += "" +
+            tConstantsFile += string.Empty +
             "errorDeclaration('" + tTrigramme + "x01', 'error in request creation in " + tClassName + "');\n" +
             "errorDeclaration('" + tTrigramme + "x02', 'error in request creation add primary key in " + tClassName + "');\n" +
             "errorDeclaration('" + tTrigramme + "x03', 'error in request creation add autoincrement modify in " + tClassName + "');\n" +
@@ -295,7 +295,7 @@ namespace NetWorkedData
                                      "//-------------------- \n" +
                                      "function Create" + tClassName + "Table () {\n" +
             "global $SQL_CON, $ENV;\n" +
-                                     "";
+                                     string.Empty;
             var tQuery = "CREATE TABLE IF NOT EXISTS `'.$ENV.'_" + tTableName + "` (";
             var tDeclarations = tTableMapping.Columns.Select(p => Orm.SqlDecl(p, true));
             var tDeclarationsJoined = string.Join(",", tDeclarations.ToArray());
@@ -308,10 +308,10 @@ namespace NetWorkedData
             tDeclarationsJoined = tDeclarationsJoined.Replace("`DS` integer", "`DS` int(11) NOT NULL DEFAULT 0");
             tDeclarationsJoined = tDeclarationsJoined.Replace("`XX` integer", "`XX` int(11) NOT NULL DEFAULT 0");
             tDeclarationsJoined = tDeclarationsJoined.Replace("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL");
-            tDeclarationsJoined = tDeclarationsJoined.Replace("primary key autoincrement not null", "");
+            tDeclarationsJoined = tDeclarationsJoined.Replace("primary key autoincrement not null", string.Empty);
             tQuery += tDeclarationsJoined;
             tQuery += ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-            tManagementFile += "" +
+            tManagementFile += string.Empty +
             "$tQuery = '" + tQuery + "';\n" +
             "$tResult = $SQL_CON->query($tQuery);\n" +
             "if (!$tResult)\n" +
@@ -371,7 +371,7 @@ namespace NetWorkedData
                     //"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                     //						"error('" + tTrigramme + "x11');\n" +
                     //"}\n" +
-                    "";
+                    string.Empty;
                     tManagementFile +=
                         //					"$tQuery ='ALTER TABLE `'.$ENV.'" + tTableName + "` CHANGE `" + tColumn.Name + "` " + Orm.SqlDecl (tColumn, true).Replace ("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL") + ";';\n" +
                         "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " + 
@@ -382,7 +382,7 @@ namespace NetWorkedData
                     //					"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                     //					"error('" + tTrigramme + "x12');\n" +
                     //"}\n" +
-                    "";
+                    string.Empty;
                 }
             }
             tManagementFile += "\n";
@@ -464,7 +464,7 @@ namespace NetWorkedData
 
                 string[] columnNamesFinal = columnNamesFinalList.ToArray<string>();
 
-                tManagementFile += "" +
+                tManagementFile += string.Empty +
                     "$tRemoveIndexQuery = 'DROP INDEX `" + indexName + "` ON `'.$ENV.'_" + index.TableName + "`;';\n" +
                 "$tRemoveIndexResult = $SQL_CON->query($tRemoveIndexQuery);\n" +
                 //"if (!$tRemoveIndexResult){};\n" +
@@ -472,12 +472,12 @@ namespace NetWorkedData
                 //"myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tRemoveIndexQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                 //	"error('" + tTrigramme + "x04');\n" +
                 //"}\n" +
-                "";
+                string.Empty;
 
                 const string sqlFormat = "CREATE {2}INDEX `{3}` ON `'.$ENV.'_{0}` ({1});";
                 var sql = String.Format(sqlFormat, index.TableName, string.Join(", ", columnNamesFinal), index.Unique ? "UNIQUE " : "", indexName);
                 //				sql = sql.Replace ("`Reference`", "`Reference`(32)");
-                tManagementFile += "" +
+                tManagementFile += string.Empty +
                 "$tQuery = '" + sql + "';\n" +
                 "$tResult = $SQL_CON->query($tQuery);\n" +
                 "if (!$tResult)\n" +
@@ -489,7 +489,7 @@ namespace NetWorkedData
                 //					"{\n" +
                 //						"myLog(' -> '.$tQuery.' is ok', __FILE__, __FUNCTION__, __LINE__);\n" +
                 //					"}\n" +
-                "";
+                string.Empty;
 
             }
 
@@ -591,8 +591,8 @@ namespace NetWorkedData
                 tINeedAdminAccount = false;
             }
 
-            string tSynchronizationFile = "";
-            tSynchronizationFile += "" +
+            string tSynchronizationFile = string.Empty;
+            tSynchronizationFile += string.Empty +
             "<?php\n" +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
             "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -644,7 +644,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "\t\t$sCsvList[5] = $TIME_SYNC;// change ProdSync\n";
             }
-            tSynchronizationFile += "" +
+            tSynchronizationFile += string.Empty +
             //			"\t\t$tIntegrity = array_pop($sCsvList);\n" +
             //			"\t\t$sDataString = implode('',$sCsvList);\n" +
             //			"\t\t$tIntegrity = str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
@@ -909,7 +909,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "$tUpdateRestriction = 'AND (" + string.Join(" OR ", tAccountReference.ToArray()) + ") ';\n";
             }
-            tSynchronizationFile += "" +
+            tSynchronizationFile += string.Empty +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t$tUpdate = $tUpdate.$tUpdateRestriction.' AND `WebServiceVersion` <= '.$WSBUILD.'';\n" +
@@ -1002,7 +1002,7 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
             "\t\t\t\t\t}\n";
-            string tSpecialAdd = "";
+            string tSpecialAdd = string.Empty;
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (tProp.GetCustomAttributes(typeof(NWDNeedUserAvatarAttribute), true).Length > 0)
@@ -1021,7 +1021,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            if (tSpecialAdd != "")
+            if (tSpecialAdd != string.Empty)
             {
                 tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n"+tSpecialAdd+"\n\t\t\t\t\t}\n";
             }
@@ -1053,7 +1053,7 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
             "\t\t\t\t\t}\n";
-            if (tSpecialAdd != "")
+            if (tSpecialAdd != string.Empty)
             {
                 tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
             }
@@ -1085,7 +1085,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
-            "";
+            string.Empty;
             // I do the result operation
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
@@ -1098,7 +1098,7 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
             "\t\t\t\t\t}\n";
-            if (tSpecialAdd != "")
+            if (tSpecialAdd != string.Empty)
             {
                 tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
             }
@@ -1136,7 +1136,7 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t$REP['" + tClassName + "'][] = implode('" + NWDConstants.kStandardSeparator + "',$tRow);\n" +
             "\t\t\t\t\t}\n";
-            if (tSpecialAdd != "")
+            if (tSpecialAdd != string.Empty)
             {
                 tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
             }
@@ -1152,7 +1152,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "\tif ($sAdmin == true)\n\t{\n";
             }
-            tSynchronizationFile += "" +
+            tSynchronizationFile += string.Empty +
             "\t\tif ($sAdmin == true)\n" +
             "\t\t\t{\n" +
             "\t\t\t\t$sAccountReference = '%';\n" +

@@ -107,7 +107,7 @@ namespace NetWorkedData
             {
                 rReturnObject = (NWDBasis<K>)Activator.CreateInstance(ClassType(), new object[] { false });
                 rReturnObject.InstanceInit();
-                if (sReference == null || sReference == "")
+                if (sReference == null || sReference == string.Empty)
                 {
                     rReturnObject.Reference = rReturnObject.NewReference();
                 }
@@ -178,9 +178,9 @@ namespace NetWorkedData
                     rReturnObject.XX = XX;
                     rReturnObject.AC = AC;
                     // Change internal key by addding  "copy xxx"
-                    string tOriginalKey = "" + InternalKey;
+                    string tOriginalKey = string.Empty + InternalKey;
                     string tPattern = "\\(COPY [0-9]*\\)";
-                    string tReplacement = "";
+                    string tReplacement = string.Empty;
                     Regex tRegex = new Regex(tPattern);
                     tOriginalKey = tRegex.Replace(tOriginalKey, tReplacement);
                     tOriginalKey = tOriginalKey.TrimEnd();
@@ -249,7 +249,7 @@ namespace NetWorkedData
                 object tValue = tPropertyInfo.GetValue(sOriginal, null);
                 if (tValue == null)
                 {
-                    tValue = "";
+                    tValue = string.Empty;
                 }
                 string tValueString = string.Copy(tValue.ToString()); // force to copy new object
                 if (tTypeOfThis.IsEnum)
@@ -471,8 +471,8 @@ namespace NetWorkedData
                     ProdSync = 0;
                 }
             }
-            this.ServerHash = "";
-            this.ServerLog = "";
+            this.ServerHash = string.Empty;
+            this.ServerLog = string.Empty;
             this.UpdateIntegrity();
             //BTBBenchmark.Finish();
         }
@@ -684,7 +684,7 @@ namespace NetWorkedData
                 this.ProdSync = 1;
             }
             // reset Hash server
-            this.ServerHash = "";
+            this.ServerHash = string.Empty;
             // Update WebServiceVersion
             if (sWebServiceUpgrade == true)
             {

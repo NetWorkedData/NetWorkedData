@@ -54,7 +54,7 @@ namespace NetWorkedData
 		public Color GetColor ()
 		{
 			Color tColor = new Color ();
-			ColorUtility.TryParseHtmlString ("#" + Value, out tColor);
+			ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out tColor);
 			return tColor;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ namespace NetWorkedData
 			return tColorFieldStyle.CalcHeight (new GUIContent ("A"), 100);
 		}
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
 			NWDColorType tTemporary = new NWDColorType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);

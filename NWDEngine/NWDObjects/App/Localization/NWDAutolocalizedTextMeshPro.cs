@@ -79,7 +79,7 @@ namespace NetWorkedData
                             NWDLocalization tLocalization = LocalizationReference.GetObject();
                             if (tLocalization != null)
                             {
-                                string tTextString = "";
+                                string tTextString = string.Empty;
                                 switch (AutoTag)
                                 {
                                     case NWDAutolocalizedTag.BaseString:
@@ -89,7 +89,7 @@ namespace NetWorkedData
                                         break;
                                     case NWDAutolocalizedTag.MarkedBaseString:
                                         {
-                                            tTextString = "#" + tLocalization.TextValue.GetBaseString() + "#";
+                                            tTextString = BTBConstants.K_HASHTAG + tLocalization.TextValue.GetBaseString() + BTBConstants.K_HASHTAG;
                                         }
                                         break;
                                     case NWDAutolocalizedTag.KeyInternal:
@@ -138,7 +138,7 @@ namespace NetWorkedData
                                         break;
                                     case NWDAutolocalizedTag.MarkedBaseString:
                                         {
-                                            tTextString = "#" + tLocalization.TextValue.GetBaseString() + "#";
+                                            tTextString = BTBConstants.K_HASHTAG + tLocalization.TextValue.GetBaseString() + BTBConstants.K_HASHTAG;
                                         }
                                         break;
                                     case NWDAutolocalizedTag.KeyInternal:
@@ -186,7 +186,7 @@ namespace NetWorkedData
                     NWDLocalization tLocalization = LocalizationReference.GetObject();
                     if (tLocalization != null)
                     {
-                        string tTextString = "";
+                        string tTextString = string.Empty;
                         if (sUseBaseString == true)
                         {
                             tTextString = tLocalization.TextValue.GetBaseString();
@@ -233,7 +233,7 @@ namespace NetWorkedData
                     NWDLocalization tLocalization = LocalizationReference.GetObject();
                     if (tLocalization != null)
                     {
-                        string tTextString = "";
+                        string tTextString = string.Empty;
                         if (sUseBaseString == true)
                         {
                             tTextString = tLocalization.TextValue.GetBaseString();
@@ -279,7 +279,7 @@ namespace NetWorkedData
                 if (TextMeshProUGUITarget != null)
                 {
 
-                    TextMeshProUGUITarget.text = "";
+                    TextMeshProUGUITarget.text = string.Empty;
                 }
             }
 
@@ -303,7 +303,7 @@ namespace NetWorkedData
                 // TextMesh found
                 if (TextMeshProTarget != null)
                 {
-                    TextMeshProTarget.text = "";
+                    TextMeshProTarget.text = string.Empty;
                 }
             }
         }

@@ -34,13 +34,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDMultiType ()
 		{
-			Value = "";
+			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDMultiType (string sValue = "")
+		public NWDMultiType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
-				Value = "";
+				Value = string.Empty;
 			} else {
 				Value = sValue;
 			}
@@ -48,7 +48,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ToString()
@@ -99,7 +99,7 @@ namespace NetWorkedData
 		public Color ToColor(Color sDefault)
 		{
 			Color rReturn = new Color (sDefault.r, sDefault.g, sDefault.b, sDefault.a);
-			ColorUtility.TryParseHtmlString ("#" + Value, out rReturn);
+			ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out rReturn);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

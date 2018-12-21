@@ -36,12 +36,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDReferenceType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool ContainsReference(string sReference)
@@ -57,7 +57,7 @@ namespace NetWorkedData
         {
             if (sReference == null)
             {
-                sReference = "";
+                sReference = string.Empty;
             }
             Value = sReference;
         }
@@ -66,7 +66,7 @@ namespace NetWorkedData
         {
             if (Value == null)
             {
-                return "";
+                return string.Empty;
             }
             return Value;
         }
@@ -124,7 +124,7 @@ namespace NetWorkedData
             }
             else
             {
-                Value = "";
+                Value = string.Empty;
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ namespace NetWorkedData
             //			Debug.Log ("Je suis dans l'invocation de hauteur");
 
             int tConnection = 0;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 if (NWDBasis<K>.GetDataByReference(Value) == null)
                 {
@@ -193,7 +193,7 @@ namespace NetWorkedData
                                                                                    NWDConstants.kMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge);
 
             // test if error in reference and add button height
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 if (ReferenceInError(new List<string>(Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries))).Count > 0)
                 {
@@ -203,7 +203,7 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             //NWDConstants.LoadImages();
             //NWDConstants.LoadStyles();
@@ -221,7 +221,7 @@ namespace NetWorkedData
 
 
             bool tConnection = true;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
                 if (NWDBasis<K>.GetDataByReference(Value) == null)
                 {
@@ -326,7 +326,7 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
-                    tTemporary.Value = "";
+                    tTemporary.Value = string.Empty;
                 }
                 GUI.backgroundColor = tOldColor;
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;

@@ -405,7 +405,7 @@ namespace NetWorkedData
         {
             Debug.Log("GetFirstCraftBookFor NWDCraftBook.GetAllObjects().Length) = " + NWDCraftBook.FindDatas().Length);
             NWDCraftBook tCraftBook = null;
-            string tRecipientValue = "";
+            string tRecipientValue = string.Empty;
             bool tOrdered = true;
             string tAssemblyA = tOrdered.ToString() + tRecipientValue + sItemGroupIngredient.ToString();
             tOrdered = false;
@@ -446,10 +446,10 @@ namespace NetWorkedData
             NWDReferencesArrayType<NWDItemGroup> tItemsGroupUsed = new NWDReferencesArrayType<NWDItemGroup>();
             List<NWDCraftBook> tReturnList = new List<NWDCraftBook>();
             // I get all recipients possibilities
-            string[] tRecipientsArray = new string[] { "" };
+            string[] tRecipientsArray = new string[] { string.Empty };
             if (sRecipientGroup != null)
             {
-                if (sRecipientGroup.Value != "")
+                if (sRecipientGroup.Value != string.Empty)
                 {
                     tRecipientsArray = sRecipientGroup.GetReferences();
                 }
@@ -675,7 +675,7 @@ namespace NetWorkedData
             {
                 NWDItem tItem = DescriptionItem.GetObject();
                 tItem.CraftRecipeAttachment.SetObject(this);
-                tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", "");
+                tItem.InternalKey = "Recipe - " + tItem.InternalKey.Replace("Recipe - ", string.Empty);
                 tItem.UpdateDataIfModified();
             }
 

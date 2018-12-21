@@ -91,7 +91,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
-		public static NWDUserPreference GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sDefaultValue, string sInternalDescription = "")
+		public static NWDUserPreference GetPreferenceByInternalKeyOrCreate (string sInternalKey, string sDefaultValue, string sInternalDescription = BTBConstants.K_EMPTY_STRING)
 		{
 			//Debug.Log ("GetPreferenceByInternalKeyOrCreate");
             NWDUserPreference rObject = FindFirstDatasByInternalKey (sInternalKey) as NWDUserPreference;
@@ -118,7 +118,7 @@ namespace NetWorkedData
 		/// <returns>The local string.</returns>
 		/// <param name="sKey">key.</param>
 		/// <param name="sDefault">default value.</param>
-		public static string GetString (string sKey, string sDefault = "")
+		public static string GetString (string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault);
 			return tObject.Value.ToString();

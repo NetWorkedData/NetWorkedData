@@ -45,13 +45,13 @@ namespace NetWorkedData
             System.Security.Cryptography.MD5CryptoServiceProvider md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
             byte[] hashBytes = md5.ComputeHash(bytes);
             // Convert the encrypted bytes back to a string (base 16)
-            string hashString = "";
+            string hashString = string.Empty;
             for (int i = 0; i < hashBytes.Length; i++)
             {
                 hashString += System.Convert.ToString(hashBytes[i], 16).PadLeft(2, '0');
             }
             // remove the DataAssemblySeparator from hash (prevent error in networking transimission)
-            hashString = hashString.Replace(NWDConstants.kStandardSeparator, "");
+            hashString = hashString.Replace(NWDConstants.kStandardSeparator, string.Empty);
             // return value
             return hashString.PadLeft(24, '0');
         }
@@ -122,7 +122,7 @@ namespace NetWorkedData
                                  tProp.PropertyType == typeof(Guid) ||
                                  tProp.PropertyType == typeof(string))
                         {
-                            tProp.SetValue(this, "", null);
+                            tProp.SetValue(this, string.Empty, null);
                         }
                         else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataType)))
                         {

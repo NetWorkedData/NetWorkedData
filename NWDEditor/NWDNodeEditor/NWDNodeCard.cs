@@ -32,9 +32,9 @@ namespace NetWorkedData
         public float Width;
         public float Height;
         public float InformationsHeight;
-        //string Infos = "";
-        //string InfosCard = "";
-        //string InfosCardCustom;
+        //string Infos = string.Empty;
+        //string InfosCard = string.Empty;
+        //string InfosCardCustom = string.Empty;
         Rect CardRect;
         Rect CardTypeRect;
         Rect CardReferenceRect;
@@ -232,7 +232,7 @@ namespace NetWorkedData
 
                 Color tOldColor = GUI.backgroundColor;
                 GUI.backgroundColor = new Color(0.55f, 0.55f, 1.00f, 0.5f);
-                GUI.Box(CardRect, "", EditorStyles.helpBox);
+                GUI.Box(CardRect, string.Empty, EditorStyles.helpBox);
                 GUI.backgroundColor = tOldColor;
             }
             //else
@@ -292,7 +292,7 @@ namespace NetWorkedData
                     if (tSubCard != null)
                     {
                         // draw properties distinct
-                        GUI.Box(tConnection.Rectangle, "", tBox);
+                        GUI.Box(tConnection.Rectangle, string.Empty, tBox);
                         // add special infos in this property draw
                         NWDTypeClass tSubData = tSubCard.Data;
                         Type tSubType = tSubData.GetType();

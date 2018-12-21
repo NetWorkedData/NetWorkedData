@@ -229,7 +229,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void Localize(UnityEngine.UI.Text sText, string sDefault = "")
+        public static void Localize(UnityEngine.UI.Text sText, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
             /*if (NWDTypeLauncher.DataLoaded)
             {
@@ -270,15 +270,15 @@ namespace NetWorkedData
             sText.text = Localize(sText.text, sDefault);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string Localize(string sText, string sDefault = "")
+        public static string Localize(string sText, string sDefault = BTBConstants.K_EMPTY_STRING)
         {
-            string rLocalizeText = "";
+            string rLocalizeText = string.Empty;
 
             if (NWDTypeLauncher.DataLoaded)
             {
                 if (sText != null)
                 {
-                    if (sDefault.Equals(""))
+                    if (sDefault.Equals(string.Empty))
                     {
                         sDefault = sText;
                     }

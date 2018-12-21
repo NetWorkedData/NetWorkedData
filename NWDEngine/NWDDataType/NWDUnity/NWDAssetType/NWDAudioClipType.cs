@@ -34,14 +34,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAudioClipType()
         {
-            Value = "";
+            Value = string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAudioClipType(string sValue = "")
+        public NWDAudioClipType(string sValue = BTBConstants.K_EMPTY_STRING)
         {
             if (sValue == null)
             {
-                Value = "";
+                Value = string.Empty;
             }
             else
             {
@@ -52,9 +52,9 @@ namespace NetWorkedData
         public AudioClip ToAudioClip()
         {
             AudioClip rAudioClip = null;
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
-                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
 #if UNITY_EDITOR
                 rAudioClip = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
 #else
@@ -83,7 +83,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                    string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
                     AudioClip tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
                     if (tObject == null)
                     {
@@ -97,25 +97,25 @@ namespace NetWorkedData
         public override float ControlFieldHeight()
         {
             int tAdd = 0;
-            if (Value != "")
+            if (Value != string.Empty)
             {
                 tAdd = 1;
             }
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
             GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
             tLabelAssetStyle.fontSize = 12;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0f);
             tLabelAssetStyle.normal.textColor = Color.gray;
 
             return tObjectFieldStyle.fixedHeight + tAdd * (NWDConstants.kPrefabSize + NWDConstants.kFieldMarge);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDAudioClipType tTemporary = new NWDAudioClipType();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
@@ -128,24 +128,24 @@ namespace NetWorkedData
             float tY = sPosition.position.y;
 
             GUIStyle tObjectFieldStyle = new GUIStyle(EditorStyles.objectField);
-            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tObjectFieldStyle.fixedHeight = tObjectFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.label);
-            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             tLabelStyle.normal.textColor = Color.red;
             GUIStyle tLabelAssetStyle = new GUIStyle(EditorStyles.label);
             tLabelAssetStyle.fontSize = 12;
-            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tLabelAssetStyle.fixedHeight = tLabelAssetStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
             tLabelAssetStyle.normal.textColor = Color.gray;
             GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
-            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent("A"), tWidth);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             AudioClip tObject = null;
 
             bool tRessource = true;
 
-            if (Value != null && Value != "")
+            if (Value != null && Value != string.Empty)
             {
-                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, "");
+                string tPath = Value.Replace(NWDAssetType.kAssetDelimiter, string.Empty);
                 tObject = AssetDatabase.LoadAssetAtPath(tPath, typeof(AudioClip)) as AudioClip;
                 if (tObject == null)
                 {
@@ -186,7 +186,7 @@ namespace NetWorkedData
             }
             else
             {
-                tTemporary.Value = "";
+                tTemporary.Value = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
             if (tRessource == true)
@@ -204,7 +204,7 @@ namespace NetWorkedData
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
                 {
-                    tTemporary.Value = "";
+                    tTemporary.Value = string.Empty;
                 }
                 GUI.backgroundColor = tOldColor;
                 tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
