@@ -17,6 +17,7 @@ using SQLite4Unity3d;
 using UnityEngine;
 
 using BasicToolBox;
+using System.Text;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -643,96 +644,96 @@ namespace NetWorkedData
             AddonIndexMe();
         }
 
-        public string DynamiqueDataAssembly(bool sAsssemblyAsCSV = false)
-        {
-            string rReturn = string.Empty;
-            Type tType = ClassType();
-            List<string> tPropertiesList = DataAssemblyPropertiesList();
+        //public string DynamiqueDataAssembly(bool sAsssemblyAsCSV = false)
+        //{
+        //    string rReturn = string.Empty;
+        //    Type tType = ClassType();
+        //    List<string> tPropertiesList = DataAssemblyPropertiesList();
 
-            // todo get the good version of assembly 
-            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-            int tLastWebService = -1;
-            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
-            {
-                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
-                {
-                    if (tKeyValue.Value.ContainsKey(ClassID()))
-                    {
-                        tPropertiesList = tKeyValue.Value[ClassID()];
-                    }
-                }
-            }
+        //    // todo get the good version of assembly 
+        //    NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+        //    int tLastWebService = -1;
+        //    foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
+        //    {
+        //        if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+        //        {
+        //            if (tKeyValue.Value.ContainsKey(ClassID()))
+        //            {
+        //                tPropertiesList = tKeyValue.Value[ClassID()];
+        //            }
+        //        }
+        //    }
 
-            //Debug.Log("DATA ASSEMBLY  initial count =  " + tPropertiesList.Count.ToString());
-            foreach (string tPropertieName in tPropertiesList)
-            {
-                PropertyInfo tProp = tType.GetProperty(tPropertieName);
-                if (tProp != null)
-                {
-                    Type tTypeOfThis = tProp.PropertyType;
+        //    //Debug.Log("DATA ASSEMBLY  initial count =  " + tPropertiesList.Count.ToString());
+        //    foreach (string tPropertieName in tPropertiesList)
+        //    {
+        //        PropertyInfo tProp = tType.GetProperty(tPropertieName);
+        //        if (tProp != null)
+        //        {
+        //            Type tTypeOfThis = tProp.PropertyType;
 
-                    // Actif to debug the integrity
-                    //rReturn += "|-" + tPropertieName + ":";
-                    // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
+        //            // Actif to debug the integrity
+        //            //rReturn += "|-" + tPropertieName + ":";
+        //            // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
 
-                    string tValueString = string.Empty;
+        //            string tValueString = string.Empty;
 
-                    object tValue = tProp.GetValue(this, null);
-                    if (tValue == null)
-                    {
-                        tValue = string.Empty;
-                    }
-                    tValueString = tValue.ToString();
-                    if (tTypeOfThis.IsEnum)
-                    {
-                        //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
-                        int tInt = (int)tValue;
-                        tValueString = tInt.ToString();
-                    }
-                    if (tTypeOfThis == typeof(bool))
-                    {
-                        //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
-                        if (tValueString == "False")
-                        {
-                            tValueString = "0";
-                        }
-                        else
-                        {
-                            tValueString = "1";
-                        }
-                    }
-                    if (sAsssemblyAsCSV == true)
-                    {
-                        rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
-                    }
-                    else
-                    {
-                        rReturn += NWDToolbox.TextCSVProtect(tValueString);
-                    }
-                }
-            }
-            if (sAsssemblyAsCSV == true)
-            {
-                rReturn = Reference + NWDConstants.kStandardSeparator +
-                DM + NWDConstants.kStandardSeparator +
-                DS + NWDConstants.kStandardSeparator +
-                DevSync + NWDConstants.kStandardSeparator +
-                PreprodSync + NWDConstants.kStandardSeparator +
-                ProdSync + NWDConstants.kStandardSeparator +
-                // Todo Add WebServiceVersion ?
-                //WebServiceVersion + NWDConstants.kStandardSeparator +
-                rReturn +
-                Integrity;
-                //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
-            }
-            else
-            {
-                rReturn = Reference +
-                DM +
-                rReturn;
-            }
-            return rReturn;
-        }
+        //            object tValue = tProp.GetValue(this, null);
+        //            if (tValue == null)
+        //            {
+        //                tValue = string.Empty;
+        //            }
+        //            tValueString = tValue.ToString();
+        //            if (tTypeOfThis.IsEnum)
+        //            {
+        //                //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
+        //                int tInt = (int)tValue;
+        //                tValueString = tInt.ToString();
+        //            }
+        //            if (tTypeOfThis == typeof(bool))
+        //            {
+        //                //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+        //                if (tValueString == "False")
+        //                {
+        //                    tValueString = "0";
+        //                }
+        //                else
+        //                {
+        //                    tValueString = "1";
+        //                }
+        //            }
+        //            if (sAsssemblyAsCSV == true)
+        //            {
+        //                rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
+        //            }
+        //            else
+        //            {
+        //                rReturn += NWDToolbox.TextCSVProtect(tValueString);
+        //            }
+        //        }
+        //    }
+        //    if (sAsssemblyAsCSV == true)
+        //    {
+        //        rReturn = Reference + NWDConstants.kStandardSeparator +
+        //        DM + NWDConstants.kStandardSeparator +
+        //        DS + NWDConstants.kStandardSeparator +
+        //        DevSync + NWDConstants.kStandardSeparator +
+        //        PreprodSync + NWDConstants.kStandardSeparator +
+        //        ProdSync + NWDConstants.kStandardSeparator +
+        //        // Todo Add WebServiceVersion ?
+        //        //WebServiceVersion + NWDConstants.kStandardSeparator +
+        //        rReturn +
+        //        Integrity;
+        //        //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
+        //    }
+        //    else
+        //    {
+        //        rReturn = Reference +
+        //        DM +
+        //        rReturn;
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Datas assembly for integrity calculate or cvs export.
@@ -741,7 +742,29 @@ namespace NetWorkedData
         /// <param name="sAsssemblyAsCVS">If set to <c>true</c> asssembly as CSV.</param>
         public string DataAssembly(bool sAsssemblyAsCSV = false)
         {
-            string rReturn = string.Empty;
+            // TODO: use the StringBuilder 
+            StringBuilder rReturngBuilder = new StringBuilder();
+            if (sAsssemblyAsCSV == true)
+            {
+                rReturngBuilder.Append(Reference);
+                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+                rReturngBuilder.Append(DM);
+                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+                rReturngBuilder.Append(DS);
+                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+                rReturngBuilder.Append(DevSync);
+                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+                rReturngBuilder.Append(PreprodSync);
+                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+                rReturngBuilder.Append(ProdSync);
+                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+            }
+            else
+            {
+                rReturngBuilder.Append(Reference);
+                rReturngBuilder.Append(DM); 
+            }
+                //string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
 
@@ -799,35 +822,39 @@ namespace NetWorkedData
                     }
                     if (sAsssemblyAsCSV == true)
                     {
-                        rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
+                        //rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
+                        rReturngBuilder.Append(NWDToolbox.TextCSVProtect(tValueString));
+                        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
                     }
                     else
                     {
-                        rReturn += NWDToolbox.TextCSVProtect(tValueString);
+                        //rReturn += NWDToolbox.TextCSVProtect(tValueString);
+                        rReturngBuilder.Append(NWDToolbox.TextCSVProtect(tValueString));
                     }
                 }
             }
             if (sAsssemblyAsCSV == true)
             {
-                rReturn = Reference + NWDConstants.kStandardSeparator +
-                DM + NWDConstants.kStandardSeparator +
-                DS + NWDConstants.kStandardSeparator +
-                DevSync + NWDConstants.kStandardSeparator +
-                PreprodSync + NWDConstants.kStandardSeparator +
-                ProdSync + NWDConstants.kStandardSeparator +
-                // Todo Add WebServiceVersion ?
-                //WebServiceVersion + NWDConstants.kStandardSeparator +
-                rReturn +
-                Integrity;
+                //rReturn = Reference + NWDConstants.kStandardSeparator +
+                //DM + NWDConstants.kStandardSeparator +
+                //DS + NWDConstants.kStandardSeparator +
+                //DevSync + NWDConstants.kStandardSeparator +
+                //PreprodSync + NWDConstants.kStandardSeparator +
+                //ProdSync + NWDConstants.kStandardSeparator +
+                //// Todo Add WebServiceVersion ?
+                ////WebServiceVersion + NWDConstants.kStandardSeparator +
+                //rReturn + Integrity;
                 //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
+                rReturngBuilder.Append(Integrity);
             }
             else
             {
-                rReturn = Reference +
-                DM +
-                rReturn;
+                //rReturn = Reference +
+                //DM +
+                //rReturn;
             }
-            return rReturn;
+            //return rReturn;
+            return rReturngBuilder.ToString();
         }
         //-------------------------------------------------------------------------------------------------------------
 
