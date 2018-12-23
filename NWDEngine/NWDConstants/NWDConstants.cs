@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 
 using UnityEngine;
 using BasicToolBox;
+using System.Globalization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,6 +27,8 @@ namespace NetWorkedData
 #endif
     public partial class NWDConstants
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public static CultureInfo FormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
         //-------------------------------------------------------------------------------------------------------------
         // [Obsolete(NWDConstants.K_WILL_BE_REMOVED)] // used in NWD task
         public const string K_WILL_BE_REMOVED = " WILL BE REMOVED ";

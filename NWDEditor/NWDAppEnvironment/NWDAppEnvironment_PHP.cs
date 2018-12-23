@@ -22,12 +22,11 @@ namespace NetWorkedData
         /// </summary>
         public void CreatePHP()
         {
-            CultureInfo tFormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", tFormatCountry);
-            string tYearString = tTime.ToString("yyyy", tFormatCountry);
+            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
+            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
             // Create folders
             string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
             string tServerRootFolder = tOwnerServerFolderPath+ "/" + tWebServiceFolder + "/Environment/" + Environment;

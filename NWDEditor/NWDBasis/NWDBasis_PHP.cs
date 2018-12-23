@@ -94,7 +94,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreatePHP(NWDAppEnvironment sEnvironment)
         {
-            CultureInfo tFormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
             //BTBBenchmark.Start();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tEnvironmentFolder = sEnvironment.Environment;
@@ -104,8 +103,8 @@ namespace NetWorkedData
             string tClassName = tTableMapping.TableName;
             string tTrigramme = Datas().ClassTrigramme;
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", tFormatCountry);
-            string tYearString = tTime.ToString("yyyy", tFormatCountry);
+            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
+            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
 
             Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
 

@@ -65,7 +65,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetInt(int sValue)
 		{
-			Value = sValue.ToString();
+			Value = sValue.ToString(NWDConstants.FormatCountry);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public float ToFloat(float sDefault=0.0F)
@@ -77,7 +77,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetFloat(float sValue)
 		{
-			Value = sValue.ToString();
+			Value = sValue.ToString(NWDConstants.FormatCountry);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public bool ToBool(bool sDefault=false)
@@ -93,7 +93,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetBool(bool sValue)
 		{
-			Value = sValue.ToString();
+			Value = sValue.ToString(NWDConstants.FormatCountry);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public Color ToColor(Color sDefault)
@@ -130,8 +130,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector2(Vector2 sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y;
+            Value = sVector.x.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 GetVector2()
@@ -173,9 +173,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector3(Vector3 sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y + NWDConstants.kFieldSeparatorA +
-                    sVector.z;
+            Value = sVector.x.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.z.ToString(NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector3 GetVector3()
@@ -196,10 +196,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector4(Vector4 sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y + NWDConstants.kFieldSeparatorA +
-                    sVector.z + NWDConstants.kFieldSeparatorA +
-                           sVector.w;
+            Value = sVector.x.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.z.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                           sVector.w.ToString(NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector4 GetVector4()
@@ -222,10 +222,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetRect(Rect sRect)
         {
-            Value = sRect.x + NWDConstants.kFieldSeparatorA +
-                    sRect.y + NWDConstants.kFieldSeparatorA +
-                         sRect.height + NWDConstants.kFieldSeparatorA +
-                         sRect.width;
+            Value = sRect.x.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sRect.y.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                         sRect.height.ToString(NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                         sRect.width.ToString(NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Rect GetRect()

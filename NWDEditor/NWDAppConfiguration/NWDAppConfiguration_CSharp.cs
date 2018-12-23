@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
@@ -24,13 +25,11 @@ namespace NetWorkedData
         /// <param name="sEnvironment">S environment.</param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            CultureInfo tFormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
-
             //Debug.LogWarning("GenerateCSharpFile !!!");
             //string tEngineRootFolder = "Assets";
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", tFormatCountry);
-            string tYearString = tTime.ToString("yyyy", tFormatCountry);
+            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
+            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
             string tConstantsFile = string.Empty;
             //int t_Next = (WebBuild + 1);
             tConstantsFile += string.Empty +
@@ -210,10 +209,10 @@ namespace NetWorkedData
 
 
 
-            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.g.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.b.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.a.ToString("0.00", tFormatCountry) + "F);\n" +
+            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.ProdEnvironment.CartridgeColor.g.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.ProdEnvironment.CartridgeColor.b.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.ProdEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
             //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.ProdEnvironment.SaltServer = \"" + this.ProdEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
@@ -265,10 +264,10 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.WritingModeLocal = NWDWritingMode." + this.PreprodEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeWebService = NWDWritingMode." + this.PreprodEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeEditor = NWDWritingMode." + this.PreprodEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("0.00", tFormatCountry)+"F," +
-                                                                this.PreprodEnvironment.CartridgeColor.g.ToString("0.00", tFormatCountry) +"F," +
-                                                                this.PreprodEnvironment.CartridgeColor.b.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.PreprodEnvironment.CartridgeColor.a.ToString("0.00", tFormatCountry) + "F);\n" +
+            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("0.00", NWDConstants.FormatCountry) +"F," +
+                                                                this.PreprodEnvironment.CartridgeColor.g.ToString("0.00", NWDConstants.FormatCountry) +"F," +
+                                                                this.PreprodEnvironment.CartridgeColor.b.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.PreprodEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
             //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
@@ -319,10 +318,10 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.WritingModeLocal = NWDWritingMode." + this.DevEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.WritingModeWebService = NWDWritingMode." + this.DevEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.WritingModeEditor = NWDWritingMode." + this.DevEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.DevEnvironment.CartridgeColor.g.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.DevEnvironment.CartridgeColor.b.ToString("0.00", tFormatCountry) + "F," +
-                                                                this.DevEnvironment.CartridgeColor.a.ToString("0.00", tFormatCountry) + "F);\n" +
+            "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.DevEnvironment.CartridgeColor.g.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.DevEnvironment.CartridgeColor.b.ToString("0.00", NWDConstants.FormatCountry) + "F," +
+                                                                this.DevEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "#if UNITY_EDITOR\n" +
             "\t\t\tthis.DevEnvironment.SaltServer = \"" + this.DevEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
