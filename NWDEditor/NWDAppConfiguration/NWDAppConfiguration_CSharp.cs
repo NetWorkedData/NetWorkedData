@@ -207,7 +207,7 @@ namespace NetWorkedData
 
 
 
-            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("0.00".Replace(",",".") + "F," +
+            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("0.00").Replace(",",".") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.g.ToString("0.00").Replace(",",".") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.b.ToString("0.00").Replace(",",".") + "F," +
                                                                 this.ProdEnvironment.CartridgeColor.a.ToString("0.00").Replace(",",".") + "F);\n" +
