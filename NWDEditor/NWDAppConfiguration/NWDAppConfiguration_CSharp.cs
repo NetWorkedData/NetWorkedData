@@ -207,10 +207,10 @@ namespace NetWorkedData
 
 
 
-            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("F2") + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.g.ToString("F2") + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.b.ToString("F2") + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.a.ToString("F2") + "F);\n" +
+            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("0.00") + "F," +
+                                                                this.ProdEnvironment.CartridgeColor.g.ToString("0.00") + "F," +
+                                                                this.ProdEnvironment.CartridgeColor.b.ToString("0.00") + "F," +
+                                                                this.ProdEnvironment.CartridgeColor.a.ToString("0.00") + "F);\n" +
             //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.ProdEnvironment.SaltServer = \"" + this.ProdEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
@@ -262,10 +262,10 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.WritingModeLocal = NWDWritingMode." + this.PreprodEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeWebService = NWDWritingMode." + this.PreprodEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeEditor = NWDWritingMode." + this.PreprodEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("F2")+"F," +
-                                                                this.PreprodEnvironment.CartridgeColor.g.ToString("F2") +"F," +
-                                                                this.PreprodEnvironment.CartridgeColor.b.ToString("F2") + "F," +
-                                                                this.PreprodEnvironment.CartridgeColor.a.ToString("F2") + "F);\n" +
+            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("0.00")+"F," +
+                                                                this.PreprodEnvironment.CartridgeColor.g.ToString("0.00") +"F," +
+                                                                this.PreprodEnvironment.CartridgeColor.b.ToString("0.00") + "F," +
+                                                                this.PreprodEnvironment.CartridgeColor.a.ToString("0.00") + "F);\n" +
             //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
             "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
@@ -316,10 +316,10 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.WritingModeLocal = NWDWritingMode." + this.DevEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.WritingModeWebService = NWDWritingMode." + this.DevEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.WritingModeEditor = NWDWritingMode." + this.DevEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("F2") + "F," +
-                                                                this.DevEnvironment.CartridgeColor.g.ToString("F2") + "F," +
-                                                                this.DevEnvironment.CartridgeColor.b.ToString("F2") + "F," +
-                                                                this.DevEnvironment.CartridgeColor.a.ToString("F2") + "F);\n" +
+            "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("0.00") + "F," +
+                                                                this.DevEnvironment.CartridgeColor.g.ToString("0.00") + "F," +
+                                                                this.DevEnvironment.CartridgeColor.b.ToString("0.00") + "F," +
+                                                                this.DevEnvironment.CartridgeColor.a.ToString("0.00") + "F);\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "#if UNITY_EDITOR\n" +
             "\t\t\tthis.DevEnvironment.SaltServer = \"" + this.DevEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
