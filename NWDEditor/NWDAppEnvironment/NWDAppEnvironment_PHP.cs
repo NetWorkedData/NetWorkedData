@@ -5,6 +5,7 @@
 //
 //=====================================================================================================================
 using System;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 #if UNITY_EDITOR
@@ -21,11 +22,12 @@ namespace NetWorkedData
         /// </summary>
         public void CreatePHP()
         {
+            CultureInfo tFormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd");
-            string tYearString = tTime.ToString("yyyy");
+            string tDateTimeString = tTime.ToString("yyyy-MM-dd", tFormatCountry);
+            string tYearString = tTime.ToString("yyyy", tFormatCountry);
             // Create folders
             string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
             string tServerRootFolder = tOwnerServerFolderPath+ "/" + tWebServiceFolder + "/Environment/" + Environment;

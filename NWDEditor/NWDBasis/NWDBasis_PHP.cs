@@ -16,6 +16,7 @@ using SQLite4Unity3d;
 
 using UnityEngine;
 using BasicToolBox;
+using System.Globalization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -93,6 +94,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreatePHP(NWDAppEnvironment sEnvironment)
         {
+            CultureInfo tFormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
             //BTBBenchmark.Start();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tEnvironmentFolder = sEnvironment.Environment;
@@ -102,8 +104,8 @@ namespace NetWorkedData
             string tClassName = tTableMapping.TableName;
             string tTrigramme = Datas().ClassTrigramme;
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd");
-            string tYearString = tTime.ToString("yyyy");
+            string tDateTimeString = tTime.ToString("yyyy-MM-dd", tFormatCountry);
+            string tYearString = tTime.ToString("yyyy", tFormatCountry);
 
             Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
 
