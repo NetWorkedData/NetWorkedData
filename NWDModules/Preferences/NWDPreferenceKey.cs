@@ -134,6 +134,19 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public bool ToogleBool(bool sNotExistValue = true)
+        {
+            bool rReturn = sNotExistValue;
+            NWDPreferenceKey tPref = GetObject();
+            if (tPref != null)
+            {
+                rReturn = tPref.GetBool();
+                rReturn = !rReturn;
+                tPref.SetBool(rReturn);
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -149,6 +162,9 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
+        //-------------------------------------------------------------------------------------------------------------
+        // generic notification
+        public const string K_PREFERENCE_CHANGED_KEY = "K_PREFERENCE_CHANGED_KEY_8zQr95er"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         //PROPERTIES
         //public string Key
@@ -290,6 +306,7 @@ namespace NetWorkedData
                     }
                     break;
             }
+            BTBNotificationManager.SharedInstance().PostNotification(this, K_PREFERENCE_CHANGED_KEY);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetString(string sValue)
@@ -299,17 +316,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetInt(int sValue)
         {
-            SetValue(sValue.ToString());
+            SetValue(sValue.ToString(NWDConstants.FormatCountry));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetFloat(float sValue)
         {
-            SetValue(sValue.ToString());
+            SetValue(sValue.ToString(NWDConstants.FormatCountry));
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetBool(bool sValue)
         {
-            SetValue(sValue.ToString());
+            SetValue(sValue.ToString(NWDConstants.FormatCountry));
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

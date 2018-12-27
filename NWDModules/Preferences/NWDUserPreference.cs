@@ -145,7 +145,7 @@ namespace NetWorkedData
 		public static int GetInt (string sKey, int sDefault = 0)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
-			return tObject.Value.ToInt();
+			return tObject.Value.GetInt();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -169,7 +169,7 @@ namespace NetWorkedData
 		public static bool GetBool (string sKey, bool sDefault = false)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
-			return tObject.Value.ToBool();
+			return tObject.Value.GetBool();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -193,7 +193,7 @@ namespace NetWorkedData
 		public static float GetFloat (string sKey, float sDefault = 0.0F)
 		{
 			NWDUserPreference tObject = GetPreferenceByInternalKeyOrCreate (sKey, sDefault.ToString ());
-			return tObject.Value.ToFloat();
+			return tObject.Value.GetFloat();
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>

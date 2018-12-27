@@ -179,7 +179,7 @@ namespace NetWorkedData
                 rReturn.PreferencesKey.SetReference(sDataReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 // init the stat with default value
-                rReturn.Value = new NWDMultiType();
+                rReturn.Value.SetString(tKey.Default);
                 // update in writing mode (default is poolThread for stats)
                 rReturn.UpdateData(true, kWritingMode);
             }

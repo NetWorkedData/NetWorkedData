@@ -46,6 +46,66 @@ namespace NetWorkedData
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(int sValue)
+        {
+            SetInt(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(float sValue)
+        {
+            SetFloat(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(bool sValue)
+        {
+            SetBool(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Color sValue)
+        {
+            SetColor(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Vector2Int sValue)
+        {
+            SetVector2Int(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Vector2 sValue)
+        {
+            SetVector2(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Vector3Int sValue)
+        {
+            SetVector3Int(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Vector3 sValue)
+        {
+            SetVector3(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Vector4 sValue)
+        {
+            SetVector4(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(RectInt sValue)
+        {
+            SetRectInt(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(Rect sValue)
+        {
+            SetRect(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType(DateTime sValue)
+        {
+            SetDateTime(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
             Value = string.Empty;
@@ -56,7 +116,7 @@ namespace NetWorkedData
 			return Value;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public int ToInt(int sDefault=0)
+		public int GetInt(int sDefault=0)
 		{
 			int rReturn = sDefault;
 			int.TryParse (Value, out rReturn);
@@ -68,7 +128,7 @@ namespace NetWorkedData
 			Value = sValue.ToString(NWDConstants.FormatCountry);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public float ToFloat(float sDefault=0.0F)
+		public float GetFloat(float sDefault=0.0F)
 		{
 			float rReturn = sDefault;
 			float.TryParse (Value, out rReturn);
@@ -80,7 +140,7 @@ namespace NetWorkedData
 			Value = sValue.ToString(NWDConstants.FormatCountry);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public bool ToBool(bool sDefault=false)
+		public bool GetBool(bool sDefault=false)
 		{
 			bool rReturn = sDefault;
 			if (Value.ToUpper () == "FALSE" || Value.ToUpper () == "NO" || Value == "0") {
@@ -96,7 +156,7 @@ namespace NetWorkedData
 			Value = sValue.ToString(NWDConstants.FormatCountry);
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public Color ToColor(Color sDefault)
+		public Color GetColor(Color sDefault)
 		{
 			Color rReturn = new Color (sDefault.r, sDefault.g, sDefault.b, sDefault.a);
 			ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out rReturn);

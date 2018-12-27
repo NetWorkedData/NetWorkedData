@@ -21,6 +21,10 @@ namespace NetWorkedData
         "Preferences",
                                  "NWDPreferencesWindows", // Statistiques_ICON
         new Type[] {
+        typeof(NWDPreferenceKey),
+        typeof(NWDAccountPreference),
+        typeof(NWDUserPreference),
+
         typeof(NWDPreferencesKey),
         typeof(NWDAccountPreferences),
         typeof(NWDUserPreferences),

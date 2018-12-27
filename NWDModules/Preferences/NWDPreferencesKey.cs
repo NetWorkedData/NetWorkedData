@@ -51,6 +51,100 @@ namespace NetWorkedData
     [Serializable]
     public class NWDPreferencesKeyConnection : NWDConnection<NWDPreferencesKey>
     {
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetString(string sValue)
+        {
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                tPref.AddEnter(new NWDMultiType (sValue));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetInt(int sValue)
+        {
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                tPref.AddEnter(new NWDMultiType(sValue));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetFloat(float sValue)
+        {
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                tPref.AddEnter(new NWDMultiType(sValue));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetBool(bool sValue)
+        {
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                tPref.AddEnter(new NWDMultiType(sValue));
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public string GetString(string sNotExistValue = BTBConstants.K_EMPTY_STRING)
+        {
+            string rReturn = sNotExistValue;
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                rReturn = tPref.GetEnter().GetString();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public int GetInt(int sNotExistValue = 0)
+        {
+            int rReturn = sNotExistValue;
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                rReturn = tPref.GetEnter().GetInt();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public float GetFloat(float sNotExistValue = 0.0F)
+        {
+            float rReturn = sNotExistValue;
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                rReturn = tPref.GetEnter().GetFloat();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool GetBool(bool sNotExistValue = true)
+        {
+            bool rReturn = sNotExistValue;
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                rReturn = tPref.GetEnter().GetBool();
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool ToogleBool(bool sNotExistValue = true)
+        {
+            bool rReturn = sNotExistValue;
+            NWDPreferencesKey tPref = GetObject();
+            if (tPref != null)
+            {
+                rReturn = tPref.GetEnter().GetBool();
+                rReturn = !rReturn;
+                tPref.AddEnter(new NWDMultiType(rReturn));
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -67,7 +161,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your static properties
+        // generic notification
+        public const string K_PREFERENCES_CHANGED_KEY = "K_PREFERENCES_CHANGED_KEY_8z12ZEer"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -83,6 +178,10 @@ namespace NetWorkedData
             get; set;
         }
         public NWDPreferencesDomain Domain
+        {
+            get; set;
+        }
+        public string Default
         {
             get; set;
         }
@@ -135,6 +234,7 @@ namespace NetWorkedData
                     }
                     break;
             }
+            BTBNotificationManager.SharedInstance().PostNotification(this, K_PREFERENCES_CHANGED_KEY);
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDMultiType GetEnter()

@@ -210,7 +210,7 @@ namespace NetWorkedData
             bool rReturn = sDefault;
             if (tObject != null)
             {
-                rReturn = tObject.AnnexeValue.ToBool();
+                rReturn = tObject.AnnexeValue.GetBool();
             }
             else
             {
@@ -225,7 +225,7 @@ namespace NetWorkedData
             float rReturn = sDefault;
             if (tObject != null)
             {
-                rReturn = tObject.AnnexeValue.ToFloat();
+                rReturn = tObject.AnnexeValue.GetFloat();
             }
             else
             {
@@ -240,7 +240,7 @@ namespace NetWorkedData
             int rReturn = sDefault;
             if (tObject != null)
             {
-                rReturn = tObject.AnnexeValue.ToInt();
+                rReturn = tObject.AnnexeValue.GetInt();
             }
             else
             {
