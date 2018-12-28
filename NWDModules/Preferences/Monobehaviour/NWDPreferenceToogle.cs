@@ -19,8 +19,9 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public NWDPreferenceKeyConnection PreferenceKeyConnection;
-        public GameObject ObjectToToogle;
-        public MonoBehaviour BehaviourToToogle;
+        [Header ("Activation with preference boolean")]
+        public GameObject[] ObjectsActivationSync;
+        public GameObject[] ObjectsActivationInversed;
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
@@ -41,13 +42,19 @@ namespace NetWorkedData
         void PreferenceApply()
         {
             bool tToogle = PreferenceKeyConnection.GetBool();
-            if (ObjectToToogle != null)
+            foreach (GameObject tG in ObjectsActivationSync)
             {
-                ObjectToToogle.SetActive(tToogle);
+                if (tG != null)
+                {
+                    tG.SetActive(tToogle);
+                }
             }
-            if (BehaviourToToogle != null)
+            foreach (GameObject tG in ObjectsActivationInversed)
             {
-                BehaviourToToogle.enabled = tToogle;
+                if (tG != null)
+                {
+                    tG.SetActive(!tToogle);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
