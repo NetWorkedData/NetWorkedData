@@ -19,6 +19,7 @@ namespace NetWorkedData
                                  "NWDItemWindow",
         new Type[] {
             typeof(NWDItem),
+            typeof(NWDItemRarity),
             typeof(NWDItemProperty),
             typeof(NWDItemGroup),
             typeof(NWDUserOwnership),
