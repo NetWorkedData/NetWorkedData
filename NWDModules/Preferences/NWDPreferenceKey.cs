@@ -6,14 +6,8 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -236,7 +230,6 @@ namespace NetWorkedData
             {
                 case NWDPreferenceKeyDomain.AccountPref:
                     {
-
                         rReturn = NWDAccountPreference.GetString(Reference, Default);
                     }
                     break;
@@ -286,27 +279,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void SetValue(string sValue)
         {
-            switch (Domain)
+            string tOldValue = NWDAccountPreference.GetString(Reference);
+            if (!sValue.Equals(tOldValue))
             {
-                case NWDPreferenceKeyDomain.AccountPref:
-                    {
+                switch (Domain)
+                {
+                    case NWDPreferenceKeyDomain.AccountPref:
+                        {
+                            NWDAccountPreference.SetString(Reference, sValue);
+                        }
+                        break;
+                    case NWDPreferenceKeyDomain.GameSavePref:
+                        {
 
-                        NWDAccountPreference.SetString(Reference, sValue);
-                    }
-                    break;
-                case NWDPreferenceKeyDomain.GameSavePref:
-                    {
-
-                        NWDUserPreference.SetString(Reference, sValue);
-                    }
-                    break;
-                default:
-                    {
-                        PlayerPrefs.SetString(Reference, sValue);
-                    }
-                    break;
+                            NWDUserPreference.SetString(Reference, sValue);
+                        }
+                        break;
+                    default:
+                        {
+                            PlayerPrefs.SetString(Reference, sValue);
+                        }
+                        break;
+                }
+                BTBNotificationManager.SharedInstance().PostNotification(this, K_PREFERENCE_CHANGED_KEY);
             }
-            BTBNotificationManager.SharedInstance().PostNotification(this, K_PREFERENCE_CHANGED_KEY);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetString(string sValue)

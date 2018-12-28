@@ -92,15 +92,12 @@ namespace NetWorkedData
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         public static NWDAccountPreference GetPreferenceByInternalKeyOrCreate(string sInternalKey,
-         string sDefaultValue,
-             string sInternalDescription = BTBConstants.K_EMPTY_STRING)
+                                                                              string sDefaultValue) //string sInternalDescription = BTBConstants.K_EMPTY_STRING
         {
-            //Debug.Log ("GetPreferenceByInternalKeyOrCreate");
             NWDAccountPreference rObject = FindFirstDatasByInternalKey(sInternalKey) as NWDAccountPreference;
             if (rObject == null)
             {
-                //Debug.Log ("New object");
-                rObject = NWDBasis<NWDAccountPreference>.NewData();
+                rObject = NewData();
                 //RemoveObjectInListOfEdition(rObject);
                 rObject.InternalKey = sInternalKey;
                 NWDReferenceType<NWDAccount> tAccount = new NWDReferenceType<NWDAccount>();
@@ -108,7 +105,10 @@ namespace NetWorkedData
                 rObject.Account = tAccount;
                 NWDMultiType tValue = new NWDMultiType(sDefaultValue);
                 rObject.Value = tValue;
-                rObject.InternalDescription = sInternalDescription;
+                #if UNITY_EDITOR
+                rObject.InternalDescription = NWDAccountInfos.GetNickname();
+                #endif
+                rObject.Tag = NWDBasisTag.TagDeviceCreated;
                 rObject.UpdateData();
                 //AddObjectInListOfEdition(rObject);
             }

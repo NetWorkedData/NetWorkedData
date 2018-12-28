@@ -1,56 +1,62 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//=====================================================================================================================
+//
+// ideMobi copyright 2018
+// All rights reserved by ideMobi
+//
+//=====================================================================================================================
+
 using UnityEngine;
-
-using NetWorkedData;
 using BasicToolBox;
-using System;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-public class NWDPreferenceToogle : MonoBehaviour
+//=====================================================================================================================
+namespace NetWorkedData
 {
-    //-------------------------------------------------------------------------------------------------------------
-    public NWDPreferenceKeyConnection PreferenceKeyConnection;
-    public GameObject ObjectToToogle;
-    public MonoBehaviour BehaviourToToogle;
-    //-------------------------------------------------------------------------------------------------------------
-    void Awake()
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// </summary>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDPreferenceToogle : MonoBehaviour
     {
-        PreferenceApply();
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    void Update()
-    {
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    private void OnEnable()
-    {
-        BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDPreferenceKey.K_PREFERENCE_CHANGED_KEY, delegate (BTBNotification sNotification)
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDPreferenceKeyConnection PreferenceKeyConnection;
+        public GameObject ObjectToToogle;
+        public MonoBehaviour BehaviourToToogle;
+        //-------------------------------------------------------------------------------------------------------------
+        void Start()
         {
-            if (sNotification.Sender == PreferenceKeyConnection.GetObject())
+            PreferenceApply();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnEnable()
+        {
+            BTBNotificationManager.SharedInstance().AddObserverForAll(this, NWDPreferenceKey.K_PREFERENCE_CHANGED_KEY, delegate (BTBNotification sNotification)
             {
-                PreferenceApply();
+                if (sNotification.Sender == PreferenceKeyConnection.GetObject())
+                {
+                    PreferenceApply();
+                }
+            });
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void PreferenceApply()
+        {
+            bool tToogle = PreferenceKeyConnection.GetBool();
+            if (ObjectToToogle != null)
+            {
+                ObjectToToogle.SetActive(tToogle);
             }
-        });
-    }
-    //-------------------------------------------------------------------------------------------------------------
-    private void PreferenceApply()
-    {
-        bool tToogle = PreferenceKeyConnection.GetBool();
-        if (ObjectToToogle != null)
+            if (BehaviourToToogle != null)
+            {
+                BehaviourToToogle.enabled = tToogle;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        void OnDisable()
         {
-            ObjectToToogle.SetActive(tToogle);
-        };
-        if (BehaviourToToogle != null)
-        {
-            BehaviourToToogle.enabled = tToogle;
-        };
+            BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
-    //-------------------------------------------------------------------------------------------------------------
-    private void OnDisable()
-    {
-        BTBNotificationManager.SharedInstance().RemoveObserverEveryWhere(this);
-    }
-    //-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//=====================================================================================================================
