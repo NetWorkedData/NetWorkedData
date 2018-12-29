@@ -106,7 +106,7 @@ namespace NetWorkedData
                 NWDMultiType tValue = new NWDMultiType(sDefaultValue);
                 rObject.Value = tValue;
                 #if UNITY_EDITOR
-                rObject.InternalDescription = NWDAccountInfos.GetNickname();
+                //rObject.InternalDescription = NWDAccountInfos.GetNickname();
                 #endif
                 rObject.Tag = NWDBasisTag.TagDeviceCreated;
                 rObject.UpdateData();
