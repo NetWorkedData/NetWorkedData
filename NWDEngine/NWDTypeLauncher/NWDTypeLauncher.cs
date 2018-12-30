@@ -58,7 +58,7 @@ namespace NetWorkedData
         /// </summary>
         static NWDTypeLauncher()
         {
-            NWDDebug.Log("NWDTypeLauncher Static Class Constructor()");
+            //NWDDebug.Log("NWDTypeLauncher Static Class Constructor()");
             Launcher();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ namespace NetWorkedData
         /// </summary>
         public NWDTypeLauncher()
         {
-            NWDDebug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
+            //NWDDebug.Log("NWDTypeLauncher Instance Constructor NWDTypeLauncher()");
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -90,7 +90,7 @@ namespace NetWorkedData
         public static void RunLauncher()
         {
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
-            NWDDebug.Log("NWDTypeLauncher RunLauncher()");
+            //NWDDebug.Log("NWDTypeLauncher RunLauncher()");
             // not double lauch
             // not double launching!
             if (IsLaunched == false && IsLaunching == false)
@@ -158,7 +158,7 @@ namespace NetWorkedData
                     if (NWDAppConfiguration.SharedInstance().PreloadDatas == true || tEditorByPass == true)
                     {
                         BTBBenchmark.Start("Launcher() load Datas");
-                        NWDDebug.Log("NWD => Preload Datas");
+                        //NWDDebug.Log("NWD => Preload Datas");
                         tShareInstance.ReloadAllObjects();
                         BTBBenchmark.Finish("Launcher() load Datas");
                     }

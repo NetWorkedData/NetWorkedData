@@ -66,7 +66,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectToDatabase()
         {
-            Debug.Log("NWDDataManager ConnectToDatabase ()");
+            //Debug.Log("NWDDataManager ConnectToDatabase ()");
             //BTBBenchmark.Start();
             //if (kConnectedToDatabase == true)
             //{
@@ -77,20 +77,20 @@ namespace NetWorkedData
             if (kConnectedToDatabase == false && kConnectedToDatabaseIsProgress == false)
             {
                 kConnectedToDatabaseIsProgress = true;
-                Debug.Log("NWDDataManager ConnectToDatabase () kConnectedToDatabase is false ... connect me!");
+                //Debug.Log("NWDDataManager ConnectToDatabase () kConnectedToDatabase is false ... connect me!");
 #if UNITY_EDITOR
                 // create the good folder
                 string tAccessPath = Application.dataPath;
                 if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor) == false)
                 {
-                    Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor);
+                    //Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor);
                     AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
                     AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor);
                     AssetDatabase.Refresh();
                 }
                 if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
                 {
-                    Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount);
+                    //Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount);
                     AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
                     AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount);
                     AssetDatabase.Refresh();
@@ -361,11 +361,11 @@ namespace NetWorkedData
                 rReturn = true;
                 // delete all sync of data 
 
-                Debug.Log("#DATABASE# Database must upadte by bundle mTypeNotAccountDependantList count " + mTypeNotAccountDependantList.Count());
+                //Debug.Log("#DATABASE# Database must upadte by bundle mTypeNotAccountDependantList count " + mTypeNotAccountDependantList.Count());
 
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
                 {
-                    Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionEditor reset class sync " + tType.FullName);
+                    //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionEditor reset class sync " + tType.FullName);
                     var tMethodInfo = tType.GetMethod("SynchronizationUpadteTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
@@ -377,11 +377,11 @@ namespace NetWorkedData
             // Save App version in pref for futur used
             if (rReturn == true)
             {
-                Debug.Log("#DATABASE# Database must upadte by bundle");
+                //Debug.Log("#DATABASE# Database must upadte by bundle");
             }
             else
             {
-                Debug.Log("#DATABASE# Database is ok (no update needed)");
+                //Debug.Log("#DATABASE# Database is ok (no update needed)");
             }
             return rReturn;
         }
