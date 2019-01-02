@@ -33,16 +33,17 @@ namespace NetWorkedData
 		public List<Type> TypeList;
 		public bool ForceSync = false;
 		public bool FlushTrash = false;
-		//-------------------------------------------------------------------------------------------------------------
-		static public NWDOperationWebSynchronisation AddOperation (string sName,
+        public bool Special = false;
+        //-------------------------------------------------------------------------------------------------------------
+        static public NWDOperationWebSynchronisation AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
 		                                                           BTBOperationBlock sFailBlock = null, 
 		                                                           BTBOperationBlock sCancelBlock = null,
 		                                                           BTBOperationBlock sProgressBlock = null, 
 		                                                           NWDAppEnvironment sEnvironment = null,
-			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false)
+			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false, bool sSpecial = false)
 		{
-			NWDOperationWebSynchronisation rReturn = NWDOperationWebSynchronisation.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean);
+			NWDOperationWebSynchronisation rReturn = NWDOperationWebSynchronisation.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean, sSpecial);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
@@ -52,7 +53,7 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
-			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, bool sClean = false)
+			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, bool sClean = false, bool sSpecial = false)
 		{
 			NWDOperationWebSynchronisation rReturn = null;
 			if (sName == null) {
@@ -75,7 +76,8 @@ namespace NetWorkedData
 			rReturn.TypeList = sTypeList;
 			rReturn.ForceSync = sForceSync;
 			rReturn.FlushTrash = sClean;
-			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
+            rReturn.Special = sSpecial;
+            rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -86,7 +88,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash, Special);
 			tData.Add ("action", "sync");
 			Data = tData;
 		}

@@ -998,6 +998,30 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SynchronizationSpecial(List<Type> sTypeList, NWDAppEnvironment sEnvironment)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                    NWDConstants.K_SYNC_ALERT_MESSAGE,
+                    NWDConstants.K_SYNC_ALERT_OK,
+                    NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                StartProcess(sEnvironment);
+                NWDOperationWebSynchronisation.AddOperation("Synchronization Special", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false, false, true);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SynchronizationForce(List<Type> sTypeList, NWDAppEnvironment sEnvironment)
         {
             bool tOk = false;

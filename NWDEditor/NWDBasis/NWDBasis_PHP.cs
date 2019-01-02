@@ -1145,6 +1145,20 @@ namespace NetWorkedData
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n" +
+            "function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
+            "\t\tglobal $REP;\n" +
+            "";
+            if (tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true).Length > 0)
+            {
+                NWDClassPhpSpecialCalculateAttribute tScriptNameAttribut = (NWDClassPhpSpecialCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true)[0];
+                tSynchronizationFile += tScriptNameAttribut.Script;
+            }
+            tSynchronizationFile += "\n" +
+            "\t}\n" +
+            "//-------------------- \n" +
 
 
             "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +
@@ -1170,13 +1184,6 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t}\n" +
-            "\t\t\t}\n";
-            if (tINeedAdminAccount == true)
-            {
-                tSynchronizationFile += "\t\t}\n";
-            }
-            tSynchronizationFile += "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
-            "\t\t\t{\n" +
             "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['clean']))\n" +
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\tif (!errorDetected())\n" +
@@ -1184,6 +1191,20 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\tFlushTrashedDatas" + tClassName + " ();\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t}\n" +
+            "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['special']))\n" +
+            "\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\tif (!errorDetected())\n" +
+            "\t\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\t\tSpecial" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);\n" +
+            "\t\t\t\t\t\t\t}\n" +
+            "\t\t\t\t\t}\n" +
+            "\t\t\t}\n";
+            if (tINeedAdminAccount == true)
+            {
+                tSynchronizationFile += "\t\t}\n";
+            }
+            tSynchronizationFile += "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
+            "\t\t\t{\n" +
             "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['sync']))\n" +
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\tif (!errorDetected())\n" +

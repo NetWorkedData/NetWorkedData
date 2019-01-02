@@ -29,6 +29,7 @@ namespace NetWorkedData
         public const string SynchronizeKeyData = "data";
         public const string SynchronizeKeyDataCount = "rowCount";
         public const string SynchronizeKeyClean = "clean";
+        public const string SynchronizeKeySpecial = "special";
         public const string SynchronizeKeyTimestamp = "sync";
         public const string SynchronizeKeyLastTimestamp = "last";
         public const string SynchronizeKeyInWaitingTimestamp = "waiting";
@@ -242,7 +243,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
+        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false, bool sSpecial = false)
         {
             //Debug.Log("NWDBasis CheckoutPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
@@ -272,7 +273,11 @@ namespace NetWorkedData
             //IEnumerable<K> tResults = null;
             if (sClean == true)
             {
-                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString());
+                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString().ToLower());
+            }
+            if (sSpecial == true)
+            {
+                rSendDatas.Add(SynchronizeKeySpecial, sSpecial.ToString().ToLower());
             }
             rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
             // return the data
@@ -285,7 +290,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false)
+        public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false, bool sSpecial = false)
         {
             //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
@@ -423,7 +428,11 @@ namespace NetWorkedData
             }
             if (sClean == true)
             {
-                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString());
+                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString().ToLower());
+            }
+            if (sSpecial == true)
+            {
+                rSendDatas.Add(SynchronizeKeySpecial, sSpecial.ToString().ToLower());
             }
             rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
             // return the data
@@ -672,6 +681,29 @@ namespace NetWorkedData
             }
 #else
 			NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
+#endif
+            rReturn = true;
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Synchronizations from web service.
+        /// </summary>
+        public static bool SynchronizationFromWebServiceSpecial(NWDAppEnvironment sEnvironment)
+        {
+            bool rReturn = false;
+#if UNITY_EDITOR
+            //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
+            if (Application.isPlaying == true)
+            {
+                NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment);
+            }
+            else
+            {
+                NWDDataManager.SharedInstance().AddWebRequestSynchronizationSpecial(ClasseInThisSync(), true, sEnvironment);
+            }
+#else
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;

@@ -181,9 +181,15 @@ namespace NetWorkedData
 		{
 			//Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationCleanWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronizationSpecial(List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log ("AddWebRequestSynchronization");
+            return AddWebRequestSynchronizationSpecialWithBlock(sTypeList, null, null, null, null, sPriority, sEnvironment);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronization (List<Type> sTypeList, bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
 			//Debug.Log ("AddWebRequestSynchronization");
 			return AddWebRequestSynchronizationWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
@@ -345,9 +351,21 @@ namespace NetWorkedData
 			//Debug.Log ("AddWebRequestSynchronizationWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, true);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronizationSpecialWithBlock(List<Type> sTypeList,
+            BTBOperationBlock sSuccessBlock = null,
+            BTBOperationBlock sErrorBlock = null,
+            BTBOperationBlock sCancelBlock = null,
+            BTBOperationBlock sProgressBlock = null,
+            bool sPriority = false, NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log ("AddWebRequestSynchronizationWithBlock");
+            /*BTBOperationSynchronisation sOperation = */
+            return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, false, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebSynchronisation AddWebRequestSynchronizationWithBlock (List<Type> sTypeList,
 		                                                                             BTBOperationBlock sSuccessBlock = null, 
 		                                                                             BTBOperationBlock sErrorBlock = null, 
 		                                                                             BTBOperationBlock sCancelBlock = null,
@@ -740,7 +758,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> SynchronizationPushClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
+        public Dictionary<string, object> SynchronizationPushClassesDatas (NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false, bool sSpecial = false)
 		{
 
 //#if UNITY_EDITOR 
@@ -755,7 +773,7 @@ namespace NetWorkedData
 				foreach (Type tType in sTypeList) {
 					var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
-                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{sInfos, sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
+                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{sInfos, sEnvironment, sForceAll, sClean, sSpecial }) as Dictionary<string, object>;
 						foreach (string tKey in rSendPartial.Keys) {
 							rSend.Add (tKey, rSendPartial [tKey]);
 						}
@@ -765,7 +783,7 @@ namespace NetWorkedData
 			return rSend;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false)
+        public Dictionary<string, object> CheckoutPushClassesDatas(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sClean = false, bool sSpecial = false)
         {
 
             //#if UNITY_EDITOR 
@@ -783,7 +801,7 @@ namespace NetWorkedData
                     var tMethodInfo = tType.GetMethod("CheckoutPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
-                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sForceAll, sClean }) as Dictionary<string, object>;
+                        Dictionary<string, object> rSendPartial = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sForceAll, sClean, sSpecial }) as Dictionary<string, object>;
                         foreach (string tKey in rSendPartial.Keys)
                         {
                             rSend.Add(tKey, rSendPartial[tKey]);

@@ -1530,6 +1530,38 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             GUILayout.EndHorizontal();
 
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            }
+            if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            }
+            EditorGUI.BeginDisabledGroup(tDisableProd);
+
+            bool tSyncSpecialProd = false; //prevent GUIlayout error
+            if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+            {
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                tSyncSpecialProd = true;
+            }
+            EditorGUI.EndDisabledGroup();
+            GUILayout.EndHorizontal();
+
             bool tCleanLocalTable = false; //prevent GUIlayout error
             if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
             {
@@ -1831,6 +1863,15 @@ namespace NetWorkedData
                 //{
                     SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().ProdEnvironment);
                 //}
+            }
+            if (tSyncSpecialProd == true)
+            {
+
+                if (Application.isPlaying == true && AccountDependent() == false)
+                {
+                    EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
+                }
+                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment);
             }
 
             if (tCleanLocalTable == true)

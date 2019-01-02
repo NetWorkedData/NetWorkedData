@@ -56,6 +56,7 @@ namespace NetWorkedData
     [NWDClassDescriptionAttribute("Rarity of Item")]
     [NWDClassMenuNameAttribute("Item Rarity")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
+    [NWDClassPhpSpecialCalculate(" // write your php script here to special operation\n$REP['Special'] ='success!!!';\n")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDItemRarity : NWDBasis<NWDItemRarity>
     {
