@@ -677,7 +677,9 @@ namespace NetWorkedData
             }
             else
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean(ClasseInThisSync(), true, sEnvironment);
+
+                NWDEditorMenu.EnvironementSync().SynchronizationClean(ClasseInThisSync(), sEnvironment);
+                //NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean(ClasseInThisSync(), true, sEnvironment);
             }
 #else
 			NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
@@ -700,10 +702,11 @@ namespace NetWorkedData
             }
             else
             {
-                NWDDataManager.SharedInstance().AddWebRequestSynchronizationSpecial(ClasseInThisSync(), true, sEnvironment);
+                NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment);
+                //NWDDataManager.SharedInstance().AddWebRequestSynchronizationSpecial(ClasseInThisSync(), true, sEnvironment);
             }
 #else
-            NWDDataManager.SharedInstance().AddWebRequestSynchronizationClean (new List<Type>{ClassType ()}, true, sEnvironment);
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationSpecial (new List<Type>{ClassType ()}, true, sEnvironment);
 #endif
             rReturn = true;
             return rReturn;

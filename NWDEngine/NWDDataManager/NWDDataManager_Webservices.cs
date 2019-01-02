@@ -336,9 +336,9 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			//Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
-			/*BTBOperationSynchronisation sOperation = */
-			return NWDOperationWebSynchronisation.AddOperation ("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
+            //Debug.Log ("AddWebRequestAllSynchronizationForceWithBlock");
+            /*BTBOperationSynchronisation sOperation = */
+            return NWDOperationWebSynchronisation.AddOperation ("Synchronization force", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, mTypeSynchronizedList, true, sPriority);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestSynchronizationCleanWithBlock (List<Type> sTypeList,
@@ -348,7 +348,7 @@ namespace NetWorkedData
 			BTBOperationBlock sProgressBlock = null, 
 			bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
-			//Debug.Log ("AddWebRequestSynchronizationWithBlock");
+			//Debug.Log ("AddWebRequestSynchronizationCleanWithBlock");
 			/*BTBOperationSynchronisation sOperation = */
 			return NWDOperationWebSynchronisation.AddOperation ("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, true);
         }
@@ -360,7 +360,7 @@ namespace NetWorkedData
             BTBOperationBlock sProgressBlock = null,
             bool sPriority = false, NWDAppEnvironment sEnvironment = null)
         {
-            //Debug.Log ("AddWebRequestSynchronizationWithBlock");
+            //Debug.Log ("AddWebRequestSynchronizationSpecialWithBlock");
             /*BTBOperationSynchronisation sOperation = */
             return NWDOperationWebSynchronisation.AddOperation("Synchronization", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, false, sPriority, false, true);
         }
