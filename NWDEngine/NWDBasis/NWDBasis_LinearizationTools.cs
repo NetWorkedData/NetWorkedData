@@ -555,8 +555,8 @@ namespace NetWorkedData
         /// <param name="sDataArray">data array.</param>
         public void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
-            // Force the ggod format
-            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+            // FORCE TO ENGLISH FORMAT!
+            //Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
 
             //Debug.Log("UpdateWithCSV ref " + Reference);
             // get key order assembly of cvs
@@ -747,8 +747,8 @@ namespace NetWorkedData
         /// <param name="sAsssemblyAsCVS">If set to <c>true</c> asssembly as CSV.</param>
         public string DataAssembly(bool sAsssemblyAsCSV = false)
         {
-            // Force the ggod format
-            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+            // FORCE TO ENGLISH FORMAT!
+            //Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
 
             // TODO: use the StringBuilder 
             StringBuilder rReturngBuilder = new StringBuilder();

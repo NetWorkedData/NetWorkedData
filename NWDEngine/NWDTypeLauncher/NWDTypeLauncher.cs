@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -89,6 +90,8 @@ namespace NetWorkedData
 #endif
         public static void RunLauncher()
         {
+            // FORCE TO ENGLISH FORMAT!
+            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas
             //NWDDebug.Log("NWDTypeLauncher RunLauncher()");
             // not double lauch
