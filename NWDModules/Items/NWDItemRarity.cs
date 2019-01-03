@@ -57,6 +57,7 @@ namespace NetWorkedData
     [NWDClassMenuNameAttribute("Item Rarity")]
     [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     [NWDClassPhpSpecialCalculate("\n" +
+        "\t\tglobal $NWD_FLOAT_FORMAT;\n" +
         "\t\t// Count user by gamesave\n" +
         "\t\t$tUserCount = 0;\n" +
         "\t\t$tQuery = 'SELECT COUNT(Reference) as TotalUser FROM `'.$ENV.'_NWDGameSave`';\n" +
@@ -97,11 +98,11 @@ namespace NetWorkedData
         "\t\t\t\t\t\t$tUpdate.=' `Minimum` = \\''.$tRow['ItemMin'].'\\',';\n" +
         "\t\t\t\t\t\t$tUpdate.=' `OwnerUserTotal` = \\''.$tRow['OwnerTotal'].'\\',';\n" +
         "\t\t\t\t\t\t$tUpdate.=' `UserTotal` = \\''.$tUserCount.'\\',';\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `Average` = \\''.number_format ($tRow['ItemAvg'], 3,'.','').'\\',';\n" +
-        "\t\t\t\t\t\tif $tRow['ItemAvg']!=0 && $tUserCount!=0)\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Average` = \\''.number_format ($tRow['ItemAvg'], $NWD_FLOAT_FORMAT ,'.','').'\\',';\n" +
+        "\t\t\t\t\t\tif ($tRow['ItemAvg']!=0 && $tUserCount!=0)\n" +
         "\t\t\t\t\t\t\t{\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `Frequency` = \\''.number_format (($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg'], 3,'.','').'\\',';\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `Rarity` = \\''.number_format (1.0/(($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg']), 3,'.','').'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Frequency` = \\''.number_format (($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg'], $NWD_FLOAT_FORMAT,'.','').'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Rarity` = \\''.number_format (1.0/(($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg']), $NWD_FLOAT_FORMAT,'.','').'\\',';\n" +
         "\t\t\t\t\t\t\t}\n" +
         "\t\t\t\t\t\t$tUpdate.=' `ItemTotal` = \\''.$tRow['Total'].'\\'';\n" +
         "\t\t\t\t\t\t$tUpdate.=' WHERE `Reference` = \\''.$tRow['Reference'].'\\' AND `ItemReference` = \\''.$tRow['ItemReference'].'\\';';\n" +
@@ -148,42 +149,42 @@ namespace NetWorkedData
             get; set;
         }
         [NWDTooltips("The total of this item in all game save")]
-        public int ItemTotal
+        public long ItemTotal
         {
             get; set;
         }
         [NWDTooltips("The total of user own this item in all game save")]
-        public int OwnerUserTotal
+        public long OwnerUserTotal
         {
             get; set;
         }
         [NWDTooltips("The total of user in all game save")]
-        public int UserTotal
+        public long UserTotal
         {
             get; set;
         }
         [NWDTooltips("The maximum item in all game save for one game save")]
-        public int Maximum
+        public long Maximum
         {
             get; set;
         }
         [NWDTooltips("The minimum item in all game save for one game save")]
-        public int Minimum
+        public long Minimum
         {
             get; set;
         }
         [NWDTooltips("The average in all game save")]
-        public float Average
+        public double Average
         {
             get; set;
         }
         [NWDTooltips("The frequency in all game save (OwnerUserTotal/UserTotal)/Average")]
-        public float Frequency
+        public double Frequency
         {
             get; set;
         }
         [NWDTooltips("The rarity in all game save (1/Frequency)")]
-        public float Rarity
+        public double Rarity
         {
             get; set;
         }

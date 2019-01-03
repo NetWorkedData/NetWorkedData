@@ -77,7 +77,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ReEvalute()
         {
-            Value = Reference + NWDConstants.kFieldSeparatorB + Quantity + NWDConstants.kFieldSeparatorB + Condition.ToString();
+            Value = Reference + NWDConstants.kFieldSeparatorB + Quantity + NWDConstants.kFieldSeparatorB + Condition.ToString(NWDConstants.FloatFormat);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string Description()
@@ -790,7 +790,7 @@ namespace NetWorkedData
                     // no dupplicate reference
                    // if (!tValueListReferenceAllReady.Contains(tReferenceList.ElementAt(tIndex)))
                    // {
-                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString()+ NWDConstants.kFieldSeparatorB + tC.ToString();
+                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorB + tC.ToString();
                    //     tValueListReferenceAllReady.Add(tReferenceList.ElementAt(tIndex));
                    // }
                 }

@@ -365,9 +365,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float AddEnterForParent(float sValue)
+        public double AddEnterForParent(float sValue)
         {
-            float rReturn = 0.0F;
+            double rReturn = 0.0F;
             switch (Domain)
             {
                 case NWDStatKeyDomain.AccountStat:
@@ -384,9 +384,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public float Counter()
+        public double Counter()
         {
-            float rReturn = 0.0F;
+            double rReturn = 0.0F;
             switch (Domain)
             {
                 case NWDStatKeyDomain.AccountStat:
@@ -406,7 +406,7 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public string ReturnWithFormat(float sValue)
+        public string ReturnWithFormat(double sValue)
         {
             string rReturn = string.Empty;
             switch (Format)

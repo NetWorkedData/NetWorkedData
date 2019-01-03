@@ -56,10 +56,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetRect(Rect sRect)
         {
-            Value = sRect.x + NWDConstants.kFieldSeparatorA +
-                    sRect.y + NWDConstants.kFieldSeparatorA +
-                         sRect.height + NWDConstants.kFieldSeparatorA +
-                         sRect.width;
+            Value = sRect.x.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
+                    sRect.y.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
+                         sRect.height.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
+                         sRect.width.ToString(NWDConstants.FloatFormat);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Rect GetRect()

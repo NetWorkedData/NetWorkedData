@@ -56,10 +56,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector4 sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y + NWDConstants.kFieldSeparatorA +
-                    sVector.z + NWDConstants.kFieldSeparatorA +
-                           sVector.w;
+            Value = sVector.x.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
+                    sVector.z.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
+                           sVector.w.ToString(NWDConstants.FloatFormat);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector4 GetVector()

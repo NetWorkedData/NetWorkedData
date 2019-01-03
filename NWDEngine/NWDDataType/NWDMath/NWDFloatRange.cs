@@ -55,11 +55,11 @@ namespace NetWorkedData
 		{
             if (sStart<=sEnd)
             {
-                Value = sStart.ToString() + NWDConstants.kFieldSeparatorA + sEnd.ToString();
+                Value = sStart.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA + sEnd.ToString(NWDConstants.FloatFormat);
             }
             else
             {
-                Value = sEnd.ToString() + NWDConstants.kFieldSeparatorA + sStart.ToString(); 
+                Value = sEnd.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA + sStart.ToString(NWDConstants.FloatFormat); 
             }
         }
         //-------------------------------------------------------------------------------------------------------------

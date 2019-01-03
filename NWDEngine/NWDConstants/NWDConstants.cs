@@ -29,6 +29,8 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         public static CultureInfo FormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
+        public static string FloatFormat = "F5";
+        public static string FloatSQLFormat = "5";
         //-------------------------------------------------------------------------------------------------------------
         // [Obsolete(NWDConstants.K_WILL_BE_REMOVED)] // used in NWD task
         public const string K_WILL_BE_REMOVED = " WILL BE REMOVED ";

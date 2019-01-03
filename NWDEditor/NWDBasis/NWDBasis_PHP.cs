@@ -115,7 +115,7 @@ namespace NetWorkedData
             // Create folders
 
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            string tServerRootFolder = tOwnerFolderServer +"/"+tWebServiceFolder+"/Environment/" + tEnvironmentFolder;
+            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
             if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
             {
@@ -129,7 +129,7 @@ namespace NetWorkedData
             }
             if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder) == false)
             {
-                AssetDatabase.CreateFolder(tOwnerFolderServer + "/" + tWebServiceFolder+ "/Environment/", tEnvironmentFolder);
+                AssetDatabase.CreateFolder(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment/", tEnvironmentFolder);
                 AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder + "/Environment/" + tEnvironmentFolder);
             }
             // tServerRootFolder is created 
@@ -146,7 +146,7 @@ namespace NetWorkedData
             if (AssetDatabase.IsValidFolder(tServerRootFolder + "/Engine/Database/" + tClassName) == false)
             {
                 AssetDatabase.CreateFolder(tServerRootFolder + "/Engine/Database", tClassName);
-                AssetDatabase.ImportAsset(tServerRootFolder  + "/Engine/Database/" + tClassName);
+                AssetDatabase.ImportAsset(tServerRootFolder + "/Engine/Database/" + tClassName);
             }
             if (AssetDatabase.IsValidFolder(tServerDatabaseFolder) == false)
             {
@@ -166,7 +166,7 @@ namespace NetWorkedData
                                     "$SQL_" + tClassName + "_SaltA = '" + Datas().SaltA + "';\n" +
                                     "$SQL_" + tClassName + "_SaltB = '" + Datas().SaltB + "';\n" +
                                     "//-------------------- \n";
-            
+
             int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
 
             Dictionary<string, int> tResult = new Dictionary<string, int>();
@@ -210,7 +210,7 @@ namespace NetWorkedData
 
             //tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
 
-            tConstantsFile += "$SQL_" + tClassName + "_WebService = "+tWebBuildUsed+";\n" +
+            tConstantsFile += "$SQL_" + tClassName + "_WebService = " + tWebBuildUsed + ";\n" +
                 "//-------------------- \n";
 
             //string tGlobal = "global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, ";
@@ -243,7 +243,7 @@ namespace NetWorkedData
                                         "\r\n" +
                                         "Best regards,\r\n" +
                                         "The {APP}'s team.", "OK");
-            
+
             NWDError.CreateGenericError("RESCUE", "03", "{APP} : Password Resetted", "Hello,\r\n" +
                                         "Your password for the App {APP}'s account was resetted to : \r\n" +
                                         "\r\n" +
@@ -280,7 +280,7 @@ namespace NetWorkedData
             tConstantsFile += "?>\n";
             File.WriteAllText(tServerDatabaseFolder + "/constants.php", tConstantsFile);
             // force to import this file by Unity3D
-           // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/constants.php");
+            // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/constants.php");
 
             //========= MANAGEMENT TABLE FUNCTIONS FILE
 
@@ -364,7 +364,7 @@ namespace NetWorkedData
                     tColumn.Name != "XX")
                 {
                     tManagementFile +=
-                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` ADD " + 
+                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` ADD " +
                         Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") + ";';\n" +
                     "$tResult = $SQL_CON->query($tQuery);\n" +
                     //"if (!$tResult)\n" +
@@ -375,7 +375,7 @@ namespace NetWorkedData
                     string.Empty;
                     tManagementFile +=
                         //					"$tQuery ='ALTER TABLE `'.$ENV.'" + tTableName + "` CHANGE `" + tColumn.Name + "` " + Orm.SqlDecl (tColumn, true).Replace ("varchar", "text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL") + ";';\n" +
-                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " + 
+                        "$tQuery ='ALTER TABLE `'.$ENV.'_" + tTableName + "` MODIFY " +
                         Orm.SqlDecl(tColumn, true).Replace(" varchar ", " TEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ").Replace(" float ", " double ").Replace("\"", "`") + ";';\n" +
                     "$tResult = $SQL_CON->query($tQuery);\n" +
                     //"if (!$tResult)\n" +
@@ -695,6 +695,7 @@ namespace NetWorkedData
                 tSynchronizationFile += ".$sRow['" + tPropertyName + "']";
             }
             tSynchronizationFile += ";\n" +
+            "\t\tmyLog('sDataString : '.$sDataString.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\treturn str_replace('" + NWDConstants.kStandardSeparator + "', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
             "\t}\n" +
             "//-------------------- \n";
@@ -703,9 +704,28 @@ namespace NetWorkedData
 
             tSynchronizationFile += "function Integrity" + tClassName + "Reevalue ($sReference)\n" +
             "\t{\n" +
-                "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC;\n" +
-                "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
-            "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
+            "\t\t$tQuery = 'SELECT ID";
+
+            foreach (string tPropertyName in SLQIntegrityOrder())
+            {
+                PropertyInfo tPropertyInfo = tType.GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
+                Type tTypeOfThis = tPropertyInfo.PropertyType;
+                if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
+                {
+                    tSynchronizationFile += ", REPLACE("+tPropertyName +",\",\",\"\") as " + tPropertyName;
+                }
+                else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
+                {
+                    tSynchronizationFile += ", REPLACE(FORMAT(" + tPropertyName + "," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as " + tPropertyName;
+                }
+                else
+                {
+                    tSynchronizationFile += ", " +tPropertyName ;
+                }
+            }
+            tSynchronizationFile += " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -888,8 +908,8 @@ namespace NetWorkedData
             tSynchronizationFile += string.Join(", ", tModify.ToArray()) + " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' ";
             if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment)
             {
-               // tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') "; 
-               //no test the last is the winner!
+                // tSynchronizationFile += "AND (`DevSync`<= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\') "; 
+                //no test the last is the winner!
             }
             else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
             {
@@ -1024,7 +1044,7 @@ namespace NetWorkedData
             }
             if (tSpecialAdd != string.Empty)
             {
-                tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n"+tSpecialAdd+"\n\t\t\t\t\t}\n";
+                tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
             }
 
             tSynchronizationFile += "\t\t\t\tmysqli_free_result($tResult);\n" +
@@ -1103,7 +1123,7 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "\t\t\t\t$tResult->data_seek(0);\n\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n\t\t\t\t\t{\n" + tSpecialAdd + "\n\t\t\t\t\t}\n";
             }
-            tSynchronizationFile +="\t\t\t\tmysqli_free_result($tResult);\n" +
+            tSynchronizationFile += "\t\t\t\tmysqli_free_result($tResult);\n" +
             "\t\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n" +
@@ -1218,7 +1238,7 @@ namespace NetWorkedData
             "?>";
             File.WriteAllText(tServerDatabaseFolder + "/synchronization.php", tSynchronizationFile);
             // force to import this file by Unity3D
-           // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
+            // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
 
 
             /*

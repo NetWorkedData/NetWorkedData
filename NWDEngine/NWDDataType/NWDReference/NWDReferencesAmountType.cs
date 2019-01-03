@@ -282,7 +282,7 @@ namespace NetWorkedData
             List<string> tValueList = new List<string>();
             foreach (KeyValuePair<string, float> tKeyValue in sDico)
             {
-                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString());
+                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString(NWDConstants.FloatFormat));
             }
             string[] tNextValueArray = tValueList.Distinct().ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
@@ -655,7 +655,7 @@ namespace NetWorkedData
                     //if (tQ != 0) {
                     if (!tValueListReferenceAllReady.Contains(tReferenceList.ElementAt(tIndex)))
                     {
-                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString();
+                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString(NWDConstants.FloatFormat);
                         tValueListReferenceAllReady.Add(tReferenceList.ElementAt(tIndex));
                     }
                 }

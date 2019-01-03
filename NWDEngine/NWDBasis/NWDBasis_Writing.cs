@@ -285,6 +285,12 @@ namespace NetWorkedData
                     int.TryParse(tValueString, out tTemp);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
+                else if (tTypeOfThis == typeof(long))
+                {
+                    long tTemp = 0;
+                    long.TryParse(tValueString, out tTemp);
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
                 else if (tTypeOfThis == typeof(Int16))
                 {
                     Int16 tTemp = 0;

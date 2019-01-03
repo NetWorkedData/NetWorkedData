@@ -61,31 +61,31 @@ namespace NetWorkedData
         [NWDGroupEnd()]
         [NWDGroupSeparator()]
         [NWDGroupStart("Values")]
-        public float Total
+        public double Total
         {
             get; set;
         }
-        public float Counter
+        public double Counter
         {
             get; set;
         }
-        public float Average
+        public double Average
         {
             get; set;
         }
-        public float AverageWithParent
+        public double AverageWithParent
         {
             get; set;
         }
-        public float Last
+        public double Last
         {
             get; set;
         }
-        public float Max
+        public double Max
         {
             get; set;
         }
-        public float Min
+        public double Min
         {
             get; set;
         }
@@ -133,7 +133,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public float AddEnterForParent(float sValue, NWDStatKey sStatKey)
+        public double AddEnterForParent(double sValue, NWDStatKey sStatKey)
         {
             //Debug.Log("NWDUserStatKeyValue AddEnter("+sValue.ToString()+")");
             if (sStatKey.UnityStat == true)
@@ -186,7 +186,7 @@ namespace NetWorkedData
                 if (tStatKeyParent != null)
                 {
                     //I need transfert data to parent and use data for recalulate result
-                    float tCounter = tStatKeyParent.Counter();
+                    double tCounter = tStatKeyParent.Counter();
                     if (tCounter != 0)
                     {
                         AverageWithParent = Total / tCounter;
@@ -211,7 +211,7 @@ namespace NetWorkedData
                 if (tStatKeyParent != null)
                 {
                     //I need transfert data to parent and use data for recalulate result
-                    float tCounter = tStatKeyParent.AddEnterForParent(sValue);
+                    double tCounter = tStatKeyParent.AddEnterForParent(sValue);
                     if (tCounter != 0)
                     {
                         AverageWithParent = Total / tCounter;

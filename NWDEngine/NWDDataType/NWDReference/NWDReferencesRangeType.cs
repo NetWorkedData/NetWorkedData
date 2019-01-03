@@ -65,8 +65,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Min.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                      Max.ToString("F5");
+            return Min.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorC +
+                      Max.ToString(NWDConstants.FloatFormat);
                       //+ NWDConstants.kFieldSeparatorC +
                         //Average.ToString("F5");
         }

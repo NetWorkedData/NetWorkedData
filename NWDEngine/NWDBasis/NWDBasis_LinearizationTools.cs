@@ -599,15 +599,8 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                     {
-                        //						var tObject = Activator.CreateInstance (tTypeOfThis);
-                        //						var tMethodInfo = tObject.GetType ().GetMethod ("SetString", BindingFlags.Public | BindingFlags.Instance);
-                        //						if (tMethodInfo != null) {
-                        //							tMethodInfo.Invoke (tObject, new object[]{ tValueString });
-                        //						}
-                        //
                         BTBDataType tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
                         tObject.SetString(tValueString);
-
                         tPropertyInfo.SetValue(this, tObject, null);
                     }
                     // Do for Standard type
@@ -626,17 +619,32 @@ namespace NetWorkedData
                         }
                         tPropertyInfo.SetValue(this, tValueInsert, null);
                     }
-                    else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64))
+                    else if (tTypeOfThis == typeof(int))
                     {
                         int tValueInsert = 0;
                         int.TryParse(tValueString, out tValueInsert);
                         tPropertyInfo.SetValue(this, tValueInsert, null);
                     }
-                    else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Double) || tTypeOfThis == typeof(Decimal))
+                    else if (tTypeOfThis == typeof(long))
+                    {
+                        long tValueInsert = 0;
+                        long.TryParse(tValueString, out tValueInsert);
+                        tPropertyInfo.SetValue(this, tValueInsert, null);
+                    }
+                    else if (tTypeOfThis == typeof(float))
                     {
                         // TODO: bug with dot, comma
+                        Debug.Log("float tValueString = " + tValueString);
                         float tValueInsert = 0;
                         float.TryParse(tValueString, out tValueInsert);
+                        tPropertyInfo.SetValue(this, tValueInsert, null);
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        // TODO: bug with dot, comma
+                        Debug.Log("float tValueString = " + tValueString);
+                        double tValueInsert = 0;
+                        double.TryParse(tValueString, out tValueInsert);
                         tPropertyInfo.SetValue(this, tValueInsert, null);
                     }
                     else
@@ -809,17 +817,27 @@ namespace NetWorkedData
                     {
                         tValue = string.Empty;
                     }
-                    tValueString = tValue.ToString();
+                    //tValueString = tValue.ToString();
+
                     if (tTypeOfThis.IsEnum)
                     {
                         //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
                         int tInt = (int)tValue;
                         tValueString = tInt.ToString();
                     }
-                    if (tTypeOfThis == typeof(bool))
+                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                    {
+                        tValueString = tValue.ToString();
+                    }
+                    // Do for Standard type
+                    else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+                    {
+                        tValueString = tValue.ToString();
+                    }
+                    else if (tTypeOfThis == typeof(bool))
                     {
                         //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
-                        if (tValueString == "False")
+                        if (tValueString.ToLower() == "false")
                         {
                             tValueString = "0";
                         }
@@ -827,6 +845,29 @@ namespace NetWorkedData
                         {
                             tValueString = "1";
                         }
+                    }
+                    else if (tTypeOfThis == typeof(int))
+                    {
+                        int tInt = (int)tValue;
+                        tValueString = tInt.ToString();
+                    }
+                    else if (tTypeOfThis == typeof(long))
+                    {
+                        long tFloat = (long)tValue;
+                        tValueString = tFloat.ToString();
+                        //Debug.Log("tValueString long" + tFloat + "=> " + tValueString);
+                    }
+                    else if (tTypeOfThis == typeof(float))
+                    {
+                        float tFloat = (float)tValue;
+                        tValueString = tFloat.ToString(NWDConstants.FloatFormat);
+                        //Debug.Log("tValueString float" + tFloat+ "=> " + tValueString);
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        double tDouble = (double)tValue;
+                        tValueString = tDouble.ToString(NWDConstants.FloatFormat);
+                        //Debug.Log("tValueString double" + tDouble + "=> " + tValueString);
                     }
                     if (sAsssemblyAsCSV == true)
                     {

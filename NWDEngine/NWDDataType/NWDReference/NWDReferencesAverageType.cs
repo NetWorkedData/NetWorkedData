@@ -65,9 +65,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Total.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                        Counter.ToString("F5") + NWDConstants.kFieldSeparatorC +
-                        Average.ToString("F5");
+            return Total.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorC +
+                        Counter.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorC +
+                        Average.ToString(NWDConstants.FloatFormat);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddValue(float sValue)

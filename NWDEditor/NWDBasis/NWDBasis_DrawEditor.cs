@@ -248,6 +248,9 @@ namespace NetWorkedData
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
+            GUIStyle tFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
+            tFloatFieldStyle.fixedHeight = tFloatFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
+
             GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
             tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100);
 
@@ -430,13 +433,21 @@ namespace NetWorkedData
                                 {
                                     tY += tToggleStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 }
-                                else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64))
+                                else if (tTypeOfThis == typeof(int))
                                 {
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 }
-                                else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Double) || tTypeOfThis == typeof(Decimal))
+                                else if (tTypeOfThis == typeof(long))
                                 {
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                }
+                                else if (tTypeOfThis == typeof(float))
+                                {
+                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                }
+                                else if (tTypeOfThis == typeof(double))
+                                {
+                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 }
 
                                 //TO-DO : (FUTUR ADDS) Insert new NWDDataType
@@ -509,6 +520,9 @@ namespace NetWorkedData
 
             GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
             tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            GUIStyle tFloatFieldStyle = new GUIStyle(EditorStyles.numberField);
+            tFloatFieldStyle.fixedHeight = tFloatFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
             GUIStyle tFoldoutStyle = new GUIStyle(EditorStyles.foldout);
             tFoldoutStyle.fixedHeight = tFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
@@ -884,21 +898,32 @@ namespace NetWorkedData
                                         rNeedBeUpdate = true;
                                     }
                                 }
-                                else if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(Int16) || tTypeOfThis == typeof(Int32) || tTypeOfThis == typeof(Int64))
+                                else if (tTypeOfThis == typeof(int))
                                 {
                                     int tValue = (int)tProp.GetValue(this, null);
-                                    int tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
-                                    tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                    int tValueNext = EditorGUI.IntField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
+                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
                                         tProp.SetValue(this, tValueNext, null);
                                         rNeedBeUpdate = true;
                                     }
                                 }
-                                else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Decimal))
+                                else if (tTypeOfThis == typeof(long))
+                                {
+                                    long tValue = (long)tProp.GetValue(this, null);
+                                    long tValueNext = EditorGUI.LongField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
+                                    tY += tFloatFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
+                                    if (tValueNext != tValue)
+                                    {
+                                        tProp.SetValue(this, tValueNext, null);
+                                        rNeedBeUpdate = true;
+                                    }
+                                }
+                                else if (tTypeOfThis == typeof(float))
                                 {
                                     float tValue = (float)tProp.GetValue(this, null);
-                                    float tValueNext = EditorGUI.FloatField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
+                                    float tValueNext = (float)EditorGUI.FloatField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tFloatFieldStyle);
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     float EPSILON = 0;
                                     if (Math.Abs(tValueNext - tValue) > EPSILON)
@@ -907,7 +932,7 @@ namespace NetWorkedData
                                         rNeedBeUpdate = true;
                                     }
                                 }
-                                else if (tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Double))
+                                else if (tTypeOfThis == typeof(double))
                                 {
                                     double tValue = (double)tProp.GetValue(this, null);
                                     double tValueNext = EditorGUI.DoubleField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);

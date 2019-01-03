@@ -85,6 +85,7 @@ namespace NetWorkedData
             tConstantsFile += string.Empty +
                 "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT FOR WEB\n" +
+                "\t$NWD_FLOAT_FORMAT = "+ NWDConstants.FloatSQLFormat + ";\n" +
                 "\t$HTTP_URL = '" + ServerHTTPS.TrimEnd('/') +"/"+ NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
                 "\t$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
                 "\t\t//-------------------- \n" +
