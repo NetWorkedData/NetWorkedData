@@ -93,14 +93,17 @@ namespace NetWorkedData
         "\t\t\t\twhile($tRow = $tResult->fetch_assoc())\n" +
         "\t\t\t\t\t{\n" +
         "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_NWDItemRarity` SET `DM` = \\''.$TIME_SYNC.'\\', `DS` = \\''.$TIME_SYNC.'\\', `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\',';\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `ItemTotal` = \\''.$tRow['Total'].'\\',';\n" +
         "\t\t\t\t\t\t$tUpdate.=' `Maximum` = \\''.$tRow['ItemMax'].'\\',';\n" +
         "\t\t\t\t\t\t$tUpdate.=' `Minimum` = \\''.$tRow['ItemMin'].'\\',';\n" +
         "\t\t\t\t\t\t$tUpdate.=' `OwnerUserTotal` = \\''.$tRow['OwnerTotal'].'\\',';\n" +
         "\t\t\t\t\t\t$tUpdate.=' `UserTotal` = \\''.$tUserCount.'\\',';\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `Average` = \\''.number_format ($tRow['ItemAvg'], 4,'.','').'\\',';\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `Frequency` = \\''.number_format (($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg'], 4,'.','').'\\',';\n" +
-        "\t\t\t\t\t\t$tUpdate.=' `Rarity` = \\''.number_format (1.0/(($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg']), 4,'.','').'\\'';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Average` = \\''.number_format ($tRow['ItemAvg'], 3,'.','').'\\',';\n" +
+        "\t\t\t\t\t\tif $tRow['ItemAvg']!=0 && $tUserCount!=0)\n" +
+        "\t\t\t\t\t\t\t{\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Frequency` = \\''.number_format (($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg'], 3,'.','').'\\',';\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `Rarity` = \\''.number_format (1.0/(($tRow['OwnerTotal']/$tUserCount)/$tRow['ItemAvg']), 3,'.','').'\\',';\n" +
+        "\t\t\t\t\t\t\t}\n" +
+        "\t\t\t\t\t\t$tUpdate.=' `ItemTotal` = \\''.$tRow['Total'].'\\'';\n" +
         "\t\t\t\t\t\t$tUpdate.=' WHERE `Reference` = \\''.$tRow['Reference'].'\\' AND `ItemReference` = \\''.$tRow['ItemReference'].'\\';';\n" +
         "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
         //"\t\t\t\t\t\t$REP['spc'][$tRow['Reference']] = $tUpdate;\n" +

@@ -18,6 +18,7 @@ using UnityEngine;
 
 using BasicToolBox;
 using System.Text;
+using System.Threading;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -554,6 +555,9 @@ namespace NetWorkedData
         /// <param name="sDataArray">data array.</param>
         public void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
+            // Force the ggod format
+            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+
             //Debug.Log("UpdateWithCSV ref " + Reference);
             // get key order assembly of cvs
             string[] tKey = CSVAssemblyOrderArray();
@@ -630,6 +634,7 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double) || tTypeOfThis == typeof(Single) || tTypeOfThis == typeof(Double) || tTypeOfThis == typeof(Decimal))
                     {
+                        // TODO: bug with dot, comma
                         float tValueInsert = 0;
                         float.TryParse(tValueString, out tValueInsert);
                         tPropertyInfo.SetValue(this, tValueInsert, null);
@@ -742,6 +747,9 @@ namespace NetWorkedData
         /// <param name="sAsssemblyAsCVS">If set to <c>true</c> asssembly as CSV.</param>
         public string DataAssembly(bool sAsssemblyAsCSV = false)
         {
+            // Force the ggod format
+            Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+
             // TODO: use the StringBuilder 
             StringBuilder rReturngBuilder = new StringBuilder();
             if (sAsssemblyAsCSV == true)
