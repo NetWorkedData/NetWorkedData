@@ -1147,7 +1147,7 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $TIME_SYNC;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             "";

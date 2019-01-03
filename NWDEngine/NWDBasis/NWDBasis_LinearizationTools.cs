@@ -271,7 +271,7 @@ namespace NetWorkedData
                 rReturn.Remove("ProdSync");
                 rReturn.Remove("InError");// not include in integrity
                 //rReturn.Remove("WebServiceVersion");
-                rReturn.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.Ordinal));
+                rReturn.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.OrdinalIgnoreCase));
                 // add the good order for this element
                 rReturn.Insert(0, "Reference");
                 rReturn.Insert(1, "DM");
@@ -313,7 +313,7 @@ namespace NetWorkedData
                 rReturn.Remove("DC");
                 rReturn.Remove("DD");
                 // add the good order for this element
-                rReturn.Sort((tA, tB) => string.Compare(tB, tA, StringComparison.Ordinal));
+                rReturn.Sort((tA, tB) => string.Compare(tB, tA, StringComparison.OrdinalIgnoreCase));
                 // add the good order for this element
                 rReturn.Insert(2, "Reference");
                 // add another order for these element (perhaps bad solution ?)
