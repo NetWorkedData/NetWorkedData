@@ -817,6 +817,7 @@ namespace NetWorkedData
                     {
                         tValue = string.Empty;
                     }
+
                     //tValueString = tValue.ToString();
 
                     if (tTypeOfThis.IsEnum)
@@ -837,6 +838,7 @@ namespace NetWorkedData
                     else if (tTypeOfThis == typeof(bool))
                     {
                         //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+                        tValueString = tValue.ToString();
                         if (tValueString.ToLower() == "false")
                         {
                             tValueString = "0";
@@ -869,6 +871,11 @@ namespace NetWorkedData
                         tValueString = tDouble.ToString(NWDConstants.FloatFormat);
                         //Debug.Log("tValueString double" + tDouble + "=> " + tValueString);
                     }
+                    else
+                    {
+                        tValueString = tValue.ToString();
+                    }
+                    // type of assembly
                     if (sAsssemblyAsCSV == true)
                     {
                         //rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
