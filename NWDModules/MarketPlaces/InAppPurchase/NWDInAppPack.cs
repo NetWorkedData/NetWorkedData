@@ -51,23 +51,23 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description Item", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
-        [NWDGroupEndAttribute]
+        //[NWDGroupStartAttribute("Description Item", true, true, true)]
+        //public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        //[NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        //[NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
         public string AppleID { get; set; }
 		public string GoogleID { get; set; }
 		public string UnityID { get; set; }
 		public string SteamID { get; set; }
-        [NWDGroupEndAttribute]
+        //[NWDGroupEndAttribute]
 
-        [NWDGroupSeparatorAttribute]
+        //[NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Items in this In App Pack", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> Items { get; set; }
+        //[NWDGroupStartAttribute("Items in this In App Pack", true, true, true)]
+        //public NWDReferencesQuantityType<NWDItem> Items { get; set; }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

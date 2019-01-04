@@ -66,7 +66,6 @@ namespace NetWorkedData
 
         [NWDGroupStartAttribute("Packs in this Rack", true, true, true)]
 		public NWDReferencesQuantityType<NWDPack> PackQuantity { get; set; }
-		public bool Limited { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]

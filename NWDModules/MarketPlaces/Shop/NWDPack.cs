@@ -57,31 +57,23 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		#region Properties
 		//-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description Item ", true, true, true)]
+        [NWDGroupStartAttribute("Description Item", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
-        [NWDGroupEndAttribute]
-
-        [NWDGroupSeparatorAttribute]
-
-        [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
-        [NWDTooltips("Availability schedule of this Pack")]
-        public NWDDateTimeScheduleType AvailabilitySchedule { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Item Pack in this Pack", true, true, true)]
 		public NWDReferencesQuantityType<NWDItemPack> ItemPackReference { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
-        public bool EnableFreePack { get; set; }
+        public int Quantity { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
-        [NWDGroupStartAttribute("Specific Store ID", true, true, true)]
-        public string AppleID { get; set; }
-        public string GoogleID { get; set; }
-        public string SteamID { get; set; }
+        [NWDGroupStartAttribute("Item to Pay for this Pack", true, true, true)]
+        public NWDReferencesQuantityType<NWDItem> ItemsToPay { get; set; }
+        public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
+        public bool EnableFreePack { get; set; }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
@@ -91,13 +83,20 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDCategory> Categories { get; set; }
         public NWDReferencesListType<NWDFamily> Families { get; set; }
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Availability schedule ", true, true, true)]
+        [NWDTooltips("Availability schedule of this Pack")]
+        public NWDDateTimeScheduleType AvailabilitySchedule { get; set; }
         //[NWDGroupEndAttribute]
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDPack()
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDPack()
         {
             //Debug.Log("NWDPack Constructor");
         }
@@ -144,13 +143,17 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string GetIAPKey()
         {
-            if (Application.platform == RuntimePlatform.Android)
+            NWDInAppPack tInAppPack = InAppReference.GetObject();
+            if (tInAppPack != null)
             {
-                return GoogleID;
-            }
-            else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            {
-                return AppleID;
+                if (Application.platform == RuntimePlatform.Android)
+                {
+                    return tInAppPack.GoogleID;
+                }
+                else if (Application.platform == RuntimePlatform.IPhonePlayer)
+                {
+                   return tInAppPack.AppleID;
+                }
             }
 
             return "NoSupportedKeyFound";
