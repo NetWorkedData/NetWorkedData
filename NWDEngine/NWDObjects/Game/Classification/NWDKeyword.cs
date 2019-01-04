@@ -74,6 +74,8 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDGroupEndAttribute]
+        [NWDGroupSeparatorAttribute]
         [NWDGroupStartAttribute("Classification", true, true, true)]
         public NWDReferencesListType<NWDKeyword> KeywordList
         {

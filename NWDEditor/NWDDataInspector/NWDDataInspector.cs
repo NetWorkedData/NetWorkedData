@@ -103,10 +103,13 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public static void InspectNetWorkedData (object sTarget, bool sResetStack = true, bool sFocus=true)
 		{
-			ShareInstance ().Data (sTarget, sResetStack,sFocus);
-            if (sTarget != null)
+            if (ShareInstance().mObjectInEdition != sTarget)
             {
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(sTarget.GetType());
+                ShareInstance().Data(sTarget, sResetStack, sFocus);
+                if (sTarget != null)
+                {
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(sTarget.GetType());
+                }
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------

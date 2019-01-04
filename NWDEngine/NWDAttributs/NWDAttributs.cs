@@ -456,5 +456,20 @@ namespace NetWorkedData
     {
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDAddonAttribute : Attribute
+    {
+        //public string AddonGroup;
+        public NWDAddonAttribute()
+        {
+            //this.AddonGroup = "";
+        }
+        //public NWDAddonAttribute(string sAddonGroup = "")
+        //{
+        //    this.AddonGroup = sAddonGroup;
+        //}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
