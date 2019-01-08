@@ -23,9 +23,9 @@ namespace NetWorkedData
         "NWDIcons_02",
         new Type[] {
             typeof(NWDTradePlace),
-            typeof(NWDUserTradeProposition),
             typeof(NWDUserTradeRequest),
-            typeof(NWDUserTradeNotification),
+            typeof(NWDUserTradeProposition),
+            typeof(NWDUserTradeFinder),
 			/* Add NWDBasis here*/
 		}
     )]

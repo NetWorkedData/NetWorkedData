@@ -27,6 +27,15 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDTradeStatus
+    {
+        None = 0,
+        Active = 10,
+        Accepted = 20,
+        Cancel = 30,
+        Expired = 40,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
     /// <para>The GameObject can use the object referenced by binding in game. </para>
@@ -52,40 +61,24 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("TRR")]
-    [NWDClassDescriptionAttribute("Trade Request descriptions Class")]
-    [NWDClassMenuNameAttribute("Trade Request")]
+    [NWDClassTrigrammeAttribute("UTRR")]
+    [NWDClassDescriptionAttribute("User Trade Request descriptions Class")]
+    [NWDClassMenuNameAttribute("User Trade Request")]
     public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDTradePlace> MarketPlace
-        {
-            get; set;
-        }
-
+        [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed
-        {
-            get; set;
-        }
-
-        [NWDHeaderAttribute("For marketplace only")]
-        public NWDReferencesQuantityType<NWDItem> ItemsWanted
-        {
-            get; set;
-        }
-
-        public int LimitDateTime
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        public NWDTradeStatus TradeStatus { get; set; }
+        public NWDDateTimeType LimitDayTime { get; set; }
+        //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

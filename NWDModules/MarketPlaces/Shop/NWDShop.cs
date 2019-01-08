@@ -225,7 +225,7 @@ namespace NetWorkedData
                                 {
                                     // Get Item data
                                     NWDItem tNWDItem = p.Key;
-                                    int tItemQte = p.Value;
+                                    int tItemQte = p.Value * tItemPackQte;
 
                                     // Add Items to Ownership
                                     NWDUserOwnership.AddItemToOwnership(tNWDItem, tItemQte);
