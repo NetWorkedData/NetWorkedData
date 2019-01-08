@@ -209,6 +209,15 @@ namespace NetWorkedData
     /// NWDIfAttribute can hidde the next property if specific condition is true.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    public class NWDHidden : Attribute
+    {
+        // = NWDNotVisible
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDIfAttribute can hidde the next property if specific condition is true.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class NWDIfAttribute : Attribute
     {
         public string mPropertyName;

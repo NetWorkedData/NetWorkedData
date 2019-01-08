@@ -27,6 +27,7 @@ namespace NetWorkedData
     public enum NWDEventMessageType : int {
         LocalDateFixe = 0,
         LocalRecurrent = 1,
+        LocalSchedule = 2,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -74,20 +75,19 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //Example
-        //[NWDGroupStart("Account")]
-        //public NWDReferenceType<NWDAccount> Account { get; set; }
-        //[NWDGroupEnd()]
-        //[NWDGroupSeparator()]
-        //[NWDGroupStart("Other")]
-        //public int Other { get; set; }
-
-        //PROPERTIES
+        [NWDGroupStart("Informations")]
 		public NWDLocalizableStringType Title {get; set;}
 		public NWDLocalizableStringType SubTitle {get; set;}
 		public NWDLocalizableTextType Message {get; set;
         }
+        //[NWDHidden]
+        public NWDTextureType Image
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+        [NWDGroupStart("Type of Event")]
         public NWDEventMessageType EventType
         {
             get; set;
@@ -98,11 +98,12 @@ namespace NetWorkedData
             get; set;
         }
         [NWDIf("EventType", (int)NWDEventMessageType.LocalRecurrent, false)]
-        public long ReccurentLifeTime
+        public int ReccurentLifeTime
         {
             get; set;
         }
-        public NWDTextureType Image
+        [NWDIf("EventType", (int)NWDEventMessageType.LocalSchedule, false)]
+        public NWDScheduleType Schedule
         {
             get; set;
         }

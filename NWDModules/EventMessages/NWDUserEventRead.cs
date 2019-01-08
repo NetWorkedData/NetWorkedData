@@ -25,30 +25,6 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDUserEventReadConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDUserEventRead tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-    [Serializable]
-    public class NWDUserEventReadConnection : NWDConnection<NWDUserEventRead>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
     /// NWDUserEventRead class. This class is use for (complete description here).
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
@@ -60,12 +36,6 @@ namespace NetWorkedData
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDUserEventRead : NWDBasis<NWDUserEventRead>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
-        //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
@@ -74,22 +44,15 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
-        // Your properties
-        //Example
-        //[NWDGroupStart("Account")]
-        //public NWDReferenceType<NWDAccount> Account { get; set; }
-        //[NWDGroupEnd()]
-        //[NWDGroupSeparator()]
-        //[NWDGroupStart("Other")]
-        //public int Other { get; set; }
+        [NWDGroupStart("Informations")]
 
-        //PROPERTIES
-		public NWDReferenceType<NWDAccount> Account {get; set;}
+        public NWDReferenceType<NWDAccount> Account {get; set;}
 		public NWDReferenceType<NWDGameSave> GameSave {get; set;}
-		public NWDReferenceType<NWDEventMessage> EventMessageReference {get; set;}
+        [NWDGroupEnd]
+        [NWDGroupSeparator]
+        [NWDGroupStart("Informations")]
+        public NWDReferenceType<NWDEventMessage> EventMessage {get; set;}
 		public bool IsRead {get; set;}
-
-
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -268,12 +231,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
-            // InsertInIndex();
+             InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDesindexMe()
         {
-            // RemoveFromIndex();
+             RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

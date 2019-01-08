@@ -786,6 +786,10 @@ namespace NetWorkedData
                         {
                                tHidden = true;
                         }
+                        if (tProp.GetCustomAttributes(typeof(NWDHidden), true).Length > 0)
+                        {
+                            tHidden = true;
+                        }
                         if (tHidden==false)
                         {
                             EditorGUI.BeginDisabledGroup(tDisabled);
