@@ -6,21 +6,8 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
+using SQLite.Attribute;
 using UnityEngine;
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -48,33 +35,37 @@ namespace NetWorkedData
 	[Serializable]
     public class NWDUserTradePropositionConnection : NWDConnection<NWDUserTradeProposition>
     {
+
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("TRP")]
-    [NWDClassDescriptionAttribute("Trade Proposition descriptions Class")]
-    [NWDClassMenuNameAttribute("Trade Proposition")]
+    [NWDClassServerSynchronize(true)]
+    [NWDClassTrigramme("UTRP")]
+    [NWDClassDescription("User Trade Proposition descriptions Class")]
+    [NWDClassMenuName("User Trade Proposition")]
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDUserTradeRequest> Trade
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed
-        {
-            get; set;
-        }
-        public bool Accepted
-        {
-            get; set;
-        }
+        [NWDGroupStart("Trade Detail", true, true, true)]
+        [Indexed("AccountIndex", 0)]
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        public NWDDateTimeType TradeRequestDM { get; set; }
+        public NWDTradeStatus TradeStatus { get; set; }
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStartAttribute("Tags", true, true, true)]
+        public NWDReferencesListType<NWDWorld> TagWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> TagCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> TagKeywords { get; set; }
+        //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -82,12 +73,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition()
         {
-            //Debug.Log("NWDTradeProposition Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTradeProposition Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -154,7 +145,7 @@ namespace NetWorkedData
             // do something when object will be remove from trash
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -181,7 +172,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+        #endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

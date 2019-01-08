@@ -28,49 +28,50 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
     /// </summary>
-	[Serializable]
-	public class NWDUserTradeNotificationConnection : NWDConnection <NWDUserTradeNotification> {}
 	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("TRN")]
-	[NWDClassDescriptionAttribute ("Trade Notification descriptions Class")]
-    [NWDClassMenuNameAttribute ("Trade Notification")]
+	[NWDClassTrigrammeAttribute ("UTRF")]
+	[NWDClassDescriptionAttribute ("User Trade Finder descriptions Class")]
+    [NWDClassMenuNameAttribute ("User Trade Finder")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDUserTradeNotification :NWDBasis <NWDUserTradeNotification>
+	public partial class NWDUserTradeFinder :NWDBasis <NWDUserTradeFinder>
 	{
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		[Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> Account { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDUserTradeNotification()
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDGroupStart("Trade Detail", true, true, true)]
+        [Indexed("AccountIndex", 0)]
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStartAttribute("Filters", true, true, true)]
+        public NWDReferencesListType<NWDItem> FilterItems { get; set; }
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStartAttribute("Results", true, true, true)]
+        public NWDReferencesListType<NWDUserTradeProposition> TradePropositionsList { get; set; }
+        //[NWDGroupEnd]
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDUserTradeFinder()
         {
             //Debug.Log("NWDTradeNotification Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeNotification(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserTradeFinder(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDTradeNotification Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
