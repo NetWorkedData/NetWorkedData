@@ -879,6 +879,13 @@ namespace NetWorkedData
             "\t\t\t\telse\n" +
             "\t\t\t\t{\n" +
             "\t\t\t\t$tReference = $sCsvList[0];\n" +
+            "\t\t\t\t\t\t\t\t\t// find solution for pre calculate on server\n\n\n";
+            if (tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true).Length > 0)
+            {
+                NWDClassPhpPreCalculateAttribute tScriptNameAttribut = (NWDClassPhpPreCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true)[0];
+                tSynchronizationFile += tScriptNameAttribut.Script;
+            }
+            tSynchronizationFile += "\n\n\n" +
             "\t\t\t\t$tQuery = 'SELECT `Reference`, `DM` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
             "\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\t\t\tif (!$tResult)\n" +
@@ -953,7 +960,7 @@ namespace NetWorkedData
                 NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
                 tSynchronizationFile += tScriptNameAttribut.Script;
             }
-            tSynchronizationFile += "\n" +
+            tSynchronizationFile += "\n\n\n" +
                 "$tLigneAffceted = $SQL_CON->affected_rows;\n" +
                 //"myLog('tLigneAffceted = '.$tLigneAffceted, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "if ($tLigneAffceted == 1)\n" +
