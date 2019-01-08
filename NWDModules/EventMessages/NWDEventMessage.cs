@@ -24,6 +24,11 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDEventMessageType : int {
+        LocalDateFixe = 0,
+        LocalRecurrent = 1,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
     /// <para>The GameObject can use the object referenced by binding in game. </para>
@@ -60,11 +65,6 @@ namespace NetWorkedData
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDEventMessage : NWDBasis<NWDEventMessage>
     {
-        #warning YOU MUST FOLLOW THIS INSTRUCTIONS
-        //-------------------------------------------------------------------------------------------------------------
-        // YOU MUST GENERATE PHP FOR THIS CLASS AFTER FIELD THIS CLASS WITH YOUR PROPERTIES
-        // YOU MUST GENERATE WEBSITE AND UPLOAD THE FOLDER ON YOUR SERVER
-        // YOU MUST UPDATE TABLE ON THE SERVER WITH THE MENU FOR DEV, FOR PREPROD AND FOR PROD
         //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
@@ -86,11 +86,26 @@ namespace NetWorkedData
         //PROPERTIES
 		public NWDLocalizableStringType Title {get; set;}
 		public NWDLocalizableStringType SubTitle {get; set;}
-		public NWDLocalizableTextType Message {get; set;}
-		public NWDDateTimeRangeType Distribution {get; set;}
-		public NWDTextureType Image {get; set;}
-
-
+		public NWDLocalizableTextType Message {get; set;
+        }
+        public NWDEventMessageType EventType
+        {
+            get; set;
+        }
+        [NWDIf("EventType", (int)NWDEventMessageType.LocalDateFixe, false)]
+        public NWDDateTimeRangeType DistributionDate
+        {
+            get; set;
+        }
+        [NWDIf("EventType", (int)NWDEventMessageType.LocalRecurrent, false)]
+        public long ReccurentLifeTime
+        {
+            get; set;
+        }
+        public NWDTextureType Image
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

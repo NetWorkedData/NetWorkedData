@@ -399,6 +399,16 @@ namespace NetWorkedData
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                         }
                     }
+
+                    //if (tProp.GetCustomAttributes(typeof(NWDIfAttribute), true).Length > 0)
+                    //{
+                    //    NWDIfAttribute tReference = (NWDIfAttribute)tProp.GetCustomAttributes(typeof(NWDIfAttribute), true)[0];
+                    //    if (!tReference.IsDrawable(this) && tReference.mVisible == false)
+                    //    {
+                    //        tDraw = false;
+                    //    }
+                    //}
+
                     // finish the foldout group management
                     // So Iif I nee dto draw somethings … 
                     if (tDraw)
@@ -727,11 +737,10 @@ namespace NetWorkedData
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                         }
                     }
-
                     // So Iif I nee dto draw somethings … 
-                    if (tDraw)
+                    if (tDraw ==true)
                     {
-
+                        bool tHidden = false;
                         // get entitled and toolstips
                         string tEntitled = NWDToolbox.SplitCamelCase(tProp.Name);
                         string tToolsTips = string.Empty;
@@ -767,13 +776,19 @@ namespace NetWorkedData
                             {
                                 NWDIfAttribute tReference = (NWDIfAttribute)tProp.GetCustomAttributes(typeof(NWDIfAttribute), true)[0];
                                 tDisabled = !tReference.IsDrawable(this);
-
-                                //tToolsTips = tReference.ToolsTips;
+                                if (tDisabled && tReference.mVisible == false)
+                                {
+                                    tHidden = true;
+                                }
                             }
                         }
-                        EditorGUI.BeginDisabledGroup(tDisabled);
-                        //else 
+                        if (tProp.GetCustomAttributes(typeof(NWDNotVisible), true).Length > 0)
                         {
+                               tHidden = true;
+                        }
+                        if (tHidden==false)
+                        {
+                            EditorGUI.BeginDisabledGroup(tDisabled);
                             GUIContent tContent = new GUIContent(tEntitled, tToolsTips);
                             if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
                             {
@@ -1007,9 +1022,9 @@ namespace NetWorkedData
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                 }
                             }
-                        }
 
-                        EditorGUI.EndDisabledGroup();
+                            EditorGUI.EndDisabledGroup();
+                        }
                     }
                     //Console.WriteLine("{0}={1}", prop.Name, prop.GetValue(foo, null));
                 }
