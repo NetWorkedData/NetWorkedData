@@ -256,10 +256,10 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool DatasIsLoaded()
-		{
-			return NWDTypeLauncher.DataLoaded;
-		}
-		//-------------------------------------------------------------------------------------------------------------
+        {
+            return NWDTypeLauncher.DataLoaded;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The unity singleton. (destroy other instance)
         /// </summary>
@@ -492,11 +492,12 @@ namespace NetWorkedData
             ApplicationStandBy = !sHasFocus;
             if (ApplicationStandBy == false)
             {
-                //Debug.LogVerbose ("OnApplicationFocus Focus is ON");
+                Debug.Log("OnApplicationFocus Focus is ON");
             }
             else
             {
-                //Debug.LogVerbose ("OnApplicationFocus Focus is OFF");
+                Debug.Log("OnApplicationFocus Focus is OFF");
+                NWDNews.InstallAllNotifications();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -509,11 +510,12 @@ namespace NetWorkedData
             ApplicationStandBy = sPauseStatus;
             if (ApplicationStandBy == false)
             {
-                //Debug.LogVerbose ("OnApplicationPause Pause is OFF");
+                Debug.Log("OnApplicationPause Pause is OFF");
             }
             else
             {
-                //Debug.LogVerbose ("OnApplicationPause Pause is ON");
+                Debug.Log("OnApplicationPause Pause is ON");
+                NWDNews.InstallAllNotifications();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -524,7 +526,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationDatasStartLoading(BTBNotification sNotification, bool sPreloadDatas)
         {
-               //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
+            //Debug.Log("NWD => NWDGameDataManager NOTIFICATION_DATAS_LOADEDNOTIFICATION_DATAS_START_LOADINGNOTIFIED ()");
             if (LoadingDatasGauge != null)
             {
                 LoadingDatasGauge.IsVisible = true;

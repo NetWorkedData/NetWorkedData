@@ -54,6 +54,10 @@ namespace NetWorkedData
         {
             get; set;
         }
+        public bool NotifyMe
+        {
+            get; set;
+        }
         public bool IsRead {get; set;
         }
         public bool IsSendByPush

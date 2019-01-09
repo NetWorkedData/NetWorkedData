@@ -1263,6 +1263,10 @@ namespace NetWorkedData
                 tBasisInspector.mTypeInEdition = ClassType();
                 Selection.activeObject = tBasisInspector;
             }
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
+            {
+                CreateAllPHPForOnlyThisClass();
+            }
             GUI.backgroundColor = tOldColor;
 
             // |||||||||||||||||||||||||||||||||||||||||||

@@ -34,6 +34,8 @@ namespace NetWorkedData
 
         InGame = 1, // only in app
 
+        Programmatically = 2, // only in app
+
         LocalNotificationNow = 10, // only in IOS/Android by local notification
         LocalNotificationDateFixe = 11, // only in IOS/Android by local notification
         LocalNotificationRecurrent = 12, // only in IOS/Android by local notification
@@ -83,7 +85,7 @@ namespace NetWorkedData
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
-        static string KReferenceKey = "kRef";
+        const string KReferenceKey = "kRef";
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -170,19 +172,37 @@ namespace NetWorkedData
         /// </summary>
         public static void InstallAllNotifications()
         {
+#if UNITY_IOS
+            // add notification to user authorization!
             UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
              UnityEngine.iOS.NotificationType.Badge |
                  UnityEngine.iOS.NotificationType.Sound);
-            // clean notifications
-            UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
-            // find NWDUserNewsRead and put in un installed
+
+            UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
+            foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
+            {
+                NWDNews tNew = NWDNews.GetDataByReference(tNotif.userInfo[KReferenceKey].ToString());
+                if (tNew != null)
+                {
+                    if (tNew.EventType != NWDNewsType.Programmatically)
+                    {
+                        //remove the notification
+                        UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                    }
+                }
+            }
+#endif
+            // find NWDUserNewsRead and put in uninstalled
             foreach (NWDNews tNew in FindDatas())
             {
-                NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
-                if (tRead == null)
+                if (tNew.EventType != NWDNewsType.Programmatically)
                 {
-                    tRead.IsInstalled = false;
-                    tRead.SaveDataIfModified();
+                    NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
+                    if (tRead == null)
+                    {
+                        tRead.IsInstalled = false;
+                        tRead.SaveDataIfModified();
+                    }
                 }
             }
             // find NWDNews and install
@@ -224,8 +244,13 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void InstallNotification()
+        public void InstallNotificationWithFireDate(DateTime sDateTime)
         {
+            // add notification to user authorization!
+            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
+             UnityEngine.iOS.NotificationType.Badge |
+                 UnityEngine.iOS.NotificationType.Sound);
+            // user satut for this message 
             NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
             if (tRead == null)
             {
@@ -235,121 +260,195 @@ namespace NetWorkedData
             }
             if (tRead.IsInstalled == true)
             {
-#if UNITY_IOS
-                UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
-                foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
+                if (tRead.NotifyMe == true)
                 {
-                    if (tNotif.userInfo[KReferenceKey].ToString() == this.Reference)
+#if UNITY_IOS
+                    UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
+                    if (tNotifs != null)
                     {
-                        //remove the notification
-                        UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                        foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
+                        {
+                            if (tNotif.userInfo[KReferenceKey].ToString() == this.Reference)
+                            {
+                                //remove the notification
+                                UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                            }
+                        }
                     }
                 }
+                switch (EventType)
+                {
+                    case NWDNewsType.Programmatically:
+                        {
+#if UNITY_IOS
+                            if (sDateTime > DateTime.Now)
+                            {
+                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
+                                UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                                Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
+                                tUserInfo.Add(KReferenceKey, this.Reference);
+                                tNotif.userInfo = tUserInfo;
+                                tNotif.fireDate = sDateTime;
+                                tNotif.alertTitle = Title.GetLocalString();
+                                tNotif.alertBody = Message.GetLocalString();
+                                //tNotif.alertLaunchImage = Image.GetLocalString();
+                                UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                                tRead.IsInstalled = true;
+                                tRead.IsRead = false;
+                            }
 #endif
+                        }
+                        break;
+                }
             }
-            switch (EventType)
+            tRead.SaveDataIfModified();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void InstallNotification()
+        {
+            // add notification to user!
+            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
+             UnityEngine.iOS.NotificationType.Badge |
+                 UnityEngine.iOS.NotificationType.Sound);
+            // user satut for this message 
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
+            if (tRead == null)
             {
-                case NWDNewsType.InGame:
-                    {
-                        tRead.IsInstalled = false;
-                        tRead.IsRead = false;
-                    }
-                    break;
-                case NWDNewsType.LocalNotificationNow:
-                    {
+                tRead = NWDUserNewsRead.NewData();
+                tRead.EventMessage.SetObject(this);
+                tRead.SaveData();
+            }
+            if (tRead.IsInstalled == true)
+            {
+                if (tRead.NotifyMe == true)
+                {
 #if UNITY_IOS
-                        UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
-                        //tNotif.userInfo = NewsStyleUriParser 
-                        tNotif.userInfo.Add(KReferenceKey, this.Reference);
-                        tNotif.fireDate = DateTime.Now;
-                        tNotif.alertTitle = Title.GetLocalString();
-                        tNotif.alertBody = Message.GetLocalString();
-                        //tNotif.alertLaunchImage = Image.GetLocalString();
-                        UnityEngine.iOS.NotificationServices.PresentLocalNotificationNow(tNotif);
-                        tRead.IsInstalled = true;
-                        tRead.IsRead = false;
-#endif
-                    }
-                    break;
-                case NWDNewsType.LocalNotificationDateFixe:
+                    UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
+                    if (tNotifs != null)
                     {
-#if UNITY_IOS
-                        DateTime tDate = DistributionDate.ToDateTime();
-                        if (tDate > DateTime.Now)
+                        foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
                         {
+                            if (tNotif.userInfo[KReferenceKey].ToString() == this.Reference)
+                            {
+                                //remove the notification
+                                UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                            }
+                        }
+                    }
+#endif
+                }
+                switch (EventType)
+                {
+                    case NWDNewsType.InGame:
+                        {
+                            tRead.IsInstalled = false;
+                            tRead.IsRead = false;
+                        }
+                        break;
+                    case NWDNewsType.LocalNotificationNow:
+                        {
+#if UNITY_IOS
+                            Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                             UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
-                            //tNotif.userInfo = NewsStyleUriParser 
-                            tNotif.userInfo.Add(KReferenceKey, this.Reference);
-                            tNotif.fireDate = tDate;
+                            Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
+                            tUserInfo.Add(KReferenceKey, this.Reference);
+                            tNotif.userInfo = tUserInfo;
+                            tNotif.fireDate = DateTime.Now;
                             tNotif.alertTitle = Title.GetLocalString();
                             tNotif.alertBody = Message.GetLocalString();
                             //tNotif.alertLaunchImage = Image.GetLocalString();
-                            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                            UnityEngine.iOS.NotificationServices.PresentLocalNotificationNow(tNotif);
                             tRead.IsInstalled = true;
                             tRead.IsRead = false;
-                        }
 #endif
-                    }
-                    break;
-                case NWDNewsType.LocalNotificationRecurrent:
-                    {
-#if UNITY_IOS
-                        if (ReccurentLifeTime > 0)
+                        }
+                        break;
+                    case NWDNewsType.LocalNotificationDateFixe:
                         {
-                            UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
-                            //tNotif.userInfo = NewsStyleUriParser 
-                            tNotif.userInfo.Add(KReferenceKey, this.Reference);
-                            tNotif.fireDate = DateTime.Now.AddSeconds(ReccurentLifeTime);
-                            tNotif.alertTitle = Title.GetLocalString();
-                            tNotif.alertBody = Message.GetLocalString();
-                            //tNotif.alertLaunchImage = Image.GetLocalString();
-                            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
-                            tRead.IsInstalled = true;
-                            tRead.IsRead = false;
-                        }
-#endif
-                    }
-                    break;
-                case NWDNewsType.LocalNotificationSchedule:
-                    {
 #if UNITY_IOS
-                        DateTime tDate = ScheduleDateTime.NextDateTime();
-                        if (tDate > DateTime.Now)
-                        {
-                            UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
-                            //tNotif.userInfo = NewsStyleUriParser 
-                            tNotif.userInfo.Add(KReferenceKey, this.Reference);
-                            tNotif.fireDate = tDate;
-                            tNotif.alertTitle = Title.GetLocalString();
-                            tNotif.alertBody = Message.GetLocalString();
-                            //tNotif.alertLaunchImage = Image.GetLocalString();
-                            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
-                            tRead.IsInstalled = true;
-                            tRead.IsRead = false;
-                        }
+                            DateTime tDate = DistributionDate.ToDateTime();
+                            if (tDate > DateTime.Now)
+                            {
+                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
+                                UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                                Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
+                                tUserInfo.Add(KReferenceKey, this.Reference);
+                                tNotif.userInfo = tUserInfo;
+                                tNotif.fireDate = tDate;
+                                tNotif.alertTitle = Title.GetLocalString();
+                                tNotif.alertBody = Message.GetLocalString();
+                                //tNotif.alertLaunchImage = Image.GetLocalString();
+                                UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                                tRead.IsInstalled = true;
+                                tRead.IsRead = false;
+                            }
 #endif
-                    }
-                    break;
-                    //case NWDNewsType.PushNotificationNow:
-                    //    {
-                    //        // no install, use the server
-                    //    }
-                    //    break;
-                    //case NWDNewsType.PushNotificationDateFixe:
-                    //    {
-                    //        // no install, use the server
-                    //    }
-                    //    break;
-                    //case NWDNewsType.PushNotificationRecurrent:
-                    //    {
-                    //        // no install, use the server
-                    //    }
-                    //    break;
-                    //case NWDNewsType.PushNotificationSchedule:
-                    //{
-                    //    // no install, use the server
-                    //}
-                    //break;
+                        }
+                        break;
+                    case NWDNewsType.LocalNotificationRecurrent:
+                        {
+#if UNITY_IOS
+                            if (ReccurentLifeTime > 0)
+                            {
+                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
+                                UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                                Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
+                                tUserInfo.Add(KReferenceKey, this.Reference);
+                                tNotif.userInfo = tUserInfo;
+                                tNotif.fireDate = DateTime.Now.AddSeconds(ReccurentLifeTime);
+                                tNotif.alertTitle = Title.GetLocalString();
+                                tNotif.alertBody = Message.GetLocalString();
+                                //tNotif.alertLaunchImage = Image.GetLocalString();
+                                UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                                tRead.IsInstalled = true;
+                                tRead.IsRead = false;
+                            }
+#endif
+                        }
+                        break;
+                    case NWDNewsType.LocalNotificationSchedule:
+                        {
+#if UNITY_IOS
+                            DateTime tDate = ScheduleDateTime.NextDateTime();
+                            if (tDate > DateTime.Now)
+                            {
+                                Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
+                                UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                                Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
+                                tUserInfo.Add(KReferenceKey, this.Reference);
+                                tNotif.userInfo = tUserInfo;
+                                tNotif.fireDate = tDate;
+                                tNotif.alertTitle = Title.GetLocalString();
+                                tNotif.alertBody = Message.GetLocalString();
+                                //tNotif.alertLaunchImage = Image.GetLocalString();
+                                UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                                tRead.IsInstalled = true;
+                                tRead.IsRead = false;
+                            }
+#endif
+                        }
+                        break;
+                        //case NWDNewsType.PushNotificationNow:
+                        //    {
+                        //        // no install, use the server
+                        //    }
+                        //    break;
+                        //case NWDNewsType.PushNotificationDateFixe:
+                        //    {
+                        //        // no install, use the server
+                        //    }
+                        //    break;
+                        //case NWDNewsType.PushNotificationRecurrent:
+                        //    {
+                        //        // no install, use the server
+                        //    }
+                        //    break;
+                        //case NWDNewsType.PushNotificationSchedule:
+                        //{
+                        //    // no install, use the server
+                        //}
+                        //break;
+                }
             }
             tRead.SaveDataIfModified();
         }
