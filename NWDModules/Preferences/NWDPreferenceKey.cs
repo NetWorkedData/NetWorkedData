@@ -150,7 +150,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("PFK")]
     [NWDClassDescriptionAttribute("preference key")]
     [NWDClassMenuNameAttribute("Preference Key")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDPreferenceKey : NWDBasis<NWDPreferenceKey>
     {

@@ -23,12 +23,12 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserEventRead : NWDBasis<NWDUserEventRead>
+    public partial class NWDUserNewsRead : NWDBasis<NWDUserNewsRead>
     {
         //-------------------------------------------------------------------------------------------------------------
         static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
-        static Dictionary<string, List<NWDUserEventRead>> kIndex = new Dictionary<string, List<NWDUserEventRead>>();
-        private List<NWDUserEventRead> kIndexList;
+        static Dictionary<string, List<NWDUserNewsRead>> kIndex = new Dictionary<string, List<NWDUserNewsRead>>();
+        private List<NWDUserNewsRead> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
@@ -60,7 +60,7 @@ namespace NetWorkedData
                     {
                         kIndexList.Remove(this);
                         kIndexList = null;
-                        kIndexList = new List<NWDUserEventRead>();
+                        kIndexList = new List<NWDUserNewsRead>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -77,7 +77,7 @@ namespace NetWorkedData
                     else
                     {
                         // index must be create
-                        kIndexList = new List<NWDUserEventRead>();
+                        kIndexList = new List<NWDUserNewsRead>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -101,9 +101,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserEventRead> FindByIndex(NWDEventMessage sEventMessage)
+        static public List<NWDUserNewsRead> FindByIndex(NWDNews sEventMessage)
         {
-            List<NWDUserEventRead> rReturn = null;
+            List<NWDUserNewsRead> rReturn = null;
             if (sEventMessage != null)
             {
                 string tKey = sEventMessage.Reference;
@@ -115,9 +115,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserEventRead> FindByIndex(string sEventMessage)
+        static public List<NWDUserNewsRead> FindByIndex(string sEventMessage)
         {
-            List<NWDUserEventRead> rReturn = null;
+            List<NWDUserNewsRead> rReturn = null;
             if (sEventMessage != null)
             {
                 string tKey = sEventMessage;
@@ -129,10 +129,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDUserEventRead FindFirstByIndex(string sEventMessage)
+        static public NWDUserNewsRead FindFirstByIndex(string sEventMessage)
         {
-            NWDUserEventRead rObject = null;
-            List<NWDUserEventRead> rReturn = null;
+            NWDUserNewsRead rObject = null;
+            List<NWDUserNewsRead> rReturn = null;
             if (sEventMessage != null)
             {
                 string tKey = sEventMessage;

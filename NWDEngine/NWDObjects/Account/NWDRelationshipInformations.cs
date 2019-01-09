@@ -60,7 +60,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("RLI")]
     [NWDClassDescriptionAttribute("Relationship Informations")]
     [NWDClassMenuNameAttribute("Relation Infos")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDRelationshipInformations : NWDBasis<NWDRelationshipInformations>
     {
        //-------------------------------------------------------------------------------------------------------------

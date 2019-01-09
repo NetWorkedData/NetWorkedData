@@ -32,7 +32,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UPR")]
     [NWDClassDescriptionAttribute("NWDUserPreferences")]
     [NWDClassMenuNameAttribute("NWDUserPreferences")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDUserPreferences : NWDBasis<NWDUserPreferences>
     {

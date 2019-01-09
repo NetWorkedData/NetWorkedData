@@ -55,8 +55,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("NWDExample_Tri")]
     [NWDClassDescriptionAttribute("NWDExample_Description")]
     [NWDClassMenuNameAttribute("NWDExample_MenuName")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    [NWDClassPhpSpecialCalculate(" // write your php script here to special operation\n$REP['Special'] ='success!!!';\n")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDExample : NWDBasis<NWDExample>
     {
@@ -358,6 +356,21 @@ namespace NetWorkedData
             // check if you found error in Data values.
             // normal way is return false!
             return rReturnErrorFound;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpPreCalculate()
+        {
+            return "// write your php script here to update $tReference before sync on server\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpPostCalculate()
+        {
+            return "// write your php script here to update afetr sync on server\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpSpecialCalculate()
+        {
+            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

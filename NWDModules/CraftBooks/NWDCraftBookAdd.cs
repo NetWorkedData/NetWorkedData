@@ -55,7 +55,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("CKA")]
     [NWDClassDescriptionAttribute("CraftBook Add")]
     [NWDClassMenuNameAttribute("CraftBook Add")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDCraftBookAdd : NWDBasis<NWDCraftBookAdd>
     {

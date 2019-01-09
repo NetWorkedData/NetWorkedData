@@ -52,7 +52,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("CDM")]
     [NWDClassDescriptionAttribute("Credits Member")]
     [NWDClassMenuNameAttribute("Credits Member")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDCreditsMember : NWDBasis<NWDCreditsMember>
     {
         //-------------------------------------------------------------------------------------------------------------

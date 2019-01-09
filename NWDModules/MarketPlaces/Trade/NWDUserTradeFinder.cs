@@ -33,8 +33,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UTRF")]
     [NWDClassDescriptionAttribute("User Trade Finder descriptions Class")]
     [NWDClassMenuNameAttribute("User Trade Finder")]
-    [NWDClassPhpPreCalculateAttribute("")]
-    [NWDClassPhpPostCalculateAttribute("")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserTradeFinder : NWDBasis<NWDUserTradeFinder>
     {

@@ -20,28 +20,27 @@ namespace NetWorkedData
     /// </summary>
     [NWDTypeWindowParamAttribute("News Message",
                                  "News Manager",
-                                 "NWDEventWindow",
+                                 "NWDNewsWindow",
         new Type[] {
-            typeof(NWDEventMessage),
-            typeof(NWDError),
-            typeof(NWDMessage),
+            typeof(NWDNews),
+            typeof(NWDUserNewsRead),
             /* Add NWDBasis here*/
         }
     )]
-    public class NWDEventWindow : NWDBasisWindow<NWDEventWindow>
+    public class NWDNewsWindow : NWDBasisWindow<NWDNewsWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "App/Event Manager", false, 201)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "App/News Manager", false, 201)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDEventWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDNewsWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Event Manager", false, 223)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/News Manager", false, 223)]
         public static void MenuMethodBis()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDEventWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDNewsWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------

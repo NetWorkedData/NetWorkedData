@@ -56,7 +56,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("URI")]
     [NWDClassDescriptionAttribute("Action by Scheme URI")]
     [NWDClassMenuNameAttribute("Scheme Action")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDSchemeAction : NWDBasis<NWDSchemeAction>
     {
         //-------------------------------------------------------------------------------------------------------------
