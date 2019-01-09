@@ -29,12 +29,12 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// </summary>
-	[NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UTRF")]
-    [NWDClassDescriptionAttribute("User Trade Finder descriptions Class")]
-    [NWDClassMenuNameAttribute("User Trade Finder")]
-    [NWDClassPhpPreCalculateAttribute("")]
-    [NWDClassPhpPostCalculateAttribute("")]
+	[NWDClassServerSynchronize(true)]
+    [NWDClassTrigramme("UTRF")]
+    [NWDClassDescription("User Trade Finder descriptions Class")]
+    [NWDClassMenuName("User Trade Finder")]
+    [NWDClassPhpPreCalculate("")]
+    [NWDClassPhpPostCalculate("")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserTradeFinder : NWDBasis<NWDUserTradeFinder>
     {
@@ -43,52 +43,25 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Filters", true, true, true)]
-        public NWDReferencesListType<NWDItem> FilterItems
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDWorld> FilterWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> FilterCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FilterFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> FilterKeywords
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
+        [NWDGroupStart("Filters", true, true, true)]
+        public NWDReferencesListType<NWDItem> FilterItems { get; set; }
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
+        [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Results", true, true, true)]
-        public NWDReferencesListType<NWDUserTradeProposition> TradePropositionsList
-        {
-            get; set;
-        }
+        [NWDGroupStart("Results", true, true, true)]
+        public NWDReferencesListType<NWDUserTradeProposition> TradePropositionsList { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -97,12 +70,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder()
         {
-            //Debug.Log("NWDTradeNotification Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTradeNotification Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -113,9 +86,24 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void MyClassMethod()
+        public static NWDUserTradeProposition[] FindPropositionsList()
         {
-            // do something with this class
+            NWDUserTradeProposition[] tUserTradesProposition = null;
+            NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
+            if (tUserTradesFinder.Length > 0)
+            {
+                tUserTradesProposition = tUserTradesFinder[0].TradePropositionsList.GetObjectsAbsolute();
+            }
+            else
+            {
+                NWDUserTradeFinder tFinder = NewData();
+                #if UNITY_EDITOR
+                tFinder.InternalKey = NWDAccountNickname.GetNickname();
+                #endif
+                tFinder.Tag = NWDBasisTag.TagUserCreated;
+            }
+
+            return tUserTradesProposition;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
