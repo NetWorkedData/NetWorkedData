@@ -751,6 +751,20 @@ namespace NetWorkedData
                             tToolsTips = tReference.ToolsTips;
                         }
 
+                        if (tProp.GetCustomAttributes(typeof(NWDNotWorking), true).Length > 0)
+                        {
+                            NWDNotWorking tReference = (NWDNotWorking)tProp.GetCustomAttributes(typeof(NWDNotWorking), true)[0];
+
+                            tEntitled = "[NOT WORKING] "+tEntitled;
+                            tToolsTips = tReference.ToolsTips + " " + tToolsTips;
+                        }
+                        if (tProp.GetCustomAttributes(typeof(NWDInDevelopment), true).Length > 0)
+                        {
+                            NWDInDevelopment tReference = (NWDInDevelopment)tProp.GetCustomAttributes(typeof(NWDInDevelopment), true)[0];
+                            tEntitled = "[IN DEV] " + tEntitled;
+                            tToolsTips = tReference.ToolsTips + " " + tToolsTips;
+                        }
+
                         if (tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true).Length > 0)
                         {
                             NWDTooltipsAttribute tReference = (NWDTooltipsAttribute)tProp.GetCustomAttributes(typeof(NWDTooltipsAttribute), true)[0];

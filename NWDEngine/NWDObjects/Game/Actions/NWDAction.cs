@@ -83,7 +83,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ACT")]
     [NWDClassDescriptionAttribute("Action by notification")]
     [NWDClassMenuNameAttribute("Action")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDAction : NWDBasis<NWDAction>
     {
         //-------------------------------------------------------------------------------------------------------------

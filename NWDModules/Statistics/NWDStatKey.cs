@@ -77,7 +77,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("STK")]
     [NWDClassDescriptionAttribute("Stat Key")]
     [NWDClassMenuNameAttribute("Stat Key")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDStatKey : NWDBasis<NWDStatKey>
     {

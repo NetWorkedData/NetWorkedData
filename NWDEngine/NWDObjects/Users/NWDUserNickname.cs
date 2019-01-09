@@ -52,12 +52,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNN")]
     [NWDClassDescriptionAttribute("User Nickname")]
     [NWDClassMenuNameAttribute("User Nickname")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
-                                       "\n " +
-                                       "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
-                                       "\t{\n" +
-                                       "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n" +
-                                       "\t}\n")]
     public partial class NWDUserNickname : NWDBasis<NWDUserNickname>
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -320,6 +314,26 @@ namespace NetWorkedData
             //tYadd += NWDConstants.kFieldMarge;
 
             return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpPreCalculate()
+        {
+            return "// write your php script here to update $tReference before sync on server\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpPostCalculate()
+        {
+            return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
+                                       "\n " +
+                                       "if (UniquePropertyValueFromValue($ENV.'_NWDUserNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
+                                       "\t{\n" +
+                                       "\t\tIntegrityNWDUserNicknameReevalue($tReference);\n" +
+                                       "\t}\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpSpecialCalculate()
+        {
+            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

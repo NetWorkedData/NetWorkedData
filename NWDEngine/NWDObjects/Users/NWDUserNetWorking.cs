@@ -63,7 +63,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("UNW")]
     [NWDClassDescriptionAttribute("User statut on Network")]
     [NWDClassMenuNameAttribute("User Net Working")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDUserNetWorking : NWDBasis<NWDUserNetWorking>
     {
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

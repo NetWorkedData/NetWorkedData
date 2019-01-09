@@ -20,52 +20,130 @@ using BasicToolBox;
 using UnityEditor;
 #endif
 
+#if UNITY_IOS 
+using UnityEngine.iOS;
+#endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDNewsType : int
+    {
+        None = 0,
+
+        InGame = 1, // only in app
+
+        LocalNotificationNow = 10, // only in IOS/Android by local notification
+        LocalNotificationDateFixe = 11, // only in IOS/Android by local notification
+        LocalNotificationRecurrent = 12, // only in IOS/Android by local notification
+        LocalNotificationSchedule = 13, // only in IOS/Android by local notification
+
+        //PushNotificationDateNow = 21, // only in IOS/Android by push notification
+        //PushNotificationDateFixe = 21, // only in IOS/Android by push notification
+        //PushNotificationRecurrent = 22, // only in IOS/Android by push notification
+        //PushNotificationSchedule = 23, // only in IOS/Android by push notification
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDUserEventRead class. This class is use for (complete description here).
+    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
+    /// <para>The GameObject can use the object referenced by binding in game. </para>
+    /// <example>
+    /// Example :
+    /// <code>
+    /// public class MyScriptInGame : MonoBehaviour<br/>
+    ///     {
+    ///         NWDConnectionAttribut (true, true, true, true)] // optional
+    ///         public NWDEventMessageConnection MyNetWorkedData;
+    ///         public void UseData()
+    ///             {
+    ///                 NWDEventMessage tObject = MyNetWorkedData.GetObject();
+    ///                 // Use tObject
+    ///             }
+    ///     }
+    /// </code>
+    /// </example>
+    /// </summary>
+    [Serializable]
+    public class NWDNewsConnection : NWDConnection<NWDNews>
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
+    /// NWDEventMessage class. This class is use for (complete description here).
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("EVU")]
-    [NWDClassDescriptionAttribute("UserEventRead")]
-    [NWDClassMenuNameAttribute("User Event Read")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    [NWDClassPhpSpecialCalculate(" // write your php script here to special operation\n$REP['Special'] ='success!!!';\n")]
+    [NWDClassTrigrammeAttribute("NWS")]
+    [NWDClassDescriptionAttribute("News Message")]
+    [NWDClassMenuNameAttribute("News Message")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDUserEventRead : NWDBasis<NWDUserEventRead>
+    public partial class NWDNews : NWDBasis<NWDNews>
     {
+        //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
+        static string KReferenceKey = "kRef";
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Informations")]
-
-        public NWDReferenceType<NWDAccount> Account {get; set;}
-		public NWDReferenceType<NWDGameSave> GameSave {get; set;}
+        public NWDLocalizableStringType Title
+        {
+            get; set;
+        }
+        public NWDLocalizableStringType SubTitle
+        {
+            get; set;
+        }
+        public NWDLocalizableTextType Message
+        {
+            get; set;
+        }
+        //[NWDHidden]
+        public NWDTextureType Image
+        {
+            get; set;
+        }
         [NWDGroupEnd]
         [NWDGroupSeparator]
-        [NWDGroupStart("Informations")]
-        public NWDReferenceType<NWDEventMessage> EventMessage {get; set;}
-		public bool IsRead {get; set;}
+        [NWDGroupStart("Type of Event")]
+        public NWDNewsType EventType
+        {
+            get; set;
+        }
+        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationDateFixe/*, (int)NWDNewsType.PushNotificationDateFixe*/ }, false)]
+        public NWDDateTimeType DistributionDate
+        {
+            get; set;
+        }
+        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationRecurrent/*, (int)NWDNewsType.PushNotificationRecurrent*/ }, false)]
+        public int ReccurentLifeTime
+        {
+            get; set;
+        }
+        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationSchedule/*, (int)NWDNewsType.PushNotificationSchedul*/ }, false)]
+        [NWDNotWorking]
+        [NWDInDevelopment]
+        public NWDDateTimeScheduleType ScheduleDateTime
+        {
+            get; set;
+        }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserEventRead()
+        public NWDNews()
         {
-            //Debug.Log("NWDUserEventRead Constructor");
+            //Debug.Log("NWDEventMessage Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserEventRead(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDNews(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDUserEventRead Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDEventMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -79,7 +157,7 @@ namespace NetWorkedData
         public static void ErrorRegenerate()
         {
 #if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDUserEventRead BasicError", "EVUz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("NWDEventMessage BasicError", "EVMz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -90,9 +168,28 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public static void MyClassMethod()
+        public static void InstallAllNotifications()
         {
-            // do something with this class
+            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
+             UnityEngine.iOS.NotificationType.Badge |
+                 UnityEngine.iOS.NotificationType.Sound);
+            // clean notifications
+            UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+            // find NWDUserNewsRead and put in un installed
+            foreach (NWDNews tNew in FindDatas())
+            {
+                NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
+                if (tRead == null)
+                {
+                    tRead.IsInstalled = false;
+                    tRead.SaveDataIfModified();
+                }
+            }
+            // find NWDNews and install
+            foreach (NWDNews tNew in FindDatas())
+            {
+                tNew.InstallNotification();
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -102,9 +199,159 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        public void MyInstanceMethod()
+        public void CancelNotification()
         {
-            // do something with this object
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
+            if (tRead == null)
+            {
+                tRead = NWDUserNewsRead.NewData();
+                tRead.EventMessage.SetObject(this);
+                tRead.SaveData();
+            }
+            if (tRead.IsInstalled == true)
+            {
+#if UNITY_IOS
+                UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
+                foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
+                {
+                    if (tNotif.userInfo[KReferenceKey].ToString() == this.Reference)
+                    {
+                        //remove the notification
+                        UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                    }
+                }
+#endif
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void InstallNotification()
+        {
+            NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
+            if (tRead == null)
+            {
+                tRead = NWDUserNewsRead.NewData();
+                tRead.EventMessage.SetObject(this);
+                tRead.SaveData();
+            }
+            if (tRead.IsInstalled == true)
+            {
+#if UNITY_IOS
+                UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
+                foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
+                {
+                    if (tNotif.userInfo[KReferenceKey].ToString() == this.Reference)
+                    {
+                        //remove the notification
+                        UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                    }
+                }
+#endif
+            }
+            switch (EventType)
+            {
+                case NWDNewsType.InGame:
+                    {
+                        tRead.IsInstalled = false;
+                        tRead.IsRead = false;
+                    }
+                    break;
+                case NWDNewsType.LocalNotificationNow:
+                    {
+#if UNITY_IOS
+                        UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                        //tNotif.userInfo = NewsStyleUriParser 
+                        tNotif.userInfo.Add(KReferenceKey, this.Reference);
+                        tNotif.fireDate = DateTime.Now;
+                        tNotif.alertTitle = Title.GetLocalString();
+                        tNotif.alertBody = Message.GetLocalString();
+                        //tNotif.alertLaunchImage = Image.GetLocalString();
+                        UnityEngine.iOS.NotificationServices.PresentLocalNotificationNow(tNotif);
+                        tRead.IsInstalled = true;
+                        tRead.IsRead = false;
+#endif
+                    }
+                    break;
+                case NWDNewsType.LocalNotificationDateFixe:
+                    {
+#if UNITY_IOS
+                        DateTime tDate = DistributionDate.ToDateTime();
+                        if (tDate > DateTime.Now)
+                        {
+                            UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                            //tNotif.userInfo = NewsStyleUriParser 
+                            tNotif.userInfo.Add(KReferenceKey, this.Reference);
+                            tNotif.fireDate = tDate;
+                            tNotif.alertTitle = Title.GetLocalString();
+                            tNotif.alertBody = Message.GetLocalString();
+                            //tNotif.alertLaunchImage = Image.GetLocalString();
+                            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                            tRead.IsInstalled = true;
+                            tRead.IsRead = false;
+                        }
+#endif
+                    }
+                    break;
+                case NWDNewsType.LocalNotificationRecurrent:
+                    {
+#if UNITY_IOS
+                        if (ReccurentLifeTime > 0)
+                        {
+                            UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                            //tNotif.userInfo = NewsStyleUriParser 
+                            tNotif.userInfo.Add(KReferenceKey, this.Reference);
+                            tNotif.fireDate = DateTime.Now.AddSeconds(ReccurentLifeTime);
+                            tNotif.alertTitle = Title.GetLocalString();
+                            tNotif.alertBody = Message.GetLocalString();
+                            //tNotif.alertLaunchImage = Image.GetLocalString();
+                            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                            tRead.IsInstalled = true;
+                            tRead.IsRead = false;
+                        }
+#endif
+                    }
+                    break;
+                case NWDNewsType.LocalNotificationSchedule:
+                    {
+#if UNITY_IOS
+                        DateTime tDate = ScheduleDateTime.NextDateTime();
+                        if (tDate > DateTime.Now)
+                        {
+                            UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
+                            //tNotif.userInfo = NewsStyleUriParser 
+                            tNotif.userInfo.Add(KReferenceKey, this.Reference);
+                            tNotif.fireDate = tDate;
+                            tNotif.alertTitle = Title.GetLocalString();
+                            tNotif.alertBody = Message.GetLocalString();
+                            //tNotif.alertLaunchImage = Image.GetLocalString();
+                            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(tNotif);
+                            tRead.IsInstalled = true;
+                            tRead.IsRead = false;
+                        }
+#endif
+                    }
+                    break;
+                    //case NWDNewsType.PushNotificationNow:
+                    //    {
+                    //        // no install, use the server
+                    //    }
+                    //    break;
+                    //case NWDNewsType.PushNotificationDateFixe:
+                    //    {
+                    //        // no install, use the server
+                    //    }
+                    //    break;
+                    //case NWDNewsType.PushNotificationRecurrent:
+                    //    {
+                    //        // no install, use the server
+                    //    }
+                    //    break;
+                    //case NWDNewsType.PushNotificationSchedule:
+                    //{
+                    //    // no install, use the server
+                    //}
+                    //break;
+            }
+            tRead.SaveDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -113,7 +360,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserEventRead)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDNews)/*, typeof(NWDUserNickname), etc*/ };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -168,6 +415,7 @@ namespace NetWorkedData
         {
             // do something when object finish to be updated from CSV from WebService response
             // TODO verif if method is call in good place in good timing
+            InstallNotification();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -231,12 +479,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
-             InsertInIndex();
+            // InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDesindexMe()
         {
-             RemoveFromIndex();
+            // RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

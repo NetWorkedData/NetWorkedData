@@ -147,6 +147,21 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
+        public virtual string AddonPhpPreCalculate()
+        {
+            return "\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string AddonPhpPostCalculate()
+        {
+            return "\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual string AddonPhpSpecialCalculate()
+        {
+            return "\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade

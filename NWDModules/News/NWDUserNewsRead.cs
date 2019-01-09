@@ -24,49 +24,16 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDEventMessageType : int {
-        LocalDateFixe = 0,
-        LocalRecurrent = 1,
-        LocalSchedule = 2,
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDEventMessageConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDEventMessage tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-    [Serializable]
-    public class NWDEventMessageConnection : NWDConnection<NWDEventMessage>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDEventMessage class. This class is use for (complete description here).
+    /// NWDUserEventRead class. This class is use for (complete description here).
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("EVM")]
-    [NWDClassDescriptionAttribute("Event Message")]
-    [NWDClassMenuNameAttribute("Event Message")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
-    [NWDClassPhpSpecialCalculate(" // write your php script here to special operation\n$REP['Special'] ='success!!!';\n")]
+    [NWDClassTrigrammeAttribute("UNW")]
+    [NWDClassDescriptionAttribute("User News Read")]
+    [NWDClassMenuNameAttribute("User News Read")]
     //[NWDInternalKeyNotEditableAttribute]
-    public partial class NWDEventMessage : NWDBasis<NWDEventMessage>
+    public partial class NWDUserNewsRead : NWDBasis<NWDUserNewsRead>
     {
-        //-------------------------------------------------------------------------------------------------------------
         #region Class Properties
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
@@ -76,34 +43,20 @@ namespace NetWorkedData
         #region Instance Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Informations")]
-		public NWDLocalizableStringType Title {get; set;}
-		public NWDLocalizableStringType SubTitle {get; set;}
-		public NWDLocalizableTextType Message {get; set;
-        }
-        //[NWDHidden]
-        public NWDTextureType Image
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account {get; set;}
+		public NWDReferenceType<NWDGameSave> GameSave {get; set;}
         [NWDGroupEnd]
         [NWDGroupSeparator]
-        [NWDGroupStart("Type of Event")]
-        public NWDEventMessageType EventType
+        [NWDGroupStart("Informations")]
+        public NWDReferenceType<NWDNews> EventMessage {get; set;
+        }
+        public bool IsInstalled
         {
             get; set;
         }
-        [NWDIf("EventType", (int)NWDEventMessageType.LocalDateFixe, false)]
-        public NWDDateTimeRangeType DistributionDate
-        {
-            get; set;
+        public bool IsRead {get; set;
         }
-        [NWDIf("EventType", (int)NWDEventMessageType.LocalRecurrent, false)]
-        public int ReccurentLifeTime
-        {
-            get; set;
-        }
-        [NWDIf("EventType", (int)NWDEventMessageType.LocalSchedule, false)]
-        public NWDScheduleType Schedule
+        public bool IsSendByPush
         {
             get; set;
         }
@@ -112,14 +65,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDEventMessage()
+        public NWDUserNewsRead()
         {
-            //Debug.Log("NWDEventMessage Constructor");
+            //Debug.Log("NWDUserEventRead Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDEventMessage(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserNewsRead(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDEventMessage Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDUserEventRead Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -133,7 +86,7 @@ namespace NetWorkedData
         public static void ErrorRegenerate()
         {
 #if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDEventMessage BasicError", "EVMz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("NWDUserEventRead BasicError", "EVUz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -167,7 +120,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDEventMessage)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDUserNewsRead)/*, typeof(NWDUserNickname), etc*/ };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -285,12 +238,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
-            // InsertInIndex();
+             InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonDesindexMe()
         {
-            // RemoveFromIndex();
+             RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

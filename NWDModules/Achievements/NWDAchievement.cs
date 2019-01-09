@@ -56,7 +56,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("WWX")]
     [NWDClassDescriptionAttribute("Achievement")]
     [NWDClassMenuNameAttribute("Achievement")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDAchievement : NWDBasis<NWDAchievement>
     {
         //-------------------------------------------------------------------------------------------------------------

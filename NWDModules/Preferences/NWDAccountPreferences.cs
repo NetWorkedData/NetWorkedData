@@ -34,7 +34,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("APR")]
     [NWDClassDescriptionAttribute("AccountPreferences")]
     [NWDClassMenuNameAttribute("AccountPreferences")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDAccountPreferences : NWDBasis<NWDAccountPreferences>
     {

@@ -52,7 +52,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("BDL")]
     [NWDClassDescriptionAttribute("Asset Bundle Unity Managament")]
     [NWDClassMenuNameAttribute("Asset Bundle")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDAssetBundle : NWDBasis<NWDAssetBundle>
     {
         //-------------------------------------------------------------------------------------------------------------

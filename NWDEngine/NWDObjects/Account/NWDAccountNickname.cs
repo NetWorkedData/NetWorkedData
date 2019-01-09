@@ -54,12 +54,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("ANN")]
     [NWDClassDescriptionAttribute("Account Nickname")]
     [NWDClassMenuNameAttribute("Account Nickname")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
-                                       "\n " +
-                                       "if (UniquePropertyValueFromValue($ENV.'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
-                                       "\t{\n" +
-                                       "\t\tIntegrityNWDAccountNicknameReevalue($tReference);\n" +
-                                       "\t}\n")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
     {
@@ -324,53 +318,32 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpPreCalculate()
+        {
+            return "\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpPostCalculate()
+        {
+            return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
+                   "\n " +
+                   "if (UniquePropertyValueFromValue($ENV.'_NWDAccountNickname', 'Nickname', 'UniqueNickname', $tReference) == true)\n" +
+                   "\t{\n" +
+                   "\t\tIntegrityNWDAccountNicknameReevalue($tReference);\n" +
+                   "\t}\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string AddonPhpSpecialCalculate()
+        {
+            return "\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        //public void AskValidationOfNickname(string sNickname,
-        //                                    BTBOperationBlock sSuccessBlock = null,
-        //                                    BTBOperationBlock sErrorBlock = null,
-        //                                    BTBOperationBlock sCancelBlock = null,
-        //                                    BTBOperationBlock sProgressBlock = null,
-        //                                    bool sPriority = true,
-        //                                    NWDAppEnvironment sEnvironment = null)
-        //{
-        //    SaveModificationsIfModified();
-        //    // Start webrequest
-        //    NWDOperationWebAccountNickname sOperation = NWDOperationWebAccountNickname.Create("Nickname with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
-        //    // Enter the informations
-        //    sOperation.Action = "nickname";
-        //    sOperation.Nickname = sNickname;
-        //    sOperation.AccountNicknameReference = this;
-        //    // add request!
-        //    NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
-        //}
-        //-------------------------------------------------------------------------------------------------------------
     }
-
-    //-------------------------------------------------------------------------------------------------------------
-    #region Connection NWDAccountNickname with Unity MonoBehavior
-    //-------------------------------------------------------------------------------------------------------------
-    /// <summary>
-    /// NWDAccountNickname connection.
-    /// In your MonoBehaviour Script connect object with :
-    /// <code>
-    ///	[NWDConnectionAttribut(true,true, true, true)]
-    /// public NWDAccountNicknameConnection MyNWDAccountNicknameObject;
-    /// </code>
-    /// </summary>
-    //-------------------------------------------------------------------------------------------------------------
-    // CONNEXION STRUCTURE METHODS
-    //-------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------------
-    //public class NWDAccountNicknameMonoBehaviour: NWDMonoBehaviour<NWDAccountNicknameMonoBehaviour> {}
-    #endregion
     //-------------------------------------------------------------------------------------------------------------
 }
 //=====================================================================================================================

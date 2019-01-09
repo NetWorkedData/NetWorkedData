@@ -40,8 +40,6 @@ namespace NetWorkedData
     [NWDClassTrigramme("UTRR")]
     [NWDClassDescription("User Trade Request descriptions Class")]
     [NWDClassMenuName("User Trade Request")]
-    [NWDClassPhpPreCalculate("")]
-    [NWDClassPhpPostCalculate("")]
     public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
     {
         //-------------------------------------------------------------------------------------------------------------

@@ -42,7 +42,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("SUA")]
     [NWDClassDescriptionAttribute("User Achievement")]
     [NWDClassMenuNameAttribute("User Achievement")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //[NWDInternalKeyNotEditableAttribute]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

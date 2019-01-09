@@ -880,11 +880,20 @@ namespace NetWorkedData
             "\t\t\t\t{\n" +
             "\t\t\t\t$tReference = $sCsvList[0];\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for pre calculate on server\n\n\n";
-            if (tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true).Length > 0)
+
+
+            var tMethodDeclarePre = tType.GetMethod("AddonPhpPreCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodDeclarePre != null)
             {
-                NWDClassPhpPreCalculateAttribute tScriptNameAttribut = (NWDClassPhpPreCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true)[0];
-                tSynchronizationFile += tScriptNameAttribut.Script;
+                tSynchronizationFile += (string)tMethodDeclarePre.Invoke(null, null);
             }
+            //if (tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true).Length > 0)
+            //{
+            //    NWDClassPhpPreCalculateAttribute tScriptNameAttribut = (NWDClassPhpPreCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true)[0];
+            //    tSynchronizationFile += AddonPhpPreCalculate();
+            //}
+
+
             tSynchronizationFile += "\n\n\n" +
             "\t\t\t\t$tQuery = 'SELECT `Reference`, `DM` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
             "\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
@@ -955,11 +964,18 @@ namespace NetWorkedData
             //"\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n\n\n";
-            if (tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true).Length > 0)
+
+            var tMethodDeclarePost= tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodDeclarePost != null)
             {
-                NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
-                tSynchronizationFile += tScriptNameAttribut.Script;
+                tSynchronizationFile += (string)tMethodDeclarePost.Invoke(null, null);
             }
+
+            //if (tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true).Length > 0)
+            //{
+            //    NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
+            //    tSynchronizationFile += tScriptNameAttribut.Script;
+            //}
             tSynchronizationFile += "\n\n\n" +
                 "$tLigneAffceted = $SQL_CON->affected_rows;\n" +
                 //"myLog('tLigneAffceted = '.$tLigneAffceted, __FILE__, __FUNCTION__, __LINE__);\n" +
@@ -1178,11 +1194,18 @@ namespace NetWorkedData
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             "";
-            if (tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true).Length > 0)
+
+            var tMethodDeclareSpecial = tType.GetMethod("AddonPhpSpecialCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            if (tMethodDeclareSpecial != null)
             {
-                NWDClassPhpSpecialCalculateAttribute tScriptNameAttribut = (NWDClassPhpSpecialCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true)[0];
-                tSynchronizationFile += tScriptNameAttribut.Script;
+                tSynchronizationFile += (string)tMethodDeclareSpecial.Invoke(null, null);
             }
+
+            //if (tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true).Length > 0)
+            //{
+            //    NWDClassPhpSpecialCalculateAttribute tScriptNameAttribut = (NWDClassPhpSpecialCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true)[0];
+            //    tSynchronizationFile += tScriptNameAttribut.Script;
+            //}
             tSynchronizationFile += "\n" +
             "\t}\n" +
             "//-------------------- \n" +

@@ -52,7 +52,6 @@ namespace NetWorkedData
     [NWDClassTrigrammeAttribute("YLC")]
     [NWDClassDescriptionAttribute("yoghurt lyrics")]
     [NWDClassMenuNameAttribute("yoghurt lyrics")]
-    [NWDClassPhpPostCalculateAttribute(" // write your php script here to update $tReference")]
     public partial class NWDYoghurtLyric : NWDBasis<NWDYoghurtLyric>
     {
         //-------------------------------------------------------------------------------------------------------------
