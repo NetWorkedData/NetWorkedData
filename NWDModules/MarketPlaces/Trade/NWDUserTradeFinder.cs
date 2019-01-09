@@ -5,23 +5,8 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
 using SQLite.Attribute;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -29,6 +14,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// </summary>
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDClassServerSynchronizeAttribute (true)]
 	[NWDClassTrigrammeAttribute ("UTRF")]
 	[NWDClassDescriptionAttribute ("User Trade Finder descriptions Class")]
@@ -48,17 +34,17 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Filters", true, true, true)]
+        [NWDGroupStart("Filters", true, true, true)]
         public NWDReferencesListType<NWDItem> FilterItems { get; set; }
         public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
         public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
         public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
-        [NWDGroupEndAttribute]
+        [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Results", true, true, true)]
+        [NWDGroupStart("Results", true, true, true)]
         public NWDReferencesListType<NWDUserTradeProposition> TradePropositionsList { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
@@ -68,12 +54,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder()
         {
-            //Debug.Log("NWDTradeNotification Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTradeNotification Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -84,10 +70,21 @@ namespace NetWorkedData
         {
         }
 		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
+		public static NWDUserTradeProposition[] FindPropositionsList()
 		{
-			// do something with this class
-		}
+            NWDUserTradeFinder tFinder = null;
+            NWDUserTradeFinder[] tUserFinders = FindDatas();
+            if (tUserFinders.Length > 0)
+            {
+                tFinder = tUserFinders[0];
+            }
+            else
+            {
+                tFinder = NewData();
+            }
+
+            return tFinder.TradePropositionsList.GetObjectsAbsolute();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
 		//-------------------------------------------------------------------------------------------------------------

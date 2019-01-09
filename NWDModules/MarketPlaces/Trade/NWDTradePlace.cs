@@ -6,21 +6,7 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -52,37 +38,37 @@ namespace NetWorkedData
 	[NWDClassTrigrammeAttribute ("TRW")]
 	[NWDClassDescriptionAttribute ("Trade Place descriptions Class")]
 	[NWDClassMenuNameAttribute ("Trade Place")]
-	public partial class NWDTradePlace :NWDBasis <NWDTradePlace>
+	public partial class NWDTradePlace : NWDBasis <NWDTradePlace>
 	{
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)]
+        [NWDGroupStart("Description", true, true, true)]
         public NWDReferenceType<NWDItem> DescriptionItem{ get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Items Authorization",true, true, true)]
+        [NWDGroupStart("Items Authorization",true, true, true)]
 		public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
 		public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
 		public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
 		public NWDReferencesListType<NWDKeyword>  FilterKeywords { get; set; }
-		[NWDGroupEndAttribute]
+		[NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Money Authorization",true, true, true)]
+        [NWDGroupStart("Money Authorization",true, true, true)]
 		public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
 		public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
 		public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
 		public NWDReferencesListType<NWDKeyword>  FilterMoneyKeywords { get; set; }
-		[NWDGroupEndAttribute]
+		[NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Trade Detail", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> RequestFixCost { get; set; } 
+        public NWDReferencesQuantityType<NWDItem> RequestFixCost { get; set; }
 		public NWDReferencesQuantityType<NWDItem> RequestPerItemCost { get; set; }
 		public int MaxRequestPerUser { get; set; }
 		public int RequestLifeTime { get; set; }
@@ -94,12 +80,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace()
         {
-            //Debug.Log("NWDTradePlace Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTradePlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
 		//-------------------------------------------------------------------------------------------------------------
 		#endregion
@@ -108,6 +94,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public static void MyClassMethod ()

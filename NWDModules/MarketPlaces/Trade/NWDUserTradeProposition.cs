@@ -60,7 +60,7 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Tags", true, true, true)]
+        [NWDGroupStart("Tags", true, true, true)]
         public NWDReferencesListType<NWDWorld> TagWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> TagCategories { get; set; }
         public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }
