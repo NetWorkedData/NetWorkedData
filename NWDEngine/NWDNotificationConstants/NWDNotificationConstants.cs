@@ -70,6 +70,8 @@ namespace NetWorkedData
         // generic notification
         public const string K_NOTIFICATION_KEY = "K_NOTIFICATION_KEY_87zffzer"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_NEWS_NOTIFICATION = "K_NEWS_NOTIFICATION_ezr8e4t"; // OK Needed by test & verify
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -91,6 +91,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         // Your static properties
         const string KReferenceKey = "kRef";
+        static Dictionary<int, List<NWDNews>> kCheckLoopDictionary = new Dictionary<int, List<NWDNews>>();
+        static List<NWDNews> kCheckScheduled = new List<NWDNews>();
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -121,17 +123,17 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationDateFixe/*, (int)NWDNewsType.PushNotificationDateFixe*/ }, false)]
+        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationDateFixe/*, (int)NWDNewsType.PushNotificationDateFixe*/, (int)NWDNewsType.InGameNotificationDateFixe }, false)]
         public NWDDateTimeType DistributionDate
         {
             get; set;
         }
-        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationRecurrent/*, (int)NWDNewsType.PushNotificationRecurrent*/ }, false)]
+        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationRecurrent/*, (int)NWDNewsType.PushNotificationRecurrent*/, (int)NWDNewsType.InGameNotificationRecurrent }, false)]
         public int ReccurentLifeTime
         {
             get; set;
         }
-        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationSchedule/*, (int)NWDNewsType.PushNotificationSchedul*/ }, false)]
+        [NWDIf("EventType", new int[] { (int)NWDNewsType.LocalNotificationSchedule/*, (int)NWDNewsType.PushNotificationSchedul*/, (int)NWDNewsType.InGameNotificationSchedule }, false)]
         [NWDNotWorking]
         [NWDInDevelopment]
         public NWDDateTimeScheduleType ScheduleDateTime
@@ -168,14 +170,30 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ClassInitialization() // call by invoke
+        public static void Check() // call by invoke
         {
+            int tNow = Mathf.CeilToInt((float)BTBDateHelper.ConvertToTimestamp(DateTime.Now) / (float)60);
+            if (kCheckLoopDictionary.ContainsKey(tNow))
+            {
+                foreach (NWDNews tNew in kCheckLoopDictionary[tNow])
+                {
+                    tNew.NotifyInGame();
+                }
+                kCheckLoopDictionary.Remove(tNow);
+            }
+            foreach (NWDNews tNew in kCheckScheduled)
+            {
+                if (tNew.ScheduleDateTime.AvailableNow())
+                {
+                    tNew.NotifyInGame();
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
-        public static void InstallAllNotifications()
+        public static void InstallAllNotifications(bool sPause)
         {
 #if UNITY_IOS
             // add notification to user authorization!
@@ -184,15 +202,18 @@ namespace NetWorkedData
                  UnityEngine.iOS.NotificationType.Sound);
 
             UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
-            foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
+            if (tNotifs != null)
             {
-                NWDNews tNew = NWDNews.GetDataByReference(tNotif.userInfo[KReferenceKey].ToString());
-                if (tNew != null)
+                foreach (UnityEngine.iOS.LocalNotification tNotif in tNotifs)
                 {
-                    if (tNew.EventType != NWDNewsType.Programmatically)
+                    NWDNews tNew = NWDNews.GetDataByReference(tNotif.userInfo[KReferenceKey].ToString());
+                    if (tNew != null)
                     {
-                        //remove the notification
-                        UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                        if (tNew.EventType != NWDNewsType.Programmatically)
+                        {
+                            //remove the notification
+                            UnityEngine.iOS.NotificationServices.CancelLocalNotification(tNotif);
+                        }
                     }
                 }
             }
@@ -213,7 +234,7 @@ namespace NetWorkedData
             // find NWDNews and install
             foreach (NWDNews tNew in FindDatas())
             {
-                tNew.InstallNotification();
+                tNew.InstallNotification(sPause);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -232,6 +253,10 @@ namespace NetWorkedData
                 tRead = NWDUserNewsRead.NewData();
                 tRead.EventMessage.SetObject(this);
                 tRead.SaveData();
+            }
+            if (kCheckScheduled.Contains(this) == true)
+            {
+                kCheckScheduled.Remove(this);
             }
             if (tRead.IsInstalled == true)
             {
@@ -263,7 +288,11 @@ namespace NetWorkedData
                 tRead.EventMessage.SetObject(this);
                 tRead.SaveData();
             }
-            if (tRead.IsInstalled == true)
+            if (kCheckScheduled.Contains(this) == true)
+            {
+                kCheckScheduled.Remove(this);
+            }
+                if (tRead.IsInstalled == true)
             {
                 if (tRead.NotifyMe == true)
                 {
@@ -310,7 +339,17 @@ namespace NetWorkedData
             tRead.SaveDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void InstallNotification()
+        public void NotifyInGame()
+        {
+            BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_NEWS_NOTIFICATION, this);
+            if (EventType == NWDNewsType.InGameNotificationRecurrent)
+            {
+                // reinstall notification
+                InstallNotification(false);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void InstallNotification(bool sPause)
         {
             // add notification to user!
             UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
@@ -323,6 +362,10 @@ namespace NetWorkedData
                 tRead = NWDUserNewsRead.NewData();
                 tRead.EventMessage.SetObject(this);
                 tRead.SaveData();
+            }
+            if (kCheckScheduled.Contains(this) == true)
+            {
+                kCheckScheduled.Remove(this);
             }
             if (tRead.IsInstalled == true)
             {
@@ -346,11 +389,11 @@ namespace NetWorkedData
                 switch (EventType)
                 {
                     //case NWDNewsType.InGame:
-                        //{
-                        //    tRead.IsInstalled = false;
-                        //    tRead.IsRead = false;
-                        //}
-                        //break;
+                    //{
+                    //    tRead.IsInstalled = false;
+                    //    tRead.IsRead = false;
+                    //}
+                    //break;
                     case NWDNewsType.LocalNotificationNow:
                         {
 #if UNITY_IOS
@@ -434,44 +477,77 @@ namespace NetWorkedData
 #endif
                         }
                         break;
-                        //case NWDNewsType.PushNotificationNow:
-                        //    {
-                        //        // no install, use the server
-                        //    }
-                        //    break;
-                        //case NWDNewsType.PushNotificationDateFixe:
-                        //    {
-                        //        // no install, use the server
-                        //    }
-                        //    break;
-                        //case NWDNewsType.PushNotificationRecurrent:
-                        //    {
-                        //        // no install, use the server
-                        //    }
-                        //    break;
-                        //case NWDNewsType.PushNotificationSchedule:
-                        //{
-                        //    // no install, use the server
-                        //}
-                        //break;
-                        case NWDNewsType.InGameNotificationNow:
-                            {
-                                // no install, use the in game
-                            }
-                            break;
-                        case NWDNewsType.InGameNotificationDateFixe:
-                            {
-                            // no install, use the in game
+                    //case NWDNewsType.PushNotificationNow:
+                    //    {
+                    //        // no install, use the server
+                    //    }
+                    //    break;
+                    //case NWDNewsType.PushNotificationDateFixe:
+                    //    {
+                    //        // no install, use the server
+                    //    }
+                    //    break;
+                    //case NWDNewsType.PushNotificationRecurrent:
+                    //    {
+                    //        // no install, use the server
+                    //    }
+                    //    break;
+                    //case NWDNewsType.PushNotificationSchedule:
+                    //{
+                    //    // no install, use the server
+                    //}
+                    //break;
+                    case NWDNewsType.InGameNotificationNow:
+                        {
+                            // no install, use the in gamestring tNow = DateTime.Now.ToString(KDateFormat);
+                            NotifyInGame();
                         }
                         break;
-                        case NWDNewsType.InGameNotificationRecurrent:
-                            {
-                            // no install, use the in game
-                        }
-                        break;
-                        case NWDNewsType.InGameNotificationSchedule:
+                    case NWDNewsType.InGameNotificationDateFixe:
                         {
                             // no install, use the in game
+                            DateTime tDate = DistributionDate.ToDateTime();
+                            if (tDate > DateTime.Now)
+                            {
+                                int tNow = Mathf.CeilToInt((float)BTBDateHelper.ConvertToTimestamp(tDate) / (float)60);
+                                if (kCheckLoopDictionary.ContainsKey(tNow))
+                                {
+                                    kCheckLoopDictionary[tNow].Add(this);
+                                }
+                                else
+                                {
+                                    kCheckLoopDictionary.Add(tNow, new List<NWDNews>());
+                                    kCheckLoopDictionary[tNow].Add(this);
+                                }
+                            }
+                        }
+                        break;
+                    case NWDNewsType.InGameNotificationRecurrent:
+                        {
+                            // no install, use the in game
+                            if (ReccurentLifeTime > 0)
+                            {
+                                DateTime tDate = DateTime.Now.AddSeconds(ReccurentLifeTime);
+                                int tNow = Mathf.CeilToInt((float)BTBDateHelper.ConvertToTimestamp(tDate) / (float)60);
+                                if (kCheckLoopDictionary.ContainsKey(tNow))
+                                {
+                                    kCheckLoopDictionary[tNow].Add(this);
+                                }
+                                else
+                                {
+                                    kCheckLoopDictionary.Add(tNow, new List<NWDNews>());
+                                    kCheckLoopDictionary[tNow].Add(this);
+                                }
+                            }
+                        }
+                        break;
+                    case NWDNewsType.InGameNotificationSchedule:
+                        {
+                            // no install, use the in game
+                            if (kCheckScheduled.Contains(this) == false)
+                            {
+                                kCheckScheduled.Add(this);
+                            }
                         }
                         break;
                 }
@@ -540,7 +616,7 @@ namespace NetWorkedData
         {
             // do something when object finish to be updated from CSV from WebService response
             // TODO verif if method is call in good place in good timing
-            InstallNotification();
+            InstallNotification(false);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

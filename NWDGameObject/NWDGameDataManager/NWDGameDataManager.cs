@@ -456,6 +456,7 @@ namespace NetWorkedData
             {
                 OperationGauge.IsVisible = false;
             }
+            InvokeRepeating("NewsCheck", 60.0F, 60.0F);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void ReloadAllDatas()
@@ -476,12 +477,11 @@ namespace NetWorkedData
         //    base.OnDisable();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        ///// <summary>
-        ///// Raises the destroy event.
-        ///// </summary>
-        //void OnDestroy()
-        //{
-        //}
+        void NewsCheck()
+        {
+            Debug.Log("NewsCheck");
+            NWDNews.Check();
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Raises the application focus event.
@@ -493,11 +493,12 @@ namespace NetWorkedData
             if (ApplicationStandBy == false)
             {
                 Debug.Log("OnApplicationFocus Focus is ON");
+                //NWDNews.InstallAllNotifications(false);
             }
             else
             {
                 Debug.Log("OnApplicationFocus Focus is OFF");
-                NWDNews.InstallAllNotifications();
+                //NWDNews.InstallAllNotifications(true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -511,11 +512,12 @@ namespace NetWorkedData
             if (ApplicationStandBy == false)
             {
                 Debug.Log("OnApplicationPause Pause is OFF");
+                NWDNews.InstallAllNotifications(false);
             }
             else
             {
                 Debug.Log("OnApplicationPause Pause is ON");
-                NWDNews.InstallAllNotifications();
+                NWDNews.InstallAllNotifications(true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -550,6 +552,7 @@ namespace NetWorkedData
             {
                 LoadingDatasGauge.IsVisible = false;
             }
+            NWDNews.InstallAllNotifications(false);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void NotificationLanguageChanged(BTBNotification sNotification)
