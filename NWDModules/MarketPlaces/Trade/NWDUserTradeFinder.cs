@@ -5,23 +5,8 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
 using UnityEngine;
-
-using SQLite4Unity3d;
-
-using BasicToolBox;
 using SQLite.Attribute;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -61,7 +46,7 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Results", true, true, true)]
-        public NWDReferencesListType<NWDUserTradeProposition> TradePropositionsList { get; set; }
+        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -84,26 +69,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserTradeProposition[] FindPropositionsList()
+        public static NWDUserTradeRequest[] FindPropositionsList(NWDTradePlace sTradePlace)
         {
-            NWDUserTradeProposition[] tUserTradesProposition = null;
             NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
-            if (tUserTradesFinder.Length > 0)
+            foreach(NWDUserTradeFinder k in tUserTradesFinder)
             {
-                tUserTradesProposition = tUserTradesFinder[0].TradePropositionsList.GetObjectsAbsolute();
-            }
-            else
-            {
-                NWDUserTradeFinder tFinder = NewData();
-                #if UNITY_EDITOR
-                tFinder.InternalKey = NWDAccountNickname.GetNickname();
-                #endif
-                tFinder.Tag = NWDBasisTag.TagUserCreated;
+                if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                {
+                    return k.TradeRequestsList.GetObjectsAbsolute();
+                }
             }
 
-            return tUserTradesProposition;
+            // No NWD Finder Object found, we create one
+            NWDUserTradeFinder tFinder = NewData();
+            #if UNITY_EDITOR
+            tFinder.InternalKey = NWDAccountNickname.GetNickname();
+            #endif
+            tFinder.Tag = NWDBasisTag.TagUserCreated;
+            tFinder.TradePlace.SetObject(sTradePlace);
+            tFinder.SaveData();
+
+            return new NWDUserTradeRequest[0];
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
