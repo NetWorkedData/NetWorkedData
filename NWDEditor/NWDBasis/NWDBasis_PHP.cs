@@ -332,7 +332,6 @@ namespace NetWorkedData
                 "//-------------------- \n";
             tConstantsFile += "?>\n";
             File.WriteAllText(tServerDatabaseFolder + "/constants.php", tConstantsFile);
-            AssetDatabase.ImportAsset(tServerDatabaseFolder + "/constants.php");
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/constants.php");
 
@@ -600,7 +599,6 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "?>\n";
             File.WriteAllText(tServerDatabaseFolder + "/management.php", tManagementFile);
-            AssetDatabase.ImportAsset(tServerDatabaseFolder + "/management.php");
             // force to import this file by Unity3D
             //AssetDatabase.ImportAsset(tServerDatabaseFolder + "/management.php");
 
@@ -1322,7 +1320,6 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "?>";
             File.WriteAllText(tServerDatabaseFolder + "/synchronization.php", tSynchronizationFile);
-            AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
 

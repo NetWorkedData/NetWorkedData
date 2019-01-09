@@ -212,7 +212,7 @@ namespace NetWorkedData
                     var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
-                        tMethodInfo.Invoke(null, null);
+                        tMethodInfo.Invoke(null, new object[] { "" });
                     }
                 }
             }
