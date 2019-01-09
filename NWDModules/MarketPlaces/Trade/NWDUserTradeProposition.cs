@@ -5,7 +5,6 @@
 //
 //=====================================================================================================================
 
-using System;
 using SQLite.Attribute;
 using UnityEngine;
 
@@ -17,6 +16,8 @@ namespace NetWorkedData
     [NWDClassTrigramme("UTRP")]
     [NWDClassDescription("User Trade Proposition descriptions Class")]
     [NWDClassMenuName("User Trade Proposition")]
+    [NWDClassPhpPreCalculate("")]
+    [NWDClassPhpPostCalculate("")]
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -24,59 +25,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDUserTradeRequest> TradeRequest
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked
-        {
-            get; set;
-        }
-        public NWDDateTimeType TradeRequestDM
-        {
-            get; set;
-        }
-        public NWDTradeStatus TradeStatus
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        public NWDDateTimeType TradeRequestDM { get; set; }
+        public NWDTradeStatus TradeStatus { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Tags", true, true, true)]
-        public NWDReferencesListType<NWDWorld> TagWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> TagCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> TagFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> TagKeywords
-        {
-            get; set;
-        }
+        [NWDGroupStart("Tags", true, true, true)]
+        public NWDReferencesListType<NWDWorld> TagWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> TagCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> TagKeywords { get; set; }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion

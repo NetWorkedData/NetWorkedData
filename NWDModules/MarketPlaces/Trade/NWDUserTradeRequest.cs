@@ -36,10 +36,12 @@ namespace NetWorkedData
         Expired = 40,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UTRR")]
-    [NWDClassDescriptionAttribute("User Trade Request descriptions Class")]
-    [NWDClassMenuNameAttribute("User Trade Request")]
+    [NWDClassServerSynchronize(true)]
+    [NWDClassTrigramme("UTRR")]
+    [NWDClassDescription("User Trade Request descriptions Class")]
+    [NWDClassMenuName("User Trade Request")]
+    [NWDClassPhpPreCalculate("")]
+    [NWDClassPhpPostCalculate("")]
     public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -47,34 +49,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked
-        {
-            get; set;
-        }
-        public NWDTradeStatus TradeStatus
-        {
-            get; set;
-        }
-        public NWDDateTimeType LimitDayTime
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        public NWDTradeStatus TradeStatus { get; set; }
+        public NWDDateTimeType LimitDayTime { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -83,12 +64,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeRequest()
         {
-            //Debug.Log("NWDTradeRequest Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeRequest(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTradeRequest Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
