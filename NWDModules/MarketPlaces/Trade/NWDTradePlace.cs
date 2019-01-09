@@ -59,74 +59,35 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Description", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem
-        {
-            get; set;
-        }
+        [NWDGroupStart("Description", true, true, true)]
+        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Items Authorization", true, true, true)]
-        public NWDReferencesListType<NWDWorld> FilterWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> FilterCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FilterFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> FilterKeywords
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
+        [NWDGroupStart("Items Authorization", true, true, true)]
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
+        [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
-        [NWDGroupStartAttribute("Money Authorization", true, true, true)]
-        public NWDReferencesListType<NWDWorld> FilterMoneyWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> FilterMoneyCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FilterMoneyFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> FilterMoneyKeywords
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
+        [NWDGroupStart("Money Authorization", true, true, true)]
+        public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterMoneyKeywords { get; set; }
+        [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Trade Detail", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> RequestFixCost
-        {
-            get; set;
-        }
-        public NWDReferencesQuantityType<NWDItem> RequestPerItemCost
-        {
-            get; set;
-        }
-        public int MaxRequestPerUser
-        {
-            get; set;
-        }
-        public int RequestLifeTime
-        {
-            get; set;
-        }
+        public NWDReferencesQuantityType<NWDItem> RequestFixCost { get; set; }
+        public NWDReferencesQuantityType<NWDItem> RequestPerItemCost { get; set; }
+        public int MaxRequestPerUser { get; set; }
+        public int RequestLifeTime { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -135,12 +96,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace()
         {
-            //Debug.Log("NWDTradePlace Constructor");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDTradePlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDTradePlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
+
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
