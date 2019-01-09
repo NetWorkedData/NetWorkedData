@@ -32,7 +32,7 @@ namespace NetWorkedData
     {
         None = 0,
 
-        InGame = 1, // only in app
+        //InGame = 1, // only in app
 
         Programmatically = 2, // only in app
 
@@ -45,6 +45,11 @@ namespace NetWorkedData
         //PushNotificationDateFixe = 21, // only in IOS/Android by push notification
         //PushNotificationRecurrent = 22, // only in IOS/Android by push notification
         //PushNotificationSchedule = 23, // only in IOS/Android by push notification
+
+        InGameNotificationNow = 30, // only in IOS/Android by start app notification
+        InGameNotificationDateFixe = 31, // only in IOS/Android by start app notification
+        InGameNotificationRecurrent = 32, // only in IOS/Android by start app notification
+        InGameNotificationSchedule = 33, // only in IOS/Android by start app notification
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -275,6 +280,7 @@ namespace NetWorkedData
                             }
                         }
                     }
+#endif
                 }
                 switch (EventType)
                 {
@@ -339,12 +345,12 @@ namespace NetWorkedData
                 }
                 switch (EventType)
                 {
-                    case NWDNewsType.InGame:
-                        {
-                            tRead.IsInstalled = false;
-                            tRead.IsRead = false;
-                        }
-                        break;
+                    //case NWDNewsType.InGame:
+                        //{
+                        //    tRead.IsInstalled = false;
+                        //    tRead.IsRead = false;
+                        //}
+                        //break;
                     case NWDNewsType.LocalNotificationNow:
                         {
 #if UNITY_IOS
@@ -448,6 +454,26 @@ namespace NetWorkedData
                         //    // no install, use the server
                         //}
                         //break;
+                        case NWDNewsType.InGameNotificationNow:
+                            {
+                                // no install, use the in game
+                            }
+                            break;
+                        case NWDNewsType.InGameNotificationDateFixe:
+                            {
+                            // no install, use the in game
+                        }
+                        break;
+                        case NWDNewsType.InGameNotificationRecurrent:
+                            {
+                            // no install, use the in game
+                        }
+                        break;
+                        case NWDNewsType.InGameNotificationSchedule:
+                        {
+                            // no install, use the in game
+                        }
+                        break;
                 }
             }
             tRead.SaveDataIfModified();
