@@ -26,18 +26,18 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//TODO: FINISH THIS CLASS NWDTimeType
+	//TODO: FINISH THIS CLASS NWDTimeUtcType
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDTimeType : BTBDataType
+	public class NWDTimeUtcType : BTBDataType
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDTimeType ()
+		public NWDTimeUtcType ()
 		{
 			Value = string.Empty;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDTimeType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDTimeUtcType (string sValue = BTBConstants.K_EMPTY_STRING)
 		{
 			if (sValue == null) {
 				Value = string.Empty;
@@ -52,8 +52,9 @@ namespace NetWorkedData
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDateTime (DateTime sDatetime)
-		{
-			Value = 1970+NWDConstants.kFieldSeparatorA+
+        {
+            sDatetime = sDatetime.ToUniversalTime();
+            Value = 1970+NWDConstants.kFieldSeparatorA+
 				1+NWDConstants.kFieldSeparatorA+
 				1+NWDConstants.kFieldSeparatorA+
 				sDatetime.Hour+NWDConstants.kFieldSeparatorA+
@@ -91,7 +92,7 @@ namespace NetWorkedData
 				tSecond = 0;
 			}
 
-			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Utc);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -106,7 +107,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
 		{
-            NWDTimeType tTemporary = new NWDTimeType ();
+            NWDTimeUtcType tTemporary = new NWDTimeUtcType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 //			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
 
@@ -138,7 +139,7 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Utc);
 
 			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
 			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;
