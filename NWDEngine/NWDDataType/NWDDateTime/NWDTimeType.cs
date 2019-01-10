@@ -52,8 +52,9 @@ namespace NetWorkedData
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDateTime (DateTime sDatetime)
-		{
-			Value = 1970+NWDConstants.kFieldSeparatorA+
+        {
+            sDatetime = sDatetime.ToLocalTime();
+            Value = 1970+NWDConstants.kFieldSeparatorA+
 				1+NWDConstants.kFieldSeparatorA+
 				1+NWDConstants.kFieldSeparatorA+
 				sDatetime.Hour+NWDConstants.kFieldSeparatorA+
@@ -64,6 +65,11 @@ namespace NetWorkedData
         public void SetCurrentTime()
         {
             SetDateTime(DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetTimeStamp (double sTimestamp)
+        {
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
         }
         //-------------------------------------------------------------------------------------------------------------
         public DateTime ToDateTime ()
@@ -91,7 +97,7 @@ namespace NetWorkedData
 				tSecond = 0;
 			}
 
-			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -138,7 +144,7 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 
 			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
 			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;

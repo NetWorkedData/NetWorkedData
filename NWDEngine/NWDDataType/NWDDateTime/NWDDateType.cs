@@ -52,16 +52,22 @@ namespace NetWorkedData
             Value = string.Empty;
         }
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetDate(DateTime sDatetime)
-		{
-			Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
+		public void SetDateTime(DateTime sDatetime)
+        {
+            sDatetime = sDatetime.ToLocalTime();
+            Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
 				    sDatetime.Month+NWDConstants.kFieldSeparatorA+
 				    sDatetime.Day+NWDConstants.kFieldSeparatorA;
 		}
         //-------------------------------------------------------------------------------------------------------------
         public void SetCurrentDate()
         {
-            SetDate(DateTime.Now);
+            SetDateTime(DateTime.Now);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetTimestamp(double sTimestamp)
+        {
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
         }
         //-------------------------------------------------------------------------------------------------------------
         public DateTime ToDateTime ()
@@ -93,7 +99,7 @@ namespace NetWorkedData
 				tDay = tDaysTest;
 			}
 
-			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -137,7 +143,7 @@ namespace NetWorkedData
 
 			float tX = sPos.x + EditorGUIUtility.labelWidth;
 
-			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond);
+			DateTime tDateTime = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 
 			float tTiersWidth = Mathf.Ceil( (sPos.width - EditorGUIUtility.labelWidth + NWDConstants.kFieldMarge) / 3.0F);
 			float tTiersWidthB = tTiersWidth - NWDConstants.kFieldMarge;

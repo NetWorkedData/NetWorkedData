@@ -61,7 +61,12 @@ namespace NetWorkedData
 				sDatetime.Hour+NWDConstants.kFieldSeparatorA+
 				sDatetime.Minute+NWDConstants.kFieldSeparatorA+
 				sDatetime.Second;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetTimeStamp(double sTimestamp)
+        {
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void SetCurrentDateTime()
         {

@@ -62,6 +62,11 @@ namespace NetWorkedData
 				sDatetime.Second;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SetTimeStamp(double sTimestamp)
+        {
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public void SetCurrentTime()
         {
             SetDateTime(DateTime.Now);

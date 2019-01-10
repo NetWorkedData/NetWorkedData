@@ -223,14 +223,26 @@ namespace NetWorkedData
 			DateTime tUnixStartTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			int rUnixCurrentTime = (int)(DateTime.UtcNow - tUnixStartTime).TotalSeconds;
 			return rUnixCurrentTime;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Return DateTime from timestamp unix 1970 january 01.
-		/// </summary>
-		/// <returns>The timestamp to date time.</returns>
-		/// <param name="sTimeStamp">timestamp.</param>
-		public static DateTime TimeStampToDateTime (double sTimeStamp)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return DateTime from timestamp unix 1970 january 01.
+        /// </summary>
+        /// <returns>The timestamp to date time.</returns>
+        /// <param name="sTimeStamp">timestamp.</param>
+        public static DateTime TimeStampToDateTime(int sTimeStamp)
+        {
+            DateTime rDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            rDateTime = rDateTime.AddSeconds(sTimeStamp).ToLocalTime();
+            return rDateTime;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Return DateTime from timestamp unix 1970 january 01.
+        /// </summary>
+        /// <returns>The timestamp to date time.</returns>
+        /// <param name="sTimeStamp">timestamp.</param>
+        public static DateTime TimeStampToDateTime (double sTimeStamp)
 		{
 			DateTime rDateTime = new DateTime (1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 			rDateTime = rDateTime.AddSeconds (sTimeStamp).ToLocalTime ();

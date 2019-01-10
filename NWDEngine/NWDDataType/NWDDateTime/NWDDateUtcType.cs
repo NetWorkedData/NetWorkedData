@@ -52,18 +52,23 @@ namespace NetWorkedData
             Value = string.Empty;
         }
 		//-------------------------------------------------------------------------------------------------------------
-		public void SetDate(DateTime sDatetime)
+		public void SetDateTime(DateTime sDatetime)
         {
             sDatetime = sDatetime.ToUniversalTime();
 
             Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
 				    sDatetime.Month+NWDConstants.kFieldSeparatorA+
 				    sDatetime.Day+NWDConstants.kFieldSeparatorA;
-		}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetTimeStamp(double sTimestamp)
+        {
+            SetDateTime(BTBDateHelper.ConvertFromTimestamp(sTimestamp));
+        }
         //-------------------------------------------------------------------------------------------------------------
         public void SetCurrentDate()
         {
-            SetDate(DateTime.Now);
+            SetDateTime(DateTime.Now);
         }
         //-------------------------------------------------------------------------------------------------------------
         public DateTime ToDateTime ()
