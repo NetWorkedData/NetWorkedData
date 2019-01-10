@@ -335,18 +335,31 @@ namespace NetWorkedData
 		public void SetDateTime (DateTime sDatetime)
 		{
 			Value = sDatetime.ToString ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public DateTime ToDateTime ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetDateTimeToUTC(DateTime sDatetime)
+        {
+            DateTime tDateTime = sDatetime.ToUniversalTime();
+            Value = sDatetime.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public DateTime ToDateTime ()
 		{
 			DateTime rReturn = new DateTime (); 
 			DateTime.TryParse (Value, out rReturn);
 			return rReturn;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public DateTime ToDateTimeUTC()
+        {
+            DateTime rReturn = new DateTime();
+            DateTime.TryParse(Value, out rReturn);
+            return rReturn.ToUniversalTime();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override float ControlFieldHeight ()
 		{
 			GUIStyle tTextFieldStyle = new GUIStyle (EditorStyles.textField);
 			float tHeight = tTextFieldStyle.CalcHeight (new GUIContent ("A"), 100.0f);

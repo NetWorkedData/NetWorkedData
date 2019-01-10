@@ -92,6 +92,7 @@ namespace NetWorkedData
         // Your static properties
         const string KReferenceKey = "kRef";
         static Dictionary<int, List<NWDNews>> kCheckLoopDictionary = new Dictionary<int, List<NWDNews>>();
+        static List<NWDNews> kCheckReinstall = new List<NWDNews>();
         static List<NWDNews> kCheckScheduled = new List<NWDNews>();
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -172,23 +173,41 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void Check() // call by invoke
         {
+            kCheckReinstall.Clear();
             int tNow = Mathf.CeilToInt((float)BTBDateHelper.ConvertToTimestamp(DateTime.Now) / (float)60);
+            Debug.Log("NWDNews Check() timestamp seconds");
+            foreach (KeyValuePair<int, List<NWDNews>> tKeyValue in kCheckLoopDictionary)
+            {
+                Debug.Log("NWDNews Check() kCheckLoopDictionary[" + tKeyValue.Key + "] : "+ tKeyValue.Value.Count);
+            }
+
             if (kCheckLoopDictionary.ContainsKey(tNow))
             {
                 foreach (NWDNews tNew in kCheckLoopDictionary[tNow])
                 {
+                    Debug.Log("NWDNews Check() FIND Timestamp List");
                     tNew.NotifyInGame();
+                    if (tNew.EventType == NWDNewsType.InGameNotificationRecurrent)
+                    {
+                        kCheckReinstall.Add(tNew);
+                    }
                 }
                 kCheckLoopDictionary.Remove(tNow);
             }
             foreach (NWDNews tNew in kCheckScheduled)
             {
+                Debug.Log("NWDNews Check() check schedule ?");
                 if (tNew.ScheduleDateTime.AvailableNow())
                 {
+                    Debug.Log("NWDNews Check() FIND schedule");
                     tNew.NotifyInGame();
                 }
             }
-        }
+            foreach (NWDNews tNew in kCheckReinstall)
+            {
+                tNew.InstallNotification(false);
+            }
+            }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
@@ -342,11 +361,11 @@ namespace NetWorkedData
         public void NotifyInGame()
         {
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_NEWS_NOTIFICATION, this);
-            if (EventType == NWDNewsType.InGameNotificationRecurrent)
-            {
-                // reinstall notification
-                InstallNotification(false);
-            }
+            //if (EventType == NWDNewsType.InGameNotificationRecurrent)
+            //{
+            //    // reinstall notification
+            //    InstallNotification(false);
+            //}
         }
         //-------------------------------------------------------------------------------------------------------------
         public void InstallNotification(bool sPause)
