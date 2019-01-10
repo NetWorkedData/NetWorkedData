@@ -93,6 +93,29 @@ namespace NetWorkedData
             return new NWDUserTradeRequest[0];
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void CleanResult(NWDTradePlace sTradePlace)
+        {
+            NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
+            foreach (NWDUserTradeFinder k in tUserTradesFinder)
+            {
+                if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                {
+                    k.TradeRequestsList = null;
+                    k.SaveData();
+                    return;
+                }
+            }
+
+            // No NWD Finder Object found, we create one
+            NWDUserTradeFinder tFinder = NewData();
+            #if UNITY_EDITOR
+            tFinder.InternalKey = NWDAccountNickname.GetNickname();
+            #endif
+            tFinder.Tag = NWDBasisTag.TagUserCreated;
+            tFinder.TradePlace.SetObject(sTradePlace);
+            tFinder.SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods

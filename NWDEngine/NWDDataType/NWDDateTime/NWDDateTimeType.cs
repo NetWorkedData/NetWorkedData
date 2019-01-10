@@ -310,10 +310,15 @@ namespace NetWorkedData
 			DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Local);
 			return rReturn;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
+        //-------------------------------------------------------------------------------------------------------------
+        public DateTime ToDateTimeUTC()
+        {
+            return ToDateTime().ToUniversalTime();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override float ControlFieldHeight ()
 		{
             return NWDConstants.kPopupdStyle.fixedHeight*2 + NWDConstants.kFieldMarge;
 		}

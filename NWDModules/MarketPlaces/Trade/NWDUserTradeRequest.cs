@@ -50,10 +50,24 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDTradeStatus TradeStatus { get; set; }
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Trade References", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
         public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
-        public NWDTradeStatus TradeStatus { get; set; }
         public NWDDateTimeType LimitDayTime { get; set; }
+        [NWDGroupEnd]
+
+        [NWDGroupSeparator]
+
+        [NWDGroupStart("Tags", true, true, true)]
+        public NWDReferencesListType<NWDWorld> TagWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> TagCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> TagKeywords { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
