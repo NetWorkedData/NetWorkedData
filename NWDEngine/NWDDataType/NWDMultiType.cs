@@ -337,11 +337,11 @@ namespace NetWorkedData
 			Value = sDatetime.ToString ();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SetDateTimeToUTC(DateTime sDatetime)
-        {
-            DateTime tDateTime = sDatetime.ToUniversalTime();
-            Value = sDatetime.ToString();
-        }
+        //public void SetDateTimeToUTC(DateTime sDatetime)
+        //{
+        //    DateTime tDateTime = sDatetime.ToUniversalTime();
+        //    Value = sDatetime.ToString();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public DateTime ToDateTime ()
 		{
@@ -350,12 +350,12 @@ namespace NetWorkedData
 			return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public DateTime ToDateTimeUTC()
-        {
-            DateTime rReturn = new DateTime();
-            DateTime.TryParse(Value, out rReturn);
-            return rReturn.ToUniversalTime();
-        }
+        //public DateTime ToDateTimeUTC()
+        //{
+        //    DateTime rReturn = new DateTime();
+        //    DateTime.TryParse(Value, out rReturn);
+        //    return rReturn.ToUniversalTime();
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
