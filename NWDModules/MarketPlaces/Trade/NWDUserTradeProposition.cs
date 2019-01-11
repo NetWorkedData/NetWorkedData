@@ -7,6 +7,11 @@
 
 using SQLite.Attribute;
 using UnityEngine;
+using BasicToolBox;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -19,12 +24,13 @@ namespace NetWorkedData
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-        #region Properties
+#region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set;}
+        [NWDAlias("TradePlace")]
         public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDAlias("TradeRequest")]
         public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
@@ -41,9 +47,9 @@ namespace NetWorkedData
         public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
+#region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition()
         {
@@ -55,9 +61,9 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
+#region Class methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
@@ -68,16 +74,16 @@ namespace NetWorkedData
             // do something with this class
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
+#region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public void MyInstanceMethod()
         {
             // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
+#region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {
@@ -135,14 +141,38 @@ namespace NetWorkedData
         public override float AddonEditor(Rect sInRect)
         {
             // Draw the interface addon for editor
-            float tYadd = 0.0f;
+            float tWidth = sInRect.width;
+            float tX = sInRect.x;
+            float tY = sInRect.y;
+
+            float tYadd = 20.0f;
+
+            GUIStyle tTextFieldStyle = new GUIStyle(EditorStyles.textField);
+            tTextFieldStyle.fixedHeight = tTextFieldStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            GUIStyle tMiniButtonStyle = new GUIStyle(EditorStyles.miniButton);
+            tMiniButtonStyle.fixedHeight = tMiniButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
+            tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
+
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "fixe date of TradeRequest DM", tMiniButtonStyle))
+            {
+                Debug.Log("YES ? or Not "+ TradeRequest.Value);
+                NWDUserTradeRequest tRequest = TradeRequest.GetObjectAbsolute();
+                if (tRequest != null)
+                {
+                    Debug.Log("YES");
+                    TradeRequestDM.SetLong(tRequest.DM);
+                }
+            }
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditorHeight()
         {
             // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
+            float tYadd = 20.0f;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -151,25 +181,34 @@ namespace NetWorkedData
 
             string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
             string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
-            string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
-            string tTradeRequestDM = NWDUserTradeRequest.FindAliasName("TradeRequestDM");
+            string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
+            string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
 
-            string tTradeRequestsList = NWDUserTradeFinder.FindAliasName("TradeRequestsList");
-            string tTradePlace = NWDUserTradeFinder.FindAliasName("TradePlace");
-            int tIndex_TradeRequestsList = CSVAssemblyIndexOf(tTradeRequestsList);
-            int tIndex_TradePlace = CSVAssemblyIndexOf(tTradePlace);
-            int tIndex_tTradeRequestDM = CSVAssemblyIndexOf(tTradeRequestDM);
+            string t_THIS_TradeRequestDM = FindAliasName("TradeRequestDM");
+            string t_THIS_TradePlace = FindAliasName("TradePlace");
+            string t_THIS_TradeRequest = FindAliasName("TradeRequest");
+            string t_THIS_TradeStatus = FindAliasName("TradeStatus");
+            int t_THIS_Index_tTradeRequestDM = CSVAssemblyIndexOf(t_THIS_TradeRequestDM);
+            int t_THIS_Index_TradePlace = CSVAssemblyIndexOf(t_THIS_TradePlace);
+            int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
+            int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
             string sScript = "" +
                 "// debut find \n" +
-                "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
-                "SET `DM` = \\''.$TIME_SYNC.'\\'," +
-                "SET `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
+                "\n" +
+                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + ")\n" +
+                "{\n" +
+                "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` SET " +
+                " `DM` = \\''.$TIME_SYNC.'\\'," +
+                " `DS` = \\''.$TIME_SYNC.'\\'," +
+                " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
+                " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
                 // WHERE REQUEST
-                "WHERE `AC`= \\'1\\' " +
-                "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
-                "AND `" + tTradePlaceRequest + "` = \\''.$sCsvList[" + tIndex_TradePlace + "].'\\' " +
-                "AND `DM` = \\''.$sCsvList[" + tIndex_tTradeRequestDM + "].'\\' " +
-                "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                " WHERE `AC`= \\'1\\' " +
+                " AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
+                " AND `" + tTradePlace + "` = \\''.$sCsvList[" + t_THIS_Index_TradePlace + "].'\\' " +
+                " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_TradeRequest + "].'\\' " +
+                " AND `DM` = \\''.$sCsvList[" + t_THIS_Index_tTradeRequestDM + "].'\\' " +
+                " AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
                 // ORDER BY 
                 //"ORDER BY `" + tLimitDayTime + "` " +
                 "';\n" +
@@ -184,14 +223,30 @@ namespace NetWorkedData
                 "}\n" +
                 "else\n" +
                 "{\n" +
-                "int $tNumberOfRow =$tResultTrade->affected_rows();\n" +
+                "$tNumberOfRow = 0;\n" +
+                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                 "if ($tNumberOfRow == 1)\n" +
                 "{\n" +
-                "\\ I need update the proposition too !\n" +
+                "// I need update the proposition too !\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
+                "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"global $PATH_BASE;\n" +
+                // YOU MUST REIMPORT THE GLOSBAL ... PHP strange practice?
+                //"global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $uuid;\n" +
+                //"global $SQL_" + NWDUserTradeRequest.Datas().ClassNamePHP + "_SaltA, $SQL_" + NWDUserTradeRequest.Datas().ClassNamePHP + "_SaltB, $SQL_" + NWDUserTradeRequest.Datas().ClassNamePHP + "_WebService;" +
+                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "Integrity" + NWDUserTradeRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest+ "]);" +
                 "}\n" +
-                "else" +
+                "else\n" +
                 "{\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
+                "\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
+                "}\n" +
+                "}\n" +
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + ")\n" +
+                "{\n" +
+                "// this case must be cancelled ?\n" +
                 "}\n" +
                 "// fin find \n";
 
@@ -210,9 +265,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

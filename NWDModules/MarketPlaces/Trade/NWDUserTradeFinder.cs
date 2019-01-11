@@ -267,10 +267,13 @@ namespace NetWorkedData
                 "if (is_array($tReferences))\n" +
                 "{\n" +
                 "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
+                "global $PATH_BASE;\n" +
+                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReferences ($tReferences);\n" +
                 "}\n" +
                 "}\n" +
                 "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$sCsvList = IntegrityNWDUserTradeFinderReplaceIntegrate ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
+                "$sCsvList = Integrity" + NWDUserTradeFinder.Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
                 "// fin find \n";
 
             return sScript;
@@ -279,7 +282,6 @@ namespace NetWorkedData
         public static string AddonPhpPostCalculate()
         {
             return "\n" +
-            	"GetDatasNWDUserTradePropositionByReferences ($tReferences);\n" +
             	"\n";
         }
         //-------------------------------------------------------------------------------------------------------------

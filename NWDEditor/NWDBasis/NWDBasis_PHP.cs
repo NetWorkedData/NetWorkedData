@@ -88,13 +88,30 @@ namespace NetWorkedData
             kSLQIntegrityServerOrder.Remove(ClassID());
             kDataAssemblyPropertiesList.Remove(ClassID());
 
-            NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
             CreateAllPHP("_modify");
             // Recreate NWDAppConfiguration C#
            // TODO ? 
@@ -217,9 +234,13 @@ namespace NetWorkedData
                                     "//-------------------- \n" +
                                     "include_once ($PATH_BASE.'/Engine/functions.php');\n" +
                                     "//-------------------- \n" +
+                                    // to bypass the global limitation of PHP in internal include : use function :-) 
+                                    "function " + tClassName + "Constants ()\n" +
+                                    "{\n" +
+                                    "global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
                                     "$SQL_" + tClassName + "_SaltA = '" + Datas().SaltA + "';\n" +
                                     "$SQL_" + tClassName + "_SaltB = '" + Datas().SaltB + "';\n" +
-                                    "//-------------------- \n";
+                                    "";
 
             int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
 
@@ -265,6 +286,9 @@ namespace NetWorkedData
             //tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
 
             tConstantsFile += "$SQL_" + tClassName + "_WebService = " + tWebBuildUsed + ";\n" +
+                "}\n" +
+                "//Run this function to install globals of theses datas!\n" +
+                "" + tClassName + "Constants();\n" +
                 "//-------------------- \n";
 
             //string tGlobal = "global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, ";
@@ -682,9 +706,9 @@ namespace NetWorkedData
             "\t\treturn $rReturn;\n" +
             "\t}\n" +
             "//-------------------- \n" +
-            "function Integrity" + tClassName + "ReplaceIntegrate ($sCsvArray, $sIndex, $sValue)\n" +
+            "function Integrity" + tClassName + "Replace ($sCsvArray, $sIndex, $sValue)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_NWDUserTradeFinder_SaltA, $SQL_NWDUserTradeFinder_SaltB;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
             "\t\t$sCsvList = $sCsvArray;\n" +
             "\t\t$sCsvList[$sIndex] = $sValue;\n" +
             "\t\t$tIntegrity = array_pop($sCsvList);\n" +
@@ -693,8 +717,32 @@ namespace NetWorkedData
             "\t\tunset($sCsvList[4]);//remove PreprodSync\n" +
             "\t\tunset($sCsvList[5]);//remove ProdSync\n" +
             "\t\t$sDataString = implode('',$sCsvList);\n" +
-            "\t\t$tCalculate = str_replace('|', '', md5($SQL_NWDUserTradeFinder_SaltA.$sDataString.$SQL_NWDUserTradeFinder_SaltB));\n" +
+            "\t\t$tCalculate = str_replace('|', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
             "\t\t$sCsvArray[$sIndex] = $sValue;\n" +
+            "\t\tarray_pop($sCsvArray);\n" +
+            "\t\t$sCsvArray[] = $tCalculate;\n" +
+            "\t\treturn $sCsvArray;\n" +
+            "\t}\n" +
+            "//-------------------- \n" +
+            "function Integrity" + tClassName + "Replaces ($sCsvArray, $sIndexesAndValues)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
+            "\t\t$sCsvList = $sCsvArray;\n" +
+            "\t\tforeach(array_keys($sIndexesAndValues) as $tKey)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\t$sCsvList[$tKey] = $sIndexesAndValues[$tKey];\n" +
+            "\t\t\t}\n" +
+            "\t\t$tIntegrity = array_pop($sCsvList);\n" +
+            "\t\tunset($sCsvList[2]);//remove DS\n" +
+            "\t\tunset($sCsvList[3]);//remove DevSync\n" +
+            "\t\tunset($sCsvList[4]);//remove PreprodSync\n" +
+            "\t\tunset($sCsvList[5]);//remove ProdSync\n" +
+            "\t\t$sDataString = implode('',$sCsvList);\n" +
+            "\t\t$tCalculate = str_replace('|', '', md5($SQL_" + tClassName + "_SaltA.$sDataString.$SQL_" + tClassName + "_SaltB));\n" +
+            "\t\tforeach(array_keys($sIndexesAndValues) as $tKey)\n" +
+            "\t\t\t{\n" +
+            "\t\t\t\t$sCsvArray[$tKey] = $sIndexesAndValues[$tKey];\n" +
+            "\t\t\t}\n" +
             "\t\tarray_pop($sCsvArray);\n" +
             "\t\t$sCsvArray[] = $tCalculate;\n" +
             "\t\treturn $sCsvArray;\n" +
@@ -942,9 +990,9 @@ namespace NetWorkedData
             }
             tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $TIME_SYNC;\n" +
-            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
-            "\t\tglobal $admin;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;\n" +
+            "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
+            "\t\tglobal $admin, $uuid;\n" +
             "\t\tif (Integrity" + tClassName + "Test ($sCsv) == true)\n" +
             "\t\t\t{\n" +
             "\t\t\t\t$sCsvList = Prepare" + tClassName + "Data($sCsv);\n" +
@@ -1266,9 +1314,9 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" +
             "\t{\n" +
-            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $TIME_SYNC;\n" +
+            "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
-            "\t\tglobal $REP;\n" +
+            "\t\tglobal $admin, $uuid;\n" +
             "";
 
             var tMethodDeclareSpecial = tType.GetMethod("AddonPhpSpecialCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
