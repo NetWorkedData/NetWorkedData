@@ -100,6 +100,11 @@ namespace NetWorkedData
         public const string K_CLEAN_ALERT_OK = "Clean";
         public const string K_CLEAN_ALERT_CANCEL = "Cancel";
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_PURGE_ALERT_TITLE = "PURGE ALERT";
+        public const string K_PURGE_ALERT_MESSAGE = "You will flush all objects not for my account.";
+        public const string K_PURGE_ALERT_OK = "Purge";
+        public const string K_PURGE_ALERT_CANCEL = "Cancel";
+        //-------------------------------------------------------------------------------------------------------------
         // Idemobi alert Strings
         public const string K_ALERT_IDEMOBI_TITLE = "NetWorkedData";
         public const string K_ALERT_IDEMOBI_MESSAGE = "NetWorkedData is an idéMobi module to create and manage datas in your game. You  can create your owner classes and manage like standard NetWorkedDatas";

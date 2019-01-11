@@ -88,6 +88,44 @@ namespace NetWorkedData
             // TODO : remove reference from all tables columns?
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static void PurgeNotCurrentAccountDataFromTable()
+        {
+            PurgeTable();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void PurgeTable()
+        {
+            List<object> tObjectsListToDelete = new List<object>();
+            // clean object not mine!
+            foreach (NWDBasis<K> tObject in Datas().Datas)
+            {
+                //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
+                if (tObject.IsReacheableByAccount() == false)
+                {
+                    tObjectsListToDelete.Add(tObject);
+                }
+            }
+
+            foreach (NWDBasis<K> tObject in tObjectsListToDelete)
+            {
+                //RemoveObjectInListOfEdition(tObject);
+#if UNITY_EDITOR
+                if (IsObjectInEdition(tObject))
+                {
+                    SetObjectInEdition(null);
+                }
+                //NWDNodeEditor.ReAnalyzeIfNecessary(tObject);
+#endif
+                tObject.DeleteData();
+            }
+
+#if UNITY_EDITOR
+            //NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
+            RepaintTableEditor();
+#endif
+            // TODO : remove reference from all tables columns?
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static void UpdateDataTable()
         {
             NWDDataManager.SharedInstance().MigrateTable(ClassType(), AccountDependent());

@@ -1567,9 +1567,14 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
 
             bool tCleanLocalTable = false; //prevent GUIlayout error
+            bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
             if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
             {
                 tCleanLocalTable = true;
+            }
+            if (GUILayout.Button("Not my Account Purge local table", EditorStyles.miniButton))
+            {
+                tCleanLocalTableWithAccount = true;
             }
             GUI.backgroundColor = tOldColor;
 
@@ -1886,6 +1891,16 @@ namespace NetWorkedData
                             NWDConstants.K_CLEAN_ALERT_CANCEL))
                 {
                     CleanTable();
+                }
+            }
+            if (tCleanLocalTableWithAccount == true)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+                            NWDConstants.K_PURGE_ALERT_MESSAGE,
+                            NWDConstants.K_PURGE_ALERT_OK,
+                            NWDConstants.K_PURGE_ALERT_CANCEL))
+                {
+                    PurgeTable();
                 }
             }
             if (tLocalizeLocalTable == true)

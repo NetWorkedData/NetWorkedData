@@ -501,7 +501,7 @@ namespace NetWorkedData
 
             if (LastInfos.RowPushCounter == 0)
             {
-                EditorGUILayout.LabelField("Rows pused", LastInfos.RowPushCounter.ToString() + " no row (no class)");
+                EditorGUILayout.LabelField("Rows pushed", LastInfos.RowPushCounter.ToString() + " no row (no class)");
             }
             else if (LastInfos.RowPushCounter == 1)
             {
