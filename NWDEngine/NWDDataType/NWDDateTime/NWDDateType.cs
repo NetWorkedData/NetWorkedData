@@ -159,8 +159,8 @@ namespace NetWorkedData
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
 
-            tYear = NWDDateTimeType.kYearStart+ EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, NWDConstants.kPopupdStyle.fixedHeight),
-                                                                 tDateTime.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            tYear = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, NWDConstants.kPopupdStyle.fixedHeight),
+                                                                 tDateTime.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
             tMonth = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, NWDConstants.kPopupdStyle.fixedHeight),
 				tDateTime.Month-1, NWDDateTimeType.kMonths);

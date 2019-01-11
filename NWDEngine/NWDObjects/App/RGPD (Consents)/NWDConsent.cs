@@ -121,6 +121,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("ClassInitialization")]
         public static void ClassInitialization() // call by invoke
         {
         }

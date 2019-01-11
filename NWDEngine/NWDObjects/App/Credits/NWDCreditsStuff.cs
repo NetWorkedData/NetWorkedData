@@ -126,6 +126,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("ClassInitialization")]
         public static void ClassInitialization() // call by invoke
         {
         }

@@ -29,38 +29,38 @@ namespace NetWorkedData
 	//TODO: FINISH THIS CLASS NWDUTCDateTimeType
 	[SerializeField]
 	//-------------------------------------------------------------------------------------------------------------
-	public class NWDDateTimeUtcType : BTBDataType
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateTimeUtcType ()
+	public class NWDDateTimeUtcType : BTBDataTypeInt
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDDateTimeUtcType ()
 		{
-			Value = string.Empty;
-		}
+            Value = (long)BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow);
+
+        }
 		//-------------------------------------------------------------------------------------------------------------
-		public NWDDateTimeUtcType (string sValue = BTBConstants.K_EMPTY_STRING)
+		public NWDDateTimeUtcType (long sValue = 0)
 		{
-			if (sValue == null) {
-				Value = string.Empty;
-			} else {
 				Value = sValue;
-			}
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            //Value = string.Empty;
+            Value = (long)BTBDateHelper.ConvertToTimestamp(DateTime.UtcNow);
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetDateTime (DateTime sDatetime)
 		{
             sDatetime = sDatetime.ToUniversalTime();
 
-            Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
-				sDatetime.Month+NWDConstants.kFieldSeparatorA+
-				sDatetime.Day+NWDConstants.kFieldSeparatorA+
-				sDatetime.Hour+NWDConstants.kFieldSeparatorA+
-				sDatetime.Minute+NWDConstants.kFieldSeparatorA+
-				sDatetime.Second;
+            Value = (long)BTBDateHelper.ConvertToTimestamp(sDatetime);
+
+    //        Value = sDatetime.Year+NWDConstants.kFieldSeparatorA+
+				//sDatetime.Month+NWDConstants.kFieldSeparatorA+
+				//sDatetime.Day+NWDConstants.kFieldSeparatorA+
+				//sDatetime.Hour+NWDConstants.kFieldSeparatorA+
+				//sDatetime.Minute+NWDConstants.kFieldSeparatorA+
+				//sDatetime.Second;
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetTimeStamp(double sTimestamp)
@@ -75,46 +75,48 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public DateTime ToDateTime ()
 		{
-			string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-			int tYear = 1970;
-			int tMonth = 1;
-			int tDay = 1;
-			int tHour = 0;
-			int tMinute = 0;
-			int tSecond = 0;
-			if (tDateComponent.Count() == 6) {
-				int.TryParse(tDateComponent [0], out tYear);
-				int.TryParse(tDateComponent [1], out tMonth);
-				int.TryParse(tDateComponent [2],out tDay);
-				int.TryParse(tDateComponent [3], out tHour);
-				int.TryParse(tDateComponent [4], out tMinute);
-				int.TryParse(tDateComponent [5], out tSecond);
-			}
-			// test result of parsing 
-			if (tYear < 1 || tYear > 3000) {
-				tYear = 1970;
-			}
-			if (tMonth < 1 || tMonth > 12) {
-				tMonth = 1;
-			}
-			if (tDay < 1) {
-				tDay = 1;
-			}
-			int tDaysTest = DateTime.DaysInMonth (tYear, tMonth);
-			if (tDay > tDaysTest) {
-				tDay = tDaysTest;
-			}
-			if (tHour < 0 || tHour > 23 ) {
-				tHour = 0;
-			}
-			if (tMinute < 0 || tMinute > 59 ) {
-				tMinute = 0;
-			}
-			if (tSecond < 0 || tSecond > 59 ) {
-				tSecond = 0;
-			}
-            DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Utc);
-			return rReturn;
+            //string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //int tYear = 1970;
+            //int tMonth = 1;
+            //int tDay = 1;
+            //int tHour = 0;
+            //int tMinute = 0;
+            //int tSecond = 0;
+            //if (tDateComponent.Count() == 6) {
+            //	int.TryParse(tDateComponent [0], out tYear);
+            //	int.TryParse(tDateComponent [1], out tMonth);
+            //	int.TryParse(tDateComponent [2],out tDay);
+            //	int.TryParse(tDateComponent [3], out tHour);
+            //	int.TryParse(tDateComponent [4], out tMinute);
+            //	int.TryParse(tDateComponent [5], out tSecond);
+            //}
+            //// test result of parsing 
+            //if (tYear < 1 || tYear > 3000) {
+            //	tYear = 1970;
+            //}
+            //if (tMonth < 1 || tMonth > 12) {
+            //	tMonth = 1;
+            //}
+            //if (tDay < 1) {
+            //	tDay = 1;
+            //}
+            //int tDaysTest = DateTime.DaysInMonth (tYear, tMonth);
+            //if (tDay > tDaysTest) {
+            //	tDay = tDaysTest;
+            //}
+            //if (tHour < 0 || tHour > 23 ) {
+            //	tHour = 0;
+            //}
+            //if (tMinute < 0 || tMinute > 59 ) {
+            //	tMinute = 0;
+            //}
+            //if (tSecond < 0 || tSecond > 59 ) {
+            //	tSecond = 0;
+            //}
+            //DateTime rReturn = new DateTime(tYear, tMonth,tDay,tHour,tMinute,tSecond, DateTimeKind.Utc);
+            //return rReturn;
+
+            return BTBDateHelper.ConvertFromTimestamp(Value);
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
@@ -125,25 +127,32 @@ namespace NetWorkedData
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
-		{
+        {
+            Debug.Log("Value Receipt= " + Value);
             NWDDateTimeUtcType tTemporary = new NWDDateTimeUtcType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             float tHeight = NWDConstants.kPopupdStyle.fixedHeight;
-			string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-			int tYear = 1970;
-			int tMonth = 1;
-			int tDay = 1;
-			int tHour = 0;
-			int tMinute = 0;
-			int tSecond = 0;
-			if (tDateComponent.Count() == 6) {
-				int.TryParse(tDateComponent [0], out tYear);
-				int.TryParse(tDateComponent [1], out tMonth);
-				int.TryParse(tDateComponent [2],out tDay);
-				int.TryParse(tDateComponent [3], out tHour);
-				int.TryParse(tDateComponent [4], out tMinute);
-				int.TryParse(tDateComponent [5], out tSecond);
-			}
+            //string[] tDateComponent=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            if (Value < 0) 
+            {
+                Value = 0;
+            }
+            DateTime tValueDateTime = BTBDateHelper.ConvertFromTimestamp(Value);
+
+            int tYear = tValueDateTime.Year;
+			int tMonth = tValueDateTime.Month;
+			int tDay = tValueDateTime.Day;
+			int tHour = tValueDateTime.Hour;
+			int tMinute = tValueDateTime.Minute;
+			int tSecond = tValueDateTime.Second;
+			//if (tDateComponent.Count() == 6) {
+			//	int.TryParse(tDateComponent [0], out tYear);
+			//	int.TryParse(tDateComponent [1], out tMonth);
+			//	int.TryParse(tDateComponent [2],out tDay);
+			//	int.TryParse(tDateComponent [3], out tHour);
+			//	int.TryParse(tDateComponent [4], out tMinute);
+			//	int.TryParse(tDateComponent [5], out tSecond);
+			//}
 			// test result of parsing 
 			if (tYear < 1 || tYear > 3000) {
 				tYear = 1970;
@@ -188,8 +197,8 @@ namespace NetWorkedData
 
             EditorGUI.LabelField(new Rect(tX, sPos.y + tHeightAdd, 30, NWDConstants.kPopupdStyle.fixedHeight),"UTC");
 
-            tYear = NWDDateTimeType.kYearStart+ EditorGUI.Popup (new Rect (tX+30, sPos.y + tHeightAdd, tWidthYear-30, NWDConstants.kPopupdStyle.fixedHeight),
-                                                                 tDateTime.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            tYear = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX+30, sPos.y + tHeightAdd, tWidthYear-30, NWDConstants.kPopupdStyle.fixedHeight),
+                                                                 tDateTime.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
             tMonth = 1+ EditorGUI.Popup (new Rect (tX+tWidthYear +NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, NWDConstants.kPopupdStyle.fixedHeight),
 				tDateTime.Month-1, NWDDateTimeType.kMonths);
@@ -228,14 +237,28 @@ namespace NetWorkedData
 				tDateTime.Minute, NWDDateTimeType.kMinutes);
             tSecond = EditorGUI.Popup (new Rect (tX +tTiersWidth*2, sPos.y + tHeightAdd, tTiersWidthB, NWDConstants.kPopupdStyle.fixedHeight),
 				tDateTime.Second, NWDDateTimeType.kSeconds);
-			tTemporary.Value = tYear+NWDConstants.kFieldSeparatorA+
-				tMonth+NWDConstants.kFieldSeparatorA+
-				tDay+NWDConstants.kFieldSeparatorA+
-				tHour+NWDConstants.kFieldSeparatorA+
-				tMinute+NWDConstants.kFieldSeparatorA+
-				tSecond;
 
-			//GUI.Label (new Rect (sPos.x, sPos.y+tHeightAdd, sPos.width, sPos.height), Value);
+            DateTime tDateTimeFinal = new DateTime(tYear, tMonth, tDay, tHour, tMinute, tSecond, DateTimeKind.Utc);
+
+
+            Debug.Log("Value = fields : " + tYear + NWDConstants.kFieldSeparatorA +
+            tMonth + NWDConstants.kFieldSeparatorA +
+            tDay + NWDConstants.kFieldSeparatorA +
+            tHour + NWDConstants.kFieldSeparatorA +
+            tMinute + NWDConstants.kFieldSeparatorA +
+            tSecond);
+
+            tTemporary.Value = (long)BTBDateHelper.ConvertToTimestamp(tDateTimeFinal);
+
+            Debug.Log("tTemporary.Value = " + tTemporary.Value);
+            //        tTemporary.Value = tYear+NWDConstants.kFieldSeparatorA+
+            //tMonth+NWDConstants.kFieldSeparatorA+
+            //tDay+NWDConstants.kFieldSeparatorA+
+            //tHour+NWDConstants.kFieldSeparatorA+
+            //tMinute+NWDConstants.kFieldSeparatorA+
+            //tSecond;
+
+            //GUI.Label (new Rect (sPos.x, sPos.y+tHeightAdd, sPos.width, sPos.height), Value);
 
             // move EditorGUI.indentLevel to draw next controller with indent 
             EditorGUI.indentLevel = tIndentLevel;

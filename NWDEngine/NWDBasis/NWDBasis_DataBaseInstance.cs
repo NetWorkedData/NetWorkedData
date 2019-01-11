@@ -228,6 +228,10 @@ namespace NetWorkedData
                     }
                     tPropertyInfo.SetValue(this, tObject, null);
                 }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                {
+                    // int is default 0, not null!
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -316,7 +320,7 @@ namespace NetWorkedData
                 //					SetObjectInEdition (null);
                 //				}
                 //				this.AddonDeleteMe();
-               //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
+                //  NWDDataManager.SharedInstance().DeleteObjectDirect(this, AccountDependent());
             }
 #else
 			if (sObject.XX > 0) 
@@ -369,68 +373,68 @@ namespace NetWorkedData
         /// </summary>
         /// <returns><c>true</c>, if me was inserted, <c>false</c> otherwise.</returns>
         /// <param name="sAutoDate">If set to <c>true</c> s auto date.</param>
-//        public bool InsertMe(bool sAutoDate = true)
-//        {
-//            bool rReturn = false;
-//            if (Datas().ObjectsByReferenceList.Contains(this.Reference)==false)
-//            //if (NWDBasis<K>.FindObjectInDataBaseByReference(this.Reference) == null)
-//            {
-//                NWDVersionType tVersion = new NWDVersionType();
-//                tVersion.SetString("0.00.00");
+        //        public bool InsertMe(bool sAutoDate = true)
+        //        {
+        //            bool rReturn = false;
+        //            if (Datas().ObjectsByReferenceList.Contains(this.Reference)==false)
+        //            //if (NWDBasis<K>.FindObjectInDataBaseByReference(this.Reference) == null)
+        //            {
+        //                NWDVersionType tVersion = new NWDVersionType();
+        //                tVersion.SetString("0.00.00");
 
-//                this.WebServiceVersion = WebServiceVersionToUse();
-//                this.AddonVersionMe(); // call override method
-//                this.MinVersion = tVersion;
-//                this.DS = 0;
-//                this.DevSync = 0;
-//                this.PreprodSync = 0;
-//                this.ProdSync = 0;
-//                this.ServerHash = "";
-//                this.ServerLog = "";
-//                if (sAutoDate == true)
-//                {
-//                    this.DC = NWDToolbox.Timestamp();
-//                    this.DM = NWDToolbox.Timestamp();
-//                    //					this.DS = 0;
-//                }
+        //                this.WebServiceVersion = WebServiceVersionToUse();
+        //                this.AddonVersionMe(); // call override method
+        //                this.MinVersion = tVersion;
+        //                this.DS = 0;
+        //                this.DevSync = 0;
+        //                this.PreprodSync = 0;
+        //                this.ProdSync = 0;
+        //                this.ServerHash = "";
+        //                this.ServerLog = "";
+        //                if (sAutoDate == true)
+        //                {
+        //                    this.DC = NWDToolbox.Timestamp();
+        //                    this.DM = NWDToolbox.Timestamp();
+        //                    //					this.DS = 0;
+        //                }
 
-//            if (AccountDependent() == true)
-//                {
-//                    if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == true)
-//                    {
-//                        DevSync = 0;
-//                        PreprodSync = -1;
-//                        ProdSync = -1;
-//                    }
-//                    else if (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == true)
-//                    {
-//                        DevSync = -1;
-//                        PreprodSync = 0;
-//                        ProdSync = -1;
-//                    }
-//                    else if (NWDAppConfiguration.SharedInstance().IsProdEnvironement() == true)
-//                    {
-//                        DevSync = -1;
-//                        PreprodSync = -1;
-//                        ProdSync = 0;
-//                    }
-//                }
-//                this.AddonInsertMe();
-//                this.UpdateIntegrity();
-//                NWDDataManager.SharedInstance().InsertObject(this, AccountDependent());
-//                AddObjectInListOfEdition(this);
-//                rReturn = true;
-//            }
-//            else
-//            {
-//                // error this reference allready exist
-//                // Update ?
-//                UpdateMeIfModified();
-//            }
+        //            if (AccountDependent() == true)
+        //                {
+        //                    if (NWDAppConfiguration.SharedInstance().IsDevEnvironement() == true)
+        //                    {
+        //                        DevSync = 0;
+        //                        PreprodSync = -1;
+        //                        ProdSync = -1;
+        //                    }
+        //                    else if (NWDAppConfiguration.SharedInstance().IsPreprodEnvironement() == true)
+        //                    {
+        //                        DevSync = -1;
+        //                        PreprodSync = 0;
+        //                        ProdSync = -1;
+        //                    }
+        //                    else if (NWDAppConfiguration.SharedInstance().IsProdEnvironement() == true)
+        //                    {
+        //                        DevSync = -1;
+        //                        PreprodSync = -1;
+        //                        ProdSync = 0;
+        //                    }
+        //                }
+        //                this.AddonInsertMe();
+        //                this.UpdateIntegrity();
+        //                NWDDataManager.SharedInstance().InsertObject(this, AccountDependent());
+        //                AddObjectInListOfEdition(this);
+        //                rReturn = true;
+        //            }
+        //            else
+        //            {
+        //                // error this reference allready exist
+        //                // Update ?
+        //                UpdateMeIfModified();
+        //            }
 
-//#if UNITY_EDITOR
-//            NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(K));
-//#endif
+        //#if UNITY_EDITOR
+        //            NWDDataManager.SharedInstance().RepaintWindowsInManager(typeof(K));
+        //#endif
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
@@ -511,7 +515,7 @@ namespace NetWorkedData
             // Find the good webservice version
             int tWebBuildUsed = WebServiceVersionToUse();
             // test the web service version
-            if (WebServiceVersion < tWebBuildUsed && WebServiceVersion!=0)
+            if (WebServiceVersion < tWebBuildUsed && WebServiceVersion != 0)
             {
                 //Debug.Log("NWDBasis WebserviceVersionCheckMe() Update version");
                 this.AddonWebversionUpgradeMe(WebServiceVersion, tWebBuildUsed);

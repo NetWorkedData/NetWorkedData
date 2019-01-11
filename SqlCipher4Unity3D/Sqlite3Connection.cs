@@ -1633,7 +1633,8 @@ namespace SQLite4Unity3d
                     p.ColumnType == typeof(Decimal) ||
                     p.ColumnType == typeof(TimeSpan) ||
                     p.ColumnType == typeof(DateTime) ||
-                    p.ColumnType == typeof(DateTimeOffset)
+                    p.ColumnType == typeof(DateTimeOffset) ||
+                         p.ColumnType.IsSubclassOf(typeof(BTBDataType))
                     )
                 {
                     decl += "not null default 0 ";
@@ -1649,7 +1650,8 @@ namespace SQLite4Unity3d
                 else if (p.ColumnType == typeof(byte[]) ||
                          p.ColumnType == typeof(Guid) ||
                          p.ColumnType == typeof(string) ||
-                         p.ColumnType.IsSubclassOf(typeof(BTBDataType)))
+                         p.ColumnType.IsSubclassOf(typeof(BTBDataType))
+                         )
                 {
                     decl += "not null default '' ";
                 }
@@ -1714,6 +1716,10 @@ namespace SQLite4Unity3d
             if (clrType.IsSubclassOf(typeof(BTBDataType)))
             {
                 return BTBDataType.SQLType;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeInt)))
+            {
+                return BTBDataTypeInt.SQLType;
             }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
@@ -2028,6 +2034,15 @@ namespace SQLite4Unity3d
                 }
                 return SQLite3.BindText(stmt, index, tValue.ToString(), -1, NegativePointer);
             }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeInt)))
+            {
+                BTBDataTypeInt tValue = (BTBDataTypeInt)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeInt;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToLong());
+            }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
             throw new NotSupportedException("Cannot store type: " + value.GetType());
@@ -2095,6 +2110,12 @@ namespace SQLite4Unity3d
             {
                 BTBDataType tObject = Activator.CreateInstance(clrType) as BTBDataType;
                 tObject.SetString(SQLite3.ColumnString(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeInt)))
+            {
+                BTBDataTypeInt tObject = Activator.CreateInstance(clrType) as BTBDataTypeInt;
+                tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
                 return tObject;
             }
             //---------- ADD IDEMOBI FINISH ------------

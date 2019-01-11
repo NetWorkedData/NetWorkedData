@@ -132,6 +132,14 @@ namespace NetWorkedData
                             tValueBTBDataType.Default();
                             tProp.SetValue(this, tValue, null);
                         }
+                        else if (tProp.PropertyType.IsSubclassOf(typeof(BTBDataTypeInt)))
+                        {
+                            //Debug.Log("must implement "+tProp.Name + " value");
+                            tValue = Activator.CreateInstance(tProp.PropertyType) as object;
+                            BTBDataTypeInt tValueBTBDataType = (BTBDataTypeInt)tValue;
+                            tValueBTBDataType.Default();
+                            tProp.SetValue(this, tValue, null);
+                        }
                         else
                         {
                         }

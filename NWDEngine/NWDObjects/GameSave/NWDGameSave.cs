@@ -169,6 +169,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private static NWDGameSave kCurrentGameSave;
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("ClassInitialization")]
         public static void ClassInitialization() // call by invoke
         {
         }

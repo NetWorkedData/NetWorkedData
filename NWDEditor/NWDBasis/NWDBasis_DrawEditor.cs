@@ -497,6 +497,25 @@ namespace NetWorkedData
                                     //                                    }
                                     //                                    tY += tHeight + NWDConstants.kFieldMarge;
                                 }
+                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                                {
+                                    var tValue = tProp.GetValue(this, null);
+                                    if (tValue == null)
+                                    {
+                                        tValue = Activator.CreateInstance(tTypeOfThis);
+                                    }
+                                    BTBDataTypeInt tBTBDataType = (BTBDataTypeInt)tValue;
+                                    float tHeight = tBTBDataType.ControlFieldHeight();
+                                    tY += tHeight + NWDConstants.kFieldMarge;
+
+                                    //                                    float tHeight = 0.0f;
+                                    //                                    var tMethodInfo = tTypeOfThis.GetMethod ("ControlFieldHeight", BindingFlags.Public | BindingFlags.Instance);
+                                    //                                    if (tMethodInfo != null) {
+                                    //                                        string tHeightString = tMethodInfo.Invoke (tValue, null) as string;
+                                    //                                        float.TryParse (tHeightString, out tHeight);
+                                    //                                    }
+                                    //                                    tY += tHeight + NWDConstants.kFieldMarge;
+                                }
                                 else
                                 {
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1020,6 +1039,29 @@ namespace NetWorkedData
                                     BTBDataType tBTBDataType = tValue as BTBDataType;
                                     BTBDataType tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
                                                                                              tEntitled, tToolsTips) as BTBDataType;
+
+                                    if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                                    {
+                                        //Debug.Log("change in "+tTypeOfThis.Name);
+                                        tProp.SetValue(this, tBTBDataTypeNext, null);
+                                        rNeedBeUpdate = true;
+
+                                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                                    }
+                                    float tHeight = tBTBDataType.ControlFieldHeight();
+                                    tY += tHeight + NWDConstants.kFieldMarge;
+
+                                }
+                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                                {
+                                    var tValue = tProp.GetValue(this, null);
+                                    if (tValue == null)
+                                    {
+                                        tValue = Activator.CreateInstance(tTypeOfThis);
+                                    }
+                                    BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
+                                    BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+                                                                                             tEntitled, tToolsTips) as BTBDataTypeInt;
 
                                     if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                                     {
@@ -1940,6 +1982,18 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataType tBTBDataType = tValue as BTBDataType;
+                        if (tBTBDataType.IsInError() == true)
+                        {
+                            tNewValue = true;
+                        }
+                    }
+                }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                {
+                    var tValue = tProp.GetValue(this, null);
+                    if (tValue != null)
+                    {
+                        BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
                         if (tBTBDataType.IsInError() == true)
                         {
                             tNewValue = true;

@@ -151,6 +151,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("ClassInitialization")]
         public static void ClassInitialization() // call by invoke
         {
         }
@@ -397,17 +398,17 @@ namespace NetWorkedData
         }
 
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate()
         {
             return "// write your php script here to update $tReference before sync on server\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate()
         {
             return "// write your php script here to update afetr sync on server\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate()
         {
             return "\n" +
         "\t\tglobal $NWD_FLOAT_FORMAT;\n" +

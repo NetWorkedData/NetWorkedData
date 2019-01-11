@@ -518,7 +518,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> ClasseInThisSync()
         {
-            var tMethodInfo = ClassType().GetMethod("OverrideClasseInThisSync", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //var tMethodInfo = ClassType().GetMethod("OverrideClasseInThisSync", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            string tMethodAlias = NWDAliasMethod.FindAliasName(ClassType(), "OverrideClasseInThisSync");
+            var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
                 return tMethodInfo.Invoke(null, null) as List<Type>;

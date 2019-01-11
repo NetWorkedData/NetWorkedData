@@ -60,6 +60,59 @@ namespace NetWorkedData
         }
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class NWDAliasMethod : Attribute
+    {
+        public static string FindAliasName(Type sType, string sAlias)
+        {
+            string rReturn = sAlias;
+            foreach (MethodInfo tProp in sType.GetMethods(BindingFlags.Public | BindingFlags.FlattenHierarchy))
+            {
+                foreach (NWDAliasMethod tReference in tProp.GetCustomAttributes(typeof(NWDAliasMethod), true))
+                {
+                    if (tReference.Alias == sAlias)
+                    {
+                        rReturn = tProp.Name;
+                    }
+                }
+            }
+            return rReturn;
+        }
+        // use in NWDBasis with FindAliasName();
+        public string Alias = string.Empty;
+        public NWDAliasMethod(string sAlias)
+        {
+            this.Alias = sAlias;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
+    public class NWDAlias : Attribute
+    {
+        public static string FindAliasName(Type sType, string sAlias)
+        {
+            string rReturn = sAlias;
+            foreach (PropertyInfo tProp in sType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                foreach (NWDAlias tReference in tProp.GetCustomAttributes(typeof(NWDAlias), true))
+                {
+                    if (tReference.Alias == sAlias)
+                    {
+                        rReturn = tProp.Name;
+                    }
+                }
+            }
+            return rReturn;
+        }
+
+        // use in NWDBasis with FindAliasName();
+        public string Alias = string.Empty;
+        public NWDAlias(string sAlias)
+        {
+            this.Alias = sAlias;
+        }
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// NWDEntitledAttribute custom toolstip and entitlement for property. 
     /// </summary>

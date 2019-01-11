@@ -318,12 +318,12 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate()
         {
             return "\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate()
         {
             return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
                    "\n " +
@@ -333,7 +333,7 @@ namespace NetWorkedData
                    "\t}\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate()
         {
             return "\n";
         }

@@ -97,7 +97,8 @@ namespace NetWorkedData
 
             CreateAllPHP("_modify");
             // Recreate NWDAppConfiguration C#
-            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+           // TODO ? 
+            // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 
             //test transmit SFTP
             var host = "whateverthehostis.com";
@@ -502,6 +503,10 @@ namespace NetWorkedData
                     {
                         columnNamesFinalList.Add("`" + tName + "`(24)");
                     }
+                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeInt)))
+                    {
+                        columnNamesFinalList.Add("`" + tName + "`");
+                    }
                     else if (tColumnType == typeof(string))
                     {
                         columnNamesFinalList.Add("`" + tName + "`(24)");
@@ -675,6 +680,24 @@ namespace NetWorkedData
             "\t\t\t\terror('" + tTrigramme + "x88');\n" +
             "\t\t\t}\n" +
             "\t\treturn $rReturn;\n" +
+            "\t}\n" +
+            "//-------------------- \n" +
+            "function Integrity" + tClassName + "ReplaceIntegrate ($sCsvArray, $sIndex, $sValue)\n" +
+            "\t{\n" +
+            "\t\tglobal $SQL_NWDUserTradeFinder_SaltA, $SQL_NWDUserTradeFinder_SaltB;\n" +
+            "\t\t$sCsvList = $sCsvArray;\n" +
+            "\t\t$sCsvList[$sIndex] = $sValue;\n" +
+            "\t\t$tIntegrity = array_pop($sCsvList);\n" +
+            "\t\tunset($sCsvList[2]);//remove DS\n" +
+            "\t\tunset($sCsvList[3]);//remove DevSync\n" +
+            "\t\tunset($sCsvList[4]);//remove PreprodSync\n" +
+            "\t\tunset($sCsvList[5]);//remove ProdSync\n" +
+            "\t\t$sDataString = implode('',$sCsvList);\n" +
+            "\t\t$tCalculate = str_replace('|', '', md5($SQL_NWDUserTradeFinder_SaltA.$sDataString.$SQL_NWDUserTradeFinder_SaltB));\n" +
+            "\t\t$sCsvArray[$sIndex] = $sValue;\n" +
+            "\t\tarray_pop($sCsvArray);\n" +
+            "\t\t$sCsvArray[] = $tCalculate;\n" +
+            "\t\treturn $sCsvArray;\n" +
             "\t}\n" +
             "//-------------------- \n" +
             "function Prepare" + tClassName + "Data ($sCsv)\n" +
@@ -932,7 +955,7 @@ namespace NetWorkedData
             "\t\t\t\telse\n" +
             "\t\t\t\t{\n" +
             "\t\t\t\t$tReference = $sCsvList[0];\n" +
-            "\t\t\t\t\t\t\t\t\t// find solution for pre calculate on server\n\n\n";
+            "\t\t\t\t\t\t\t\t\t// find solution for pre calculate on server\n";
 
 
             var tMethodDeclarePre = tType.GetMethod("AddonPhpPreCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
@@ -947,7 +970,7 @@ namespace NetWorkedData
             //}
 
 
-            tSynchronizationFile += "\n\n\n" +
+            tSynchronizationFile += "\n" +
             "\t\t\t\t$tQuery = 'SELECT `Reference`, `DM` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
             "\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\t\t\tif (!$tResult)\n" +
@@ -1016,7 +1039,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t\t\t}\n" +
             //"\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +
-            "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n\n\n";
+            "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n";
 
             var tMethodDeclarePost= tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePost != null)
@@ -1029,7 +1052,7 @@ namespace NetWorkedData
             //    NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
             //    tSynchronizationFile += tScriptNameAttribut.Script;
             //}
-            tSynchronizationFile += "\n\n\n" +
+            tSynchronizationFile += "\n" +
                 "$tLigneAffceted = $SQL_CON->affected_rows;\n" +
                 //"myLog('tLigneAffceted = '.$tLigneAffceted, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "if ($tLigneAffceted == 1)\n" +

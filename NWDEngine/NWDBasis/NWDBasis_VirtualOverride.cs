@@ -147,20 +147,20 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string AddonPhpPreCalculate()
-        {
-            return "\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string AddonPhpPostCalculate()
-        {
-            return "\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public virtual string AddonPhpSpecialCalculate()
-        {
-            return "\n";
-        }
+        //public static string AddonPhpPreCalculate()
+        //{
+        //    return "\n";
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string AddonPhpPostCalculate()
+        //{
+        //    return "\n";
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string AddonPhpSpecialCalculate()
+        //{
+        //    return "\n";
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {

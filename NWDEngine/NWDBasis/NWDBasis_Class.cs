@@ -147,7 +147,10 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().mTypeLoadedList.Add(tActualType);
             //BTBBenchmark.Finish("ClassDeclare step 4");
             //BTBBenchmark.Start("ClassDeclare step 5");
-            var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+
+            //var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            string tMethodAlias = NWDAliasMethod.FindAliasName(ClassType(), "ClassInitialization");
+            var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
                 tMethodInfo.Invoke(null, null);
@@ -176,6 +179,12 @@ namespace NetWorkedData
         public static Type ClassType()
         {
             return typeof(K);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string FindAliasName(string sAlias)
+        {
+
+            return NWDAlias.FindAliasName(ClassType(), sAlias);
         }
         //-------------------------------------------------------------------------------------------------------------
         //public static Dictionary<string, string> kMenuNameType = new Dictionary<string, string>();

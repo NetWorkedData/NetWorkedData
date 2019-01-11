@@ -119,6 +119,7 @@ namespace NetWorkedData
         static bool Started = false;
         static List<Type> OtherData = new List<Type>();
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("ClassInitialization")]
         public static void ClassInitialization() // call by invoke
         {
             //Debug.Log("NWDUserNetWorking Static ClassInitialization()");

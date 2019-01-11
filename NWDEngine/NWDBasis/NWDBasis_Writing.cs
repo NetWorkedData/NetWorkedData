@@ -264,6 +264,14 @@ namespace NetWorkedData
                     tTemp.SetString(tValueString);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
+                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                {
+                    BTBDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
+                    int tTempInt = 0;
+                    int.TryParse(tValueString, out tTempInt);
+                    tTemp.SetLong(tTempInt);
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
                 else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                 {
                     tPropertyInfo.SetValue(this, tValueString, null);

@@ -238,8 +238,8 @@ namespace NetWorkedData
 			tHeightAdd += tHeightTitle;
 
 
-            int tYearStart = NWDDateTimeType.kYearStart + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
-                                                                           tStartDateTimes.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            int tYearStart = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
+                                                                           tStartDateTimes.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
 			int tMonthStart = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
 				                  tStartDateTimes.Month - 1, NWDDateTimeType.kMonths);
@@ -283,8 +283,8 @@ namespace NetWorkedData
             GUI.Label (new Rect (sPos.x + EditorGUIUtility.labelWidth, sPos.y + tHeightAdd, sPos.width, NWDConstants.kLabelStyle.fixedHeight), "End", NWDConstants.kLabelStyle);
 			tHeightAdd += tHeightTitle;
 
-            int tYearNext = NWDDateTimeType.kYearStart + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
-                                                                          tEndDateTimes.Year - NWDDateTimeType.kYearStart, NWDDateTimeType.kYears);
+            int tYearNext = NWDDateTimeType.kYearStart() + EditorGUI.Popup (new Rect (tX, sPos.y + tHeightAdd, tWidthYear, sPos.height),
+                                                                          tEndDateTimes.Year - NWDDateTimeType.kYearStart(), NWDDateTimeType.kYears);
 
 			int tMonthNext = 1 + EditorGUI.Popup (new Rect (tX + tWidthYear + NWDConstants.kFieldMarge, sPos.y + tHeightAdd, tWidthMonth, sPos.height),
 				                 tEndDateTimes.Month - 1, NWDDateTimeType.kMonths);

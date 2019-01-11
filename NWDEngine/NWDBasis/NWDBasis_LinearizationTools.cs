@@ -32,7 +32,24 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
         #region Class Methods
-
+        //-------------------------------------------------------------------------------------------------------------
+        //public static string FindAliasName(string sAlias)
+        //{
+        // SEE NWDALIAS DIRECTLY METHOD
+        //    string rReturn = string.Empty;
+        //    Type tType = ClassType();
+        //    foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+        //    {
+        //        foreach (NWDAlias tReference in tProp.GetCustomAttributes(typeof(NWDAlias), true))
+        //        {
+        //            if (tReference.Alias == sAlias)
+        //            {
+        //                rReturn = tProp.Name;
+        //            }
+        //        }
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Gets the reference value from CSV.
@@ -114,6 +131,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static Dictionary<string, string[]> kCSVAssemblyOrderArray = new Dictionary<string, string[]>();
 
+        //-------------------------------------------------------------------------------------------------------------
+        public static int CSVAssemblyIndexOf(string sPropertyName)
+        {
+            return Array.IndexOf(CSVAssemblyOrderArray(), sPropertyName);
+        }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// CSV assembly order array.
@@ -603,6 +625,14 @@ namespace NetWorkedData
                         tObject.SetString(tValueString);
                         tPropertyInfo.SetValue(this, tObject, null);
                     }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+                    {
+                        BTBDataTypeInt tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
+                        long tTemp = 0;
+                        long.TryParse(tValueString, out tTemp);
+                        tObject.SetLong(tTemp);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
                     // Do for Standard type
                     else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                     {
@@ -827,6 +857,10 @@ namespace NetWorkedData
                         tValueString = tInt.ToString();
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+                    {
+                        tValueString = tValue.ToString();
+                    }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
                     {
                         tValueString = tValue.ToString();
                     }

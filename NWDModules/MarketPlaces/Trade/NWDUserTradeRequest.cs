@@ -48,12 +48,22 @@ namespace NetWorkedData
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
-        public NWDTradeStatus TradeStatus { get; set; }
-        public NWDDateTimeType LimitDayTime { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set;
+        }
+        [NWDAlias("TradePlace")]
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set;
+        }
+        [NWDAlias("ItemsProposed")]
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set;
+        }
+        [NWDAlias("ItemsAsked")]
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set;
+        }
+        [NWDAlias("TradeStatus")]
+        public NWDTradeStatus TradeStatus { get; set;
+        }
+        [NWDAlias("LimitDayTime")]
+        public NWDDateTimeUtcType LimitDayTime { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
