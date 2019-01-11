@@ -5,18 +5,42 @@
 //
 //=====================================================================================================================
 
-using SQLite.Attribute;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
 using UnityEngine;
+
+using SQLite4Unity3d;
+
+using BasicToolBox;
+using SQLite.Attribute;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDTradeStatus
+    {
+        None = 0,
+        Active = 10,
+        Accepted = 20,
+        Cancel = 30,
+        Expired = 40,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronize(true)]
-    [NWDClassTrigramme("UTRP")]
-    [NWDClassDescription("User Trade Proposition descriptions Class")]
-    [NWDClassMenuName("User Trade Proposition")]
-    public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
+    [NWDClassTrigramme("UTRR")]
+    [NWDClassDescription("User Trade Request descriptions Class")]
+    [NWDClassMenuName("User Trade Request")]
+    public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
@@ -24,30 +48,34 @@ namespace NetWorkedData
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
-        public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
-        public NWDTradeStatus TradeStatus { get; set; }
-        [NWDGroupEnd]
-
-        [NWDGroupSeparator]
-
-        [NWDGroupStart("Trade References", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
-        public NWDDateTimeType TradeRequestDM { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set;
+        }
+        [NWDAlias("TradePlace")]
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set;
+        }
+        [NWDAlias("ItemsProposed")]
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set;
+        }
+        [NWDAlias("ItemsAsked")]
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set;
+        }
+        [NWDAlias("TradeStatus")]
+        public NWDTradeStatus TradeStatus { get; set;
+        }
+        [NWDAlias("LimitDayTime")]
+        public NWDDateTimeUtcType LimitDayTime { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeProposition()
+        public NWDUserTradeRequest()
         {
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeProposition(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserTradeRequest(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
 
         }
