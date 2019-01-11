@@ -176,10 +176,12 @@ namespace NetWorkedData
 			tY = tY + NWDConstants.kFieldMarge + tObjectFieldStyle.fixedHeight;
 			if (pObj != null) {
                 //if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) 
-                if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
+                //if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
+                if (PrefabUtility.GetPrefabType(pObj) == PrefabType.Prefab)
                 {
-					tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabInstanceHandle(pObj)) + NWDAssetType.kAssetDelimiter;
-				}
+					//tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabInstanceHandle(pObj)) + NWDAssetType.kAssetDelimiter;
+                    tTemporary.Value = NWDAssetType.kAssetDelimiter + AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabObject(pObj)) + NWDAssetType.kAssetDelimiter;
+                }
 			} else {
 				tTemporary.Value = string.Empty;
 			}

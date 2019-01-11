@@ -225,10 +225,10 @@ namespace NetWorkedData
                     EditorGUI.indentLevel = 0;
                     UnityEngine.Object pObj = EditorGUI.ObjectField (new Rect (tX + tLangWidth + NWDConstants.kFieldMarge, tY, tWidth - tLangWidth - NWDConstants.kFieldMarge, NWDConstants.kPopupdStyle.fixedHeight), (UnityEngine.Object)tObject, typeof(GameObject), false);
 					if (pObj != null) {
-                        if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
-                        //if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) 
+                        //if (PrefabUtility.GetPrefabInstanceStatus(pObj) == PrefabInstanceStatus.Connected)
+                        if (PrefabUtility.GetPrefabType (pObj) == PrefabType.Prefab) 
                         {
-							tText = AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabInstanceHandle(pObj));
+							tText = AssetDatabase.GetAssetPath (PrefabUtility.GetPrefabObject(pObj));
 						}
 					} else {
 						tText = "";

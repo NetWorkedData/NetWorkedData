@@ -26,8 +26,12 @@ namespace NetWorkedData
         public NWDReferenceType<NWDAccount> Account { get; set; }
         public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        [NWDAlias("TradeRequest")]
         public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
-        public NWDTradeStatus TradeStatus { get; set; }
+        [NWDAlias("TradeStatus")]
+        public NWDTradeStatus TradeStatus { get; set;}
+        [NWDAlias("TradeRequestDM")]
+        public NWDDateTimeUtcType TradeRequestDM {get; set;}
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -35,7 +39,6 @@ namespace NetWorkedData
         [NWDGroupStart("Trade References", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
         public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
-        public NWDDateTimeType TradeRequestDM { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -141,6 +144,68 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpPreCalculate()
+        {
+
+            string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
+            string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
+            string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
+            string tTradeRequestDM = NWDUserTradeRequest.FindAliasName("TradeRequestDM");
+
+            string tTradeRequestsList = NWDUserTradeFinder.FindAliasName("TradeRequestsList");
+            string tTradePlace = NWDUserTradeFinder.FindAliasName("TradePlace");
+            int tIndex_TradeRequestsList = CSVAssemblyIndexOf(tTradeRequestsList);
+            int tIndex_TradePlace = CSVAssemblyIndexOf(tTradePlace);
+            int tIndex_tTradeRequestDM = CSVAssemblyIndexOf(tTradeRequestDM);
+            string sScript = "" +
+                "// debut find \n" +
+                "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
+                "SET `DM` = \\''.$TIME_SYNC.'\\'," +
+                "SET `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
+                // WHERE REQUEST
+                "WHERE `AC`= \\'1\\' " +
+                "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
+                "AND `" + tTradePlaceRequest + "` = \\''.$sCsvList[" + tIndex_TradePlace + "].'\\' " +
+                "AND `DM` = \\''.$sCsvList[" + tIndex_tTradeRequestDM + "].'\\' " +
+                "AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
+                // ORDER BY 
+                //"ORDER BY `" + tLimitDayTime + "` " +
+                "';\n" +
+                "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tResultTrade = $SQL_CON->query($tQueryTrade);\n" +
+                "$tReferences = \'\';\n" +
+                "$tReferencesList = \'\';\n" +
+                "if (!$tResultTrade)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('UTRFx31');\n" +
+                "}\n" +
+                "else\n" +
+                "{\n" +
+                "int $tNumberOfRow =$tResultTrade->affected_rows();\n" +
+                "if ($tNumberOfRow == 1)\n" +
+                "{\n" +
+                "\\ I need update the proposition too !\n" +
+                "}\n" +
+                "else" +
+                "{\n" +
+                "}\n" +
+                "}\n" +
+                "// fin find \n";
+
+            return sScript;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpPostCalculate()
+        {
+            return "// write your php script here to update afetr sync on server\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpSpecialCalculate()
+        {
+            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

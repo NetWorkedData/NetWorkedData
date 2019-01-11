@@ -278,7 +278,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpPostCalculate()
         {
-            return "// write your php script here to update afetr sync on server\n";
+            return "\n" +
+            	"GetDatasNWDUserTradePropositionByReferences ($tReferences);\n" +
+            	"\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate()

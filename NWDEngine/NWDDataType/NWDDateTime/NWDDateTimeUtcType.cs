@@ -128,7 +128,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
-            Debug.Log("Value Receipt= " + Value);
+            //Debug.Log("Value Receipt= " + Value);
             NWDDateTimeUtcType tTemporary = new NWDDateTimeUtcType ();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
             float tHeight = NWDConstants.kPopupdStyle.fixedHeight;
@@ -241,16 +241,16 @@ namespace NetWorkedData
             DateTime tDateTimeFinal = new DateTime(tYear, tMonth, tDay, tHour, tMinute, tSecond, DateTimeKind.Utc);
 
 
-            Debug.Log("Value = fields : " + tYear + NWDConstants.kFieldSeparatorA +
-            tMonth + NWDConstants.kFieldSeparatorA +
-            tDay + NWDConstants.kFieldSeparatorA +
-            tHour + NWDConstants.kFieldSeparatorA +
-            tMinute + NWDConstants.kFieldSeparatorA +
-            tSecond);
+            //Debug.Log("Value = fields : " + tYear + NWDConstants.kFieldSeparatorA +
+            //tMonth + NWDConstants.kFieldSeparatorA +
+            //tDay + NWDConstants.kFieldSeparatorA +
+            //tHour + NWDConstants.kFieldSeparatorA +
+            //tMinute + NWDConstants.kFieldSeparatorA +
+            //tSecond);
 
             tTemporary.Value = (long)BTBDateHelper.ConvertToTimestamp(tDateTimeFinal);
 
-            Debug.Log("tTemporary.Value = " + tTemporary.Value);
+            //Debug.Log("tTemporary.Value = " + tTemporary.Value);
             //        tTemporary.Value = tYear+NWDConstants.kFieldSeparatorA+
             //tMonth+NWDConstants.kFieldSeparatorA+
             //tDay+NWDConstants.kFieldSeparatorA+
