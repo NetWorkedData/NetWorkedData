@@ -186,6 +186,61 @@ namespace NetWorkedData
             // Height calculate for the interface addon for editor
             float tYadd = 0.0f;
             return tYadd;
+        }//-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpPreCalculate()
+        {
+            string t_THIS_TradeStatus = FindAliasName("TradeStatus");
+            int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
+            string sScript = "" +
+                "// debut find \n" +
+                "\n" +
+                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + ")\n" +
+                "{\n" +
+                "$tQueryCancelable = 'SELECT `Reference` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` WHERE " +
+                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                " AND `" + t_THIS_TradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\' " +
+                "';" +
+                "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+                "if (!$tResultCancelable)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('UTRRx31');\n" +
+                "}\n" +
+                "else" +
+                "\n" +
+                "{\n" +
+                "if ($tResultCancelable->num_rows > 0)\n" +
+                "{\n" +
+                "mysqli_free_result($tResultCancelable);\n" +
+                "//stop the function!\n" +
+                "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "return;\n" +
+                "}\n" +
+                "else\n" +
+                "{\n" +
+                "mysqli_free_result($tResultCancelable);\n" +
+                "// I can change data to expired!\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", '" + ((int)NWDTradeStatus.Expired).ToString() + "');" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + ")\n" +
+                "{\n" +
+                "// this case must be cancelled ?\n" +
+                "}\n" +
+                "// fin find \n";
+
+            return sScript;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpPostCalculate()
+        {
+            return "// write your php script here to update afetr sync on server\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpSpecialCalculate()
+        {
+            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
