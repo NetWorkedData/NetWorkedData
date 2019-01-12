@@ -27,8 +27,11 @@ namespace NetWorkedData
 		public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
 		public string PlayerAccountReference = string.Empty;
 		public string RequesToken = string.Empty;
-		//-------------------------------------------------------------------------------------------------------------
-		public string AnonymousPlayerAccountReference = string.Empty;
+       // for debug anti-crack
+        public string PreviewRequesToken = string.Empty;
+        public string LastPreviewRequesToken = string.Empty;
+        //-------------------------------------------------------------------------------------------------------------
+        public string AnonymousPlayerAccountReference = string.Empty;
 		// reccord the first anonymous value to restaure old original account
 		public string AnonymousResetPassword = string.Empty;
 		// reccord the secretKey to reset token

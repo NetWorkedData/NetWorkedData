@@ -407,7 +407,24 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("CleanTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    string tMethodName  = NWDAliasMethod.FindAliasName(tType, "CleanTable");
+                    var tMethodInfo = tType.GetMethod(tMethodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    if (tMethodInfo != null)
+                    {
+                        tMethodInfo.Invoke(null, null);
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void PurgeAllTablesLocal()
+        {
+            if (kConnectedToDatabase == true && kConnectedToDatabaseIsProgress == false)
+            {
+                foreach (Type tType in mTypeList)
+                {
+                    string tMethodName = NWDAliasMethod.FindAliasName(tType, "PurgeTable");
+                    var tMethodInfo = tType.GetMethod(tMethodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
                         tMethodInfo.Invoke(null, null);

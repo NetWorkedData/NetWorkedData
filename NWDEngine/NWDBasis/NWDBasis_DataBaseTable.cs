@@ -57,6 +57,7 @@ namespace NetWorkedData
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("CleanTable")]
         public static void CleanTable()
         {
             List<object> tObjectsListToDelete = new List<object>();
@@ -93,6 +94,7 @@ namespace NetWorkedData
             PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod("PurgeTable")]
         public static void PurgeTable()
         {
             List<object> tObjectsListToDelete = new List<object>();

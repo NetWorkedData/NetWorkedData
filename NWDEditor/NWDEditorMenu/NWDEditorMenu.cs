@@ -367,9 +367,16 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_LOCAL_CLEAN_TRASHED_DATAS, false, 9203)]
-        public static void CleanAllDatas()
+        public static void PurgeAllDatas()
         {
             NWDDataManager.SharedInstance().CleanAllTablesLocal();
+            NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_PURGE_DATAS, false, 9203)]
+        public static void CleanAllDatas()
+        {
+            NWDDataManager.SharedInstance().PurgeAllTablesLocal();
             NWDDataManager.SharedInstance().ReloadAllObjects();
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -94,7 +94,7 @@ namespace NetWorkedData
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string rURL = Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
-            Debug.Log("URL : " + rURL);
+            //Debug.Log("URL : " + rURL);
             return rURL;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -197,9 +197,55 @@ namespace NetWorkedData
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
 
                     // Notification of an Download is done
-                    Debug.Log("NWDOperationWebUnity Upload / Download Request isDone: " + Request.isDone);
+                    //Debug.Log("NWDOperationWebUnity UPLOADED / DOWNLOADED isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
-                    Debug.Log("NWDOperationWebUnity Request.isDone text DOWNLOADED: " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+
+                    string tDebug = string.Empty;
+                    foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+                    {
+                        tDebug += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    }
+                    //Debug.Log("NWDOperationWebUnity DOWNLOADED Headers " + tDebug);
+                    //Debug.Log("NWDOperationWebUnity DOWNLOADED Datas " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+
+
+                    Debug.Log("NWDOperationWebUnity DOWNLOADED \n" +
+                    "-------------------\n" +
+                    "<b>Headers :</b> \n" +
+                    "-------------------\n" +
+                    tDebug +
+                    "-------------------\n" +
+                    "<b>Datas :</b> \n" +
+                    "-------------------\n" +
+                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
+                    "-------------------\n" +
+                    ""
+                    );
+
+                    string tDebugUpload = string.Empty;
+                    foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                    {
+                        tDebugUpload += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    }
+
+                    Debug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
+                    "-------------------\n" +
+                    "<b>Headers UPLOAD:</b> \n" +
+                    "-------------------\n" +
+                    tDebugUpload +
+                    "-------------------\n" +
+                    "<b>Headers DOWNLOAD:</b> \n" +
+                    "-------------------\n" +
+                    tDebug +
+                    "-------------------\n" +
+                    "<b>Datas DOWNLOAD:</b> \n" +
+                    "-------------------\n" +
+                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
+                    "-------------------\n" +
+                    ""
+                    );
+
+
                 }
 
                 // Check for error
@@ -234,6 +280,8 @@ namespace NetWorkedData
                         // memorize the token for next connection
                         if (!ResultInfos.token.Equals(string.Empty))
                         {
+                            Environment.LastPreviewRequesToken = Environment.PreviewRequesToken;
+                            Environment.PreviewRequesToken = Environment.RequesToken;
                             Environment.RequesToken = ResultInfos.token;
                         }
 
@@ -485,11 +533,12 @@ namespace NetWorkedData
         public string Version;
         public string UUID;
         public string RequestToken;
+        Dictionary<string, object> HeaderParams = new Dictionary<string, object>();
         //-------------------------------------------------------------------------------------------------------------
         public void InsertHeaderInRequest()
         {
             //TODO: Insert Header In Request
-            Dictionary<string, object> tHeaderParams = new Dictionary<string, object>();
+            HeaderParams.Clear();
 
             UUID = Environment.PlayerAccountReference;
             RequestToken = Environment.RequesToken;
@@ -515,32 +564,43 @@ namespace NetWorkedData
             Lang = NWDDataManager.SharedInstance().PlayerLanguage;
 
             // insert value in header dico
-            tHeaderParams.Add(UUIDKey, UUID);
-            tHeaderParams.Add(RequestTokenKey, RequestToken);
-            tHeaderParams.Add(OSKey, OS);
-            tHeaderParams.Add(VersionKey, Version);
-            tHeaderParams.Add(LangKey, Lang);
+            HeaderParams.Add(UUIDKey, UUID);
+            HeaderParams.Add(RequestTokenKey, RequestToken);
+            HeaderParams.Add(OSKey, OS);
+            HeaderParams.Add(VersionKey, Version);
+            HeaderParams.Add(LangKey, Lang);
 
             // create hash security
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
-            tHeaderParams.Add(HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
+            HeaderParams.Add(HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
 
             #if UNITY_EDITOR
             // add hash for admin
             if (Application.isPlaying == false && Application.isEditor == true)
             {
-                tHeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
+                HeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
             }
             #endif
 
             // insert dico of header in request header
             string tDebug = string.Empty;
-            foreach (KeyValuePair<string, object> tEntry in tHeaderParams)
+            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
                 Request.SetRequestHeader(tEntry.Key, tEntry.Value.ToString());
-                tDebug += tEntry.Key + " = '" + tEntry.Value + "' , ";
+                tDebug += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            Debug.Log("Header : " + tDebug);
+            Debug.Log("NWDOperationWebUnity UPLOADED \n" +
+            "-------------------\n" +
+            "<b>Headers :</b> \n" +
+            "-------------------\n" +
+            tDebug + 
+            "-------------------\n" +
+            "<b>Datas :</b> \n" +
+            "-------------------\n" +
+            Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
+            "-------------------\n" +
+            ""
+            );
         }
         //-------------------------------------------------------------------------------------------------------------
         static string UnSecureKey = "prm";
@@ -558,7 +618,7 @@ namespace NetWorkedData
             string tParamValue = string.Empty;
             string tDigestValue = string.Empty;
 
-            Debug.Log("Data : " + Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty));
+            //Debug.Log("NWDOperationWebUnity UPLOADED Datas : " + Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty));
 
             if (SecureData)
             {

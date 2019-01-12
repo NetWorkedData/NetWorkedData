@@ -1336,7 +1336,8 @@ namespace NetWorkedData
 
 
             "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +
-            "\t{\n";
+            "\t{\n" +
+            "\tglobal $token_FirstUse;\n";
             if (tINeedAdminAccount == true)
             {
                 tSynchronizationFile += "\tif ($sAdmin == true)\n\t{\n";
@@ -1346,6 +1347,8 @@ namespace NetWorkedData
             "\t\t\t{\n" +
             "\t\t\t\t$sAccountReference = '%';\n" +
             "\t\t\t}\n" +
+            "\tif ($token_FirstUse == true)\n" +
+            "\t\t{\n" +
             "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
             "\t\t\t{\n" +
             "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['data']))\n" +
@@ -1377,7 +1380,13 @@ namespace NetWorkedData
             {
                 tSynchronizationFile += "\t\t}\n";
             }
-            tSynchronizationFile += "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
+            tSynchronizationFile += "" +
+            "\t\t}\n" +
+            "\telse\n" +
+            "\t\t{\n" +
+            "\t\t\tmyLog('NOT UPDATE, SPECIAL OR CLEAN ACTION ... YOU USE OLDEST TOKEN', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t}\n" +
+            "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
             "\t\t\t{\n" +
             "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['sync']))\n" +
             "\t\t\t\t\t{\n" +

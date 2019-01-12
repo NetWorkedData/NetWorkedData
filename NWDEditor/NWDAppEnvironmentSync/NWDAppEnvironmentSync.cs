@@ -636,6 +636,34 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().CleanAllTablesLocal();
                 }
             }
+            if (GUILayout.Button("Purge all local tables", EditorStyles.miniButton))
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_PURGE_ALERT_TITLE,
+                        NWDConstants.K_PURGE_ALERT_MESSAGE,
+                        NWDConstants.K_PURGE_ALERT_OK,
+                        NWDConstants.K_PURGE_ALERT_CANCEL))
+                {
+                    NWDDataManager.SharedInstance().PurgeAllTablesLocal();
+                }
+            }
+
+            GUILayout.Label("TESTS ANTI-HACK");
+            if (GUILayout.Button("ReInject last request result", EditorStyles.miniButton))
+            {
+
+            }
+            if (GUILayout.Button("Use false token", EditorStyles.miniButton))
+            {
+                NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDToolbox.RandomStringUnix(16);
+            }
+            if (GUILayout.Button("ReUse Last token", EditorStyles.miniButton))
+            {
+                NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDAppEnvironment.SelectedEnvironment().PreviewRequesToken;
+            }
+            if (GUILayout.Button("ReUse Last Last token", EditorStyles.miniButton))
+            {
+                NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDAppEnvironment.SelectedEnvironment().LastPreviewRequesToken;
+            }
             GUI.backgroundColor = tOldColor;
 
 
