@@ -118,13 +118,13 @@ namespace NetWorkedData
             // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 
             //test transmit SFTP
-            var host = "whateverthehostis.com";
-            var port = 22;
-            var username = "username";
-            var password = "passw0rd";
+            //var host = "whateverthehostis.com";
+            //var port = 22;
+            //var username = "username";
+            //var password = "passw0rd";
 
-            // path for file you want to upload
-            var uploadFile = @"c:yourfilegoeshere.txt";
+            //// path for file you want to upload
+            //var uploadFile = @"c:yourfilegoeshere.txt";
 
             //using (var client = new SftpClient(host, port, username, password))
             //{
@@ -1338,6 +1338,10 @@ namespace NetWorkedData
             "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +
             "\t{\n" +
             "\tglobal $token_FirstUse;\n";
+            if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+            {
+                tSynchronizationFile += "respondAdd('securePost',true);\n";
+            }
             if (tINeedAdminAccount == true)
             {
                 tSynchronizationFile += "\tif ($sAdmin == true)\n\t{\n";

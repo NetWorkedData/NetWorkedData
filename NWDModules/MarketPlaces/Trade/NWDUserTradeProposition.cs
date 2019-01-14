@@ -21,6 +21,7 @@ namespace NetWorkedData
     [NWDClassTrigramme("UTRP")]
     [NWDClassDescription("User Trade Proposition descriptions Class")]
     [NWDClassMenuName("User Trade Proposition")]
+    [NWDForceSecureDataAttribute]
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------

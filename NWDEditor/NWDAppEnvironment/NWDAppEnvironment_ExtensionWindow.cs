@@ -67,6 +67,7 @@ namespace NetWorkedData
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
             EditorGUILayout.TextField("Server Params for " + Environment, EditorStyles.boldLabel);
             ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
+            AllwaysSecureData = EditorGUILayout.ToggleLeft("Allways Secure Data", AllwaysSecureData);
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);

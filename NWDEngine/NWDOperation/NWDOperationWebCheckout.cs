@@ -76,6 +76,15 @@ namespace NetWorkedData
 			rReturn.ForceSync = sForceSync;
             rReturn.FlushTrash = sClean;
             rReturn.Special = sSpecial;
+            rReturn.SecureData = sEnvironment.AllwaysSecureData;
+            foreach (Type tType in sTypeList)
+            {
+                if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
+                {
+                    rReturn.SecureData = true;
+                    break;
+                }
+            }
             rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
             return rReturn;
 		}

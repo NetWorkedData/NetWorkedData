@@ -16,6 +16,12 @@
 	$REP['timemicro'] = $TIME_MICRO;
 	//--------------------
 	// add dictionary enter in respond
+	function respondIsset($sKey)
+	{
+		global $REP;
+		return isset($REP[$sKey]);
+	}
+	//--------------------
 	function respondAdd($sKey, $sValue)
 	{
 		global $REP;

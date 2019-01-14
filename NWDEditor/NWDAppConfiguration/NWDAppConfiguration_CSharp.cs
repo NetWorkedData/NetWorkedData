@@ -190,6 +190,7 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.SaltFrequency = " + this.ProdEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.AddressPing = \"" + this.ProdEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHTTPS = \"" + this.ProdEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.AllwaysSecureData = " + this.ProdEnvironment.AllwaysSecureData.ToString().ToLower() + ";\n" +
             "\t\t\tthis.ProdEnvironment.BuildDate = \"" + this.ProdEnvironment.BuildDate.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.FacebookAppID = \"" + this.ProdEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.FacebookAppSecret = \"" + this.ProdEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
@@ -249,6 +250,7 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.SaltFrequency = " + this.PreprodEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.AddressPing = \"" + this.PreprodEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerHTTPS = \"" + this.PreprodEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.AllwaysSecureData = " + this.PreprodEnvironment.AllwaysSecureData.ToString().ToLower() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.BuildDate = \"" + this.PreprodEnvironment.BuildDate.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.FacebookAppID = \"" + this.PreprodEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.FacebookAppSecret = \"" + this.PreprodEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +
@@ -303,6 +305,7 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.SaltFrequency = " + this.DevEnvironment.SaltFrequency.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.AddressPing = \"" + this.DevEnvironment.AddressPing.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerHTTPS = \"" + this.DevEnvironment.ServerHTTPS.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.AllwaysSecureData = " + this.DevEnvironment.AllwaysSecureData.ToString().ToLower() + ";\n" +
             "\t\t\tthis.DevEnvironment.BuildDate = \"" + this.DevEnvironment.BuildDate.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.FacebookAppID = \"" + this.DevEnvironment.FacebookAppID.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.FacebookAppSecret = \"" + this.DevEnvironment.FacebookAppSecret.Replace("\"", "\\\"") + "\";\n" +

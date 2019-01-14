@@ -370,14 +370,29 @@ namespace NetWorkedData
 			}
 			int rSalt = (tUnixTimestamp - (tUnixTimestamp % sFrequence));
 			return rSalt.ToString ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Generate Admin hash
-		/// </summary>
-		/// <param name="sAdminKey">ADMIN ID</param>
-		/// <param name="sFrequence">refresh frequency</param>
-		public static string GenerateAdminHash (string sAdminKey, int sFrequence)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Generate unique SALT
+        /// </summary>
+        /// <param name="sFrequence">refresh frequency</param>
+        public static string GenerateSALTOutlined(int sFrequence, int sOutline = 0)
+        {
+            int tUnixTimestamp = Timestamp();
+            if (sFrequence <= 0 || sFrequence >= tUnixTimestamp)
+            {
+                sFrequence = 600;
+            }
+            int rSalt = (tUnixTimestamp - (tUnixTimestamp % sFrequence) - (sOutline % sFrequence));
+            return rSalt.ToString();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Generate Admin hash
+        /// </summary>
+        /// <param name="sAdminKey">ADMIN ID</param>
+        /// <param name="sFrequence">refresh frequency</param>
+        public static string GenerateAdminHash (string sAdminKey, int sFrequence)
 		{
 			return BTBSecurityTools.GenerateSha (sAdminKey + GenerateSALT (sFrequence), BTBSecurityShaTypeEnum.Sha1);
 		}

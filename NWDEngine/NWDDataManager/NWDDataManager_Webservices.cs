@@ -660,24 +660,38 @@ namespace NetWorkedData
             SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
             return sOperation;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The synchronize in progress.
-		/// </summary>
-		//		public static bool SynchronizeInProgress = false;
-		//		/// <summary>
-		//		/// The synchronize is in progress and another task want connect.
-		//		/// Of course because token flow integirty, it's not possible... So I could memorize the task an run after. 
-		//		/// But it's too long and difficult : I prefer to ask new Synchronise all 
-		//		/// Memorize to repeat as soon as possible without lost the token flow integrity
-		//		/// </summary>
-		//		public static bool SynchronizeRepeat = false;
-		//		/// <summary>
-		//		/// The synchronize is in progress and another task ask repeat but in force (update all begin timestamp 0.
-		//		/// So Memorize force required
-		//		/// </summary>
-		//		public static bool SynchronizeRepeatInForce = false;
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDOperationWebMaintenance AddWebRequestMaintenanceWithBlock(BTBOperationBlock sSuccessBlock = null,
+                                                                BTBOperationBlock sErrorBlock = null,
+                                                                BTBOperationBlock sCancelBlock = null,
+                                                                BTBOperationBlock sProgressBlock = null,
+                                                                bool sPriority = false,
+                                                                NWDAppEnvironment sEnvironment = null)
+        {
+            //Debug.Log("AddWebRequestNoPageWithBlock");
+            NWDOperationWebMaintenance sOperation = NWDOperationWebMaintenance.Create("Maintenance with Block", sSuccessBlock, sErrorBlock, sCancelBlock, sProgressBlock, sEnvironment);
+            sOperation.Action = "arghhh";
+            SharedInstance().WebOperationQueue.AddOperation(sOperation, sPriority);
+            return sOperation;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The synchronize in progress.
+        /// </summary>
+        //		public static bool SynchronizeInProgress = false;
+        //		/// <summary>
+        //		/// The synchronize is in progress and another task want connect.
+        //		/// Of course because token flow integirty, it's not possible... So I could memorize the task an run after. 
+        //		/// But it's too long and difficult : I prefer to ask new Synchronise all 
+        //		/// Memorize to repeat as soon as possible without lost the token flow integrity
+        //		/// </summary>
+        //		public static bool SynchronizeRepeat = false;
+        //		/// <summary>
+        //		/// The synchronize is in progress and another task ask repeat but in force (update all begin timestamp 0.
+        //		/// So Memorize force required
+        //		/// </summary>
+        //		public static bool SynchronizeRepeatInForce = false;
+        //-------------------------------------------------------------------------------------------------------------
         public void ChangeAllDatasForUserToAnotherUser (NWDAppEnvironment sEnvironment, string sNewAccountReference, string sAnonymousResetPassword)
 		{
 			// change account refrence 

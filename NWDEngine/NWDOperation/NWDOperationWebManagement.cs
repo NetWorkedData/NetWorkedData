@@ -63,7 +63,8 @@ namespace NetWorkedData
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
-			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
+            rReturn.SecureData = true;
+            rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

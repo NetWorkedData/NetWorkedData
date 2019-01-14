@@ -28,14 +28,14 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDOperationWebNoPage : NWDOperationWebUnity
+    public class NWDOperationWebMaintenance : NWDOperationWebUnity
 	{
 		//-------------------------------------------------------------------------------------------------------------
         public List<Type> TypeList = new List<Type>();
         public string Action;
 		public bool ForceSync = false;
 		//-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebNoPage AddOperation (string sName,
+        static public NWDOperationWebMaintenance AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
 		                                                           BTBOperationBlock sFailBlock = null, 
 		                                                           BTBOperationBlock sCancelBlock = null,
@@ -44,21 +44,21 @@ namespace NetWorkedData
                                                                 bool sForceSync = false, 
                                                                 bool sPriority = false)
         {
-            Debug.Log("NWDOperationWebNoPage AddOperation()");
-            NWDOperationWebNoPage rReturn = NWDOperationWebNoPage.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sForceSync);
+            Debug.Log("NWDOperationWebMaintenance AddOperation()");
+            NWDOperationWebMaintenance rReturn = NWDOperationWebMaintenance.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sForceSync);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        static public NWDOperationWebNoPage Create (string sName,
-		                                                     BTBOperationBlock sSuccessBlock = null, 
-		                                                     BTBOperationBlock sFailBlock = null,
-		                                                     BTBOperationBlock sCancelBlock = null,
+        static public NWDOperationWebMaintenance Create (string sName,
+		                                                  BTBOperationBlock sSuccessBlock = null, 
+		                                                  BTBOperationBlock sFailBlock = null,
+		                                                  BTBOperationBlock sCancelBlock = null,
                                                           BTBOperationBlock sProgressBlock = null,
 			NWDAppEnvironment sEnvironment = null,bool sForceSync = false)
         {
-            //Debug.Log("NWDOperationWebNoPage Create()");
-            NWDOperationWebNoPage rReturn = null;
+            //Debug.Log("NWDOperationWebMaintenance Create()");
+            NWDOperationWebMaintenance rReturn = null;
 			if (sName == null) {
 				sName = "UnNamed Web Operation Synchronisation";
 			}
@@ -71,7 +71,7 @@ namespace NetWorkedData
 #else
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
 #endif 
-            rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebNoPage> ();
+            rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebMaintenance> ();
 			rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
@@ -83,13 +83,20 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
         {
-            //Debug.Log("NWDOperationWebNoPage ServerFile()");
-			return "noPage.php";
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void DataUploadPrepare ()
+            //Debug.Log("NWDOperationWebMaintenance ServerFile()");
+			return "maintenance.php";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override string ServerBase()
         {
-            //Debug.Log("NWDOperationWebNoPage DataUploadPrepare()");
+            string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            string rURL = Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/" + ServerFile();
+            return rURL;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void DataUploadPrepare ()
+        {
+            //Debug.Log("NWDOperationWebMaintenance DataUploadPrepare()");
             Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, false);
             tData.Add ("action", Action);
 			Data = tData;
@@ -97,7 +104,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-            //Debug.Log("NWDOperationWebNoPage DataDownloadedCompute()");
+            //Debug.Log("NWDOperationWebMaintenance DataDownloadedCompute()");
             // I put null for pull typeList to analyze all NWDClass
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null);
 		}

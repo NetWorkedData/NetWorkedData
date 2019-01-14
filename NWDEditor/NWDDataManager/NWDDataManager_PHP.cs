@@ -146,6 +146,15 @@ namespace NetWorkedData
             NWDError.CreateGenericError("token", "RQT93", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("token", "RQT94", "Token error", "too much tokens in base ... reconnect you", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
+
+            NWDError.CreateGenericError("token", "RQT95", "Token error", "token allready used...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT96", "Token error", "token integrity error...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT97", "Token error", "token != token error...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT98", "Security error", "Security error one...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("token", "RQT99", "Security error", "Security error two...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+            NWDError.CreateGenericError("maintenance", "MAINTENANCE", "MAINTENANCE", "MAINTENANCE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
             foreach (Type tType in mTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);

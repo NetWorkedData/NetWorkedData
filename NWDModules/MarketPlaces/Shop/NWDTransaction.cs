@@ -27,6 +27,16 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDTransactionCheckStatut : int
+    {
+        NotInApp = -1,
+        Unknow = 0,
+        Approuved = 1,
+        Refused = 2,
+
+        Error = 9
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
     /// <para>The GameObject can use the object referenced by binding in game. </para>
@@ -47,7 +57,9 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
 	[Serializable]
-    public class NWDTransactionConnection : NWDConnection <NWDTransaction> {}
+    public class NWDTransactionConnection : NWDConnection<NWDTransaction>
+    {
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum TransactionType
     {
@@ -57,29 +69,55 @@ namespace NetWorkedData
         Monthly
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("TRS")]
-	[NWDClassDescriptionAttribute ("Transaction descriptions Class")]
-	[NWDClassMenuNameAttribute ("Transaction")]
-	public partial class NWDTransaction :NWDBasis <NWDTransaction>
-	{
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("TRS")]
+    [NWDClassDescriptionAttribute("Transaction descriptions Class")]
+    [NWDClassMenuNameAttribute("Transaction")]
+    [NWDForceSecureDataAttribute]
+    public partial class NWDTransaction : NWDBasis<NWDTransaction>
+    {
         //-----------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Detail", true, true, true)]
-        [Indexed ("AccountIndex", 0)]
-		public NWDReferenceType<NWDAccount> AccountReference { get; set; }
-        public NWDReferenceType<NWDShop> ShopReference { get; set; }
-        public NWDReferenceType<NWDRack> RackReference { get; set; }
-        public NWDReferenceType<NWDPack> PackReference { get; set; }
+        [Indexed("AccountIndex", 0)]
+        public NWDReferenceType<NWDAccount> AccountReference
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDShop> ShopReference
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDRack> RackReference
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDPack> PackReference
+        {
+            get; set;
+        }
         [NWDGroupEndAttribute]
 
         [NWDGroupSeparatorAttribute]
 
         [NWDGroupStartAttribute("Other", true, true, true)]
-        public string Platform { get; set; }
-        public NWDReferenceType<NWDInAppPack> InAppReference { get; set; }
-        public string InAppTransaction { get; set; }
+        public string Platform
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDInAppPack> InAppReference
+        {
+            get; set;
+        }
+        public string InAppTransaction
+        {
+            get; set;
+        }
+        public NWDTransactionCheckStatut InAppApprouved
+        {
+            get; set;
+        }
         //[NWDGroupEndAttribute]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -113,10 +151,10 @@ namespace NetWorkedData
             // Set a NWDTransaction
             NWDTransaction rTransaction = NewData();
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             rTransaction.InternalKey = sItem.Name.GetBaseString();
             rTransaction.InternalDescription = NWDAccountNickname.GetNickname();
-            #endif
+#endif
             rTransaction.ShopReference.SetReference(sShop.Reference);
             rTransaction.RackReference.SetReference(sRack.Reference);
             rTransaction.PackReference.SetReference(sPack.Reference);
@@ -131,78 +169,120 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            InAppApprouved = NWDTransactionCheckStatut.NotInApp;
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe ()
-		{
-			// do something when object will be inserted
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdateMe ()
-		{
-			// do something when object will be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe ()
-		{
-			// do something when object finish to be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDuplicateMe ()
-		{
-			// do something when object will be dupplicate
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonEnableMe ()
-		{
-			// do something when object will be enabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDisableMe ()
-		{
-			// do something when object will be disabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonTrashMe ()
-		{
-			// do something when object will be put in trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUnTrashMe ()
-		{
-			// do something when object will be remove from trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		//Addons for Edition
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
-		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
-			}
-			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditor (Rect sInRect)
-		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditorHeight ()
-		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
+        public override void AddonInsertMe()
+        {
+            // do something when object will be inserted
+        }
         //-------------------------------------------------------------------------------------------------------------
-		#endif
+        public override void AddonUpdateMe()
+        {
+            // do something when object will be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMe()
+        {
+            // do something when object finish to be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDuplicateMe()
+        {
+            // do something when object will be dupplicate
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonEnableMe()
+        {
+            // do something when object will be enabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDisableMe()
+        {
+            // do something when object will be disabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            // do something when object will be put in trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            // do something when object will be remove from trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonSyncForce()
+        {
+            bool rReturn = false;
+            if (InAppApprouved == NWDTransactionCheckStatut.Unknow)
+            {
+                rReturn = true;
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        //Addons for Edition
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonEdited(bool sNeedBeUpdate)
+        {
+            if (sNeedBeUpdate == true)
+            {
+                // do something
+            }
+            return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditorHeight()
+        {
+            // Height calculate for the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpPreCalculate()
+        {
+
+            //string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
+            //string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
+            //string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
+
+            //string tTradeRequestsList = NWDUserTradeFinder.FindAliasName("TradeRequestsList");
+            //string tTradePlace = NWDUserTradeFinder.FindAliasName("TradePlace");
+            //int tIndex_TradeRequestsList = CSVAssemblyIndexOf(tTradeRequestsList);
+            //int tIndex_TradePlace = CSVAssemblyIndexOf(tTradePlace);
+
+            string sScript = "" +
+                "// debut find \n" +
+                "// JE DOIS VERIFIER AVEC LES ERVEUR APPLE OU GOOGLE DE LA VALIDITEE DE LA TRANSACTION ET METTRE InAppApprouved EN Approuved OU Refused!\n" +
+                "// fin find \n";
+
+            return sScript;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpPostCalculate()
+        {
+            return "\n" +
+                "\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string AddonPhpSpecialCalculate()
+        {
+            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

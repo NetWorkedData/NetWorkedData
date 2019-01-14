@@ -62,6 +62,7 @@ namespace NetWorkedData
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
 		public string ServerHTTPS = "https://www.my-web-site.com/";
+        public bool AllwaysSecureData = false;
 		public string FacebookAppID = string.Empty;
 		public string FacebookAppSecret = string.Empty;
 		public string GoogleAppKey = string.Empty;

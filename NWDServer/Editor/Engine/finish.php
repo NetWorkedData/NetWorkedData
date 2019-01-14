@@ -5,7 +5,7 @@
 		// FINISH
 		//--------------------
 		// prevent include from function for exit (typical example: error('XXX', true);)
-	global $NWD_LOG, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, $TIME_SYNC, $REF_NEEDED, $ACC_NEEDED, $ENV;
+	global $NWD_LOG, $NWD_SLT_TMP, $SQL_CON, $NWD_TMA, $RRR_LOG, $REP, $WSBUILD, $TIME_SYNC, $REF_NEEDED, $ACC_NEEDED, $ENV, $NWD_SHA_VEC, $NWD_SHA_SEC, $NWD_SLT_STR, $NWD_SLT_END;
 		//--------------------
 		// add log
 	if ($NWD_LOG==true)
@@ -36,8 +36,22 @@
 		//transform respond in JSON file
 	$json = json_encode($REP);
 		//--------------------
-	header('Content-Length: '.strlen($json));
+		$lenght = strlen($json);
+		$temporalSalt = saltTemporal($NWD_SLT_TMP, 0);
+	header('Content-Length: '.$lenght);
+	if (isset($REP['token']))
+	{
+	header('hash: '.sha1($temporalSalt.$NWD_SHA_VEC.$REP['token']));
+	header('token: '.$REP['token']);
+	}
+	if (respondIsset('securePost'))
+	{
+		header('scr: scrdgt');
+		$REPSCR['scr'] =  aes128Encrypt( $json, $NWD_SHA_SEC, $NWD_SHA_VEC);
+		$REPSCR['scrdgt'] = sha1($NWD_SLT_STR.$REPSCR['scr'].$NWD_SLT_END);
+		$json = json_encode($REPSCR);
+	}
 		//--------------------
 		// write JSON
 	echo($json);
-	?>
+?>
