@@ -862,10 +862,11 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
             "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
+            "\t\t\t\t\t\t$tRow['WebServiceVersion'] = $WSBUILD;\n" +
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" +
+            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +

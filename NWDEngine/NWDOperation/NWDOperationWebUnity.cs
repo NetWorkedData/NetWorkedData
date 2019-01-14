@@ -274,7 +274,9 @@ namespace NetWorkedData
                     ""
                     );
                 }
-                if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")) == true)
+                if (string.IsNullOrEmpty(Request.GetResponseHeader("obsolete")) == true)
+                {
+                    if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")) == true)
                 {
                     // Check for error
                     if (Request.isNetworkError ||
@@ -299,25 +301,32 @@ namespace NetWorkedData
                         {
                             if (SecureData == true)
                             {
-                                string tSCR = (string)tData["scr"];
-                                string tSCRDGT = (string)tData["scrdgt"];
+                                if (tData.ContainsKey("scr") && tData.ContainsKey("scrdgt"))
+                                {
+                                    string tSCR = (string)tData["scr"];
+                                    string tSCRDGT = (string)tData["scrdgt"];
 
-                                string tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
-                                if (tDigestValue != tSCRDGT)
-                                {
-                                    ResultInfos.SetErrorCode("RQT98");
-                                }
-                                else
-                                {
-                                    tData = BTBSecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, BTBSecurityAesTypeEnum.Aes128);
-                                    if (tData == null)
+                                    string tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                                    if (tDigestValue != tSCRDGT)
                                     {
-                                        ResultInfos.SetErrorCode("RQT99");
+                                        ResultInfos.SetErrorCode("RQT98");
                                     }
                                     else
                                     {
-                                        NWDDebug.Log("NWDOperationWebUnity DOWNLOADED DECODED = " + Json.Serialize(tData));
+                                        tData = BTBSecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, BTBSecurityAesTypeEnum.Aes128);
+                                        if (tData == null)
+                                        {
+                                            ResultInfos.SetErrorCode("RQT99");
+                                        }
+                                        else
+                                        {
+                                            NWDDebug.Log("NWDOperationWebUnity DOWNLOADED DECODED = " + Json.Serialize(tData).Replace("\\\\r", "\r\n"));
+                                        }
                                     }
+                                }
+                                else
+                                {
+                                    ResultInfos.SetErrorCode("RQT98");
                                 }
                             }
                             // Request in Progress, send Invoke
@@ -344,6 +353,7 @@ namespace NetWorkedData
                                     }
                                     else
                                     {
+                                        //TODO : FIX THIS ERROR IN PREPROD!!!
                                         if (TestTemporalRequestHash(Request.GetResponseHeader("hash"), Request.GetResponseHeader("token")) == false)
                                         {
                                             // What the token is not valid!? It's not possible!
@@ -516,6 +526,22 @@ namespace NetWorkedData
                 else
                 {
                     ResultInfos.SetErrorCode("MAINTENANCE");
+#if UNITY_EDITOR
+                    if (ResultInfos.errorDesc != null)
+                    {
+                        ResultInfos.errorDesc.ShowNativeAlert();
+                    }
+#else
+                    if (ResultInfos.errorDesc != null)
+                    {
+                         ResultInfos.errorDesc.PostNotificationError();
+                    }
+#endif
+                    }
+                }
+                else
+                {
+                    ResultInfos.SetErrorCode("OBSOLETE");
 #if UNITY_EDITOR
                     if (ResultInfos.errorDesc != null)
                     {
@@ -753,7 +779,7 @@ namespace NetWorkedData
             //BTBSecurityTools.GenerateSha(tSaltA + sVector+ sToken) + " or " +
             //BTBSecurityTools.GenerateSha(tSaltB + sVector+ sToken) + " or " +
             //BTBSecurityTools.GenerateSha(tSaltC + sVector+ sToken));
-            string sVector = NWDAppEnvironment.SelectedEnvironment().DataSHAVector;
+            string sVector = Environment.DataSHAVector;
             if (BTBSecurityTools.GenerateSha(tSaltA + sVector + sToken) == sHash ||
                 BTBSecurityTools.GenerateSha(tSaltB + sVector + sToken) == sHash ||
                 BTBSecurityTools.GenerateSha(tSaltC + sVector + sToken) == sHash)

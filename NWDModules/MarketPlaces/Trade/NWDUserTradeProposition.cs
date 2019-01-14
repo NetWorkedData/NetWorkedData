@@ -184,6 +184,7 @@ namespace NetWorkedData
             string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
             string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
             string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
+            string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
 
             string t_THIS_TradeRequestDM = FindAliasName("TradeRequestDM");
             string t_THIS_TradePlace = FindAliasName("TradePlace");
@@ -194,7 +195,10 @@ namespace NetWorkedData
             int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
             int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
             string sScript = "" +
-                "// debut find \n" +
+                "// debut find \n" + 
+                // YOU MUST REIMPORT THE GLOBAL ... PHP strange practice?
+                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+
                 "\n" +
                 "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + ")\n" +
                 "{\n" +
@@ -202,7 +206,8 @@ namespace NetWorkedData
                 " `DM` = \\''.$TIME_SYNC.'\\'," +
                 " `DS` = \\''.$TIME_SYNC.'\\'," +
                 " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
-                " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
+                " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'," +
+                " `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'" +
                 // WHERE REQUEST
                 " WHERE `AC`= \\'1\\' " +
                 " AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
@@ -231,12 +236,7 @@ namespace NetWorkedData
                 "// I need update the proposition too !\n" +
                 "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
                 "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
-                //"global $PATH_BASE;\n" +
-                // YOU MUST REIMPORT THE GLOSBAL ... PHP strange practice?
-                //"global $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $uuid;\n" +
-                //"global $SQL_" + NWDUserTradeRequest.Datas().ClassNamePHP + "_SaltA, $SQL_" + NWDUserTradeRequest.Datas().ClassNamePHP + "_SaltB, $SQL_" + NWDUserTradeRequest.Datas().ClassNamePHP + "_WebService;" +
-                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
-                "Integrity" + NWDUserTradeRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest+ "]);" +
+                "Integrity" + NWDUserTradeRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest+ "]);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
@@ -256,7 +256,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpPostCalculate()
         {
-            return "// write your php script here to update afetr sync on server\n";
+            string t_THIS_TradeRequest = FindAliasName("TradeRequest");
+            int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
+
+            return "// write your php script here to update after sync on server\n "+
+                "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest+ "]);\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate()
