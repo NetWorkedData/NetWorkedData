@@ -394,7 +394,13 @@ namespace NetWorkedData
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
                 tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
+            }
+            else
+            {
+                GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You haven't ownership on " + this.InternalKey + "!");
+                tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
+            }
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, 1);
                 }
@@ -405,7 +411,6 @@ namespace NetWorkedData
                     NWDUserOwnership.AddItemToOwnership(this, -1);
                 }
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            }
             return tY;
         }
         //-------------------------------------------------------------------------------------------------------------
