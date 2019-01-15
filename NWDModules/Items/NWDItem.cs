@@ -373,6 +373,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
+            Debug.Log("AddonEditor");
             // Draw the interface addon for editor
             float tWidth = sInRect.width;
             float tX = sInRect.x;
@@ -393,13 +394,13 @@ namespace NetWorkedData
                 GUI.Label(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "You have " + tOwnership.Quantity + " " + this.InternalKey + "!");
                 tY += tLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
+                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Add 1 to ownsership", tMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, 1);
                 }
                 tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
+                if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Remove 1 to ownsership", tMiniButtonStyle))
                 {
                     NWDUserOwnership.AddItemToOwnership(this, -1);
                 }

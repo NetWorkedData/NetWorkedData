@@ -21,6 +21,10 @@ using System.Globalization;
 #if UNITY_EDITOR
 using UnityEditor;
 
+using Renci.SshNet;
+using Renci.SshNet.Common;
+using Renci.SshNet.Sftp;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -114,39 +118,110 @@ namespace NetWorkedData
             }
             CreateAllPHP("_modify");
             // Recreate NWDAppConfiguration C#
-           // TODO ? 
+            // TODO ? 
             // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 
+
+
+            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+            Type tType = ClassType();
+            TableMapping tTableMapping = new TableMapping(tType);
+            string tTableName = /*tEnvironmentFolder + "_" + */tTableMapping.TableName;
+            string tClassName = tTableMapping.TableName;
+            string tTrigramme = Datas().ClassTrigramme;
+            DateTime tTime = DateTime.UtcNow;
+            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
+            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
+
+            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
+
+
+
             //test transmit SFTP
-            //var host = "whateverthehostis.com";
-            //var port = 22;
-            //var username = "username";
-            //var password = "passw0rd";
+            // use SshNet
+            // https://github.com/sshnet/SSH.NET
+            // Copyleft from 2016
+            //
+            //
+            //
+            //
+            var tHost = "frelon.biz";
+            var tPort = 222;
+            var tUsername = "frelon";
+            var tPassword = "5tO3RQwBrshIoYkX";
+            var tFolder = "public_webservice/";
 
-            //// path for file you want to upload
-            //var uploadFile = @"c:yourfilegoeshere.txt";
+            using (var client = new SftpClient(tHost, tPort, tUsername, tPassword))
+            {
+                client.Connect();
+                if (client.IsConnected)
+                {
 
-            //using (var client = new SftpClient(host, port, username, password))
-            //{
-            //    client.Connect();
-            //    if (client.IsConnected)
-            //    {
-            //        Debug.WriteLine("I'm connected to the client");
+                    client.BufferSize = 4 * 1024; // bypass Payload error large files
 
-            //        using (var fileStream = new FileStream(uploadFile, FileMode.Open))
-            //        {
+                    //DEV 
+                    NWDAppEnvironment sEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+                    string tEnvironmentFolder = sEnvironment.Environment;
+                    string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + "_modify" + "/Environment/" + tEnvironmentFolder;
+                    string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
+                    //// path for file you want to upload
+                    string tUploadFile = (Application.dataPath + "..." + tServerDatabaseFolder + "/").Replace("Assets...Assets", "Assets");
+                    string tDestination = tFolder + tWebServiceFolder + "/Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/";
+                    Debug.Log("I could connect and put :" + tUploadFile);
+                    Debug.Log("I could connect and put at:" + tDestination);
+                    using (var fileStream = new FileStream(tUploadFile+ "constants.php", FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, tDestination + "constants.php", true, null);
+                    }
+                    using (var fileStream = new FileStream(tUploadFile + "management.php", FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, tDestination + "management.php", true, null);
+                    }
+                    using (var fileStream = new FileStream(tUploadFile + "synchronization.php", FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, tDestination + "synchronization.php", true, null);
+                    }
 
-            //            client.BufferSize = 4 * 1024; // bypass Payload error large files
-            //            client.UploadFile(fileStream, Path.GetFileName(uploadFile));
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Debug.WriteLine("I couldn't connect");
-            //    }
-            //}
+                    // PREPROD
+                    sEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+                    tEnvironmentFolder = sEnvironment.Environment;
+                    tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + "_modify" + "/Environment/" + tEnvironmentFolder;
+                    tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
+                    //// path for file you want to upload
+                    tUploadFile = (Application.dataPath + "..." + tServerDatabaseFolder + "/").Replace("Assets...Assets", "Assets");
+                    tDestination = tFolder + tWebServiceFolder + "/Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/";
+                    Debug.Log("I could connect and put :" + tUploadFile);
+                    Debug.Log("I could connect and put at:" + tDestination);
+                    using (var fileStream = new FileStream(tUploadFile + "constants.php", FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, tDestination + "constants.php", true, null);
+                    }
+                    using (var fileStream = new FileStream(tUploadFile + "management.php", FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, tDestination + "management.php", true, null);
+                    }
+                    using (var fileStream = new FileStream(tUploadFile + "synchronization.php", FileMode.Open))
+                    {
+                        client.UploadFile(fileStream, tDestination + "synchronization.php", true, null);
+                    }
+
+                    /*
+                    // PROD
+                   WHOOOOOOOO TOO DANGEROUS GUY!
+                    */
 
 
+
+
+
+                    client.Disconnect();
+                    client.Dispose();
+                }
+                else
+                {
+                    Debug.Log("I couldn't connect");
+                }
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -183,7 +258,7 @@ namespace NetWorkedData
             // Create folders
 
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sFolderAdd +"/Environment/" + tEnvironmentFolder;
+            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sFolderAdd + "/Environment/" + tEnvironmentFolder;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
             Directory.CreateDirectory(tServerDatabaseFolder);
             AssetDatabase.ImportAsset(tServerDatabaseFolder);
@@ -838,7 +913,7 @@ namespace NetWorkedData
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
                 if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
                 {
-                    tSynchronizationFile += ", REPLACE("+tPropertyName +",\",\",\"\") as " + tPropertyName;
+                    tSynchronizationFile += ", REPLACE(" + tPropertyName + ",\",\",\"\") as " + tPropertyName;
                 }
                 else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
                 {
@@ -846,7 +921,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tSynchronizationFile += ", " +tPropertyName ;
+                    tSynchronizationFile += ", " + tPropertyName;
                 }
             }
             tSynchronizationFile += " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
@@ -862,11 +937,15 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
             "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
-            "\t\t\t\t\t\t$tRow['WebServiceVersion'] = $WSBUILD;\n" +
+            //"\t\t\t\t\t\t$tRow['WebServiceVersion'] = $WSBUILD;\n" +
+            "\t\t\t\t\t\t$tRow['WebServiceVersion'] = $SQL_" + tClassName + "_WebService;\n" +
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
-            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
+            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\'," +
+            " `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'," +
+            " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' ," +
+            //" `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
+            " `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -1090,7 +1169,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n";
 
-            var tMethodDeclarePost= tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var tMethodDeclarePost = tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePost != null)
             {
                 tSynchronizationFile += (string)tMethodDeclarePost.Invoke(null, null);
