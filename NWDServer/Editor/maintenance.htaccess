@@ -1,0 +1,3 @@
+RewriteEngine on
+RewriteCond %{HTTP:ADMINHASH} ^$
+RewriteRule ([a-zA-Z0-9\_]+)\/(.*) ./maintenance.php

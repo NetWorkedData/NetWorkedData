@@ -254,6 +254,11 @@ namespace NetWorkedData
             // do something when object will be delete from local base
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonSyncForce()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade

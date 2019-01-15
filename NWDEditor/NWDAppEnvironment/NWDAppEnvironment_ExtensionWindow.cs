@@ -67,6 +67,7 @@ namespace NetWorkedData
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
             EditorGUILayout.TextField("Server Params for " + Environment, EditorStyles.boldLabel);
             ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
+            AllwaysSecureData = EditorGUILayout.ToggleLeft("Allways Secure Data", AllwaysSecureData);
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
@@ -179,18 +180,9 @@ namespace NetWorkedData
             }
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
-            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
-            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
-            NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
 
-            //EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
-            NWDAppConfiguration.SharedInstance().WebBuild = EditorGUILayout.IntField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild);
-
-            EditorGUILayout.EndVertical();
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
-
             foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
             {
                 if (tWSList.ContainsKey(tWS.Key) == false)
@@ -198,6 +190,31 @@ namespace NetWorkedData
                     tWSList.Add(tWS.Key, tWS.Value);
                 }
             }
+            List<int> tWSListUsable = new List<int>();
+            List<string> tWSListUsableString = new List<string>();
+            foreach (KeyValuePair<int, bool> tWS in tWSList)
+            {
+                if (tWS.Value == true)
+                {
+                    tWSListUsable.Add(tWS.Key);
+                    tWSListUsableString.Add(tWS.Key.ToString());
+                }
+            }
+
+            NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
+            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
+            NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
+
+            //EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
+            //NWDAppConfiguration.SharedInstance().WebBuild = EditorGUILayout.IntField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild);
+
+            int tIndexWS = tWSListUsable.IndexOf(NWDAppConfiguration.SharedInstance().WebBuild);
+            tIndexWS = EditorGUILayout.Popup("WebService active", tIndexWS, tWSListUsableString.ToArray());
+
+            NWDAppConfiguration.SharedInstance().WebBuild = tWSListUsable[tIndexWS];
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);

@@ -44,6 +44,14 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
+    /// NWDInternalKeyNotEditableAttribute forbidden the edition of the InternalKey in the editor.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class NWDForceSecureDataAttribute : Attribute
+    {
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// <summary>
     /// NWDEntitledAttribute custom toolstip and entitlement for property. 
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]

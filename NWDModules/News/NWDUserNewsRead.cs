@@ -28,7 +28,7 @@ namespace NetWorkedData
     /// NWDUserEventRead class. This class is use for (complete description here).
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("UNW")]
+    [NWDClassTrigrammeAttribute("UNR")]
     [NWDClassDescriptionAttribute("User News Read")]
     [NWDClassMenuNameAttribute("User News Read")]
     //[NWDInternalKeyNotEditableAttribute]

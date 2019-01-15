@@ -664,7 +664,7 @@ namespace NetWorkedData
                     else if (tTypeOfThis == typeof(float))
                     {
                         // TODO: bug with dot, comma
-                        Debug.Log("float tValueString = " + tValueString);
+                        //Debug.Log("float tValueString = " + tValueString);
                         float tValueInsert = 0;
                         float.TryParse(tValueString, out tValueInsert);
                         tPropertyInfo.SetValue(this, tValueInsert, null);
@@ -672,7 +672,7 @@ namespace NetWorkedData
                     else if (tTypeOfThis == typeof(double))
                     {
                         // TODO: bug with dot, comma
-                        Debug.Log("float tValueString = " + tValueString);
+                        //Debug.Log("float tValueString = " + tValueString);
                         double tValueInsert = 0;
                         double.TryParse(tValueString, out tValueInsert);
                         tPropertyInfo.SetValue(this, tValueInsert, null);

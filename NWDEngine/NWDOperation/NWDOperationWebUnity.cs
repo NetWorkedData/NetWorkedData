@@ -54,7 +54,6 @@ namespace NetWorkedData
             {
                 sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             }
-
             GameObject tGameObjectToSpawn = new GameObject(sName);
 #if UNITY_EDITOR
             tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
@@ -162,11 +161,36 @@ namespace NetWorkedData
 
                 // I send the data
                 ResultInfos.WebDateTime = DateTime.Now;
+
+                // insert dico of header in request header
+                string tDebugRequestHeader = string.Empty;
+                foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                {
+                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                }
+
+                NWDDebug.Log("NWDOperationWebUnity UPLOADED \n" +
+                "-------------------\n" +
+                "<b>Request URl :</b> " + Request.url + "\n" +
+                "-------------------\n" +
+                "<b>Headers :</b> \n" +
+                "-------------------\n" +
+                tDebugRequestHeader +
+                "-------------------\n" +
+                "<b>Datas :</b> \n" +
+                "-------------------\n" +
+                Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
+                "-------------------\n" +
+                System.Text.Encoding.UTF8.GetString(tWWWForm.data) +
+                "-------------------\n" +
+                ""
+                );
+
                 Request.SendWebRequest();
 
                 // Notification of an Upload start
                 BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_UPLOAD_START, this));
-                        
+
                 while (!Request.isDone)
                 {
                     Statut = BTBOperationState.InProgress;
@@ -195,236 +219,340 @@ namespace NetWorkedData
                 {
                     ResultInfos.DownloadedDateTime = DateTime.Now;
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
+                    ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
 
                     // Notification of an Download is done
                     //Debug.Log("NWDOperationWebUnity UPLOADED / DOWNLOADED isDone: " + Request.isDone);
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
 
-                    string tDebug = string.Empty;
+                    string tDebugResponseHeader = string.Empty;
                     foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
                     {
-                        tDebug += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                        tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
                     }
                     //Debug.Log("NWDOperationWebUnity DOWNLOADED Headers " + tDebug);
                     //Debug.Log("NWDOperationWebUnity DOWNLOADED Datas " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
 
 
-                    Debug.Log("NWDOperationWebUnity DOWNLOADED \n" +
+                    NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
+                    "-------------------\n" +
+                    "<b>Request URl :</b> " + Request.url + "\n" +
                     "-------------------\n" +
                     "<b>Headers :</b> \n" +
                     "-------------------\n" +
-                    tDebug +
+                    tDebugResponseHeader +
                     "-------------------\n" +
-                    "<b>Datas :</b> \n" +
-                    "-------------------\n" +
-                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
-                    "-------------------\n" +
-                    ""
-                    );
-
-                    string tDebugUpload = string.Empty;
-                    foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-                    {
-                        tDebugUpload += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                    }
-
-                    Debug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
-                    "-------------------\n" +
-                    "<b>Headers UPLOAD:</b> \n" +
-                    "-------------------\n" +
-                    tDebugUpload +
-                    "-------------------\n" +
-                    "<b>Headers DOWNLOAD:</b> \n" +
-                    "-------------------\n" +
-                    tDebug +
-                    "-------------------\n" +
-                    "<b>Datas DOWNLOAD:</b> \n" +
+                    "<b>Datas : (" + ResultInfos.OctetDownload.ToString() + ")</b> \n" +
                     "-------------------\n" +
                     Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
                     "-------------------\n" +
                     ""
                     );
 
+                    //string tDebugUpload = string.Empty;
+                    //foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+                    //{
+                    //    tDebugUpload += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+                    //}
 
+                    NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
+                    "-------------------\n" +
+                    "<b>Request URl :</b> " + Request.url + "\n" +
+                    "-------------------\n" +
+                    "<b>Headers UPLOAD :</b> \n" +
+                    "-------------------\n" +
+                    tDebugRequestHeader +
+                    "-------------------\n" +
+                    "<b>Headers DOWNLOAD :</b> \n" +
+                    "-------------------\n" +
+                    tDebugResponseHeader +
+                    "-------------------\n" +
+                    "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload.ToString() + ")</b> \n" +
+                    "-------------------\n" +
+                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
+                    "-------------------\n" +
+                    ""
+                    );
                 }
-
-                // Check for error
-                if (Request.isNetworkError ||
-                    Request.isHttpError ||
-                    Request.downloadHandler.text.Equals(string.Empty))
+                if (string.IsNullOrEmpty(Request.GetResponseHeader("obsolete")) == true)
                 {
-                    RequestError();
-                }
-                else
+                    if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")) == true)
                 {
-                    // Parse Json Data to Dictionary
-                    Dictionary<string, object> tData = Json.Deserialize(Request.downloadHandler.text) as Dictionary<string, object>;
-
-                    // If no data is parse from the downloadHandler
-                    if (tData == null)
+                    // Check for error
+                    if (Request.isNetworkError ||
+                        Request.isHttpError ||
+                        Request.downloadHandler.text.Equals(string.Empty))
                     {
-                        // Log DownloadHandler in console
-                        Debug.LogWarning(Request.downloadHandler.text);
-
-                        RequestError(true);
+                        RequestError();
                     }
                     else
                     {
-                        // Request in Progress, send Invoke
-                        ProgressInvoke(1.0f, ResultInfos);
+                        // Parse Json Data to Dictionary
+                        Dictionary<string, object> tData = Json.Deserialize(Request.downloadHandler.text) as Dictionary<string, object>;
 
-                        ResultInfos.SetData(tData);
-                        //OctetDownload = Request.downloadHandler.text.Length;
-                        ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
-
-                        // memorize the token for next connection
-                        if (!ResultInfos.token.Equals(string.Empty))
+                        // If no data is parse from the downloadHandler
+                        if (tData == null)
                         {
-                            Environment.LastPreviewRequesToken = Environment.PreviewRequesToken;
-                            Environment.PreviewRequesToken = Environment.RequesToken;
-                            Environment.RequesToken = ResultInfos.token;
+                            // Log DownloadHandler in console
+                            Debug.LogWarning(Request.downloadHandler.text);
+                            RequestError(true);
                         }
-
-                        // Check if error
-                        if (ResultInfos.isError)
+                        else
                         {
-                            Statut = BTBOperationState.Failed;
-
-                            if (ResultInfos.errorCode == "RQT90" ||
-                                ResultInfos.errorCode == "RQT91" ||
-                                ResultInfos.errorCode == "RQT92" ||
-                                ResultInfos.errorCode == "RQT93" ||
-                                ResultInfos.errorCode == "RQT94")
+                            if (SecureData == true)
                             {
-                                // Notification of a Session expired
-                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
-
-                                // Restore for anonymous account
-                                NWDAppConfiguration.SharedInstance().SelectedEnvironment().RestaureAnonymousSession();
-                            }
-                            else
-                            {
-                                // Notification of a Web Error
-                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
-
-                                if (ResultInfos.errorDesc != null)
+                                if (tData.ContainsKey("scr") && tData.ContainsKey("scrdgt"))
                                 {
-                                    if(ResultInfos.errorCode == "ACC98" ||
-                                       ResultInfos.errorCode == "ACC99")
+                                    string tSCR = (string)tData["scr"];
+                                    string tSCRDGT = (string)tData["scrdgt"];
+
+                                    string tDigestValue = BTBSecurityTools.GenerateSha(Environment.SaltStart + tSCR + Environment.SaltEnd, BTBSecurityShaTypeEnum.Sha1);
+                                    if (tDigestValue != tSCRDGT)
                                     {
-                                        // Notification of an Account Banned
-                                        BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
+                                        ResultInfos.SetErrorCode("RQT98");
+                                    }
+                                    else
+                                    {
+                                        tData = BTBSecurityTools.RemoveAes(tSCR, Environment.DataSHAPassword, Environment.DataSHAVector, BTBSecurityAesTypeEnum.Aes128);
+                                        if (tData == null)
+                                        {
+                                            ResultInfos.SetErrorCode("RQT99");
+                                        }
+                                        else
+                                        {
+                                            NWDDebug.Log("NWDOperationWebUnity DOWNLOADED DECODED = " + Json.Serialize(tData).Replace("\\\\r", "\r\n"));
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ResultInfos.SetErrorCode("RQT98");
+                                }
+                            }
+                            // Request in Progress, send Invoke
+                            ProgressInvoke(1.0f, ResultInfos);
+
+                            ResultInfos.SetData(tData);
+                            //OctetDownload = Request.downloadHandler.text.Length;
+                            ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
+
+                            // memorize the token for next connection
+                            if (!ResultInfos.token.Equals(string.Empty))
+                            {
+                                if (Environment.RequesToken == ResultInfos.token)
+                                {
+                                    // What the token is the same? It's not possible!
+                                    ResultInfos.SetErrorCode("RQT95");
+                                }
+                                else
+                                {
+                                    if (Environment.RequesToken == Request.GetResponseHeader("token"))
+                                    {
+                                        // What the token is not beetween respond and header? It's not possible!
+                                        ResultInfos.SetErrorCode("RQT97");
+                                    }
+                                    else
+                                    {
+                                        //TODO : FIX THIS ERROR IN PREPROD!!!
+                                        if (TestTemporalRequestHash(Request.GetResponseHeader("hash"), Request.GetResponseHeader("token")) == false)
+                                        {
+                                            // What the token is not valid!? It's not possible!
+                                            ResultInfos.SetErrorCode("RQT96");
+                                        }
+                                        else
+                                        {
+                                            Environment.LastPreviewRequesToken = Environment.PreviewRequesToken;
+                                            Environment.PreviewRequesToken = Environment.RequesToken;
+                                            Environment.RequesToken = ResultInfos.token;
+                                        }
                                     }
                                 }
                             }
 
-                            // Application is in running mode
-                            if (Application.isPlaying == true)
+                            // Check if error
+                            if (ResultInfos.isError)
                             {
-                                NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
-                            }
+                                Statut = BTBOperationState.Failed;
 
-                            // Notification of an Error
-                            if (ResultInfos.errorDesc != null)
-                            {
-                                #if UNITY_EDITOR
-                                ResultInfos.errorDesc.ShowNativeAlert();
-                                #else
-                                ResultInfos.errorDesc.PostNotificationError();
-                                #endif
-                            }
-
-                            // Request Failed, send Invoke
-                            FailInvoke(Request.downloadProgress, ResultInfos);
-                        }
-                        else if (ResultInfos.isNewUser && ResultInfos.isUserTransfert)
-                        {
-                            string tUUID = ResultInfos.uuid;
-                            if (!tUUID.Equals(string.Empty))
-                            {
-                                tUserChange = true;
-
-                                NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID, ResultInfos.signkey);
-                                Statut = BTBOperationState.ReStart;
-                            }
-                        }
-                        else
-                        {
-                            Statut = BTBOperationState.Success;
-                            string tUUID = ResultInfos.uuid;
-
-                            if (ResultInfos.isNewUser)
-                            {
-                                tUserChange = true;
-                            }
-
-                            if (!tUUID.Equals(string.Empty))
-                            {
-                                Environment.PlayerAccountReference = tUUID;
-                            }
-
-                            if (ResultInfos.isSignUpdate)
-                            {
-                                tUserChange = true;
-
-                                if (ResultInfos.isSignUp == true)
+                                if (ResultInfos.errorCode == "RQT90" ||
+                                    ResultInfos.errorCode == "RQT91" ||
+                                    ResultInfos.errorCode == "RQT92" ||
+                                    ResultInfos.errorCode == "RQT93" ||
+                                    ResultInfos.errorCode == "RQT94" ||
+                                    ResultInfos.errorCode == "RQT95" ||
+                                    ResultInfos.errorCode == "RQT96" ||
+                                    ResultInfos.errorCode == "RQT97" ||
+                                    ResultInfos.errorCode == "RQT98" ||
+                                    ResultInfos.errorCode == "RQT99"
+                                    )
                                 {
-                                    Environment.ResetAnonymousSession();
+                                    // Notification of a Session expired
+                                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_SESSION_EXPIRED, ResultInfos));
+
+                                    // Restore for anonymous account
+                                    NWDAppConfiguration.SharedInstance().SelectedEnvironment().RestaureAnonymousSession();
+                                }
+                                else
+                                {
+                                    // Notification of a Web Error
+                                    BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_ERROR, ResultInfos));
+
+                                    if (ResultInfos.errorDesc != null)
+                                    {
+                                        if (ResultInfos.errorCode == "ACC98" ||
+                                           ResultInfos.errorCode == "ACC99")
+                                        {
+                                            // Notification of an Account Banned
+                                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_ACCOUNT_BANNED, ResultInfos));
+                                        }
+                                    }
                                 }
 
-                                switch(ResultInfos.sign)
+                                // Application is in running mode
+                                if (Application.isPlaying == true)
                                 {
-                                    case NWDAppEnvironmentPlayerStatut.Anonymous:
-                                        {
-                                            if (!tUUID.Equals(string.Empty))
-                                            {
-                                                Environment.AnonymousPlayerAccountReference = tUUID;
-                                            }
-                                            if (!ResultInfos.signkey.Equals(string.Empty))
-                                            {
-                                                Environment.AnonymousResetPassword = ResultInfos.signkey;
-                                            }
-                                        }
-                                        break;
-                                    case NWDAppEnvironmentPlayerStatut.Temporary:
-                                        {
-                                            if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
-                                            {
-                                                //Using signed account as anonymous account = reset!
-                                                Environment.ResetAnonymousSession();
-                                            }
-                                        }
-                                        break;
-                                    case NWDAppEnvironmentPlayerStatut.Facebook:
-                                    case NWDAppEnvironmentPlayerStatut.Google:
-                                    case NWDAppEnvironmentPlayerStatut.LoginPassword:
-                                    case NWDAppEnvironmentPlayerStatut.Unknow:
-                                        break;
+                                    NWDGameDataManager.UnitySingleton().ErrorManagement(ResultInfos.errorDesc);
+                                }
+
+                                // Notification of an Error
+                                if (ResultInfos.errorDesc != null)
+                                {
+#if UNITY_EDITOR
+                                    if (ResultInfos.errorDesc != null)
+                                    {
+                                        ResultInfos.errorDesc.ShowNativeAlert();
+                                    }
+#else
+                                    if (ResultInfos.errorDesc != null)
+                                    {
+                                        ResultInfos.errorDesc.PostNotificationError();
+                                    }
+#endif
+                                }
+
+                                // Request Failed, send Invoke
+                                FailInvoke(Request.downloadProgress, ResultInfos);
+                            }
+                            else if (ResultInfos.isNewUser && ResultInfos.isUserTransfert)
+                            {
+                                string tUUID = ResultInfos.uuid;
+                                if (!tUUID.Equals(string.Empty))
+                                {
+                                    tUserChange = true;
+
+                                    NWDDataManager.SharedInstance().ChangeAllDatasForUserToAnotherUser(Environment, tUUID, ResultInfos.signkey);
+                                    Statut = BTBOperationState.ReStart;
                                 }
                             }
-
-                            if (ResultInfos.isReloadingData)
+                            else
                             {
-                                //TODO : need reload data ?
+                                Statut = BTBOperationState.Success;
+                                string tUUID = ResultInfos.uuid;
+
+                                if (ResultInfos.isNewUser)
+                                {
+                                    tUserChange = true;
+                                }
+
+                                if (!tUUID.Equals(string.Empty))
+                                {
+                                    Environment.PlayerAccountReference = tUUID;
+                                }
+
+                                if (ResultInfos.isSignUpdate)
+                                {
+                                    tUserChange = true;
+
+                                    if (ResultInfos.isSignUp == true)
+                                    {
+                                        Environment.ResetAnonymousSession();
+                                    }
+
+                                    switch (ResultInfos.sign)
+                                    {
+                                        case NWDAppEnvironmentPlayerStatut.Anonymous:
+                                            {
+                                                if (!tUUID.Equals(string.Empty))
+                                                {
+                                                    Environment.AnonymousPlayerAccountReference = tUUID;
+                                                }
+                                                if (!ResultInfos.signkey.Equals(string.Empty))
+                                                {
+                                                    Environment.AnonymousResetPassword = ResultInfos.signkey;
+                                                }
+                                            }
+                                            break;
+                                        case NWDAppEnvironmentPlayerStatut.Temporary:
+                                            {
+                                                if (Environment.PlayerAccountReference == Environment.AnonymousPlayerAccountReference)
+                                                {
+                                                    //Using signed account as anonymous account = reset!
+                                                    Environment.ResetAnonymousSession();
+                                                }
+                                            }
+                                            break;
+                                        case NWDAppEnvironmentPlayerStatut.Facebook:
+                                        case NWDAppEnvironmentPlayerStatut.Google:
+                                        case NWDAppEnvironmentPlayerStatut.LoginPassword:
+                                        case NWDAppEnvironmentPlayerStatut.Unknow:
+                                            break;
+                                    }
+                                }
+
+                                if (ResultInfos.isReloadingData)
+                                {
+                                    //TODO : need reload data ?
+                                }
+
+                                // Update Data
+                                DataDownloadedCompute(ResultInfos);
+
+                                // Create or load User Account infos
+                                if (ResultInfos.isSignUpdate)
+                                {
+                                    NWDAccountInfos.SetAccountType(ResultInfos.sign);
+                                    Environment.PlayerStatut = ResultInfos.sign;
+                                }
+
+                                // Notification of a Download success
+                                BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
+
+                                // Request Success, send Invoke
+                                SuccessInvoke(Request.downloadProgress, ResultInfos);
                             }
-
-                            // Update Data
-                            DataDownloadedCompute(ResultInfos);
-
-                            // Create or load User Account infos
-                            if (ResultInfos.isSignUpdate)
-                            {
-                                NWDAccountInfos.SetAccountType(ResultInfos.sign);
-                                Environment.PlayerStatut = ResultInfos.sign;
-                            }
-
-                            // Notification of a Download success
-                            BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_SUCCESSED, ResultInfos));
-
-                            // Request Success, send Invoke
-                            SuccessInvoke(Request.downloadProgress, ResultInfos);
                         }
                     }
+                }
+                else
+                {
+                    ResultInfos.SetErrorCode("MAINTENANCE");
+#if UNITY_EDITOR
+                    if (ResultInfos.errorDesc != null)
+                    {
+                        ResultInfos.errorDesc.ShowNativeAlert();
+                    }
+#else
+                    if (ResultInfos.errorDesc != null)
+                    {
+                         ResultInfos.errorDesc.PostNotificationError();
+                    }
+#endif
+                    }
+                }
+                else
+                {
+                    ResultInfos.SetErrorCode("OBSOLETE");
+#if UNITY_EDITOR
+                    if (ResultInfos.errorDesc != null)
+                    {
+                        ResultInfos.errorDesc.ShowNativeAlert();
+                    }
+#else
+                    if (ResultInfos.errorDesc != null)
+                    {
+                         ResultInfos.errorDesc.PostNotificationError();
+                    }
+#endif
                 }
 
                 // Save preference localy
@@ -508,11 +636,11 @@ namespace NetWorkedData
         public override void DestroyThisOperation()
         {
             Statut = BTBOperationState.Destroy;
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
-            #else
+#else
             Destroy (GameObjectToSpawn);
-            #endif
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         static string OSKey = "os";
@@ -522,11 +650,11 @@ namespace NetWorkedData
         static string RequestTokenKey = "token";
         static string HashKey = "hash";
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         static string AdminHashKey = "adminHash";
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         //-------------------------------------------------------------------------------------------------------------
         public string OS;
         public string Lang;
@@ -539,7 +667,14 @@ namespace NetWorkedData
         {
             //TODO: Insert Header In Request
             HeaderParams.Clear();
-
+            if (SecureData)
+            {
+                HeaderParams.Add(SecureKey, SecureDigestKey);
+            }
+            else
+            {
+                HeaderParams.Add(UnSecureKey, UnSecureDigestKey);
+            }
             UUID = Environment.PlayerAccountReference;
             RequestToken = Environment.RequesToken;
 #if UNITY_EDITOR
@@ -574,33 +709,19 @@ namespace NetWorkedData
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
             HeaderParams.Add(HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             // add hash for admin
             if (Application.isPlaying == false && Application.isEditor == true)
             {
                 HeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
             }
-            #endif
+#endif
 
             // insert dico of header in request header
-            string tDebug = string.Empty;
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
                 Request.SetRequestHeader(tEntry.Key, tEntry.Value.ToString());
-                tDebug += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            Debug.Log("NWDOperationWebUnity UPLOADED \n" +
-            "-------------------\n" +
-            "<b>Headers :</b> \n" +
-            "-------------------\n" +
-            tDebug + 
-            "-------------------\n" +
-            "<b>Datas :</b> \n" +
-            "-------------------\n" +
-            Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
-            "-------------------\n" +
-            ""
-            );
         }
         //-------------------------------------------------------------------------------------------------------------
         static string UnSecureKey = "prm";
@@ -636,14 +757,36 @@ namespace NetWorkedData
             tBodyData.AddField(tParamKey, tParamValue);
             tBodyData.AddField(tDigestKey, tDigestValue);
 
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
                 sInfos.OctetUpload = tParamValue.Length + tDigestValue.Length;
             }
-            #endif
+#endif
 
             return tBodyData;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private bool TestTemporalRequestHash(string sHash, string sToken)
+        {
+            bool rReturn = false;
+            string tSaltA = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 1);
+            string tSaltB = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 0);
+            string tSaltC = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, -1);
+
+            ;
+            //Debug.Log("Hash "+ sHash + " for token " + sToken + ": ? " + 
+            //BTBSecurityTools.GenerateSha(tSaltA + sVector+ sToken) + " or " +
+            //BTBSecurityTools.GenerateSha(tSaltB + sVector+ sToken) + " or " +
+            //BTBSecurityTools.GenerateSha(tSaltC + sVector+ sToken));
+            string sVector = Environment.DataSHAVector;
+            if (BTBSecurityTools.GenerateSha(tSaltA + sVector + sToken) == sHash ||
+                BTBSecurityTools.GenerateSha(tSaltB + sVector + sToken) == sHash ||
+                BTBSecurityTools.GenerateSha(tSaltC + sVector + sToken) == sHash)
+            {
+                rReturn = true;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

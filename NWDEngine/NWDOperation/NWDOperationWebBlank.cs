@@ -76,7 +76,8 @@ namespace NetWorkedData
 			rReturn.Environment = sEnvironment;
 			rReturn.QueueName = sEnvironment.Environment;
 			rReturn.ForceSync = sForceSync;
-			rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
+            rReturn.SecureData = sEnvironment.AllwaysSecureData;
+            rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

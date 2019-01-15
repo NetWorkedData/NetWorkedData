@@ -624,7 +624,11 @@ namespace NetWorkedData
             GUILayout.Space(20.0F);
 
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-            GUILayout.Label("Local database", tStyleBoldCenter);
+            if (GUILayout.Button("Test maintenance", EditorStyles.miniButton))
+            {
+                NWDDataManager.SharedInstance().AddWebRequestMaintenanceWithBlock();
+            }
+                GUILayout.Label("Local database", tStyleBoldCenter);
 
             if (GUILayout.Button("Clean all local tables", EditorStyles.miniButton))
             {

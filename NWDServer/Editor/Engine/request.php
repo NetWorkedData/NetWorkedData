@@ -50,7 +50,7 @@
 								getParams('prm', 'prmdgt', true, false);
 								if(getParams('scr', 'scrdgt', false, true)==true)
 								{
-										//respondAdd('securePost',true);
+									respondAdd('securePost',true);
 								}
 								if ($SQL_MNG == false)
 								{

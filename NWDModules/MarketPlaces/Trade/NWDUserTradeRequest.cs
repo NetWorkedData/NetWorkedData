@@ -40,6 +40,7 @@ namespace NetWorkedData
     [NWDClassTrigramme("UTRR")]
     [NWDClassDescription("User Trade Request descriptions Class")]
     [NWDClassMenuName("User Trade Request")]
+    [NWDForceSecureDataAttribute]
     public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
     {
         //-------------------------------------------------------------------------------------------------------------
