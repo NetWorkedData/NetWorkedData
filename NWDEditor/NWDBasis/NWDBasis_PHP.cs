@@ -21,6 +21,10 @@ using System.Globalization;
 #if UNITY_EDITOR
 using UnityEditor;
 
+using Renci.SshNet;
+using Renci.SshNet.Common;
+using Renci.SshNet.Sftp;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -78,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHPForOnlyThisClass()
         {
-            //BTBBenchmark.Start();
+            BTBBenchmark.Start();
             //TODO clean integrity fonction and regenerate PHP
             kPropertiesOrderArray.Remove(ClassID());
             kCSVAssemblyOrderArray.Remove(ClassID());
@@ -112,42 +116,35 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
             }
-            CreateAllPHP("_modify");
-            // Recreate NWDAppConfiguration C#
-           // TODO ? 
-            // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 
-            //test transmit SFTP
-            //var host = "whateverthehostis.com";
-            //var port = 22;
-            //var username = "username";
-            //var password = "passw0rd";
+            bool sFromFileWrting = false;
+            if (sFromFileWrting == true)
+            {
+                CreateAllPHP("_modify");
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+            }
+            else
+            {
+                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false);
+                List<string> tFoldersDev = new List<string>();
+                tFoldersDev.Add("Environment/" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SendFolderAndFiles(tFoldersDev, tResultDev, true);
 
-            //// path for file you want to upload
-            //var uploadFile = @"c:yourfilegoeshere.txt";
+                Dictionary<string, string> tResultPreprod = CreatePHP(NWDAppConfiguration.SharedInstance().PreprodEnvironment, "", false);
+                List<string> tFoldersPreprod = new List<string>();
+                tFoldersPreprod.Add("Environment/" + NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SendFolderAndFiles(tFoldersPreprod, tResultPreprod, true);
 
-            //using (var client = new SftpClient(host, port, username, password))
-            //{
-            //    client.Connect();
-            //    if (client.IsConnected)
-            //    {
-            //        Debug.WriteLine("I'm connected to the client");
+                Dictionary<string, string> tResultProd = CreatePHP(NWDAppConfiguration.SharedInstance().ProdEnvironment, "", false);
+                List<string> tFoldersProd = new List<string>();
+                tFoldersProd.Add("Environment/" + NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SendFolderAndFiles(tFoldersProd, tResultProd, true);
+            }
 
-            //        using (var fileStream = new FileStream(uploadFile, FileMode.Open))
-            //        {
-
-            //            client.BufferSize = 4 * 1024; // bypass Payload error large files
-            //            client.UploadFile(fileStream, Path.GetFileName(uploadFile));
-            //        }
-            //    }
-            //    else
-            //    {
-            //        Debug.WriteLine("I couldn't connect");
-            //    }
-            //}
-
-
-            //BTBBenchmark.Finish();
+                // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP(string sFolderAdd)
@@ -160,9 +157,10 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void CreatePHP(NWDAppEnvironment sEnvironment, string sFolderAdd = "")
+        public static Dictionary<string, string> CreatePHP(NWDAppEnvironment sEnvironment, string sFolderAdd = "", bool sWriteOnDisk = true)
         {
             //BTBBenchmark.Start();
+            Dictionary<string, string> rReturn = new Dictionary<string, string>();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tEnvironmentFolder = sEnvironment.Environment;
             Type tType = ClassType();
@@ -174,7 +172,7 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
             string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
 
-            Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
+           // Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
 
             Datas().PrefLoad();
 
@@ -183,9 +181,12 @@ namespace NetWorkedData
             // Create folders
 
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sFolderAdd +"/Environment/" + tEnvironmentFolder;
+            string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sFolderAdd + "/Environment/" + tEnvironmentFolder;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
-            Directory.CreateDirectory(tServerDatabaseFolder);
+            if (sWriteOnDisk)
+            {
+                Directory.CreateDirectory(tServerDatabaseFolder);
+            }
             AssetDatabase.ImportAsset(tServerDatabaseFolder);
             /*
             if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
@@ -222,7 +223,7 @@ namespace NetWorkedData
             */
             if (AssetDatabase.IsValidFolder(tServerDatabaseFolder) == false)
             {
-                Debug.LogWarning("CreatePHP error : tServerDatabaseFolder not exists (" + tServerDatabaseFolder + ")");
+               // Debug.LogWarning("CreatePHP error : tServerDatabaseFolder not exists (" + tServerDatabaseFolder + ")");
             }
             //========= CONSTANTS FILE
             string tConstantsFile = "<?php\n" +
@@ -356,7 +357,11 @@ namespace NetWorkedData
             "\n" +
                 "//-------------------- \n";
             tConstantsFile += "?>\n";
-            File.WriteAllText(tServerDatabaseFolder + "/constants.php", tConstantsFile);
+            if (sWriteOnDisk)
+            {
+                File.WriteAllText(tServerDatabaseFolder + "/constants.php", tConstantsFile);
+            }
+            rReturn.Add("Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/constants.php", tConstantsFile);
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/constants.php");
 
@@ -627,7 +632,11 @@ namespace NetWorkedData
             "}\n" +
             "//-------------------- \n" +
             "?>\n";
-            File.WriteAllText(tServerDatabaseFolder + "/management.php", tManagementFile);
+            if (sWriteOnDisk)
+            {
+                File.WriteAllText(tServerDatabaseFolder + "/management.php", tManagementFile);
+            }
+            rReturn.Add("Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/management.php", tManagementFile);
             // force to import this file by Unity3D
             //AssetDatabase.ImportAsset(tServerDatabaseFolder + "/management.php");
 
@@ -838,7 +847,7 @@ namespace NetWorkedData
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
                 if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
                 {
-                    tSynchronizationFile += ", REPLACE("+tPropertyName +",\",\",\"\") as " + tPropertyName;
+                    tSynchronizationFile += ", REPLACE(" + tPropertyName + ",\",\",\"\") as " + tPropertyName;
                 }
                 else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
                 {
@@ -846,7 +855,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    tSynchronizationFile += ", " +tPropertyName ;
+                    tSynchronizationFile += ", " + tPropertyName;
                 }
             }
             tSynchronizationFile += " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
@@ -862,11 +871,15 @@ namespace NetWorkedData
             "\t\t\t\t\t{\n" +
             "\t\t\t\t\t\t// I calculate the integrity and reinject the good value\n" +
             "\t\t\t\t\t\t$tRow = $tResult->fetch_assoc();\n" +
-            "\t\t\t\t\t\t$tRow['WebServiceVersion'] = $WSBUILD;\n" +
+            //"\t\t\t\t\t\t$tRow['WebServiceVersion'] = $WSBUILD;\n" +
+            "\t\t\t\t\t\t$tRow['WebServiceVersion'] = $SQL_" + tClassName + "_WebService;\n" +
             "\t\t\t\t\t\t$tCalculate = Integrity" + tClassName + "Generate ($tRow);\n" +
             "\t\t\t\t\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($tRow);\n" +
-            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\', `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'" +
-            ", `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' , `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
+            "\t\t\t\t\t\t$tUpdate = 'UPDATE `'.$ENV.'_" + tTableName + "` SET `Integrity` = \\''.$SQL_CON->real_escape_string($tCalculate).'\\'," +
+            " `ServerHash` = \\''.$SQL_CON->real_escape_string($tCalculateServer).'\\'," +
+            " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\' ," +
+            //" `WebServiceVersion` = \\''.$WSBUILD.'\\'" +
+            " `WebServiceVersion` = \\''.$SQL_" + tClassName + "_WebService.'\\'" +
             " WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t\t\t\t\t$tUpdateResult = $SQL_CON->query($tUpdate);\n" +
             "\t\t\t\t\t\tif (!$tUpdateResult)\n" +
@@ -1090,7 +1103,7 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n";
 
-            var tMethodDeclarePost= tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var tMethodDeclarePost = tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePost != null)
             {
                 tSynchronizationFile += (string)tMethodDeclarePost.Invoke(null, null);
@@ -1404,7 +1417,11 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n" +
             "?>";
-            File.WriteAllText(tServerDatabaseFolder + "/synchronization.php", tSynchronizationFile);
+            if (sWriteOnDisk)
+            {
+                File.WriteAllText(tServerDatabaseFolder + "/synchronization.php", tSynchronizationFile);
+            }
+            rReturn.Add("Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/synchronization.php", tSynchronizationFile);
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
 
@@ -1455,6 +1472,8 @@ namespace NetWorkedData
             */
 
             //BTBBenchmark.Finish();
+
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

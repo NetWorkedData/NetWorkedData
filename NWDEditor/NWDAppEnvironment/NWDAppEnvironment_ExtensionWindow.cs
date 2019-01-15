@@ -75,6 +75,14 @@ namespace NetWorkedData
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
             EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
 
+            EditorGUILayout.TextField("SFTP for " + Environment, EditorStyles.boldLabel);
+            SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
+            SFTPPort = EditorGUILayout.IntField("SFTP Port", SFTPPort);
+            SFTPFolder = EditorGUILayout.TextField("SFTP Folder", SFTPFolder);
+            SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
+            SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
+
+
             EditorGUILayout.TextField("Mail Params for " + Environment, EditorStyles.boldLabel);
             MailHost = EditorGUILayout.TextField("Mail Host", MailHost);
             MailPort = EditorGUILayout.IntField("Mail Port", MailPort);

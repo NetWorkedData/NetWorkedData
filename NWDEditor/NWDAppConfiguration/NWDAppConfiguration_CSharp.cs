@@ -216,6 +216,13 @@ namespace NetWorkedData
                                                                 this.ProdEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
             //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
+
+            "\t\t\tthis.ProdEnvironment.SFTPHost = \"" + this.ProdEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.SFTPPort = " + this.ProdEnvironment.SFTPPort.ToString() + ";\n" +
+            "\t\t\tthis.ProdEnvironment.SFTPFolder = \"" + this.ProdEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.SFTPUser = \"" + this.ProdEnvironment.SFTPUser.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.ProdEnvironment.SFTPPassword = \"" + this.ProdEnvironment.SFTPPassword.Replace("\"", "\\\"") + "\";\n" +
+
             "\t\t\tthis.ProdEnvironment.SaltServer = \"" + this.ProdEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHost = \"" + this.ProdEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerUser = \"" + this.ProdEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
@@ -272,6 +279,13 @@ namespace NetWorkedData
                                                                 this.PreprodEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
             //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
+
+            "\t\t\tthis.PreprodEnvironment.SFTPHost = \"" + this.PreprodEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.SFTPPort = " + this.PreprodEnvironment.SFTPPort.ToString() + ";\n" +
+            "\t\t\tthis.PreprodEnvironment.SFTPFolder = \"" + this.PreprodEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.SFTPUser = \"" + this.PreprodEnvironment.SFTPUser.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.PreprodEnvironment.SFTPPassword = \"" + this.PreprodEnvironment.SFTPPassword.Replace("\"", "\\\"") + "\";\n" +
+
             "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerHost = \"" + this.PreprodEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerUser = \"" + this.PreprodEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
@@ -327,6 +341,13 @@ namespace NetWorkedData
                                                                 this.DevEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "#if UNITY_EDITOR\n" +
+
+            "\t\t\tthis.DevEnvironment.SFTPHost = \"" + this.DevEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.SFTPPort = " + this.DevEnvironment.SFTPPort.ToString() + ";\n" +
+            "\t\t\tthis.DevEnvironment.SFTPFolder = \"" + this.DevEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.SFTPUser = \"" + this.DevEnvironment.SFTPUser.Replace("\"", "\\\"") + "\";\n" +
+            "\t\t\tthis.DevEnvironment.SFTPPassword = \"" + this.DevEnvironment.SFTPPassword.Replace("\"", "\\\"") + "\";\n" +
+
             "\t\t\tthis.DevEnvironment.SaltServer = \"" + this.DevEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerHost = \"" + this.DevEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerUser = \"" + this.DevEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +

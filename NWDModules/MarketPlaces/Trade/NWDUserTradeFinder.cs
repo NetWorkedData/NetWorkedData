@@ -250,6 +250,7 @@ namespace NetWorkedData
                 "$tQueryTrade = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
+                "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
                 "AND `" + tTradePlaceRequest + "` = \\''.$sCsvList[" + tIndex_TradePlace + "].'\\' " +
                 "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+"+ (tDelayOfRefresh * 60).ToString() + ").' " +

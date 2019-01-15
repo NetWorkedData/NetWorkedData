@@ -342,6 +342,14 @@ namespace NetWorkedData
             string sScript = "" +
                 "// debut find \n" +
                 "\n" +
+                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
+                "{\n" +
+                // error ou
+                //"error('UTRRx99');\n" +
+                //"return;\n" +
+                // none ... faudra trancher : none pour avoir une sync 
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", '" + ((int)NWDTradeStatus.None).ToString() + "');\n" +
+                "}\n" +
                 "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + ")\n" +
                 "{\n" +
                 "$tQueryCancelable = 'SELECT `Reference` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` WHERE " +
