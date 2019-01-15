@@ -161,8 +161,9 @@ namespace NetWorkedData
             }
 
             EditorUtility.ClearProgressBar();
-                // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                BTBBenchmark.Finish();
+            BTBBenchmark.Finish();
+            // RECOMPILE WITH THE NEW DATAS!
+            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP(string sFolderAdd)

@@ -66,7 +66,7 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Items Authorization", true, true, true)]
-        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        //public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
         public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
         public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
         public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
@@ -74,16 +74,17 @@ namespace NetWorkedData
 
         [NWDGroupSeparator]
 
-        [NWDGroupStart("Money Authorization", true, true, true)]
-        public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
-        public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
-        public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
-        public NWDReferencesListType<NWDKeyword> FilterMoneyKeywords { get; set; }
-        [NWDGroupEnd]
+        //[NWDGroupStart("Money Authorization", true, true, true)]
+        //public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
+        //public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
+        //public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
+        //public NWDReferencesListType<NWDKeyword> FilterMoneyKeywords { get; set; }
+        //[NWDGroupEnd]
 
-        [NWDGroupSeparator]
+        //[NWDGroupSeparator]
 
         [NWDGroupStart("Trade Detail", true, true, true)]
+        public NWDReferencesListType<NWDItem> Moneys { get; set; }
         public NWDReferencesQuantityType<NWDItem> RequestFixCost { get; set; }
         public NWDReferencesQuantityType<NWDItem> RequestPerItemCost { get; set; }
         public int MaxRequestPerUser { get; set; }
