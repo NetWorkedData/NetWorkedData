@@ -41,10 +41,15 @@ namespace NetWorkedData
 		                                                           BTBOperationBlock sCancelBlock = null,
 		                                                           BTBOperationBlock sProgressBlock = null, 
 		                                                           NWDAppEnvironment sEnvironment = null,
-			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false, bool sSpecial = false)
+			                                                       List<Type> sTypeList = null,
+                                                                   bool sForceSync = false,
+                                                                   bool sPriority = false,
+                                                                   bool sClean = false,
+                                                                   bool sSpecial = false)
 		{
-			NWDOperationWebSynchronisation rReturn = NWDOperationWebSynchronisation.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean, sSpecial);
+			NWDOperationWebSynchronisation rReturn = Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean, sSpecial);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
+
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
@@ -53,22 +58,27 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
-			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, bool sClean = false, bool sSpecial = false)
+			                                                 NWDAppEnvironment sEnvironment = null,
+                                                             List<Type> sTypeList = null,
+                                                             bool sForceSync = false,
+                                                             bool sClean = false,
+                                                             bool sSpecial = false)
 		{
 			NWDOperationWebSynchronisation rReturn = null;
 			if (sName == null) {
 				sName = "UnNamed Web Operation Synchronisation";
 			}
+
 			if (sEnvironment == null) {
 				sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment ();
 			}
 
             GameObject tGameObjectToSpawn = new GameObject(sName);
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
-#else
+            #else
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-#endif 
+            #endif
             rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebSynchronisation> ();
             rReturn.GameObjectToSpawn = tGameObjectToSpawn;
 			rReturn.Environment = sEnvironment;
@@ -78,6 +88,7 @@ namespace NetWorkedData
 			rReturn.FlushTrash = sClean;
             rReturn.Special = sSpecial;
             rReturn.InitBlock (sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock);
+
             return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------

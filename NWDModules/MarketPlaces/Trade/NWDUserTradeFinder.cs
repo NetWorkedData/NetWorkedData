@@ -8,12 +8,15 @@
 using UnityEngine;
 using SQLite.Attribute;
 using System;
+using System.Collections.Generic;
+using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
+    /// 
     /// </summary>
 	[NWDClassServerSynchronize(true)]
     [NWDClassTrigramme("UTRF")]
@@ -27,54 +30,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Filters", true, true, true)]
-        public NWDReferencesListType<NWDItem> FilterItems
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDWorld> FilterWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> FilterCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FilterFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> FilterKeywords
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDItem> FilterItems { get; set; }
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Results", true, true, true)]
         [NWDAlias("TradeRequestsList")]
-        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList { get; set; }
         //[NWDGroupEnd]
+        //-------------------------------------------------------------------------------------------------------------
+        public delegate void tradeFinderBlock(bool result, NWDOperationResult infos);
+        public tradeFinderBlock tradeFinderBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -110,31 +89,27 @@ namespace NetWorkedData
                 }
             }
 
-            // No NWD Finder Object found, we create one
-            NWDUserTradeFinder tFinder = NewData();
-#if UNITY_EDITOR
-            tFinder.InternalKey = NWDAccountNickname.GetNickname();
-#endif
-            tFinder.Tag = NWDBasisTag.TagUserCreated;
-            tFinder.TradePlace.SetObject(sTradePlace);
-            tFinder.SaveData();
+            CreateTradeFinderWith(sTradePlace);
 
             return new NWDUserTradeRequest[0];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void CleanResult(NWDTradePlace sTradePlace)
+        public static NWDUserTradeFinder GetTradeFinderWith(NWDTradePlace sTradePlace)
         {
             NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
             foreach (NWDUserTradeFinder k in tUserTradesFinder)
             {
                 if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
                 {
-                    k.TradeRequestsList = null;
-                    k.SaveData();
-                    return;
+                    return k;
                 }
             }
 
+            return CreateTradeFinderWith(sTradePlace);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private static NWDUserTradeFinder CreateTradeFinderWith(NWDTradePlace sTradePlace)
+        {
             // No NWD Finder Object found, we create one
             NWDUserTradeFinder tFinder = NewData();
             #if UNITY_EDITOR
@@ -143,15 +118,46 @@ namespace NetWorkedData
             tFinder.Tag = NWDBasisTag.TagUserCreated;
             tFinder.TradePlace.SetObject(sTradePlace);
             tFinder.SaveData();
+
+            return tFinder;
         }
-        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod()
+        public void SyncTradeFinder()
         {
-            // do something with this object
+            // Clean the Trade Place Finder Result
+            CleanResult();
+
+            List<Type> tLists = new List<Type>() {
+                typeof(NWDUserTradeProposition),
+                typeof(NWDUserTradeRequest),
+                typeof(NWDUserTradeFinder),
+            };
+
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (tradeFinderBlockDelegate != null)
+                {
+                    tradeFinderBlockDelegate(true, null);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (tradeFinderBlockDelegate != null)
+                {
+                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
+                    tradeFinderBlockDelegate(false, tInfos);
+                }
+            };
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void CleanResult()
+        {
+            TradeRequestsList = null;
+            SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
