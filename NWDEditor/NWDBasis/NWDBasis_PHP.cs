@@ -82,7 +82,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHPForOnlyThisClass()
         {
-            //BTBBenchmark.Start();
+            BTBBenchmark.Start();
             //TODO clean integrity fonction and regenerate PHP
             kPropertiesOrderArray.Remove(ClassID());
             kCSVAssemblyOrderArray.Remove(ClassID());
@@ -116,113 +116,35 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
             }
-            CreateAllPHP("_modify");
-            // Recreate NWDAppConfiguration C#
-            // TODO ? 
-            // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
 
-
-
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            Type tType = ClassType();
-            TableMapping tTableMapping = new TableMapping(tType);
-            string tTableName = /*tEnvironmentFolder + "_" + */tTableMapping.TableName;
-            string tClassName = tTableMapping.TableName;
-            string tTrigramme = Datas().ClassTrigramme;
-            DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
-            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
-
-            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-
-
-
-            //test transmit SFTP
-            // use SshNet
-            // https://github.com/sshnet/SSH.NET
-            // Copyleft from 2016
-            //
-            //
-            //
-            //
-            var tHost = "frelon.biz";
-            var tPort = 222;
-            var tUsername = "frelon";
-            var tPassword = "5tO3RQwBrshIoYkX";
-            var tFolder = "public_webservice/";
-
-            using (var client = new SftpClient(tHost, tPort, tUsername, tPassword))
+            bool sFromFileWrting = false;
+            if (sFromFileWrting == true)
             {
-                client.Connect();
-                if (client.IsConnected)
-                {
-
-                    client.BufferSize = 4 * 1024; // bypass Payload error large files
-
-                    //DEV 
-                    NWDAppEnvironment sEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
-                    string tEnvironmentFolder = sEnvironment.Environment;
-                    string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + "_modify" + "/Environment/" + tEnvironmentFolder;
-                    string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
-                    //// path for file you want to upload
-                    string tUploadFile = (Application.dataPath + "..." + tServerDatabaseFolder + "/").Replace("Assets...Assets", "Assets");
-                    string tDestination = tFolder + tWebServiceFolder + "/Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/";
-                    Debug.Log("I could connect and put :" + tUploadFile);
-                    Debug.Log("I could connect and put at:" + tDestination);
-                    using (var fileStream = new FileStream(tUploadFile+ "constants.php", FileMode.Open))
-                    {
-                        client.UploadFile(fileStream, tDestination + "constants.php", true, null);
-                    }
-                    using (var fileStream = new FileStream(tUploadFile + "management.php", FileMode.Open))
-                    {
-                        client.UploadFile(fileStream, tDestination + "management.php", true, null);
-                    }
-                    using (var fileStream = new FileStream(tUploadFile + "synchronization.php", FileMode.Open))
-                    {
-                        client.UploadFile(fileStream, tDestination + "synchronization.php", true, null);
-                    }
-
-                    // PREPROD
-                    sEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
-                    tEnvironmentFolder = sEnvironment.Environment;
-                    tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + "_modify" + "/Environment/" + tEnvironmentFolder;
-                    tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
-                    //// path for file you want to upload
-                    tUploadFile = (Application.dataPath + "..." + tServerDatabaseFolder + "/").Replace("Assets...Assets", "Assets");
-                    tDestination = tFolder + tWebServiceFolder + "/Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/";
-                    Debug.Log("I could connect and put :" + tUploadFile);
-                    Debug.Log("I could connect and put at:" + tDestination);
-                    using (var fileStream = new FileStream(tUploadFile + "constants.php", FileMode.Open))
-                    {
-                        client.UploadFile(fileStream, tDestination + "constants.php", true, null);
-                    }
-                    using (var fileStream = new FileStream(tUploadFile + "management.php", FileMode.Open))
-                    {
-                        client.UploadFile(fileStream, tDestination + "management.php", true, null);
-                    }
-                    using (var fileStream = new FileStream(tUploadFile + "synchronization.php", FileMode.Open))
-                    {
-                        client.UploadFile(fileStream, tDestination + "synchronization.php", true, null);
-                    }
-
-                    /*
-                    // PROD
-                   WHOOOOOOOO TOO DANGEROUS GUY!
-                    */
-
-
-
-
-
-                    client.Disconnect();
-                    client.Dispose();
-                }
-                else
-                {
-                    Debug.Log("I couldn't connect");
-                }
+                CreateAllPHP("_modify");
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SendFileWS("_modify", Datas().ClassTableName);
             }
-            //BTBBenchmark.Finish();
+            else
+            {
+                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false);
+                List<string> tFoldersDev = new List<string>();
+                tFoldersDev.Add("Environment/" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SendFolderAndFiles(tFoldersDev, tResultDev, true);
+
+                Dictionary<string, string> tResultPreprod = CreatePHP(NWDAppConfiguration.SharedInstance().PreprodEnvironment, "", false);
+                List<string> tFoldersPreprod = new List<string>();
+                tFoldersPreprod.Add("Environment/" + NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SendFolderAndFiles(tFoldersPreprod, tResultPreprod, true);
+
+                Dictionary<string, string> tResultProd = CreatePHP(NWDAppConfiguration.SharedInstance().ProdEnvironment, "", false);
+                List<string> tFoldersProd = new List<string>();
+                tFoldersProd.Add("Environment/" + NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SendFolderAndFiles(tFoldersProd, tResultProd, true);
+            }
+
+                // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+                BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP(string sFolderAdd)
@@ -235,9 +157,10 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void CreatePHP(NWDAppEnvironment sEnvironment, string sFolderAdd = "")
+        public static Dictionary<string, string> CreatePHP(NWDAppEnvironment sEnvironment, string sFolderAdd = "", bool sWriteOnDisk = true)
         {
             //BTBBenchmark.Start();
+            Dictionary<string, string> rReturn = new Dictionary<string, string>();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tEnvironmentFolder = sEnvironment.Environment;
             Type tType = ClassType();
@@ -249,7 +172,7 @@ namespace NetWorkedData
             string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
             string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
 
-            Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
+           // Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
 
             Datas().PrefLoad();
 
@@ -260,7 +183,10 @@ namespace NetWorkedData
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
             string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sFolderAdd + "/Environment/" + tEnvironmentFolder;
             string tServerDatabaseFolder = tServerRootFolder + "/Engine/Database/" + tClassName;
-            Directory.CreateDirectory(tServerDatabaseFolder);
+            if (sWriteOnDisk)
+            {
+                Directory.CreateDirectory(tServerDatabaseFolder);
+            }
             AssetDatabase.ImportAsset(tServerDatabaseFolder);
             /*
             if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
@@ -297,7 +223,7 @@ namespace NetWorkedData
             */
             if (AssetDatabase.IsValidFolder(tServerDatabaseFolder) == false)
             {
-                Debug.LogWarning("CreatePHP error : tServerDatabaseFolder not exists (" + tServerDatabaseFolder + ")");
+               // Debug.LogWarning("CreatePHP error : tServerDatabaseFolder not exists (" + tServerDatabaseFolder + ")");
             }
             //========= CONSTANTS FILE
             string tConstantsFile = "<?php\n" +
@@ -431,7 +357,11 @@ namespace NetWorkedData
             "\n" +
                 "//-------------------- \n";
             tConstantsFile += "?>\n";
-            File.WriteAllText(tServerDatabaseFolder + "/constants.php", tConstantsFile);
+            if (sWriteOnDisk)
+            {
+                File.WriteAllText(tServerDatabaseFolder + "/constants.php", tConstantsFile);
+            }
+            rReturn.Add("Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/constants.php", tConstantsFile);
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/constants.php");
 
@@ -702,7 +632,11 @@ namespace NetWorkedData
             "}\n" +
             "//-------------------- \n" +
             "?>\n";
-            File.WriteAllText(tServerDatabaseFolder + "/management.php", tManagementFile);
+            if (sWriteOnDisk)
+            {
+                File.WriteAllText(tServerDatabaseFolder + "/management.php", tManagementFile);
+            }
+            rReturn.Add("Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/management.php", tManagementFile);
             // force to import this file by Unity3D
             //AssetDatabase.ImportAsset(tServerDatabaseFolder + "/management.php");
 
@@ -1483,7 +1417,11 @@ namespace NetWorkedData
             "\t}\n" +
             "//-------------------- \n" +
             "?>";
-            File.WriteAllText(tServerDatabaseFolder + "/synchronization.php", tSynchronizationFile);
+            if (sWriteOnDisk)
+            {
+                File.WriteAllText(tServerDatabaseFolder + "/synchronization.php", tSynchronizationFile);
+            }
+            rReturn.Add("Environment/" + tEnvironmentFolder + "/Engine/Database/" + tClassName + "/synchronization.php", tSynchronizationFile);
             // force to import this file by Unity3D
             // AssetDatabase.ImportAsset(tServerDatabaseFolder + "/synchronization.php");
 
@@ -1534,6 +1472,8 @@ namespace NetWorkedData
             */
 
             //BTBBenchmark.Finish();
+
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

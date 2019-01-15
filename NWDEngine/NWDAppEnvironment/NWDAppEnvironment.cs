@@ -10,12 +10,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
-
+#if UNITY_EDITOR
+using UnityEditor;
+using Renci.SshNet;
+using Renci.SshNet.Common;
+using Renci.SshNet.Sftp;
+#endif
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
 	{

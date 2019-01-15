@@ -582,7 +582,7 @@ namespace NetWorkedData
             {
                 ResultInfos.SetErrorCode("WEB02");
             }
-            else if (sJsonIsNull == false)
+            else if (sJsonIsNull == true)
             {
                 ResultInfos.SetErrorCode("WEB03");
             }
