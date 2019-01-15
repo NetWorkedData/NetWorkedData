@@ -124,6 +124,20 @@ namespace NetWorkedData
             return tRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDUserTradeRequest[] FindRequestsWith(NWDTradePlace sTradePlace)
+        {
+            List<NWDUserTradeRequest> tUserTradesRequest = new List<NWDUserTradeRequest>();
+            foreach (NWDUserTradeRequest k in FindDatas())
+            {
+                if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                {
+                    tUserTradesRequest.Add(k);
+                }
+            }
+
+            return tUserTradesRequest.ToArray();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
@@ -138,46 +152,12 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                switch(TradeStatus)
-                {
-                    case NWDTradeStatus.Active:
-                        {
-                            // Remove NWDItem from NWDUserOwnership
-                            Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
-                            foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                            {
-                                NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
-                            }
-                        }
-                        break;
-                    case NWDTradeStatus.Expired:
-                        {
-                            // Add NWDItem to NWDUserOwnership
-                            Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
-                            foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                            {
-                                NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
-                            }
-                        }
-                        break;
-                    case NWDTradeStatus.Accepted:
-                        {
-                            // Add NWDItem Ask to NWDUserOwnership
-                            Dictionary<NWDItem, int> tProposed = ItemsAsked.GetObjectAndQuantity();
-                            foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                            {
-                                NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-
                 if (tradeRequestBlockDelegate != null)
                 {
                     tradeRequestBlockDelegate(true, null);
                 }
+
+                AddOrRemoveItems();
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
@@ -190,16 +170,52 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void Clean()
+        public void AddOrRemoveItems()
         {
-            TradeStatus = NWDTradeStatus.None;
-            SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void Cancel()
-        {
-            TradeStatus = NWDTradeStatus.Cancel;
-            SaveData();
+            switch (TradeStatus)
+            {
+                case NWDTradeStatus.Active:
+                    {
+                        // Remove NWDItem from NWDUserOwnership
+                        Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                        foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                        {
+                            NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
+                        }
+                    }
+                    break;
+                case NWDTradeStatus.Expired:
+                    {
+                        // Add NWDItem to NWDUserOwnership
+                        Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                        foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                        {
+                            NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                        }
+
+                        // Set Trade Proposition to None, so we can reused an old slot for a new transaction
+                        Clean();
+                    }
+                    break;
+                case NWDTradeStatus.Accepted:
+                    {
+                        // Add NWDItem Ask to NWDUserOwnership
+                        Dictionary<NWDItem, int> tProposed = ItemsAsked.GetObjectAndQuantity();
+                        foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                        {
+                            NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                        }
+
+                        // Set Trade Proposition to None, so we can reused an old slot for a new transaction
+                        Clean();
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            // Sync NWDUserOwnership
+            NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
         }
         //-------------------------------------------------------------------------------------------------------------
         public bool UserCanBuy()
@@ -233,6 +249,22 @@ namespace NetWorkedData
             }
 
             return rCanBuy;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Cancel()
+        {
+            TradeStatus = NWDTradeStatus.Cancel;
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void Clean()
+        {
+            TradePlace = null;
+            ItemsProposed = null;
+            ItemsAsked = null;
+            LimitDayTime = null;
+            TradeStatus = NWDTradeStatus.None;
+            SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods

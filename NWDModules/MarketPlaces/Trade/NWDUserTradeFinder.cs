@@ -78,7 +78,7 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserTradeRequest[] FindPropositionsList(NWDTradePlace sTradePlace)
+        public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
         {
             NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
             foreach (NWDUserTradeFinder k in tUserTradesFinder)
@@ -154,10 +154,13 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CleanResult()
+        private void CleanResult()
         {
             TradeRequestsList = null;
             SaveData();
+
+            // Remove stranger data request
+            NWDUserTradeRequest.PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
