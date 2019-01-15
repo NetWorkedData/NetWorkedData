@@ -8,6 +8,8 @@
 using SQLite.Attribute;
 using UnityEngine;
 using BasicToolBox;
+using System.Collections.Generic;
+using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -25,7 +27,7 @@ namespace NetWorkedData
     public partial class NWDUserTradeProposition : NWDBasis<NWDUserTradeProposition>
     {
         //-------------------------------------------------------------------------------------------------------------
-#region Properties
+        #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
@@ -35,10 +37,6 @@ namespace NetWorkedData
         public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDAlias("TradeRequest")]
         public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
-        [NWDAlias("TradeStatus")]
-        public NWDTradeStatus TradeStatus { get; set;}
-        [NWDAlias("TradeRequestDM")]
-        public NWDDateTimeUtcType TradeRequestDM {get; set;}
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -46,11 +44,17 @@ namespace NetWorkedData
         [NWDGroupStart("Trade References", true, true, true)]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
         public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        [NWDAlias("TradeStatus")]
+        public NWDTradeStatus TradeStatus { get; set; }
+        [NWDAlias("TradeRequestDM")]
+        public NWDDateTimeUtcType TradeRequestDM { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        public delegate void tradeProposalBlock(bool result, NWDOperationResult infos);
+        public tradeProposalBlock tradeProposalBlockDelegate;
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
-#region Constructors
+        #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeProposition()
         {
@@ -62,29 +66,94 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
-#region Class methods
+        #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void MyClassMethod()
+        public static NWDUserTradeProposition CreateTradeProposalWith(NWDUserTradeRequest sRequest)
         {
-            // do something with this class
+            // Create a new Proposal
+            NWDUserTradeProposition tProposition = NewData();
+            #if UNITY_EDITOR
+            tProposition.InternalKey = NWDAccountNickname.GetNickname();
+            #endif
+            tProposition.Tag = NWDBasisTag.TagUserCreated;
+            tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
+            tProposition.TradeRequest.SetObject(sRequest);
+            tProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
+            tProposition.ItemsAsked.SetReferenceAndQuantity(sRequest.ItemsAsked.GetReferenceAndQuantity());
+            tProposition.TradeStatus = NWDTradeStatus.Active;
+            tProposition.TradeRequestDM.SetTimeStamp(sRequest.DM);
+            tProposition.SaveData();
+
+            return tProposition;
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
-#region Instance methods
+        #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod()
+        public void SyncTradeProposal()
         {
-            // do something with this object
+            List<Type> tLists = new List<Type>() {
+                typeof(NWDUserTradeProposition),
+                typeof(NWDUserTradeRequest),
+                typeof(NWDUserTradeFinder),
+            };
+
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (TradeStatus == NWDTradeStatus.Accepted)
+                {
+                    // Add NWDItem to NWDUserOwnership
+                    Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                    foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                    {
+                        NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                    }
+
+                    // Remove NWDItem to NWDUserOwnership
+                    Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
+                    foreach (KeyValuePair<NWDItem, int> pair in tAsked)
+                    {
+                        NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
+                    }
+                }
+
+                if (tradeProposalBlockDelegate != null)
+                {
+                    tradeProposalBlockDelegate(true, null);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (tradeProposalBlockDelegate != null)
+                {
+                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
+                    tradeProposalBlockDelegate(false, tInfos);
+                }
+            };
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
         }
         //-------------------------------------------------------------------------------------------------------------
-#region NetWorkedData addons methods
+        public void Clean()
+        {
+            TradeStatus = NWDTradeStatus.None;
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Cancel()
+        {
+            TradeStatus = NWDTradeStatus.Cancel;
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
         {
@@ -126,7 +195,7 @@ namespace NetWorkedData
             // do something when object will be remove from trash
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -268,11 +337,11 @@ namespace NetWorkedData
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
+        #endif
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -49,30 +49,24 @@ namespace NetWorkedData
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set;
-        }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDAlias("TradePlace")]
-        public NWDReferenceType<NWDTradePlace> TradePlace { get; set;
-        }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Trade References", true, true, true)]
         //[NWDAlias("ItemsProposed")]
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set;
-        }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
         //[NWDAlias("ItemsAsked")]
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set;
-        }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
         [NWDAlias("TradeStatus")]
-        public NWDTradeStatus TradeStatus { get; set;
-        }
+        public NWDTradeStatus TradeStatus { get; set; }
         [NWDAlias("LimitDayTime")]
-        public NWDDateTimeUtcType LimitDayTime { get; set;
-        }
+        public NWDDateTimeUtcType LimitDayTime { get; set; }
         [NWDAlias("WinnerProposition")]
-        public NWDReferenceType<NWDUserTradeProposition> WinnerProposition {get; set;}
+        public NWDReferenceType<NWDUserTradeProposition> WinnerProposition { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -83,6 +77,9 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }
         public NWDReferencesListType<NWDKeyword> TagKeywords { get; set; }
         //[NWDGroupEnd]
+        //-------------------------------------------------------------------------------------------------------------
+        public delegate void tradeRequestBlock(bool result, NWDOperationResult infos);
+        public tradeRequestBlock tradeRequestBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -106,18 +103,136 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void MyClassMethod()
+        public static NWDUserTradeRequest CreateTradeRequestWith(NWDTradePlace sTradePlace, Dictionary<string, int> sProposed, Dictionary<string, int> sAsked)
         {
-            // do something with this class
+            // Get Request Life time
+            int tLifetime = sTradePlace.RequestLifeTime;
+
+            // Create a new Request
+            NWDUserTradeRequest tRequest = NewData();
+            #if UNITY_EDITOR
+            tRequest.InternalKey = NWDAccountNickname.GetNickname(); // + " - " + sProposed.Name.GetBaseString();
+            #endif
+            tRequest.Tag = NWDBasisTag.TagUserCreated;
+            tRequest.TradePlace.SetObject(sTradePlace);
+            tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
+            tRequest.ItemsAsked.SetReferenceAndQuantity(sAsked);
+            tRequest.TradeStatus = NWDTradeStatus.Active;
+            tRequest.LimitDayTime.SetDateTime(DateTime.UtcNow.AddSeconds(tLifetime));
+            tRequest.SaveData();
+
+            return tRequest;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void MyInstanceMethod()
+        public void SyncTradeRequest()
         {
-            // do something with this object
+            List<Type> tLists = new List<Type>() {
+                typeof(NWDUserTradeProposition),
+                typeof(NWDUserTradeRequest),
+                typeof(NWDUserTradeFinder),
+            };
+
+            BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                switch(TradeStatus)
+                {
+                    case NWDTradeStatus.Active:
+                        {
+                            // Remove NWDItem from NWDUserOwnership
+                            Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                            foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                            {
+                                NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
+                            }
+                        }
+                        break;
+                    case NWDTradeStatus.Expired:
+                        {
+                            // Add NWDItem to NWDUserOwnership
+                            Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                            foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                            {
+                                NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                            }
+                        }
+                        break;
+                    case NWDTradeStatus.Accepted:
+                        {
+                            // Add NWDItem Ask to NWDUserOwnership
+                            Dictionary<NWDItem, int> tProposed = ItemsAsked.GetObjectAndQuantity();
+                            foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                            {
+                                NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                if (tradeRequestBlockDelegate != null)
+                {
+                    tradeRequestBlockDelegate(true, null);
+                }
+            };
+            BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
+            {
+                if (tradeRequestBlockDelegate != null)
+                {
+                    NWDOperationResult tInfos = bInfos as NWDOperationResult;
+                    tradeRequestBlockDelegate(false, tInfos);
+                }
+            };
+            NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Clean()
+        {
+            TradeStatus = NWDTradeStatus.None;
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void Cancel()
+        {
+            TradeStatus = NWDTradeStatus.Cancel;
+            SaveData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public bool UserCanBuy()
+        {
+            bool rCanBuy = false;
+
+            // Check Pack Cost
+            foreach (KeyValuePair<NWDItem, int> pair in ItemsAsked.GetObjectAndQuantity())
+            {
+                // Get Item Cost data
+                NWDItem tNWDItem = pair.Key;
+                int tItemQte = pair.Value;
+
+                rCanBuy = true;
+
+                if (NWDUserOwnership.OwnershipForItemExists(tNWDItem))
+                {
+                    if (NWDUserOwnership.OwnershipForItem(tNWDItem).Quantity < tItemQte)
+                    {
+                        // User don't have enough item
+                        rCanBuy = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    // User don't have the selected item
+                    rCanBuy = false;
+                    break;
+                }
+            }
+
+            return rCanBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
