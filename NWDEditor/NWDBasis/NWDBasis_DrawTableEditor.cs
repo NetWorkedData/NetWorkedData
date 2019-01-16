@@ -1263,6 +1263,11 @@ namespace NetWorkedData
                 tBasisInspector.mTypeInEdition = ClassType();
                 Selection.activeObject = tBasisInspector;
             }
+            bool tCreateAllPHPForOnlyThisClassDEV= false;
+            if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
+            {
+                tCreateAllPHPForOnlyThisClassDEV = true;
+            }
             bool tCreateAllPHPForOnlyThisClass = false;
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
             {
@@ -1912,6 +1917,10 @@ namespace NetWorkedData
             if (tCreateAllPHPForOnlyThisClass == true)
             {
                 CreateAllPHPForOnlyThisClass();
+            }
+            if (tCreateAllPHPForOnlyThisClassDEV == true)
+            {
+                CreateDevPHPForOnlyThisClass();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

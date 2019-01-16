@@ -105,6 +105,11 @@ namespace NetWorkedData
         //[NWDGroupSeparator]
 
         [NWDGroupStart("Trade Detail", true, true, true)]
+        [NWDAlias("ForRelationshipOnly")]
+        public bool ForRelationshipOnly
+        {
+            get; set;
+        }
         public NWDReferencesListType<NWDItem> Moneys
         {
             get; set;
