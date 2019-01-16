@@ -78,6 +78,75 @@ namespace NetWorkedData
             NWDError.CreateGenericError(tClassName, tTrigramme + "x88", "Error in " + tClassName, "integrity of one datas is false, break in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(tClassName, tTrigramme + "x77", "Error in " + tClassName, "error update log in " + tClassName + " (update table?)", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
 
+        }//-------------------------------------------------------------------------------------------------------------
+        public static void CreateDevPHPForOnlyThisClass()
+        {
+            BTBBenchmark.Start();
+            CreateAllError();
+            //TODO clean integrity fonction and regenerate PHP
+            kPropertiesOrderArray.Remove(ClassID());
+            kCSVAssemblyOrderArray.Remove(ClassID());
+            kSLQAssemblyOrderArray.Remove(ClassID());
+            kSLQAssemblyOrder.Remove(ClassID());
+            kSLQIntegrityOrder.Remove(ClassID());
+            kSLQIntegrityServerOrder.Remove(ClassID());
+            kDataAssemblyPropertiesList.Remove(ClassID());
+
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            {
+                NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            }
+
+            bool sFromFileWrting = false;
+
+
+            string tTitle = Datas().ClassTableName + " WS Regenerate";
+            string tMessage = "...?...";
+            EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.0F);
+            if (sFromFileWrting == true)
+            {
+                tMessage = "Generate file on disk and copy result on server.";
+                CreateAllPHP("_modify");
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.5f);
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                tMessage = "Copy result on server Dev.";
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 1.00f);
+            }
+            else
+            {
+                tMessage = "Generate and directly copy on server.";
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.5f);
+                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false);
+                List<string> tFoldersDev = new List<string>();
+                tFoldersDev.Add("Environment/" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SendFolderAndFiles(tFoldersDev, tResultDev, true);
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 1.00f);
+            }
+
+            EditorUtility.ClearProgressBar();
+            BTBBenchmark.Finish();
+            // RECOMPILE WITH THE NEW DATAS!
+            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHPForOnlyThisClass()

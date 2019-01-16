@@ -270,11 +270,16 @@ namespace NetWorkedData
             string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
             string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
             string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
+            string tForRelationshipOnly = NWDUserTradeRequest.FindAliasName("ForRelationshipOnly");
+            string tRelationshipAccountReferences = NWDUserTradeRequest.FindAliasName("RelationshipAccountReferences");
 
-            string tTradeRequestsList = NWDUserTradeFinder.FindAliasName("TradeRequestsList");
-            string tTradePlace = NWDUserTradeFinder.FindAliasName("TradePlace");
-            int tIndex_TradeRequestsList = CSVAssemblyIndexOf(tTradeRequestsList);
-            int tIndex_TradePlace = CSVAssemblyIndexOf(tTradePlace);
+            string t_THIS_TradeRequestsList = FindAliasName("TradeRequestsList");
+            string t_THIS_TradePlace = FindAliasName("TradePlace");
+            string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
+
+            int tIndex_TradeRequestsList = CSVAssemblyIndexOf(t_THIS_TradeRequestsList);
+            int tIndex_TradePlace = CSVAssemblyIndexOf(t_THIS_TradePlace);
+            int tIndex_THIS_ForRelationshipOnly = CSVAssemblyIndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
@@ -284,6 +289,12 @@ namespace NetWorkedData
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
+                "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' ';\n" +
+                "if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')\n" +
+                "{\n" +
+                "$tQueryTrade.= 'AND `" + tRelationshipAccountReferences + "` = \\''.$uuid.'\\' ';\n" +
+                "}\n" +
+                "$tQueryTrade.= '" +
                 "AND `" + tTradePlaceRequest + "` = \\''.$sCsvList[" + tIndex_TradePlace + "].'\\' " +
                 "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+" + (tDelayOfRefresh * 60).ToString() + ").' " +
                 // ORDER BY 

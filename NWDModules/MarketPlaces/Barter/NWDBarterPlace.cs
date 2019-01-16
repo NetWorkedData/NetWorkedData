@@ -111,6 +111,11 @@ namespace NetWorkedData
         //{
         //    get; set;
         //}
+        [NWDAlias("ForRelationshipOnly")]
+        public bool ForRelationshipOnly
+        {
+            get; set;
+        }
         public NWDReferencesQuantityType<NWDItem> RequestFixCost
         {
             get; set;

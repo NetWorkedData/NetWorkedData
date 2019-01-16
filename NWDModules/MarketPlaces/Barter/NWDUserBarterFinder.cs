@@ -270,20 +270,36 @@ namespace NetWorkedData
             string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
             string tLimitDayTime = NWDUserBarterRequest.FindAliasName("LimitDayTime");
             string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
+            string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
+            string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
 
-            string tBarterRequestsList = NWDUserBarterFinder.FindAliasName("BarterRequestsList");
-            string tBarterPlace = NWDUserBarterFinder.FindAliasName("BarterPlace");
-            int tIndex_BarterRequestsList = CSVAssemblyIndexOf(tBarterRequestsList);
-            int tIndex_BarterPlace = CSVAssemblyIndexOf(tBarterPlace);
+            string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
+            string t_THIS_BarterPlace = FindAliasName("BarterPlace");
+            string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
+            string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
+            string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
+
+            int tIndex_BarterRequestsList = CSVAssemblyIndexOf(t_THIS_BarterRequestsList);
+            int tIndex_BarterPlace = CSVAssemblyIndexOf(t_THIS_BarterPlace);
+            int tIndex_THIS_ForRelationshipOnly = CSVAssemblyIndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// debut find \n" +
+                "myLog('HELLLO GUY', __FILE__, __FUNCTION__, __LINE__);\n" +
+
                 "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDBarterStatus.Active).ToString() + "\\' " +
+                "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' ';\n" +
+                "AND `" + t_THIS_MaxPropositions + "` > `" + t_THIS_PropositionsCounter + "` ';\n" +
+                "if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')\n" +
+                "{\n" +
+                "$tQueryTrade.= 'AND `" + tRelationshipAccountReferences + "` = \\''.$uuid.'\\' ';\n" +
+                "}\n" +
+                "$tQueryTrade.= '" +
                 "AND `" + tBarterPlaceRequest + "` = \\''.$sCsvList[" + tIndex_BarterPlace + "].'\\' " +
                 "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+" + (tDelayOfRefresh * 60).ToString() + ").' " +
                 // ORDER BY 
