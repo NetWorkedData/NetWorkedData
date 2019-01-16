@@ -1263,9 +1263,10 @@ namespace NetWorkedData
                 tBasisInspector.mTypeInEdition = ClassType();
                 Selection.activeObject = tBasisInspector;
             }
+            bool tCreateAllPHPForOnlyThisClass = false;
             if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
             {
-                CreateAllPHPForOnlyThisClass();
+                tCreateAllPHPForOnlyThisClass = true;
             }
             GUI.backgroundColor = tOldColor;
 
@@ -1906,6 +1907,11 @@ namespace NetWorkedData
             if (tLocalizeLocalTable == true)
             {
                 ExportLocalization();
+            }
+
+            if (tCreateAllPHPForOnlyThisClass == true)
+            {
+                CreateAllPHPForOnlyThisClass();
             }
         }
         //-------------------------------------------------------------------------------------------------------------

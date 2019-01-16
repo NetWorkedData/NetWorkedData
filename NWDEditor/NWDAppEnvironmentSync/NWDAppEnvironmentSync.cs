@@ -623,12 +623,53 @@ namespace NetWorkedData
 
             GUILayout.Space(20.0F);
 
+            GUILayout.BeginHorizontal();
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-            if (GUILayout.Button("Test maintenance", EditorStyles.miniButton))
+            if (GUILayout.Button("maintenance", EditorStyles.miniButton))
             {
-                NWDDataManager.SharedInstance().AddWebRequestMaintenanceWithBlock();
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SetMaintenance(true);
             }
-                GUILayout.Label("Local database", tStyleBoldCenter);
+            if (GUILayout.Button("maintenance", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SetMaintenance(true);
+            }
+            if (GUILayout.Button("maintenance", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SetMaintenance(true);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("obsolete", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SetObsolete(true);
+            }
+            if (GUILayout.Button("obsolete", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SetObsolete(true);
+            }
+            if (GUILayout.Button("obsolete", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SetObsolete(true);
+            }
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("activate", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().DevEnvironment.SetActivate();
+            }
+            if (GUILayout.Button("activate", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.SetActivate();
+            }
+            if (GUILayout.Button("activate", EditorStyles.miniButton))
+            {
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.SetActivate();
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(20.0F);
+
+            GUILayout.Label("Local database", tStyleBoldCenter);
 
             if (GUILayout.Button("Clean all local tables", EditorStyles.miniButton))
             {

@@ -83,6 +83,7 @@ namespace NetWorkedData
         public static void CreateAllPHPForOnlyThisClass()
         {
             BTBBenchmark.Start();
+            CreateAllError();
             //TODO clean integrity fonction and regenerate PHP
             kPropertiesOrderArray.Remove(ClassID());
             kCSVAssemblyOrderArray.Remove(ClassID());
@@ -118,33 +119,51 @@ namespace NetWorkedData
             }
 
             bool sFromFileWrting = false;
+
+
+            string tTitle = Datas().ClassTableName+" WS Regenerate";
+            string tMessage = "...?...";
+            EditorUtility.DisplayProgressBar(tTitle, tMessage,0.0F);
             if (sFromFileWrting == true)
             {
+                tMessage = "Generate file on disk and copy result on server.";
                 CreateAllPHP("_modify");
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.25f);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                tMessage = "Copy result on server Dev.";
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.50f);
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                tMessage = "Copy result on server Preprod.";
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.75f);
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.SendFileWS("_modify", Datas().ClassTableName);
+                tMessage = "Copy result on server Prod.";
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 1.00f);
             }
             else
             {
+                tMessage = "Generate and directly copy on server.";
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.25f);
                 Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false);
                 List<string> tFoldersDev = new List<string>();
                 tFoldersDev.Add("Environment/" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SendFolderAndFiles(tFoldersDev, tResultDev, true);
-
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.50f);
                 Dictionary<string, string> tResultPreprod = CreatePHP(NWDAppConfiguration.SharedInstance().PreprodEnvironment, "", false);
                 List<string> tFoldersPreprod = new List<string>();
                 tFoldersPreprod.Add("Environment/" + NWDAppConfiguration.SharedInstance().PreprodEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
                 NWDAppConfiguration.SharedInstance().PreprodEnvironment.SendFolderAndFiles(tFoldersPreprod, tResultPreprod, true);
-
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.75f);
                 Dictionary<string, string> tResultProd = CreatePHP(NWDAppConfiguration.SharedInstance().ProdEnvironment, "", false);
                 List<string> tFoldersProd = new List<string>();
                 tFoldersProd.Add("Environment/" + NWDAppConfiguration.SharedInstance().ProdEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.SendFolderAndFiles(tFoldersProd, tResultProd, true);
+                EditorUtility.DisplayProgressBar(tTitle, tMessage, 1.00f);
             }
 
-                // NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
-                BTBBenchmark.Finish();
+            EditorUtility.ClearProgressBar();
+            BTBBenchmark.Finish();
+            // RECOMPILE WITH THE NEW DATAS!
+            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP(string sFolderAdd)
@@ -186,8 +205,8 @@ namespace NetWorkedData
             if (sWriteOnDisk)
             {
                 Directory.CreateDirectory(tServerDatabaseFolder);
+                AssetDatabase.ImportAsset(tServerDatabaseFolder);
             }
-            AssetDatabase.ImportAsset(tServerDatabaseFolder);
             /*
             if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
             {
