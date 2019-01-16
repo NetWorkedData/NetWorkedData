@@ -31,23 +31,47 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set;}
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         [NWDAlias("TradePlace")]
-        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace
+        {
+            get; set;
+        }
         [NWDAlias("TradeRequest")]
-        public NWDReferenceType<NWDUserTradeRequest> TradeRequest { get; set; }
+        public NWDReferenceType<NWDUserTradeRequest> TradeRequest
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Trade References", true, true, true)]
-        public NWDReferencesQuantityType<NWDItem> ItemsProposed { get; set; }
-        public NWDReferencesQuantityType<NWDItem> ItemsAsked { get; set; }
+        public NWDReferencesQuantityType<NWDItem> ItemsProposed
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> ItemsAsked
+        {
+            get; set;
+        }
         [NWDAlias("TradeStatus")]
-        public NWDTradeStatus TradeStatus { get; set; }
+        public NWDTradeStatus TradeStatus
+        {
+            get; set;
+        }
         [NWDAlias("TradeRequestDM")]
-        public NWDDateTimeUtcType TradeRequestDM { get; set; }
+        public NWDDateTimeUtcType TradeRequestDM
+        {
+            get; set;
+        }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeProposalBlock(bool result, NWDOperationResult infos);
@@ -79,9 +103,9 @@ namespace NetWorkedData
         {
             // Create a new Proposal
             NWDUserTradeProposition tProposition = NewData();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             tProposition.InternalKey = NWDAccountNickname.GetNickname();
-            #endif
+#endif
             tProposition.Tag = NWDBasisTag.TagUserCreated;
             tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
             tProposition.TradeRequest.SetObject(sRequest);
@@ -210,7 +234,7 @@ namespace NetWorkedData
             // do something when object will be remove from trash
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -243,7 +267,7 @@ namespace NetWorkedData
 
             if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "fixe date of TradeRequest DM", tMiniButtonStyle))
             {
-                Debug.Log("YES ? or Not "+ TradeRequest.Value);
+                Debug.Log("YES ? or Not " + TradeRequest.Value);
                 NWDUserTradeRequest tRequest = TradeRequest.GetObjectAbsolute();
                 if (tRequest != null)
                 {
@@ -268,7 +292,7 @@ namespace NetWorkedData
             string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
             string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
             string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
-            string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
+            //string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
 
             string t_THIS_TradeRequestDM = FindAliasName("TradeRequestDM");
             string t_THIS_TradePlace = FindAliasName("TradePlace");
@@ -279,13 +303,13 @@ namespace NetWorkedData
             int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
             int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
             string sScript = "" +
-                "// debut find \n" + 
+                "// debut find \n" +
                 // YOU MUST REIMPORT THE GLOBAL ... PHP strange practice?
                 "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
 
                 "\n" +
-                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + 
-                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + 
+                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() +
                 " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
                 "{\n" +
                 // error ou
@@ -300,8 +324,8 @@ namespace NetWorkedData
                 " `DM` = \\''.$TIME_SYNC.'\\'," +
                 " `DS` = \\''.$TIME_SYNC.'\\'," +
                 " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
-                " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'," +
-                " `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'" +
+                //" `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'," +
+                " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
                 // WHERE REQUEST
                 " WHERE `AC`= \\'1\\' " +
                 " AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
@@ -330,7 +354,7 @@ namespace NetWorkedData
                 "// I need update the proposition too !\n" +
                 "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Accepted).ToString() + "\');\n" +
                 "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "Integrity" + NWDUserTradeRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest+ "]);\n" +
+                "Integrity" + NWDUserTradeRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
@@ -353,8 +377,8 @@ namespace NetWorkedData
             string t_THIS_TradeRequest = FindAliasName("TradeRequest");
             int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
 
-            return "// write your php script here to update after sync on server\n "+
-                "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest+ "]);\n";
+            return "// write your php script here to update after sync on server\n " +
+                "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate()
@@ -362,7 +386,7 @@ namespace NetWorkedData
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

@@ -26,6 +26,17 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDBarterStatus
+    {
+        None = 0,
+        Active = 10,
+        Waiting = 11,
+        Deal = 15,
+        Accepted = 20,
+        Cancel = 30,
+        Expired = 40,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
     /// <para>The GameObject can use the object referenced by binding in game. </para>
@@ -46,54 +57,105 @@ namespace NetWorkedData
     /// </example>
     /// </summary>
 	[Serializable]
-    public class NWDBarterPlaceConnection : NWDConnection <NWDBarterPlace> {}
+    public class NWDBarterPlaceConnection : NWDConnection<NWDBarterPlace>
+    {
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDClassServerSynchronizeAttribute (true)]
-	[NWDClassTrigrammeAttribute ("BRW")]
-	[NWDClassDescriptionAttribute ("Barter Place descriptions Class")]
-	[NWDClassMenuNameAttribute ("Barter Place")]
-	public partial class NWDBarterPlace :NWDBasis <NWDBarterPlace>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDLocalizableStringType Name { get; set; }
-		public NWDLocalizableStringType SubName { get; set; }
-		public NWDLocalizableStringType Description { get; set; }
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("BRW")]
+    [NWDClassDescriptionAttribute("Barter Place descriptions Class")]
+    [NWDClassMenuNameAttribute("Barter Place")]
+    public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        #region Properties
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDGroupStart("Description", true, true, true)]
+        public NWDReferenceType<NWDItem> DescriptionItem
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
 
-		[NWDGroupStartAttribute("Classification",true, true, true)]
-        public NWDReferencesListType<NWDWorld> WorldList { get; set; }
-        public NWDReferencesListType<NWDCategory> CategoryList { get; set; }
-        public NWDReferencesListType<NWDFamily> FamilyList { get; set; }
-        public NWDReferencesListType<NWDKeyword>  KeywordList { get; set; }
-		[NWDGroupEndAttribute]
+        [NWDGroupSeparator]
 
-		[NWDGroupStartAttribute("Items Authorization",true, true, true)]
-        public NWDReferencesListType<NWDWorld> FilterWorldList { get; set; }
-		public NWDReferencesListType<NWDCategory> FilterCategoryList { get; set; }
-        public NWDReferencesListType<NWDFamily> FilterFamilyList { get; set; }
-        public NWDReferencesListType<NWDKeyword> FilterKeywordList { get; set; }
-		[NWDGroupEndAttribute]
+        [NWDGroupStart("Items Authorization", true, true, true)]
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> FilterFamilies
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords
+        {
+            get; set;
+        }
+        [NWDGroupEnd]
 
-		public int OpenDateTime { get; set; }
-		public int CloseDateTime { get; set; }
-		public int WeeklyOpenDays { get; set; }
+        [NWDGroupSeparator]
 
-		public string Calendar { get; set; }
+        //[NWDGroupStart("Money Authorization", true, true, true)]
+        //public NWDReferencesListType<NWDWorld> FilterMoneyWorlds { get; set; }
+        //public NWDReferencesListType<NWDCategory> FilterMoneyCategories { get; set; }
+        //public NWDReferencesListType<NWDFamily> FilterMoneyFamilies { get; set; }
+        //public NWDReferencesListType<NWDKeyword> FilterMoneyKeywords { get; set; }
+        //[NWDGroupEnd]
 
-		public NWDReferencesQuantityType<NWDItem> RequestCreationItemsCost { get; set; } // not resell if cancel
-		public NWDReferencesQuantityType<NWDItem> TransactionFixItemsCost { get; set; } 
-		public NWDReferencesQuantityType<NWDItem> TransactionNumberOfItemsCost { get; set; }
+        //[NWDGroupSeparator]
 
-		public float NumberStep { get; set; }
-
-		public int RequestLifeTime { get; set; }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDBarterPlace()
+        [NWDGroupStart("Trade Detail", true, true, true)]
+        //public NWDReferencesListType<NWDItem> Moneys
+        //{
+        //    get; set;
+        //}
+        public NWDReferencesQuantityType<NWDItem> RequestFixCost
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> RequestPerItemCost
+        {
+            get; set;
+        }
+        public int MaxRequestPerUser
+        {
+            get; set;
+        }
+        public int MaxPropositionsPerUser
+        {
+            get; set;
+        }
+        public int MaxPropositionsPerRequest
+        {
+            get; set;
+        }
+        public int RefreshDelay
+        {
+            get; set;
+        }
+        [NWDTooltips("Minimum time before cancel")]
+        public int CancelDelay
+        {
+            get; set;
+        }
+        [NWDTooltips("Minimum time before choose")]
+        public int WaitingLifeTime
+        {
+            get; set;
+        }
+        [NWDTooltips("Maximum time life")]
+        public int RequestLifeTime
+        {
+            get; set;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Constructors
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDBarterPlace()
         {
             //Debug.Log("NWDBarterPlace Constructor");
         }
@@ -102,104 +164,111 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MyClassMethod ()
-		{
-			// do something with this class
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Class methods
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MyClassMethod()
+        {
+            // do something with this class
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            RefreshDelay = 60 * 3;
+            CancelDelay = 60 * 5;
+            MaxRequestPerUser = 3;
+            MaxPropositionsPerUser = 20;
+            MaxPropositionsPerRequest = 10;
+            WaitingLifeTime = 60 * 60 * 1;
+            RequestLifeTime = 60 * 60 * 24;
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public void MyInstanceMethod ()
-		{
-			// do something with this object
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#region NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe ()
-		{
-			// do something when object will be inserted
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdateMe ()
-		{
-			// do something when object will be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe ()
-		{
-			// do something when object finish to be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDuplicateMe ()
-		{
-			// do something when object will be dupplicate
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonEnableMe ()
-		{
-			// do something when object will be enabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDisableMe ()
-		{
-			// do something when object will be disabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonTrashMe ()
-		{
-			// do something when object will be put in trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUnTrashMe ()
-		{
-			// do something when object will be remove from trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		//Addons for Edition
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited( bool sNeedBeUpdate)
-		{
-			if (sNeedBeUpdate == true) 
-			{
-				// do something
-			}
-			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditor (Rect sInRect)
-		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditorHeight ()
-		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+        public void MyInstanceMethod()
+        {
+            // do something with this object
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        #region NetWorkedData addons methods
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonInsertMe()
+        {
+            // do something when object will be inserted
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdateMe()
+        {
+            // do something when object will be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUpdatedMe()
+        {
+            // do something when object finish to be updated
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDuplicateMe()
+        {
+            // do something when object will be dupplicate
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonEnableMe()
+        {
+            // do something when object will be enabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDisableMe()
+        {
+            // do something when object will be disabled
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonTrashMe()
+        {
+            // do something when object will be put in trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonUnTrashMe()
+        {
+            // do something when object will be remove from trash
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        //Addons for Edition
+        //-------------------------------------------------------------------------------------------------------------
+        public override bool AddonEdited(bool sNeedBeUpdate)
+        {
+            if (sNeedBeUpdate == true)
+            {
+                // do something
+            }
+            return sNeedBeUpdate;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditor(Rect sInRect)
+        {
+            // Draw the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddonEditorHeight()
+        {
+            // Height calculate for the interface addon for editor
+            float tYadd = 0.0f;
+            return tYadd;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

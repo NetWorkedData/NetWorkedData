@@ -26,6 +26,15 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDTradeStatus
+    {
+        None = 0,
+        Active = 10,
+        Accepted = 20,
+        Cancel = 30,
+        Expired = 40,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
     /// <para>The GameObject can use the object referenced by binding in game. </para>
@@ -60,16 +69,28 @@ namespace NetWorkedData
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Description", true, true, true)]
-        public NWDReferenceType<NWDItem> DescriptionItem { get; set; }
+        public NWDReferenceType<NWDItem> DescriptionItem
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Items Authorization", true, true, true)]
-        //public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
-        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
-        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
-        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> FilterFamilies
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -84,11 +105,35 @@ namespace NetWorkedData
         //[NWDGroupSeparator]
 
         [NWDGroupStart("Trade Detail", true, true, true)]
-        public NWDReferencesListType<NWDItem> Moneys { get; set; }
-        public NWDReferencesQuantityType<NWDItem> RequestFixCost { get; set; }
-        public NWDReferencesQuantityType<NWDItem> RequestPerItemCost { get; set; }
-        public int MaxRequestPerUser { get; set; }
-        public int RequestLifeTime { get; set; }
+        public NWDReferencesListType<NWDItem> Moneys
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> RequestFixCost
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> RequestPerItemCost
+        {
+            get; set;
+        }
+        public int MaxRequestPerUser
+        {
+            get; set;
+        }
+        public int RefreshDelay
+        {
+            get; set;
+        }
+        [NWDTooltips("Minimum time before cancel")]
+        public int CancelDelay
+        {
+            get; set;
+        }
+        public int RequestLifeTime
+        {
+            get; set;
+        }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -111,6 +156,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
+            RefreshDelay = 60 * 3;
+            CancelDelay = 60 * 5;
+            RequestLifeTime = 60 * 60 * 24;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void MyClassMethod()

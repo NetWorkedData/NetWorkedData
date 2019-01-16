@@ -19,16 +19,16 @@ namespace NetWorkedData
     /// 
     /// </summary>
 	[NWDClassServerSynchronize(true)]
-    [NWDClassTrigramme("UTRF")]
-    [NWDClassDescription("User Trade Finder descriptions Class")]
-    [NWDClassMenuName("User Trade Finder")]
+    [NWDClassTrigramme("UBRF")]
+    [NWDClassDescription("User Barter Finder descriptions Class")]
+    [NWDClassMenuName("User Barter Finder")]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserTradeFinder : NWDBasis<NWDUserTradeFinder>
+    public partial class NWDUserBarterFinder : NWDBasis<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Trade Detail", true, true, true)]
+        [NWDGroupStart("Barter Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
         public NWDReferenceType<NWDAccount> Account
         {
@@ -38,7 +38,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDTradePlace> TradePlace
+        public NWDReferenceType<NWDBarterPlace> BarterPlace
         {
             get; set;
         }
@@ -77,26 +77,26 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Results", true, true, true)]
-        [NWDAlias("TradeRequestsList")]
-        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList
+        [NWDAlias("BarterRequestsList")]
+        public NWDReferencesListType<NWDUserBarterRequest> BarterRequestsList
         {
             get; set;
         }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void tradeFinderBlock(bool result, NWDOperationResult infos);
-        public tradeFinderBlock tradeFinderBlockDelegate;
+        public delegate void barterFinderBlock(bool result, NWDOperationResult infos);
+        public barterFinderBlock barterFinderBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeFinder()
+        public NWDUserBarterFinder()
         {
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserTradeFinder(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserBarterFinder(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
 
         }
@@ -110,45 +110,45 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserTradeRequest[] FindPropositionsWith(NWDTradePlace sTradePlace)
+        public static NWDUserBarterRequest[] FindPropositionsWith(NWDBarterPlace sBarterPlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
-            foreach (NWDUserTradeFinder k in tUserTradesFinder)
+            NWDUserBarterFinder[] tUserBartersFinder = FindDatas();
+            foreach (NWDUserBarterFinder k in tUserBartersFinder)
             {
-                if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
                 {
-                    return k.TradeRequestsList.GetObjectsAbsolute();
+                    return k.BarterRequestsList.GetObjectsAbsolute();
                 }
             }
 
-            CreateTradeFinderWith(sTradePlace);
+            CreateBarterFinderWith(sBarterPlace);
 
-            return new NWDUserTradeRequest[0];
+            return new NWDUserBarterRequest[0];
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserTradeFinder GetTradeFinderWith(NWDTradePlace sTradePlace)
+        public static NWDUserBarterFinder GetBarterFinderWith(NWDBarterPlace sBarterPlace)
         {
-            NWDUserTradeFinder[] tUserTradesFinder = FindDatas();
-            foreach (NWDUserTradeFinder k in tUserTradesFinder)
+            NWDUserBarterFinder[] tUserBartersFinder = FindDatas();
+            foreach (NWDUserBarterFinder k in tUserBartersFinder)
             {
-                if (k.TradePlace.GetReference().Equals(sTradePlace.Reference))
+                if (k.BarterPlace.GetReference().Equals(sBarterPlace.Reference))
                 {
                     return k;
                 }
             }
 
-            return CreateTradeFinderWith(sTradePlace);
+            return CreateBarterFinderWith(sBarterPlace);
         }
         //-------------------------------------------------------------------------------------------------------------
-        private static NWDUserTradeFinder CreateTradeFinderWith(NWDTradePlace sTradePlace)
+        private static NWDUserBarterFinder CreateBarterFinderWith(NWDBarterPlace sBarterPlace)
         {
             // No NWD Finder Object found, we create one
-            NWDUserTradeFinder tFinder = NewData();
+            NWDUserBarterFinder tFinder = NewData();
 #if UNITY_EDITOR
             tFinder.InternalKey = NWDAccountNickname.GetNickname();
 #endif
             tFinder.Tag = NWDBasisTag.TagUserCreated;
-            tFinder.TradePlace.SetObject(sTradePlace);
+            tFinder.BarterPlace.SetObject(sBarterPlace);
             tFinder.SaveData();
 
             return tFinder;
@@ -157,30 +157,30 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void SyncTradeFinder()
+        public void SyncBarterFinder()
         {
-            // Clean the Trade Place Finder Result
+            // Clean the Barter Place Finder Result
             CleanResult();
 
             List<Type> tLists = new List<Type>() {
-                typeof(NWDUserTradeProposition),
-                typeof(NWDUserTradeRequest),
-                typeof(NWDUserTradeFinder),
+                typeof(NWDUserBarterProposition),
+                typeof(NWDUserBarterRequest),
+                typeof(NWDUserBarterFinder),
             };
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (tradeFinderBlockDelegate != null)
+                if (barterFinderBlockDelegate != null)
                 {
-                    tradeFinderBlockDelegate(true, null);
+                    barterFinderBlockDelegate(true, null);
                 }
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (tradeFinderBlockDelegate != null)
+                if (barterFinderBlockDelegate != null)
                 {
                     NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    tradeFinderBlockDelegate(false, tInfos);
+                    barterFinderBlockDelegate(false, tInfos);
                 }
             };
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
@@ -188,11 +188,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void CleanResult()
         {
-            TradeRequestsList = null;
+            BarterRequestsList = null;
             SaveData();
 
             // Remove stranger data request
-            NWDUserTradeRequest.PurgeTable();
+            NWDUserBarterRequest.PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
@@ -267,55 +267,55 @@ namespace NetWorkedData
         public static string AddonPhpPreCalculate()
         {
 
-            string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
-            string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
-            string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
+            string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
+            string tLimitDayTime = NWDUserBarterRequest.FindAliasName("LimitDayTime");
+            string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
 
-            string tTradeRequestsList = NWDUserTradeFinder.FindAliasName("TradeRequestsList");
-            string tTradePlace = NWDUserTradeFinder.FindAliasName("TradePlace");
-            int tIndex_TradeRequestsList = CSVAssemblyIndexOf(tTradeRequestsList);
-            int tIndex_TradePlace = CSVAssemblyIndexOf(tTradePlace);
+            string tBarterRequestsList = NWDUserBarterFinder.FindAliasName("BarterRequestsList");
+            string tBarterPlace = NWDUserBarterFinder.FindAliasName("BarterPlace");
+            int tIndex_BarterRequestsList = CSVAssemblyIndexOf(tBarterRequestsList);
+            int tIndex_BarterPlace = CSVAssemblyIndexOf(tBarterPlace);
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// debut find \n" +
-                "$tQueryTrade = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
+                "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
-                "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
-                "AND `" + tTradePlaceRequest + "` = \\''.$sCsvList[" + tIndex_TradePlace + "].'\\' " +
+                "AND `" + tBarterStatus + "` = \\'" + ((int)NWDBarterStatus.Active).ToString() + "\\' " +
+                "AND `" + tBarterPlaceRequest + "` = \\''.$sCsvList[" + tIndex_BarterPlace + "].'\\' " +
                 "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+" + (tDelayOfRefresh * 60).ToString() + ").' " +
                 // ORDER BY 
                 //"ORDER BY `" + tLimitDayTime + "` " +
                 // END WHERE REQUEST LIMIT START
                 "LIMIT 0, 100;';\n" +
-                "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultTrade = $SQL_CON->query($tQueryTrade);\n" +
+                "myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tResultBarter = $SQL_CON->query($tQueryBarter);\n" +
                 "$tReferences = \'\';\n" +
                 "$tReferencesList = \'\';\n" +
-                "if (!$tResultTrade)\n" +
+                "if (!$tResultBarter)\n" +
                 "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "error('UTRFx31');\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
-                "while($tRowTrade = $tResultTrade->fetch_assoc())\n" +
+                "while($tRowBarter = $tResultBarter->fetch_assoc())\n" +
                 "{\n" +
-                "myLog('tReferences found : '. $tRowTrade['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tReferences[]=$tRowTrade['Reference'];\n" +
+                "myLog('tReferences found : '. $tRowBarter['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tReferences[]=$tRowBarter['Reference'];\n" +
                 "}\n" +
                 "if (is_array($tReferences))\n" +
                 "{\n" +
                 "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
                 "global $PATH_BASE;\n" +
-                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
-                "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReferences ($tReferences);\n" +
+                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReferences ($tReferences);\n" +
                 "}\n" +
                 "}\n" +
                 "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$sCsvList = Integrity" + NWDUserTradeFinder.Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
+                "$sCsvList = Integrity" + NWDUserBarterFinder.Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);\n" +
                 "// fin find \n";
 
             return sScript;

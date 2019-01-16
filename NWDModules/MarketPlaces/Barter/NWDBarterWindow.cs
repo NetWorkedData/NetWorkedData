@@ -21,6 +21,7 @@ namespace NetWorkedData
 			typeof(NWDBarterPlace), 
 			typeof(NWDUserBarterRequest), 
 			typeof(NWDUserBarterProposition),
+            typeof(NWDUserBarterFinder),
 			/* Add NWDBasis here*/
 		}
 	)]

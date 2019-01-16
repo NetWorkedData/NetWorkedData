@@ -273,6 +273,7 @@ namespace NetWorkedData
         public const string K_APP_BASIS_TRASH_ZONE = "TRASH ZONE";
         public const string K_APP_BASIS_ACTION_ZONE = "ACTION ZONE";
         public const string K_APP_BASIS_PUT_IN_TRASH = "Trash-it";
+        public const string K_APP_BASIS_REINITIALISE = "Reinitialisation";
         public const string K_APP_BASIS_PUT_IN_TRASH_WARNING = "Warning";
         public const string K_APP_BASIS_PUT_IN_TRASH_MESSAGE = "Do you want to trash this object?";
         public const string K_APP_BASIS_PUT_IN_TRASH_OK = "Trash it";
