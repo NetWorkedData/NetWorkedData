@@ -167,7 +167,7 @@ namespace NetWorkedData
             SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void AddAndRemoveItems()
+        private void AddAndRemoveItems(NWDMessage sMessage = null)
         {
             if (TradeStatus == NWDTradeStatus.Accepted)
             {
@@ -183,6 +183,13 @@ namespace NetWorkedData
                 foreach (KeyValuePair<NWDItem, int> pair in tAsked)
                 {
                     NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
+                }
+
+                // Send Notification to the seller
+                if (sMessage != null)
+                {
+                    string tSellerReference = TradeRequest.GetObject().Account.GetReference();
+                    NWDUserInterMessage.SendMessage(sMessage, tSellerReference);
                 }
 
                 // Set Trade Proposition to None, so we can reused an old slot for a new transaction
