@@ -80,21 +80,23 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Barter References", true, true, true)]
+        [NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed
         {
             get; set;
         }
+        [NWDAlias("ItemsSend")]
         public NWDReferencesQuantityType<NWDItem> ItemsSend
         {
             get; set;
         }
         [NWDAlias("BarterStatus")]
-        public NWDBarterStatus BarterStatus
+        public NWDTradeStatus BarterStatus
         {
             get; set;
         }
-        [NWDAlias("BarterRequestDM")]
-        public NWDDateTimeUtcType BarterRequestDM
+        [NWDAlias("BarterRequestHash")]
+        public NWDDateTimeUtcType BarterRequestHash
         {
             get; set;
         }
@@ -137,8 +139,8 @@ namespace NetWorkedData
             tProposition.BarterRequest.SetObject(sRequest);
             tProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
             //tProposition.ItemsSend.SetReferenceAndQuantity(sRequest.ItemsReceived.GetReferenceAndQuantity());
-            tProposition.BarterStatus = NWDBarterStatus.Active;
-            tProposition.BarterRequestDM.SetTimeStamp(sRequest.DM);
+            tProposition.BarterStatus = NWDTradeStatus.Active;
+            tProposition.BarterRequestHash.SetTimeStamp(sRequest.DM);
             tProposition.SaveData();
 
             return tProposition;
@@ -178,7 +180,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void Cancel()
         {
-            BarterStatus = NWDBarterStatus.Cancel;
+            BarterStatus = NWDTradeStatus.Cancel;
             SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -188,14 +190,14 @@ namespace NetWorkedData
             BarterRequest = null;
             ItemsProposed = null;
             //ItemsAsked = null;
-            BarterRequestDM = null;
-            BarterStatus = NWDBarterStatus.None;
+            BarterRequestHash = null;
+            BarterStatus = NWDTradeStatus.None;
             SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void AddAndRemoveItems()
         {
-            if (BarterStatus == NWDBarterStatus.Accepted)
+            if (BarterStatus == NWDTradeStatus.Accepted)
             {
                 // Add NWDItem to NWDUserOwnership
                 Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
@@ -298,7 +300,7 @@ namespace NetWorkedData
                 if (tRequest != null)
                 {
                     Debug.Log("YES");
-                    BarterRequestDM.SetLong(tRequest.DM);
+                    BarterRequestHash.SetLong(tRequest.DM);
                 }
             }
             return tYadd;
@@ -319,81 +321,125 @@ namespace NetWorkedData
             string tBarterPlace = NWDUserBarterRequest.FindAliasName("BarterPlace");
             string tBarterRequest = NWDUserBarterRequest.FindAliasName("BarterRequest");
             string tWinnerProposition = NWDUserBarterRequest.FindAliasName("WinnerProposition");
+            string tPropositions = NWDUserBarterRequest.FindAliasName("Propositions");
+            string tMaxPropositions = NWDUserBarterRequest.FindAliasName("MaxPropositions");
+            string tPropositionsCounter = NWDUserBarterRequest.FindAliasName("PropositionsCounter");
 
-            string t_THIS_BarterRequestDM = FindAliasName("BarterRequestDM");
+            string t_THIS_BarterRequestHash = FindAliasName("BarterRequestHash");
             string t_THIS_BarterPlace = FindAliasName("BarterPlace");
             string t_THIS_BarterRequest = FindAliasName("BarterRequest");
             string t_THIS_BarterStatus = FindAliasName("BarterStatus");
-            int t_THIS_Index_tBarterRequestDM = CSVAssemblyIndexOf(t_THIS_BarterRequestDM);
+            int t_THIS_Index_BarterRequestHash = CSVAssemblyIndexOf(t_THIS_BarterRequestHash);
             int t_THIS_Index_BarterPlace = CSVAssemblyIndexOf(t_THIS_BarterPlace);
             int t_THIS_Index_BarterRequest = CSVAssemblyIndexOf(t_THIS_BarterRequest);
             int t_THIS_Index_BarterStatus = CSVAssemblyIndexOf(t_THIS_BarterStatus);
+
+            string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
+            string t_THIS_ItemsSend = FindAliasName("ItemsSend");
+            int t_THIS_Index_ItemsProposed = CSVAssemblyIndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsSend = CSVAssemblyIndexOf(t_THIS_ItemsSend);
+
             string sScript = "" +
                 "// debut find \n" +
-                // YOU MUST REIMPORT THE GLOBAL ... PHP strange practice?
                 "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
-
+                // get the actual state
+                "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
+                "$tServerHash = '';\n" +
+                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterRequestHash + "` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` " +
+                "WHERE " +
+                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';" +
+                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+                "if (!$tResultStatus)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "}\n" +
+                "else" +
+                "{\n" +
+                "if ($tResultStatus->num_rows == 1)\n" +
+                "{\n" +
+                "$tRowStatus = $tResultStatus->fetch_assoc();\n" +
+                "$tServerStatut = $tRowStatus['" + t_THIS_BarterStatus + "'];\n" +
+                "$tServerHash = $tRowStatus['" + t_THIS_BarterRequestHash + "'];\n" +
+                "}\n" +
+                "}\n" +
                 "\n" +
-                "if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDBarterStatus.Accepted).ToString() +
-                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDBarterStatus.Cancel).ToString() +
-                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDBarterStatus.Expired).ToString() + ")\n" +
+                // change the statut from CSV TO WAITING, ACCEPTED, EXPIRED
+                "if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
+                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
+                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() +
+                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
+                " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() + ")\n" +
                 "{\n" +
-                // error ou
-                //"error('UTRRx99');\n" +
-                //"return;\n" +
-                // none ... faudra trancher : none pour avoir une sync 
-                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", '" + ((int)NWDBarterStatus.None).ToString() + "');\n" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
                 "}\n" +
-                "if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDBarterStatus.Active).ToString() + ")\n" +
+
+                // change the statut from CSV TO ACTIVE 
+                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+                "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                 "{\n" +
-                "$tQueryBarter = 'UPDATE `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` SET " +
-                " `DM` = \\''.$TIME_SYNC.'\\'," +
-                " `DS` = \\''.$TIME_SYNC.'\\'," +
-                " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
-                " `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'," +
-                " `" + tBarterStatus + "` = \\'" + ((int)NWDBarterStatus.Accepted).ToString() + "\\'" +
-                // WHERE REQUEST
-                " WHERE `AC`= \\'1\\' " +
-                " AND `" + tBarterStatus + "` = \\'" + ((int)NWDBarterStatus.Active).ToString() + "\\' " +
-                " AND `" + tBarterPlace + "` = \\''.$sCsvList[" + t_THIS_Index_BarterPlace + "].'\\' " +
-                " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_BarterRequest + "].'\\' " +
-                " AND `DM` = \\''.$sCsvList[" + t_THIS_Index_tBarterRequestDM + "].'\\' " +
-                " AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
-                // ORDER BY 
-                //"ORDER BY `" + tLimitDayTime + "` " +
-                "';\n" +
-                "myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tResultBarter = $SQL_CON->query($tQueryBarter);\n" +
-                "$tReferences = \'\';\n" +
-                "$tReferencesList = \'\';\n" +
-                "if (!$tResultBarter)\n" +
-                "{\n" +
-                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryBarter.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRFx31');\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                 "}\n" +
-                "else\n" +
+
+                // change the statut from CSV TO NONE 
+                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
+                "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() + " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + "))\n" +
+                "{\n" +
+                "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_ItemsSend + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_BarterRequest + "]='';\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                "}\n" +
+                // change the statut from CSV TO CANCEL 
+                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
+                "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
+                "{\n" +
+                "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                "`DM` = \\''.$TIME_SYNC.'\\', " +
+                "`DS` = \\''.$TIME_SYNC.'\\', " +
+                "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                "`" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\\' " +
+                "WHERE " +
+                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
+                "AND `" + t_THIS_BarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
+                "';" +
+                "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
+                "if (!$tResultCancelable)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "}\n" +
+                "else" +
                 "{\n" +
                 "$tNumberOfRow = 0;\n" +
                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                 "if ($tNumberOfRow == 1)\n" +
                 "{\n" +
-                "// I need update the proposition too !\n" +
-                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDBarterStatus.Accepted).ToString() + "\');\n" +
-                "myLog('I need update the proposition accept', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "Integrity" + NWDUserBarterRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
+                "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
+                "\n" +
                 "}\n" +
                 "else\n" +
                 "{\n" +
-                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDBarterStatus.Expired).ToString() + "\');\n" +
-                "\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "//stop the function!\n" +
+                "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "return;\n" +
                 "}\n" +
                 "}\n" +
                 "}\n" +
-                "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDBarterStatus.Accepted).ToString() + ")\n" +
+                // OTHER
+                "else\n" +
                 "{\n" +
-                "// this case must be cancelled ?\n" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
                 "}\n" +
-                "// fin find \n";
+                "// finish Addon \n";
 
             return sScript;
         }

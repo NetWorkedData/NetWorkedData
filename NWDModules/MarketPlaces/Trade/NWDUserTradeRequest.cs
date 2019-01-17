@@ -73,12 +73,12 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Trade References", true, true, true)]
-        //[NWDAlias("ItemsProposed")]
+        [NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed
         {
             get; set;
         }
-        //[NWDAlias("ItemsAsked")]
+        [NWDAlias("ItemsAsked")]
         public NWDReferencesQuantityType<NWDItem> ItemsAsked
         {
             get; set;
@@ -88,16 +88,21 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDAlias("TradeHash")]
+        public string TradeHash
+        {
+            get; set;
+        }
         [NWDAlias("LimitDayTime")]
         public NWDDateTimeUtcType LimitDayTime
         {
             get; set;
         }
-        //[NWDAlias("WinnerProposition")]
-        //public NWDReferenceType<NWDUserTradeProposition> WinnerProposition
-        //{
-        //    get; set;
-        //}
+        [NWDAlias("WinnerProposition")]
+        public NWDReferenceType<NWDUserTradeProposition> WinnerProposition
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -381,53 +386,120 @@ namespace NetWorkedData
         public static string AddonPhpPreCalculate()
         {
             string t_THIS_TradeStatus = FindAliasName("TradeStatus");
+            string t_THIS_TradeHash = FindAliasName("TradeHash");
+            string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
             int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
+            int t_THIS_Index_TradeHash = CSVAssemblyIndexOf(t_THIS_TradeHash);
+            int t_THIS_Index_WinnerProposition = CSVAssemblyIndexOf(t_THIS_WinnerProposition);
+            string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
+            int t_THIS_Index_ItemsProposed = CSVAssemblyIndexOf(t_THIS_ItemsProposed);
+            string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
+            int t_THIS_Index_ItemsAsked = CSVAssemblyIndexOf(t_THIS_ItemsAsked);
             string sScript = "" +
-                "// debut find \n" +
-                "\n" +
-                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
+                "// start Addon \n" +
+                // get the actual state
+                "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
+                "$tServerHash = '';\n" +
+                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeHash + "` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` " +
+                "WHERE " +
+                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
+                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+                "if (!$tResultStatus)\n" +
                 "{\n" +
-                // error ou
-                //"error('UTRRx99');\n" +
-                //"return;\n" +
-                // none ... faudra trancher : none pour avoir une sync 
-                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", '" + ((int)NWDTradeStatus.None).ToString() + "');\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
-                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + ")\n" +
+                "else" +
                 "{\n" +
-                "$tQueryCancelable = 'SELECT `Reference` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` WHERE " +
+                "if ($tResultStatus->num_rows == 1)\n" +
+                "{\n" +
+                "$tRowStatus = $tResultStatus->fetch_assoc();\n" +
+                "$tServerStatut = $tRowStatus['" + t_THIS_TradeStatus + "'];\n" +
+                "$tServerHash = $tRowStatus['" + t_THIS_TradeHash + "'];\n" +
+                "}\n" +
+                "}\n" +
+                // change the statut from CSV TO WAITING, ACCEPTED, EXPIRED
+                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
+                "{\n" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
+                "}\n" +
+                // change the statut from CSV TO ACTIVE 
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+                "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
+                "{\n" +
+                "$sReplaces[" + t_THIS_Index_TradeHash + "] = $TIME_SYNC;\n" +
+                "$sReplaces[" + t_THIS_Index_TradeStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
+                "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                "}\n" +
+                // change the statut from CSV TO NONE 
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.None).ToString() +" && (" +
+                "$tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() +  // FOR DEBUG!!!!
+                //" || $tServerStatut == " + ((int)NWDTradeStatus.Deal).ToString() + // FOR DEBUG!!!!
+                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + 
+                "))\n" +
+                "{\n" +
+                "$sReplaces[" + t_THIS_Index_TradeHash + "] = $TIME_SYNC;\n" +
+                "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
+                "$sReplaces["+ t_THIS_Index_ItemsAsked + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                "}\n" +
+                // change the statut from CSV TO CANCEL 
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
+                "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
+                "{\n" +
+                "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                "`DM` = \\''.$TIME_SYNC.'\\', " +
+                "`DS` = \\''.$TIME_SYNC.'\\', " +
+                "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
+                "`" + t_THIS_TradeStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
+                "WHERE " +
                 "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
-                " AND `" + t_THIS_TradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\' " +
+                "AND `" + t_THIS_TradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "';" +
                 "$tResultCancelable = $SQL_CON->query($tQueryCancelable);\n" +
                 "if (!$tResultCancelable)\n" +
                 "{\n" +
                 "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRRx31');\n" +
                 "}\n" +
                 "else" +
                 "\n" +
                 "{\n" +
-                "if ($tResultCancelable->num_rows > 0)\n" +
+                "$tNumberOfRow = 0;\n" +
+                "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
+                "if ($tNumberOfRow == 1)\n" +
                 "{\n" +
-                "mysqli_free_result($tResultCancelable);\n" +
+                "// I can change data to expired!\n" +
+                "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
+               "}\n" +
+                "else\n" +
+                "{\n" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
                 "//stop the function!\n" +
                 "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "return;\n" +
                 "}\n" +
+                "}\n" +
+                "}\n" +
+                // OTHER
                 "else\n" +
                 "{\n" +
-                "mysqli_free_result($tResultCancelable);\n" +
-                "// I can change data to expired!\n" +
-                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", '" + ((int)NWDTradeStatus.Expired).ToString() + "');" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
                 "}\n" +
-                "}\n" +
-                "}\n" +
-                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + ")\n" +
-                "{\n" +
-                "// this case must be cancelled ?\n" +
-                "}\n" +
-                "// fin find \n";
+                "// finish Addon \n";
 
             return sScript;
         }

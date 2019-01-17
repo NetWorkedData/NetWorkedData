@@ -44,20 +44,22 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("TradeRequest")]
-        public NWDReferenceType<NWDUserTradeRequest> TradeRequest
-        {
-            get; set;
-        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Trade References", true, true, true)]
+        [NWDAlias("TradeRequest")]
+        public NWDReferenceType<NWDUserTradeRequest> TradeRequest
+        {
+            get; set;
+        }
+        [NWDAlias("ItemsProposed")]
         public NWDReferencesQuantityType<NWDItem> ItemsProposed
         {
             get; set;
         }
+        [NWDAlias("ItemsAsked")]
         public NWDReferencesQuantityType<NWDItem> ItemsAsked
         {
             get; set;
@@ -67,8 +69,8 @@ namespace NetWorkedData
         {
             get; set;
         }
-        [NWDAlias("TradeRequestDM")]
-        public NWDDateTimeUtcType TradeRequestDM
+        [NWDAlias("TradeRequestHash")]
+        public string TradeRequestHash
         {
             get; set;
         }
@@ -112,7 +114,7 @@ namespace NetWorkedData
             tProposition.ItemsProposed.SetReferenceAndQuantity(sRequest.ItemsProposed.GetReferenceAndQuantity());
             tProposition.ItemsAsked.SetReferenceAndQuantity(sRequest.ItemsAsked.GetReferenceAndQuantity());
             tProposition.TradeStatus = NWDTradeStatus.Active;
-            tProposition.TradeRequestDM.SetTimeStamp(sRequest.DM);
+            tProposition.TradeRequestHash = sRequest.TradeHash;
             tProposition.SaveData();
 
             return tProposition;
@@ -158,11 +160,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void Clean()
         {
-            TradePlace = null;
-            TradeRequest = null;
-            ItemsProposed = null;
-            ItemsAsked = null;
-            TradeRequestDM = null;
+            TradePlace.Flush();
+            TradeRequest.Flush();
+            ItemsProposed.Flush();
+            ItemsAsked.Flush();
+            TradeRequestHash = string.Empty;
             TradeStatus = NWDTradeStatus.None;
             SaveData();
         }
@@ -279,7 +281,7 @@ namespace NetWorkedData
                 if (tRequest != null)
                 {
                     Debug.Log("YES");
-                    TradeRequestDM.SetLong(tRequest.DM);
+                    TradeRequestHash = tRequest.TradeHash;
                 }
             }
             return tYadd;
@@ -295,53 +297,89 @@ namespace NetWorkedData
         public static string AddonPhpPreCalculate()
         {
 
+            string tTradeHash = NWDUserTradeRequest.FindAliasName("TradeHash");
             string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
             string tLimitDayTime = NWDUserTradeRequest.FindAliasName("LimitDayTime");
             string tTradePlace = NWDUserTradeRequest.FindAliasName("TradePlace");
             string tTradeRequest = NWDUserTradeRequest.FindAliasName("TradeRequest");
-            //string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
+            string tWinnerProposition = NWDUserTradeRequest.FindAliasName("WinnerProposition");
 
-            string t_THIS_TradeRequestDM = FindAliasName("TradeRequestDM");
+            string t_THIS_TradeRequestHash = FindAliasName("TradeRequestHash");
             string t_THIS_TradePlace = FindAliasName("TradePlace");
             string t_THIS_TradeRequest = FindAliasName("TradeRequest");
             string t_THIS_TradeStatus = FindAliasName("TradeStatus");
-            int t_THIS_Index_tTradeRequestDM = CSVAssemblyIndexOf(t_THIS_TradeRequestDM);
+            int t_THIS_Index_tTradeRequestHash = CSVAssemblyIndexOf(t_THIS_TradeRequestHash);
             int t_THIS_Index_TradePlace = CSVAssemblyIndexOf(t_THIS_TradePlace);
             int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
             int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
+            string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
+            int t_THIS_Index_ItemsProposed = CSVAssemblyIndexOf(t_THIS_ItemsProposed);
+            string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
+            int t_THIS_Index_ItemsAsked = CSVAssemblyIndexOf(t_THIS_ItemsAsked);
             string sScript = "" +
-                "// debut find \n" +
-                // YOU MUST REIMPORT THE GLOBAL ... PHP strange practice?
+                "// start Addon \n" +
                 "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
-
-                "\n" +
-                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                // get the actual state
+                "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
+                "$tServerRequestHash = '';\n" +
+                "$tQueryStatus = 'SELECT `" + t_THIS_TradeStatus + "`, `" + t_THIS_TradeRequestHash + "` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` " +
+                "WHERE " +
+                "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
+                "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
+                "if (!$tResultStatus)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "}\n" +
+                "else" +
+                "{\n" +
+                "if ($tResultStatus->num_rows == 1)\n" +
+                "{\n" +
+                "$tRowStatus = $tResultStatus->fetch_assoc();\n" +
+                "$tServerStatut = $tRowStatus['" + t_THIS_TradeStatus + "'];\n" +
+                "$tServerRequestHash = $tRowStatus['" + t_THIS_TradeRequestHash + "'];\n" +
+                "}\n" +
+                "}\n" +
+                // change the statut from CSV TO WAITING, ACCEPTED, CANCEL, EXPIRED
+                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Waiting).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() +
                 " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Refresh).ToString() +
+                " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() +
                 " || $sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Expired).ToString() + ")\n" +
                 "{\n" +
-                // error ou
-                //"error('UTRRx99');\n" +
-                //"return;\n" +
-                // none ... faudra trancher : none pour avoir une sync 
-                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", '" + ((int)NWDTradeStatus.None).ToString() + "');\n" +
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
                 "}\n" +
-                "if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + ")\n" +
+                // change the statut from CSV TO NONE 
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
+                "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
+                " || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() + 
+                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + "))\n" +
+                "{\n" +
+                "$sReplaces["+ t_THIS_Index_ItemsProposed + "]='';\n" +
+                "$sReplaces["+ t_THIS_Index_ItemsAsked + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_tTradeRequestHash + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_TradeRequest + "]='';\n" +
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                "}\n" +
+                // change the statut from CSV TO ACTIVE 
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
+                "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                 "{\n" +
                 "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` SET " +
                 " `DM` = \\''.$TIME_SYNC.'\\'," +
                 " `DS` = \\''.$TIME_SYNC.'\\'," +
                 " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
-                //" `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'," +
+                " `" + tWinnerProposition + "` = \\''.$sCsvList[0].'\\'," +
                 " `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Accepted).ToString() + "\\'" +
-                // WHERE REQUEST
                 " WHERE `AC`= \\'1\\' " +
-                " AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
+                " AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 " AND `" + tTradePlace + "` = \\''.$sCsvList[" + t_THIS_Index_TradePlace + "].'\\' " +
                 " AND `Reference` = \\''.$sCsvList[" + t_THIS_Index_TradeRequest + "].'\\' " +
-                " AND `DM` = \\''.$sCsvList[" + t_THIS_Index_tTradeRequestDM + "].'\\' " +
+                " AND `" + tTradeHash + "` = \\''.$sCsvList[" + t_THIS_Index_tTradeRequestHash + "].'\\' " +
                 " AND `" + tLimitDayTime + "` > '.$TIME_SYNC.' " +
-                // ORDER BY 
-                //"ORDER BY `" + tLimitDayTime + "` " +
                 "';\n" +
                 "myLog('tQueryTrade : '. $tQueryTrade, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultTrade = $SQL_CON->query($tQueryTrade);\n" +
@@ -368,13 +406,18 @@ namespace NetWorkedData
                 "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_TradeStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
                 "\tmyLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                 "}\n" +
+                "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
                 "}\n" +
                 "}\n" +
-                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Accepted).ToString() + ")\n" +
+                // OTHER
+                "else\n" +
                 "{\n" +
-                "// this case must be cancelled ?\n" +
+                // not possible return preview value
+                //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                "return;\n" +
                 "}\n" +
-                "// fin find \n";
+                "// finish Addon \n";
 
             return sScript;
         }

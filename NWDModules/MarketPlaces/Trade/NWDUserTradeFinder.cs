@@ -272,6 +272,7 @@ namespace NetWorkedData
             string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
             string tForRelationshipOnly = NWDUserTradeRequest.FindAliasName("ForRelationshipOnly");
             string tRelationshipAccountReferences = NWDUserTradeRequest.FindAliasName("RelationshipAccountReferences");
+            int tIndex_tTradeStatus = NWDUserTradeRequest.CSVAssemblyIndexOf(tTradeStatus);
 
             string t_THIS_TradeRequestsList = FindAliasName("TradeRequestsList");
             string t_THIS_TradePlace = FindAliasName("TradePlace");
@@ -283,12 +284,38 @@ namespace NetWorkedData
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
-                "// debut find \n" +
+                "// start Addon \n" +
+                "include_once($PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQAssemblyOrder() + " FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
+                "WHERE `AC`= \\'1\\' " +
+                "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
+                "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
+                "AND `WebServiceVersion` <= '.$WSBUILD.' " +
+                "LIMIT 0, 100;';\n" +
+                "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tResultExpired = $SQL_CON->query($tQueryExpired);\n" +
+                "if (!$tResultExpired)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('UTRFx31');\n" +
+                "}\n" +
+                "else\n" +
+                "{\n" +
+                "while($tRowExpired = $tResultExpired->fetch_row())\n" +
+                "{\n" +
+                "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tRowExpired = Integrity" + NWDUserTradeRequest.Datas().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tTradeStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
+                "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
+                "UpdateData" + NWDUserTradeRequest.Datas().ClassNamePHP + " ($tRowExpired, $TIME_SYNC, $uuid, false);\n" +
+                "}\n" +
+                //"mysqli_free_result($tResultExpired);\n" +
+                "}\n" +
+
                 "$tQueryTrade = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
-                "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Active).ToString() + "\\' " +
+                "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' ';\n" +
                 "if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')\n" +
                 "{\n" +
@@ -317,17 +344,16 @@ namespace NetWorkedData
                 "myLog('tReferences found : '. $tRowTrade['Reference'], __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tReferences[]=$tRowTrade['Reference'];\n" +
                 "}\n" +
+                //"mysqli_free_result($tRowTrade);\n" +
                 "if (is_array($tReferences))\n" +
                 "{\n" +
                 "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
-                "global $PATH_BASE;\n" +
-                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
                 "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReferences ($tReferences);\n" +
                 "}\n" +
                 "}\n" +
                 "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$sCsvList = Integrity" + NWDUserTradeFinder.Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
-                "// fin find \n";
+                "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_TradeRequestsList.ToString() + ", $tReferencesList);\n" +
+                "// finish Addon \n";
 
             return sScript;
         }

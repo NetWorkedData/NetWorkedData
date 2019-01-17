@@ -146,7 +146,7 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
             BTBBenchmark.Finish();
             // RECOMPILE WITH THE NEW DATAS!
-            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHPForOnlyThisClass()

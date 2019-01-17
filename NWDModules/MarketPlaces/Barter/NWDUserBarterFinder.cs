@@ -272,6 +272,7 @@ namespace NetWorkedData
             string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
             string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
             string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
+            int tIndex_tBarterStatus = NWDUserTradeRequest.CSVAssemblyIndexOf(tBarterStatus);
 
             string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
             string t_THIS_BarterPlace = FindAliasName("BarterPlace");
@@ -285,26 +286,52 @@ namespace NetWorkedData
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
-                "// debut find \n" +
-                "myLog('HELLLO GUY', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "// start Addon \n" +
+                "include_once($PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQAssemblyOrder() + " FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
+                "WHERE `AC`= \\'1\\' " +
+                "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
+                "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
+                "AND `WebServiceVersion` <= '.$WSBUILD.' " +
+                "LIMIT 0, 100;';\n" +
+                "myLog('tQueryExpired : '. $tQueryExpired, __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tResultExpired = $SQL_CON->query($tQueryExpired);\n" +
+                "if (!$tResultExpired)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryExpired.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "error('UTRFx31');\n" +
+                "}\n" +
+                "else\n" +
+                "{\n" +
+                "while($tRowExpired = $tResultExpired->fetch_row())\n" +
+                "{\n" +
+                "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
+                "$tRowExpired = Integrity" + NWDUserBarterRequest.Datas().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
+                "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
+                "UpdateData" + NWDUserBarterRequest.Datas().ClassNamePHP + " ($tRowExpired, $TIME_SYNC, $uuid, false);\n" +
+                "}\n" +
+                //"mysqli_free_result($tResultExpired);\n" +
+                "}\n" +
 
+
+                "// start Addon \n" +
                 "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
-                "AND `" + tBarterStatus + "` = \\'" + ((int)NWDBarterStatus.Active).ToString() + "\\' " +
-                "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' ';\n" +
+                "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
+                "AND `" + tForRelationshipOnly + "` = \\''.$sCsvList[" + tIndex_THIS_ForRelationshipOnly + "].'\\' " +
                 "AND `" + t_THIS_MaxPropositions + "` > `" + t_THIS_PropositionsCounter + "` ';\n" +
                 "if ($sCsvList[" + tIndex_THIS_ForRelationshipOnly + "] == '1')\n" +
                 "{\n" +
-                "$tQueryTrade.= 'AND `" + tRelationshipAccountReferences + "` = \\''.$uuid.'\\' ';\n" +
+                "$tQueryBarter.= 'AND `" + tRelationshipAccountReferences + "` = \\''.$uuid.'\\' ';\n" +
                 "}\n" +
-                "$tQueryTrade.= '" +
+                "$tQueryBarter.= '" +
                 "AND `" + tBarterPlaceRequest + "` = \\''.$sCsvList[" + tIndex_BarterPlace + "].'\\' " +
                 "AND `" + tLimitDayTime + "` > '.($TIME_SYNC+" + (tDelayOfRefresh * 60).ToString() + ").' " +
                 // ORDER BY 
                 //"ORDER BY `" + tLimitDayTime + "` " +
-                // END WHERE REQUEST LIMIT START
+                // LIMIT 
                 "LIMIT 0, 100;';\n" +
                 "myLog('tQueryBarter : '. $tQueryBarter, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$tResultBarter = $SQL_CON->query($tQueryBarter);\n" +
@@ -325,14 +352,13 @@ namespace NetWorkedData
                 "if (is_array($tReferences))\n" +
                 "{\n" +
                 "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
-                "global $PATH_BASE;\n" +
                 "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
                 "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReferences ($tReferences);\n" +
                 "}\n" +
                 "}\n" +
                 "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
                 "$sCsvList = Integrity" + NWDUserBarterFinder.Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);\n" +
-                "// fin find \n";
+                "// finish Addon \n";
 
             return sScript;
         }
