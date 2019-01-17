@@ -385,7 +385,9 @@ namespace NetWorkedData
 
                 // change the statut from CSV TO NONE 
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
-                "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() + " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + "))\n" +
+                "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() + 
+                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + 
+                "))\n" +
                 "{\n" +
                 "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
                 "$sReplaces[" + t_THIS_Index_ItemsSend + "]='';\n" +

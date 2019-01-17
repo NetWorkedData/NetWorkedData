@@ -87,7 +87,8 @@ namespace NetWorkedData
             }
 
 
-            string tString = "<size=13><color=red>" + tIsInError + "</color><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> " +"["+WebServiceVersion.ToString()+"/"+WebServiceVersionToUse()+"]";
+            string tString = "<size=13><color=red>" + tIsInError + "</color><b>" + InternalKey + "</b></size>     <i>(" + InternalDescription + ")</i> " +
+            "["+WebServiceVersion.ToString()+"/"+WebServiceVersionToUse()+"/"+ NWDAppConfiguration.SharedInstance().WebBuild+ "]";
             // to check the versioning active this line
             //tString+= "minversion = '" + MinVersion.ToString()+"'";
 

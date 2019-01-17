@@ -341,7 +341,7 @@ namespace NetWorkedData
                 // change the statut from CSV TO NONE 
                 "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
                 "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                " || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() + 
+                //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() + 
                 " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + "))\n" +
                 "{\n" +
                 "$sReplaces["+ t_THIS_Index_ItemsProposed + "]='';\n" +
