@@ -30,58 +30,28 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDAlias("ForRelationshipOnly")]
-        public bool ForRelationshipOnly
-        {
-            get; set;
-        }
+        public bool ForRelationshipOnly { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Filters", true, true, true)]
-        public NWDReferencesListType<NWDItem> FilterItems
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDWorld> FilterWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> FilterCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> FilterFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> FilterKeywords
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDItem> FilterItems { get; set; }
+        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Results", true, true, true)]
         [NWDAlias("TradeRequestsList")]
-        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeFinderBlock(bool result, NWDOperationResult infos);
@@ -144,9 +114,9 @@ namespace NetWorkedData
         {
             // No NWD Finder Object found, we create one
             NWDUserTradeFinder tFinder = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tFinder.InternalKey = NWDAccountNickname.GetNickname();
-#endif
+            #endif
             tFinder.Tag = NWDBasisTag.TagUserCreated;
             tFinder.TradePlace.SetObject(sTradePlace);
             tFinder.SaveData();

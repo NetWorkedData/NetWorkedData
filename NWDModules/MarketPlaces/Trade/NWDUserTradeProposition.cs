@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -31,14 +31,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDAlias("TradePlace")]
         public NWDReferenceType<NWDTradePlace> TradePlace
         {
@@ -105,9 +99,9 @@ namespace NetWorkedData
         {
             // Create a new Proposal
             NWDUserTradeProposition tProposition = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tProposition.InternalKey = NWDAccountNickname.GetNickname();
-#endif
+            #endif
             tProposition.Tag = NWDBasisTag.TagUserCreated;
             tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
             tProposition.TradeRequest.SetObject(sRequest);
@@ -134,12 +128,37 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
+                if (TradeStatus == NWDTradeStatus.Accepted)
+                {
+                    // Add NWDItem to NWDUserOwnership
+                    Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                    foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                    {
+                        NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                    }
+
+                    // Remove NWDItem to NWDUserOwnership
+                    Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
+                    foreach (KeyValuePair<NWDItem, int> pair in tAsked)
+                    {
+                        NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
+                    }
+
+                    // Sync NWDUserOwnership
+                    NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
+                }
+
+                // Notify Callback
                 if (tradeProposalBlockDelegate != null)
                 {
                     tradeProposalBlockDelegate(true, null);
                 }
 
-                AddAndRemoveItems();
+                if (TradeStatus == NWDTradeStatus.Accepted)
+                {
+                    // Set Trade Proposition to None, so we can reused an old slot for a new transaction
+                    Clean();
+                }
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
@@ -167,39 +186,6 @@ namespace NetWorkedData
             TradeRequestHash = string.Empty;
             TradeStatus = NWDTradeStatus.None;
             SaveData();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void AddAndRemoveItems(NWDMessage sMessage = null)
-        {
-            if (TradeStatus == NWDTradeStatus.Accepted)
-            {
-                // Add NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                {
-                    NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
-                }
-
-                // Remove NWDItem to NWDUserOwnership
-                Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
-                foreach (KeyValuePair<NWDItem, int> pair in tAsked)
-                {
-                    NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
-                }
-
-                // Send Notification to the seller
-                if (sMessage != null)
-                {
-                    string tSellerReference = TradeRequest.GetObject().Account.GetReference();
-                    NWDUserInterMessage.SendMessage(sMessage, tSellerReference);
-                }
-
-                // Set Trade Proposition to None, so we can reused an old slot for a new transaction
-                Clean();
-
-                // Sync NWDUserOwnership
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
-            }
         }
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------

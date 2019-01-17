@@ -1,4 +1,4 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -39,19 +39,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public NWDReferenceType<NWDGameSave> GameSave
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDAccount> Account { get; set; }
+        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
         [NWDAlias("TradePlace")]
-        public NWDReferenceType<NWDTradePlace> TradePlace
-        {
-            get; set;
-        }
+        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -59,15 +50,9 @@ namespace NetWorkedData
         [NWDGroupStart("For Relationship Only", true, true, true)]
 
         [NWDAlias("ForRelationshipOnly")]
-        public bool ForRelationshipOnly
-        {
-            get; set;
-        }
+        public bool ForRelationshipOnly { get; set; }
         [NWDAlias("RelationshipAccountReferences")]
-        public string RelationshipAccountReferences
-        {
-            get; set;
-        }
+        public string RelationshipAccountReferences { get; set; }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
@@ -108,22 +93,10 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Tags", true, true, true)]
-        public NWDReferencesListType<NWDWorld> TagWorlds
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDCategory> TagCategories
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDFamily> TagFamilies
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> TagKeywords
-        {
-            get; set;
-        }
+        public NWDReferencesListType<NWDWorld> TagWorlds { get; set; }
+        public NWDReferencesListType<NWDCategory> TagCategories { get; set; }
+        public NWDReferencesListType<NWDFamily> TagFamilies { get; set; }
+        public NWDReferencesListType<NWDKeyword> TagKeywords { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeRequestBlock(bool result, NWDOperationResult infos);
@@ -158,9 +131,9 @@ namespace NetWorkedData
 
             // Create a new Request
             NWDUserTradeRequest tRequest = NewData();
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tRequest.InternalKey = NWDAccountNickname.GetNickname(); // + " - " + sProposed.Name.GetBaseString();
-#endif
+            #endif
             tRequest.Tag = NWDBasisTag.TagUserCreated;
             tRequest.TradePlace.SetObject(sTradePlace);
             tRequest.ItemsProposed.SetReferenceAndQuantity(sProposed);
