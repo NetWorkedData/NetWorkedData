@@ -99,7 +99,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDKeyword> TagKeywords { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void tradeRequestBlock(bool result, NWDOperationResult infos);
+        public delegate void tradeRequestBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
         public tradeRequestBlock tradeRequestBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -132,7 +132,7 @@ namespace NetWorkedData
             // Create a new Request
             NWDUserTradeRequest tRequest = NewData();
             #if UNITY_EDITOR
-            tRequest.InternalKey = NWDAccountNickname.GetNickname(); // + " - " + sProposed.Name.GetBaseString();
+            tRequest.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
             #endif
             tRequest.Tag = NWDBasisTag.TagUserCreated;
             tRequest.TradePlace.SetObject(sTradePlace);
@@ -173,19 +173,23 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
+                // Keep TradeStatus before Clean()
+                NWDTradeStatus tTradeStatus = TradeStatus;
+
+                // Do action with Items & Sync
+                AddOrRemoveItems();
+
                 if (tradeRequestBlockDelegate != null)
                 {
-                    tradeRequestBlockDelegate(true, null);
+                    tradeRequestBlockDelegate(true, tTradeStatus, null);
                 }
-
-                AddOrRemoveItems();
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 if (tradeRequestBlockDelegate != null)
                 {
                     NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    tradeRequestBlockDelegate(false, tInfos);
+                    tradeRequestBlockDelegate(false, NWDTradeStatus.None, tInfos);
                 }
             };
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);

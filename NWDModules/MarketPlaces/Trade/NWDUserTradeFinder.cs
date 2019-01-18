@@ -115,7 +115,7 @@ namespace NetWorkedData
             // No NWD Finder Object found, we create one
             NWDUserTradeFinder tFinder = NewData();
             #if UNITY_EDITOR
-            tFinder.InternalKey = NWDAccountNickname.GetNickname();
+            tFinder.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
             #endif
             tFinder.Tag = NWDBasisTag.TagUserCreated;
             tFinder.TradePlace.SetObject(sTradePlace);

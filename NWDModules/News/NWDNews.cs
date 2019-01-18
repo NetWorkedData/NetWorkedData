@@ -295,10 +295,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InstallNotificationWithFireDate(DateTime sDateTime)
         {
+            #if UNITY_IOS
             // add notification to user authorization!
             UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
-             UnityEngine.iOS.NotificationType.Badge |
-                 UnityEngine.iOS.NotificationType.Sound);
+                                                                          UnityEngine.iOS.NotificationType.Badge |
+                                                                          UnityEngine.iOS.NotificationType.Sound);
+            #endif
+
             // user satut for this message 
             NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
             if (tRead == null)
@@ -370,10 +373,13 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void InstallNotification(bool sPause)
         {
+            #if UNITY_IOS
             // add notification to user!
             UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
-             UnityEngine.iOS.NotificationType.Badge |
-                 UnityEngine.iOS.NotificationType.Sound);
+                                                                          UnityEngine.iOS.NotificationType.Badge |
+                                                                          UnityEngine.iOS.NotificationType.Sound);
+            #endif
+
             // user satut for this message 
             NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(this.Reference);
             if (tRead == null)
@@ -390,7 +396,7 @@ namespace NetWorkedData
             {
                 if (tRead.NotifyMe == true)
                 {
-#if UNITY_IOS
+                    #if UNITY_IOS
                     UnityEngine.iOS.LocalNotification[] tNotifs = UnityEngine.iOS.NotificationServices.scheduledLocalNotifications;
                     if (tNotifs != null)
                     {
@@ -403,7 +409,7 @@ namespace NetWorkedData
                             }
                         }
                     }
-#endif
+                    #endif
                 }
                 switch (EventType)
                 {
@@ -415,7 +421,7 @@ namespace NetWorkedData
                     //break;
                     case NWDNewsType.LocalNotificationNow:
                         {
-#if UNITY_IOS
+                            #if UNITY_IOS
                             Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
                             UnityEngine.iOS.LocalNotification tNotif = new UnityEngine.iOS.LocalNotification();
                             Dictionary<string, string> tUserInfo = new Dictionary<string, string>();
@@ -428,12 +434,12 @@ namespace NetWorkedData
                             UnityEngine.iOS.NotificationServices.PresentLocalNotificationNow(tNotif);
                             tRead.IsInstalled = true;
                             tRead.IsRead = false;
-#endif
+                            #endif
                         }
                         break;
                     case NWDNewsType.LocalNotificationDateFixe:
                         {
-#if UNITY_IOS
+                            #if UNITY_IOS
                             DateTime tDate = DistributionDate.ToDateTime();
                             if (tDate > DateTime.Now)
                             {
@@ -450,12 +456,12 @@ namespace NetWorkedData
                                 tRead.IsInstalled = true;
                                 tRead.IsRead = false;
                             }
-#endif
+                            #endif
                         }
                         break;
                     case NWDNewsType.LocalNotificationRecurrent:
                         {
-#if UNITY_IOS
+                            #if UNITY_IOS
                             if (ReccurentLifeTime > 0)
                             {
                                 Debug.Log("NWDNews InstallNotification() method " + EventType.ToString());
@@ -471,12 +477,12 @@ namespace NetWorkedData
                                 tRead.IsInstalled = true;
                                 tRead.IsRead = false;
                             }
-#endif
+                            #endif
                         }
                         break;
                     case NWDNewsType.LocalNotificationSchedule:
                         {
-#if UNITY_IOS
+                            #if UNITY_IOS
                             DateTime tDate = ScheduleDateTime.NextDateTime();
                             if (tDate > DateTime.Now)
                             {
@@ -493,7 +499,7 @@ namespace NetWorkedData
                                 tRead.IsInstalled = true;
                                 tRead.IsRead = false;
                             }
-#endif
+                            #endif
                         }
                         break;
                     //case NWDNewsType.PushNotificationNow:
@@ -574,9 +580,9 @@ namespace NetWorkedData
             tRead.SaveDataIfModified();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
+#region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
@@ -707,9 +713,9 @@ namespace NetWorkedData
             // RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
-        #region Editor
+#region Editor
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
@@ -797,7 +803,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        #endregion
+#endregion
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
