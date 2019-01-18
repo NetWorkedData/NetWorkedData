@@ -243,7 +243,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sSpecial = false)
+        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             //Debug.Log("NWDBasis CheckoutPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
@@ -271,7 +271,7 @@ namespace NetWorkedData
                 tLastSynchronization = 0;
             }
             //IEnumerable<K> tResults = null;
-            if (sSpecial == true)
+            if (sSpecial != NWDOperationSpecial.None)
             {
                 rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
