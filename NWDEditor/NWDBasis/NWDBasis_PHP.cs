@@ -83,6 +83,9 @@ namespace NetWorkedData
         {
             BTBBenchmark.Start();
             CreateAllError();
+
+
+
             //TODO clean integrity fonction and regenerate PHP
             kPropertiesOrderArray.Remove(ClassID());
             kCSVAssemblyOrderArray.Remove(ClassID());

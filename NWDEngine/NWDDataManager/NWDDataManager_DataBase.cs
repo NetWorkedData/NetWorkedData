@@ -216,8 +216,12 @@ namespace NetWorkedData
                 tEditorPass,
                 SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
+
+                // RESET TOKEN SYNC OF USER 'S DATAS TO ZERO!
                 if (File.Exists(tDatabasePathAccount) == false)
                 {
+                    // restart with new user!
+                    NWDAppEnvironment.SelectedEnvironment().ResetSession();
                     //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount not exist ");
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
                     {
@@ -229,6 +233,8 @@ namespace NetWorkedData
                         }
                     }
                 }
+
+
                 //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount at " + tDatabasePathAccount);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
                 tAccountPass,
