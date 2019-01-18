@@ -27,13 +27,23 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	public class NWDOperationWebSynchronisation : NWDOperationWebUnity
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDOperationSpecial
+    {
+        None = 0,
+        Special = 1,
+        Upgrade = 2,
+        Optimize = 3,
+        Clean = 4,
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDOperationWebSynchronisation : NWDOperationWebUnity
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public List<Type> TypeList;
 		public bool ForceSync = false;
-		public bool FlushTrash = false;
-        public bool Special = false;
+		//public bool FlushTrash = false;
+        public NWDOperationSpecial Special = NWDOperationSpecial.None;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebSynchronisation AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
@@ -44,10 +54,9 @@ namespace NetWorkedData
 			                                                       List<Type> sTypeList = null,
                                                                    bool sForceSync = false,
                                                                    bool sPriority = false,
-                                                                   bool sClean = false,
-                                                                   bool sSpecial = false)
+                                                                   NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
 		{
-			NWDOperationWebSynchronisation rReturn = Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean, sSpecial);
+			NWDOperationWebSynchronisation rReturn = Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sSpecial);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 
 			return rReturn;
@@ -61,8 +70,7 @@ namespace NetWorkedData
 			                                                 NWDAppEnvironment sEnvironment = null,
                                                              List<Type> sTypeList = null,
                                                              bool sForceSync = false,
-                                                             bool sClean = false,
-                                                             bool sSpecial = false)
+                                                             NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
 		{
 			NWDOperationWebSynchronisation rReturn = null;
 			if (sName == null) {
@@ -85,7 +93,6 @@ namespace NetWorkedData
 			rReturn.QueueName = sEnvironment.Environment;
 			rReturn.TypeList = sTypeList;
 			rReturn.ForceSync = sForceSync;
-			rReturn.FlushTrash = sClean;
             rReturn.Special = sSpecial;
             rReturn.SecureData = sEnvironment.AllwaysSecureData;
             foreach (Type tType in sTypeList)
@@ -107,7 +114,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash, Special);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, Special);
 			tData.Add ("action", "sync");
 			Data = tData;
 		}
@@ -117,6 +124,7 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, TypeList);
 		}
         //-------------------------------------------------------------------------------------------------------------
-	}
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

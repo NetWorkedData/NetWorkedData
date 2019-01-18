@@ -259,7 +259,11 @@ namespace NetWorkedData
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
             string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
-
+            bool tInDevEnviroment = false;
+            if (NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment)
+            {
+                tInDevEnviroment = true;
+            }
            // Debug.Log("Create PHP file for " + tClassName + " in Environment " + sEnvironment.Environment);
 
             Datas().PrefLoad();
@@ -326,6 +330,7 @@ namespace NetWorkedData
                                     // to bypass the global limitation of PHP in internal include : use function :-) 
                                     "function " + tClassName + "Constants ()\n" +
                                     "{\n" +
+                                    "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
                                     "global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
                                     "$SQL_" + tClassName + "_SaltA = '" + Datas().SaltA + "';\n" +
                                     "$SQL_" + tClassName + "_SaltB = '" + Datas().SaltB + "';\n" +
@@ -466,6 +471,7 @@ namespace NetWorkedData
                                      "include_once ( $PATH_BASE.'/Engine/functions.php');\n" +
                                      "//-------------------- \n" +
                                      "function Create" + tClassName + "Table () {\n" +
+                                    "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
             "global $SQL_CON, $ENV;\n" +
                                      string.Empty;
             var tQuery = "CREATE TABLE IF NOT EXISTS `'.$ENV.'_" + tTableName + "` (";
@@ -673,8 +679,9 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Defragment" + tClassName + "Table ()\n" +
             "{\n" +
-                "global $SQL_CON, $ENV;\n" +
-                "$tQuery = 'ALTER TABLE `'.$ENV.'_" + tTableName + "` ENGINE=InnoDB;';\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "global $SQL_CON, $ENV;\n" +
+            "$tQuery = 'ALTER TABLE `'.$ENV.'_" + tTableName + "` ENGINE=InnoDB;';\n" +
             "$tResult = $SQL_CON->query($tQuery);\n" +
             "if (!$tResult)\n" +
             "{\n" +
@@ -689,8 +696,9 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Drop" + tClassName + "Table ()\n" +
             "{\n" +
-                "global $SQL_CON, $ENV;\n" +
-                "$tQuery = 'DROP TABLE `'.$ENV.'_" + tTableName + "`;';\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "global $SQL_CON, $ENV;\n" +
+            "$tQuery = 'DROP TABLE `'.$ENV.'_" + tTableName + "`;';\n" +
             "$tResult = $SQL_CON->query($tQuery);\n" +
             "if (!$tResult)\n" +
             "{\n" +
@@ -705,8 +713,9 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Flush" + tClassName + "Table ()\n" +
             "{\n" +
-                "global $SQL_CON, $ENV;\n" +
-                "$tQuery = 'FLUSH TABLE `'.$ENV.'_" + tTableName + "`;';\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "global $SQL_CON, $ENV;\n" +
+            "$tQuery = 'FLUSH TABLE `'.$ENV.'_" + tTableName + "`;';\n" +
             "$tResult = $SQL_CON->query($tQuery);\n" +
             "if (!$tResult)\n" +
             "{\n" +
@@ -1092,6 +1101,7 @@ namespace NetWorkedData
             }
             tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $admin, $uuid;\n" +
@@ -1111,7 +1121,7 @@ namespace NetWorkedData
             var tMethodDeclarePre = tType.GetMethod("AddonPhpPreCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePre != null)
             {
-                tSynchronizationFile += (string)tMethodDeclarePre.Invoke(null, null);
+                tSynchronizationFile += (string)tMethodDeclarePre.Invoke(null, new object[] { sEnvironment });
             }
             //if (tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true).Length > 0)
             //{
@@ -1194,7 +1204,7 @@ namespace NetWorkedData
             var tMethodDeclarePost = tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePost != null)
             {
-                tSynchronizationFile += (string)tMethodDeclarePost.Invoke(null, null);
+                tSynchronizationFile += (string)tMethodDeclarePost.Invoke(null, new object[] {sEnvironment });
             }
 
             //if (tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true).Length > 0)
@@ -1240,6 +1250,7 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function FlushTrashedDatas" + tClassName + " ()\n" +
             "\t{\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\tglobal $SQL_CON, $ENV;\n" +
             "\t\t$tQuery = 'DELETE FROM `'.$ENV.'_" + tTableName + "` WHERE XX>0';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
@@ -1251,6 +1262,7 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function GetDatas" + tClassName + "ByReference ($sReference)\n" +
             "\t{\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $REF_NEEDED, $ACC_NEEDED, $uuid;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB,$SQL_" + tClassName + "_WebService;\n" +
                 "\t\tglobal $REP;\n" +
@@ -1416,6 +1428,7 @@ namespace NetWorkedData
             "//-------------------- \n" +
             "function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" +
             "\t{\n" +
+            "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $admin, $uuid;\n" +
@@ -1424,7 +1437,7 @@ namespace NetWorkedData
             var tMethodDeclareSpecial = tType.GetMethod("AddonPhpSpecialCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclareSpecial != null)
             {
-                tSynchronizationFile += (string)tMethodDeclareSpecial.Invoke(null, null);
+                tSynchronizationFile += (string)tMethodDeclareSpecial.Invoke(null, new object[] { sEnvironment });
             }
 
             //if (tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true).Length > 0)
@@ -1437,24 +1450,83 @@ namespace NetWorkedData
             "//-------------------- \n" +
 
 
-            "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin) " +
+            "function Synchronize" + tClassName + " ($sJsonDico, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
-            "\tglobal $token_FirstUse;\n";
+            "\tglobal $token_FirstUse,$PATH_BASE;\n";
+
             if (tType.GetCustomAttributes(typeof(NWDForceSecureDataAttribute), true).Length > 0)
             {
                 tSynchronizationFile += "respondAdd('securePost',true);\n";
             }
+
+            NWDOperationSpecial tOperation = NWDOperationSpecial.None;
+            tSynchronizationFile += "" +
+            // IF ADMIN OPERATION
+            "\tif ($sAdmin == true)\n" +
+            "\t\t{\n" +
+            "\t\t\t$sAccountReference = '%';\n";
+
+            // Clean data?
+            tOperation = NWDOperationSpecial.Clean;
+            tSynchronizationFile += "" +
+            "\t\t\tif (isset($sJsonDico['" + tClassName + "']['"+tOperation.ToString().ToLower()+"']))\n" +
+            "\t\t\t\t{\n" +
+            "\t\t\t\t\tif (!errorDetected())\n" +
+            "\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\tFlushTrashedDatas" + tClassName + " ();\n" +
+            "\t\t\tmyLog('SPECIAL : CLEAN', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t}\n" +
+            "\t\t\t\t}\n";
+
+            //Special?
+            tOperation = NWDOperationSpecial.Special;
+            tSynchronizationFile += "" +
+            "\t\t\tif (isset($sJsonDico['" + tClassName + "']['" + tOperation.ToString().ToLower() + "']))\n" +
+            "\t\t\t\t{\n" +
+            "\t\t\t\t\tif (!errorDetected())\n" +
+            "\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\tSpecial" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);\n" +
+            "\t\t\tmyLog('SPECIAL : SPECIAL', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t}\n" +
+            "\t\t\t\t}\n";
+
+            //Upgrade?
+            tOperation = NWDOperationSpecial.Upgrade;
+            tSynchronizationFile += "" +
+            "\t\t\tif (isset($sJsonDico['" + tClassName + "']['" + tOperation.ToString().ToLower() + "']))\n" +
+            "\t\t\t\t{\n" +
+            "\t\t\t\t\tif (!errorDetected())\n" +
+            "\t\t\t\t\t\t{\n" +
+            "include_once ($PATH_BASE.'/Environment/"+sEnvironment.Environment + "/Engine/Database/" + tClassName + "/management.php');" +
+            "\t\t\t\t\t\t\tCreate" + tClassName + "Table ();\n" +
+            "\t\t\tmyLog('SPECIAL : UPGRADE OR CREATE TABLE', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t}\n" +
+            "\t\t\t\t}\n";
+
+            //Optimize?
+            tOperation = NWDOperationSpecial.Optimize;
+            tSynchronizationFile += "" +
+            "\t\t\tif (isset($sJsonDico['" + tClassName + "']['" + tOperation.ToString().ToLower() + "']))\n" +
+            "\t\t\t\t{\n" +
+            "\t\t\t\t\tif (!errorDetected())\n" +
+            "\t\t\t\t\t\t{\n" +
+            "include_once ($PATH_BASE.'/Environment/" + sEnvironment.Environment + "/Engine/Database/" + tClassName + "/management.php');" +
+            "\t\t\t\t\t\t\tDefragment" + tClassName + "Table ();\n" +
+            "\t\t\tmyLog('SPECIAL : OPTIMIZE AND DEFRAGMENT TABLE', __FILE__, __FUNCTION__, __LINE__);\n" +
+            "\t\t\t\t\t\t}\n" +
+            "\t\t\t\t}\n";
+
+            tSynchronizationFile += "" +
+            // ENDIF ADMIN OPERATION
+            "\t\t}\n" +
+            "\tif ($token_FirstUse == true)\n" +
+            "\t\t{\n";
+
             if (tINeedAdminAccount == true)
             {
-                tSynchronizationFile += "\tif ($sAdmin == true)\n\t{\n";
+                tSynchronizationFile += "\t\tif ($sAdmin == true)\n\t\t\t{\n";
             }
             tSynchronizationFile += string.Empty +
-            "\t\tif ($sAdmin == true)\n" +
-            "\t\t\t{\n" +
-            "\t\t\t\t$sAccountReference = '%';\n" +
-            "\t\t\t}\n" +
-            "\tif ($token_FirstUse == true)\n" +
-            "\t\t{\n" +
             "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
             "\t\t\t{\n" +
             "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['data']))\n" +
@@ -1467,24 +1539,10 @@ namespace NetWorkedData
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t}\n" +
-            "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['clean']))\n" +
-            "\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\tif (!errorDetected())\n" +
-            "\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\tFlushTrashedDatas" + tClassName + " ();\n" +
-            "\t\t\t\t\t\t\t}\n" +
-            "\t\t\t\t\t}\n" +
-            "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['special']))\n" +
-            "\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\tif (!errorDetected())\n" +
-            "\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\tSpecial" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);\n" +
-            "\t\t\t\t\t\t\t}\n" +
-            "\t\t\t\t\t}\n" +
             "\t\t\t}\n";
             if (tINeedAdminAccount == true)
             {
-                tSynchronizationFile += "\t\t}\n";
+                tSynchronizationFile += "\t\t\t}\n";
             }
             tSynchronizationFile += "" +
             "\t\t}\n" +
@@ -1492,16 +1550,16 @@ namespace NetWorkedData
             "\t\t{\n" +
             "\t\t\tmyLog('NOT UPDATE, SPECIAL OR CLEAN ACTION ... YOU USE OLDEST TOKEN', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t}\n" +
-            "\t\tif (isset($sJsonDico['" + tClassName + "']))\n" +
-            "\t\t\t{\n" +
-            "\t\t\t\tif (isset($sJsonDico['" + tClassName + "']['sync']))\n" +
-            "\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\tif (!errorDetected())\n" +
-            "\t\t\t\t\t\t\t{\n" +
-            "\t\t\t\t\t\t\t\tGetDatas" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);\n" +
-            "\t\t\t\t\t\t\t}\n" +
-            "\t\t\t\t\t}\n" +
-            "\t\t\t}\n" +
+            "\tif (isset($sJsonDico['" + tClassName + "']))\n" +
+            "\t\t{\n" +
+            "\t\t\tif (isset($sJsonDico['" + tClassName + "']['sync']))\n" +
+            "\t\t\t\t{\n" +
+            "\t\t\t\t\tif (!errorDetected())\n" +
+            "\t\t\t\t\t\t{\n" +
+            "\t\t\t\t\t\t\tGetDatas" + tClassName + " ($sJsonDico['" + tClassName + "']['sync'], $sAccountReference);\n" +
+            "\t\t\t\t\t\t}\n" +
+            "\t\t\t\t}\n" +
+            "\t\t}\n" +
             "\t}\n" +
             "//-------------------- \n" +
             "?>";

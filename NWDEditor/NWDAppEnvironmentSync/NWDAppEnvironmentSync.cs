@@ -927,7 +927,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebSynchronisation.AddOperation("All Synchronization Clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, true, true);
+                NWDOperationWebSynchronisation.AddOperation("All Synchronization Clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, true, true, NWDOperationSpecial.Clean);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1067,11 +1067,11 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebSynchronisation.AddOperation("Synchronization clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false, true, false);
+                NWDOperationWebSynchronisation.AddOperation("Synchronization clean", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false, NWDOperationSpecial.Clean);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SynchronizationSpecial(List<Type> sTypeList, NWDAppEnvironment sEnvironment)
+        public void SynchronizationSpecial(List<Type> sTypeList, NWDAppEnvironment sEnvironment, NWDOperationSpecial sSpecial)
         {
             bool tOk = false;
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
@@ -1091,7 +1091,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebSynchronisation.AddOperation("Synchronization Special", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false, false, true);
+                NWDOperationWebSynchronisation.AddOperation("Synchronization Special", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, false, false, sSpecial);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -1115,7 +1115,7 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebSynchronisation.AddOperation("Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true,false, false);
+                NWDOperationWebSynchronisation.AddOperation("Synchronization Force", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, true, true, NWDOperationSpecial.None);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

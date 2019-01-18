@@ -110,7 +110,7 @@ namespace NetWorkedData
 		public override void DataUploadPrepare ()
         {
             //Debug.Log("NWDOperationWebRelationship DataUploadPrepare()");
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, false);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, NWDOperationSpecial.None);
             tData.Add ("action", Action);
             if (Relationship != null)
             {

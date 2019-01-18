@@ -1072,27 +1072,34 @@ namespace NetWorkedData
             bool tCleanLocalTable = false; //prevent GUIlayout error
             bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
 
+            Color tOldColor = GUI.backgroundColor;
+            bool tDisableProd = false;
+            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
+            {
+                tDisableProd = true;
+            }
+            if (AccountDependent() == true)
+            {
+                tDisableProd = true;
+            }
             // -------------------------------------------
-            mRowActions = EditorGUILayout.Foldout(mRowActions, "Actions");
+
+            GUILayout.Space(5.0f);
+
+            Rect tRect = GUILayoutUtility.GetLastRect();
+            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
+            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
+
+            if (NWDTypeLauncher.DataLoaded == true)
+            {
+                DrawPagesTab();
+            }
+            GUILayout.Space(5.0f);
+            // -------------------------------------------
+            mRowActions = EditorGUILayout.Foldout(mRowActions, "Rows Actions");
             if (mRowActions == true )
             {
-                // -------------------------------------------
-
-                GUILayout.Space(5.0f);
-
-                Rect tRect = GUILayoutUtility.GetLastRect();
-                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
-                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
-
-                if (NWDTypeLauncher.DataLoaded == true)
-                {
-                    DrawPagesTab();
-                }
-
-                GUILayout.Space(5.0f);
-
-                //			GUILayout.Label ("Management", EditorStyles.boldLabel);
-
+                //GUILayout.Label ("Management", EditorStyles.boldLabel);
                 int tActualItems = Datas().EditorTableDatas.Count;
                 foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
                 {
@@ -1235,7 +1242,7 @@ namespace NetWorkedData
                     }
                 }
 
-                GUILayout.Space(EditorStyles.miniButton.fixedHeight + NWDConstants.kFieldMarge);
+                //GUILayout.Space(EditorStyles.miniButton.fixedHeight + NWDConstants.kFieldMarge);
                 EditorGUI.EndDisabledGroup();
 
                 if (GUILayout.Button("Export localization data", EditorStyles.miniButton))
@@ -1252,7 +1259,6 @@ namespace NetWorkedData
 
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
 
-                Color tOldColor = GUI.backgroundColor;
                 GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
                 // DELETE SELECTION
                 GUILayout.Label(NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
@@ -1268,29 +1274,29 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 GUI.backgroundColor = tOldColor;
 
-                GUILayout.Space(10.0F);
+                //GUILayout.Space(10.0F);
 
                 // RESET TABLE
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-                GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, EditorStyles.miniButton))
-                {
-                    tResetTable = true;
-                }
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
-                {
-                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                    tBasisInspector.mTypeInEdition = ClassType();
-                    Selection.activeObject = tBasisInspector;
-                }
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
-                {
-                    tCreateAllPHPForOnlyThisClassDEV = true;
-                }
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
-                {
-                    tCreateAllPHPForOnlyThisClass = true;
-                }
+                //GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                //GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
+                //if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, EditorStyles.miniButton))
+                //{
+                //    tResetTable = true;
+                //}
+                //if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+                //{
+                //    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                //    tBasisInspector.mTypeInEdition = ClassType();
+                //    Selection.activeObject = tBasisInspector;
+                //}
+                //if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
+                //{
+                //    tCreateAllPHPForOnlyThisClassDEV = true;
+                //}
+                //if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
+                //{
+                //    tCreateAllPHPForOnlyThisClass = true;
+                //}
                 GUI.backgroundColor = tOldColor;
 
                 // |||||||||||||||||||||||||||||||||||||||||||
@@ -1349,19 +1355,14 @@ namespace NetWorkedData
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
                 */
-                GUILayout.FlexibleSpace();
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Space(120);
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndHorizontal();
 
 
 
-                bool tDisableProd = false;
-                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
-                {
-                    tDisableProd = true;
-                }
-                if (AccountDependent() == true)
-                {
-                    tDisableProd = true;
-                }
 
                 GUILayout.BeginVertical(GUILayout.Width(120));
 
@@ -1520,79 +1521,79 @@ namespace NetWorkedData
                 GUILayout.EndHorizontal();
 
 
-                tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-                // FORCE SYNCHRO And Clean
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                }
-                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                }
-                EditorGUI.BeginDisabledGroup(tDisableProd);
+                //tOldColor = GUI.backgroundColor;
+                //GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                //// FORCE SYNCHRO And Clean
+                //GUILayout.BeginHorizontal();
+                //if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    if (Application.isPlaying == true && AccountDependent() == false)
+                //    {
+                //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                //    }
+                //    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                //}
+                //if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    if (Application.isPlaying == true && AccountDependent() == false)
+                //    {
+                //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                //    }
+                //    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                //}
+                //EditorGUI.BeginDisabledGroup(tDisableProd);
 
-                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    tSyncCleanProd = true;
-                }
-                EditorGUI.EndDisabledGroup();
-                GUILayout.EndHorizontal();
+                //if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    if (Application.isPlaying == true && AccountDependent() == false)
+                //    {
+                //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                //    }
+                //    tSyncCleanProd = true;
+                //}
+                //EditorGUI.EndDisabledGroup();
+                //GUILayout.EndHorizontal();
 
 
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment);
-                }
-                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-                }
-                EditorGUI.BeginDisabledGroup(tDisableProd);
+                //GUILayout.BeginHorizontal();
+                //if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    if (Application.isPlaying == true && AccountDependent() == false)
+                //    {
+                //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                //    }
+                //    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                //}
+                //if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    if (Application.isPlaying == true && AccountDependent() == false)
+                //    {
+                //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                //    }
+                //    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                //}
+                //EditorGUI.BeginDisabledGroup(tDisableProd);
 
-                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
-                    tSyncSpecialProd = true;
-                }
-                EditorGUI.EndDisabledGroup();
-                GUILayout.EndHorizontal();
+                //if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    if (Application.isPlaying == true && AccountDependent() == false)
+                //    {
+                //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                //    }
+                //    tSyncSpecialProd = true;
+                //}
+                //EditorGUI.EndDisabledGroup();
+                //GUILayout.EndHorizontal();
 
-                if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
-                {
-                    tCleanLocalTable = true;
-                }
-                if (GUILayout.Button("Not my Account Purge local table", EditorStyles.miniButton))
-                {
-                    tCleanLocalTableWithAccount = true;
-                }
-                GUI.backgroundColor = tOldColor;
+                //if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
+                //{
+                //    tCleanLocalTable = true;
+                //}
+                //if (GUILayout.Button("Not my Account Purge local table", EditorStyles.miniButton))
+                //{
+                //    tCleanLocalTableWithAccount = true;
+                //}
+                //GUI.backgroundColor = tOldColor;
 
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
@@ -1705,6 +1706,328 @@ namespace NetWorkedData
                 GUILayout.EndVertical();
                 // -------------------------------------------
                 GUILayout.EndHorizontal();
+
+
+            }
+            mTableActions = EditorGUILayout.Foldout(mTableActions, "Table Actions");
+            if (mTableActions == true)
+            {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                GUILayout.BeginHorizontal();
+                // -------------------------------------------
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+                {
+                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                    tBasisInspector.mTypeInEdition = ClassType();
+                    Selection.activeObject = tBasisInspector;
+                }
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, EditorStyles.miniButton))
+                {
+                    tResetTable = true;
+                }
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                // RESET TABLE
+                GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
+                {
+                    tCreateAllPHPForOnlyThisClassDEV = true;
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
+                {
+                    tCreateAllPHPForOnlyThisClass = true;
+                }
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+
+                GUI.backgroundColor = tOldColor;
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Space(120);
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginVertical(GUILayout.Width(120));
+
+                // SYNCHRONIZATION
+                // no big title
+                // GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
+                var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
+                tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
+
+
+                float twPPD = 110.0F;
+
+                // SYNCHRO ENVIRONMENT (TIMESTAMP as date in tooltips)
+                GUILayout.BeginHorizontal();
+                GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+                GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+                GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUILayout.Label(tProdContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+                GUILayout.EndHorizontal();
+
+
+                // SYNCHRO TIMESTAMP
+                // tooltips in title of section
+                //GUILayout.BeginHorizontal();
+                //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                //GUILayout.EndHorizontal();
+
+                tOldColor = GUI.backgroundColor;
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                // FORCE SYNCHRO And Clean
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    tSyncCleanProd = true;
+                }
+                GUILayout.EndHorizontal();
+
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Special);
+                }
+                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Special);
+                }
+                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
+                }
+                GUILayout.EndHorizontal();
+
+
+
+
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Upgrade", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
+                }
+                if (GUILayout.Button("Upgrade", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
+                }
+                if (GUILayout.Button("Upgrade", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
+                }
+                GUILayout.EndHorizontal();
+
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Optimize", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Optimize);
+                }
+                if (GUILayout.Button("Optimize", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Optimize);
+                }
+                if (GUILayout.Button("Optimize", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Optimize);
+                }
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
+                {
+                    tCleanLocalTable = true;
+                }
+                if (GUILayout.Button("Not my Account Purge local table", EditorStyles.miniButton))
+                {
+                    tCleanLocalTableWithAccount = true;
+                }
+                GUI.backgroundColor = tOldColor;
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+
+
+                GUILayout.FlexibleSpace();
+
+
+                // -------------------------------------------
+                GUILayout.EndHorizontal();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             }
@@ -1899,7 +2222,7 @@ namespace NetWorkedData
                 {
                     EditorUtility.DisplayDialog("ALERT NO SYNC VALID IN EDITOR", " ", "OK");
                 }
-                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Special);
             }
 
             if (tCleanLocalTable == true)

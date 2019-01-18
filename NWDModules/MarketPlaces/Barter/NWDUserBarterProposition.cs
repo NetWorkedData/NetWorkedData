@@ -313,7 +313,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
 
             string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");
@@ -446,7 +446,7 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             string t_THIS_BarterRequest = FindAliasName("BarterRequest");
             int t_THIS_Index_BarterRequest = CSVAssemblyIndexOf(t_THIS_BarterRequest);
@@ -455,7 +455,7 @@ namespace NetWorkedData
                 "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }

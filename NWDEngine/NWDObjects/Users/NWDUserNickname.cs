@@ -316,12 +316,12 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script here to update $tReference before sync on server\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +
                                        "\n " +
@@ -331,7 +331,7 @@ namespace NetWorkedData
                                        "\t}\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }

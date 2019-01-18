@@ -152,22 +152,17 @@ namespace NetWorkedData
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static string AddonSyncPreCalculate()
-        //{
-        //    return "\n";
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        //public static string AddonPhpPreCalculate()
+        //public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         //{
         //    return "\n";
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public static string AddonPhpPostCalculate()
+        //public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         //{
         //    return "\n";
         //}
         ////-------------------------------------------------------------------------------------------------------------
-        //public static string AddonPhpSpecialCalculate()
+        //public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         //{
         //    return "\n";
         //}

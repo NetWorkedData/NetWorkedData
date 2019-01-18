@@ -251,7 +251,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
 
             //string tTradeStatus = NWDUserTradeRequest.FindAliasName("TradeStatus");
@@ -271,13 +271,13 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "\n" +
                 "\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }

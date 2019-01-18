@@ -90,7 +90,7 @@ namespace NetWorkedData
 		public override void DataUploadPrepare ()
         {
             //Debug.Log("NWDOperationWebNoPage DataUploadPrepare()");
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, false);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, NWDOperationSpecial.None);
             tData.Add ("action", Action);
 			Data = tData;
 		}

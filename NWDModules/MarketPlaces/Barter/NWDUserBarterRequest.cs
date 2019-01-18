@@ -423,7 +423,7 @@ namespace NetWorkedData
             float tYadd = 0.0f;
             return tYadd;
         }//-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
             string tBarterStatus = NWDUserBarterProposition.FindAliasName("BarterStatus");
             string tBarterRequest = NWDUserBarterProposition.FindAliasName("BarterRequest");
@@ -659,12 +659,12 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script here to update afetr sync on server\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }

@@ -360,7 +360,7 @@ namespace NetWorkedData
             float tYadd = 0.0f;
             return tYadd;
         }//-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate()
+        public static string AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
         {
             string t_THIS_TradeStatus = FindAliasName("TradeStatus");
             string t_THIS_TradeHash = FindAliasName("TradeHash");
@@ -481,12 +481,12 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate()
+        public static string AddonPhpPostCalculate(NWDAppEnvironment sAppEnvironment)
         {
             return "// write your php script here to update afetr sync on server\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpSpecialCalculate()
+        public static string AddonPhpSpecialCalculate(NWDAppEnvironment sAppEnvironment)
         {
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }

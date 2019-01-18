@@ -28,8 +28,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public const string SynchronizeKeyData = "data";
         public const string SynchronizeKeyDataCount = "rowCount";
-        public const string SynchronizeKeyClean = "clean";
-        public const string SynchronizeKeySpecial = "special";
+        //public const string SynchronizeKeyClean = "clean";
+        //public const string SynchronizeKeySpecial = "special";
         public const string SynchronizeKeyTimestamp = "sync";
         public const string SynchronizeKeyLastTimestamp = "last";
         public const string SynchronizeKeyInWaitingTimestamp = "waiting";
@@ -243,7 +243,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false, bool sSpecial = false)
+        public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sSpecial = false)
         {
             //Debug.Log("NWDBasis CheckoutPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
@@ -271,13 +271,9 @@ namespace NetWorkedData
                 tLastSynchronization = 0;
             }
             //IEnumerable<K> tResults = null;
-            if (sClean == true)
-            {
-                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString().ToLower());
-            }
             if (sSpecial == true)
             {
-                rSendDatas.Add(SynchronizeKeySpecial, sSpecial.ToString().ToLower());
+                rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
             rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
             // return the data
@@ -290,7 +286,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
-        public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, bool sClean = false, bool sSpecial = false)
+        public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
             //SQLiteConnection tSQLiteConnection = null;
@@ -426,13 +422,9 @@ namespace NetWorkedData
                     rSendDatas.Add(SynchronizeKeyData, tDatas);
                 }
             }
-            if (sClean == true)
+            if (sSpecial != NWDOperationSpecial.None)
             {
-                rSendDatas.Add(SynchronizeKeyClean, sClean.ToString().ToLower());
-            }
-            if (sSpecial == true)
-            {
-                rSendDatas.Add(SynchronizeKeySpecial, sSpecial.ToString().ToLower());
+                rSendDatas.Add(sSpecial.ToString().ToLower(), "true");
             }
             rSendDatas.Add(SynchronizeKeyTimestamp, tLastSynchronization);
             // return the data
@@ -693,19 +685,18 @@ namespace NetWorkedData
         /// <summary>
         /// Synchronizations from web service.
         /// </summary>
-        public static bool SynchronizationFromWebServiceSpecial(NWDAppEnvironment sEnvironment)
+        public static bool SynchronizationFromWebServiceSpecial(NWDAppEnvironment sEnvironment, NWDOperationSpecial sSpecial)
         {
             bool rReturn = false;
 #if UNITY_EDITOR
             //NWDAppEnvironmentSync.SharedInstance().StartProcess(sEnvironment);
             if (Application.isPlaying == true)
             {
-                NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment);
+                NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment, sSpecial);
             }
             else
             {
-                NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment);
-                //NWDDataManager.SharedInstance().AddWebRequestSynchronizationSpecial(ClasseInThisSync(), true, sEnvironment);
+                NWDEditorMenu.EnvironementSync().SynchronizationSpecial(ClasseInThisSync(), sEnvironment, sSpecial);
             }
 #else
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationSpecial (new List<Type>{ClassType ()}, true, sEnvironment);

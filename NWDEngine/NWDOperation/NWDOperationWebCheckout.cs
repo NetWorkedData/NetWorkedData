@@ -32,8 +32,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public List<Type> TypeList;
 		public bool ForceSync = false;
-		public bool FlushTrash = false;
-        public bool Special = false;
+        public NWDOperationSpecial Special = NWDOperationSpecial.None;
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebCheckout AddOperation (string sName,
 		                                                           BTBOperationBlock sSuccessBlock = null, 
@@ -41,9 +40,9 @@ namespace NetWorkedData
 		                                                           BTBOperationBlock sCancelBlock = null,
 		                                                           BTBOperationBlock sProgressBlock = null, 
 		                                                           NWDAppEnvironment sEnvironment = null,
-			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, bool sClean = false, bool sSpecial = false)
+			List<Type> sTypeList = null, bool sForceSync = false, bool sPriority = false, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
 		{
-			NWDOperationWebCheckout rReturn = NWDOperationWebCheckout.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sClean);
+			NWDOperationWebCheckout rReturn = NWDOperationWebCheckout.Create (sName, sSuccessBlock, sFailBlock, sCancelBlock, sProgressBlock, sEnvironment, sTypeList, sForceSync, sSpecial);
 			NWDDataManager.SharedInstance().WebOperationQueue.AddOperation (rReturn, sPriority);
 			return rReturn;
 		}
@@ -53,7 +52,7 @@ namespace NetWorkedData
 		                                                     BTBOperationBlock sFailBlock = null,
 		                                                     BTBOperationBlock sCancelBlock = null,
 		                                                     BTBOperationBlock sProgressBlock = null,
-			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, bool sClean = false, bool sSpecial = false)
+			NWDAppEnvironment sEnvironment = null, List<Type> sTypeList = null, bool sForceSync = false, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
 		{
 			NWDOperationWebCheckout rReturn = null;
 			if (sName == null) {
@@ -74,7 +73,6 @@ namespace NetWorkedData
 			rReturn.QueueName = sEnvironment.Environment;
 			rReturn.TypeList = sTypeList;
 			rReturn.ForceSync = sForceSync;
-            rReturn.FlushTrash = sClean;
             rReturn.Special = sSpecial;
             rReturn.SecureData = sEnvironment.AllwaysSecureData;
             foreach (Type tType in sTypeList)
@@ -96,7 +94,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().CheckoutPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, FlushTrash, Special);
+            Dictionary<string, object> tData = NWDDataManager.SharedInstance().CheckoutPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, Special);
 			tData.Add ("action", "sync");
 			Data = tData;
 		}
