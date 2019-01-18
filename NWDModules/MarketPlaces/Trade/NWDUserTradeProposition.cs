@@ -50,7 +50,7 @@ namespace NetWorkedData
         public NWDDateTimeUtcType TradeRequestDM { get; set; }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void tradeProposalBlock(bool result, NWDOperationResult infos);
+        public delegate void tradeProposalBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
         public tradeProposalBlock tradeProposalBlockDelegate;
         #endregion
         //-------------------------------------------------------------------------------------------------------------
@@ -80,7 +80,8 @@ namespace NetWorkedData
             // Create a new Proposal
             NWDUserTradeProposition tProposition = NewData();
             #if UNITY_EDITOR
-            tProposition.InternalKey = NWDAccountNickname.GetNickname();
+            NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
+            tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tTrade.InternalKey;
             #endif
             tProposition.Tag = NWDBasisTag.TagUserCreated;
             tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
@@ -98,7 +99,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
-        public void SyncTradeProposal()
+        public void SyncTradeProposal(NWDMessage sMessage = null)
         {
             List<Type> tLists = new List<Type>() {
                 typeof(NWDUserTradeProposition),
@@ -108,36 +109,23 @@ namespace NetWorkedData
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
-                if (TradeStatus == NWDTradeStatus.Accepted)
+                // Keep TradeStatus before Clean()
+                NWDTradeStatus tTradeStatus = TradeStatus;
+
+                // Notify the seller with an Inter Message
+                if (sMessage != null)
                 {
-                    // Add NWDItem to NWDUserOwnership
-                    Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
-                    foreach (KeyValuePair<NWDItem, int> pair in tProposed)
-                    {
-                        NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
-                    }
-
-                    // Remove NWDItem to NWDUserOwnership
-                    Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
-                    foreach (KeyValuePair<NWDItem, int> pair in tAsked)
-                    {
-                        NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
-                    }
-
-                    // Sync NWDUserOwnership
-                    NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
+                    string tSellerReference = TradeRequest.GetObjectAbsolute().Account.GetReference();
+                    NWDUserInterMessage.SendMessage(sMessage, tSellerReference);
                 }
+
+                // Do action with Items & Sync
+                AddOrRemoveItems();
 
                 // Notify Callback
                 if (tradeProposalBlockDelegate != null)
                 {
-                    tradeProposalBlockDelegate(true, null);
-                }
-
-                if (TradeStatus == NWDTradeStatus.Accepted)
-                {
-                    // Set Trade Proposition to None, so we can reused an old slot for a new transaction
-                    Clean();
+                    tradeProposalBlockDelegate(true, tTradeStatus, null);
                 }
             };
             BTBOperationBlock tFailed = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
@@ -145,7 +133,7 @@ namespace NetWorkedData
                 if (tradeProposalBlockDelegate != null)
                 {
                     NWDOperationResult tInfos = bInfos as NWDOperationResult;
-                    tradeProposalBlockDelegate(false, tInfos);
+                    tradeProposalBlockDelegate(false, NWDTradeStatus.None, tInfos);
                 }
             };
             NWDDataManager.SharedInstance().AddWebRequestSynchronizationWithBlock(tLists, tSuccess, tFailed);
@@ -167,6 +155,33 @@ namespace NetWorkedData
             TradeStatus = NWDTradeStatus.None;
             SaveData();
         }
+        //-------------------------------------------------------------------------------------------------------------
+        private void AddOrRemoveItems()
+        {
+            if (TradeStatus == NWDTradeStatus.Accepted)
+            {
+                // Add NWDItem to NWDUserOwnership
+                Dictionary<NWDItem, int> tProposed = ItemsProposed.GetObjectAndQuantity();
+                foreach (KeyValuePair<NWDItem, int> pair in tProposed)
+                {
+                    NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
+                }
+
+                // Remove NWDItem to NWDUserOwnership
+                Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
+                foreach (KeyValuePair<NWDItem, int> pair in tAsked)
+                {
+                    NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
+                }
+
+                // Set Trade Proposition to None, so we can reused an old slot for a new transaction
+                Clean();
+
+                // Sync NWDUserOwnership
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonInsertMe()
