@@ -435,6 +435,7 @@ namespace NetWorkedData
 
         // todo test the color of button
         public static Color K_GREEN_BUTTON_COLOR = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
+        public static Color K_YELLOW_BUTTON_COLOR = new Color(0.1F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
         public static Color K_BLUE_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
         public static Color K_ORANGE_BUTTON_COLOR = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
         public static Color K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
@@ -476,6 +477,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
 #if UNITY_EDITOR
+
+        public const string K_APP_BASIS_WARNING_MODEL = "!!! WARNING !!! MODEL WAS CHANGED BUT NOT REGENERATED !!! WARNING !!! ";
         //-------------------------------------------------------------------------------------------------------------
         // Styles and dimensions for GUI
         static public GUIStyle StyleButton;

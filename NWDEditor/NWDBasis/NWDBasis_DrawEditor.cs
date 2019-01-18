@@ -1178,7 +1178,21 @@ namespace NetWorkedData
             //            GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
             string tTitle = InternalKey;
 
-            if (string.IsNullOrEmpty(tTitle))
+            if (ModelChanged() == true)
+            {
+                string tTEXTWARNING = "<b><color=red>"+NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
+                GUIContent tCC = new GUIContent(tTEXTWARNING);
+                GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
+                tWarningBoxStyle.normal.background = new Texture2D(1, 1);
+                tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
+                tWarningBoxStyle.normal.background.Apply();
+                tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
+                tWarningBoxStyle.richText = true;
+                tWarningBoxStyle.fixedHeight = tWarningBoxStyle.CalcHeight(tCC, tWidth);
+                GUI.Label(new Rect(tX, tY, tWidth, tWarningBoxStyle.fixedHeight), tCC, tWarningBoxStyle);
+                tY += tWarningBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
+            }
+                if (string.IsNullOrEmpty(tTitle))
             {
                 tTitle = "Unamed " + Datas().ClassNamePHP + string.Empty;
                 //                tTitle = ClassNamePHP () + "'s Object";

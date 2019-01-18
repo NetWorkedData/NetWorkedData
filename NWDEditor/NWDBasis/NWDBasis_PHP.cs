@@ -83,46 +83,49 @@ namespace NetWorkedData
         {
             BTBBenchmark.Start();
             CreateAllError();
+            bool rRegenrateCSharp = false;
+           if (ModelChanged() == true)
+           {
+                PrepareOrders();
+                rRegenrateCSharp = true;
+                Debug.LogWarning(NWDConstants.K_APP_BASIS_WARNING_MODEL);
 
+            //    //TODO clean integrity fonction and regenerate PHP
+            //    kPropertiesOrderArray.Remove(ClassID());
+            //kCSVAssemblyOrderArray.Remove(ClassID());
+            //kSLQAssemblyOrderArray.Remove(ClassID());
+            //kSLQAssemblyOrder.Remove(ClassID());
+            //kSLQIntegrityOrder.Remove(ClassID());
+            //kSLQIntegrityServerOrder.Remove(ClassID());
+            //kDataAssemblyPropertiesList.Remove(ClassID());
 
+            //if (NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            //{
+            //    NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            //}
+            //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            //{
+            //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            //}
+            //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            //{
+            //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            //}
+            //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            //{
+            //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            //}
+            //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            //{
+            //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            //}
+            //if (NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+            //{
+            //    NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+            //}
 
-            //TODO clean integrity fonction and regenerate PHP
-            kPropertiesOrderArray.Remove(ClassID());
-            kCSVAssemblyOrderArray.Remove(ClassID());
-            kSLQAssemblyOrderArray.Remove(ClassID());
-            kSLQAssemblyOrder.Remove(ClassID());
-            kSLQIntegrityOrder.Remove(ClassID());
-            kSLQIntegrityServerOrder.Remove(ClassID());
-            kDataAssemblyPropertiesList.Remove(ClassID());
-
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
             }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-
             bool sFromFileWrting = false;
-
-
             string tTitle = Datas().ClassTableName + " WS Regenerate";
             string tMessage = "...?...";
             EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.0F);
@@ -149,50 +152,58 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
             BTBBenchmark.Finish();
             // RECOMPILE WITH THE NEW DATAS!
-            //NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            if (rRegenrateCSharp == true)
+            {
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHPForOnlyThisClass()
         {
             BTBBenchmark.Start();
             CreateAllError();
-            //TODO clean integrity fonction and regenerate PHP
-            kPropertiesOrderArray.Remove(ClassID());
-            kCSVAssemblyOrderArray.Remove(ClassID());
-            kSLQAssemblyOrderArray.Remove(ClassID());
-            kSLQAssemblyOrder.Remove(ClassID());
-            kSLQIntegrityOrder.Remove(ClassID());
-            kSLQIntegrityServerOrder.Remove(ClassID());
-            kDataAssemblyPropertiesList.Remove(ClassID());
+            bool rRegenrateCSharp = false;
+            if (ModelChanged() == true)
+            {
+                PrepareOrders();
+                rRegenrateCSharp = true;
+                Debug.LogWarning(NWDConstants.K_APP_BASIS_WARNING_MODEL);
 
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
-            {
-                NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
-            }
+                ////TODO clean integrity fonction and regenerate PHP
+                //kPropertiesOrderArray.Remove(ClassID());
+                //kCSVAssemblyOrderArray.Remove(ClassID());
+                //kSLQAssemblyOrderArray.Remove(ClassID());
+                //kSLQAssemblyOrder.Remove(ClassID());
+                //kSLQIntegrityOrder.Remove(ClassID());
+                //kSLQIntegrityServerOrder.Remove(ClassID());
+                //kDataAssemblyPropertiesList.Remove(ClassID());
 
+                //if (NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                //{
+                //    NWDAppConfiguration.SharedInstance().kWebBuildkCSVAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+                //}
+                //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                //{
+                //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrderArray[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+                //}
+                //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                //{
+                //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+                //}
+                //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                //{
+                //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+                //}
+                //if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                //{
+                //    NWDAppConfiguration.SharedInstance().kWebBuildkSLQIntegrityServerOrder[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+                //}
+                //if (NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList.ContainsKey(NWDAppConfiguration.SharedInstance().WebBuild))
+                //{
+                //    NWDAppConfiguration.SharedInstance().kWebBuildkDataAssemblyPropertiesList[NWDAppConfiguration.SharedInstance().WebBuild].Remove(ClassID());
+                //}
+            }
             bool sFromFileWrting = false;
-
-
             string tTitle = Datas().ClassTableName+" WS Regenerate";
             string tMessage = "...?...";
             EditorUtility.DisplayProgressBar(tTitle, tMessage,0.0F);
@@ -235,7 +246,10 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
             BTBBenchmark.Finish();
             // RECOMPILE WITH THE NEW DATAS!
-            NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            if (rRegenrateCSharp == true)
+            {
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void CreateAllPHP(string sFolderAdd)

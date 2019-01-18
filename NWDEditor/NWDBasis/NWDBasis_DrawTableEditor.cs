@@ -587,7 +587,18 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
-
+            if (ModelChanged() == true)
+            {
+                string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
+                GUIContent tCC = new GUIContent(tTEXTWARNING);
+                GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
+                tWarningBoxStyle.normal.background = new Texture2D(1, 1);
+                tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
+                tWarningBoxStyle.normal.background.Apply();
+                tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
+                tWarningBoxStyle.richText = true;
+                GUILayout.Label(tCC, tWarningBoxStyle);
+            }
             //EditorGUILayout.BeginScrollView (Vector2.zero, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (false), GUILayout.ExpandHeight (false));
             // ===========================================
             GUILayout.BeginHorizontal();

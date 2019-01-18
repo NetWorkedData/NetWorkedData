@@ -32,6 +32,23 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 
         #region Class Methods
+
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool ModelChanged()
+        {
+          bool rReturn = false;
+            int tLasBuild = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[Datas().ClassType];
+            string tToTest = NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild][Datas().ClassTableName];
+
+            if (SLQAssemblyOrder() != tToTest)
+            {
+                //Debug.LogWarning("THE MODELS CHANGED FROM THE PREVIEW DATAS WEBSERVICE!");
+                rReturn = true;
+            }
+            return rReturn;
+        }
+#endif
         //-------------------------------------------------------------------------------------------------------------
         //public static string FindAliasName(string sAlias)
         //{
