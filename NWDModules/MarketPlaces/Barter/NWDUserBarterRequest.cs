@@ -427,6 +427,7 @@ namespace NetWorkedData
         {
             string tBarterStatus = NWDUserBarterProposition.FindAliasName("BarterStatus");
             string tBarterRequest = NWDUserBarterProposition.FindAliasName("BarterRequest");
+            string tBarterRequestHash = NWDUserBarterProposition.FindAliasName("BarterRequestHash");
 
             string t_THIS_WinnerProposition = FindAliasName("WinnerProposition");
             string t_THIS_Propositions = FindAliasName("Propositions");
@@ -494,10 +495,10 @@ namespace NetWorkedData
                 // change the statut from CSV TO NONE 
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && (" +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
-                 " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() +
-                 //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() +  // FOR DEBUG!!!!
-                 //" || $tServerStatut == " + ((int)NWDTradeStatus.Deal).ToString() + // FOR DEBUG!!!!
-                 "))\n" +
+                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() +
+                //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() +  // FOR DEBUG!!!!
+                //" || $tServerStatut == " + ((int)NWDTradeStatus.Deal).ToString() + // FOR DEBUG!!!!
+                "))\n" +
                 "{\n" +
                 "$sReplaces[" + t_THIS_Index_BarterHash + "] = $TIME_SYNC;\n" +
                 "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
@@ -531,7 +532,32 @@ namespace NetWorkedData
                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                 "if ($tNumberOfRow == 1)\n" +
                 "{\n" +
+
+                // CANCEL PUT PROPOSITION TO EXPIRED
                 "// I need to put all propositions in Expired\n" +
+                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` FOR UPDATE;"+
+                "UPDATE `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` SET " +
+                "`DM` = \''.$TIME_SYNC.'\', " +
+                "`DS` = \''.$TIME_SYNC.'\', " +
+                "`'.$ENV.'Sync` = \''.$TIME_SYNC.'\', " +
+                "`" + tBarterStatus + "` = \'" + ((int)NWDTradeStatus.Expired).ToString() + "\' " +
+                "WHERE " +
+                "`"+ tBarterRequest + "` = \''.$SQL_CON->real_escape_string($tReference).'\' " +
+                "AND (`" + tBarterStatus + "` = \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\' OR `" + t_THIS_BarterStatus + "` = \'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\')" +
+                "AND `" + tBarterRequestHash + "` = \''.tServerHash.'\' " +
+                "';" +
+                "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                "if (!$tResultExpired)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "}\n" +
+                "else" +
+                "{\n" +
+                "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
+                "{\n" +
+                "Integrity" + NWDUserBarterProposition.Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "}\n" +
+                "}\n" +
 
                 "// I can integrate data to expired!\n" +
                 "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
@@ -579,6 +605,31 @@ namespace NetWorkedData
                 "// I need to put Accepted or expired in this request?\n" +
 
                 "// I need to put all other propositions in Expired\n" +
+                // CANCEL PUT PROPOSITION TO EXPIRED
+                "// I need to put all propositions in Expired\n" +
+                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` FOR UPDATE;"+
+                "UPDATE `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` SET " +
+                "`DM` = \''.$TIME_SYNC.'\', " +
+                "`DS` = \''.$TIME_SYNC.'\', " +
+                "`'.$ENV.'Sync` = \''.$TIME_SYNC.'\', " +
+                "`" + tBarterStatus + "` = \'" + ((int)NWDTradeStatus.Expired).ToString() + "\' " +
+                "WHERE " +
+                "`"+ tBarterRequest + "` = \''.$SQL_CON->real_escape_string($tReference).'\' " +
+                "AND (`" + tBarterStatus + "` = \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\' OR `" + t_THIS_BarterStatus + "` = \'" + ((int)NWDTradeStatus.Cancelled).ToString() + "\')" +
+                "AND `" + tBarterRequestHash + "` = \''.tServerHash.'\' " +
+                "';" +
+                "$tResultExpired = $SQL_CON->query($tQueryExpired);" +
+                "if (!$tResultExpired)\n" +
+                "{\n" +
+                "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultCancelable.'', __FILE__, __FUNCTION__, __LINE__);\n" +
+                "}\n" +
+                "else" +
+                "{\n" +
+                "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
+                "{\n" +
+                "Integrity" + NWDUserBarterProposition.Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                "}\n" +
+                "}\n" +
 
                 "// I can integrate data to expired!\n" +
                 "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
