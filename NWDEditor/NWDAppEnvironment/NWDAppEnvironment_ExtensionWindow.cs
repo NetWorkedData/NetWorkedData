@@ -146,7 +146,8 @@ namespace NetWorkedData
             EditorGUILayout.HelpBox("Databases", MessageType.None);
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
 
-            string tDatabasePathAccount = NWDDataManager.SharedInstance().DatabasePathAccount + "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
+            //string tDatabasePathAccount = NWDDataManager.SharedInstance().DatabasePathAccount + "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
+            string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
 
             EditorGUILayout.LabelField("Databases Editor config for all environements", EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);

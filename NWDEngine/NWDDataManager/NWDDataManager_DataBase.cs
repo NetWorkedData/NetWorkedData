@@ -88,13 +88,13 @@ namespace NetWorkedData
                     AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor);
                     AssetDatabase.Refresh();
                 }
-                if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
-                {
-                    //Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount);
-                    AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
-                    AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount);
-                    AssetDatabase.Refresh();
-                }
+                //if (Directory.Exists(tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+                //{
+                //    //Debug.Log("NWDDataManager ConnectToDatabase () path : " + tAccessPath + "/" + DatabasePathEditor + "/" + DatabasePathAccount);
+                //    AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
+                //    AssetDatabase.ImportAsset("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount);
+                //    AssetDatabase.Refresh();
+                //}
 
                 /*int tTestNumber = 100;
                 while (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false && tTestNumber > 0)
@@ -119,7 +119,9 @@ namespace NetWorkedData
                 }*/
                 // path for base editor
                 string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
-                string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
+                //string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
+                //NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
+                string tDatabasePathAccount = "Assets/" +
                 NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
 #else
                 // Get saved App version from pref
@@ -292,13 +294,15 @@ namespace NetWorkedData
                 AssetDatabase.CreateFolder("Assets", DatabasePathEditor);
             }
             // path for base editor
-            if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
-            {
-                AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
-            }
+            //if (AssetDatabase.IsValidFolder("Assets/" + DatabasePathEditor + "/" + DatabasePathAccount) == false)
+            //{
+            //    AssetDatabase.CreateFolder("Assets/" + DatabasePathEditor, DatabasePathAccount);
+            //}
             // path for base editor
             string tDatabasePathEditor = "Assets/" + DatabasePathEditor + "/" + DatabaseNameEditor;
-            string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
+            //string tDatabasePathAccount = "Assets/" + DatabasePathEditor + "/" + DatabasePathAccount + "/" +
+             //NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
+            string tDatabasePathAccount = "Assets/" +
              NWDAppConfiguration.SharedInstance().DatabasePrefix + DatabaseNameAccount;
 
             File.Delete(tDatabasePathEditor);

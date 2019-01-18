@@ -38,7 +38,7 @@ namespace NetWorkedData
         //public SQLiteConnection SQLiteConnectionEditorV4;
         // Members properties for account dependant database (data from user)
         public SQLiteConnection SQLiteConnectionAccount;
-        public string DatabasePathAccount = "Editor";
+        //public string DatabasePathAccount = "Editor";
         public string DatabaseNameAccount = "Account.prp";
         //public SQLiteConnection SQLiteConnectionAccountV4;
         //public BTBNotificationManager NotificationCenter;
