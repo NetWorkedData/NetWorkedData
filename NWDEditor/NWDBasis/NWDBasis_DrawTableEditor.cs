@@ -559,6 +559,9 @@ namespace NetWorkedData
             GUILayout.EndHorizontal();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static bool mRowActions = true;
+        public static bool mTableActions = true;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Draws the table editor.
         /// </summary>
@@ -1053,648 +1056,658 @@ namespace NetWorkedData
             }
             // -------------------------------------------
 
-            GUILayout.Space(5.0f);
-
-            Rect tRect = GUILayoutUtility.GetLastRect();
-            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
-            EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
-
-            if (NWDTypeLauncher.DataLoaded == true)
-            {
-                DrawPagesTab();
-            }
-
-            GUILayout.Space(5.0f);
-
-            //			GUILayout.Label ("Management", EditorStyles.boldLabel);
-
             int tSelectionCount = 0;
-            int tActualItems = Datas().EditorTableDatas.Count;
-            foreach (KeyValuePair<NWDTypeClass,bool> tKeyValue in Datas().EditorTableDatasSelected)
-            {
-                if (tKeyValue.Value == true)
-                {
-                    tSelectionCount++;
-                }
-            }
-
-            GUILayout.BeginHorizontal();
-            // -------------------------------------------
-            GUILayout.BeginVertical(GUILayout.Width(120));
-            // |||||||||||||||||||||||||||||||||||||||||||
-            if (tSelectionCount == 0)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, tCenterLabel);
-            }
-            else if (tSelectionCount == 1)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, tCenterLabel);
-            }
-            else
-            {
-                GUILayout.Label(tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, tCenterLabel);
-            }
-
-            EditorGUI.BeginDisabledGroup(tSelectionCount == tActualItems);
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_ALL, EditorStyles.miniButton))
-            {
-                //				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
-                //					kObjectsSelectionList [tSelect] = true;
-                //				}
-                SelectAllObjectInTableList();
-            }
-            EditorGUI.EndDisabledGroup();
-
-            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DESELECT_ALL, EditorStyles.miniButton))
-            {
-                //				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
-                //					kObjectsSelectionList [tSelect] = false;
-                //				}
-                DeselectAllObjectInTableList();
-            }
-            EditorGUI.EndDisabledGroup();
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_INVERSE, EditorStyles.miniButton))
-            {
-                //				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
-                //					kObjectsSelectionList [tSelect] = !kObjectsSelectionList [tSelect];
-                //				}
-                InverseSelectionOfAllObjectInTableList();
-            }
-            EditorGUI.EndDisabledGroup();
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_ENABLED, EditorStyles.miniButton))
-            {
-                SelectAllObjectEnableInTableList();
-            }
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_DISABLED, EditorStyles.miniButton))
-            {
-                SelectAllObjectDisableInTableList();
-            }
-
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndHorizontal();
-            GUILayout.BeginVertical(GUILayout.Width(120));
-            // |||||||||||||||||||||||||||||||||||||||||||
-            //			GUILayout.Label ("For all selected objects");
-
-            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-            GUILayout.Label(NWDConstants.K_APP_TABLE_ACTIONS, tCenterLabel);
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_REACTIVE, EditorStyles.miniButton))
-            {
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
-                {
-                    if (tKeyValue.Value == true)
-                    {
-                        K tObject = tKeyValue.Key as K;
-                        tObject.EnableData();
-                    }
-                }
-            }
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DISACTIVE, EditorStyles.miniButton))
-            {
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
-                {
-                    if (tKeyValue.Value == true)
-                    {
-                        K tObject = tKeyValue.Key as K;
-                        tObject.DisableData();
-                    }
-                }
-            }
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DUPPLICATE, EditorStyles.miniButton))
-            {
-                NWDBasis<K> tNextObjectSelected = null;
-                int tNewData = 0;
-                List<K> tListToUse = new List<K>();
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
-                {
-                    if (tKeyValue.Value == true)
-                    {
-                        K tObject = tKeyValue.Key as K;
-                        tListToUse.Add(tObject);
-                    }
-                }
-                foreach (K tObject in tListToUse)
-                {
-                    tNewData++;
-                    K tNextObject = tObject.DuplicateData();
-                    if (Datas().m_SearchTag != NWDBasisTag.NoTag)
-                    {
-                        tNextObject.Tag = Datas().m_SearchTag;
-                        tNextObject.UpdateData();
-                    }
-                    tNextObjectSelected = tNextObject;
-                }
-                if (tNewData != 1)
-                {
-                    tNextObjectSelected = null;
-                }
-                SetObjectInEdition(tNextObjectSelected);
-                //ReorderListOfManagementByName ();
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-            }
-
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton))
-            {
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
-                {
-                    if (tKeyValue.Value == true)
-                    {
-                        K tObject = tKeyValue.Key as K;
-                        tObject.UpdateData();
-                    }
-                }
-            }
-
-            GUILayout.Space(EditorStyles.miniButton.fixedHeight+NWDConstants.kFieldMarge);
-            EditorGUI.EndDisabledGroup();
-
-            bool tLocalizeLocalTable = false; //prevent GUIlayout error
-            if (GUILayout.Button("Export localization data", EditorStyles.miniButton))
-            {
-                tLocalizeLocalTable = true;
-            }
-
-
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndVertical();
-
-            GUILayout.BeginVertical(GUILayout.Width(120));
-
-
-            EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-
-            Color tOldColor = GUI.backgroundColor;
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-            // DELETE SELECTION
-            GUILayout.Label(NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
             bool tDeleteSelection = false; //prevent GUIlayout error
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton))
-            {
-                tDeleteSelection = true;
-            }
-            // TRASH SELECTION
+            bool tLocalizeLocalTable = false; //prevent GUIlayout error
             bool tTrashSelection = false;  //prevent GUIlayout error
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_TRASH_ZONE, EditorStyles.miniButton))
-            {
-                tTrashSelection = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUI.backgroundColor = tOldColor;
-
-            GUILayout.Space(10.0F);
-
-            // RESET TABLE
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-            GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
             bool tResetTable = false;  //prevent GUIlayout error
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, EditorStyles.miniButton))
-            {
-                tResetTable = true;
-            }
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
-            {
-                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                tBasisInspector.mTypeInEdition = ClassType();
-                Selection.activeObject = tBasisInspector;
-            }
-            bool tCreateAllPHPForOnlyThisClassDEV= false;
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
-            {
-                tCreateAllPHPForOnlyThisClassDEV = true;
-            }
-            bool tCreateAllPHPForOnlyThisClass = false;
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
-            {
-                tCreateAllPHPForOnlyThisClass = true;
-            }
-            GUI.backgroundColor = tOldColor;
-
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndVertical();
-
-
-
-
-
-            /*GUILayout.BeginVertical(GUILayout.Width(120));
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
-            {
-                NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
-                tBasisInspector.mTypeInEdition = ClassType();
-                Selection.activeObject = tBasisInspector;
-            }
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
-            //			GUILayout.BeginHorizontal ();
-            int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
-            if (t_ItemPerPageSelection != m_ItemPerPageSelection)
-            {
-                m_PageSelected = 0;
-            }
-            m_ItemPerPageSelection = t_ItemPerPageSelection;
-            int tRealReference = ObjectsByReferenceList.Count;
-            if (tRealReference == 0)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
-            }
-            else if (tRealReference == 1)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT);
-            }
-            else
-            {
-                GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
-            }
-
-            int tResultReference = ObjectsInEditorTableList.Count;
-            if (tResultReference == 0)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
-            }
-            else if (tResultReference == 1)
-            {
-                GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED);
-            }
-            else
-            {
-                GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED);
-            }
-
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndVertical();
-            */
-            GUILayout.FlexibleSpace();
-
-
-
-            bool tDisableProd = false;
-            if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
-            {
-                tDisableProd = true;
-            }
-            if (AccountDependent() == true)
-            {
-                tDisableProd = true;
-            }
-
-            GUILayout.BeginVertical(GUILayout.Width(120));
-
-            // SYNCHRONIZATION
-            // no big title
-            // GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
-            var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
-            tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
-
-
-            float twPPD = 110.0F;
-
-            // SYNCHRO ENVIRONMENT (TIMESTAMP as date in tooltips)
-            GUILayout.BeginHorizontal();
-            GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(twPPD));
-            GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(twPPD));
-            GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            GUILayout.Label(tProdContent, tStyleBoldCenter, GUILayout.Width(twPPD));
-            GUILayout.EndHorizontal();
-
-
-            // SYNCHRO TIMESTAMP
-            // tooltips in title of section
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
-            //GUILayout.EndHorizontal();
-
-
-            GUILayout.BeginHorizontal(GUILayout.Width(120));
-            EditorGUI.BeginDisabledGroup(true);
-            if (GUILayout.Button("Protect in dev", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                ProtectInDev();
-            }
-            if (GUILayout.Button("Prepare to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                PrepareToPreprodPublish();
-            }
-            if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                PrepareToProdPublish();
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-
-            if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
+            bool tCreateAllPHPForOnlyThisClassDEV = false; //prevent GUIlayout error
+            bool tCreateAllPHPForOnlyThisClass = false; //prevent GUIlayout error
             bool tSyncProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                tSyncProd = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
-
-            // FORCE SYNCHRO
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-            if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tSyncForceProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                tSyncForceProd = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
-
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-
-            if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tPullProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                tPullProd = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-
-            if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
             bool tPullProdForce = false; //prevent GUIlayout error
-            if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                tPullProdForce = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
-
-            tOldColor = GUI.backgroundColor;
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-            // FORCE SYNCHRO And Clean
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-            if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
-
             bool tSyncCleanProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                tSyncCleanProd = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
-
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-            if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            EditorGUI.BeginDisabledGroup(tDisableProd);
-
             bool tSyncSpecialProd = false; //prevent GUIlayout error
-            if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            {
-                if (Application.isPlaying == true && AccountDependent() == false)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                tSyncSpecialProd = true;
-            }
-            EditorGUI.EndDisabledGroup();
-            GUILayout.EndHorizontal();
-
             bool tCleanLocalTable = false; //prevent GUIlayout error
             bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
-            if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
-            {
-                tCleanLocalTable = true;
-            }
-            if (GUILayout.Button("Not my Account Purge local table", EditorStyles.miniButton))
-            {
-                tCleanLocalTableWithAccount = true;
-            }
-            GUI.backgroundColor = tOldColor;
 
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndVertical();
-
-
-            //GUILayout.BeginVertical(GUILayout.Width(120));
-            //if (GUILayout.Button("prepare publish to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            //{
-            //    foreach (K tOb in ObjectsList)
-            //    {
-            //        if (tOb.PreprodSync <= tOb.DevSync)
-            //        {
-            //            tOb.PreprodSync = 0;
-            //            tOb.UpdateMe();
-            //        }
-            //    }
-            //    RepaintTableEditor();
-            //}
-            //if (GUILayout.Button("prepare publish to prod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-            //{
-            //    foreach (K tOb in ObjectsList)
-            //    {
-            //        if (tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync)
-            //        {
-            //            tOb.ProdSync = 0;
-            //            tOb.UpdateMe();
-            //        }
-            //    }
-            //    RepaintTableEditor();
-            //}
-
-            //GUILayout.EndVertical();
-
-
-
-
-            GUILayout.FlexibleSpace();
-
-
-            GUILayout.BeginVertical(GUILayout.Width(120));
-
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.Label(NWDConstants.K_APP_TABLE_ADD_ZONE, tCenterLabel);
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW, EditorStyles.miniButton))
-            {
-                // add card editor change
-                //				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
-                //				AddObjectInListOfEdition (tNewObject);
-                K tNewObject = NWDBasis<K>.NewData();
-                if (Datas().m_SearchTag != NWDBasisTag.NoTag)
-                {
-                    tNewObject.Tag = Datas().m_SearchTag;
-                    tNewObject.UpdateData();
-                }
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                //				sEditorWindow.Repaint ();
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-
-            /*
-             //ADD new object by the new instance directly (not NewObject() method)
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
-            {
-                K tNewObject = new K();
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData() ", EditorStyles.miniButton))
-            {
-                K tNewObject = NWDBasis<K>.NewData();
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Pool) ", EditorStyles.miniButton))
-            {
-                K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.PoolThread);
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue) ", EditorStyles.miniButton))
-            {
-                K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedMainThread);
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-            if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue pool) ", EditorStyles.miniButton))
-            {
-                K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedPoolThread);
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
-                SetObjectInEdition(tNewObject);
-                NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
-            }
-
-            if (GUILayout.Button("ExecuteQueueMain", EditorStyles.miniButton))
-            {
-                NWDDataManager.SharedInstance().DataQueueMainExecute();
-            }
-
-            if (GUILayout.Button("ExecuteQueuePool", EditorStyles.miniButton))
-            {
-                NWDDataManager.SharedInstance().DataQueuePoolExecute();
-            }
-            */
-            // |||||||||||||||||||||||||||||||||||||||||||
-            GUILayout.EndVertical();
             // -------------------------------------------
-            GUILayout.EndHorizontal();
+            mRowActions = EditorGUILayout.Foldout(mRowActions, "Actions");
+            if (mRowActions == true )
+            {
+                // -------------------------------------------
+
+                GUILayout.Space(5.0f);
+
+                Rect tRect = GUILayoutUtility.GetLastRect();
+                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1024.0f), new Color(0.0f, 0.0f, 0.0f, 0.10f));
+                EditorGUI.DrawRect(new Rect(tRect.x - 10.0f, tRect.y, 4096.0f, 1.0f), new Color(0.0f, 0.0f, 0.0f, 0.30f));
+
+                if (NWDTypeLauncher.DataLoaded == true)
+                {
+                    DrawPagesTab();
+                }
+
+                GUILayout.Space(5.0f);
+
+                //			GUILayout.Label ("Management", EditorStyles.boldLabel);
+
+                int tActualItems = Datas().EditorTableDatas.Count;
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                {
+                    if (tKeyValue.Value == true)
+                    {
+                        tSelectionCount++;
+                    }
+                }
+
+                GUILayout.BeginHorizontal();
+                // -------------------------------------------
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                if (tSelectionCount == 0)
+                {
+                    GUILayout.Label(NWDConstants.K_APP_TABLE_NO_SELECTED_OBJECT, tCenterLabel);
+                }
+                else if (tSelectionCount == 1)
+                {
+                    GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_SELECTED_OBJECT, tCenterLabel);
+                }
+                else
+                {
+                    GUILayout.Label(tSelectionCount + NWDConstants.K_APP_TABLE_XX_SELECTED_OBJECT, tCenterLabel);
+                }
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == tActualItems);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_ALL, EditorStyles.miniButton))
+                {
+                    //				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
+                    //					kObjectsSelectionList [tSelect] = true;
+                    //				}
+                    SelectAllObjectInTableList();
+                }
+                EditorGUI.EndDisabledGroup();
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_DESELECT_ALL, EditorStyles.miniButton))
+                {
+                    //				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
+                    //					kObjectsSelectionList [tSelect] = false;
+                    //				}
+                    DeselectAllObjectInTableList();
+                }
+                EditorGUI.EndDisabledGroup();
+
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_INVERSE, EditorStyles.miniButton))
+                {
+                    //				for (int tSelect = 0; tSelect < tActualItems; tSelect++) {
+                    //					kObjectsSelectionList [tSelect] = !kObjectsSelectionList [tSelect];
+                    //				}
+                    InverseSelectionOfAllObjectInTableList();
+                }
+                EditorGUI.EndDisabledGroup();
+
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_ENABLED, EditorStyles.miniButton))
+                {
+                    SelectAllObjectEnableInTableList();
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SELECT_DISABLED, EditorStyles.miniButton))
+                {
+                    SelectAllObjectDisableInTableList();
+                }
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndHorizontal();
+                GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                //			GUILayout.Label ("For all selected objects");
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ACTIONS, tCenterLabel);
+
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_REACTIVE, EditorStyles.miniButton))
+                {
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            K tObject = tKeyValue.Key as K;
+                            tObject.EnableData();
+                        }
+                    }
+                }
+
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_DISACTIVE, EditorStyles.miniButton))
+                {
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            K tObject = tKeyValue.Key as K;
+                            tObject.DisableData();
+                        }
+                    }
+                }
+
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_DUPPLICATE, EditorStyles.miniButton))
+                {
+                    NWDBasis<K> tNextObjectSelected = null;
+                    int tNewData = 0;
+                    List<K> tListToUse = new List<K>();
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            K tObject = tKeyValue.Key as K;
+                            tListToUse.Add(tObject);
+                        }
+                    }
+                    foreach (K tObject in tListToUse)
+                    {
+                        tNewData++;
+                        K tNextObject = tObject.DuplicateData();
+                        if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                        {
+                            tNextObject.Tag = Datas().m_SearchTag;
+                            tNextObject.UpdateData();
+                        }
+                        tNextObjectSelected = tNextObject;
+                    }
+                    if (tNewData != 1)
+                    {
+                        tNextObjectSelected = null;
+                    }
+                    SetObjectInEdition(tNextObjectSelected);
+                    //ReorderListOfManagementByName ();
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                }
+
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton))
+                {
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    {
+                        if (tKeyValue.Value == true)
+                        {
+                            K tObject = tKeyValue.Key as K;
+                            tObject.UpdateData();
+                        }
+                    }
+                }
+
+                GUILayout.Space(EditorStyles.miniButton.fixedHeight + NWDConstants.kFieldMarge);
+                EditorGUI.EndDisabledGroup();
+
+                if (GUILayout.Button("Export localization data", EditorStyles.miniButton))
+                {
+                    tLocalizeLocalTable = true;
+                }
+
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+
+                GUILayout.BeginVertical(GUILayout.Width(120));
+
+
+                EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
+
+                Color tOldColor = GUI.backgroundColor;
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                // DELETE SELECTION
+                GUILayout.Label(NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton))
+                {
+                    tDeleteSelection = true;
+                }
+                // TRASH SELECTION
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_TRASH_ZONE, EditorStyles.miniButton))
+                {
+                    tTrashSelection = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUI.backgroundColor = tOldColor;
+
+                GUILayout.Space(10.0F);
+
+                // RESET TABLE
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_RESET_ZONE, EditorStyles.miniButton))
+                {
+                    tResetTable = true;
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+                {
+                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                    tBasisInspector.mTypeInEdition = ClassType();
+                    Selection.activeObject = tBasisInspector;
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
+                {
+                    tCreateAllPHPForOnlyThisClassDEV = true;
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
+                {
+                    tCreateAllPHPForOnlyThisClass = true;
+                }
+                GUI.backgroundColor = tOldColor;
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+
+
+
+
+
+                /*GUILayout.BeginVertical(GUILayout.Width(120));
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Label(NWDConstants.K_APP_TABLE_TOOLS_ZONE, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_SHOW_TOOLS, EditorStyles.miniButton))
+                {
+                    NWDBasisClassInspector tBasisInspector = ScriptableObject.CreateInstance<NWDBasisClassInspector>();
+                    tBasisInspector.mTypeInEdition = ClassType();
+                    Selection.activeObject = tBasisInspector;
+                }
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
+                //			GUILayout.BeginHorizontal ();
+                int t_ItemPerPageSelection = EditorGUILayout.Popup(m_ItemPerPageSelection, m_ItemPerPageOptions, EditorStyles.popup);
+                if (t_ItemPerPageSelection != m_ItemPerPageSelection)
+                {
+                    m_PageSelected = 0;
+                }
+                m_ItemPerPageSelection = t_ItemPerPageSelection;
+                int tRealReference = ObjectsByReferenceList.Count;
+                if (tRealReference == 0)
+                {
+                    GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
+                }
+                else if (tRealReference == 1)
+                {
+                    GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT);
+                }
+                else
+                {
+                    GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
+                }
+
+                int tResultReference = ObjectsInEditorTableList.Count;
+                if (tResultReference == 0)
+                {
+                    GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
+                }
+                else if (tResultReference == 1)
+                {
+                    GUILayout.Label(NWDConstants.K_APP_TABLE_ONE_OBJECT_FILTERED);
+                }
+                else
+                {
+                    GUILayout.Label(tResultReference + NWDConstants.K_APP_TABLE_X_OBJECTS_FILTERED);
+                }
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+                */
+                GUILayout.FlexibleSpace();
+
+
+
+                bool tDisableProd = false;
+                if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
+                {
+                    tDisableProd = true;
+                }
+                if (AccountDependent() == true)
+                {
+                    tDisableProd = true;
+                }
+
+                GUILayout.BeginVertical(GUILayout.Width(120));
+
+                // SYNCHRONIZATION
+                // no big title
+                // GUILayout.Label(NWDConstants.K_APP_BASIS_CLASS_SYNC, tCenterLabel);
+                var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
+                tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
+
+
+                float twPPD = 110.0F;
+
+                // SYNCHRO ENVIRONMENT (TIMESTAMP as date in tooltips)
+                GUILayout.BeginHorizontal();
+                GUIContent tDevContent = new GUIContent(NWDConstants.K_DEVELOPMENT_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUILayout.Label(tDevContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+                GUIContent tPreprodContent = new GUIContent(NWDConstants.K_PREPRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUILayout.Label(tPreprodContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+                GUIContent tProdContent = new GUIContent(NWDConstants.K_PRODUCTION_NAME, NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                GUILayout.Label(tProdContent, tStyleBoldCenter, GUILayout.Width(twPPD));
+                GUILayout.EndHorizontal();
+
+
+                // SYNCHRO TIMESTAMP
+                // tooltips in title of section
+                //GUILayout.BeginHorizontal();
+                //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().DevEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
+                //GUILayout.EndHorizontal();
+
+
+                GUILayout.BeginHorizontal(GUILayout.Width(120));
+                EditorGUI.BeginDisabledGroup(true);
+                if (GUILayout.Button("Protect in dev", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    ProtectInDev();
+                }
+                if (GUILayout.Button("Prepare to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    PrepareToPreprodPublish();
+                }
+                if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    PrepareToProdPublish();
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+
+                if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+                if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    tSyncProd = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+
+                // FORCE SYNCHRO
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+                if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+                if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    tSyncForceProd = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    PullFromWebService(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+
+                if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    PullFromWebService(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+                if (GUILayout.Button("Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    tPullProd = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+
+                if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    PullFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+                if (GUILayout.Button("Force Pull table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    tPullProdForce = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+
+                tOldColor = GUI.backgroundColor;
+                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                // FORCE SYNCHRO And Clean
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceClean(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+
+                if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    tSyncCleanProd = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment);
+                }
+                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    SynchronizationFromWebServiceSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+                }
+                EditorGUI.BeginDisabledGroup(tDisableProd);
+
+                if (GUILayout.Button("Special", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                {
+                    if (Application.isPlaying == true && AccountDependent() == false)
+                    {
+                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                    }
+                    tSyncSpecialProd = true;
+                }
+                EditorGUI.EndDisabledGroup();
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button("Clean this local table", EditorStyles.miniButton))
+                {
+                    tCleanLocalTable = true;
+                }
+                if (GUILayout.Button("Not my Account Purge local table", EditorStyles.miniButton))
+                {
+                    tCleanLocalTableWithAccount = true;
+                }
+                GUI.backgroundColor = tOldColor;
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+
+
+                //GUILayout.BeginVertical(GUILayout.Width(120));
+                //if (GUILayout.Button("prepare publish to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    foreach (K tOb in ObjectsList)
+                //    {
+                //        if (tOb.PreprodSync <= tOb.DevSync)
+                //        {
+                //            tOb.PreprodSync = 0;
+                //            tOb.UpdateMe();
+                //        }
+                //    }
+                //    RepaintTableEditor();
+                //}
+                //if (GUILayout.Button("prepare publish to prod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    foreach (K tOb in ObjectsList)
+                //    {
+                //        if (tOb.ProdSync <= tOb.DevSync || tOb.ProdSync < tOb.PreprodSync)
+                //        {
+                //            tOb.ProdSync = 0;
+                //            tOb.UpdateMe();
+                //        }
+                //    }
+                //    RepaintTableEditor();
+                //}
+
+                //GUILayout.EndVertical();
+
+
+
+
+                GUILayout.FlexibleSpace();
+
+
+                GUILayout.BeginVertical(GUILayout.Width(120));
+
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.Label(NWDConstants.K_APP_TABLE_ADD_ZONE, tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW, EditorStyles.miniButton))
+                {
+                    // add card editor change
+                    //				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
+                    //				AddObjectInListOfEdition (tNewObject);
+                    K tNewObject = NWDBasis<K>.NewData();
+                    if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                    {
+                        tNewObject.Tag = Datas().m_SearchTag;
+                        tNewObject.UpdateData();
+                    }
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    SetObjectInEdition(tNewObject);
+                    //				sEditorWindow.Repaint ();
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+
+                /*
+                 //ADD new object by the new instance directly (not NewObject() method)
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by new() ", EditorStyles.miniButton))
+                {
+                    K tNewObject = new K();
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    SetObjectInEdition(tNewObject);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData() ", EditorStyles.miniButton))
+                {
+                    K tNewObject = NWDBasis<K>.NewData();
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    SetObjectInEdition(tNewObject);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Pool) ", EditorStyles.miniButton))
+                {
+                    K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.PoolThread);
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    SetObjectInEdition(tNewObject);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue) ", EditorStyles.miniButton))
+                {
+                    K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedMainThread);
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    SetObjectInEdition(tNewObject);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+                if (GUILayout.Button(NWDConstants.K_APP_TABLE_ADD_ROW + "by NewData(Queue pool) ", EditorStyles.miniButton))
+                {
+                    K tNewObject = NWDBasis<K>.NewData(NWDWritingMode.QueuedPoolThread);
+                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    SetObjectInEdition(tNewObject);
+                    NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
+                }
+
+                if (GUILayout.Button("ExecuteQueueMain", EditorStyles.miniButton))
+                {
+                    NWDDataManager.SharedInstance().DataQueueMainExecute();
+                }
+
+                if (GUILayout.Button("ExecuteQueuePool", EditorStyles.miniButton))
+                {
+                    NWDDataManager.SharedInstance().DataQueuePoolExecute();
+                }
+                */
+                // |||||||||||||||||||||||||||||||||||||||||||
+                GUILayout.EndVertical();
+                // -------------------------------------------
+                GUILayout.EndHorizontal();
+
+
+            }
 
             GUILayout.Space(10.0f);
 
