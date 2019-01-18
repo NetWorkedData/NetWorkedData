@@ -26,16 +26,17 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDBarterStatus
-    {
-        None = 0,
-        Active = 10,
-        Waiting = 11,
-        Deal = 15,
-        Accepted = 20,
-        Cancel = 30,
-        Expired = 40,
-    }
+    //Use NWDTradeStatus
+    //public enum NWDBarterStatus
+    //{
+    //    None = 0,
+    //    Active = 1,
+    //    Waiting = 2,
+    //    Deal = 3,
+    //    Accepted = 4,
+    //    Expired = 6,
+    //    Cancel = 9,
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>

@@ -29,10 +29,14 @@ namespace NetWorkedData
     public enum NWDTradeStatus
     {
         None = 0,
-        Active = 10,
-        Accepted = 20,
-        Cancel = 30,
-        Expired = 40,
+        Active = 1,
+        Waiting = 2,
+        Deal = 3,
+        Accepted = 4,
+        Expired = 6,
+        Cancel = 8,
+        Cancelled = 9,
+        Refresh = 10,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
