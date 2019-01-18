@@ -144,6 +144,8 @@ namespace NetWorkedData
         public const string K_MENU_LOCALIZATION_EXPORT = K_MENU_BASE + K_MENU_LOCALIZATION + "/Export in csv";
         public const string K_MENU_LOCALIZATION_IMPORT = K_MENU_BASE + K_MENU_LOCALIZATION + "/Import from csv";
 
+        public const string K_MENU_SAVE_DATABASE = K_MENU_BASE  + "Tools/Save Database editor as hard in assets";
+
         public const string K_MENU_DEV = "Dev";
         public const string K_MENU_PREPROD = "Preprod";
         public const string K_MENU_PROD = "Prod";

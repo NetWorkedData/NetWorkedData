@@ -380,6 +380,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                 "{\n" +
+                "$sReplaces[" + t_THIS_BarterStatus + "]='" + ((int)NWDTradeStatus.Waiting).ToString() + "';\n" +
                 "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                 "}\n" +
 
