@@ -238,7 +238,7 @@ namespace NetWorkedData
                 }
 
                 //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount at " + tDatabasePathAccount);
-                Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION Password " + tAccountPass);
+                //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION Password " + tAccountPass);
                 SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount.BusyTimeout" + SQLiteConnectionAccount.BusyTimeout.ToString());
 
