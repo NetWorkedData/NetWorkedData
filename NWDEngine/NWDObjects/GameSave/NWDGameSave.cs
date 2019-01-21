@@ -193,31 +193,38 @@ namespace NetWorkedData
         public static NWDGameSave Current()
         {
             NWDGameSave rParty = kCurrentGameSave;
-            if (rParty != null)
+            if (NWDTypeLauncher.DataLoaded == true)
             {
-                if (rParty.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
+                Debug.Log("NWDGameSave Current() OK DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString());
+                if (rParty != null)
                 {
-                    // Gamesave is reacheable, return the Gamesave
-                    return rParty;
+                    if (rParty.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
+                    {
+                        // Gamesave is reacheable, return the Gamesave
+                        return rParty;
+                    }
+
+                    // Set Gamesave to null
+                    rParty = null;
                 }
 
-                // Set Gamesave to null
-                rParty = null;
-            }
-
-            if (rParty == null)
-            {
-                // Get last Gamesave or create a new one
-                rParty = CurrentForAccount(NWDAccount.GetCurrentAccountReference());
                 if (rParty == null)
                 {
-                    // Possible error, create a new Gamesabe
-                    rParty = NewCurrent();
+                    // Get last Gamesave or create a new one
+                    rParty = CurrentForAccount(NWDAccount.GetCurrentAccountReference());
+                    if (rParty == null)
+                    {
+                        // Possible error, create a new Gamesabe
+                        rParty = NewCurrent();
+                    }
                 }
+
+                kCurrentGameSave = rParty;
             }
-
-            kCurrentGameSave = rParty;
-
+            else
+            {
+                Debug.LogWarning("NWDGameSave Current() WANING !!! DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString());
+            }
             return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
