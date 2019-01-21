@@ -214,6 +214,8 @@ namespace NetWorkedData
         /// </summary>
         public static void InstallAllNotifications(bool sPause)
         {
+            if (NWDTypeLauncher.DataLoaded == true)
+            {
 #if UNITY_IOS
             // add notification to user authorization!
             UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert |
@@ -237,23 +239,24 @@ namespace NetWorkedData
                 }
             }
 #endif
-            // find NWDUserNewsRead and put in uninstalled
-            foreach (NWDNews tNew in FindDatas())
-            {
-                if (tNew.EventType != NWDNewsType.Programmatically)
+                // find NWDUserNewsRead and put in uninstalled
+                foreach (NWDNews tNew in FindDatas())
                 {
-                    NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
-                    if (tRead != null)
+                    if (tNew.EventType != NWDNewsType.Programmatically)
                     {
-                        tRead.IsInstalled = false;
-                        tRead.SaveDataIfModified();
+                        NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
+                        if (tRead != null)
+                        {
+                            tRead.IsInstalled = false;
+                            tRead.SaveDataIfModified();
+                        }
                     }
                 }
-            }
-            // find NWDNews and install
-            foreach (NWDNews tNew in FindDatas())
-            {
-                tNew.InstallNotification(sPause);
+                // find NWDNews and install
+                foreach (NWDNews tNew in FindDatas())
+                {
+                    tNew.InstallNotification(sPause);
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
