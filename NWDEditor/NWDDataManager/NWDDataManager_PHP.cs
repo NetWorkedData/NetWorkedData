@@ -156,7 +156,10 @@ namespace NetWorkedData
             NWDError.CreateGenericError("maintenance", "MAINTENANCE", "MAINTENANCE", "MAINTENANCE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("obsolete", "OBSOLETE", "OBSOLETE", "OBSOLETE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-            foreach (Type tType in mTypeList)
+
+			NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+
+			foreach (Type tType in mTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
                 tOperation++;

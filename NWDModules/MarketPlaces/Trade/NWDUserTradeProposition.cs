@@ -275,7 +275,7 @@ namespace NetWorkedData
             GUIStyle tLabelStyle = new GUIStyle(EditorStyles.boldLabel);
             tLabelStyle.fixedHeight = tLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
-            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "fixe date of TradeRequest DM", tMiniButtonStyle))
+            if (GUI.Button(new Rect(tX, tY, tWidth, tMiniButtonStyle.fixedHeight), "Copy-paste hash from selected TradeRequest", tMiniButtonStyle))
             {
                 Debug.Log("YES ? or Not " + TradeRequest.Value);
                 NWDUserTradeRequest tRequest = TradeRequest.GetObjectAbsolute();
@@ -330,7 +330,8 @@ namespace NetWorkedData
                 "if (!$tResultStatus)\n" +
                 "{\n" +
                 "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "}\n" +
+				"error('SERVER');\n" +
+				"}\n" +
                 "else" +
                 "{\n" +
                 "if ($tResultStatus->num_rows == 1)\n" +
@@ -357,7 +358,9 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.None).ToString() + " && " +
                 "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
                 //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() + 
-                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() + "))\n" +
+                " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() +
+				" || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)" + 
+				"))\n" +
                 "{\n" +
                 "$sReplaces["+ t_THIS_Index_ItemsProposed + "]='';\n" +
                 "$sReplaces["+ t_THIS_Index_ItemsAsked + "]='';\n" +
@@ -389,8 +392,8 @@ namespace NetWorkedData
                 "if (!$tResultTrade)\n" +
                 "{\n" +
                 "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-                "error('UTRFx31');\n" +
-                "}\n" +
+				"error('SERVER');\n" +
+				"}\n" +
                 "else\n" +
                 "{\n" +
                 "$tNumberOfRow = 0;\n" +
@@ -410,8 +413,15 @@ namespace NetWorkedData
                 "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n" +
                 "}\n" +
                 "}\n" +
-                // OTHER
-                "else\n" +
+
+				// change the statut from CSV TO FORCE // ADMIN ONLY 
+				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)\n" +
+					"{\n" +
+					"//EXECEPTION FOR ADMIN\n" +
+					"}\n" +
+
+				// OTHER
+				"else\n" +
                 "{\n" +
                 // not possible return preview value
                 //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +

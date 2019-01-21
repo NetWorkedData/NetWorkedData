@@ -37,7 +37,10 @@ namespace NetWorkedData
         Cancel = 8,
         Cancelled = 9,
         Refresh = 10,
-    }
+
+
+		Force = 99,
+	}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
     /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>

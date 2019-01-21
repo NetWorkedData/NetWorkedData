@@ -1814,12 +1814,12 @@ namespace NetWorkedData
                 GUILayout.BeginVertical(GUILayout.Width(120));
                 // |||||||||||||||||||||||||||||||||||||||||||
                 // RESET TABLE
-                GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_DEV_TOOLS, EditorStyles.miniButton))
+                GUILayout.Label(NWDConstants.K_APP_WS_RESET_WARNING+" "+ NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000"), tCenterLabel);
+                if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_DEV_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), EditorStyles.miniButton))
                 {
                     tCreateAllPHPForOnlyThisClassDEV = true;
                 }
-                if (GUILayout.Button(NWDConstants.K_APP_TABLE_PHP_TOOLS, EditorStyles.miniButton))
+                if (GUILayout.Button(NWDConstants.K_APP_WS_PHP_TOOLS.Replace("XXXX", NWDAppConfiguration.SharedInstance().WebBuild.ToString("0000")), EditorStyles.miniButton))
                 {
                     tCreateAllPHPForOnlyThisClass = true;
                 }

@@ -16,7 +16,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("Barter",
 		"Barter window description",
-		"NWDIcons_02",
+        "NWDBarterWindow",
 		new Type[] {
 			typeof(NWDBarterPlace), 
 			typeof(NWDUserBarterRequest), 

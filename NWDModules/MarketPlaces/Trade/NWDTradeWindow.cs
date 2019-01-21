@@ -20,7 +20,7 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Trade",
         "Trade window description",
-        "NWDIcons_02",
+        "NWDTradeWindow",
         new Type[] {
             typeof(NWDTradePlace),
             typeof(NWDUserTradeRequest),
