@@ -86,7 +86,7 @@ namespace NetWorkedData
             bool rRegenrateCSharp = false;
            if (ModelChanged() == true)
            {
-                PrepareOrders();
+                //PrepareOrders();
                 rRegenrateCSharp = true;
                 Debug.LogWarning(NWDConstants.K_APP_BASIS_WARNING_MODEL);
 
@@ -132,7 +132,7 @@ namespace NetWorkedData
             if (sFromFileWrting == true)
             {
                 tMessage = "Generate file on disk and copy result on server.";
-                CreateAllPHP("_modify");
+                CreateAllPHP("_modify", true, false);
                 EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.5f);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SendFileWS("_modify", Datas().ClassTableName);
                 tMessage = "Copy result on server Dev.";
@@ -142,7 +142,7 @@ namespace NetWorkedData
             {
                 tMessage = "Generate and directly copy on server.";
                 EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.5f);
-                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false);
+                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false, false);
                 List<string> tFoldersDev = new List<string>();
                 tFoldersDev.Add("Environment/" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SendFolderAndFiles(tFoldersDev, tResultDev, true);
@@ -165,7 +165,7 @@ namespace NetWorkedData
             bool rRegenrateCSharp = false;
             if (ModelChanged() == true)
             {
-                PrepareOrders();
+                //PrepareOrders();
                 rRegenrateCSharp = true;
                 Debug.LogWarning(NWDConstants.K_APP_BASIS_WARNING_MODEL);
 
@@ -210,7 +210,7 @@ namespace NetWorkedData
             if (sFromFileWrting == true)
             {
                 tMessage = "Generate file on disk and copy result on server.";
-                CreateAllPHP("_modify");
+                CreateAllPHP("_modify", true, false);
                 EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.25f);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SendFileWS("_modify", Datas().ClassTableName);
                 tMessage = "Copy result on server Dev.";
@@ -226,7 +226,7 @@ namespace NetWorkedData
             {
                 tMessage = "Generate and directly copy on server.";
                 EditorUtility.DisplayProgressBar(tTitle, tMessage, 0.25f);
-                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false);
+                Dictionary<string, string> tResultDev = CreatePHP(NWDAppConfiguration.SharedInstance().DevEnvironment, "", false, false);
                 List<string> tFoldersDev = new List<string>();
                 tFoldersDev.Add("Environment/" + NWDAppConfiguration.SharedInstance().DevEnvironment.Environment + "/Engine/Database/" + Datas().ClassNamePHP);
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SendFolderAndFiles(tFoldersDev, tResultDev, true);
@@ -252,17 +252,17 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void CreateAllPHP(string sFolderAdd)
+        public static void CreateAllPHP(string sFolderAdd, bool sWriteOnDisk = true, bool sPrepareOrder = true)
         {
             //BTBBenchmark.Start();
             foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
             {
-                CreatePHP(tEnvironement, sFolderAdd);
+                CreatePHP(tEnvironement, sFolderAdd, sWriteOnDisk, sPrepareOrder);
             }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> CreatePHP(NWDAppEnvironment sEnvironment, string sFolderAdd = "", bool sWriteOnDisk = true)
+        public static Dictionary<string, string> CreatePHP(NWDAppEnvironment sEnvironment, string sFolderAdd = "", bool sWriteOnDisk = true, bool sPrepareOrder = true)
         {
             //BTBBenchmark.Start();
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
@@ -285,8 +285,45 @@ namespace NetWorkedData
 
             Datas().PrefLoad();
 
-            PrepareOrders();
 
+            if (sPrepareOrder == true)
+            {
+                PrepareOrders();
+            }
+
+            Dictionary<string, int> tResult = new Dictionary<string, int>();
+            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
+            {
+                if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tKeyValue.Key) == true)
+                {
+                    if (NWDAppConfiguration.SharedInstance().WSList[tKeyValue.Key] == true)
+                    {
+                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
+                        {
+                            if (tResult.ContainsKey(tSubKeyValue.Key))
+                            {
+                                if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
+                                {
+                                    tResult[tSubKeyValue.Key] = tKeyValue.Key;
+                                }
+                            }
+                            else
+                            {
+                                tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
+                            }
+                        }
+                    }
+                }
+            }
+            int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
+            //NWDAppConfiguration.SharedInstance().kLastWebBuildClass = new Dictionary<Type, int>();
+            foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
+            {
+                if (tKeyValue.Key == Datas().ClassNamePHP)
+                {
+                    tWebBuildUsed = tKeyValue.Value;
+                }
+            }
             // Create folders
 
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
@@ -353,40 +390,6 @@ namespace NetWorkedData
                                     "$SQL_" + tClassName + "_SaltB = '" + Datas().SaltB + "';\n" +
                                     "";
 
-            int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
-
-            Dictionary<string, int> tResult = new Dictionary<string, int>();
-            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
-            {
-                if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tKeyValue.Key) == true)
-                {
-                    if (NWDAppConfiguration.SharedInstance().WSList[tKeyValue.Key] == true)
-                    {
-                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
-                        {
-                            if (tResult.ContainsKey(tSubKeyValue.Key))
-                            {
-                                if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
-                                {
-                                    tResult[tSubKeyValue.Key] = tKeyValue.Key;
-                                }
-                            }
-                            else
-                            {
-                                tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
-                            }
-                        }
-                    }
-                }
-            }
-            NWDAppConfiguration.SharedInstance().kLastWebBuildClass = new Dictionary<Type, int>();
-            foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
-            {
-                if (tKeyValue.Key == Datas().ClassNamePHP)
-                {
-                    tWebBuildUsed = tKeyValue.Value;
-                }
-            }
 
 
             //if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
@@ -1116,7 +1119,14 @@ namespace NetWorkedData
                 tColumnValueList.Add("\\''.$SQL_CON->real_escape_string($sCsvList[" + tIndex.ToString() + "]).'\\'");
                 tIndex++;
             }
-            tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
+
+			var tMethodDeclareFunctions = tType.GetMethod("AddonPhpFunctions", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+			if (tMethodDeclareFunctions != null)
+			{
+				tSynchronizationFile += (string)tMethodDeclareFunctions.Invoke(null, new object[] { sEnvironment });
+			}
+
+			tSynchronizationFile += "function UpdateData" + tClassName + " ($sCsv, $sTimeStamp, $sAccountReference, $sAdmin)\n" +
             "\t{\n" +
             "myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT, $ACC_NEEDED, $PATH_BASE, $REF_NEEDED, $REP;\n" +

@@ -38,6 +38,7 @@ namespace NetWorkedData
         public static bool ModelChanged()
         {
           bool rReturn = false;
+            //Debug.Log("Datas().ClassType = " + Datas().ClassType.Name);
             int tLasBuild = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[Datas().ClassType];
             string tToTest = NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild][Datas().ClassTableName];
 

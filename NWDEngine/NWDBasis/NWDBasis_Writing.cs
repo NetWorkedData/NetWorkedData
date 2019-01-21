@@ -254,9 +254,9 @@ namespace NetWorkedData
                 string tValueString = string.Copy(tValue.ToString()); // force to copy new object
                 if (tTypeOfThis.IsEnum)
                 {
-                    int tTemp = 0;
-                    int.TryParse(tValueString, out tTemp);
-                    tPropertyInfo.SetValue(this, tTemp, null);
+                    //int tTemp = 0;
+                    //int.TryParse(tValueString, out tTemp);
+                    tPropertyInfo.SetValue(this, tValue, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                 {

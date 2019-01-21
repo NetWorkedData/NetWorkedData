@@ -207,9 +207,15 @@ namespace NetWorkedData
                 //Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
 
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
-                //Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
-                //Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
+
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                {
+                    Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor);
+                    Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
+                    Debug.Log("ConnectToDatabase () tDatabasePathAccount : " + tDatabasePathAccount);
+                    Debug.Log("ConnectToDatabase () tAccountPass : " + tAccountPass);
+                }
 
                 //Debug.Log("#DATABASE# ConnectToDatabase () CONNECTION SQLiteConnectionEditor at " + tDatabasePathEditor);
                 SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);

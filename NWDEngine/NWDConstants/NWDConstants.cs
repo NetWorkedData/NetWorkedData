@@ -383,9 +383,12 @@ namespace NetWorkedData
         public const string K_APP_TABLE_TOOLS_ZONE = "Table Tools";
         public const string K_APP_TABLE_DATAS_ARE_LOADING_ZONE = "DATAS ARE LOADING";
         public const string K_APP_TABLE_SHOW_TOOLS = "Show tools";
-        public const string K_APP_TABLE_PHP_TOOLS = "Regenerate WS";
-        public const string K_APP_TABLE_PHP_DEV_TOOLS = "Regenerate WS only dev";
+
+        public const string K_APP_WS_RESET_WARNING = "Warning WS";
+        public const string K_APP_WS_PHP_TOOLS = "Replace WS XXXX";
+        public const string K_APP_WS_PHP_DEV_TOOLS = "Replace WS XXXX Dev";
         public const string K_APP_TABLE_ADD_ZONE = "New object";
+
         public const string K_APP_TABLE_ADD_ROW = "Add new object";
 
         public const string K_APP_TABLE_SHOW_ENABLE_DATAS = "Enable datas";
