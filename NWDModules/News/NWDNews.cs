@@ -243,7 +243,7 @@ namespace NetWorkedData
                 if (tNew.EventType != NWDNewsType.Programmatically)
                 {
                     NWDUserNewsRead tRead = NWDUserNewsRead.FindFirstByIndex(tNew.Reference);
-                    if (tRead == null)
+                    if (tRead != null)
                     {
                         tRead.IsInstalled = false;
                         tRead.SaveDataIfModified();
@@ -582,7 +582,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endregion
         //-------------------------------------------------------------------------------------------------------------
-#region NetWorkedData addons methods
+        #region NetWorkedData addons methods
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
@@ -715,7 +715,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endregion
         //-------------------------------------------------------------------------------------------------------------
-#region Editor
+        #region Editor
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
