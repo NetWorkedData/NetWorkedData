@@ -212,10 +212,7 @@ namespace NetWorkedData
                 //Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);
 
                 //Debug.Log("#DATABASE# ConnectToDatabase () CONNECTION SQLiteConnectionEditor at " + tDatabasePathEditor);
-                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor,
-                tEditorPass,
-                SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
-
+                SQLiteConnectionEditor = new SQLiteConnection(tDatabasePathEditor, tEditorPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
 
                 // RESET TOKEN SYNC OF USER 'S DATAS TO ZERO!
                 if (File.Exists(tDatabasePathAccount) == false)
@@ -234,17 +231,17 @@ namespace NetWorkedData
                     }
                 }
 
-
                 //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount at " + tDatabasePathAccount);
-                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount,
-                tAccountPass,
-                SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
+                Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION Password " + tAccountPass);
+                SQLiteConnectionAccount = new SQLiteConnection(tDatabasePathAccount, tAccountPass, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create);
                 //Debug.Log("ConnectToDatabase () CONNECTION SQLiteConnectionAccount.BusyTimeout" + SQLiteConnectionAccount.BusyTimeout.ToString());
+
                 // waiting the tables and file will be open...
                 // TODO: REAL DISPO! MARCHE PAS?!
                 double tSeconds = SQLiteConnectionAccount.BusyTimeout.TotalSeconds +
                 SQLiteConnectionEditor.BusyTimeout.TotalSeconds;
                 //Debug.Log("ConnectToDatabase () CONNECTION tSeconds : " + tSeconds.ToString());
+                
                 // BYPASS 
                 // tSeconds = 0.2;
                 DateTime t = DateTime.Now;
@@ -253,6 +250,7 @@ namespace NetWorkedData
                 {
                     t = DateTime.Now;
                 }
+                
                 // TEST WHILE / MARCHE PAS
                 while (SQLiteConnectionEditor.IsOpen() == false)
                 {
@@ -261,6 +259,7 @@ namespace NetWorkedData
                     // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
                     // TODO : Detruire fichier et reinstaller ? 
                 }
+                
                 while (SQLiteConnectionAccount.IsOpen() == false)
                 {
                     Debug.LogWarning("SQLiteConnectionAccount is not opened!");
@@ -268,6 +267,7 @@ namespace NetWorkedData
                     // TODO : timeout and Mesaage d'erreur : desinstaller app et reinstaller
                     // TODO : Detruire fichier et reinstaller ? 
                 }
+                
                 // finish
                 kConnectedToDatabase = true;
                 kConnectedToDatabaseIsProgress = false;
