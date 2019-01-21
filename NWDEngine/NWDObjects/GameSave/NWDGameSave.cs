@@ -174,17 +174,16 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDGameSave NewCurrent(NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
+        public static NWDGameSave NewCurrent()
         {
-            //Debug.Log("NWDGameSave NewCurrent()");
-            NWDGameSave rParty = null;
-            rParty = NewData(sWritingMode);
-            rParty.Name = "GameSave " + DateTime.Today.ToShortDateString();
-            rParty.GameSaveTagAdjust();
-            rParty.SetCurrent();
-            rParty.UpdateData(true, sWritingMode);
+            NWDGameSave rGameSave = null;
+            rGameSave = NewData();
+            rGameSave.InternalKey = NWDAccount.GetCurrentAccountReference();
+            rGameSave.Name = "GameSave " + DateTime.Today.ToShortDateString();
+            rGameSave.Tag = NWDBasisTag.TagUserCreated;
+            rGameSave.SaveData();
 
-            return rParty;
+            return rGameSave;
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

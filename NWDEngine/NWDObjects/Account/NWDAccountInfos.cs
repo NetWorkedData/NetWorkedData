@@ -111,27 +111,28 @@ namespace NetWorkedData
         /// </summary>
         public static NWDAccountInfos GetAccountInfosOrCreate()
         {
-            NWDAccountInfos tAccountInfos = null;
-            foreach (NWDAccountInfos k in FindDatas())
-            {
-                if (k.Account.GetReference().Equals(NWDAccount.GetCurrentAccountReference()))
-                {
-                    tAccountInfos = k;
-                    break;
-                }
-            }
-            if (tAccountInfos == null)
+            List<NWDAccountInfos> tAccountsInfos = FindDatas().ToList();
+            Debug.Log("GetAccountInfosOrCreate() nbr of Entry: " + tAccountsInfos.Count);
+            if (tAccountsInfos.Count == 0)
             {
                 NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
 
+                NWDAccountInfos tAccountInfos = null;
                 tAccountInfos = NewData();
                 tAccountInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
-                tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                //tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
                 tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
                 tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
                 tAccountInfos.SaveData();
+
+                return tAccountInfos;
             }
-            return tAccountInfos;
+            else if (tAccountsInfos.Count > 1)
+            {
+                tAccountsInfos.Sort((x, y) => x.DC.CompareTo(y.DC));
+            }
+            
+            return tAccountsInfos[0];
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
@@ -140,6 +141,7 @@ namespace NetWorkedData
             if (tActiveAccount != null)
             {
                 tActiveAccount.AccountType = tStatus;
+                tActiveAccount.SaveData();
             }
         }
         //-------------------------------------------------------------------------------------------------------------
