@@ -306,11 +306,11 @@ namespace NetWorkedData
                     Type tTypeOfThis = tPropertyInfo.PropertyType;
                     if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
                     {
-                        SLQAssemblyOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as " + tPropertyName;
+                        SLQAssemblyOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
                     }
                     else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
                     {
-                        SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as " + tPropertyName;
+                        SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
                     }
                     else
                     {

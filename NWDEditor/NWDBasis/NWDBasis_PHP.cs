@@ -379,11 +379,11 @@ namespace NetWorkedData
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
                 if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
                 {
-                    SLQIntegrityOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as " + tPropertyName;
+                    SLQIntegrityOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
                 }
                 else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
                 {
-                    SLQIntegrityOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as " + tPropertyName;
+                    SLQIntegrityOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
                 }
                 else
                 {
@@ -1305,6 +1305,7 @@ namespace NetWorkedData
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
@@ -1356,6 +1357,7 @@ namespace NetWorkedData
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
@@ -1401,6 +1403,7 @@ namespace NetWorkedData
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
@@ -1439,6 +1442,7 @@ namespace NetWorkedData
             tSynchronizationFile += "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
+            "\t\t\t\tmyLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQuery.'', __FILE__, __FUNCTION__, __LINE__);\n" +
             "\t\t\t\terror('" + tTrigramme + "x33');\n" +
             "\t\t\t}\n" +
             "\t\telse\n" +
