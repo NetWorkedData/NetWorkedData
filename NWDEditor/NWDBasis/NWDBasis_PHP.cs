@@ -371,6 +371,28 @@ namespace NetWorkedData
             {
                // Debug.LogWarning("CreatePHP error : tServerDatabaseFolder not exists (" + tServerDatabaseFolder + ")");
             }
+
+            string SLQIntegrityOrderToSelect = "***";
+            foreach (string tPropertyName in SLQIntegrityOrder())
+            {
+                PropertyInfo tPropertyInfo = tType.GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
+                Type tTypeOfThis = tPropertyInfo.PropertyType;
+                if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
+                {
+                    SLQIntegrityOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as " + tPropertyName;
+                }
+                else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
+                {
+                    SLQIntegrityOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as " + tPropertyName;
+                }
+                else
+                {
+                    SLQIntegrityOrderToSelect += ", `" + tPropertyName+"`";
+                }
+            }
+            SLQIntegrityOrderToSelect = SLQIntegrityOrderToSelect.Replace("***, ","");
+
+
             //========= CONSTANTS FILE
             string tConstantsFile = "<?php\n" +
                                     "//NWD Autogenerate File at " + tDateTimeString + "\n" +
@@ -956,26 +978,7 @@ namespace NetWorkedData
             "\t{\n" +
             "\t\tglobal $SQL_CON, $WSBUILD, $ENV, $NWD_SLT_SRV, $TIME_SYNC, $NWD_FLOAT_FORMAT;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
-            "\t\t$tQuery = 'SELECT ID";
-
-            foreach (string tPropertyName in SLQIntegrityOrder())
-            {
-                PropertyInfo tPropertyInfo = tType.GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
-                Type tTypeOfThis = tPropertyInfo.PropertyType;
-                if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
-                {
-                    tSynchronizationFile += ", REPLACE(" + tPropertyName + ",\",\",\"\") as " + tPropertyName;
-                }
-                else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
-                {
-                    tSynchronizationFile += ", REPLACE(FORMAT(" + tPropertyName + "," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as " + tPropertyName;
-                }
-                else
-                {
-                    tSynchronizationFile += ", " + tPropertyName;
-                }
-            }
-            tSynchronizationFile += " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -1015,7 +1018,7 @@ namespace NetWorkedData
             "\t{\n" +
             "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
-            "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -1046,7 +1049,7 @@ namespace NetWorkedData
             tSynchronizationFile += "function IntegrityServer" + tClassName + "ValidateByRow ($sRow)\n" +
             "\t{\n" +
             "\t\tglobal $NWD_SLT_SRV;\n" +
-            "\t\t$tCalculateServer =IntegrityServer" + tClassName + "Generate ($sRow);\n" +
+            "\t\t$tCalculateServer = IntegrityServer" + tClassName + "Generate ($sRow);\n" +
             "\t\tif ($tCalculateServer == $sRow['ServerHash'])\n" +
             "\t\t\t{\n" +
             "\t\t\t\treturn true;\n" +
@@ -1063,7 +1066,7 @@ namespace NetWorkedData
             "\t{\n" +
             "\t\tglobal $SQL_CON, $ENV, $NWD_SLT_SRV;\n" +
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;\n" +
-            "\t\t$tQuery = 'SELECT * FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
+            "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';\n" +
             "\t\t$tResult = $SQL_CON->query($tQuery);\n" +
             "\t\tif (!$tResult)\n" +
             "\t\t\t{\n" +
@@ -1295,7 +1298,7 @@ namespace NetWorkedData
                 "\t\tglobal $REP;\n" +
             "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';\n" +
+                "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';\n" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
@@ -1346,7 +1349,7 @@ namespace NetWorkedData
                 "\t\tglobal $REP;\n" +
             "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';\n" +
+                "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';\n" +
             "\t\t\t\t\t\t\t\t\t\tif ($admin == false)\n" +
             "\t\t\t\t\t\t\t\t\t\t\t{\n" +
                 "\t\t\t\t\t\t\t\t\t\t\t\t$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';\n" +
@@ -1378,7 +1381,7 @@ namespace NetWorkedData
                 "\t\tglobal $REP;\n" +
             "\t\tglobal $admin;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-            "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
+            "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
             //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
             "(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
             // if need Account reference
@@ -1421,7 +1424,7 @@ namespace NetWorkedData
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $REP;\n" +
             //"\t\t$tPage = $sPage*$sLimit;\n" +
-                "\t\t$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
+                "\t\t$tQuery = 'SELECT " + SLQIntegrityOrderToSelect + " FROM `'.$ENV.'_" + tTableName + "` WHERE " +
             //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
             "(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
             // if need Account reference
