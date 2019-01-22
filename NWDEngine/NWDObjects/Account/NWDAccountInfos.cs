@@ -49,6 +49,7 @@ namespace NetWorkedData
         public NWDAppEnvironmentPlayerStatut AccountType { get; set; }
         public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
         public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
+        public string CurrentGameSave  { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         [NWDGroupEnd]
