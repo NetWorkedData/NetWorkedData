@@ -222,8 +222,9 @@ namespace NetWorkedData
             bool tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
             if (tIntegrityTest == false)
             {
-                //Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE");
                 #if UNITY_EDITOR
+                Datas().CSVAssemblyOrderArrayPrepare();
+                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + Datas().ClassTableName + " \n"+ string.Join("|", Datas().CSVAssemblyOrderArray)+"\n"+ sData+"\n");
                 //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
                 #endif
             }

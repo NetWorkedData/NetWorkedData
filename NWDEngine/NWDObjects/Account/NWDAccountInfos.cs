@@ -53,41 +53,41 @@ namespace NetWorkedData
         public string LastName { get; set; }
         [NWDGroupEnd]
 
-        [NWDGroupSeparator]
+        //[NWDGroupSeparator]
 
-        [NWDGroupStart("Localization Options")]
-        public NWDLanguageType Language { get; set; }
-        [NWDGroupEnd]
+        //[NWDGroupStart("Localization Options")]
+        //public NWDLanguageType Language { get; set; }
+        //[NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Push notification Options")]
         public NWDOperatingSystem OSLastSignIn { get; set; }
-        public bool AcceptTradePush { get; set; }
-        public bool AcceptBarterPush { get; set; }
-        public bool AcceptShopPush { get; set; }
-        public bool AcceptRelationshipPush { get; set; }
-        public bool AcceptUserInterMessagePush { get; set; }
+        //public bool AcceptTradePush { get; set; }
+        //public bool AcceptBarterPush { get; set; }
+        //public bool AcceptShopPush { get; set; }
+        //public bool AcceptRelationshipPush { get; set; }
+        //public bool AcceptUserInterMessagePush { get; set; }
         public string AppleNotificationToken { get; set; }
         public string GoogleNotificationToken { get; set; }
-        [NWDGroupEnd]
+        //[NWDGroupEnd]
 
-        [NWDGroupSeparator]
+        //[NWDGroupSeparator]
 
-        [NWDGroupStart("Game Options")]
-        public bool SFX { get; set; }
-        public float SFXVolume { get; set; }
-        public bool Music { get; set; }
-        public float MusicVolume { get; set; }
-        public NWDLocalizableStringType MusicVolumeLangu { get; set; }
-        [NWDGroupEnd]
+        //[NWDGroupStart("Game Options")]
+        //public bool SFX { get; set; }
+        //public float SFXVolume { get; set; }
+        //public bool Music { get; set; }
+        //public float MusicVolume { get; set; }
+        //public NWDLocalizableStringType MusicVolumeLangu { get; set; }
+        //[NWDGroupEnd]
 
-        [NWDGroupSeparator]
+        //[NWDGroupSeparator]
 
-        [NWDGroupStart("Last Game Informations")]
-        public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
-        public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
-        public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
+        //[NWDGroupStart("Last Game Informations")]
+        //public NWDReferenceType<NWDItem> LastItemUsedReference { get; set; }
+        //public NWDReferenceType<NWDItem> LastItemWinReference { get; set; }
+        //public NWDReferenceType<NWDItem> LastSpiritUsedReference { get; set; }
         #endregion
         //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         #region Constructors

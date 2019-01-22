@@ -222,7 +222,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.LogWarning("NWDGameSave Current() WANING !!! DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString());
+                Debug.LogWarning("<color=red>NWDGameSave Current() WARNING !!! DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString() +"</color>");
             }
             return rParty;
         }

@@ -139,7 +139,10 @@ namespace NetWorkedData
             if (Datas().ClassGameSaveDependent == true)
             {
                 NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
-                tAtt.SetReference(NWDGameSave.Current().Reference);
+                if (NWDGameSave.Current() != null)
+                {
+                    tAtt.SetReference(NWDGameSave.Current().Reference);
+                }
                 PropertyInfo tPropInfo = Datas().ClassGameDependentProperties;
                 tPropInfo.SetValue(this, tAtt, null);
             }

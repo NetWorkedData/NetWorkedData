@@ -209,7 +209,8 @@ namespace NetWorkedData
                 string tAccountPass = NWDAppConfiguration.SharedInstance().GetAccountPass();
                 string tEditorPass = NWDAppConfiguration.SharedInstance().GetEditorPass();
 
-                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment)
+                if (NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().DevEnvironment
+                || NWDAppEnvironment.SelectedEnvironment() == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     Debug.Log("ConnectToDatabase () tDatabasePathEditor : " + tDatabasePathEditor);
                     Debug.Log("ConnectToDatabase () tEditorPass : " + tEditorPass);

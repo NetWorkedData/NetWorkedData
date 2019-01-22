@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
 using BasicToolBox;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -390,7 +391,26 @@ namespace NetWorkedData
         /// </summary>
         void Awake()
         {
-            //Debug.Log("NWDGameDataManager Awake ()");
+            Debug.Log("NWDGameDataManager Awake ()");
+
+            SceneManager.sceneLoaded += OnSceneLoaded;
+
+            Debug.Log("<b>NWDGameDataManager Awake() </b>");
+            if (Application.isEditor == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                }
+                else
+                {
+                    Debug.Log("<b>NWDGameDataManager Awake()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                }
+            }
+            else
+            {
+                Debug.Log("<b>NWDGameDataManager Awake()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+            }
             //Debug.LogVerbose ("NWDGameDataManager Awake");
             //Check if there is already an instance
             if (kUnitySingleton == null)
@@ -418,18 +438,38 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On enable. call every times is necessary.
-        /// </summary>
-        //void OnEnable()
-        //{
-        //    base.OnEnable();
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Start this instance. Called once.
-        /// </summary>
-        void Start()
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log("<b>NWDGameDataManager Scene Loaded() </b>");
+            if (Application.isEditor == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> BUT <color=green>MODE PLAYER IS PLAYING</color>  ");
+                }
+                else
+                {
+                    Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=green>I AM IN EDITOR</color> AND <color=red>MODE PLAYER IS NOT PLAYING</color> ");
+                }
+            }
+            else
+            {
+                Debug.Log("<b>NWDGameDataManager Scene Loaded()</b> <color=r-red>I AM NOT IN EDITOR</color>");
+            }
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// On enable. call every times is necessary.
+            /// </summary>
+            //void OnEnable()
+            //{
+            //    base.OnEnable();
+            //}
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Start this instance. Called once.
+            /// </summary>
+            void Start()
         {
             //Debug.Log("NWDGameDataManager Start()");
             if (NWDTypeLauncher.DataLoaded == false)
