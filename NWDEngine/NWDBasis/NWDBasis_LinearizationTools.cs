@@ -37,15 +37,33 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool ModelChanged()
         {
-          bool rReturn = false;
+            bool rReturn = false;
             //Debug.Log("Datas().ClassType = " + Datas().ClassType.Name);
             int tLasBuild = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[Datas().ClassType];
-            string tToTest = NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild][Datas().ClassTableName];
-
-            if (SLQAssemblyOrder() != tToTest)
+            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tLasBuild))
             {
-                //Debug.LogWarning("THE MODELS CHANGED FROM THE PREVIEW DATAS WEBSERVICE!");
-                rReturn = true;
+                if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tLasBuild))
+                {
+                    if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild].ContainsKey(Datas().ClassTableName))
+                    {
+                        string tToTest = NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild][Datas().ClassTableName];
+                        if (SLQAssemblyOrder() != tToTest)
+                        {
+                            Debug.LogWarning("THE MODELS CHANGED FROM THE PREVIEW DATAS WEBSERVICE!");
+                            rReturn = true;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("THE MODELS CHANGED FOR UNKNOW CLASS!");
+                        rReturn = true;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("THE MODELS CHANGED FOR UNKNOW WEBSERVICE!");
+                    rReturn = true;
+                }
             }
             return rReturn;
         }
@@ -277,7 +295,30 @@ namespace NetWorkedData
                 rReturn.Insert(5, "ProdSync");
                 //rReturn.Add("WebServiceVersion");
                 rReturn.Add("Integrity");
-                kSLQAssemblyOrder[ClassID()] = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
+
+                // must prevent error in float, double, date, etc...
+                //kSLQAssemblyOrder[ClassID()] = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
+
+                string SLQAssemblyOrderToSelect = "***";
+                foreach (string tPropertyName in rReturn)
+                {
+                    PropertyInfo tPropertyInfo = ClassType().GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
+                    Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
+                    {
+                        SLQAssemblyOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as " + tPropertyName;
+                    }
+                    else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
+                    {
+                        SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as " + tPropertyName;
+                    }
+                    else
+                    {
+                        SLQAssemblyOrderToSelect += ", `" + tPropertyName + "`";
+                    }
+                }
+                SLQAssemblyOrderToSelect = SLQAssemblyOrderToSelect.Replace("***, ", "");
+                kSLQAssemblyOrder[ClassID()] = SLQAssemblyOrderToSelect;
             }
             return kSLQAssemblyOrder[ClassID()];
         }
@@ -293,7 +334,7 @@ namespace NetWorkedData
         public static List<string> SLQIntegrityOrder()
         {
 #if UNITY_EDITOR
-// never use the cache
+            // never use the cache
 #else
             if (kSLQIntegrityOrder.ContainsKey(ClassID()) == false)
 #endif
@@ -416,9 +457,9 @@ namespace NetWorkedData
         /// <returns>The instance from CS.</returns>
         /// <param name="sEnvironment">S environment.</param>
         /// <param name="sDataArray">S data array.</param>
-        private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment, 
-                                                  string[] sDataArray, 
-                                                  string sReference, 
+        private static NWDBasis<K> NewDataFromWeb(NWDAppEnvironment sEnvironment,
+                                                  string[] sDataArray,
+                                                  string sReference,
                                                   NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
         {
             // 
@@ -474,44 +515,44 @@ namespace NetWorkedData
                         Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                         break;
                 }
-                    bool tDoInsert = true;
-                    switch (sWritingMode)
-                    {
-                        case NWDWritingMode.MainThread:
-                            break;
-                        case NWDWritingMode.QueuedMainThread:
-                            if (NWDDataManager.SharedInstance().kInsertDataQueueMain.Contains(rReturnObject))
-                            {
-                                tDoInsert = false;
-                            }
-                            break;
-                        case NWDWritingMode.PoolThread:
-                            break;
-                        case NWDWritingMode.QueuedPoolThread:
-                            if (NWDDataManager.SharedInstance().kInsertDataQueuePool.Contains(rReturnObject))
-                            {
-                                tDoInsert = false;
-                            }
-                            break;
-                    }
-                    if (tDoInsert == true)
-                    {
-                        rReturnObject.WritingLockAdd();
-                        rReturnObject.WritingPending = NWDWritingPending.InsertInMemory;
-                        NWDDataManager.SharedInstance().InsertData(rReturnObject, sWritingMode);
-                    }
+                bool tDoInsert = true;
+                switch (sWritingMode)
+                {
+                    case NWDWritingMode.MainThread:
+                        break;
+                    case NWDWritingMode.QueuedMainThread:
+                        if (NWDDataManager.SharedInstance().kInsertDataQueueMain.Contains(rReturnObject))
+                        {
+                            tDoInsert = false;
+                        }
+                        break;
+                    case NWDWritingMode.PoolThread:
+                        break;
+                    case NWDWritingMode.QueuedPoolThread:
+                        if (NWDDataManager.SharedInstance().kInsertDataQueuePool.Contains(rReturnObject))
+                        {
+                            tDoInsert = false;
+                        }
+                        break;
                 }
+                if (tDoInsert == true)
+                {
+                    rReturnObject.WritingLockAdd();
+                    rReturnObject.WritingPending = NWDWritingPending.InsertInMemory;
+                    NWDDataManager.SharedInstance().InsertData(rReturnObject, sWritingMode);
+                }
+            }
             //BTBBenchmark.Finish();
             //Data waiting for queue to finish the process
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
 
-#endregion
+        #endregion
 
         //-------------------------------------------------------------------------------------------------------------
 
-#region Instance Methods
+        #region Instance Methods
 
         public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
                                       string[] sDataArray,
@@ -826,9 +867,9 @@ namespace NetWorkedData
             else
             {
                 rReturngBuilder.Append(Reference);
-                rReturngBuilder.Append(DM); 
+                rReturngBuilder.Append(DM);
             }
-                //string rReturn = string.Empty;
+            //string rReturn = string.Empty;
             Type tType = ClassType();
             List<string> tPropertiesList = DataAssemblyPropertiesList();
 
@@ -966,7 +1007,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 
-#endregion
+        #endregion
 
 
         // TODO : Create WebService memorize

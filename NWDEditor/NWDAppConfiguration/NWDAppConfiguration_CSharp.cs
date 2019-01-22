@@ -428,7 +428,7 @@ namespace NetWorkedData
                         tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
                         foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
-                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value + "\");\n";
+                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value.Replace("\"","\\\"") + "\");\n";
                         }
                     }
                 }
