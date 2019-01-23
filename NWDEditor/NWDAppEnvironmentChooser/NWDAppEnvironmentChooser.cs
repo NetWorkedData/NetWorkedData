@@ -34,10 +34,10 @@ namespace NetWorkedData
 		/// Draw window on GUI event.
 		/// </summary>
 		public void OnGUI ()
-		{
-
+        {
+            NWDConstants.LoadStyles();
             // set the size (min/max)
-			this.minSize = new Vector2 (300, 150);
+            this.minSize = new Vector2 (300, 150);
 			this.maxSize = new Vector2 (300, 4096);
             // set title of window
             if (IconAndTitle == null)
@@ -120,6 +120,9 @@ namespace NetWorkedData
             NWDAccount tAccount = NWDAccount.CurrentAccount();
             if (tAccount != null)
             {
+                GUILayout.Label("Account informations", NWDConstants.kBoldLabelStyle);
+                EditorGUI.indentLevel++;
+
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE, tAccount.Reference);
                 EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY, tAccount.InternalKey);
                 if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT))
@@ -134,18 +137,57 @@ namespace NetWorkedData
                         NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                     }
                 }
-                string tGameSaveReference = NWDGameSave.CurrentForAccount(tAccount.Reference).Reference;
-                EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
 
-                if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+                EditorGUI.indentLevel--;
+                GUILayout.Label("AccountInfos informations", NWDConstants.kBoldLabelStyle);
+                EditorGUI.indentLevel++;
+
+                string tAccountInfosReference = "?";
+                if (NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null) != null)
                 {
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                    NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
+                    tAccountInfosReference = tAccountInfos.Reference;
+                    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, tAccountInfosReference);
+
+                    if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_SELECT))
                     {
-                        NWDDatas.FindTypeInfos(tType).m_SearchGameSave = tGameSaveReference;
-                        NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                        NWDDataInspector.InspectNetWorkedData(tAccountInfos, true, true);
                     }
                 }
-            
+                else
+                {
+                    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE, "ERROR NO ACCOUNT INFOS");
+                }
+
+                EditorGUI.indentLevel--;
+                GUILayout.Label("GameSave informations", NWDConstants.kBoldLabelStyle);
+                EditorGUI.indentLevel++;
+
+                string tGameSaveReference = "?";
+                if (NWDGameSave.CurrentForAccount(tAccount.Reference) != null)
+                {
+                    NWDGameSave tGameSave = NWDGameSave.CurrentForAccount(tAccount.Reference);
+                    tGameSaveReference = tGameSave.Reference;
+                    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, tGameSaveReference);
+                    if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER))
+                    {
+                        foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
+                        {
+                            NWDDatas.FindTypeInfos(tType).m_SearchGameSave = tGameSaveReference;
+                            NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
+                        }
+                    }
+                    if (GUILayout.Button(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_SELECT))
+                    {
+                        NWDDataInspector.InspectNetWorkedData(tGameSave, true, true);
+                    }
+                }
+                else
+                {
+                    EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE, "ERROR NO GAMESAVE");
+                }
+
+                EditorGUI.indentLevel--;
             }
 		}
 		//-------------------------------------------------------------------------------------------------------------

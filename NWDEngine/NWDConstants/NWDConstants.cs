@@ -181,12 +181,15 @@ namespace NetWorkedData
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";
-        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Reference";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_REFERENCE = "Account Ref";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_INTERNALKEY = "Account Internal Key";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_SELECT = "Account Select";
         public const string K_ENVIRONMENT_CHOOSER_ACCOOUNT_FILTER = "Account Filter";
-        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE = "GameSave Reference";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_REFERENCE = "AccountInfos Ref";
+        public const string K_ENVIRONMENT_CHOOSER_ACCOUNTINFOS_SELECT = "AccountInfos Select";
+        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_REFERENCE = "GameSave Ref";
         public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_FILTER = "GameSave Filter";
+        public const string K_ENVIRONMENT_CHOOSER_GAMESAVE_SELECT = "GameSave Select";
 
         //-------------------------------------------------------------------------------------------------------------
         // App Configurations Strings

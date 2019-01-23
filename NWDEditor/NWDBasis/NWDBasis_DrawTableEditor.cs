@@ -338,27 +338,46 @@ namespace NetWorkedData
                     tOccurence = false;
                 }
 
-                if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
+                if (Datas().ClassType!= typeof(NWDAccount))
+                    {
+                    if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
+                    {
+                        if (Datas().m_SearchAccount == "-=-") // empty
+                        {
+                            if (tObject.VisibleByAccountByEqual(string.Empty) == false)
+                            {
+                                tOccurence = false;
+                            }
+                        }
+                        else if (Datas().m_SearchAccount == "-+-") // not empty
+                        {
+                            if (tObject.VisibleByAccountByEqual(string.Empty) == true)
+                            {
+                                tOccurence = false;
+                            }
+                        }
+                        else
+                        {
+                            if (tObject.VisibleByAccount(Datas().m_SearchAccount) == false)
+                            {
+                                tOccurence = false;
+                            }
+                        }
+                    }
+                }
+                else
                 {
-                    if (Datas().m_SearchAccount == "-=-") // empty
+                    if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
                     {
-                        if (tObject.VisibleByAccountByEqual(string.Empty) == false)
+                        if (Datas().m_SearchAccount == "-=-") // empty
                         {
-                            tOccurence = false;
                         }
-                    }
-                    else if(Datas().m_SearchAccount == "-+-") // not empty
-                    {
-                        if (tObject.VisibleByAccountByEqual(string.Empty) == true)
+                        else if (Datas().m_SearchAccount == "-+-") // not empty
                         {
-                            tOccurence = false;
                         }
-                    }
-                    else
-                    {
-                        if (tObject.VisibleByAccount(Datas().m_SearchAccount) == false)
-                        {
-                            tOccurence = false;
+                        else if (tObject.Reference != Datas().m_SearchAccount)
+                            {
+                                tOccurence = false;
                         }
                     }
                 }
