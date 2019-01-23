@@ -55,11 +55,11 @@ namespace NetWorkedData
 		{
             if (sStart<=sEnd)
             {
-                Value = sStart.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA + sEnd.ToString(NWDConstants.FloatFormat);
+                Value = sStart.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + sEnd.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
             }
             else
             {
-                Value = sEnd.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA + sStart.ToString(NWDConstants.FloatFormat); 
+                Value = sEnd.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + sStart.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry); 
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -79,8 +79,8 @@ namespace NetWorkedData
             float tStart =0.0F;
             float tEnd = 0.0F;
 			if (tFloats.Count() == 2) {
-                float.TryParse(tFloats [0], out tStart);
-                float.TryParse(tFloats [1], out tEnd);
+                float.TryParse(tFloats [0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tStart);
+                float.TryParse(tFloats [1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tEnd);
             }
             float[] rReturn = new float[] { tStart, tEnd };
 			return rReturn;

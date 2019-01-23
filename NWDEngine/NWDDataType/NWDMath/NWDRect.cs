@@ -56,10 +56,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetRect(Rect sRect)
         {
-            Value = sRect.x.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                    sRect.y.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                         sRect.height.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                         sRect.width.ToString(NWDConstants.FloatFormat);
+            Value = sRect.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sRect.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                         sRect.height.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                         sRect.width.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Rect GetRect()
@@ -71,10 +71,10 @@ namespace NetWorkedData
             float tWidth = 0.0F;
             if (tFloats.Count() == 4)
             {
-                float.TryParse(tFloats[0], out tX);
-                float.TryParse(tFloats[1], out tY);
-                float.TryParse(tFloats[2], out tHeight);
-                float.TryParse(tFloats[3], out tWidth);
+                float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+                float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
+                float.TryParse(tFloats[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tHeight);
+                float.TryParse(tFloats[3], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tWidth);
             }
             Rect rReturn = new Rect(tX, tY, tHeight, tWidth);
             return rReturn;

@@ -28,7 +28,8 @@ namespace NetWorkedData
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------
-        public static CultureInfo FormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
+        //public static CultureInfo FormatCountry = CultureInfo.CreateSpecificCulture("en-EN");
+        public static CultureInfo FormatCountry = CultureInfo.InvariantCulture;
         public static string FloatFormat = "F5";
         public static string FloatSQLFormat = "5";
         //-------------------------------------------------------------------------------------------------------------

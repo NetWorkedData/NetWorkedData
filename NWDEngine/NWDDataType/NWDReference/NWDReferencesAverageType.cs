@@ -46,15 +46,15 @@ namespace NetWorkedData
             string[] tValueArray = sString.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
             if (tValueArray.Length > 0)
             {
-                float.TryParse(tValueArray[0], out Total);
+                float.TryParse(tValueArray[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Total);
             }
             if (tValueArray.Length > 1)
             {
-                float.TryParse(tValueArray[1], out Counter);
+                float.TryParse(tValueArray[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Counter);
             }
             if (tValueArray.Length > 2)
             {
-                float.TryParse(tValueArray[2], out Average);
+                float.TryParse(tValueArray[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Average);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -65,9 +65,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Total.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorC +
-                        Counter.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorC +
-                        Average.ToString(NWDConstants.FloatFormat);
+            return Total.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
+                        Counter.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
+                        Average.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddValue(float sValue)

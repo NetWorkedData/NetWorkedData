@@ -56,8 +56,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector2 sVector)
         {
-            Value = sVector.x.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                    sVector.y.ToString(NWDConstants.FloatFormat);
+            Value = sVector.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector2 GetVector()
@@ -67,8 +67,8 @@ namespace NetWorkedData
             float tY = 0.0F;
             if (tFloats.Count() == 2)
             {
-                float.TryParse(tFloats[0], out tX);
-                float.TryParse(tFloats[1], out tY);
+                float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+                float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
             }
             Vector2 rReturn = new Vector2(tX, tY);
             return rReturn;

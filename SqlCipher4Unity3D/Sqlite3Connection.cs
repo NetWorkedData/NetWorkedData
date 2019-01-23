@@ -1721,6 +1721,10 @@ namespace SQLite4Unity3d
             {
                 return BTBDataTypeInt.SQLType;
             }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+            {
+                return BTBDataTypeFloat.SQLType;
+            }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
             throw new NotSupportedException("Don't know about " + clrType);
@@ -2041,7 +2045,16 @@ namespace SQLite4Unity3d
                 {
                     tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeInt;
                 }
-                return SQLite3.BindDouble(stmt, index, tValue.ToLong());
+                return SQLite3.BindInt64(stmt, index, tValue.ToLong());
+            }
+            if (value.GetType().IsSubclassOf(typeof(BTBDataTypeFloat)))
+            {
+                BTBDataTypeFloat tValue = (BTBDataTypeFloat)value;
+                if (tValue == null)
+                {
+                    tValue = Activator.CreateInstance(value.GetType()) as BTBDataTypeFloat;
+                }
+                return SQLite3.BindDouble(stmt, index, tValue.ToDouble());
             }
             //---------- ADD IDEMOBI FINISH ------------
             //------------------------------------------
@@ -2116,6 +2129,12 @@ namespace SQLite4Unity3d
             {
                 BTBDataTypeInt tObject = Activator.CreateInstance(clrType) as BTBDataTypeInt;
                 tObject.SetLong(SQLite3.ColumnInt64(stmt, index));
+                return tObject;
+            }
+            if (clrType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+            {
+                BTBDataTypeFloat tObject = Activator.CreateInstance(clrType) as BTBDataTypeFloat;
+                tObject.SetDouble(SQLite3.ColumnDouble(stmt, index));
                 return tObject;
             }
             //---------- ADD IDEMOBI FINISH ------------

@@ -112,12 +112,15 @@ namespace NetWorkedData
                     if (tPart != null)
                     {
                         rParty = tPart;
-                        if (tAccountInfos.CurrentGameSave == null)
+                        if (tAccountInfos != null)
                         {
-                            tAccountInfos.CurrentGameSave = new NWDReferenceFreeType<NWDGameSave>();
+                            if (tAccountInfos.CurrentGameSave == null)
+                            {
+                                tAccountInfos.CurrentGameSave = new NWDReferenceFreeType<NWDGameSave>();
+                            }
+                            tAccountInfos.CurrentGameSave.SetReference(rParty.Reference);
+                            tAccountInfos.SaveData();
                         }
-                        tAccountInfos.CurrentGameSave.SetReference(rParty.Reference);
-                        tAccountInfos.SaveData();
                         break;
                     }
                 }

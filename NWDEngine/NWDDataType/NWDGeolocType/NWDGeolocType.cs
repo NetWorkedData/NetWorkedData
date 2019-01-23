@@ -71,8 +71,8 @@ namespace NetWorkedData
 			float tLatitude = 0;
 			float tLongitude = 0;
 			if (tVect.Length == 2) {
-				float.TryParse (tVect [0], out tLatitude);
-				float.TryParse (tVect [1], out tLongitude);
+				float.TryParse (tVect [0],System.Globalization.NumberStyles.Float,NWDConstants.FormatCountry, out tLatitude);
+				float.TryParse (tVect [1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tLongitude);
 			}
 			return new Vector2 (tLatitude, tLongitude);
 		}
@@ -136,7 +136,7 @@ namespace NetWorkedData
 			GUI.Label (new Rect (tX, sPos.y + tHeight * 2, sPos.width - EditorGUIUtility.labelWidth, sPos.height), "Longitude");
 			float tLongitude = EditorGUI.FloatField (new Rect (tX, sPos.y + tHeight * 3, sPos.width - EditorGUIUtility.labelWidth, sPos.height), tLatitudeLongitude.y);
 
-			tTemporary.Value = tLatitude + NWDConstants.kFieldSeparatorA + tLongitude;
+			tTemporary.Value = tLatitude.ToString(NWDConstants.FloatFormat,NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + tLongitude.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
 
             // move EditorGUI.indentLevel to draw next controller with indent 
             EditorGUI.indentLevel = tIndentLevel;

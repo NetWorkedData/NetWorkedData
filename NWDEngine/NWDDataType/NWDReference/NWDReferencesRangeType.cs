@@ -46,11 +46,11 @@ namespace NetWorkedData
             string[] tValueArray = sString.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
             if (tValueArray.Length > 0)
             {
-                float.TryParse(tValueArray[0], out Min);
+                float.TryParse(tValueArray[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Min);
             }
             if (tValueArray.Length > 1)
             {
-                float.TryParse(tValueArray[1], out Max);
+                float.TryParse(tValueArray[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Max);
             }
             //if (tValueArray.Length > 2)
             //{
@@ -65,8 +65,8 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Min.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorC +
-                      Max.ToString(NWDConstants.FloatFormat);
+            return Min.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
+                      Max.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
                       //+ NWDConstants.kFieldSeparatorC +
                         //Average.ToString("F5");
         }

@@ -692,6 +692,14 @@ namespace NetWorkedData
                         tObject.SetLong(tTemp);
                         tPropertyInfo.SetValue(this, tObject, null);
                     }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                    {
+                        BTBDataTypeFloat tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeFloat;
+                        double tTemp = 0;
+                        double.TryParse(tValueString, out tTemp);
+                        tObject.SetDouble(tTemp);
+                        tPropertyInfo.SetValue(this, tObject, null);
+                    }
                     // Do for Standard type
                     else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                     {
@@ -923,6 +931,10 @@ namespace NetWorkedData
                     {
                         tValueString = tValue.ToString();
                     }
+                    else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                    {
+                        tValueString = tValue.ToString();
+                    }
                     // Do for Standard type
                     else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                     {
@@ -944,24 +956,24 @@ namespace NetWorkedData
                     else if (tTypeOfThis == typeof(int))
                     {
                         int tInt = (int)tValue;
-                        tValueString = tInt.ToString();
+                        tValueString = tInt.ToString(NWDConstants.FormatCountry);
                     }
                     else if (tTypeOfThis == typeof(long))
                     {
                         long tFloat = (long)tValue;
-                        tValueString = tFloat.ToString();
+                        tValueString = tFloat.ToString(NWDConstants.FormatCountry);
                         //Debug.Log("tValueString long" + tFloat + "=> " + tValueString);
                     }
                     else if (tTypeOfThis == typeof(float))
                     {
                         float tFloat = (float)tValue;
-                        tValueString = tFloat.ToString(NWDConstants.FloatFormat);
+                        tValueString = tFloat.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
                         //Debug.Log("tValueString float" + tFloat+ "=> " + tValueString);
                     }
                     else if (tTypeOfThis == typeof(double))
                     {
                         double tDouble = (double)tValue;
-                        tValueString = tDouble.ToString(NWDConstants.FloatFormat);
+                        tValueString = tDouble.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
                         //Debug.Log("tValueString double" + tDouble + "=> " + tValueString);
                     }
                     else

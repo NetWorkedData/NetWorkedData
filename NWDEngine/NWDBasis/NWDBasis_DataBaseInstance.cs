@@ -232,6 +232,10 @@ namespace NetWorkedData
                 {
                     // int is default 0, not null!
                 }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                {
+                    // int is default 0, not null!
+                }
             }
         }
         //-------------------------------------------------------------------------------------------------------------

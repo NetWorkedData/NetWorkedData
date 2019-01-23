@@ -507,14 +507,17 @@ namespace NetWorkedData
                                     BTBDataTypeInt tBTBDataType = (BTBDataTypeInt)tValue;
                                     float tHeight = tBTBDataType.ControlFieldHeight();
                                     tY += tHeight + NWDConstants.kFieldMarge;
-
-                                    //                                    float tHeight = 0.0f;
-                                    //                                    var tMethodInfo = tTypeOfThis.GetMethod ("ControlFieldHeight", BindingFlags.Public | BindingFlags.Instance);
-                                    //                                    if (tMethodInfo != null) {
-                                    //                                        string tHeightString = tMethodInfo.Invoke (tValue, null) as string;
-                                    //                                        float.TryParse (tHeightString, out tHeight);
-                                    //                                    }
-                                    //                                    tY += tHeight + NWDConstants.kFieldMarge;
+                                }
+                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                                {
+                                    var tValue = tProp.GetValue(this, null);
+                                    if (tValue == null)
+                                    {
+                                        tValue = Activator.CreateInstance(tTypeOfThis);
+                                    }
+                                    BTBDataTypeFloat tBTBDataType = (BTBDataTypeFloat)tValue;
+                                    float tHeight = tBTBDataType.ControlFieldHeight();
+                                    tY += tHeight + NWDConstants.kFieldMarge;
                                 }
                                 else
                                 {
@@ -1062,6 +1065,29 @@ namespace NetWorkedData
                                     BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
                                     BTBDataTypeInt tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
                                                                                              tEntitled, tToolsTips) as BTBDataTypeInt;
+
+                                    if (tBTBDataTypeNext.Value != tBTBDataType.Value)
+                                    {
+                                        //Debug.Log("change in "+tTypeOfThis.Name);
+                                        tProp.SetValue(this, tBTBDataTypeNext, null);
+                                        rNeedBeUpdate = true;
+
+                                        NWDNodeEditor.ReAnalyzeIfNecessary(this);
+                                    }
+                                    float tHeight = tBTBDataType.ControlFieldHeight();
+                                    tY += tHeight + NWDConstants.kFieldMarge;
+
+                                }
+                                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                                {
+                                    var tValue = tProp.GetValue(this, null);
+                                    if (tValue == null)
+                                    {
+                                        tValue = Activator.CreateInstance(tTypeOfThis);
+                                    }
+                                    BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
+                                    BTBDataTypeFloat tBTBDataTypeNext = tBTBDataType.ControlField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
+                                                                                             tEntitled, tToolsTips) as BTBDataTypeFloat;
 
                                     if (tBTBDataTypeNext.Value != tBTBDataType.Value)
                                     {
@@ -2009,6 +2035,18 @@ namespace NetWorkedData
                     if (tValue != null)
                     {
                         BTBDataTypeInt tBTBDataType = tValue as BTBDataTypeInt;
+                        if (tBTBDataType.IsInError() == true)
+                        {
+                            tNewValue = true;
+                        }
+                    }
+                }
+                if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                {
+                    var tValue = tProp.GetValue(this, null);
+                    if (tValue != null)
+                    {
+                        BTBDataTypeFloat tBTBDataType = tValue as BTBDataTypeFloat;
                         if (tBTBDataType.IsInError() == true)
                         {
                             tNewValue = true;

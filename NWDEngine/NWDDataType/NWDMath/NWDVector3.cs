@@ -56,9 +56,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector3 sVector)
         {
-            Value = sVector.x.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                    sVector.y.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                    sVector.z.ToString(NWDConstants.FloatFormat);
+            Value = sVector.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.z.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector3 GetVector()
@@ -69,9 +69,9 @@ namespace NetWorkedData
             float tZ = 0.0F;
             if (tFloats.Count() == 3)
             {
-                float.TryParse(tFloats[0], out tX);
-                float.TryParse(tFloats[1], out tY);
-                float.TryParse(tFloats[2], out tZ);
+                float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+                float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
+                float.TryParse(tFloats[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tZ);
             }
             Vector3 rReturn = new Vector3(tX, tY, tZ);
             return rReturn;

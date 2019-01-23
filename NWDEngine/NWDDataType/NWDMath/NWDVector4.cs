@@ -56,10 +56,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector4 sVector)
         {
-            Value = sVector.x.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                    sVector.y.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                    sVector.z.ToString(NWDConstants.FloatFormat) + NWDConstants.kFieldSeparatorA +
-                           sVector.w.ToString(NWDConstants.FloatFormat);
+            Value = sVector.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                    sVector.z.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+                           sVector.w.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector4 GetVector()
@@ -71,10 +71,10 @@ namespace NetWorkedData
             float tW = 0.0F;
             if (tFloats.Count() == 4)
             {
-                float.TryParse(tFloats[0], out tX);
-                float.TryParse(tFloats[1], out tY);
-                float.TryParse(tFloats[2], out tZ);
-                float.TryParse(tFloats[3], out tW);
+                float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+                float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
+                float.TryParse(tFloats[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tZ);
+                float.TryParse(tFloats[3], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tW);
             }
             Vector4 rReturn = new Vector4(tX, tY, tZ, tW);
             return rReturn;

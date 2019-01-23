@@ -671,6 +671,10 @@ namespace NetWorkedData
                     {
                         columnNamesFinalList.Add("`" + tName + "`");
                     }
+                    else if (tColumnType.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                    {
+                        columnNamesFinalList.Add("`" + tName + "`");
+                    }
                     else if (tColumnType == typeof(string))
                     {
                         columnNamesFinalList.Add("`" + tName + "`(24)");

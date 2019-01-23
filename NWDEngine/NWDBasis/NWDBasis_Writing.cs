@@ -270,9 +270,17 @@ namespace NetWorkedData
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
                 {
                     BTBDataTypeInt tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeInt;
-                    int tTempInt = 0;
-                    int.TryParse(tValueString, out tTempInt);
+                    long tTempInt = 0;
+                    long.TryParse(tValueString, out tTempInt);
                     tTemp.SetLong(tTempInt);
+                    tPropertyInfo.SetValue(this, tTemp, null);
+                }
+                else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+                {
+                    BTBDataTypeFloat tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataTypeFloat;
+                    double tTempDouble = 0;
+                    double.TryParse(tValueString, out tTempDouble);
+                    tTemp.SetDouble(tTempDouble);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))

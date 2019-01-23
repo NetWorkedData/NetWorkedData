@@ -348,7 +348,7 @@ namespace NetWorkedData
             List<string> tValueList = new List<string>();
             foreach (KeyValuePair<string, int> tKeyValue in sDico)
             {
-                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString());
+                tValueList.Add(tKeyValue.Key + NWDConstants.kFieldSeparatorB + tKeyValue.Value.ToString(NWDConstants.FormatCountry));
             }
             string[] tNextValueArray = tValueList.Distinct().ToArray();
             string tNextValue = string.Join(NWDConstants.kFieldSeparatorA, tNextValueArray);
@@ -368,7 +368,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
+                        int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                         tValueDico.Add(tLineValue[0], tQ);
                     }
                 }
@@ -388,7 +388,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
+                        int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                         K tObject = NWDBasis<K>.FindDataByReference(tLineValue[0], sAccountReference) as K;
                         if (tObject != null)
                         {
@@ -412,7 +412,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
+                        int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                         K tObject = NWDBasis<K>.GetDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
@@ -455,7 +455,7 @@ namespace NetWorkedData
                     if (tLineValue.Length == 2)
                     {
                         int tQ = 0;
-                        int.TryParse(tLineValue[1], out tQ);
+                        int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                         K tObject = NWDBasis<K>.FindDataByReference(tLineValue[0]) as K;
                         if (tObject != null)
                         {
@@ -668,7 +668,7 @@ namespace NetWorkedData
                 {
                     tV = tLineValue[0];
                     tIndex = tReferenceList.IndexOf(tV);
-                    int.TryParse(tLineValue[1], out tQ);
+                    int.TryParse(tLineValue[1], System.Globalization.NumberStyles.Integer, NWDConstants.FormatCountry, out tQ);
                 }
 
                 tIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth - tIntWidth - tEditWidth - NWDConstants.kFieldMarge * 3, NWDConstants.kPopupdStyle.fixedHeight), tContent, tIndex, tContentFuturList.ToArray(), NWDConstants.kPopupdStyle);
@@ -730,7 +730,7 @@ namespace NetWorkedData
                     //if (tQ != 0) {
                     if (!tValueListReferenceAllReady.Contains(tReferenceList.ElementAt(tIndex)))
                     {
-                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString();
+                        tValueList[i] = tReferenceList.ElementAt(tIndex) + NWDConstants.kFieldSeparatorB + tQ.ToString(NWDConstants.FormatCountry);
                         tValueListReferenceAllReady.Add(tReferenceList.ElementAt(tIndex));
                     }
                 }
