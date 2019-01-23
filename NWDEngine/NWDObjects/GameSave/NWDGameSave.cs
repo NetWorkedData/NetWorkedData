@@ -185,7 +185,7 @@ namespace NetWorkedData
             NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
             if (tAccountInfos != null)
             {
-                tAccountInfos.CurrentGameSave = rGameSave.Reference;
+                tAccountInfos.CurrentGameSave.SetReference(rGameSave.Reference);
                 tAccountInfos.SaveData();
             }
             rGameSave.SaveData();
@@ -199,76 +199,77 @@ namespace NetWorkedData
         {
             NWDGameSave rParty = null;
             NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
-
             if (tAccountInfos != null)
             {
-                NWDGameSave tParty = NWDGameSave.FindDataByReference(tAccountInfos.CurrentGameSave);
-                if (tParty != null)
+                if (tAccountInfos.CurrentGameSave != null)
                 {
-                    rParty = tParty;
+                    NWDGameSave tParty = NWDGameSave.FindDataByReference(tAccountInfos.CurrentGameSave.GetReference());
+                    if (tParty != null)
+                    {
+                        rParty = tParty;
+                    }
+                }
+                else
+                {
                 }
             }
-
             if (rParty == null)
             {
-                NWDGameSave[] tParties = NWDGameSave.FindDatas();
+                NWDGameSave[] tParties = NWDGameSave.FindDatas(NWDAccount.GetCurrentAccountReference(), null);
                 foreach (NWDGameSave tPart in tParties)
                 {
-                    if (tPart!=null)
+                    if (tPart != null)
                     {
                         rParty = tPart;
-                        tAccountInfos.CurrentGameSave = rParty.Reference;
+                        if (tAccountInfos.CurrentGameSave == null)
+                        {
+                            tAccountInfos.CurrentGameSave = new NWDReferenceFreeType<NWDGameSave>();
+                        }
+                        tAccountInfos.CurrentGameSave.SetReference(rParty.Reference);
                         tAccountInfos.SaveData();
                         break;
                     }
                 }
             }
-
             if (rParty == null)
             {
                 rParty = NewCurrent();
             }
-
-
-
-
-
-
-                /*
-                NWDGameSave rParty = kCurrentGameSave;
-                if (NWDTypeLauncher.DataLoaded == true)
+            /*
+            NWDGameSave rParty = kCurrentGameSave;
+            if (NWDTypeLauncher.DataLoaded == true)
+            {
+                Debug.Log("NWDGameSave Current() OK DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString());
+                if (rParty != null)
                 {
-                    Debug.Log("NWDGameSave Current() OK DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString());
-                    if (rParty != null)
+                    if (rParty.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
                     {
-                        if (rParty.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
-                        {
-                            // Gamesave is reacheable, return the Gamesave
-                            return rParty;
-                        }
-
-                        // Set Gamesave to null
-                        rParty = null;
+                        // Gamesave is reacheable, return the Gamesave
+                        return rParty;
                     }
 
+                    // Set Gamesave to null
+                    rParty = null;
+                }
+
+                if (rParty == null)
+                {
+                    // Get last Gamesave or create a new one
+                    rParty = CurrentForAccount(NWDAccount.GetCurrentAccountReference());
                     if (rParty == null)
                     {
-                        // Get last Gamesave or create a new one
-                        rParty = CurrentForAccount(NWDAccount.GetCurrentAccountReference());
-                        if (rParty == null)
-                        {
-                            // Possible error, create a new Gamesabe
-                            rParty = NewCurrent();
-                        }
+                        // Possible error, create a new Gamesabe
+                        rParty = NewCurrent();
                     }
-
-                    kCurrentGameSave = rParty;
                 }
-                else
-                {
-                    Debug.LogWarning("<color=red>NWDGameSave Current() WARNING !!! DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString() +"</color>");
-                }*/
-                return rParty;
+
+                kCurrentGameSave = rParty;
+            }
+            else
+            {
+                Debug.LogWarning("<color=red>NWDGameSave Current() WARNING !!! DataLoaded = " + NWDTypeLauncher.DataLoaded.ToString() +"</color>");
+            }*/
+            return rParty;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static NWDGameSave CurrentForAccount(string sAccountReference)
@@ -319,7 +320,11 @@ namespace NetWorkedData
             NWDAccountInfos tAccountInfos = NWDAccountInfos.GetAccountInfosOrCreate();
             if (tAccountInfos != null)
             {
-                tAccountInfos.CurrentGameSave = Reference;
+                if (tAccountInfos.CurrentGameSave == null)
+                {
+                    tAccountInfos.CurrentGameSave = new NWDReferenceFreeType<NWDGameSave>();
+                }
+                tAccountInfos.CurrentGameSave.SetReference(Reference);
                 tAccountInfos.SaveData();
             }
             IsCurrent = true;

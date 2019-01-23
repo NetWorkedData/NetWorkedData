@@ -241,7 +241,7 @@ namespace NetWorkedData
                 if (AccountDependent() == true)
                 {
                     //Debug.Log("##### NEED CHANGE THE ACCOUNT "+Reference + " Old integrity = "+ Integrity);
-                    foreach (PropertyInfo tProp in PropertiesAccountConnect())
+                    foreach (PropertyInfo tProp in PropertiesAccountConnected())
                     {
                         NWDReferenceType<NWDAccount> tObject = tProp.GetValue(this, null) as NWDReferenceType<NWDAccount>;
                         if (tObject != null)

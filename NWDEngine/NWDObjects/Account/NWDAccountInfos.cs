@@ -45,13 +45,34 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDAppEnvironmentPlayerStatut AccountType { get; set; }
-        public NWDReferenceType<NWDAccountAvatar> Avatar { get; set; }
-        public NWDReferenceType<NWDAccountNickname> Nickname { get; set; }
-        public string CurrentGameSave  { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDAppEnvironmentPlayerStatut AccountType
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDAccountAvatar> Avatar
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDAccountNickname> Nickname
+        {
+            get; set;
+        }
+        public NWDReferenceFreeType<NWDGameSave> CurrentGameSave
+        {
+            get; set;
+        }
+        public string FirstName
+        {
+            get; set;
+        }
+        public string LastName
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         //[NWDGroupSeparator]
@@ -63,14 +84,23 @@ namespace NetWorkedData
         [NWDGroupSeparator]
 
         [NWDGroupStart("Push notification Options")]
-        public NWDOperatingSystem OSLastSignIn { get; set; }
+        public NWDOperatingSystem OSLastSignIn
+        {
+            get; set;
+        }
         //public bool AcceptTradePush { get; set; }
         //public bool AcceptBarterPush { get; set; }
         //public bool AcceptShopPush { get; set; }
         //public bool AcceptRelationshipPush { get; set; }
         //public bool AcceptUserInterMessagePush { get; set; }
-        public string AppleNotificationToken { get; set; }
-        public string GoogleNotificationToken { get; set; }
+        public string AppleNotificationToken
+        {
+            get; set;
+        }
+        public string GoogleNotificationToken
+        {
+            get; set;
+        }
         //[NWDGroupEnd]
 
         //[NWDGroupSeparator]
@@ -107,33 +137,37 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        private static NWDAccountInfos kCurrent = null;
+        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Get active account information
         /// </summary>
         public static NWDAccountInfos GetAccountInfosOrCreate()
         {
-            List<NWDAccountInfos> tAccountsInfos = FindDatas().ToList();
-            Debug.Log("GetAccountInfosOrCreate() nbr of Entry: " + tAccountsInfos.Count);
-            if (tAccountsInfos.Count == 0)
+            if (kCurrent != null)
             {
-                NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
-
-                NWDAccountInfos tAccountInfos = null;
-                tAccountInfos = NewData();
-                tAccountInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
-                //tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
-                tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
-                tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
-                tAccountInfos.SaveData();
-
-                return tAccountInfos;
+                if (kCurrent.Account.GetReference() != NWDAccount.GetCurrentAccountReference())
+                {
+                    kCurrent = null;
+                }
             }
-            else if (tAccountsInfos.Count > 1)
+            if (kCurrent != null)
             {
-                tAccountsInfos.Sort((x, y) => x.DC.CompareTo(y.DC));
+                NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData();
+                if (tAccountInfos == null)
+                {
+                    NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
+                    tAccountInfos = NewData();
+                    tAccountInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
+                    //tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
+                    tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
+                    tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
+                    tAccountInfos.SaveData();
+
+                    kCurrent = tAccountInfos;
+                }
             }
-            
-            return tAccountsInfos[0];
+            return kCurrent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SetAccountType(NWDAppEnvironmentPlayerStatut tStatus)
@@ -182,25 +216,9 @@ namespace NetWorkedData
             if (UpdateDataIfModified())
             {
                 // TODO send to server immediatly
-                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>(){typeof(NWDAccountInfos) }, true);
+                NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDAccountInfos) }, true);
             }
         }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Get Account type of active user
-        /// </summary>
-        //public static NWDAppEnvironmentPlayerStatut GetUserStatut(NWDAccountInfos user)
-        //{
-        //    NWDAppEnvironmentPlayerStatut rPlayerStatut = NWDAppEnvironmentPlayerStatut.Unknow;
-        //    if (user != null)
-        //    {
-        //        Debug.Log("--GetUserStatut : " + user.AccountType.ToString());
-        //        //rPlayerStatut = (NWDAppEnvironmentPlayerStatut)Enum.Parse(typeof(NWDAppEnvironmentPlayerStatut), user.AccountType, true);
-        //        rPlayerStatut = user.AccountType;
-        //    }
-
-        //    return rPlayerStatut;
-        //}
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

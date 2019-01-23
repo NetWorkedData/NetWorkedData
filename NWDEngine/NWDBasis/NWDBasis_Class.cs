@@ -642,6 +642,7 @@ namespace NetWorkedData
 
             Datas().ClassGameSaveDependent = false;
             Datas().ClassGameDependentProperties = null;
+            Datas().GameSaveMethod = null;
             // TODO : check 
             // exception for NWDAccount table
             if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken))
@@ -672,14 +673,19 @@ namespace NetWorkedData
                             {
                                 Datas().ClassGameSaveDependent = true;
                                 Datas().ClassGameDependentProperties = tProp;
-
                                 MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
                                 Datas().GameSaveMethod = tGameSaveMethod;
                             }
                         }
-                        else if (tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
-                                 || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
-                               || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
+                        else if (
+                        tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAmountType<>)
+                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesArrayType<>)
+                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesAverageType<>)
+                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesConditionalType<>)
+                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>)
+                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>)
+                        || tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesRangeType<>)
+                        )
                         {
                             Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                             if (tSubType == typeof(NWDAccount))
@@ -734,9 +740,19 @@ namespace NetWorkedData
             return Datas().kAccountDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static PropertyInfo[] PropertiesAccountConnect()
+        public static PropertyInfo[] PropertiesAccountConnected()
         {
             return Datas().kAccountConnectedProperties;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static bool AccountConnected()
+        {
+            bool rReturn = false;
+            if (Datas().kAccountConnectedProperties.Length > 0)
+            {
+                rReturn = true;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountDependent()
