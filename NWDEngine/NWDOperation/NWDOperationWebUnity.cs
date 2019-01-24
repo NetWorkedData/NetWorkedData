@@ -215,6 +215,8 @@ namespace NetWorkedData
                     yield return null;
                 }
 
+                string tDataConverted = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.downloadHandler.text));
+
                 if (Request.isDone == true)
                 {
                     ResultInfos.DownloadedDateTime = DateTime.Now;
@@ -233,7 +235,6 @@ namespace NetWorkedData
                     //Debug.Log("NWDOperationWebUnity DOWNLOADED Headers " + tDebug);
                     //Debug.Log("NWDOperationWebUnity DOWNLOADED Datas " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
 
-                    string tDataConverted = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.downloadHandler.text));
 
                     NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
                     "-------------------\n" +
