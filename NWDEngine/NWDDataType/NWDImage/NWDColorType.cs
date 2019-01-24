@@ -26,42 +26,48 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [SerializeField]
 	public class NWDColorType : BTBDataType
 	{
-        const string kDefault = "00000000";
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDColorType ()
 		{
-            Value = kDefault;
+            Value = NWDToolbox.ColorZero();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        public NWDColorType (string sValue = kDefault)
+        public NWDColorType (string sValue = null)
 		{
 			if (sValue == null) {
-                Value = kDefault;
-			} else {
+                Value = NWDToolbox.ColorZero();
+            } else {
 				Value = sValue;
 			}
         }
         //-------------------------------------------------------------------------------------------------------------
+        public NWDColorType(Color sColor)
+        {
+            Value = NWDToolbox.ColorToString(sColor);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = kDefault;
+            Value = NWDToolbox.ColorZero();
         }
 		//-------------------------------------------------------------------------------------------------------------
 		public Color GetColor ()
 		{
-			Color tColor = new Color ();
-			ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out tColor);
-			return tColor;
-		}
+            //Color tColor = new Color ();
+            //ColorUtility.TryParseHtmlString (BTBConstants.K_HASHTAG + Value, out tColor);
+            //return tColor;
+            return NWDToolbox.ColorFromString(Value);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public void SetColor (Color sColor)
 		{
-			Value = ColorUtility.ToHtmlStringRGBA (sColor);
-		}
+			//Value = ColorUtility.ToHtmlStringRGBA (sColor);
+            Value = NWDToolbox.ColorToString(sColor);
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		#if UNITY_EDITOR
 		//-------------------------------------------------------------------------------------------------------------
@@ -78,9 +84,10 @@ namespace NetWorkedData
             tTemporary.SetColor (EditorGUI.ColorField (sPosition, tContent, GetColor ()));
 			return tTemporary;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        //-------------------------------------------------------------------------------------------------------------
+        #endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

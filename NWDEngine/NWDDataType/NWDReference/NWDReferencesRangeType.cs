@@ -46,11 +46,13 @@ namespace NetWorkedData
             string[] tValueArray = sString.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
             if (tValueArray.Length > 0)
             {
-                float.TryParse(tValueArray[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Min);
+                Min = NWDToolbox.FloatFromString(tValueArray[0]);
+                //float.TryParse(tValueArray[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Min);
             }
             if (tValueArray.Length > 1)
             {
-                float.TryParse(tValueArray[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Max);
+                Max = NWDToolbox.FloatFromString(tValueArray[1]);
+                //float.TryParse(tValueArray[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Max);
             }
             //if (tValueArray.Length > 2)
             //{
@@ -65,10 +67,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Min.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
-                      Max.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
-                      //+ NWDConstants.kFieldSeparatorC +
-                        //Average.ToString("F5");
+            return NWDToolbox.FloatToString(Min) + NWDConstants.kFieldSeparatorC +  NWDToolbox.FloatToString(Max);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddValue(float sValue)

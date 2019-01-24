@@ -34,44 +34,49 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector2Int()
         {
-            Value = 0 + NWDConstants.kFieldSeparatorA + 0;
+            Value = NWDToolbox.Vector2IntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDVector2Int(string sValue = BTBConstants.K_EMPTY_STRING)
+        //public NWDVector2Int(string sValue = BTBConstants.K_EMPTY_STRING)
+        //{
+        //    if (sValue == null)
+        //    {
+        //        Value = NWDToolbox.Vector2IntZero();
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDVector2Int(Vector2Int sVector)
         {
-            if (sValue == null)
-            {
-                Value = string.Empty;
-            }
-            else
-            {
-                Value = sValue;
-            }
+            Value = NWDToolbox.Vector2IntToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            Value = NWDToolbox.Vector2IntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetVectorInt(Vector2Int sVector)
         {
-            Value = sVector.x + NWDConstants.kFieldSeparatorA +
-                    sVector.y;
+            Value = NWDToolbox.Vector2IntToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector2Int GetVectorInt()
         {
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            int tX = 0;
-            int tY = 0;
-            if (tFloats.Count() == 2)
-            {
-                int.TryParse(tFloats[0], out tX);
-                int.TryParse(tFloats[1], out tY);
-            }
-            Vector2Int rReturn = new Vector2Int(tX, tY);
-            return rReturn;
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //int tX = 0;
+            //int tY = 0;
+            //if (tFloats.Count() == 2)
+            //{
+            //    int.TryParse(tFloats[0], out tX);
+            //    int.TryParse(tFloats[1], out tY);
+            //}
+            //Vector2Int rReturn = new Vector2Int(tX, tY);
+            //return rReturn;
+            return NWDToolbox.Vector2IntFromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

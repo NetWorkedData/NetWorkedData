@@ -25,8 +25,8 @@ namespace NetWorkedData
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
-            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
+            string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
+            string tYearString = NWDToolbox.DateTimeYYYY(tTime);
             // Create folders
             string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
             string tServerRootFolder = tOwnerServerFolderPath+ "/" + tWebServiceFolder + "/Environment/" + Environment;
@@ -86,6 +86,7 @@ namespace NetWorkedData
                 "\t\t//-------------------- \n" +
                 "\t\t// CONSTANT FOR WEB\n" +
                 "\t$NWD_FLOAT_FORMAT = "+ NWDConstants.FloatSQLFormat + ";\n" +
+                "\t$NWD_DOUBLE_FORMAT = " + NWDConstants.DoubleSQLFormat + ";\n" +
                 "\t$HTTP_URL = '" + ServerHTTPS.TrimEnd('/') +"/"+ NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
                 "\t$WS_DIR = '" + NWDAppConfiguration.SharedInstance().WebServiceFolder() + "';\n" +
                 "\t\t//-------------------- \n" +

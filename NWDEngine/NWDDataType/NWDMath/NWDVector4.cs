@@ -34,50 +34,57 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDVector4()
         {
-            Value = 0.0F + NWDConstants.kFieldSeparatorA + 0.0F+ NWDConstants.kFieldSeparatorA + 0.0F+ NWDConstants.kFieldSeparatorA + 0.0F;
+            Value = NWDToolbox.Vector4Zero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDVector4(string sValue = BTBConstants.K_EMPTY_STRING)
+        //public NWDVector4(string sValue = BTBConstants.K_EMPTY_STRING)
+        //{
+        //    if (sValue == null)
+        //    {
+        //        Value = string.Empty;
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDVector4(Vector4 sVector)
         {
-            if (sValue == null)
-            {
-                Value = string.Empty;
-            }
-            else
-            {
-                Value = sValue;
-            }
+            Value = NWDToolbox.Vector4ToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            Value = NWDToolbox.Vector4Zero();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetVector(Vector4 sVector)
         {
-            Value = sVector.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
-                    sVector.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
-                    sVector.z.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
-                           sVector.w.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+            //Value = sVector.x.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+            //sVector.y.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+            //sVector.z.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA +
+            //sVector.w.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+            Value = NWDToolbox.Vector4ToString(sVector);
         }
         //-------------------------------------------------------------------------------------------------------------
         public Vector4 GetVector()
         {
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            float tX = 0.0F;
-            float tY = 0.0F;
-            float tZ = 0.0F;
-            float tW = 0.0F;
-            if (tFloats.Count() == 4)
-            {
-                float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
-                float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
-                float.TryParse(tFloats[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tZ);
-                float.TryParse(tFloats[3], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tW);
-            }
-            Vector4 rReturn = new Vector4(tX, tY, tZ, tW);
-            return rReturn;
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //float tX = 0.0F;
+            //float tY = 0.0F;
+            //float tZ = 0.0F;
+            //float tW = 0.0F;
+            //if (tFloats.Count() == 4)
+            //{
+            //    float.TryParse(tFloats[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tX);
+            //    float.TryParse(tFloats[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tY);
+            //    float.TryParse(tFloats[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tZ);
+            //    float.TryParse(tFloats[3], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tW);
+            //}
+            //Vector4 rReturn = new Vector4(tX, tY, tZ, tW);
+            //return rReturn;
+            return NWDToolbox.Vector4FromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
@@ -89,13 +96,13 @@ namespace NetWorkedData
             return tHeight*2;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
         {
             NWDVector4 tTemporary = new NWDVector4();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
 
             Vector4 tVector = GetVector();
-            Vector4 tNexVector = EditorGUI.Vector4Field(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
+            Vector4 tNexVector = EditorGUI.Vector4Field(new Rect(sPosition.x, sPosition.y, sPosition.width, NWDConstants.kLabelStyle.fixedHeight),
                                    tContent,tVector);
 
             int tIndentLevel = EditorGUI.indentLevel;

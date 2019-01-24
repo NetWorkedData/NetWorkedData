@@ -308,9 +308,13 @@ namespace NetWorkedData
                     {
                         SLQAssemblyOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
                     }
-                    else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
+                    else if (tTypeOfThis == typeof(float))
                     {
                         SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.DoubleSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
                     }
                     else
                     {
@@ -929,11 +933,13 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
                     {
-                        tValueString = tValue.ToString();
+                        //tValueString = tValue.ToString();
+                        tValueString = NWDToolbox.LongToString(((BTBDataTypeInt)tValue).Value);
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
                     {
-                        tValueString = tValue.ToString();
+                        //tValueString = tValue.ToString();
+                        tValueString = NWDToolbox.DoubleToString(((BTBDataTypeFloat)tValue).Value);
                     }
                     // Do for Standard type
                     else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
@@ -943,38 +949,41 @@ namespace NetWorkedData
                     else if (tTypeOfThis == typeof(bool))
                     {
                         //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
-                        tValueString = tValue.ToString();
-                        if (tValueString.ToLower() == "false")
-                        {
-                            tValueString = "0";
-                        }
-                        else
-                        {
-                            tValueString = "1";
-                        }
+                        //tValueString = tValue.ToString();
+                        //if (tValueString.ToLower() == "false")
+                        //{
+                        //    tValueString = "0";
+                        //}
+                        //else
+                        //{
+                        //    tValueString = "1";
+                        //}
+                        tValueString = NWDToolbox.BoolToIntString((bool)tValue);
                     }
                     else if (tTypeOfThis == typeof(int))
                     {
-                        int tInt = (int)tValue;
-                        tValueString = tInt.ToString(NWDConstants.FormatCountry);
+                        tValueString = NWDToolbox.IntToString((int)tValue);
                     }
                     else if (tTypeOfThis == typeof(long))
                     {
-                        long tFloat = (long)tValue;
-                        tValueString = tFloat.ToString(NWDConstants.FormatCountry);
+                        //long tFloat = (long)tValue;
+                        //tValueString = tFloat.ToString(NWDConstants.FormatCountry);
                         //Debug.Log("tValueString long" + tFloat + "=> " + tValueString);
+                        tValueString = NWDToolbox.LongToString((long)tValue);
                     }
                     else if (tTypeOfThis == typeof(float))
                     {
-                        float tFloat = (float)tValue;
-                        tValueString = tFloat.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
-                        //Debug.Log("tValueString float" + tFloat+ "=> " + tValueString);
+                        //float tFloat = (float)tValue;
+                        //tValueString = tFloat.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+                        ////Debug.Log("tValueString float" + tFloat+ "=> " + tValueString);
+                        tValueString = NWDToolbox.FloatToString((float)tValue);
                     }
                     else if (tTypeOfThis == typeof(double))
                     {
-                        double tDouble = (double)tValue;
-                        tValueString = tDouble.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+                        //double tDouble = (double)tValue;
+                        //tValueString = tDouble.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
                         //Debug.Log("tValueString double" + tDouble + "=> " + tValueString);
+                        tValueString = NWDToolbox.DoubleToString((double)tValue);
                     }
                     else
                     {

@@ -87,8 +87,9 @@ namespace NetWorkedData
 		public NWDTradeStatus TradeStatus
 		{
 			get; set;
-		}
-		[NWDAlias("TradeHash")]
+        }
+        [NWDNotEditable]
+        [NWDAlias("TradeHash")]
 		public string TradeHash
 		{
 			get; set;

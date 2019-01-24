@@ -845,6 +845,7 @@ namespace NetWorkedData
                             else if (tProp.GetCustomAttributes(typeof(NWDLongStringAttribute), true).Length > 0)
                             {
                                 string tValue = (string)tProp.GetValue(this, null);
+                                tValue = NWDToolbox.TextUnprotect(tValue);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
                                 //remove EditorGUI.indentLevel to draw next controller without indent 
                                 int tIndentLevel = EditorGUI.indentLevel;
@@ -853,6 +854,7 @@ namespace NetWorkedData
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
+                                    tValueNext = NWDToolbox.TextProtect(tValueNext);
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
@@ -861,8 +863,8 @@ namespace NetWorkedData
                             else if (tProp.GetCustomAttributes(typeof(NWDVeryLongStringAttribute), true).Length > 0)
                             {
                                 string tValue = (string)tProp.GetValue(this, null);
+                                tValue = NWDToolbox.TextUnprotect(tValue);
                                 EditorGUI.LabelField(new Rect(tX, tY, tWidth, NWDConstants.kTextFieldStyle.fixedHeight), tContent);
-
                                 //remove EditorGUI.indentLevel to draw next controller without indent 
                                 int tIndentLevel = EditorGUI.indentLevel;
                                 EditorGUI.indentLevel = 0;
@@ -870,6 +872,7 @@ namespace NetWorkedData
                                 tY += tTextFieldStyle.fixedHeight * NWDConstants.kVeryLongString + NWDConstants.kFieldMarge;
                                 if (tValueNext != tValue)
                                 {
+                                    tValueNext = NWDToolbox.TextProtect(tValueNext);
                                     tProp.SetValue(this, tValueNext, null);
                                     rNeedBeUpdate = true;
                                 }
@@ -948,10 +951,12 @@ namespace NetWorkedData
                                 if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                                 {
                                     string tValue = tProp.GetValue(this, null) as string;
+                                    tValue = NWDToolbox.TextUnprotect(tValue);
                                     string tValueNext = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), tContent, tValue, tTextFieldStyle);
                                     tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                                     if (tValueNext != tValue)
                                     {
+                                        tValueNext = NWDToolbox.TextProtect(tValueNext);
                                         tProp.SetValue(this, tValueNext, null);
                                         rNeedBeUpdate = true;
                                     }
@@ -1561,10 +1566,12 @@ namespace NetWorkedData
 
             if (tInternalKeyEditable == true)
             {
-                string tInternalName = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_KEY, InternalKey, tTextFieldStyle);
+                string tInternalNameActual = NWDToolbox.TextUnprotect(InternalKey);
+                string tInternalName = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_KEY, tInternalNameActual, tTextFieldStyle);
                 tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
                 if (tInternalName != InternalKey)
                 {
+                    tInternalName = NWDToolbox.TextProtect(tInternalName);
                     InternalKey = tInternalName;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();
@@ -1583,10 +1590,12 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
             }
 
-            string tInternalDescription = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, InternalDescription, tTextFieldStyle);
+            string tInternalDescriptionActual = NWDToolbox.TextUnprotect(InternalDescription);
+            string tInternalDescription = EditorGUI.TextField(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight), NWDConstants.K_APP_BASIS_INTERNAL_DESCRIPTION, tInternalDescriptionActual, tTextFieldStyle);
             tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
             if (tInternalDescription != InternalDescription)
             {
+                tInternalDescription = NWDToolbox.TextProtect(tInternalDescription);
                 InternalDescription = tInternalDescription;
                 DM = NWDToolbox.Timestamp();
                 UpdateIntegrity();
