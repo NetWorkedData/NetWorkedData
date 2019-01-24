@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -285,11 +286,13 @@ namespace NetWorkedData
                         else
                         {
                             Debug.Log("" + Request.downloadHandler.text);
+                            Byte[] tByte = Request.downloadHandler.data;
+                            string tByteToData = Encoding.ASCII.GetString(tByte);
                             Dictionary<string, object> tData = null;
-                            if (Json.IsValidJson(Request.downloadHandler.text))
+                            if (Json.IsValidJson(tByteToData))
                             {
                                 // Parse Json Data to Dictionary
-                                tData = Json.Deserialize(Request.downloadHandler.text) as Dictionary<string, object>;                                
+                                tData = Json.Deserialize(tByteToData) as Dictionary<string, object>;                                
                             }
     
                             // If no data is parse from the downloadHandler
