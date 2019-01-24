@@ -53,6 +53,6 @@
 	}
 		//--------------------
 		// write JSON
-	// echo($json);
-	echo(base64_encode($json));
+		//echo(base64_encode($json));
+	echo($json);
 ?>
