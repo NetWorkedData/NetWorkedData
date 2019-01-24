@@ -17,32 +17,28 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	[NWDTypeWindowParamAttribute("Preferences",
+    [NWDTypeWindowParamAttribute("Preferences",
         "Preferences",
-                                 "NWDPreferencesWindows", // Statistiques_ICON
+        "NWDPreferenceWindows", // Statistiques_ICON
         new Type[] {
         typeof(NWDPreferenceKey),
         typeof(NWDAccountPreference),
         typeof(NWDUserPreference),
-
-        typeof(NWDPreferencesKey),
-        typeof(NWDAccountPreferences),
-        typeof(NWDUserPreferences),
 		/* Add NWDBasis here*/
 		}
                                 )]
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDPreferencesWindows : NWDBasisWindow <NWDPreferencesWindows>
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		[MenuItem (NWDConstants.K_MENU_BASE + "Game/Preferences", false, 271)]
-		//-------------------------------------------------------------------------------------------------------------
-		public static void MenuMethod ()
-		{
-			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDPreferencesWindows));
-			tWindow.Show ();
-		}
-		//-------------------------------------------------------------------------------------------------------------
+    public class NWDPreferenceWindows : NWDBasisWindow<NWDPreferenceWindows>
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Preferences", false, 271)]
+        //-------------------------------------------------------------------------------------------------------------
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDPreferenceWindows));
+            tWindow.Show();
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -23,7 +23,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountPreferences : NWDBasis<NWDAccountPreferences>
+    public partial class NWDAccountStatKeyValue : NWDBasis<NWDAccountStatKeyValue>
     {
         //-------------------------------------------------------------------------------------------------------------
         // Create an Index
@@ -35,19 +35,19 @@ namespace NetWorkedData
         // must ADD RemoveFromIndex(); in : 
         // AddonDeleteMe()
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
-        static Dictionary<string, List<NWDAccountPreferences>> kIndex = new Dictionary<string, List<NWDAccountPreferences>>();
-        private List<NWDAccountPreferences> kIndexList;
+        static Dictionary<string, List<NWDAccountStatKeyValue>> kIndex = new Dictionary<string, List<NWDAccountStatKeyValue>>();
+        private List<NWDAccountStatKeyValue> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
             //BTBBenchmark.Start();
-            if (PreferencesKey.GetReference() != null
+            if (StatKey.GetReference() != null
                 && IsEnable() == true
                 && IsTrashed() == false
                 && TestIntegrity() == true)
             {
-                string tKey = PreferencesKey.GetReference();
+                string tKey = StatKey.GetReference();
                 if (kIndexList != null)
                 {
                     // I have allready index
@@ -70,7 +70,7 @@ namespace NetWorkedData
                     {
                         kIndexList.Remove(this);
                         kIndexList = null;
-                        kIndexList = new List<NWDAccountPreferences>();
+                        kIndexList = new List<NWDAccountStatKeyValue>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -87,7 +87,7 @@ namespace NetWorkedData
                     else
                     {
                         // index must be create
-                        kIndexList = new List<NWDAccountPreferences>();
+                        kIndexList = new List<NWDAccountStatKeyValue>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -112,10 +112,10 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDAccountPreferences> FindByIndex(NWDAccountPreferences sDataKey)
+        static public List<NWDAccountStatKeyValue> FindByIndex(NWDAccountStatKeyValue sDataKey)
         {
             //BTBBenchmark.Start();
-            List<NWDAccountPreferences> rReturn = null;
+            List<NWDAccountStatKeyValue> rReturn = null;
             if (sDataKey != null)
             {
                 string tKey = sDataKey.Reference;
@@ -128,10 +128,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDAccountPreferences> FindByIndex(string sDataKeyReference)
+        static public List<NWDAccountStatKeyValue> FindByIndex(string sDataKeyReference)
         {
             //BTBBenchmark.Start();
-            List<NWDAccountPreferences> rReturn = null;
+            List<NWDAccountStatKeyValue> rReturn = null;
             if (sDataKeyReference != null)
             {
                 string tKey = sDataKeyReference;
@@ -144,11 +144,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDAccountPreferences FindFirstByIndex(string sDataKeyReference)
+        static public NWDAccountStatKeyValue FindFirstByIndex(string sDataKeyReference)
         {
             //BTBBenchmark.Start();
-            NWDAccountPreferences rObject = null;
-            List<NWDAccountPreferences> rReturn = null;
+            NWDAccountStatKeyValue rObject = null;
+            List<NWDAccountStatKeyValue> rReturn = null;
             if (sDataKeyReference != null)
             {
                 string tKey = sDataKeyReference;
@@ -168,18 +168,22 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDAccountPreferences PreferencesForKey(string sDataReference)
+        public static NWDAccountStatKeyValue UserStatForKey(string sDataReference)
         {
             //BTBBenchmark.Start();
-            NWDAccountPreferences rReturn = FindFirstByIndex(sDataReference);
-            NWDPreferencesKey tKey = NWDPreferencesKey.GetDataByReference(sDataReference);
+            NWDAccountStatKeyValue rReturn = FindFirstByIndex(sDataReference);
+            NWDStatKey tKey = NWDStatKey.GetDataByReference(sDataReference);
             if (rReturn == null && tKey!=null)
             {
                 rReturn = NewData(kWritingMode);
-                rReturn.PreferencesKey.SetReference(sDataReference);
+                rReturn.StatKey.SetReference(sDataReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 // init the stat with default value
-                rReturn.Value.SetString(tKey.Default);
+                rReturn.Total = tKey.InitTotal;
+                rReturn.Counter = tKey.InitCounter;
+                rReturn.Last = tKey.InitLast;
+                rReturn.Average = tKey.InitAverage;
+                rReturn.Max = tKey.InitMax;
                 // update in writing mode (default is poolThread for stats)
                 rReturn.UpdateData(true, kWritingMode);
             }

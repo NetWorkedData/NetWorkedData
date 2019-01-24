@@ -6,8 +6,14 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
 using UnityEngine;
+
 using BasicToolBox;
 
 #if UNITY_EDITOR
@@ -17,12 +23,12 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDPreferenceKeyDomain : int
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDPreferencesDomain : int
     {
-        AccountPref,
-        GameSavePref,
-        LocalPref,
+        AccountPreferences = 0,
+        UserPreferences = 1,
+        LocalPref = 2,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -34,10 +40,10 @@ namespace NetWorkedData
     /// public class MyScriptInGame : MonoBehaviour<br/>
     ///     {
     ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDPreferenceKeyConnection MyNetWorkedData;
+    ///         public NWDStatKeyConnection MyNetWorkedData;
     ///         public void UseData()
     ///             {
-    ///                 NWDPreferenceKey tObject = MyNetWorkedData.GetObject();
+    ///                 NWDStatKey tObject = MyNetWorkedData.GetObject();
     ///                 // Use tObject
     ///             }
     ///     }
@@ -53,7 +59,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                tPref.SetString(sValue);
+                tPref.AddEnter(new NWDMultiType (sValue));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -62,7 +68,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                tPref.SetInt(sValue);
+                tPref.AddEnter(new NWDMultiType(sValue));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -71,7 +77,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                tPref.SetFloat(sValue);
+                tPref.AddEnter(new NWDMultiType(sValue));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -80,7 +86,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                tPref.SetBool(sValue);
+                tPref.AddEnter(new NWDMultiType(sValue));
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -90,7 +96,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                rReturn = tPref.GetString();
+                rReturn = tPref.GetEnter().GetValue();
             }
             return rReturn;
         }
@@ -101,7 +107,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                rReturn = tPref.GetInt();
+                rReturn = tPref.GetEnter().GetIntValue();
             }
             return rReturn;
         }
@@ -112,7 +118,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                rReturn = tPref.GetFloat();
+                rReturn = tPref.GetEnter().GetFloatValue();
             }
             return rReturn;
         }
@@ -123,7 +129,7 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                rReturn = tPref.GetBool();
+                rReturn = tPref.GetEnter().GetBoolValue();
             }
             return rReturn;
         }
@@ -134,9 +140,9 @@ namespace NetWorkedData
             NWDPreferenceKey tPref = GetObject();
             if (tPref != null)
             {
-                rReturn = tPref.GetBool();
+                rReturn = tPref.GetEnter().GetBoolValue();
                 rReturn = !rReturn;
-                tPref.SetBool(rReturn);
+                tPref.AddEnter(new NWDMultiType(rReturn));
             }
             return rReturn;
         }
@@ -144,33 +150,44 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// NWDPreferenceKey class. This class is use for (complete description here).
+    /// NWDStatKey class. This class is use for (complete description here).
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("PFK")]
-    [NWDClassDescriptionAttribute("preference key")]
+    [NWDClassTrigrammeAttribute("PRK")]
+    [NWDClassDescriptionAttribute("Preference Key")]
     [NWDClassMenuNameAttribute("Preference Key")]
     //[NWDInternalKeyNotEditableAttribute]
     public partial class NWDPreferenceKey : NWDBasis<NWDPreferenceKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        #region Instance Properties
-        //-------------------------------------------------------------------------------------------------------------
-        // generic notification
         public const string K_PREFERENCE_CHANGED_KEY = "K_PREFERENCE_CHANGED_KEY_8zQr95er"; // OK Needed by test & verify
         //-------------------------------------------------------------------------------------------------------------
-        //PROPERTIES
-        //public string Key
-        //{
-        //    get; set;
-        //}
-        public NWDPreferenceKeyDomain Domain
+        #region Class Properties
+        //-------------------------------------------------------------------------------------------------------------
+        #endregion
+        //-------------------------------------------------------------------------------------------------------------
+        #region Instance Properties
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDGroupStart("Information")]
+        public NWDLocalizableStringType Title
         {
             get; set;
         }
-        public string Default
+        public NWDLocalizableTextType Description
         {
             get; set;
+        }
+        public NWDPreferencesDomain Domain
+        {
+            get; set;
+        }
+        public NWDMultiType Default
+        {
+            get; set;
+        }
+        public bool NotifyChange
+        {
+            get; set; 
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -179,17 +196,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDPreferenceKey()
         {
-            //Debug.Log("NWDPreferenceKey Constructor");
+            //Debug.Log("NWDStatKey Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDPreferenceKey(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("NWDPreferenceKey Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("NWDStatKey Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            //Key = Reference;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -199,7 +215,7 @@ namespace NetWorkedData
         public static void ErrorRegenerate()
         {
 #if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDPreferenceKey BasicError", "PFKz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("NWDPreferencesKey BasicError", "STKz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
 #endif
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -208,12 +224,55 @@ namespace NetWorkedData
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Exampel of implement for class method.
-        /// </summary>
-        public static void MyClassMethod()
+        public void AddEnter(NWDMultiType sValue)
         {
-            // do something with this class
+            switch (Domain)
+            {
+                case NWDPreferencesDomain.AccountPreferences:
+                    {
+                        NWDAccountPreference.PreferencesForKey(Reference).AddEnter(sValue);
+                    }
+                    break;
+                case NWDPreferencesDomain.UserPreferences:
+                    {
+                        NWDUserPreference.PreferencesForKey(Reference).AddEnter(sValue);
+                    }
+                    break;
+                case NWDPreferencesDomain.LocalPref:
+                    {
+                        PlayerPrefs.SetString(Reference, sValue.Value);
+                    }
+                    break;
+            }
+            if (NotifyChange == true)
+            {
+                BTBNotificationManager.SharedInstance().PostNotification(this, K_PREFERENCE_CHANGED_KEY);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDMultiType GetEnter()
+        {
+            NWDMultiType rReturn = new NWDMultiType();
+            rReturn.Value = Default.Value;
+            switch (Domain)
+            {
+                case NWDPreferencesDomain.AccountPreferences:
+                    {
+                        rReturn = NWDAccountPreference.PreferencesForKey(Reference).GetEnter();
+                    }
+                    break;
+                case NWDPreferencesDomain.UserPreferences:
+                    {
+                        rReturn =  NWDUserPreference.PreferencesForKey(Reference).GetEnter();
+                    }
+                    break;
+                case NWDPreferencesDomain.LocalPref:
+                    {
+                        rReturn.Value = PlayerPrefs.GetString(Reference, Default.Value);
+                    }
+                    break;
+            }
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -223,106 +282,9 @@ namespace NetWorkedData
         /// <summary>
         /// Exampel of implement for instance method.
         /// </summary>
-        private string GetValue()
+        public void MyInstanceMethod()
         {
-            string rReturn = Default;
-            switch (Domain)
-            {
-                case NWDPreferenceKeyDomain.AccountPref:
-                    {
-                        rReturn = NWDAccountPreference.GetString(Reference, Default);
-                    }
-                    break;
-                case NWDPreferenceKeyDomain.GameSavePref:
-                    {
-
-                        rReturn = NWDUserPreference.GetString(Reference, Default);
-                    }
-                    break;
-                default:
-                    {
-                        rReturn = PlayerPrefs.GetString(Reference, Default);
-                    }
-                    break;
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public int GetInt()
-        {
-            int rReturn = 0;
-            string tR = GetValue();
-            int.TryParse(tR, out rReturn);
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public float GetFloat()
-        {
-            float rReturn = 0.0F;
-            string tR = GetValue();
-            float.TryParse(tR, out rReturn);
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public bool GetBool()
-        {
-            bool rReturn = true;
-            string tR = GetValue();
-            bool.TryParse(tR, out rReturn);
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetString()
-        {
-            return GetValue();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        private void SetValue(string sValue)
-        {
-            string tOldValue = NWDAccountPreference.GetString(Reference);
-            if (!sValue.Equals(tOldValue))
-            {
-                switch (Domain)
-                {
-                    case NWDPreferenceKeyDomain.AccountPref:
-                        {
-                            NWDAccountPreference.SetString(Reference, sValue);
-                        }
-                        break;
-                    case NWDPreferenceKeyDomain.GameSavePref:
-                        {
-
-                            NWDUserPreference.SetString(Reference, sValue);
-                        }
-                        break;
-                    default:
-                        {
-                            PlayerPrefs.SetString(Reference, sValue);
-                        }
-                        break;
-                }
-                BTBNotificationManager.SharedInstance().PostNotification(this, K_PREFERENCE_CHANGED_KEY);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetString(string sValue)
-        {
-            SetValue(sValue);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetInt(int sValue)
-        {
-            SetValue(sValue.ToString(NWDConstants.FormatCountry));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetFloat(float sValue)
-        {
-            SetValue(sValue.ToString(NWDConstants.FormatCountry));
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetBool(bool sValue)
-        {
-            SetValue(sValue.ToString(NWDConstants.FormatCountry));
+            // do something with this object
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -331,7 +293,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDPreferenceKey)/*, typeof(NWDUserNickname), etc*/ };
+            return new List<Type> { typeof(NWDStatKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -445,16 +407,6 @@ namespace NetWorkedData
         {
             // do something when object will be web service upgrade
             // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            // InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            // RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

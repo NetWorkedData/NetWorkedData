@@ -90,7 +90,7 @@ namespace NetWorkedData
         public NWDReferencesListType<NWDFamily> Families { get; set; }
         public NWDReferencesListType<NWDKeyword> Keywords { get; set; }
         //-------------------------------------------------------------------------------------------------------------
-        public delegate void BuyPackBlock(BuyPackResult result, NWDTransaction transaction);
+        public delegate void BuyPackBlock(BuyPackResult result, NWDUserTransaction transaction);
         public BuyPackBlock BuyPackBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -131,7 +131,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
         /// <param name="sPack">NWDPack the pack we just buy.</param>
-        public NWDTransaction BuyInAppPack(NWDRack sRack, NWDPack sPack)
+        public NWDUserTransaction BuyInAppPack(NWDRack sRack, NWDPack sPack)
         {
             foreach (KeyValuePair<NWDItemPack, int> pair in sPack.ItemPackReference.GetObjectAndQuantity())
             {
@@ -154,7 +154,7 @@ namespace NetWorkedData
             
             // Add a new NWDTransaction to user Account
             NWDItem tItemDescribe = sPack.DescriptionItem.GetObject();
-            return NWDTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
+            return NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -167,7 +167,7 @@ namespace NetWorkedData
         /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
         /// <param name="sPack">NWDPack the pack we just buy.</param>
         /// <param name="sType">Enum to represente the type of the transaction (Daily, Weekly, Monthly).</param>
-        public void BuyPack(NWDRack sRack, NWDPack sPack, TransactionType sType)
+        public void BuyPack(NWDRack sRack, NWDPack sPack, NWDTransactionType sType)
         {
             // Sync with the server
             List<Type> tList = new List<Type>
@@ -176,13 +176,13 @@ namespace NetWorkedData
                 typeof(NWDItem),
                 typeof(NWDItemPack),
                 typeof(NWDPack),
-                typeof(NWDTransaction)
+                typeof(NWDUserTransaction)
             };
 
             BTBOperationBlock tSuccess = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
                 // Define a new NWDTransaction
-                NWDTransaction bTransaction = null;
+                NWDUserTransaction bTransaction = null;
 
                 // Check if Pack is enable
                 BuyPackResult bResult = PackEnable(sPack.InternalKey);
@@ -245,7 +245,7 @@ namespace NetWorkedData
 
                             // Add a new NWDTransaction to user Account
                             NWDItem tItemDescribe = sPack.DescriptionItem.GetObject();
-                            bTransaction = NWDTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
+                            bTransaction = NWDUserTransaction.AddTransactionToAccount(tItemDescribe, this, sRack, sPack);
                         }
                     }
                 }
@@ -318,19 +318,19 @@ namespace NetWorkedData
             return rUserCanBuy;
         }
         //-------------------------------------------------------------------------------------------------------------
-        private BuyPackResult EnoughPackToBuy(NWDShop sShop, NWDRack sRack, NWDPack sPack, TransactionType sType)
+        private BuyPackResult EnoughPackToBuy(NWDShop sShop, NWDRack sRack, NWDPack sPack, NWDTransactionType sType)
         {
             BuyPackResult rEnoughPackToBuy = BuyPackResult.NotFound;
 
             // Create Transactions array
-            List<NWDTransaction> tTransactionList = new List<NWDTransaction>();
+            List<NWDUserTransaction> tTransactionList = new List<NWDUserTransaction>();
 
             // Create Racks array
             List<NWDRack> tRackList = new List<NWDRack>();
 
             // Init all transactions done by the user for selected shop and type
             tRackList.Add(sRack);
-            tTransactionList = NWDTransaction.GetTransactionsByShopAndType(sShop, tRackList, sType);
+            tTransactionList = NWDUserTransaction.GetTransactionsByShopAndType(sShop, tRackList, sType);
 
             // Search for the right Pack in Rack (for quantities)
             Dictionary<NWDPack, int> tPacks = sRack.PackQuantity.GetObjectAndQuantity();
@@ -342,7 +342,7 @@ namespace NetWorkedData
                 if (tPack.Equals(sPack))
                 {
                     // Verify if there is enough number of pack to buy
-                    foreach (NWDTransaction transaction in tTransactionList)
+                    foreach (NWDUserTransaction transaction in tTransactionList)
                     {
                         if (transaction.RackReference.ContainsObject(sRack) &&
                             transaction.PackReference.ContainsObject(sPack))

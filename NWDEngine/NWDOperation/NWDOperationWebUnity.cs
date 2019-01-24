@@ -179,7 +179,7 @@ namespace NetWorkedData
                 "-------------------\n" +
                 "<b>Datas :</b> \n" +
                 "-------------------\n" +
-                Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
+                Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
                 "-------------------\n" +
                 System.Text.Encoding.UTF8.GetString(tWWWForm.data) +
                 "-------------------\n" +
@@ -233,6 +233,7 @@ namespace NetWorkedData
                     //Debug.Log("NWDOperationWebUnity DOWNLOADED Headers " + tDebug);
                     //Debug.Log("NWDOperationWebUnity DOWNLOADED Datas " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
 
+                    string tDataConverted = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.downloadHandler.text));
 
                     NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
                     "-------------------\n" +
@@ -244,7 +245,7 @@ namespace NetWorkedData
                     "-------------------\n" +
                     "<b>Datas : (" + ResultInfos.OctetDownload.ToString() + ")</b> \n" +
                     "-------------------\n" +
-                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
+                   tDataConverted.Replace("\\\\r", "\r\n") + "\n" +
                     "-------------------\n" +
                     ""
                     );
@@ -269,7 +270,7 @@ namespace NetWorkedData
                     "-------------------\n" +
                     "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload.ToString() + ")</b> \n" +
                     "-------------------\n" +
-                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
+                    tDataConverted.Replace("\\\\r", "\r\n") + "\n" +
                     "-------------------\n" +
                     ""
                     );
@@ -278,23 +279,25 @@ namespace NetWorkedData
                 {
                     if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")) == true)
                 {
+
+
                     // Check for error
                     if (Request.isNetworkError ||
                         Request.isHttpError ||
-                        Request.downloadHandler.text.Equals(string.Empty))
+                        tDataConverted.Equals(string.Empty))
                     {
                         RequestError();
                     }
                     else
                     {
                         // Parse Json Data to Dictionary
-                        Dictionary<string, object> tData = Json.Deserialize(Request.downloadHandler.text) as Dictionary<string, object>;
+                        Dictionary<string, object> tData = Json.Deserialize(tDataConverted) as Dictionary<string, object>;
 
                         // If no data is parse from the downloadHandler
                         if (tData == null)
                         {
                             // Log DownloadHandler in console
-                            Debug.LogWarning(Request.downloadHandler.text);
+                            Debug.LogWarning(tDataConverted);
                             RequestError(true);
                         }
                         else

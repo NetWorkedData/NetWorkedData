@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
@@ -425,6 +426,31 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().RecreateDatabase(true, true);
             NWDDataManager.SharedInstance().CreateAllTablesLocal();
             NWDDataManager.SharedInstance().ReloadAllObjects();
+        }
+
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_INTEGRITY_TO_TRASHED, false, 9355)]
+        public static void InterigrityErrorToTrahs()
+        {
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (tMethodInfo != null)
+                {
+                    NWDDatas tDatas = (NWDDatas)tMethodInfo.Invoke(null, null);
+                    if (tDatas != null)
+                    {
+                        foreach (NWDTypeClass tObject in tDatas.Datas)
+                        {
+                            if (tObject.DataIntegrityState() == false)
+                            {
+                                tObject.TrashAction();
+                            }
+                        }
+                    }
+                }
+            }
+            NWDDataManager.SharedInstance().DataQueueExecute();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

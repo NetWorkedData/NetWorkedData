@@ -264,7 +264,7 @@ namespace NetWorkedData
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                 {
                     BTBDataType tTemp = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
-                    tTemp.SetString(tValueString);
+                    tTemp.SetValue(tValueString);
                     tPropertyInfo.SetValue(this, tTemp, null);
                 }
                 else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
@@ -467,7 +467,7 @@ namespace NetWorkedData
                 this.DM = NWDToolbox.Timestamp();
             }
             NWDVersionType tVersion = new NWDVersionType();
-            tVersion.SetString("0.00.00");
+            tVersion.SetValue("0.00.00");
             this.MinVersion = tVersion;
 
             //NWDVersionType tMaxVersion = new NWDVersionType();

@@ -15,7 +15,7 @@ namespace NetWorkedData
     public class NWDAutoPreference : MonoBehaviour
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDPreferenceKeyConnection PreferenceKey;
+        public NWDPreferenceKeyConnection PreferenceKeyConnexion;
         //-------------------------------------------------------------------------------------------------------------
         public Toggle ToogleBinding;
         public Slider SliderBinding;
@@ -23,12 +23,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         void Start()
         {
-            NWDPreferenceKey tPreferenceKey = PreferenceKey.GetObject();
-            if (tPreferenceKey != null)
+            if (PreferenceKeyConnexion != null)
             {
                 if (ToogleBinding != null)
                 {
-                    ToogleBinding.isOn = tPreferenceKey.GetBool();
+                    ToogleBinding.isOn = PreferenceKeyConnexion.GetBool();
                     ToogleBinding.onValueChanged.AddListener(delegate
                     {
                         this.OnChangedBool(ToogleBinding.isOn);
@@ -36,7 +35,7 @@ namespace NetWorkedData
                 }
                 if (SliderBinding != null)
                 {
-                    SliderBinding.value = tPreferenceKey.GetFloat();
+                    SliderBinding.value = PreferenceKeyConnexion.GetFloat();
                     SliderBinding.onValueChanged.AddListener(delegate
                     {
                         this.OnChangedFloat(SliderBinding.value);
@@ -44,7 +43,7 @@ namespace NetWorkedData
                 }
                 if (InputFieldBinding != null)
                 {
-                    InputFieldBinding.text = tPreferenceKey.GetString();
+                    InputFieldBinding.text = PreferenceKeyConnexion.GetString();
                     InputFieldBinding.onEndEdit.AddListener(delegate
                     {
                         this.OnChangedString(InputFieldBinding.text);
@@ -55,60 +54,57 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnChangedBool(bool sValue)
         {
-            NWDPreferenceKey tPreferenceKey = PreferenceKey.GetObject();
-            if (tPreferenceKey != null)
+            if (PreferenceKeyConnexion != null)
             {
                 if (ToogleBinding != null)
                 {
-                    tPreferenceKey.SetBool(sValue);
+                    PreferenceKeyConnexion.SetBool(sValue);
                 }
                 if (SliderBinding != null)
                 {
-                    tPreferenceKey.SetBool(sValue);
+                    PreferenceKeyConnexion.SetBool(sValue);
                 }
                 if (InputFieldBinding != null)
                 {
-                    tPreferenceKey.SetBool(sValue);
+                    PreferenceKeyConnexion.SetBool(sValue);
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnChangedFloat(float sValue)
         {
-            NWDPreferenceKey tPreferenceKey = PreferenceKey.GetObject();
-            if (tPreferenceKey != null)
+            if (PreferenceKeyConnexion != null)
             {
                 if (ToogleBinding != null)
                 {
-                    tPreferenceKey.SetFloat(sValue);
+                    PreferenceKeyConnexion.SetFloat(sValue);
                 }
                 if (SliderBinding != null)
                 {
-                    tPreferenceKey.SetFloat(sValue);
+                    PreferenceKeyConnexion.SetFloat(sValue);
                 }
                 if (InputFieldBinding != null)
                 {
-                    tPreferenceKey.SetFloat(sValue);
+                    PreferenceKeyConnexion.SetFloat(sValue);
                 }
             }
         }
         //-------------------------------------------------------------------------------------------------------------
         public void OnChangedString(string sValue)
         {
-            NWDPreferenceKey tPreferenceKey = PreferenceKey.GetObject();
-            if (tPreferenceKey != null)
+            if (PreferenceKeyConnexion != null)
             {
                 if (ToogleBinding != null)
                 {
-                    tPreferenceKey.SetString(sValue);
+                    PreferenceKeyConnexion.SetString(sValue);
                 }
                 if (SliderBinding != null)
                 {
-                    tPreferenceKey.SetString(sValue);
+                    PreferenceKeyConnexion.SetString(sValue);
                 }
                 if (InputFieldBinding != null)
                 {
-                    tPreferenceKey.SetString(sValue);
+                    PreferenceKeyConnexion.SetString(sValue);
                 }
             }
         }

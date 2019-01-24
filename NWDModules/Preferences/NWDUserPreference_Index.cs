@@ -23,7 +23,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserPreferences : NWDBasis<NWDUserPreferences>
+    public partial class NWDUserPreference : NWDBasis<NWDUserPreference>
     {
         //-------------------------------------------------------------------------------------------------------------
         // Create an Index
@@ -35,69 +35,72 @@ namespace NetWorkedData
         // must ADD RemoveFromIndex(); in : 
         // AddonDeleteMe()
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
-        static Dictionary<string, List<NWDUserPreferences>> kIndex = new Dictionary<string, List<NWDUserPreferences>>();
-        private List<NWDUserPreferences> kIndexList;
+        static Dictionary<string, List<NWDUserPreference>> kIndex = new Dictionary<string, List<NWDUserPreference>>();
+        private List<NWDUserPreference> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
             //Debug.Log("InsertInIndex reference =" + Reference);
             //BTBBenchmark.Start();
-            if (PreferencesKey.GetReference() != null
-                && GameSave != null
-                && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
-                && IsEnable() == true
-                && IsTrashed() == false
-                && TestIntegrity() == true)
+            if (PreferenceKey != null)
             {
-                string tKey = PreferencesKey.GetReference() + "*" + GameSave.GetReference();
-                if (kIndexList != null)
+                if (PreferenceKey.GetReference() != null
+                    && GameSave != null
+                    && GameSave.GetReference() != null  // permet aussi d'avoir indirectement l'account
+                    && IsEnable() == true
+                    && IsTrashed() == false
+                    && TestIntegrity() == true)
                 {
-                    // I have allready index
-                    if (kIndex.ContainsKey(tKey))
+                    string tKey = PreferenceKey.GetReference() + "*" + GameSave.GetReference();
+                    if (kIndexList != null)
                     {
-                        if (kIndex[tKey] == kIndexList)
+                        // I have allready index
+                        if (kIndex.ContainsKey(tKey))
                         {
-                            // I am in the good index ... do nothing
+                            if (kIndex[tKey] == kIndexList)
+                            {
+                                // I am in the good index ... do nothing
+                            }
+                            else
+                            {
+                                // I Changed index! during update ?!!
+                                kIndexList.Remove(this);
+                                kIndexList = null;
+                                kIndexList = kIndex[tKey];
+                                kIndexList.Add(this);
+                            }
                         }
                         else
                         {
-                            // I Changed index! during update ?!!
                             kIndexList.Remove(this);
                             kIndexList = null;
-                            kIndexList = kIndex[tKey];
+                            kIndexList = new List<NWDUserPreference>();
+                            kIndex.Add(tKey, kIndexList);
                             kIndexList.Add(this);
                         }
                     }
                     else
                     {
-                        kIndexList.Remove(this);
-                        kIndexList = null;
-                        kIndexList = new List<NWDUserPreferences>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
+                        // I need add in index!
+                        if (kIndex.ContainsKey(tKey))
+                        {
+                            // index exists
+                            kIndexList = kIndex[tKey];
+                            kIndexList.Add(this);
+                        }
+                        else
+                        {
+                            // index must be create
+                            kIndexList = new List<NWDUserPreference>();
+                            kIndex.Add(tKey, kIndexList);
+                            kIndexList.Add(this);
+                        }
                     }
                 }
                 else
                 {
-                    // I need add in index!
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        // index exists
-                        kIndexList = kIndex[tKey];
-                        kIndexList.Add(this);
-                    }
-                    else
-                    {
-                        // index must be create
-                        kIndexList = new List<NWDUserPreferences>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
+                    RemoveFromIndex();
                 }
-            }
-            else
-            {
-                RemoveFromIndex();
             }
             //BTBBenchmark.Finish();
         }
@@ -114,10 +117,10 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserPreferences> FindByIndex(NWDPreferencesKey sDataKey, NWDGameSave sGameSave)
+        static public List<NWDUserPreference> FindByIndex(NWDPreferenceKey sDataKey, NWDGameSave sGameSave)
         {
             //BTBBenchmark.Start();
-            List<NWDUserPreferences> rReturn = null;
+            List<NWDUserPreference> rReturn = null;
             if (sDataKey != null && sGameSave != null)
             {
                 string tKey = sDataKey.Reference + "*" + sGameSave.Reference;
@@ -130,10 +133,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserPreferences> FindByIndex(string sDataKeyReference)
+        static public List<NWDUserPreference> FindByIndex(string sDataKeyReference)
         {
             //BTBBenchmark.Start();
-            List<NWDUserPreferences> rReturn = null;
+            List<NWDUserPreference> rReturn = null;
             if (sDataKeyReference != null)
             {
                 string tKey = sDataKeyReference + "*" + NWDGameSave.Current().Reference;
@@ -146,11 +149,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDUserPreferences FindFirstByIndex(string sDataKeyReference)
+        static public NWDUserPreference FindFirstByIndex(string sDataKeyReference)
         {
             //BTBBenchmark.Start();
-            NWDUserPreferences rObject = null;
-            List<NWDUserPreferences> rReturn = null;
+            NWDUserPreference rObject = null;
+            List<NWDUserPreference> rReturn = null;
             if (sDataKeyReference != null)
             {
                 string tKey = sDataKeyReference + "*" + NWDGameSave.Current().Reference;
@@ -170,18 +173,18 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDUserPreferences PreferencesForKey(string sDataReference)
+        public static NWDUserPreference PreferencesForKey(string sDataReference)
         {
             //BTBBenchmark.Start();
-            NWDUserPreferences rReturn = FindFirstByIndex(sDataReference);
-            NWDPreferencesKey tKey = NWDPreferencesKey.GetDataByReference(sDataReference);
+            NWDUserPreference rReturn = FindFirstByIndex(sDataReference);
+            NWDPreferenceKey tKey = NWDPreferenceKey.GetDataByReference(sDataReference);
             if (rReturn == null && tKey!=null)
             {
                 rReturn = NewData(kWritingMode);
-                rReturn.PreferencesKey.SetReference(sDataReference);
+                rReturn.PreferenceKey.SetReference(sDataReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 // init the stat with default value
-                rReturn.Value.SetString(tKey.Default);
+                rReturn.Value.SetValue(tKey.Default.GetValue());
                 // update in writing mode (default is poolThread for stats)
                 rReturn.UpdateData(true, kWritingMode);
             }

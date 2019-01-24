@@ -114,7 +114,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserStatKeyValue> FindByIndex(NWDStatKeyValue sDataKey, NWDGameSave sGameSave)
+        static public List<NWDUserStatKeyValue> FindByIndex(NWDAccountStatKeyValue sDataKey, NWDGameSave sGameSave)
         {
             //BTBBenchmark.Start();
             List<NWDUserStatKeyValue> rReturn = null;

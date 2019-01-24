@@ -37,31 +37,7 @@ namespace NetWorkedData
         Error = 9
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-	[Serializable]
-    public class NWDTransactionConnection : NWDConnection<NWDTransaction>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum TransactionType
+    public enum NWDTransactionType
     {
         None,
         Daily,
@@ -70,18 +46,49 @@ namespace NetWorkedData
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("TRS")]
-    [NWDClassDescriptionAttribute("Transaction descriptions Class")]
-    [NWDClassMenuNameAttribute("Transaction")]
+    [NWDClassTrigrammeAttribute("UTS")]
+    [NWDClassDescriptionAttribute("User Transaction descriptions Class")]
+    [NWDClassMenuNameAttribute("User Transaction")]
     [NWDForceSecureDataAttribute]
-    public partial class NWDTransaction : NWDBasis<NWDTransaction>
+    public partial class NWDUserTransaction : NWDBasis<NWDUserTransaction>
     {
         //-----------------------------------------------------------------------------------------------------------------
         #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStartAttribute("Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> AccountReference
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
+
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Items in transaction", true, true, true)]
+        public NWDReferencesQuantityType<NWDItem> ItemsReceived
+        {
+            get; set;
+        }
+        public NWDReferencesQuantityType<NWDItem> ItemsSpent
+        {
+            get; set;
+        }
+        [NWDGroupEndAttribute]
+
+        [NWDGroupSeparatorAttribute]
+
+        [NWDGroupStartAttribute("Place ", true, true, true)]
+        public NWDReferenceType<NWDBarterPlace> BarterPlaceReference
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDTradePlace> TradePlaceReference
         {
             get; set;
         }
@@ -124,12 +131,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Constructors
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTransaction()
+        public NWDUserTransaction()
         {
             //Debug.Log("NWDTransaction Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDTransaction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDUserTransaction(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
             //Debug.Log("NWDTransaction Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
@@ -146,10 +153,10 @@ namespace NetWorkedData
         /// <param name="sShop">NWDShop from where we buy the NWDPack.</param>
         /// <param name="sRack">NWDRack from where we buy the NWDPack.</param>
         /// <param name="sPack">NWDPack the pack we just buy.</param>
-        public static NWDTransaction AddTransactionToAccount(NWDItem sItem, NWDShop sShop, NWDRack sRack, NWDPack sPack)
+        public static NWDUserTransaction AddTransactionToAccount(NWDItem sItem, NWDShop sShop, NWDRack sRack, NWDPack sPack)
         {
             // Set a NWDTransaction
-            NWDTransaction rTransaction = NewData();
+            NWDUserTransaction rTransaction = NewData();
 
 #if UNITY_EDITOR
             rTransaction.InternalKey = sItem.Name.GetBaseString();
@@ -290,14 +297,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Static methods
         //-------------------------------------------------------------------------------------------------------------
-        public static List<NWDTransaction> GetTransactionsByShopAndType(NWDShop sShop, List<NWDRack> sRacks, TransactionType sType)
+        public static List<NWDUserTransaction> GetTransactionsByShopAndType(NWDShop sShop, List<NWDRack> sRacks, NWDTransactionType sType)
         {
             // Create Transaction array
-            List<NWDTransaction> rTransactionList = new List<NWDTransaction>();
+            List<NWDUserTransaction> rTransactionList = new List<NWDUserTransaction>();
 
             // Init all transactions done by the user for selected shop and type
-            NWDTransaction[] tList = FindDatas();
-            foreach (NWDTransaction transaction in tList)
+            NWDUserTransaction[] tList = FindDatas();
+            foreach (NWDUserTransaction transaction in tList)
             {
                 // Verify we are in the right Shop
                 if (transaction.ShopReference.ContainsObject(sShop))
@@ -312,7 +319,7 @@ namespace NetWorkedData
                             bool isValidate = false;
                             switch (sType)
                             {
-                                case TransactionType.Daily:
+                                case NWDTransactionType.Daily:
                                     double tLocalDateStart = BTBDateHelper.ConvertToTimestamp(DateTime.Today);
                                     double tLocalDateEnd = BTBDateHelper.ConvertToTimestamp(DateTime.Today.AddDays(1));
                                     if (transaction.DC >= tLocalDateStart && transaction.DC <= tLocalDateEnd)
@@ -320,15 +327,15 @@ namespace NetWorkedData
                                         isValidate = true;
                                     }
                                     break;
-                                case TransactionType.Weekly:
+                                case NWDTransactionType.Weekly:
                                     //TODO: GetTransactionsByShopAndType weekly not implemented
                                     isValidate = true;
                                     break;
-                                case TransactionType.Monthly:
+                                case NWDTransactionType.Monthly:
                                     //TODO: GetTransactionsByShopAndType monthly not implemented
                                     isValidate = true;
                                     break;
-                                case TransactionType.None:
+                                case NWDTransactionType.None:
                                     isValidate = true;
                                     break;
                             }

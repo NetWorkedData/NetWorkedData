@@ -174,80 +174,80 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDMultiType GetAnnexeValue(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
-        {
-            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
-            NWDMultiType rReturn = new NWDMultiType();
-            if (tObject != null)
-            {
-                rReturn = tObject.AnnexeValue;
-            }
-            else
-            {
-                CreateLocalizationAnnexe(sKey, sDefault);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string GetAnnexeString(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
-        {
-            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
-            string rReturn = sDefault;
-            if (tObject != null)
-            {
-                rReturn = tObject.AnnexeValue.ToString();
-            }
-            else
-            {
-                CreateLocalizationAnnexe(sKey, sDefault);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool GetAnnexeBool(string sKey, bool sDefault = false)
-        {
-            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
-            bool rReturn = sDefault;
-            if (tObject != null)
-            {
-                rReturn = tObject.AnnexeValue.GetBool();
-            }
-            else
-            {
-                CreateLocalizationAnnexe(sKey, sDefault.ToString());
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static float GetAnnexeFloat(string sKey, float sDefault = 0.0f)
-        {
-            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
-            float rReturn = sDefault;
-            if (tObject != null)
-            {
-                rReturn = tObject.AnnexeValue.GetFloat();
-            }
-            else
-            {
-                CreateLocalizationAnnexe(sKey, sDefault.ToString());
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static float GetAnnexeInt(string sKey, int sDefault = 0)
-        {
-            NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
-            int rReturn = sDefault;
-            if (tObject != null)
-            {
-                rReturn = tObject.AnnexeValue.GetInt();
-            }
-            else
-            {
-                CreateLocalizationAnnexe(sKey, sDefault.ToString());
-            }
-            return rReturn;
-        }
+        //public static NWDMultiType GetAnnexeValue(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
+        //{
+        //    NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
+        //    NWDMultiType rReturn = new NWDMultiType();
+        //    if (tObject != null)
+        //    {
+        //        rReturn = tObject.AnnexeValue;
+        //    }
+        //    else
+        //    {
+        //        CreateLocalizationAnnexe(sKey, sDefault);
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static string GetAnnexeString(string sKey, string sDefault = BTBConstants.K_EMPTY_STRING)
+        //{
+        //    NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
+        //    string rReturn = sDefault;
+        //    if (tObject != null)
+        //    {
+        //        rReturn = tObject.AnnexeValue.ToString();
+        //    }
+        //    else
+        //    {
+        //        CreateLocalizationAnnexe(sKey, sDefault);
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static bool GetAnnexeBool(string sKey, bool sDefault = false)
+        //{
+        //    NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
+        //    bool rReturn = sDefault;
+        //    if (tObject != null)
+        //    {
+        //        rReturn = tObject.AnnexeValue.GetBool();
+        //    }
+        //    else
+        //    {
+        //        CreateLocalizationAnnexe(sKey, sDefault.ToString());
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static float GetAnnexeFloat(string sKey, float sDefault = 0.0f)
+        //{
+        //    NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
+        //    float rReturn = sDefault;
+        //    if (tObject != null)
+        //    {
+        //        rReturn = tObject.AnnexeValue.GetFloat();
+        //    }
+        //    else
+        //    {
+        //        CreateLocalizationAnnexe(sKey, sDefault.ToString());
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static float GetAnnexeInt(string sKey, int sDefault = 0)
+        //{
+        //    NWDLocalization tObject = FindFirstDatasByInternalKey(sKey, true) as NWDLocalization;
+        //    int rReturn = sDefault;
+        //    if (tObject != null)
+        //    {
+        //        rReturn = tObject.AnnexeValue.GetInt();
+        //    }
+        //    else
+        //    {
+        //        CreateLocalizationAnnexe(sKey, sDefault.ToString());
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /*public static void AutoLocalize(UnityEngine.UI.Text sText, string sDefault = "", GameObject tParent = null)
         {

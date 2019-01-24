@@ -681,7 +681,7 @@ namespace NetWorkedData
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                     {
                         BTBDataType tObject = Activator.CreateInstance(tTypeOfThis) as BTBDataType;
-                        tObject.SetString(tValueString);
+                        tObject.SetValue(tValueString);
                         tPropertyInfo.SetValue(this, tObject, null);
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))

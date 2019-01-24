@@ -445,7 +445,7 @@ namespace NetWorkedData
                                 // put quest in success
                                 QuestState = NWDQuestState.Rewarding;
                                 // I reset the dialog historic
-                                DialogResumeList.SetString(string.Empty);
+                                DialogResumeList.SetValue(string.Empty);
 
                                 // I must remove the required object or Not?
                                 NWDUserOwnership.RemoveItemToOwnership(tQuest.DesiredItemsToRemove);

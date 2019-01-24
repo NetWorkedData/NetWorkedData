@@ -178,6 +178,7 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_UPDATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Update all tables datas on local";
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";
+        public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 
