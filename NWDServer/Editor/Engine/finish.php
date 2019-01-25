@@ -40,16 +40,15 @@
 		header('hash: '.sha1($temporalSalt.$NWD_SHA_VEC.$REP['token']));
 		header('token: '.$REP['token']);
 	}
+	//--------------------
+	$json = json_encode($REP);
+	//--------------------
 	if (respondIsset('securePost'))
 	{
 		header('scr: scrdgt');
 		$REPSCR['scr'] =  aes128Encrypt( $json, $NWD_SHA_SEC, $NWD_SHA_VEC);
 		$REPSCR['scrdgt'] = sha1($NWD_SLT_STR.$REPSCR['scr'].$NWD_SLT_END);
 		$json = json_encode($REPSCR);
-	}
-	else
-	{
-		$json = json_encode($REP);
 	}
 	//--------------------
 	// write JSON
