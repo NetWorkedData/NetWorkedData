@@ -732,43 +732,70 @@ namespace NetWorkedData
             //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() THREAD ID" + System.Threading.Thread.CurrentThread.GetHashCode().ToString());
             //NWDDataManager.SharedInstance().SQLiteConnectionAccount.BeginTransaction();
             //NWDDataManager.SharedInstance().SQLiteConnectionEditor.BeginTransaction();
+            
             // I must autoanalyze the Type of data?
             if (sTypeList == null)
             {
-                List<Type> tTypeList = NWDDataManager.SharedInstance().mTypeList;
+                List<Type> tTypeList = SharedInstance().mTypeList;
                 sTypeList = tTypeList;
             }
-            bool sUpdateData = false;
+            
+            bool tUpdateData = false;
 			if (sTypeList != null)
-            {
+			{
+				List<string> tClassNameSync = new List<string>();
+				List<string> tClassNameNotSync = new List<string>();
+				List<string> tClassNameNotFound = new List<string>();
+				
 				foreach (Type tType in sTypeList)
                 {
-                    //Debug.Log("NWDDataManager SynchronizationPullClassesDatas() tType = " + tType.Name);
-
 					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                     if (tMethodInfo != null)
                     {
                         string tResult = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sData }) as string;
                         if (tResult == "YES")
                         {
-                            sUpdateData = true;
+                            tUpdateData = true;
+                            tClassNameSync.Add(tType.Name);
+                        }
+                        else
+                        {
+	                        tClassNameNotSync.Add(tType.Name);
                         }
                     }
                     else
                     {
-                        Debug.LogWarning("SynchronizationPullData not found for "+ tType.Name);
+	                    tClassNameNotFound.Add(tType.Name);
                     }
 				}
+				
+				////////////////////////////////////////////////////////////////////////////////////////////////////////
+				/*Debug.LogWarning("---------------------------------------------------");
+				Debug.LogWarning("class Updated : " + tClassNameSync.Count);
+				Debug.LogWarning("class not Updated : " + tClassNameNotSync.Count);
+				Debug.LogWarning("class not Found : " + tClassNameNotFound.Count);
+				Debug.LogWarning("---------------------------------------------------");
+				Debug.LogWarning("class not Updated List :");
+				tClassNameNotSync.Sort((x, y) => String.Compare(x, y, StringComparison.Ordinal));
+				foreach (string k in tClassNameNotSync)
+				{
+					Debug.LogWarning("" + k);
+				}
+				Debug.LogWarning("---------------------------------------------------");*/
+				////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
+			
             //BTBBenchmark.Start("DataQueueExecute");
-            NWDDataManager.SharedInstance().DataQueueExecute();
+            SharedInstance().DataQueueExecute();
             //BTBBenchmark.Finish("DataQueueExecute");
             //NWDDataManager.SharedInstance().SQLiteConnectionAccount.Commit();
             //NWDDataManager.SharedInstance().SQLiteConnectionEditor.Commit();
-			if (sUpdateData == true)
+            
+			if (tUpdateData)
             {
                 BTBNotificationManager.SharedInstance().PostNotification (new BTBNotification (NWDNotificationConstants.K_DATAS_WEB_UPDATE, null));
             }
+			
             //BTBBenchmark.Finish();
 		}
 		//-------------------------------------------------------------------------------------------------------------

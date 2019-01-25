@@ -151,21 +151,22 @@ namespace NetWorkedData
                     kCurrent = null;
                 }
             }
+            
             if (kCurrent == null)
             {
-                NWDAccountInfos tAccountInfos = NWDAccountInfos.GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
+                NWDAccountInfos tAccountInfos = GetFirstData(NWDAccount.GetCurrentAccountReference(), null);
                 if (tAccountInfos == null)
                 {
                     NWDAppEnvironment tAppEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
                     tAccountInfos = NewData();
-                    //tAccountInfos.InternalKey = NWDAccount.GetCurrentAccountReference();
                     tAccountInfos.Account.SetReference(NWDAccount.GetCurrentAccountReference());
                     tAccountInfos.AccountType = tAppEnvironment.PlayerStatut;
                     tAccountInfos.Tag = NWDBasisTag.TagUserCreated;
                     tAccountInfos.SaveData();
-                    kCurrent = tAccountInfos;
                 }
+                kCurrent = tAccountInfos;
             }
+            
             return kCurrent;
         }
         //-------------------------------------------------------------------------------------------------------------

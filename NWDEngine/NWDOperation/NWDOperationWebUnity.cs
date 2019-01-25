@@ -39,7 +39,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         static public NWDOperationWebUnity AddOperation(string sName, NWDAppEnvironment sEnvironment = null, bool sPriority = false)
         {
-            NWDOperationWebUnity rReturn = NWDOperationWebUnity.Create(sName, sEnvironment);
+            NWDOperationWebUnity rReturn = Create(sName, sEnvironment);
             NWDDataManager.SharedInstance().WebOperationQueue.AddOperation(rReturn, sPriority);
             return rReturn;
         }
@@ -56,11 +56,11 @@ namespace NetWorkedData
                 sEnvironment = NWDAppConfiguration.SharedInstance().SelectedEnvironment();
             }
             GameObject tGameObjectToSpawn = new GameObject(sName);
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             tGameObjectToSpawn.hideFlags = HideFlags.HideAndDontSave;
-#else
+            #else
             tGameObjectToSpawn.transform.SetParent(NWDGameDataManager.UnitySingleton().transform);
-#endif 
+            #endif 
             rReturn = tGameObjectToSpawn.AddComponent<NWDOperationWebUnity>();
             rReturn.GameObjectToSpawn = tGameObjectToSpawn;
             rReturn.Environment = sEnvironment;
@@ -70,7 +70,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Execute()
         {
-            // start coroutine ();
+            // Send Async Request
             ResultInfos = new NWDOperationResult();
             StartCoroutine(ExecuteAsync());
         }
@@ -93,9 +93,18 @@ namespace NetWorkedData
         public virtual string ServerBase()
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string rURL = Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
-            //Debug.Log("URL : " + rURL);
-            return rURL;
+            return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        IEnumerator StartAsync()
+        {
+            using (Request = new UnityWebRequest(ServerBase(), UnityWebRequest.kHttpVerbPOST))
+            {
+                InsertHeaderInRequest();
+                Request.downloadHandler = new DownloadHandlerBuffer();
+                yield return Request.SendWebRequest();
+                Debug.Log(Request.downloadHandler.text);
+            }
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()
@@ -125,7 +134,7 @@ namespace NetWorkedData
 
             //Operation progress
             Statut = BTBOperationState.InProgress;
-            float tStart = Time.time;
+            //float tStart = Time.time;
 
             // Put Sync in progress
             // ParentQueue.SynchronizeInProgress = true;
@@ -163,30 +172,10 @@ namespace NetWorkedData
                 // I send the data
                 ResultInfos.WebDateTime = DateTime.Now;
 
-                // insert dico of header in request header
-                string tDebugRequestHeader = string.Empty;
-                foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-                {
-                    tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                }
+                // Show Header Infos Up
+                DebugShowHeaderUploaded(tWWWForm.data);
 
-                NWDDebug.Log("NWDOperationWebUnity UPLOADED \n" +
-                "-------------------\n" +
-                "<b>Request URl :</b> " + Request.url + "\n" +
-                "-------------------\n" +
-                "<b>Headers :</b> \n" +
-                "-------------------\n" +
-                tDebugRequestHeader +
-                "-------------------\n" +
-                "<b>Datas :</b> \n" +
-                "-------------------\n" +
-                Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
-                "-------------------\n" +
-                System.Text.Encoding.UTF8.GetString(tWWWForm.data) +
-                "-------------------\n" +
-                ""
-                );
-
+                // Send Request
                 Request.SendWebRequest();
 
                 // Notification of an Upload start
@@ -215,8 +204,8 @@ namespace NetWorkedData
 
                     yield return null;
                 }
-
-                if (Request.isDone)
+                
+                if (Request.isDone && Request.downloadHandler.isDone)
                 {
                     ResultInfos.DownloadedDateTime = DateTime.Now;
                     ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
@@ -225,56 +214,16 @@ namespace NetWorkedData
                     // Notification of an Download is done
                     BTBNotificationManager.SharedInstance().PostNotification(new BTBNotification(NWDNotificationConstants.K_WEB_OPERATION_DOWNLOAD_IS_DONE, this));
 
-                    string tDebugResponseHeader = string.Empty;
-                    foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
-                    {
-                        tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                    }
+                    // Show Header Infos Down
+                    DebugShowHeaderDownloaded(Request.downloadHandler.text);
 
-                    NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
-                    "-------------------\n" +
-                    "<b>Request URl :</b> " + Request.url + "\n" +
-                    "-------------------\n" +
-                    "<b>Headers :</b> \n" +
-                    "-------------------\n" +
-                    tDebugResponseHeader +
-                    "-------------------\n" +
-                    "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
-                    "-------------------\n" +
-                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
-                    "-------------------\n" +
-                    ""
-                    );
-
-                    //string tDebugUpload = string.Empty;
-                    //foreach (KeyValuePair<string, object> tEntry in HeaderParams)
-                    //{
-                    //    tDebugUpload += tEntry.Key + " = '" + tEntry.Value + "' , \n";
-                    //}
-
-                    NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
-                    "-------------------\n" +
-                    "<b>Request URl :</b> " + Request.url + "\n" +
-                    "-------------------\n" +
-                    "<b>Headers UPLOAD :</b> \n" +
-                    "-------------------\n" +
-                    tDebugRequestHeader +
-                    "-------------------\n" +
-                    "<b>Headers DOWNLOAD :</b> \n" +
-                    "-------------------\n" +
-                    tDebugResponseHeader +
-                    "-------------------\n" +
-                    "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
-                    "-------------------\n" +
-                    Request.downloadHandler.text.Replace("\\\\r", "\r\n") + "\n" +
-                    "-------------------\n" +
-                    ""
-                    );
+                    // Show Header Infos Up vs Down
+                    DebugShowHeaderTotal(Request.downloadHandler.text);
                 }
                 
-                if (string.IsNullOrEmpty(Request.GetResponseHeader("obsolete")) == true)
+                if (string.IsNullOrEmpty(Request.GetResponseHeader("obsolete")))
                 {
-                    if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")) == true)
+                    if (string.IsNullOrEmpty(Request.GetResponseHeader("maintenance")))
                     {
                         // Check for error
                         if (Request.isNetworkError ||
@@ -285,7 +234,6 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            Debug.Log("" + Request.downloadHandler.text);
                             Byte[] tByte = Request.downloadHandler.data;
                             string tByteToData = Encoding.ASCII.GetString(tByte);
                             Dictionary<string, object> tData = null;
@@ -333,11 +281,11 @@ namespace NetWorkedData
                                         ResultInfos.SetErrorCode("RQT98");
                                     }
                                 }
+                                
                                 // Request in Progress, send Invoke
                                 ProgressInvoke(1.0f, ResultInfos);
     
                                 ResultInfos.SetData(tData);
-                                //OctetDownload = Request.downloadHandler.text.Length;
                                 ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
     
                                 // memorize the token for next connection
@@ -524,35 +472,30 @@ namespace NetWorkedData
                     else
                     {
                         ResultInfos.SetErrorCode("MAINTENANCE");
-                        #if UNITY_EDITOR
                         if (ResultInfos.errorDesc != null)
                         {
+                            #if UNITY_EDITOR        
                             ResultInfos.errorDesc.ShowNativeAlert();
+                            #else
+                            ResultInfos.errorDesc.PostNotificationError();
+                            #endif
                         }
-                        #else
-                        if (ResultInfos.errorDesc != null)
-                        {
-                             ResultInfos.errorDesc.PostNotificationError();
-                        }
-                        #endif
                     }
                 }
                 else
                 {
                     ResultInfos.SetErrorCode("OBSOLETE");
-                    #if UNITY_EDITOR
+                    
                     if (ResultInfos.errorDesc != null)
                     {
+                        #if UNITY_EDITOR
                         ResultInfos.errorDesc.ShowNativeAlert();
+                        #else
+                        ResultInfos.errorDesc.PostNotificationError();
+                        #endif
                     }
-                    #else
-                    if (ResultInfos.errorDesc != null)
-                    {
-                         ResultInfos.errorDesc.PostNotificationError();
-                    }
-                    #endif
                 }
-
+                
                 // Save preference localy
                 Environment.SavePreferences();
 
@@ -634,11 +577,11 @@ namespace NetWorkedData
         public override void DestroyThisOperation()
         {
             Statut = BTBOperationState.Destroy;
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             DestroyImmediate(GameObjectToSpawn);
-#else
+            #else
             Destroy (GameObjectToSpawn);
-#endif
+            #endif
         }
         //-------------------------------------------------------------------------------------------------------------
         static string OSKey = "os";
@@ -647,12 +590,9 @@ namespace NetWorkedData
         static string UUIDKey = "uuid";
         static string RequestTokenKey = "token";
         static string HashKey = "hash";
-        //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
+        #if UNITY_EDITOR
         static string AdminHashKey = "adminHash";
-        //-------------------------------------------------------------------------------------------------------------
-#endif
+        #endif
         //-------------------------------------------------------------------------------------------------------------
         public string OS;
         public string Lang;
@@ -675,25 +615,27 @@ namespace NetWorkedData
             }
             UUID = Environment.PlayerAccountReference;
             RequestToken = Environment.RequesToken;
-#if UNITY_EDITOR
+            
+            #if UNITY_EDITOR
             Version = PlayerSettings.bundleVersion;
             OS = "editor";
-#else
-            Version = Application.version;
-#if UNITY_ANDROID
-            OS = "android";
-#elif UNITY_IOS
-            OS = "ios";
-#elif UNITY_STANDALONE_OSX
-            OS = "osx";
-#elif UNITY_WP8
-            OS = "wp8";
-#elif UNITY_WINRT
-            OS = "win";
-#else
-            OS = "unity";
-#endif
-#endif
+            #else
+                Version = Application.version;
+                #if UNITY_ANDROID
+                OS = "android";
+                #elif UNITY_IOS
+                OS = "ios";
+                #elif UNITY_STANDALONE_OSX
+                OS = "osx";
+                #elif UNITY_WP8
+                OS = "wp8";
+                #elif UNITY_WINRT
+                OS = "win";
+                #else
+                OS = "unity";
+                #endif
+            #endif
+            
             Lang = NWDDataManager.SharedInstance().PlayerLanguage;
 
             // insert value in header dico
@@ -707,13 +649,13 @@ namespace NetWorkedData
             string tHashValue = string.Format("{0}{1}{2}{3}{4}{5}", OS, Version, Lang, NWDToolbox.GenerateSALT(Environment.SaltFrequency), UUID, RequestToken);
             HeaderParams.Add(HashKey, BTBSecurityTools.GenerateSha(tHashValue, BTBSecurityShaTypeEnum.Sha1));
 
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             // add hash for admin
             if (Application.isPlaying == false && Application.isEditor == true)
             {
                 HeaderParams.Add(AdminHashKey, NWDToolbox.GenerateAdminHash(Environment.AdminKey, Environment.SaltFrequency));
             }
-#endif
+            #endif
 
             // insert dico of header in request header
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
@@ -755,12 +697,12 @@ namespace NetWorkedData
             tBodyData.AddField(tParamKey, tParamValue);
             tBodyData.AddField(tDigestKey, tDigestValue);
 
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             if (Application.isPlaying == false)
             {
                 sInfos.OctetUpload = tParamValue.Length + tDigestValue.Length;
             }
-#endif
+            #endif
 
             return tBodyData;
         }
@@ -772,11 +714,6 @@ namespace NetWorkedData
             string tSaltB = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 0);
             string tSaltC = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, -1);
 
-            ;
-            //Debug.Log("Hash "+ sHash + " for token " + sToken + ": ? " + 
-            //BTBSecurityTools.GenerateSha(tSaltA + sVector+ sToken) + " or " +
-            //BTBSecurityTools.GenerateSha(tSaltB + sVector+ sToken) + " or " +
-            //BTBSecurityTools.GenerateSha(tSaltC + sVector+ sToken));
             string sVector = Environment.DataSHAVector;
             if (BTBSecurityTools.GenerateSha(tSaltA + sVector + sToken) == sHash ||
                 BTBSecurityTools.GenerateSha(tSaltB + sVector + sToken) == sHash ||
@@ -784,7 +721,92 @@ namespace NetWorkedData
             {
                 rReturn = true;
             }
+            
             return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void DebugShowHeaderUploaded(byte[] sData)
+        {
+            string tDebugRequestHeader = string.Empty;
+            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+            {
+                tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+            }
+            
+            NWDDebug.Log("NWDOperationWebUnity UPLOADED \n" +
+                         "-------------------\n" +
+                         "<b>Request URl :</b> " + Request.url + "\n" +
+                         "-------------------\n" +
+                         "<b>Headers :</b> \n" +
+                         "-------------------\n" +
+                         tDebugRequestHeader +
+                         "-------------------\n" +
+                         "<b>Datas :</b> \n" +
+                         "-------------------\n" +
+                         Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
+                         "-------------------\n" +
+                         Encoding.UTF8.GetString(sData) +
+                         "-------------------\n" +
+                         ""
+            );
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void DebugShowHeaderDownloaded(string sData)
+        {
+            string tDebugResponseHeader = string.Empty;
+            foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+            {
+                tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+            }
+
+            NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
+                         "-------------------\n" +
+                         "<b>Request URl :</b> " + Request.url + "\n" +
+                         "-------------------\n" +
+                         "<b>Headers :</b> \n" +
+                         "-------------------\n" +
+                         tDebugResponseHeader +
+                         "-------------------\n" +
+                         "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                         "-------------------\n" +
+                         sData.Replace("\\\\r", "\r\n") + "\n" +
+                         "-------------------\n" +
+                         ""
+            );
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        private void DebugShowHeaderTotal(string sData)
+        {
+            string tDebugRequestHeader = string.Empty;
+            foreach (KeyValuePair<string, object> tEntry in HeaderParams)
+            {
+                tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+            }
+            
+            string tDebugResponseHeader = string.Empty;
+            foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
+            {
+                tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
+            }
+            
+            NWDDebug.Log("NWDOperationWebUnity UPLOAD  VS DOWNLOADED \n" +
+                         "-------------------\n" +
+                         "<b>Request URl :</b> " + Request.url + "\n" +
+                         "-------------------\n" +
+                         "<b>Headers UPLOAD :</b> \n" +
+                         "-------------------\n" +
+                         tDebugRequestHeader +
+                         "-------------------\n" +
+                         "<b>Headers DOWNLOAD :</b> \n" +
+                         "-------------------\n" +
+                         tDebugResponseHeader +
+                         "-------------------\n" +
+                         "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
+                         "-------------------\n" +
+                         sData.Replace("\\\\r", "\r\n") + "\n" +
+                         "-------------------\n" +
+                         ""
+            );
         }
         //-------------------------------------------------------------------------------------------------------------
     }
