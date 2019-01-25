@@ -145,10 +145,13 @@ namespace NetWorkedData
             // I insert the data
             WWWForm tWWWForm = InsertDataInRequest(ResultInfos);
 
+            string tPath = Path.Combine(Application.persistentDataPath, "downloaded.json");
+
             ResultInfos.OctetUpload = tWWWForm.data.Length;
             using (Request = UnityWebRequest.Post(ServerBase(), tWWWForm))
             {
                 Request.downloadHandler = new DownloadHandlerBuffer();
+                Request.downloadHandler = new DownloadHandlerFile(tPath);
                 //Request.timeout = kTimeOutOfRequest;
                 Request.timeout = Environment.WebTimeOut;
 
@@ -229,11 +232,13 @@ namespace NetWorkedData
                     {
 
                         // string tDataConverted = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.downloadHandler.text));
-                        string tDataConverted = Request.downloadHandler.text;
+                        //string tDataConverted = Request.downloadHandler.text;
+
+                        string tDataConverted = File.ReadAllText(tPath);
 
                         ResultInfos.DownloadedDateTime = DateTime.Now;
                         ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
-                        ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
+                        ResultInfos.OctetDownload = tDataConverted.Length;
 
                         // Notification of an Download is done
                         //Debug.Log("NWDOperationWebUnity UPLOADED / DOWNLOADED isDone: " + Request.isDone);
@@ -245,7 +250,7 @@ namespace NetWorkedData
                             tDebugResponseHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
                         }
                         //Debug.Log("NWDOperationWebUnity DOWNLOADED Headers " + tDebug);
-                        Debug.Log("NWDOperationWebUnity DOWNLOADED Datas " + Request.downloadHandler.text.Replace("\\\\r", "\r\n"));
+                        Debug.Log("NWDOperationWebUnity DOWNLOADED Datas " + tDataConverted.Replace("\\\\r", "\r\n"));
 
 
                         NWDDebug.Log("NWDOperationWebUnity DOWNLOADED \n" +
@@ -313,6 +318,8 @@ namespace NetWorkedData
                                     {
                                         if (SecureData == true)
                                         {
+                                            //string scrdata = Request.GetResponseHeader("scrdata");
+                                            //tData = Json.Deserialize(scrdata) as Dictionary<string, object>;
                                             if (tData.ContainsKey("scr") && tData.ContainsKey("scrdgt"))
                                             {
                                                 string tSCR = (string)tData["scr"];
@@ -346,7 +353,7 @@ namespace NetWorkedData
 
                                         ResultInfos.SetData(tData);
                                         //OctetDownload = Request.downloadHandler.text.Length;
-                                        ResultInfos.OctetDownload = Request.downloadHandler.text.Length;
+                                        ResultInfos.OctetDownload = tDataConverted.Length;
 
                                         // memorize the token for next connection
                                         if (!ResultInfos.token.Equals(string.Empty))
@@ -579,6 +586,8 @@ namespace NetWorkedData
                 }
                 Finish();
             }
+
+            //File.Delete(tPath);
         }
         //-------------------------------------------------------------------------------------------------------------
         private void RequestError(bool sJsonIsNull = false)
