@@ -112,6 +112,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDNotEditable]
         [NWDAlias("BarterHash")]
         public string BarterHash
         {

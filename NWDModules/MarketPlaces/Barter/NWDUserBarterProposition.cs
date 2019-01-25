@@ -94,8 +94,9 @@ namespace NetWorkedData
 		public NWDTradeStatus BarterStatus
 		{
 			get; set;
-		}
-		[NWDAlias("BarterRequestHash")]
+        }
+        [NWDNotEditable]
+        [NWDAlias("BarterRequestHash")]
 		public string BarterRequestHash
 		{
 			get; set;

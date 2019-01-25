@@ -274,8 +274,8 @@ namespace NetWorkedData
             string tClassName = tTableMapping.TableName;
             string tTrigramme = Datas().ClassTrigramme;
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
-            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
+            string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
+            string tYearString = NWDToolbox.DateTimeYYYY(tTime);
             bool tInDevEnviroment = false;
             if (NWDAppConfiguration.SharedInstance().DevEnvironment == sEnvironment)
             {
@@ -381,9 +381,13 @@ namespace NetWorkedData
                 {
                     SLQIntegrityOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
                 }
-                else if (tTypeOfThis == typeof(float) || tTypeOfThis == typeof(double))
+                else if (tTypeOfThis == typeof(float))
                 {
                     SLQIntegrityOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
+                }
+                else if (tTypeOfThis == typeof(double))
+                {
+                    SLQIntegrityOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.DoubleSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
                 }
                 else
                 {

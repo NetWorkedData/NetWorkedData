@@ -26,41 +26,50 @@ using UnityEditorInternal;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//TODO: FINISH THIS CLASS NWDFloatRange
-	[SerializeField]
-	//-------------------------------------------------------------------------------------------------------------
+    //TODO: FINISH THIS CLASS NWDFloatRange
+    [SerializeField]
+    //-------------------------------------------------------------------------------------------------------------
     public class NWDFloatRange : BTBDataType
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDFloatRange ()
-		{
-            Value = 0.0F + NWDConstants.kFieldSeparatorA + 1.0F;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public NWDFloatRange (string sValue = BTBConstants.K_EMPTY_STRING)
-		{
-			if (sValue == null) {
-				Value = string.Empty;
-			} else {
-				Value = sValue;
-			}
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDFloatRange()
+        {
+            Value = NWDToolbox.FloatRangeZero();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        //public NWDFloatRange(string sValue)
+        //{
+        //    if (string.IsNullOrEmpty(sValue))
+        //    {
+        //        Value = NWDToolbox.FloatRangeZero();
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDFloatRange(float sStart, float sEnd)
+        {
+            Value = NWDToolbox.FloatRangeToString(sStart, sEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = "0.0F";
+            Value = NWDToolbox.FloatRangeZero();
         }
-		//-------------------------------------------------------------------------------------------------------------
-        public void SetFloat (float sStart, float sEnd)
-		{
-            if (sStart<=sEnd)
-            {
-                Value = sStart.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + sEnd.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
-            }
-            else
-            {
-                Value = sEnd.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + sStart.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry); 
-            }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetFloat(float sStart, float sEnd)
+        {
+            //if (sStart<=sEnd)
+            //{
+            //    Value = sStart.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + sEnd.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+            //}
+            //else
+            //{
+            //    Value = sEnd.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorA + sStart.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry); 
+            //}
+            Value = NWDToolbox.FloatRangeToString(sStart, sEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetStart(float sStart)
@@ -72,18 +81,19 @@ namespace NetWorkedData
         {
             SetFloat(GetFloats()[0], sEnd);
         }
-		//-------------------------------------------------------------------------------------------------------------
-		public float[] GetFloats ()
-		{
-            string[] tFloats=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            float tStart =0.0F;
-            float tEnd = 0.0F;
-			if (tFloats.Count() == 2) {
-                float.TryParse(tFloats [0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tStart);
-                float.TryParse(tFloats [1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tEnd);
-            }
-            float[] rReturn = new float[] { tStart, tEnd };
-			return rReturn;
+        //-------------------------------------------------------------------------------------------------------------
+        public float[] GetFloats()
+        {
+            //         string[] tFloats=Value.Split (new string[]{ NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //         float tStart =0.0F;
+            //         float tEnd = 0.0F;
+            //if (tFloats.Count() == 2) {
+            //             float.TryParse(tFloats [0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tStart);
+            //             float.TryParse(tFloats [1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out tEnd);
+            //         }
+            //         float[] rReturn = new float[] { tStart, tEnd };
+            //return rReturn;
+            return NWDToolbox.FloatRangeFromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
         public float GetStart()
@@ -95,31 +105,37 @@ namespace NetWorkedData
         {
             return GetFloats()[1];
         }
-		//-------------------------------------------------------------------------------------------------------------
-		#if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		public override float ControlFieldHeight ()
-		{
-			GUIStyle tPopupStyle = new GUIStyle (EditorStyles.popup);
-			float tHeight = tPopupStyle.CalcHeight (new GUIContent ("A"), 100.0f);
-			return tHeight;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-        public override object ControlField (Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
-		{
-            NWDFloatRange tTemporary = new NWDFloatRange ();
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        public override float ControlFieldHeight()
+        {
+            GUIStyle tPopupStyle = new GUIStyle(EditorStyles.popup);
+            float tHeight = tPopupStyle.CalcHeight(new GUIContent("A"), 100.0f);
+            return tHeight;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = BTBConstants.K_EMPTY_STRING)
+        {
+            NWDFloatRange tTemporary = new NWDFloatRange();
             GUIContent tContent = new GUIContent(sEntitled, sTooltips);
-
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //float tStart = 0.0F;
+            //float tEnd = 0.0F;
+            //if (tFloats.Count() == 2)
+            //{
+            //    float.TryParse(tFloats[0], out tStart);
+            //    float.TryParse(tFloats[1], out tEnd);
+            //}
+            float[] tFloats = GetFloats();
             float tStart = 0.0F;
             float tEnd = 0.0F;
             if (tFloats.Count() == 2)
             {
-                float.TryParse(tFloats[0], out tStart);
-                float.TryParse(tFloats[1], out tEnd);
+                tStart = tFloats[0];
+                tEnd = tFloats[1];
             }
-
-			//float tX = sPos.x + EditorGUIUtility.labelWidth;
+            //float tX = sPos.x + EditorGUIUtility.labelWidth;
             EditorGUI.MinMaxSlider(new Rect(sPos.x, sPos.y, sPos.width, NWDConstants.kLabelStyle.fixedHeight),
                                     tContent,
                                    ref tStart,
@@ -130,12 +146,12 @@ namespace NetWorkedData
             int tIndentLevel = EditorGUI.indentLevel;
             EditorGUI.indentLevel = 0;
             EditorGUI.indentLevel = tIndentLevel;
-            tTemporary.SetFloat(tStart,tEnd);
-			return tTemporary;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endif
-		//-------------------------------------------------------------------------------------------------------------
-	}
+            tTemporary.SetFloat(tStart, tEnd);
+            return tTemporary;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+#endif
+        //-------------------------------------------------------------------------------------------------------------
+    }
 }
 //=====================================================================================================================

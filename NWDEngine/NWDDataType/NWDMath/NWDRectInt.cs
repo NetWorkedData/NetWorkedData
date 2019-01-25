@@ -34,50 +34,57 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDRectInt()
         {
-            Value = 0 + NWDConstants.kFieldSeparatorA + 0+ NWDConstants.kFieldSeparatorA + 0+ NWDConstants.kFieldSeparatorA + 0;
+            Value = NWDToolbox.RectIntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDRectInt(string sValue = BTBConstants.K_EMPTY_STRING)
+        //public NWDRectInt(string sValue = BTBConstants.K_EMPTY_STRING)
+        //{
+        //    if (sValue == null)
+        //    {
+        //        Value = NWDToolbox.RectIntZero();
+        //    }
+        //    else
+        //    {
+        //        Value = sValue;
+        //    }
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDRectInt(RectInt sRectInt)
         {
-            if (sValue == null)
-            {
-                Value = string.Empty;
-            }
-            else
-            {
-                Value = sValue;
-            }
+            Value = NWDToolbox.RectIntToString(sRectInt);
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Default()
         {
-            Value = string.Empty;
+            Value = NWDToolbox.RectIntZero();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetRectInt(RectInt sRectInt)
         {
-            Value = sRectInt.x + NWDConstants.kFieldSeparatorA +
-                    sRectInt.y + NWDConstants.kFieldSeparatorA +
-                         sRectInt.height + NWDConstants.kFieldSeparatorA +
-                         sRectInt.width;
+            //Value = sRectInt.x + NWDConstants.kFieldSeparatorA +
+            //sRectInt.y + NWDConstants.kFieldSeparatorA +
+            //sRectInt.height + NWDConstants.kFieldSeparatorA +
+            //sRectInt.width;
+            Value = NWDToolbox.RectIntToString(sRectInt);
         }
         //-------------------------------------------------------------------------------------------------------------
         public RectInt GetRectInt()
         {
-            string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
-            int tX = 0;
-            int tY = 0;
-            int tHeight = 0;
-            int tWidth = 0;
-            if (tFloats.Count() == 4)
-            {
-                int.TryParse(tFloats[0], out tX);
-                int.TryParse(tFloats[1], out tY);
-                int.TryParse(tFloats[2], out tHeight);
-                int.TryParse(tFloats[3], out tWidth);
-            }
-            RectInt rReturn = new RectInt(tX, tY, tHeight, tWidth);
-            return rReturn;
+            //string[] tFloats = Value.Split(new string[] { NWDConstants.kFieldSeparatorA }, StringSplitOptions.RemoveEmptyEntries);
+            //int tX = 0;
+            //int tY = 0;
+            //int tHeight = 0;
+            //int tWidth = 0;
+            //if (tFloats.Count() == 4)
+            //{
+            //    int.TryParse(tFloats[0], out tX);
+            //    int.TryParse(tFloats[1], out tY);
+            //    int.TryParse(tFloats[2], out tHeight);
+            //    int.TryParse(tFloats[3], out tWidth);
+            //}
+            //RectInt rReturn = new RectInt(tX, tY, tHeight, tWidth);
+            //return rReturn;
+            return NWDToolbox.RectIntFromString(Value);
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

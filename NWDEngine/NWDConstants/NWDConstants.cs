@@ -32,6 +32,8 @@ namespace NetWorkedData
         public static CultureInfo FormatCountry = CultureInfo.InvariantCulture;
         public static string FloatFormat = "F5";
         public static string FloatSQLFormat = "5";
+        public static string DoubleFormat = "F5";
+        public static string DoubleSQLFormat = "5";
         //-------------------------------------------------------------------------------------------------------------
         // [Obsolete(NWDConstants.K_WILL_BE_REMOVED)] // used in NWD task
         public const string K_WILL_BE_REMOVED = " WILL BE REMOVED ";
@@ -64,9 +66,13 @@ namespace NetWorkedData
         public static string kFieldSeparatorA = "•";
         public static string kFieldSeparatorB = ":";
         public static string kFieldSeparatorC = "_";
+        public static string kFieldSeparatorD = "∆";
+        public static string kFieldSeparatorE = "∂";
         public static string kFieldSeparatorASubstitute = "@1#";
         public static string kFieldSeparatorBSubstitute = "@2#";
         public static string kFieldSeparatorCSubstitute = "@3#";
+        public static string kFieldSeparatorDSubstitute = "@4#";
+        public static string kFieldSeparatorESubstitute = "@5#";
         //-------------------------------------------------------------------------------------------------------------
         static public string kPrefSaltValidKey = "SaltValid";
         static public string kPrefSaltAKey = "SaltA";
@@ -178,6 +184,7 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_UPDATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Update all tables datas on local";
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";
+        public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 

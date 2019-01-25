@@ -354,7 +354,7 @@ namespace NetWorkedData
             {
                 case NWDStatKeyDomain.AccountStat:
                     {
-                        NWDStatKeyValue.UserStatForKey(Reference).AddEnter(sValue);
+                        NWDAccountStatKeyValue.UserStatForKey(Reference).AddEnter(sValue);
                     }
                     break;
                 case NWDStatKeyDomain.GameSaveStat:
@@ -372,7 +372,7 @@ namespace NetWorkedData
             {
                 case NWDStatKeyDomain.AccountStat:
                     {
-                        rReturn = NWDStatKeyValue.UserStatForKey(Reference).AddEnterForParent(sValue, this);
+                        rReturn = NWDAccountStatKeyValue.UserStatForKey(Reference).AddEnterForParent(sValue, this);
                     }
                     break;
                 case NWDStatKeyDomain.GameSaveStat:
@@ -391,7 +391,7 @@ namespace NetWorkedData
             {
                 case NWDStatKeyDomain.AccountStat:
                     {
-                        rReturn = NWDStatKeyValue.UserStatForKey(Reference).Counter;
+                        rReturn = NWDAccountStatKeyValue.UserStatForKey(Reference).Counter;
                     }
                     break;
                 case NWDStatKeyDomain.GameSaveStat:

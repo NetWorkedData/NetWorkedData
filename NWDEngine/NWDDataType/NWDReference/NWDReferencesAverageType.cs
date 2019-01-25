@@ -46,15 +46,18 @@ namespace NetWorkedData
             string[] tValueArray = sString.Split(new string[] { NWDConstants.kFieldSeparatorC }, StringSplitOptions.RemoveEmptyEntries);
             if (tValueArray.Length > 0)
             {
-                float.TryParse(tValueArray[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Total);
+                Total = NWDToolbox.FloatFromString(tValueArray[0]);
+                //float.TryParse(tValueArray[0], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Total);
             }
             if (tValueArray.Length > 1)
             {
-                float.TryParse(tValueArray[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Counter);
+                Counter = NWDToolbox.FloatFromString(tValueArray[1]);
+                //float.TryParse(tValueArray[1], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Counter);
             }
             if (tValueArray.Length > 2)
             {
-                float.TryParse(tValueArray[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Average);
+                Average = NWDToolbox.FloatFromString(tValueArray[1]);
+                //float.TryParse(tValueArray[2], System.Globalization.NumberStyles.Float, NWDConstants.FormatCountry, out Average);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -65,9 +68,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         new public string ToString()
         {
-            return Total.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
-                        Counter.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
-                        Average.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+            //return Total.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
+                        //Counter.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry) + NWDConstants.kFieldSeparatorC +
+                        //Average.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+            return NWDToolbox.FloatToString(Total) + NWDConstants.kFieldSeparatorC +
+                       NWDToolbox.FloatToString(Counter) + NWDConstants.kFieldSeparatorC +
+                       NWDToolbox.FloatToString(Average);
         }
         //-------------------------------------------------------------------------------------------------------------
         public void AddValue(float sValue)

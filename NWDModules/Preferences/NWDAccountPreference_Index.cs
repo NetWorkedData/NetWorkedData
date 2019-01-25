@@ -23,7 +23,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDStatKeyValue : NWDBasis<NWDStatKeyValue>
+    public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
     {
         //-------------------------------------------------------------------------------------------------------------
         // Create an Index
@@ -35,69 +35,72 @@ namespace NetWorkedData
         // must ADD RemoveFromIndex(); in : 
         // AddonDeleteMe()
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
-        static Dictionary<string, List<NWDStatKeyValue>> kIndex = new Dictionary<string, List<NWDStatKeyValue>>();
-        private List<NWDStatKeyValue> kIndexList;
+        static Dictionary<string, List<NWDAccountPreference>> kIndex = new Dictionary<string, List<NWDAccountPreference>>();
+        private List<NWDAccountPreference> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
-            //Debug.Log("InsertInIndex reference =" + Reference);
-            //BTBBenchmark.Start();
-            if (StatKey.GetReference() != null
+            if (PreferenceKey != null)
+            {
+                //Debug.Log("InsertInIndex reference =" + Reference);
+                //BTBBenchmark.Start();
+                if (PreferenceKey.GetReference() != null
                 && IsEnable() == true
                 && IsTrashed() == false
                 && TestIntegrity() == true)
-            {
-                string tKey = StatKey.GetReference();
-                if (kIndexList != null)
                 {
-                    // I have allready index
-                    if (kIndex.ContainsKey(tKey))
+                    string tKey = PreferenceKey.GetReference();
+                    if (kIndexList != null)
                     {
-                        if (kIndex[tKey] == kIndexList)
+                        // I have allready index
+                        if (kIndex.ContainsKey(tKey))
                         {
-                            // I am in the good index ... do nothing
+                            if (kIndex[tKey] == kIndexList)
+                            {
+                                // I am in the good index ... do nothing
+                            }
+                            else
+                            {
+                                // I Changed index! during update ?!!
+                                kIndexList.Remove(this);
+                                kIndexList = null;
+                                kIndexList = kIndex[tKey];
+                                kIndexList.Add(this);
+                            }
                         }
                         else
                         {
-                            // I Changed index! during update ?!!
                             kIndexList.Remove(this);
                             kIndexList = null;
-                            kIndexList = kIndex[tKey];
+                            kIndexList = new List<NWDAccountPreference>();
+                            kIndex.Add(tKey, kIndexList);
                             kIndexList.Add(this);
                         }
                     }
                     else
                     {
-                        kIndexList.Remove(this);
-                        kIndexList = null;
-                        kIndexList = new List<NWDStatKeyValue>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
+                        // I need add in index!
+                        if (kIndex.ContainsKey(tKey))
+                        {
+                            // index exists
+                            kIndexList = kIndex[tKey];
+                            kIndexList.Add(this);
+                        }
+                        else
+                        {
+                            // index must be create
+                            kIndexList = new List<NWDAccountPreference>();
+                            kIndex.Add(tKey, kIndexList);
+                            kIndexList.Add(this);
+                        }
                     }
                 }
                 else
                 {
-                    // I need add in index!
-                    if (kIndex.ContainsKey(tKey))
-                    {
-                        // index exists
-                        kIndexList = kIndex[tKey];
-                        kIndexList.Add(this);
-                    }
-                    else
-                    {
-                        // index must be create
-                        kIndexList = new List<NWDStatKeyValue>();
-                        kIndex.Add(tKey, kIndexList);
-                        kIndexList.Add(this);
-                    }
+                    RemoveFromIndex();
                 }
+                //BTBBenchmark.Finish();
             }
-            else
-            {
-                RemoveFromIndex();
-            }
-            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void RemoveFromIndex()
@@ -112,10 +115,10 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDStatKeyValue> FindByIndex(NWDStatKeyValue sDataKey)
+        static public List<NWDAccountPreference> FindByIndex(NWDAccountPreference sDataKey)
         {
             //BTBBenchmark.Start();
-            List<NWDStatKeyValue> rReturn = null;
+            List<NWDAccountPreference> rReturn = null;
             if (sDataKey != null)
             {
                 string tKey = sDataKey.Reference;
@@ -128,10 +131,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDStatKeyValue> FindByIndex(string sDataKeyReference)
+        static public List<NWDAccountPreference> FindByIndex(string sDataKeyReference)
         {
             //BTBBenchmark.Start();
-            List<NWDStatKeyValue> rReturn = null;
+            List<NWDAccountPreference> rReturn = null;
             if (sDataKeyReference != null)
             {
                 string tKey = sDataKeyReference;
@@ -144,11 +147,11 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDStatKeyValue FindFirstByIndex(string sDataKeyReference)
+        static public NWDAccountPreference FindFirstByIndex(string sDataKeyReference)
         {
             //BTBBenchmark.Start();
-            NWDStatKeyValue rObject = null;
-            List<NWDStatKeyValue> rReturn = null;
+            NWDAccountPreference rObject = null;
+            List<NWDAccountPreference> rReturn = null;
             if (sDataKeyReference != null)
             {
                 string tKey = sDataKeyReference;
@@ -168,22 +171,18 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDStatKeyValue UserStatForKey(string sDataReference)
+        public static NWDAccountPreference PreferencesForKey(string sDataReference)
         {
             //BTBBenchmark.Start();
-            NWDStatKeyValue rReturn = FindFirstByIndex(sDataReference);
-            NWDStatKey tKey = NWDStatKey.GetDataByReference(sDataReference);
+            NWDAccountPreference rReturn = FindFirstByIndex(sDataReference);
+            NWDPreferenceKey tKey = NWDPreferenceKey.GetDataByReference(sDataReference);
             if (rReturn == null && tKey!=null)
             {
                 rReturn = NewData(kWritingMode);
-                rReturn.StatKey.SetReference(sDataReference);
+                rReturn.PreferenceKey.SetReference(sDataReference);
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
                 // init the stat with default value
-                rReturn.Total = tKey.InitTotal;
-                rReturn.Counter = tKey.InitCounter;
-                rReturn.Last = tKey.InitLast;
-                rReturn.Average = tKey.InitAverage;
-                rReturn.Max = tKey.InitMax;
+                rReturn.Value.SetValue(tKey.Default.Value);
                 // update in writing mode (default is poolThread for stats)
                 rReturn.UpdateData(true, kWritingMode);
             }

@@ -63,6 +63,7 @@ namespace NetWorkedData
         {
             get; set;
         }
+        [NWDNotEditable]
         [NWDAlias("TradeRequestHash")]
         public string TradeRequestHash
         {

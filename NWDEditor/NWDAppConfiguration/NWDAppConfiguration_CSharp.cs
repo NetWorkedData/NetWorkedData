@@ -28,8 +28,8 @@ namespace NetWorkedData
             //Debug.LogWarning("GenerateCSharpFile !!!");
             //string tEngineRootFolder = "Assets";
             DateTime tTime = DateTime.UtcNow;
-            string tDateTimeString = tTime.ToString("yyyy-MM-dd", NWDConstants.FormatCountry);
-            string tYearString = tTime.ToString("yyyy", NWDConstants.FormatCountry);
+            string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
+            string tYearString = NWDToolbox.DateTimeYYYY(tTime);
             string tConstantsFile = string.Empty;
             //int t_Next = (WebBuild + 1);
             tConstantsFile += string.Empty +
@@ -210,10 +210,10 @@ namespace NetWorkedData
 
 
 
-            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + this.ProdEnvironment.CartridgeColor.r.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.g.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.b.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.ProdEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
+            "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.r) + "F," +
+                                                                NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.g) + "F," +
+                                                                NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.b) + "F," +
+                                                                NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.a) + "F);\n" +
             //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
 
@@ -273,10 +273,10 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.WritingModeLocal = NWDWritingMode." + this.PreprodEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeWebService = NWDWritingMode." + this.PreprodEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeEditor = NWDWritingMode." + this.PreprodEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+this.PreprodEnvironment.CartridgeColor.r.ToString("0.00", NWDConstants.FormatCountry) +"F," +
-                                                                this.PreprodEnvironment.CartridgeColor.g.ToString("0.00", NWDConstants.FormatCountry) +"F," +
-                                                                this.PreprodEnvironment.CartridgeColor.b.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.PreprodEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
+            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+ NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.r) +"F," +
+                                                                NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.g) +"F," +
+                                                                NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.b) + "F," +
+                                                                NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.a) + "F);\n" +
             //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
 
@@ -335,10 +335,10 @@ namespace NetWorkedData
             "\t\t\tthis.DevEnvironment.WritingModeLocal = NWDWritingMode." + this.DevEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.WritingModeWebService = NWDWritingMode." + this.DevEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.WritingModeEditor = NWDWritingMode." + this.DevEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + this.DevEnvironment.CartridgeColor.r.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.DevEnvironment.CartridgeColor.g.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.DevEnvironment.CartridgeColor.b.ToString("0.00", NWDConstants.FormatCountry) + "F," +
-                                                                this.DevEnvironment.CartridgeColor.a.ToString("0.00", NWDConstants.FormatCountry) + "F);\n" +
+            "\t\t\tthis.DevEnvironment.CartridgeColor = new Color(" + NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.r) + "F," +
+                                                                NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.g) + "F," +
+                                                                NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.b) + "F," +
+                                                                NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.a) + "F);\n" +
             //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "#if UNITY_EDITOR\n" +
 

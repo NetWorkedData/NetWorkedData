@@ -59,8 +59,8 @@ namespace NetWorkedData
         public void PlayerLanguageSave(string sNewLanguage)
         {
             //Debug.Log("NWDDataManager PlayerLanguageSave()");
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, string.Empty);
-            tUserLanguage.Value.SetString(sNewLanguage);
+            NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+            tUserLanguage.Value.SetStringValue(sNewLanguage);
             tUserLanguage.UpdateData();
             PlayerLanguage = sNewLanguage;
             // notify the change
@@ -70,13 +70,13 @@ namespace NetWorkedData
         public string PlayerLanguageLoad()
         {
             //Debug.Log("NWDDataManager PlayerLanguageLoad()");
-            NWDUserPreference tUserLanguage = NWDUserPreference.GetPreferenceByInternalKeyOrCreate(PlayerLanguageKey, string.Empty);
-            if (tUserLanguage.Value.GetString() == string.Empty)
+            NWDUserPreference tUserLanguage = NWDUserPreference.GetByInternalKeyOrCreate(PlayerLanguageKey, new NWDMultiType(string.Empty));
+            if (tUserLanguage.Value.GetStringValue() == string.Empty)
             {
-                tUserLanguage.Value.SetString(NWDDataLocalizationManager.SystemLanguageString());
+                tUserLanguage.Value.SetStringValue(NWDDataLocalizationManager.SystemLanguageString());
                 tUserLanguage.UpdateData();
             }
-            PlayerLanguage = tUserLanguage.Value.GetString();
+            PlayerLanguage = tUserLanguage.Value.GetStringValue();
             PlayerLanguage = NWDDataLocalizationManager.CheckLocalization(PlayerLanguage);
             return PlayerLanguage;
         }

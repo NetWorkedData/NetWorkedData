@@ -1489,6 +1489,7 @@ namespace NetWorkedData
                                        )
         {
             List<NWDTypeClass> tTestList = new List<NWDTypeClass>();
+            sInternalKey = NWDToolbox.TextProtect(sInternalKey);
             if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
             {
                 tTestList.AddRange(Datas().DatasByInternalKey[sInternalKey]);
@@ -1527,7 +1528,7 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        Debug.Log("create not mpossinble in another gamesave!");
+                        Debug.Log("create not possinble in another gamesave!");
                     }
                 }
                 else
@@ -1589,6 +1590,11 @@ namespace NetWorkedData
             {
                 return false;
             }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void TrashAction()
+        {
+            TrashData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override bool EnableState()

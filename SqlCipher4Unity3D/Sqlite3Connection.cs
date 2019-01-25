@@ -2122,7 +2122,7 @@ namespace SQLite4Unity3d
             if (clrType.IsSubclassOf(typeof(BTBDataType)))
             {
                 BTBDataType tObject = Activator.CreateInstance(clrType) as BTBDataType;
-                tObject.SetString(SQLite3.ColumnString(stmt, index));
+                tObject.SetValue(SQLite3.ColumnString(stmt, index));
                 return tObject;
             }
             if (clrType.IsSubclassOf(typeof(BTBDataTypeInt)))
