@@ -66,7 +66,11 @@ namespace NetWorkedData
         /// Gets or sets the value string.
         /// </summary>
         /// <value>The value string.</value>
-        public NWDLocalizableStringType ValueString
+        public NWDLocalizableType LocalizableString
+        {
+            get; set;
+        }
+        public NWDMultiType Value
         {
             get; set;
         }
@@ -128,7 +132,7 @@ namespace NetWorkedData
             string rReturn = sDefault;
             if (tObject != null)
             {
-                rReturn = tObject.ValueString.GetLocalString();
+                rReturn = tObject.LocalizableString.GetLocalString();
             }
             return rReturn;
         }

@@ -74,7 +74,7 @@ namespace NetWorkedData
                 NWDParameter tParam = ParameterConnection.GetObject();
                 if (tParam != null)
                 {
-                    TextDebug.text = tParam.ValueString.GetLocalString();
+                    TextDebug.text = tParam.LocalizableString.GetLocalString();
                 }
             }
         }

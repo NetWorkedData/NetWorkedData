@@ -26,9 +26,9 @@ namespace NetWorkedData
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDPreferencesDomain : int
     {
-        AccountPreferences = 0,
-        UserPreferences = 1,
-        LocalPref = 2,
+        AccountPreference = 0,
+        UserPreference = 1,
+        LocalPreference = 2,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
@@ -228,17 +228,17 @@ namespace NetWorkedData
         {
             switch (Domain)
             {
-                case NWDPreferencesDomain.AccountPreferences:
+                case NWDPreferencesDomain.AccountPreference:
                     {
                         NWDAccountPreference.PreferencesForKey(Reference).AddEnter(sValue);
                     }
                     break;
-                case NWDPreferencesDomain.UserPreferences:
+                case NWDPreferencesDomain.UserPreference:
                     {
                         NWDUserPreference.PreferencesForKey(Reference).AddEnter(sValue);
                     }
                     break;
-                case NWDPreferencesDomain.LocalPref:
+                case NWDPreferencesDomain.LocalPreference:
                     {
                         PlayerPrefs.SetString(Reference, sValue.Value);
                     }
@@ -256,17 +256,17 @@ namespace NetWorkedData
             rReturn.Value = Default.Value;
             switch (Domain)
             {
-                case NWDPreferencesDomain.AccountPreferences:
+                case NWDPreferencesDomain.AccountPreference:
                     {
                         rReturn = NWDAccountPreference.PreferencesForKey(Reference).GetEnter();
                     }
                     break;
-                case NWDPreferencesDomain.UserPreferences:
+                case NWDPreferencesDomain.UserPreference:
                     {
                         rReturn =  NWDUserPreference.PreferencesForKey(Reference).GetEnter();
                     }
                     break;
-                case NWDPreferencesDomain.LocalPref:
+                case NWDPreferencesDomain.LocalPreference:
                     {
                         rReturn.Value = PlayerPrefs.GetString(Reference, Default.Value);
                     }
