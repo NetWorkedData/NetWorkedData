@@ -272,7 +272,7 @@ namespace NetWorkedData
             string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
             string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
             string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
-            int tIndex_tBarterStatus = NWDUserTradeRequest.CSVAssemblyIndexOf(tBarterStatus);
+            int tIndex_tBarterStatus = NWDUserBarterRequest.CSVAssemblyIndexOf(tBarterStatus);
 
             string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
             string t_THIS_BarterPlace = FindAliasName("BarterPlace");
