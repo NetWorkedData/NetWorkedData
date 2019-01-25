@@ -37,10 +37,10 @@ namespace NetWorkedData
         AnFloat = 4,
         AnDouble = 5,
 
-        //AnChar,
-        //AnVector,
-        //AnRect,
-        //AnColor,
+        //AnChar = 10,
+        //AnVector = 20,
+        //AnRect = 30,
+        AnColor = 40,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
@@ -177,7 +177,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetFloatValue(float sValue)
         {
-            Value = ((int)NWDMultiTypeEnum.AnDouble).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.FloatToString(sValue);
+            Value = ((int)NWDMultiTypeEnum.AnFloat).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.FloatToString(sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public float GetFloatValue(float sDefault = 0.0F)
@@ -236,6 +236,26 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SetColorValue(Color sValue)
+        {
+            Value = ((int)NWDMultiTypeEnum.AnColor).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.ColorToString(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Color GetColorValue(Color sDefault)
+        {
+            Color rReturn = sDefault;
+            string[] tComponent = Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (tComponent.Length == 2)
+            {
+                int tType = NWDToolbox.IntFromString(tComponent[0]);
+                if (tType == (int)NWDMultiTypeEnum.AnColor)
+                {
+                    rReturn = NWDToolbox.ColorFromString(tComponent[1]);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
@@ -254,12 +274,12 @@ namespace NetWorkedData
 
             float tX = sPos.x + EditorGUIUtility.labelWidth;
             float tEnumW = 60.0F;
-            Rect tPosOfLabel = new Rect(sPos.x, sPos.y, EditorGUIUtility.labelWidth, NWDConstants.kLabelStyle.fixedHeight);
+            Rect tPosOfLabel = new Rect(sPos.x, sPos.y, EditorGUIUtility.labelWidth + tEnumW, NWDConstants.kLabelStyle.fixedHeight);
             Rect tPosOfEnum = new Rect(tX, sPos.y, tEnumW, NWDConstants.kPopupdStyle.fixedHeight);
             Rect tPosOfEnter = new Rect(tX + tEnumW + NWDConstants.kFieldMarge, sPos.y, sPos.width - NWDConstants.kFieldMarge - tEnumW - EditorGUIUtility.labelWidth, NWDConstants.kLabelStyle.fixedHeight);
 
-            EditorGUI.LabelField(tPosOfLabel, tContent);
-            tTypeOfMultiple = (NWDMultiTypeEnum)EditorGUI.EnumPopup(tPosOfEnum, tTypeOfMultiple);
+            //EditorGUI.LabelField(tPosOfLabel, tContent);
+            tTypeOfMultiple = (NWDMultiTypeEnum)EditorGUI.EnumPopup(tPosOfLabel, tContent, tTypeOfMultiple);
             switch (tTypeOfMultiple)
             {
                 case NWDMultiTypeEnum.AnString:
@@ -290,6 +310,11 @@ namespace NetWorkedData
                 case NWDMultiTypeEnum.AnDouble:
                     {
                         tTemporary.SetDoubleValue(EditorGUI.DoubleField(tPosOfEnter, GetDoubleValue(0.0F)));
+                    }
+                    break;
+                case NWDMultiTypeEnum.AnColor:
+                    {
+                        tTemporary.SetColorValue(EditorGUI.ColorField(tPosOfEnter, GetColorValue(Color.white)));
                     }
                     break;
             }

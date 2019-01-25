@@ -154,13 +154,13 @@ namespace NetWorkedData
             // I insert the data
             WWWForm tWWWForm = InsertDataInRequest(ResultInfos);
 
-            string tPath = Path.Combine(Application.persistentDataPath, "downloaded.json");
+            //string tPath = Path.Combine(Application.persistentDataPath, "downloaded.json");
 
             ResultInfos.OctetUpload = tWWWForm.data.Length;
             using (Request = UnityWebRequest.Post(ServerBase(), tWWWForm))
             {
                 Request.downloadHandler = new DownloadHandlerBuffer();
-                Request.downloadHandler = new DownloadHandlerFile(tPath);
+                //Request.downloadHandler = new DownloadHandlerFile(tPath);
                 //Request.timeout = kTimeOutOfRequest;
                 Request.timeout = Environment.WebTimeOut;
 
@@ -242,9 +242,9 @@ namespace NetWorkedData
                     {
 
                         // string tDataConverted = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.downloadHandler.text));
-                        //string tDataConverted = Request.downloadHandler.text;
 
-                        string tDataConverted = File.ReadAllText(tPath);
+                        string tDataConverted = Request.downloadHandler.text;
+                        //string tDataConverted = File.ReadAllText(tPath);
 
                         ResultInfos.DownloadedDateTime = DateTime.Now;
                         ResultInfos.FinishDateTime = ResultInfos.DownloadedDateTime;
