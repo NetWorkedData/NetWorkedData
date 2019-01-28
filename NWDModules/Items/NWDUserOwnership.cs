@@ -125,7 +125,7 @@ namespace NetWorkedData
             if (rOwnership == null)
             {
                 rOwnership = NewData(kWritingMode);
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 NWDItem tItem = NWDItem.GetDataByReference(sItemReference);
                 if (tItem != null)
                 {
@@ -139,7 +139,7 @@ namespace NetWorkedData
                     }
                 }
                 rOwnership.InternalDescription = NWDAccountNickname.GetNickname();
-#endif
+                #endif
                 rOwnership.Item.SetReference(sItemReference);
                 rOwnership.Tag = NWDBasisTag.TagUserCreated;
                 rOwnership.Quantity = 0;

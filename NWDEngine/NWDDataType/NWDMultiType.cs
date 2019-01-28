@@ -119,7 +119,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetStringValue(string sValue)
         {
-            Value = ((long)NWDMultiTypeEnum.AnLong).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.TextProtect(sValue);
+            Value = ((int)NWDMultiTypeEnum.AnString).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.TextProtect(sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public string GetStringValue(string sDefault = "")
@@ -160,7 +160,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetLongValue(long sValue)
         {
-            Value = ((long)NWDMultiTypeEnum.AnLong).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.LongToString(sValue);
+            Value = ((int)NWDMultiTypeEnum.AnLong).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.LongToString(sValue);
         }
         //-------------------------------------------------------------------------------------------------------------
         public long GetLongValue(long sDefault = 0)

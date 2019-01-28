@@ -175,20 +175,32 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static NWDUserPreference PreferencesForKey(string sDataReference)
         {
-            //BTBBenchmark.Start();
             NWDUserPreference rReturn = FindFirstByIndex(sDataReference);
             NWDPreferenceKey tKey = NWDPreferenceKey.GetDataByReference(sDataReference);
-            if (rReturn == null && tKey!=null)
+            
+            if (rReturn == null && tKey != null)
             {
-                rReturn = NewData(kWritingMode);
-                rReturn.PreferenceKey.SetReference(sDataReference);
+                rReturn = NewData();
+                #if UNITY_EDITOR
+                rReturn.InternalKey = NWDAccountNickname.GetNickname();
+                #endif
                 rReturn.Tag = NWDBasisTag.TagUserCreated;
-                // init the stat with default value
-                rReturn.Value.SetValue(tKey.Default.GetValue());
-                // update in writing mode (default is poolThread for stats)
-                rReturn.UpdateData(true, kWritingMode);
+                rReturn.PreferenceKey.SetReference(sDataReference);
+                rReturn.Value.SetValue(tKey.Default.Value);
+                rReturn.SaveData();
             }
-            //BTBBenchmark.Finish();
+
+            if (rReturn == null)
+            {
+                rReturn = NewData();
+                #if UNITY_EDITOR
+                rReturn.InternalKey = "NoKeyError - " + NWDAccountNickname.GetNickname();
+                #endif
+                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                rReturn.PreferenceKey.SetReference(sDataReference);
+                rReturn.SaveData();
+            }
+            
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -90,10 +90,12 @@ namespace NetWorkedData
             if (rObject == null)
             {
                 rObject = NewData();
+                #if UNITY_EDITOR
                 rObject.InternalKey = sInternalKey;
-                rObject.Value = sDefaultValue;
                 rObject.InternalDescription = sInternalDescription;
-                rObject.UpdateData();
+                #endif
+                rObject.Value = sDefaultValue;
+                rObject.SaveData();
             }
             return rObject;
         }
@@ -122,7 +124,7 @@ namespace NetWorkedData
         public void AddEnter(NWDMultiType sValue)
         {
             Value = sValue;
-            UpdateData(true, kWritingMode);
+            SaveData();
         }
         //-------------------------------------------------------------------------------------------------------------
         public NWDMultiType GetEnter()
