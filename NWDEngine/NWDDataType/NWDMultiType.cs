@@ -37,15 +37,18 @@ namespace NetWorkedData
         AnFloat = 4,
         AnDouble = 5,
 
-        //AnChar = 10,
-        //AnVector = 20,
+        AnColor = 9,
+
+        AnVector2 = 20,
+        AnVector2Int = 21,
+        AnVector3 = 22,
+        AnVector3Int = 23,
+        AnVector4 = 24,
+
         //AnRect = 30,
-        AnColor = 40,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField]
-    // TODO : DOC
-    //-------------------------------------------------------------------------------------------------------------
     public class NWDMultiType : BTBDataType
     {
         //-------------------------------------------------------------------------------------------------------------
@@ -256,6 +259,106 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public void SetVector2Value(Vector2 sValue)
+        {
+            Value = ((int)NWDMultiTypeEnum.AnVector2).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.Vector2ToString(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Vector2 GetVector2Value(Vector2 sDefault)
+        {
+            Vector2 rReturn = sDefault;
+            string[] tComponent = Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (tComponent.Length == 2)
+            {
+                int tType = NWDToolbox.IntFromString(tComponent[0]);
+                if (tType == (int)NWDMultiTypeEnum.AnVector2)
+                {
+                    rReturn = NWDToolbox.Vector2FromString(tComponent[1]);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetVector2IntValue(Vector2Int sValue)
+        {
+            Value = ((int)NWDMultiTypeEnum.AnVector2Int).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.Vector2IntToString(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Vector2Int GetVector2IntValue(Vector2Int sDefault)
+        {
+            Vector2Int rReturn = sDefault;
+            string[] tComponent = Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (tComponent.Length == 2)
+            {
+                int tType = NWDToolbox.IntFromString(tComponent[0]);
+                if (tType == (int)NWDMultiTypeEnum.AnVector2Int)
+                {
+                    rReturn = NWDToolbox.Vector2IntFromString(tComponent[1]);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetVector3Value(Vector3 sValue)
+        {
+            Value = ((int)NWDMultiTypeEnum.AnVector3).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.Vector3ToString(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Vector3 GetVector3Value(Vector3 sDefault)
+        {
+            Vector3 rReturn = sDefault;
+            string[] tComponent = Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (tComponent.Length == 2)
+            {
+                int tType = NWDToolbox.IntFromString(tComponent[0]);
+                if (tType == (int)NWDMultiTypeEnum.AnVector3)
+                {
+                    rReturn = NWDToolbox.Vector3FromString(tComponent[1]);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetVector3IntValue(Vector3Int sValue)
+        {
+            Value = ((int)NWDMultiTypeEnum.AnVector3Int).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.Vector3IntToString(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Vector3Int GetVector3IntValue(Vector3Int sDefault)
+        {
+            Vector3Int rReturn = sDefault;
+            string[] tComponent = Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (tComponent.Length == 2)
+            {
+                int tType = NWDToolbox.IntFromString(tComponent[0]);
+                if (tType == (int)NWDMultiTypeEnum.AnVector3Int)
+                {
+                    rReturn = NWDToolbox.Vector3IntFromString(tComponent[1]);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void SetVector4Value(Vector4 sValue)
+        {
+            Value = ((int)NWDMultiTypeEnum.AnVector4).ToString() + NWDConstants.kFieldSeparatorD + NWDToolbox.Vector4ToString(sValue);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public Vector4 GetVector4Value(Vector4 sDefault)
+        {
+            Vector4 rReturn = sDefault;
+            string[] tComponent = Value.Split(new string[] { NWDConstants.kFieldSeparatorD }, StringSplitOptions.RemoveEmptyEntries);
+            if (tComponent.Length == 2)
+            {
+                int tType = NWDToolbox.IntFromString(tComponent[0]);
+                if (tType == (int)NWDMultiTypeEnum.AnVector4)
+                {
+                    rReturn = NWDToolbox.Vector4FromString(tComponent[1]);
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         public override float ControlFieldHeight()
@@ -265,21 +368,29 @@ namespace NetWorkedData
             return tHeight;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override object ControlField(Rect sPos, string sEntitled, string sTooltips = "")
+        public override object ControlField(Rect sPosition, string sEntitled, string sTooltips = "")
         {
+            // prepare next value
             NWDMultiType tTemporary = new NWDMultiType();
-            GUIContent tContent = new GUIContent(sEntitled + "*", sTooltips);
+            // entitled content
+            GUIContent tContent = new GUIContent(sEntitled, sTooltips);
+            // prepare positions values
+            float tWidth = sPosition.width;
+            float tHeight = sPosition.height;
+            float tX = sPosition.position.x;
+            float tY = sPosition.position.y;
+            float tEnumWidth = EditorGUIUtility.labelWidth + NWDConstants.kEnumWidth;
 
+            // field for value part 1
             NWDMultiTypeEnum tTypeOfMultiple = GetTypeValue();
+            tTypeOfMultiple = (NWDMultiTypeEnum)EditorGUI.EnumPopup(new Rect(tX, tY, tEnumWidth, NWDConstants.kPopupdStyle.fixedHeight), tContent, tTypeOfMultiple);
 
-            float tX = sPos.x + EditorGUIUtility.labelWidth;
-            float tEnumW = 60.0F;
-            Rect tPosOfLabel = new Rect(sPos.x, sPos.y, EditorGUIUtility.labelWidth + tEnumW, NWDConstants.kLabelStyle.fixedHeight);
-            Rect tPosOfEnum = new Rect(tX, sPos.y, tEnumW, NWDConstants.kPopupdStyle.fixedHeight);
-            Rect tPosOfEnter = new Rect(tX + tEnumW + NWDConstants.kFieldMarge, sPos.y, sPos.width - NWDConstants.kFieldMarge - tEnumW - EditorGUIUtility.labelWidth, NWDConstants.kLabelStyle.fixedHeight);
-
-            //EditorGUI.LabelField(tPosOfLabel, tContent);
-            tTypeOfMultiple = (NWDMultiTypeEnum)EditorGUI.EnumPopup(tPosOfLabel, tContent, tTypeOfMultiple);
+            // prevent indentation
+            int tIndentLevel = EditorGUI.indentLevel;
+            EditorGUI.indentLevel = 0;
+            // field for value part 2
+            Rect tPosOfEnter = new Rect(tX + tEnumWidth + NWDConstants.kFieldMarge, tY, tWidth - tEnumWidth - NWDConstants.kFieldMarge, NWDConstants.kTextFieldStyle.fixedHeight);
+            // use multi type value
             switch (tTypeOfMultiple)
             {
                 case NWDMultiTypeEnum.AnString:
@@ -289,7 +400,8 @@ namespace NetWorkedData
                     break;
                 case NWDMultiTypeEnum.AnBool:
                     {
-                        tTemporary.SetBoolValue(EditorGUI.Toggle(tPosOfEnter, GetBoolValue(false)));
+                        bool tValue = GetBoolValue(false);
+                        tTemporary.SetBoolValue(EditorGUI.ToggleLeft(tPosOfEnter, tValue.ToString(), tValue));
                     }
                     break;
                 case NWDMultiTypeEnum.AnInt:
@@ -317,7 +429,35 @@ namespace NetWorkedData
                         tTemporary.SetColorValue(EditorGUI.ColorField(tPosOfEnter, GetColorValue(Color.white)));
                     }
                     break;
+                case NWDMultiTypeEnum.AnVector2:
+                    {
+                        tTemporary.SetVector2Value(EditorGUI.Vector2Field(tPosOfEnter, "", GetVector2Value(Vector2.zero)));
+                    }
+                    break;
+                case NWDMultiTypeEnum.AnVector2Int:
+                    {
+                        tTemporary.SetVector2IntValue(EditorGUI.Vector2IntField(tPosOfEnter, "", GetVector2IntValue(Vector2Int.zero)));
+                    }
+                    break;
+                case NWDMultiTypeEnum.AnVector3:
+                    {
+                        tTemporary.SetVector3Value(EditorGUI.Vector3Field(tPosOfEnter, "", GetVector3Value(Vector3.zero)));
+                    }
+                    break;
+                case NWDMultiTypeEnum.AnVector3Int:
+                    {
+                        tTemporary.SetVector3IntValue(EditorGUI.Vector3IntField(tPosOfEnter, "", GetVector3IntValue(Vector3Int.zero)));
+                    }
+                    break;
+                case NWDMultiTypeEnum.AnVector4:
+                    {
+                        tTemporary.SetVector4Value(EditorGUI.Vector4Field(tPosOfEnter, "", GetVector4Value(Vector2.zero)));
+                    }
+                    break;
             }
+            // restaure indentation
+            EditorGUI.indentLevel = tIndentLevel;
+            // return next value
             return tTemporary;
         }
         //-------------------------------------------------------------------------------------------------------------

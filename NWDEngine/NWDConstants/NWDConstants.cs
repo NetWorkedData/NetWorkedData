@@ -93,6 +93,7 @@ namespace NetWorkedData
         public static float kEditWidthMini = 12.0f;
         public static float kEditWidthMiniHalf = 6.0f;
         public static float kLangWidth = 50.0f;
+        public static float kEnumWidth = 70.0f;
         public static float kConnectionIndent = 10.0f;
         //-------------------------------------------------------------------------------------------------------------
         // NetWorked synchronize alert
