@@ -30,10 +30,7 @@ namespace NetWorkedData
 			return NWDConstants.K_APP_CONFIGURATION_MENU_NAME;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draws in editor.
-		/// </summary>
-		public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
+        public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw interface for language chooser
 			Dictionary<string,string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;

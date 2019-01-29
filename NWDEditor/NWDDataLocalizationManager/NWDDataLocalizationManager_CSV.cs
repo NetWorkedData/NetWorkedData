@@ -22,7 +22,7 @@ namespace NetWorkedData
         /// <summary>
         /// Reorder all localizations and clean datas.
         /// </summary>
-		public void ReOrderAllLocalizations ()
+        public void ReOrderAllLocalizations ()
 		{
 			string tProgressBarTitle = "NetWorkedData Reorder localization";
 			float tCountClass = NWDDataManager.SharedInstance().mTypeList.Count + 1;
@@ -32,15 +32,19 @@ namespace NetWorkedData
 
 			foreach( Type tType in NWDDataManager.SharedInstance().mTypeList)
 			{
-				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  "+tType.Name+" objects", tOperation/tCountClass);
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Reorder localization in  "+tType.Name+" objects", tOperation/tCountClass);
 				tOperation++;
-				var tMethodInfo = tType.GetMethod("ReOrderAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) 
-				{
-					tMethodInfo.Invoke(null, null);
-				}
-			}
-			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+                // TODO : Change to remove invoke!
+    //            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ReOrderAllLocalizations);
+    //            //var tMethodInfo = tType.GetMethod("ReOrderAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				//if (tMethodInfo != null) 
+				//{
+					//tMethodInfo.Invoke(null, null);
+                //}
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ReOrderAllLocalizations);
+
+            }
+            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
 			EditorUtility.ClearProgressBar();
 		}
         //-------------------------------------------------------------------------------------------------------------
@@ -66,7 +70,9 @@ namespace NetWorkedData
 				string tFile = tHeaders;
 				// populate file by class result
 				foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
-					var tMethodInfo = tType.GetMethod ("ExportLocalizationInCSV", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    // TODO : Change to remove invoke!
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ExportLocalizationInCSV);
+                    //var tMethodInfo = tType.GetMethod ("ExportLocalizationInCSV", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 					if (tMethodInfo != null) {
 						string tResult = tMethodInfo.Invoke (null, null) as string;
 						tFile += tResult;
@@ -95,8 +101,10 @@ namespace NetWorkedData
 
 				if (tFile != null) {
 					foreach (Type tType in NWDDataManager.SharedInstance().mTypeList) {
-						var tMethodInfo = tType.GetMethod ("ImportAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-						if (tMethodInfo != null) {
+                        // TODO : Change to remove invoke!
+                        //var tMethodInfo = tType.GetMethod ("ImportAllLocalizations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ImportAllLocalizations);
+                        if (tMethodInfo != null) {
 							string tResult = tMethodInfo.Invoke (null, new object[]{ tLanguageArray, tFileRows }) as string;
 							tFile += tResult;
 						}

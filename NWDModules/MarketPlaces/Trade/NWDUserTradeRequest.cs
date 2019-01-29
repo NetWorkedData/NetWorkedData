@@ -394,8 +394,9 @@ namespace NetWorkedData
 			string sScript = "";
 			return sScript;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
+        public static string AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
 		{
 			string t_THIS_TradeStatus = FindAliasName("TradeStatus");
 			string t_THIS_TradeHash = FindAliasName("TradeHash");

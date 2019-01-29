@@ -35,9 +35,11 @@ namespace NetWorkedData
 			} 
 			else 
 			{
-				Type tType = tTarget.mObjectInEdition.GetType ();
-				var tMethodInfo = tType.GetMethod ("DrawObjectEditor", BindingFlags.Public | BindingFlags.Instance);
-				if (tMethodInfo != null) 
+                // TODO : Change to remove invoke!
+                Type tType = tTarget.mObjectInEdition.GetType ();
+				//var tMethodInfo = tType.GetMethod ("DrawObjectEditor", BindingFlags.Public | BindingFlags.Instance);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
+                if (tMethodInfo != null) 
 				{
 					tMethodInfo.Invoke (tTarget.mObjectInEdition, new object[]{Rect.zero,false});
 				}

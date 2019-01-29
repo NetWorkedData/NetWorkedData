@@ -152,21 +152,6 @@ namespace NetWorkedData
             return false;
         }
         //-------------------------------------------------------------------------------------------------------------
-        //public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
-        //{
-        //    return "\n";
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        //{
-        //    return "\n";
-        //}
-        ////-------------------------------------------------------------------------------------------------------------
-        //public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
-        //{
-        //    return "\n";
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public virtual void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)
         {
             // do something when object will be web service upgrade

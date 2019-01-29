@@ -954,22 +954,26 @@ namespace NetWorkedData
                 {
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
                     {
-                        var tMethodInfo = tType.GetMethod("PrepareToProdPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodInfo != null)
-                        {
-                            tMethodInfo.Invoke(null, null);
-                        }
+                        // TODO : Change to remove invoke!
+                        //var tMethodInfo = tType.GetMethod("PrepareToProdPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PrepareToProdPublish);
+                        //if (tMethodInfo != null)
+                        //{
+                        //    tMethodInfo.Invoke(null, null);
+                        //}
                     }
                 }
                 else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
                 {
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
                     {
-                        var tMethodInfo = tType.GetMethod("PrepareToPreprodPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodInfo != null)
-                        {
-                            tMethodInfo.Invoke(null, null);
-                        }
+                        // TODO : Change to remove invoke!             
+                        NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PrepareToPreprodPublish);
+                        //var tMethodInfo = tType.GetMethod("PrepareToPreprodPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        //if (tMethodInfo != null)
+                        //{
+                        //    tMethodInfo.Invoke(null, null);
+                        //}
                     }
                 }
             }

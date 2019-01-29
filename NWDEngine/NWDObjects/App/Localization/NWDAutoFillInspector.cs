@@ -1,18 +1,19 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
+#if UNITY_EDITOR
+using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
-#if UNITY_EDITOR
-using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {

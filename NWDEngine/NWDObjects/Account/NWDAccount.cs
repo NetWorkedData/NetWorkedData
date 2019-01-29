@@ -325,7 +325,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private string kInternalLogin; //TODO : change prefiuxe by p
         private string kInternalPassword; //TODO : change prefiuxe by p
-                                          //-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
             //Debug.Log ("AddonEditor");

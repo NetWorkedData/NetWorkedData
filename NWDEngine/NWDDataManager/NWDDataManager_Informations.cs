@@ -39,8 +39,13 @@ namespace NetWorkedData
                                    "_______________\n";
 			foreach (Type tType in mTypeLoadedList) 
 			{
-				var tMethodInfo = tType.GetMethod ("Informations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod ("Informations", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Informations);
+
+
+                if (tMethodInfo != null) {
 					tInformations += " • "+tMethodInfo.Invoke (null, null);
 				} 
 				else 

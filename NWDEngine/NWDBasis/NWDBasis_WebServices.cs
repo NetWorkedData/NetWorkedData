@@ -34,7 +34,7 @@ namespace NetWorkedData
         public const string SynchronizeKeyLastTimestamp = "last";
         public const string SynchronizeKeyInWaitingTimestamp = "waiting";
         //-------------------------------------------------------------------------------------------------------------
-#region Synchronization informations
+        #region Synchronization informations
         //-------------------------------------------------------------------------------------------------------------
         public bool IsSynchronized()
         {
@@ -148,7 +148,7 @@ namespace NetWorkedData
         public static void SynchronizationSetNewTimestamp(NWDAppEnvironment sEnvironment, int sNewTimestamp)
         {
 #if UNITY_EDITOR
-                EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
+            EditorPrefs.SetInt(SynchronizationPrefsKey(sEnvironment), sNewTimestamp);
 #else
             if (AccountDependent() == false)
             {
@@ -172,7 +172,7 @@ namespace NetWorkedData
         /// <param name="sDataArray">S data array.</param>
         public static NWDBasis<K> SynchronizationInsertInBase(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
-             //Debug.Log("SynchronizationInsertInBase ");
+            //Debug.Log("SynchronizationInsertInBase ");
             string tReference = GetReferenceValueFromCSV(sDataArray);
             NWDBasis<K> tObject = GetDataByReference(tReference);
             if (tObject == null)
@@ -189,16 +189,16 @@ namespace NetWorkedData
                 if (tObject.Integrity != tActualIntegrity)
                 {
                     // Ok integrity is != I will update data
-                    sInfos.RowUpdatedCounter++; 
+                    sInfos.RowUpdatedCounter++;
                 }
                 // BUT I NEED ANY WAY TO REWRITE THE SYNC DATE!!!!
                 // TO DO use Unity Editor to switch write  before or not ?
                 tObject.UpdateDataFromWeb(sEnvironment, sDataArray);
                 //tObject.UpdateWithCSV(sEnvironment, sDataArray);
             }
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             tObject.ErrorCheck();
-            #endif
+#endif
             return tObject;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -222,11 +222,11 @@ namespace NetWorkedData
             bool tIntegrityTest = TestIntegrityValueFromCSV(tDataArray);
             if (tIntegrityTest == false)
             {
-                #if UNITY_EDITOR
+#if UNITY_EDITOR
                 Datas().CSVAssemblyOrderArrayPrepare();
-                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + Datas().ClassTableName + " \n"+ string.Join("|", Datas().CSVAssemblyOrderArray)+"\n"+ sData+"\n");
+                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + Datas().ClassTableName + " \n" + string.Join("|", Datas().CSVAssemblyOrderArray) + "\n" + sData + "\n");
                 //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
-                #endif
+#endif
             }
             if (tIntegrityTest == true || sForceToUse == true)
             {
@@ -244,6 +244,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        [NWDAliasMethod(NWDConstants.M_CheckoutPushData)]
         public static Dictionary<string, object> CheckoutPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             //Debug.Log("NWDBasis CheckoutPushData() " + ClassName());
@@ -287,6 +288,7 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The push data.</returns>
         /// <param name="sForceAll">If set to <c>true</c> s force all.</param>
+        [NWDAliasMethod(NWDConstants.M_SynchronizationPushData)]
         public static Dictionary<string, object> SynchronizationPushData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, bool sForceAll, NWDOperationSpecial sSpecial = NWDOperationSpecial.None)
         {
             //Debug.Log("NWDBasis SynchronizationPushData() " + ClassName());
@@ -357,7 +359,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
                 foreach (K tO in Datas().Datas)
                 {
-                    if (tO.PreprodSync == 0|| tO.PreprodSync == 1 || tO.AddonSyncForce())
+                    if (tO.PreprodSync == 0 || tO.PreprodSync == 1 || tO.AddonSyncForce())
                     {
                         tResults.Add(tO);
                     }
@@ -437,6 +439,7 @@ namespace NetWorkedData
         /// Synchronizations the pull data.
         /// </summary>
         /// <param name="sData">S data.</param>
+        [NWDAliasMethod(NWDConstants.M_SynchronizationPullData)]
         public static string SynchronizationPullData(NWDOperationResult sInfos, NWDAppEnvironment sEnvironment, NWDOperationResult sData)
         {
             //Debug.Log("NWDBasis SynchronizationPullData() " + ClassName());
@@ -473,9 +476,9 @@ namespace NetWorkedData
                             // I try to use this data to ... insert/update/delete/... ?
                             bool tForceToUse = false;
 
-                            #if UNITY_EDITOR
+#if UNITY_EDITOR
                             tForceToUse = true;
-                            #endif
+#endif
                             sInfos.RowPullCounter++;
 
                             NWDBasis<K> tObject = SynchronizationTryToUse(sInfos, sEnvironment, tCsvValueString, tForceToUse);
@@ -504,16 +507,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Synchronization WebServices
         //-------------------------------------------------------------------------------------------------------------
-        //public static List<Type> OverrideClasseInThisSync()
-        //{
-        //    return new List<Type> { typeof(K)/*, typeof(NWDUserNickname), etc*/ };
-        //}
-        //-------------------------------------------------------------------------------------------------------------
         public static List<Type> ClasseInThisSync()
         {
-            //var tMethodInfo = ClassType().GetMethod("OverrideClasseInThisSync", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            string tMethodAlias = NWDAliasMethod.FindAliasName(ClassType(), "OverrideClasseInThisSync");
-            var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(ClassType(), NWDConstants.M_OverrideClasseInThisSync, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
             {
                 return tMethodInfo.Invoke(null, null) as List<Type>;
@@ -710,6 +706,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Special delete user
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_DeleteUser)]
         public static void DeleteUser(NWDAppEnvironment sEnvironment)
         {
             if (AccountDependent() == true)

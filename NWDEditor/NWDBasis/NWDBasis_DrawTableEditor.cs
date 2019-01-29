@@ -2290,6 +2290,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_PrepareToPreprodPublish)]
         public static void PrepareToPreprodPublish()
         {
             foreach (K tOb in Datas().EditorTableDatas)
@@ -2302,6 +2303,7 @@ namespace NetWorkedData
                 RepaintTableEditor();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_PrepareToProdPublish)]
         public static void PrepareToProdPublish()
         {
             foreach (NWDTypeClass tData in Datas().EditorTableDatas)

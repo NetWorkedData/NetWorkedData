@@ -25,6 +25,7 @@ namespace NetWorkedData
         /// <summary>
         /// Reorder all localizations in all object for all properties (clean the string value).
         /// </summary>
+        [NWDAliasMethod(NWDConstants.M_ReOrderAllLocalizations)]
         public static void ReOrderAllLocalizations()
         {
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
@@ -98,6 +99,7 @@ namespace NetWorkedData
         /// Exports all localization in CVS string.
         /// </summary>
         /// <returns>The all localization.</returns>
+        [NWDAliasMethod(NWDConstants.M_ExportLocalizationInCSV)]
         public static string ExportLocalizationInCSV()
         {
             string tRows = string.Empty;
@@ -176,6 +178,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sLanguageArray">S language array.</param>
         /// <param name="sCSVFileArray">S CSVF ile array.</param>
+        [NWDAliasMethod(NWDConstants.M_ImportAllLocalizations)]
         public static void ImportAllLocalizations(string[] sLanguageArray, string[] sCSVFileArray)
         {
             //Debug.Log ("ImportAllLocalizations");

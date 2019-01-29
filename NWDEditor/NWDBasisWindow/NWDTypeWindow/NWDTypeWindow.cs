@@ -17,6 +17,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 		public string Title;
 		public string Description;
+        // TODO : Remove and replace by icon from name
 		public string IconName;
         public Type[] TypeList;
         //-------------------------------------------------------------------------------------------------------------
@@ -28,7 +29,15 @@ namespace NetWorkedData
 			this.TypeList = sTypeList;
         }
         //-------------------------------------------------------------------------------------------------------------
-	}
+        public NWDTypeWindowParamAttribute(string sTitle, string sDescription, Type[] sTypeList)
+        {
+            this.Title = sTitle;
+            this.Description = sDescription;
+            this.IconName = null;
+            this.TypeList = sTypeList;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public class NWDTypeWindow : EditorWindow
 	{

@@ -1,7 +1,9 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 using System;
@@ -25,13 +27,11 @@ namespace NetWorkedData
         /// <param name="sEnvironment">S environment.</param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            //Debug.LogWarning("GenerateCSharpFile !!!");
-            //string tEngineRootFolder = "Assets";
+            //*Function debug*/Debug.LogWarning("NWDAppConfiguration GenerateCSharpFile()");
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
             string tConstantsFile = string.Empty;
-            //int t_Next = (WebBuild + 1);
             tConstantsFile += string.Empty +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
             "//Copyright NetWorkedDatas ideMobi " + tYearString + "\n" +
@@ -47,9 +47,7 @@ namespace NetWorkedData
             "\tpublic partial class NWDAppConfiguration\n" +
             "\t{\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
-            //"\t\tpublic static int K_NEXT_WS = " + t_Next.ToString()+ ";\n" +
-            //"\t//-------------------------------------------------------------------------------------------------------------\n" +
-            "\t\tpublic void RestaureConfigurations ()\n" +
+            "\t\tpublic override bool RestaureConfigurations ()\n" +
             "\t\t{\n" +
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
             "\t\t\tWebBuild = " + WebBuild + ";\n" +
@@ -73,25 +71,20 @@ namespace NetWorkedData
             {
                 tConstantsFile += "\t\t\tGenerateSaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
-
             tConstantsFile += "\t\t\t//Language regenerate (MultiPass?!)\n";
             tConstantsFile += "\t\t\tProjetcLanguage = \"" + ProjetcLanguage + "\";\n";
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
                 tConstantsFile += "\t\t\tBundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
             }
-
             tConstantsFile += "\t\t\t//WebService regenerate (Apache or Siou)\n";
-
             tConstantsFile += "\t\t\t kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();\n";
             tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();\n";
             tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder = new Dictionary<int, Dictionary<string, string>>();\n";
             tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityOrder = new Dictionary<int, Dictionary<string, List<string>>>();\n";
             tConstantsFile += "\t\t\t kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();\n";
             tConstantsFile += "\t\t\t kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();\n";
-
             tConstantsFile += "\t\t\t//WebService regenerate all version of webservice\n";
-
             tConstantsFile += "\t\t\t WSList = new Dictionary<int, bool>();\n";
             foreach (KeyValuePair<int, bool> tWS in WSList.OrderBy(x => x.Key))
             {
@@ -101,25 +94,15 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    // TODO remove the web folder 
-                    string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-
+                    string tWebServiceFolder = NWDAppConfiguration.SharedInstance().OldWebServiceFolder(tWS.Key);
                     string tOwnerServerFolderPath = NWDToolbox.FindOwnerServerFolder();
-                    if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath+"/" + tWebServiceFolder) == true)
+                    if (AssetDatabase.IsValidFolder(tOwnerServerFolderPath + "/" + tWebServiceFolder) == true)
                     {
-                        //AssetDatabase.DeleteAsset("Assets/NetWorkedDataServer/" + tWebServiceFolder);
-
+                        AssetDatabase.DeleteAsset(tOwnerServerFolderPath + "/" + tWebServiceFolder);
                     }
                 }
             }
-
             tConstantsFile += "\t\t\t TagList = new Dictionary<int, string>();\n";
-            // bug in writing order
-            //foreach (KeyValuePair<int, string> tTag in TagList)
-            //{
-            //    tConstantsFile += "\t\t\t TagList.Add(" + tTag.Key + ",\"" + tTag.Value + "\");\n";
-            //}
-            // write in good order
             for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumberUser; tI++)
             {
                 if (TagList.ContainsKey(tI) == true)
@@ -128,7 +111,6 @@ namespace NetWorkedData
                 }
             }
             int tTag = TagNumberUser + 1;
-
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"Internal Created\");\n"; // 11
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 12
             tConstantsFile += "\t\t\t TagList.Add(" + (tTag++) + ",\"(Reserved)\");\n"; // 13
@@ -178,7 +160,7 @@ namespace NetWorkedData
                 "";
             }
             tConstantsFile += "" +
-                // PRODUCTION
+            // PRODUCTION
             "\t\t\t// Prod environment\n" +
             "\t\t\tthis.ProdEnvironment.Environment = \"" + this.ProdEnvironment.Environment.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.DataSHAPassword = \"" + this.ProdEnvironment.DataSHAPassword.Replace("\"", "\\\"") + "\";\n" +
@@ -203,26 +185,19 @@ namespace NetWorkedData
             "\t\t\tthis.ProdEnvironment.SpeedOfGameTime = " + this.ProdEnvironment.SpeedOfGameTime.ToString() + "F;\n" +
             "\t\t\tthis.ProdEnvironment.BuildTimestamp = " + this.ProdEnvironment.BuildTimestamp.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.ThreadPoolForce = " + this.ProdEnvironment.ThreadPoolForce.ToString().ToLower() + ";\n" +
-
-            "\t\t\tthis.ProdEnvironment.WritingModeLocal = NWDWritingMode." + this.ProdEnvironment.WritingModeLocal.ToString()+";\n" +
+            "\t\t\tthis.ProdEnvironment.WritingModeLocal = NWDWritingMode." + this.ProdEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.WritingModeWebService = NWDWritingMode." + this.ProdEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.WritingModeEditor = NWDWritingMode." + this.ProdEnvironment.WritingModeEditor.ToString() + ";\n" +
-
-
-
             "\t\t\tthis.ProdEnvironment.CartridgeColor = new Color(" + NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.r) + "F," +
                                                                 NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.g) + "F," +
                                                                 NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.a) + "F);\n" +
-            //"\t\t\tthis.ProdEnvironment.Version = \"" + this.ProdEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
-
             "\t\t\tthis.ProdEnvironment.SFTPHost = \"" + this.ProdEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPPort = " + this.ProdEnvironment.SFTPPort.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPFolder = \"" + this.ProdEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPUser = \"" + this.ProdEnvironment.SFTPUser.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPPassword = \"" + this.ProdEnvironment.SFTPPassword.Replace("\"", "\\\"") + "\";\n" +
-
             "\t\t\tthis.ProdEnvironment.SaltServer = \"" + this.ProdEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerHost = \"" + this.ProdEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.ServerUser = \"" + this.ProdEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
@@ -273,19 +248,16 @@ namespace NetWorkedData
             "\t\t\tthis.PreprodEnvironment.WritingModeLocal = NWDWritingMode." + this.PreprodEnvironment.WritingModeLocal.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeWebService = NWDWritingMode." + this.PreprodEnvironment.WritingModeWebService.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.WritingModeEditor = NWDWritingMode." + this.PreprodEnvironment.WritingModeEditor.ToString() + ";\n" +
-            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color("+ NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.r) +"F," +
-                                                                NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.g) +"F," +
+            "\t\t\tthis.PreprodEnvironment.CartridgeColor = new Color(" + NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.r) + "F," +
+                                                                NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.g) + "F," +
                                                                 NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.a) + "F);\n" +
-            //"\t\t\tthis.PreprodEnvironment.Version = \"" + this.PreprodEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
-
             "\t\t\tthis.PreprodEnvironment.SFTPHost = \"" + this.PreprodEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPPort = " + this.PreprodEnvironment.SFTPPort.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPFolder = \"" + this.PreprodEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPUser = \"" + this.PreprodEnvironment.SFTPUser.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPPassword = \"" + this.PreprodEnvironment.SFTPPassword.Replace("\"", "\\\"") + "\";\n" +
-
             "\t\t\tthis.PreprodEnvironment.SaltServer = \"" + this.PreprodEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerHost = \"" + this.PreprodEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.ServerUser = \"" + this.PreprodEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
@@ -339,15 +311,12 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.g) + "F," +
                                                                 NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.a) + "F);\n" +
-            //"\t\t\tthis.DevEnvironment.Version = \"" + this.DevEnvironment.Version.Replace ("\"", "\\\"") + "\";\n" +
             "#if UNITY_EDITOR\n" +
-
             "\t\t\tthis.DevEnvironment.SFTPHost = \"" + this.DevEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SFTPPort = " + this.DevEnvironment.SFTPPort.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SFTPFolder = \"" + this.DevEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SFTPUser = \"" + this.DevEnvironment.SFTPUser.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SFTPPassword = \"" + this.DevEnvironment.SFTPPassword.Replace("\"", "\\\"") + "\";\n" +
-
             "\t\t\tthis.DevEnvironment.SaltServer = \"" + this.DevEnvironment.SaltServer.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerHost = \"" + this.DevEnvironment.ServerHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.ServerUser = \"" + this.DevEnvironment.ServerUser.Replace("\"", "\\\"") + "\";\n" +
@@ -379,6 +348,7 @@ namespace NetWorkedData
             "\t\t\tRestaureStepSix();\n" +
             "\t\t\tRestaureStepSeven();\n" +
             "\t\t\tRestaureStepHeight();\n" +
+            "\t\t\treturn true;\n" +
             "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
             tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
@@ -428,7 +398,7 @@ namespace NetWorkedData
                         tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
                         foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
                         {
-                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value.Replace("\"","\\\"") + "\");\n";
+                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value.Replace("\"", "\\\"") + "\");\n";
                         }
                     }
                 }
@@ -519,10 +489,8 @@ namespace NetWorkedData
                     }
                 }
             }
-
-
             List<string> tTypeNameValidList = new List<string>();
-            foreach (Type tType in  NWDTypeLauncher.AllTypes)
+            foreach (Type tType in NWDTypeLauncher.AllTypes)
             {
                 tTypeNameValidList.Add(tType.Name);
             }
@@ -530,7 +498,7 @@ namespace NetWorkedData
             {
                 if (tTypeNameValidList.Contains(tKeyValue.Key) == true)
                 {
-                tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
+                    tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
                 }
             }
             tConstantsFile += "\t\t}\n" +
@@ -542,7 +510,7 @@ namespace NetWorkedData
             // force to import this file by Unity3D
             string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();
             //tFolderPath = "Assets";
-            string tPath = tOwnerConfigurationFolderPath +"/NWDConfigurations.cs";
+            string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
             File.WriteAllText(tPath, tConstantsFile);
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tPath);

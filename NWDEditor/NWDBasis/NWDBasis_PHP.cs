@@ -52,6 +52,7 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_CreateAllError)]
         public static void CreateAllError()
         {
             // Create error in local data base
@@ -252,6 +253,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_CreateAllPHP)]
         public static void CreateAllPHP(string sFolderAdd, bool sWriteOnDisk = true, bool sPrepareOrder = true)
         {
             //BTBBenchmark.Start();
@@ -1130,7 +1132,7 @@ namespace NetWorkedData
                 tIndex++;
             }
 
-			var tMethodDeclareFunctions = tType.GetMethod("AddonPhpFunctions", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            MethodInfo tMethodDeclareFunctions = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpFunctions, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 			if (tMethodDeclareFunctions != null)
 			{
 				tSynchronizationFile += (string)tMethodDeclareFunctions.Invoke(null, new object[] { sEnvironment });
@@ -1154,19 +1156,11 @@ namespace NetWorkedData
             "\t\t\t\t$tReference = $sCsvList[0];\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for pre calculate on server\n";
 
-
-            var tMethodDeclarePre = tType.GetMethod("AddonPhpPreCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            MethodInfo tMethodDeclarePre = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPreCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePre != null)
             {
                 tSynchronizationFile += (string)tMethodDeclarePre.Invoke(null, new object[] { sEnvironment });
             }
-            //if (tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true).Length > 0)
-            //{
-            //    NWDClassPhpPreCalculateAttribute tScriptNameAttribut = (NWDClassPhpPreCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPreCalculateAttribute), true)[0];
-            //    tSynchronizationFile += AddonPhpPreCalculate();
-            //}
-
-
             tSynchronizationFile += "\n" +
             "\t\t\t\t$tQuery = 'SELECT `Reference`, `DM` FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';\n" +
             "\t\t\t\t$tResult = $SQL_CON->query($tQuery);\n" +
@@ -1237,18 +1231,11 @@ namespace NetWorkedData
             //"\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t}\n" +
             "\t\t\t\t\t\t\t\t\t// find solution for post calculate on server\n";
-
-            var tMethodDeclarePost = tType.GetMethod("AddonPhpPostCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            MethodInfo tMethodDeclarePost = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpPostCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclarePost != null)
             {
                 tSynchronizationFile += (string)tMethodDeclarePost.Invoke(null, new object[] {sEnvironment });
             }
-
-            //if (tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true).Length > 0)
-            //{
-            //    NWDClassPhpPostCalculateAttribute tScriptNameAttribut = (NWDClassPhpPostCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpPostCalculateAttribute), true)[0];
-            //    tSynchronizationFile += tScriptNameAttribut.Script;
-            //}
             tSynchronizationFile += "\n" +
                 "$tLigneAffceted = $SQL_CON->affected_rows;\n" +
                 //"myLog('tLigneAffceted = '.$tLigneAffceted, __FILE__, __FUNCTION__, __LINE__);\n" +
@@ -1474,18 +1461,11 @@ namespace NetWorkedData
             "\t\tglobal $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;\n" +
             "\t\tglobal $admin, $uuid;\n" +
             "";
-
-            var tMethodDeclareSpecial = tType.GetMethod("AddonPhpSpecialCalculate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            MethodInfo tMethodDeclareSpecial = NWDAliasMethod.GetMethod(tType, NWDConstants.M_AddonPhpSpecialCalculate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             if (tMethodDeclareSpecial != null)
             {
                 tSynchronizationFile += (string)tMethodDeclareSpecial.Invoke(null, new object[] { sEnvironment });
             }
-
-            //if (tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true).Length > 0)
-            //{
-            //    NWDClassPhpSpecialCalculateAttribute tScriptNameAttribut = (NWDClassPhpSpecialCalculateAttribute)tType.GetCustomAttributes(typeof(NWDClassPhpSpecialCalculateAttribute), true)[0];
-            //    tSynchronizationFile += tScriptNameAttribut.Script;
-            //}
             tSynchronizationFile += "\n" +
             "\t}\n" +
             "//-------------------- \n" +

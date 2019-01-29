@@ -84,18 +84,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-#if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDYoghurtLyric BasicError", "YLCz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod("ClassInitialization")]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>

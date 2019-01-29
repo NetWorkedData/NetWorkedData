@@ -1,23 +1,18 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWDAppWindow.
-    /// </summary>
     [NWDTypeWindowParamAttribute("App Config",
         "Project Edition, You can add, change, remove the item of your game here. " +
         "Everythings can be item : money, gold, dress. The item can be win, buy in the pack, etc.",
@@ -34,7 +29,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "App/Configurations", false, 200)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDAppWindow));
@@ -42,6 +36,7 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

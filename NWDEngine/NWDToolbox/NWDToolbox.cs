@@ -458,6 +458,7 @@ namespace NetWorkedData
             bool tFindClassesFolder = false;
             if (Type.GetType("NetWorkedData." + sFindClassName) != null)
             {
+            // TODO : Change to remove invoke!
                 tFindClassesFolder = true;
                 Type tFindClassesType = Type.GetType("NetWorkedData." + sFindClassName);
                 var tMethodInfo = tFindClassesType.GetMethod("PathOfPackage", BindingFlags.Public | BindingFlags.Static);

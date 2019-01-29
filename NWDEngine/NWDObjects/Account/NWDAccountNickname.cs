@@ -25,29 +25,6 @@ namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDAccountNicknameConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDAccountNickname tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-    public class NWDAccountNicknameConnection : NWDConnection<NWDAccountNickname>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
     /// NWDAccountNickname. This class is use to add nickname to an account. You can add more than one nickname. The unicity is directly calculate by the server when data is synchronized.
     /// </summary>
     [NWDClassServerSynchronizeAttribute(true)]
@@ -316,11 +293,6 @@ namespace NetWorkedData
             //tYadd += NWDConstants.kFieldMarge;
 
             return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)

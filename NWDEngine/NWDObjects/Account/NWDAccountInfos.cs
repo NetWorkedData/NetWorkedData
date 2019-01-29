@@ -29,11 +29,6 @@ using NotificationType = UnityEngine.iOS.NotificationType;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [Serializable]
-    public class NWDAccountInfosConnection : NWDConnection<NWDAccountInfos>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("AIF")]
     [NWDClassDescriptionAttribute("General Account Informations")]

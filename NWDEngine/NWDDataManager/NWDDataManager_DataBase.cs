@@ -229,12 +229,16 @@ namespace NetWorkedData
                     //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount not exist ");
                     foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
                     {
+                        // TODO : Change to remove invoke!
                         //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionAccount reset class sync  to Zero" + tType.FullName);
-                        var tMethodInfo = tType.GetMethod("SynchronizationSetToZeroTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodInfo != null)
-                        {
-                            tMethodInfo.Invoke(null, null);
-                        }
+                        //var tMethodInfo = tType.GetMethod("SynchronizationSetToZeroTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_SynchronizationSetToZeroTimestamp);
+
+                        //if (tMethodInfo != null)
+                        //{
+                        //    tMethodInfo.Invoke(null, null);
+                        //}
+                        NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationSetToZeroTimestamp);
                     }
                 }
 
@@ -382,12 +386,15 @@ namespace NetWorkedData
 
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeNotAccountDependantList)
                 {
+                    // TODO : Change to remove invoke!
                     //Debug.Log("#DATABASE#ConnectToDatabase () CONNECTION SQLiteConnectionEditor reset class sync " + tType.FullName);
-                    var tMethodInfo = tType.GetMethod("SynchronizationUpadteTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_SynchronizationUpadteTimestamp);
+                    ////var tMethodInfo = tType.GetMethod("SynchronizationUpadteTimestamp", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(null, null);
+                    //}
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_SynchronizationUpadteTimestamp);
                 }
                 BTBPrefsManager.ShareInstance().set("APP_VERSION", tBuildTimeStamp);
             }
@@ -409,11 +416,14 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
+                    // DID : Change to remove invoke!
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CreateTable);
+                    ////var tMethodInfo = tType.GetMethod("CreateTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(null, null);
+                    //}
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateTable);
                 }
             }
         }
@@ -424,12 +434,16 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeList)
                 {
-                    string tMethodName  = NWDAliasMethod.FindAliasName(tType, "CleanTable");
-                    var tMethodInfo = tType.GetMethod(tMethodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
+                    // TODO : Change to remove invoke!
+                    //string tMethodName  = NWDAliasMethod.FindAliasName(tType, "CleanTable");
+                    //var tMethodInfo = tType.GetMethod(tMethodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CleanTable);
+
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(null, null);
+                    //}
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CleanTable);
                 }
             }
         }
@@ -440,12 +454,16 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeList)
                 {
-                    string tMethodName = NWDAliasMethod.FindAliasName(tType, "PurgeTable");
-                    var tMethodInfo = tType.GetMethod(tMethodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
+                    // TODO : Change to remove invoke!
+                    //string tMethodName = NWDAliasMethod.FindAliasName(tType, "PurgeTable");
+                    //var tMethodInfo = tType.GetMethod(tMethodName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_PurgeTable);
+
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(null, null);
+                    //}
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PurgeTable);
                 }
             }
         }
@@ -456,11 +474,15 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("UpdateDataTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod("UpdateDataTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_UpdateDataTable);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(null, null);
+                    //}
+
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_UpdateDataTable);
                 }
             }
         }
@@ -471,11 +493,15 @@ namespace NetWorkedData
             {
                 foreach (Type tType in mTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, null);
-                    }
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    //if (tMethodInfo != null)
+                    //{
+                    //    tMethodInfo.Invoke(null, null);
+                    //}
+
+                    NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_ResetTable);
+
                 }
             }
         }

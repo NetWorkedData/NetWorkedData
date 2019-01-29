@@ -31,8 +31,10 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ClassDeclare)]
         public static void ClassDeclare()
         {
+           // Debug.Log("ClassDeclare for " + typeof(K).Name);
             //BTBBenchmark.Start();
             //BTBBenchmark.Start("ClassDeclare step 1");
             Type tActualType = typeof(K);
@@ -148,18 +150,20 @@ namespace NetWorkedData
             //BTBBenchmark.Finish("ClassDeclare step 4");
             //BTBBenchmark.Start("ClassDeclare step 5");
 
+            // TODO : Change to remove invoke!
             //var tMethodInfo = ClassType().GetMethod("ClassInitialization", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            string tMethodAlias = NWDAliasMethod.FindAliasName(ClassType(), "ClassInitialization");
-            var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(null, null);
-            }
+            NWDAliasMethod.InvokeClassMethod(ClassType(),NWDConstants.M_ClassInitialization);
+            //var tMethodInfo = ClassType().GetMethod(tMethodAlias, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tMethodInfo != null)
+            //{
+            //    tMethodInfo.Invoke(null, null);
+            //}
             Datas().ClassLoaded = true;
             //BTBBenchmark.Finish("ClassDeclare step 5");
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_Datas)]
         public static NWDDatas Datas()
         {
             NWDDatas rDatas = NWDDatas.FindTypeInfos(typeof(K));

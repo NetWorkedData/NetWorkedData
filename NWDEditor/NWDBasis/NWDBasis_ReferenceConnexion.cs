@@ -233,6 +233,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ReferenceConnectionHeightSerializedString)]
         public static string ReferenceConnectionHeightSerializedString(SerializedProperty sProperty, bool sShowInspector)
         {
             return ReferenceConnectionHeightSerialized(sProperty, sShowInspector).ToString();
@@ -251,6 +252,7 @@ namespace NetWorkedData
         /// <param name="sEditionEnable">If set to <c>true</c> edition enable.</param>
         /// <param name="sEditButton">If set to <c>true</c> edit button.</param>
         /// <param name="sNewButton">If set to <c>true</c> new button.</param>
+        [NWDAliasMethod(NWDConstants.M_ReferenceConnectionFieldSerialized)]
         public static void ReferenceConnectionFieldSerialized(Rect sPosition, string sEntitled, SerializedProperty sProperty, string sToolsTips, bool sShowInspector, bool sEditionEnable, bool sEditButton, bool sNewButton)
         {
 

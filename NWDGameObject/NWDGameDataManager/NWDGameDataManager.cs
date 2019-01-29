@@ -496,6 +496,7 @@ namespace NetWorkedData
             {
                 OperationGauge.IsVisible = false;
             }
+            // TODO : Change to remove invoke!
             InvokeRepeating("NewsCheck", 60.0F, 60.0F);
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -62,13 +62,16 @@ namespace NetWorkedData
             bool rReturn = false;
             if (sCounter>=0 && sCounter < mTypeList.Count)
             {
+                // TODO : Change to remove invoke!
                 Type tType = mTypeList[sCounter];
-                var tMethodInfo = tType.GetMethod("LoadFromDatabase", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                    rReturn = true;
-                }
+                //var tMethodInfo = tType.GetMethod("LoadFromDatabase", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(null, null);
+                //    rReturn = true;
+                //}
+
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
             }
             return rReturn;
         }
@@ -84,11 +87,13 @@ namespace NetWorkedData
             NWDTypeLauncher.ClassesDataLoaded = 0;
 			foreach( Type tType in mTypeList)
 			{
-				var tMethodInfo = tType.GetMethod("LoadFromDatabase", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) 
-				{
-					tMethodInfo.Invoke(null, null);
-				}
+                // TODO : Change to remove invoke!
+    //            var tMethodInfo = tType.GetMethod("LoadFromDatabase", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				//if (tMethodInfo != null) 
+				//{
+				//	tMethodInfo.Invoke(null, null);
+				//}
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_LoadFromDatabase);
                 //double tTimeStamp = BTBDateHelper.ConvertToTimestamp(DateTime.Now);
                 //Debug.Log("ReloadAllObjects () => tOperationsNeeded = " + NWDTypeLauncher.ClassesDataLoaded.ToString() + "/" + NWDTypeLauncher.ClassesExpected.ToString() + " (reload datas for '"+tType.Name+"') at " + tTimeStamp.ToString());
                 NWDTypeLauncher.ClassesDataLoaded++;
@@ -115,11 +120,13 @@ namespace NetWorkedData
             #if UNITY_EDITOR
             foreach (Type tType in mTypeList)
             {
-                var tMethodInfo = tType.GetMethod("RestaureObjectInEdition", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                }
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod("RestaureObjectInEdition", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(null, null);
+                //}
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_RestaureObjectInEdition);
             }
             BTBNotificationManager.SharedInstance().PostNotification(this, NWDNotificationConstants.K_EDITOR_REFRESH);
             #endif

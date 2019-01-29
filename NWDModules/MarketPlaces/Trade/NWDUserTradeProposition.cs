@@ -296,6 +296,7 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
 

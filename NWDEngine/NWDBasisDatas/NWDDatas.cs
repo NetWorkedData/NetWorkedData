@@ -1539,6 +1539,7 @@ namespace NetWorkedData
             return rArray;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]
         public static void LoadFromDatabase()
         {
             NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());

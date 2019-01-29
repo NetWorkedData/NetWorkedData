@@ -1,25 +1,21 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Credits",
         "Credits",
-                                 "NWDCreditsWindow", // NWDCreditsWindow_ICON
+        "NWDCreditsWindow", // NWDCreditsWindow_ICON
         new Type[] {typeof(NWDCredits),
         typeof(NWDCreditsStuff),
         typeof(NWDCreditsCompany),
@@ -31,7 +27,6 @@ namespace NetWorkedData
     {
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_BASE + "App/Credits", false, 290)]
-        //-------------------------------------------------------------------------------------------------------------
         public static void MenuMethod()
         {
             EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDCreditsWindow));

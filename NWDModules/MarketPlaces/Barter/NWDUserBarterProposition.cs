@@ -317,8 +317,9 @@ namespace NetWorkedData
 			float tYadd = 20.0f;
 			return tYadd;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
 		{
 
 			string tBarterStatus = NWDUserBarterRequest.FindAliasName("BarterStatus");

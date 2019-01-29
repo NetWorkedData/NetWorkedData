@@ -88,10 +88,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static NWDUserPreference GetByInternalKeyOrCreate(string sInternalKey, NWDMultiType sDefaultValue, string sInternalDescription = BTBConstants.K_EMPTY_STRING)
         {
             NWDUserPreference rObject = FindFirstDatasByInternalKey(sInternalKey);
@@ -107,11 +103,6 @@ namespace NetWorkedData
                 rObject.SaveData();
             }
             return rObject;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod("ClassInitialization")]
-        public static void ClassInitialization() // call by invoke
-        {
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>

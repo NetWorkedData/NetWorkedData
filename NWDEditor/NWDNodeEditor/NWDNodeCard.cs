@@ -55,8 +55,11 @@ namespace NetWorkedData
             // I analyze the properties of data.
             if (Data != null)
             {
+                // TODO : Change to remove invoke!
                 Type tType = Data.GetType();
-                var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                //var tMethodInfo = tType.GetMethod("NodeCardAnalyze", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_NodeCardAnalyze);
+
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(Data, new object[] { this });
@@ -272,6 +275,7 @@ namespace NetWorkedData
                 ParentDocument.SetData(Data);
             }
             // add custom draw in information rect
+            // TODO : Change to remove invoke!
             Type tType = Data.GetType();
             var tMethodInfo = tType.GetMethod("AddOnNodeDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
             if (tMethodInfo != null)
@@ -291,12 +295,15 @@ namespace NetWorkedData
                     NWDNodeCard tSubCard = tConnection.ChildrenList[0].Child;
                     if (tSubCard != null)
                     {
+                        // TODO : Change to remove invoke!
                         // draw properties distinct
                         GUI.Box(tConnection.Rectangle, string.Empty, tBox);
                         // add special infos in this property draw
                         NWDTypeClass tSubData = tSubCard.Data;
                         Type tSubType = tSubData.GetType();
                         var tSubMethodInfo = tSubType.GetMethod("AddOnNodePropertyDraw", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                        //MethodInfo tSubMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_AddOnNodePropertyDraw);
+
                         if (tSubMethodInfo != null)
                         {
                             tSubMethodInfo.Invoke(tSubData, new object[] { tConnection.PropertyName, new Rect(tConnection.Rectangle.x+NWDConstants.kFieldMarge, tConnection.Rectangle.y + 2, tConnection.Rectangle.width - 2 - (NWDConstants.kEditWidth + NWDConstants.kFieldMarge) * 3, tConnection.Rectangle.height) });
@@ -329,9 +336,10 @@ namespace NetWorkedData
 
                     if (GUI.Button(new Rect(tConnection.Rectangle.x + tConnection.Rectangle.width - NWDConstants.kEditWidth - 2, tConnection.Rectangle.y + 2, NWDConstants.kEditWidth, NWDConstants.kEditWidth), tNewContent, NWDConstants.StyleMiniButton))
                     {
+                        // TODO : Change to remove invoke!
                         //Debug.Log("ADD REFERENCE FROM NODE EDITOR");
                         // call the method EditorAddNewObject();
-
+                        // TODO : Change to remove invoke!
                         //Debug.Log("tTypeProperty = " + tTypeProperty.Name);
                         var tMethodProperty = tTypeProperty.GetMethod("EditorAddNewObject", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                         if (tMethodProperty != null)
@@ -339,6 +347,7 @@ namespace NetWorkedData
                             tMethodProperty.Invoke(tConnection.Property.GetValue(Data, null), null);
                             // Ok I update the data
                             Type tDataType = Data.GetType();
+                            // TODO : Change to remove invoke!
                             var tDataTypeUpdate = tDataType.GetMethod("UpdateMe", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                             if (tDataTypeUpdate != null)
                             {

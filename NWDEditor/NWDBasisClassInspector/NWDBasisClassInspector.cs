@@ -33,11 +33,13 @@ namespace NetWorkedData
 			if (tTarget.mTypeInEdition == null) {
 				//GUILayout.Label ("No Table to draw! Select one table");
 			} else {
-				//GUILayout.Label ("DRAW TYPE EDITOR " + tTarget.mTypeInEdition.Name);
-				var tMethodInfo = tTarget.mTypeInEdition.GetMethod ("DrawTypeInInspector", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
-					tMethodInfo.Invoke (null, null);
-				}
+                // TODO : Change to remove invoke!
+                //GUILayout.Label ("DRAW TYPE EDITOR " + tTarget.mTypeInEdition.Name);
+                //var tMethodInfo = tTarget.mTypeInEdition.GetMethod ("DrawTypeInInspector", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                NWDAliasMethod.InvokeClassMethod(tTarget.mTypeInEdition, NWDConstants.M_DrawTypeInInspector);
+    //            if (tMethodInfo != null) {
+				//	tMethodInfo.Invoke (null, null);
+				//}
 
 			}
 		}

@@ -44,11 +44,6 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod("ClassInitialization")]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public NWDGameSave()
         {
             //Debug.Log("NWDGameSave Constructor");

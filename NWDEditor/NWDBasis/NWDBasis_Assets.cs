@@ -26,6 +26,7 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sOldPath">old path.</param>
         /// <param name="sNewPath">new path.</param>
+        [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
         public static void ChangeAssetPath(string sOldPath, string sNewPath)
         {
             //Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);

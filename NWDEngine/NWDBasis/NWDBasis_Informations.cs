@@ -33,7 +33,9 @@ namespace NetWorkedData
         /// Informations about this instance.
         /// </summary>
         /// <returns>The informations.</returns>
-		public static string Informations ()
+        [NWDAliasMethod(NWDConstants.M_Informations)]
+
+        public static string Informations ()
 		{
             int tCount = Datas().Datas.Count;
 			if (tCount == 0) {

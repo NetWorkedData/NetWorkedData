@@ -163,11 +163,13 @@ namespace NetWorkedData
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
                 tOperation++;
-                var tMethodInfo = tType.GetMethod("CreateAllError", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                if (tMethodInfo != null)
-                {
-                    tMethodInfo.Invoke(null, null);
-                }
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod("CreateAllError", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //if (tMethodInfo != null)
+                //{
+                //    tMethodInfo.Invoke(null, null);
+                //}
+                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_CreateAllError);
             }
 
             NWDDataManager.SharedInstance().DataQueueExecute();
@@ -222,7 +224,10 @@ namespace NetWorkedData
                 {
                     EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
                     tOperation++;
-                    var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CreateAllPHP);
                     if (tMethodInfo != null)
                     {
                         tMethodInfo.Invoke(null, new object[] { "", true, true });

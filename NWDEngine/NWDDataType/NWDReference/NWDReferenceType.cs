@@ -156,6 +156,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
         public K[] EditorGetObjects()
         {
             List<K> rReturn = new List<K>();
@@ -336,6 +337,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnother)]
         public string ChangeReferenceForAnother(string sOldReference, string sNewReference)
         {
             string rReturn = "NO";

@@ -164,13 +164,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-#if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDEventMessage BasicError", "EVMz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static void Check() // call by invoke
         {
             kCheckReinstall.Clear();

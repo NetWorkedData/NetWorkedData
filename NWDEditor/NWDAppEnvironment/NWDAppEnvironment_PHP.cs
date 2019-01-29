@@ -55,10 +55,11 @@ namespace NetWorkedData
             //========= ERROR NWDERROR REGENERATE
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                var tMethodInfo = tType.GetMethod("ErrorRegenerate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethod(tType, NWDConstants.M_ErrorRegenerate, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //var tMethodInfo = tType.GetMethod("ErrorRegenerate", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
-                   tMethodInfo.Invoke(null, null);
+                    tMethodInfo.Invoke(null, null);
                 }
             }
             //========= CONSTANTS FILE

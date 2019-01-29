@@ -30,9 +30,11 @@ namespace NetWorkedData
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "P repare", tOperation/tCountClass);
 			foreach( Type tType in mTypeList)
 			{
-				EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
+                // TODO : Change to remove invoke!
+                EditorUtility.DisplayProgressBar(tProgressBarTitle, "Change asset path in "+tType.Name+" objects", tOperation/tCountClass);
 				tOperation++;
-				var tMethodInfo = tType.GetMethod("ChangeAssetPath", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeAssetPath);
+                //var tMethodInfo = tType.GetMethod("ChangeAssetPath", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null) 
 				{
 					tMethodInfo.Invoke(null, new object[] {sOldPath, sNewPath});

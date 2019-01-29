@@ -430,8 +430,9 @@ namespace NetWorkedData
 			string sScript = "";
 			return sScript;
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
+        //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
+        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
         {
             string tBarterStatus = NWDUserBarterProposition.FindAliasName("BarterStatus");
             string tBarterRequest = NWDUserBarterProposition.FindAliasName("BarterRequest");

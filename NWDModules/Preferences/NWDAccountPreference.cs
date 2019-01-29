@@ -100,15 +100,6 @@ namespace NetWorkedData
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod("ClassInitialization")]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>

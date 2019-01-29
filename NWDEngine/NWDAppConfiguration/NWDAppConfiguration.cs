@@ -19,7 +19,16 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    public partial class NWDAppConfiguration
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDApp
+    {
+        public virtual bool RestaureConfigurations()
+        {
+            return false;
+        }
+    }
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        public partial class NWDAppConfiguration : NWDApp
     {
         #region properties
         //-------------------------------------------------------------------------------------------------------------
@@ -73,6 +82,11 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public NWDAppConfiguration()
         {
+            Install();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+            public void Install()
+            {
             EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
             EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
             EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
@@ -80,13 +94,22 @@ namespace NetWorkedData
             AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
             AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
 
+            // REMOVED : Change to remove invoke!
             Type tType = this.GetType();
-            var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
-            if (tMethodInfo != null)
-            {
-                tMethodInfo.Invoke(this, null);
-            }
-            else
+            //var tMethodInfo = tType.GetMethod("RestaureConfigurations", BindingFlags.Instance | BindingFlags.Public);
+            //MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_RestaureConfigurations);
+            //if (tMethodInfo != null)
+            //{
+            //    tMethodInfo.Invoke(this, null);
+            //}
+            //else
+            //{
+            //    this.ProdEnvironment.Selected = false;
+            //    this.PreprodEnvironment.Selected = false;
+            //    this.DevEnvironment.Selected = true;
+            //}
+
+            if (RestaureConfigurations() == false)
             {
                 this.ProdEnvironment.Selected = false;
                 this.PreprodEnvironment.Selected = false;
@@ -284,7 +307,13 @@ namespace NetWorkedData
             return WebFolder.TrimEnd('/').TrimStart('/') + "_" + WebBuild.ToString("0000");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public string OldWebServiceFolder(int sWebService)
+        {
+            return WebFolder.TrimEnd('/').TrimStart('/') + "_" + sWebService.ToString("0000");
+        }
+        //-------------------------------------------------------------------------------------------------------------
         #endregion
     }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

@@ -1,19 +1,18 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using BasicToolBox;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -49,13 +48,14 @@ namespace NetWorkedData
         public TextMesh TextMeshTarget;
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
         private void OnDrawGizmos()
         {
             //Debug.Log("NWDAutolocalized OnDrawGizmos()");
             LocalizeEditor();
         }
+#endif
         //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
         public void LocalizeEditor()
         {
            //Debug.Log("NWDAutolocalized LocalizeEditor()");

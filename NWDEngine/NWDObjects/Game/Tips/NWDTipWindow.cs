@@ -1,14 +1,13 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
-using System;
-using UnityEngine;
-using SQLite4Unity3d;
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -16,18 +15,14 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("Tips",
 		"Tips & Tricks window description",
-        "NWDTipWindow",
 		new Type[] {
-			typeof(NWDTip),
-			typeof(NWDUserTip),
-			/* Add NWDBasis here*/
-		}
-                                )]
+		typeof(NWDTip),
+		typeof(NWDUserTip),
+		})]
 	public class NWDTipWindow : NWDBasisWindow <NWDTipWindow>
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_BASE+ "Game/Tips and Tricks", false, 250)]
-		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
 			EditorWindow tWindow = EditorWindow.GetWindow (typeof(NWDTipWindow));

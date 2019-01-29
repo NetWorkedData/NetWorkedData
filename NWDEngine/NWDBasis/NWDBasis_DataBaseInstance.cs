@@ -220,6 +220,7 @@ namespace NetWorkedData
                 Type tTypeOfThis = tPropertyInfo.PropertyType;
                 if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
                 {
+                // TODO : Change to remove invoke!
                     var tObject = Activator.CreateInstance(tTypeOfThis);
                     var tMethodInfo = tObject.GetType().GetMethod("SetString", BindingFlags.Public | BindingFlags.Instance);
                     if (tMethodInfo != null)
@@ -270,6 +271,7 @@ namespace NetWorkedData
         /// <summary>
         /// Applies all modifications which waiting in the updateQueue.
         /// </summary>
+        [NWDAliasMethod(NWDConstants.M_ClassInitialization)]
         public static void ApplyAllModifications()
         {
             NWDDataManager.SharedInstance().DataQueueExecute();

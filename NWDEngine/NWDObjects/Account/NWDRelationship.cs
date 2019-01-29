@@ -64,10 +64,10 @@ namespace NetWorkedData
     /// </code>
     /// </example>
     /// </summary>
-    [Serializable]
-    public class NWDFriendConnection : NWDConnection<NWDRelationship>
-    {
-    }
+    //[Serializable]
+    //public class NWDFriendConnection : NWDConnection<NWDRelationship>
+    //{
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("RLS")]
@@ -167,6 +167,7 @@ namespace NetWorkedData
             //Debug.Log("NWDRelationship Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_ErrorRegenerate)]
         public static void ErrorRegenerate()
         {
 #if UNITY_EDITOR

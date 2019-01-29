@@ -53,7 +53,9 @@ namespace NetWorkedData
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
-				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                // DID : Change to remove invoke!
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionHeightSerializedString);
+                //var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionHeightSerializedString", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null)
 				{
 					string tHeightString = tMethodInfo.Invoke (null, new object[]{property, tReferenceConnection.ShowInspector}) as string;
@@ -85,16 +87,19 @@ namespace NetWorkedData
 				tTypeDefintion = tTypeParent.GetGenericArguments ()[0];
 				//Debug.Log ("tTypeDefintion " + tTypeDefintion.Name);
 				string tTargetReference = property.FindPropertyRelative ("Reference").stringValue;
-				//bool tConnection = true;
-				//if (tTargetReference != null && tTargetReference != "")
-				//{
-				//	if (NWDBasis<K>.InstanceByReference(Value) == null)
-				//	{
-				//		tConnection = false;
-				//	}
-				//}
-				//EditorGUI.BeginDisabledGroup(!tConnection);
-				var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionFieldSerialized", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                //bool tConnection = true;
+                //if (tTargetReference != null && tTargetReference != "")
+                //{
+                //	if (NWDBasis<K>.InstanceByReference(Value) == null)
+                //	{
+                //		tConnection = false;
+                //	}
+                //}
+                //EditorGUI.BeginDisabledGroup(!tConnection);
+                // TODO : Change to remove invoke!
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeDefintion, NWDConstants.M_ReferenceConnectionFieldSerialized);
+
+                //var tMethodInfo = tTypeDefintion.GetMethod ("ReferenceConnectionFieldSerialized", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 				if (tMethodInfo != null)
 				{
 					tMethodInfo.Invoke (null, new object[]{position, property.displayName, property, string.Empty, tReferenceConnection.ShowInspector, tReferenceConnection.Editable, tReferenceConnection.EditButton, tReferenceConnection.NewButton});

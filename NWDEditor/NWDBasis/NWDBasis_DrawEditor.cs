@@ -39,6 +39,7 @@ namespace NetWorkedData
         public const string K_EDITOR_LAST_TYPE_KEY = "K_EDITOR_LAST_TYPE_KEY_5fdshjktr";
         public const string K_EDITOR_LAST_REFERENCE_KEY = "K_EDITOR_LAST_REFERENCE_KEY_ed5f5dtr";
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_RestaureObjectInEdition)]
         public static NWDBasis<K> RestaureObjectInEdition()
         {
             string tTypeEdited = EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY);
@@ -1156,6 +1157,7 @@ namespace NetWorkedData
             return tFinalRect;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_DrawObjectEditor)]
         public void DrawObjectEditor(Rect sInRect, bool sWithScrollview)
         {
 

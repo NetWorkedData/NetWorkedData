@@ -96,7 +96,7 @@ namespace NetWorkedData
         public bool ReGroupProperties = false;
         public bool UsedOnlyProperties = false;
 
-        public string Language = "BASE";
+        public string Language = NWDDataLocalizationManager.kBaseDev;
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Initializes a new instance of the <see cref="T:NetWorkedData.NWDNodeDocument"/> class.
@@ -325,6 +325,7 @@ namespace NetWorkedData
             // I must creat new object (prevent collection modified)
             if (tTypeToCreate != null)
             {
+            // TODO : Change to remove invoke!
                 //Debug.Log("try NewObject " + tTypeToCreate.Name);
                 var tDataTypeNewObject = tTypeToCreate.GetMethod("NewObject", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tDataTypeNewObject != null)

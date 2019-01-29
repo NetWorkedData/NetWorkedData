@@ -120,6 +120,7 @@ namespace NetWorkedData
                 //BTBBenchmark.Finish("Launcher() reflexion");
                 foreach (Type tType in tAllNWDTypes)
                 {
+                   // Debug.Log("tAllNWDTypes will declare " + tType.Name);
                     //tOPerationInProgress++;
                     // not the NWDBasis<K> because it's generic class
                     if (tType.ContainsGenericParameters == false)
@@ -127,10 +128,14 @@ namespace NetWorkedData
                         // add type in list of class
                         tTypeList.Add(tType);
                         // invoke the ClassDeclare method!
-                        var tMethodDeclare = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        if (tMethodDeclare != null)
+                        // TODO : Change to remove invoke!
+                        //var tMethodInfo = tType.GetMethod("ClassDeclare", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+
+                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ClassDeclare);
+
+                        if (tMethodInfo != null)
                         {
-                            tMethodDeclare.Invoke(null, null);
+                            tMethodInfo.Invoke(null, null);
                         }
                     }
                 }

@@ -706,8 +706,10 @@ namespace NetWorkedData
 
 			foreach (Type tType in mTypeList)
             {
-				var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null)
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod ("TryToChangeUserForAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_TryToChangeUserForAllObjects);
+                if (tMethodInfo != null)
                 {
 					tMethodInfo.Invoke (null, new object[]{ sEnvironment.PlayerAccountReference, sNewAccountReference });
 				}
@@ -749,7 +751,10 @@ namespace NetWorkedData
 				
 				foreach (Type tType in sTypeList)
                 {
-					var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod ("SynchronizationPullData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_SynchronizationPullData);
+
                     if (tMethodInfo != null)
                     {
                         string tResult = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sData }) as string;
@@ -812,8 +817,11 @@ namespace NetWorkedData
             Dictionary<string, object> rSend = new Dictionary<string, object> ();
 			if (sTypeList != null) {
 				foreach (Type tType in sTypeList) {
-					var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null) {
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod ("SynchronizationPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_SynchronizationPushData);
+
+                    if (tMethodInfo != null) {
                         Dictionary<string, object> rSendPartial = tMethodInfo.Invoke (null, new object[]{sInfos, sEnvironment, sForceAll, sSpecial }) as Dictionary<string, object>;
 						foreach (string tKey in rSendPartial.Keys) {
 							rSend.Add (tKey, rSendPartial [tKey]);
@@ -839,7 +847,9 @@ namespace NetWorkedData
             {
                 foreach (Type tType in sTypeList)
                 {
-                    var tMethodInfo = tType.GetMethod("CheckoutPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    // TODO : Change to remove invoke!
+                    //var tMethodInfo = tType.GetMethod("CheckoutPushData", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CheckoutPushData);
                     if (tMethodInfo != null)
                     {
                         Dictionary<string, object> rSendPartial = tMethodInfo.Invoke(null, new object[] { sInfos, sEnvironment, sForceAll, sSpecial }) as Dictionary<string, object>;
@@ -863,8 +873,11 @@ namespace NetWorkedData
 		public void DeleteUser (NWDAppEnvironment sEnvironment)
 		{
 			foreach (Type tType in mTypeList) {
-				var tMethodInfo = tType.GetMethod ("DeleteUser", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-				if (tMethodInfo != null) {
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod ("DeleteUser", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_DeleteUser);
+
+                if (tMethodInfo != null) {
 					tMethodInfo.Invoke (null, new object[]{ sEnvironment });
 				}
 			}

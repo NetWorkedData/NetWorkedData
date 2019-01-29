@@ -35,6 +35,8 @@ namespace NetWorkedData
         /// </summary>
         /// <param name="sOldReference">S old reference.</param>
         /// <param name="sNewReference">S new reference.</param>
+        /// 
+        [NWDAliasMethod(NWDConstants.M_ChangeReferenceForAnotherInAllObjects)]
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
@@ -44,6 +46,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
             foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
@@ -161,7 +164,9 @@ namespace NetWorkedData
             string tNewReference = NewReference();
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                var tMethodInfo = tType.GetMethod("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                // TODO : Change to remove invoke!
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
+                //var tMethodInfo = tType.GetMethod("ChangeReferenceForAnotherInAllObjects", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
                 if (tMethodInfo != null)
                 {
                     tMethodInfo.Invoke(null, new object[] { tOldReference, tNewReference });
@@ -204,9 +209,11 @@ namespace NetWorkedData
                             tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesListType<>) ||
                             tTypeOfThis.GetGenericTypeDefinition() == typeof(NWDReferencesQuantityType<>))
                         {
-
+                            // TODO : Change to remove invoke!
                             //							Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in Property " + tProp.Name);
-                            var tMethodInfo = tTypeOfThis.GetMethod("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
+                            MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tTypeOfThis, NWDConstants.M_ChangeReferenceForAnotherInAllObjects);
+
+                            //var tMethodInfo = tTypeOfThis.GetMethod("ChangeReferenceForAnother", BindingFlags.Public | BindingFlags.Instance);
                             if (tMethodInfo != null)
                             {
                                 var tNext = tProp.GetValue(this, null);

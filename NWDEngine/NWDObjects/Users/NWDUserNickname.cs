@@ -316,11 +316,6 @@ namespace NetWorkedData
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "// write your php script here to update $tReference before sync on server\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             return " // write your php script here to update $tReference when update by sync ... for example verif unique ID of an attribute and return it\n" +

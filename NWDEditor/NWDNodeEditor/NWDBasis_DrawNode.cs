@@ -22,6 +22,7 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_NodeCardAnalyze)]
         public void NodeCardAnalyze(NWDNodeCard sCard)
         {
             //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
@@ -96,8 +97,9 @@ namespace NetWorkedData
                                     Type tSubType = tTypeOfThis.GetGenericArguments()[0];
                                     if (sCard.ParentDocument.ShowTheseClasses[tSubType.Name] == true)
                                     {
-
-                                        var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+                                        // TODO : Change to remove invoke!
+                                        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tTypeOfThis, NWDConstants.M_EditorGetObjects);
+                                        //var tMethodInfo = tTypeOfThis.GetMethod("EditorGetObjects", BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
                                         if (tMethodInfo != null)
                                         {
                                             var tVar = tProp.GetValue(this, null);

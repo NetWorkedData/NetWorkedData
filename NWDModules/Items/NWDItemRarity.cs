@@ -144,18 +144,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         #region Class methods
         //-------------------------------------------------------------------------------------------------------------
-        public static void ErrorRegenerate()
-        {
-#if UNITY_EDITOR
-            NWDError.CreateGenericError("NWDItemRarity BasicError", "IRYz01", "Internal error", "Internal error to test", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagInternal);
-#endif
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod("ClassInitialization")]
-        public static void ClassInitialization() // call by invoke
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Exampel of implement for class method.
         /// </summary>
@@ -396,17 +384,7 @@ namespace NetWorkedData
             // normal way is return false!
             return rReturnErrorFound;
         }
-
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "// write your php script here to update $tReference before sync on server\n";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
-        {
-            return "// write your php script here to update afetr sync on server\n";
-        }
+     
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {

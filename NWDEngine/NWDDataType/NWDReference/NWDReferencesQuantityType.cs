@@ -509,6 +509,7 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_EditorGetObjects)]
         public K[] EditorGetObjects()
         {
             List<K> rReturn = new List<K>();

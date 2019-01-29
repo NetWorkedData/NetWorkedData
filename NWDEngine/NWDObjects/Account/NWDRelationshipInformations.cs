@@ -43,10 +43,10 @@ namespace NetWorkedData
     /// </code>
     /// </example>
     /// </summary>
-    [Serializable]
-    public class NWDRelationshipInformationsConnection : NWDConnection<NWDRelationshipInformations>
-    {
-    }
+    //[Serializable]
+    //public class NWDRelationshipInformationsConnection : NWDConnection<NWDRelationshipInformations>
+    //{
+    //}
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [Serializable]
     public enum NWDGenderType : int
