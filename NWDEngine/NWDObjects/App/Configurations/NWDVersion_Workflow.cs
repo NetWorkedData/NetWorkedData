@@ -182,11 +182,11 @@ namespace NetWorkedData
             tText += NWDAppConfiguration.SharedInstance().WebServiceFolder();
             if (sRedirection == true)
             {
-                tText += "/FlashMyApp.php?r=0";
+                tText += "/" + NWD.K_STATIC_FLASH_PHP + "?r=0";
             }
             else
             {
-                tText += "/FlashMyApp.php?r=1";
+                tText += "/" + NWD.K_STATIC_FLASH_PHP + "?r=1";
             }
             if (string.IsNullOrEmpty(OSXStoreID) == false)
             {

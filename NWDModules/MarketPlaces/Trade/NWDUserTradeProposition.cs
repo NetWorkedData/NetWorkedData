@@ -31,8 +31,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
         [NWDAlias("TradePlace")]
         public NWDReferenceType<NWDTradePlace> TradePlace
         {
@@ -100,10 +106,10 @@ namespace NetWorkedData
         {
             // Create a new Proposal
             NWDUserTradeProposition tProposition = NewData();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             NWDTradePlace tTrade = sRequest.TradePlace.GetObject();
             tProposition.InternalKey = NWDAccountNickname.GetNickname() + " - " + tTrade.InternalKey;
-            #endif
+#endif
             tProposition.Tag = NWDBasisTag.TagUserCreated;
             tProposition.TradePlace.SetObject(sRequest.TradePlace.GetObject());
             tProposition.TradeRequest.SetObject(sRequest);
@@ -321,7 +327,7 @@ namespace NetWorkedData
             int t_THIS_Index_ItemsAsked = CSVAssemblyIndexOf(t_THIS_ItemsAsked);
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once ( $PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerRequestHash = '';\n" +
@@ -332,8 +338,8 @@ namespace NetWorkedData
                 "if (!$tResultStatus)\n" +
                 "{\n" +
                 "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tResultStatus.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-				"error('SERVER');\n" +
-				"}\n" +
+                "error('SERVER');\n" +
+                "}\n" +
                 "else" +
                 "{\n" +
                 "if ($tResultStatus->num_rows == 1)\n" +
@@ -361,11 +367,11 @@ namespace NetWorkedData
                 "($tServerStatut == " + ((int)NWDTradeStatus.Accepted).ToString() +
                 //" || $tServerStatut == " + ((int)NWDTradeStatus.Cancelled).ToString() + 
                 " || $tServerStatut == " + ((int)NWDTradeStatus.Expired).ToString() +
-				" || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)" + 
-				"))\n" +
+                " || ($tServerStatut == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)" +
+                "))\n" +
                 "{\n" +
-                "$sReplaces["+ t_THIS_Index_ItemsProposed + "]='';\n" +
-                "$sReplaces["+ t_THIS_Index_ItemsAsked + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_ItemsProposed + "]='';\n" +
+                "$sReplaces[" + t_THIS_Index_ItemsAsked + "]='';\n" +
                 "$sReplaces[" + t_THIS_Index_tTradeRequestHash + "]='';\n" +
                 "$sReplaces[" + t_THIS_Index_TradeRequest + "]='';\n" +
                 "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
@@ -394,8 +400,8 @@ namespace NetWorkedData
                 "if (!$tResultTrade)\n" +
                 "{\n" +
                 "myLog('error in mysqli request : ('. $SQL_CON->errno.')'. $SQL_CON->error.'  in : '.$tQueryTrade.'', __FILE__, __FUNCTION__, __LINE__);\n" +
-				"error('SERVER');\n" +
-				"}\n" +
+                "error('SERVER');\n" +
+                "}\n" +
                 "else\n" +
                 "{\n" +
                 "$tNumberOfRow = 0;\n" +
@@ -416,14 +422,14 @@ namespace NetWorkedData
                 "}\n" +
                 "}\n" +
 
-				// change the statut from CSV TO FORCE // ADMIN ONLY 
-				"else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)\n" +
-					"{\n" +
-					"//EXECEPTION FOR ADMIN\n" +
-					"}\n" +
+                // change the statut from CSV TO FORCE // ADMIN ONLY 
+                "else if ($sCsvList[" + t_THIS_Index_TradeStatus + "] == " + ((int)NWDTradeStatus.Force).ToString() + " && $sAdmin == true)\n" +
+                    "{\n" +
+                    "//EXECEPTION FOR ADMIN\n" +
+                    "}\n" +
 
-				// OTHER
-				"else\n" +
+                // OTHER
+                "else\n" +
                 "{\n" +
                 // not possible return preview value
                 //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +

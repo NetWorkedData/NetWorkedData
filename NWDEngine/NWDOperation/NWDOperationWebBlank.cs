@@ -84,7 +84,7 @@ namespace NetWorkedData
 		public override string ServerFile ()
         {
             //Debug.Log("NWDOperationWebBlank ServerFile()");
-			return "blank.php";
+			return NWD.K_BLANK_PHP;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()

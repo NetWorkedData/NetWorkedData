@@ -186,13 +186,25 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES, false, 9002)]
         public static void CreatePHP()
         {
-            NWDDataManager.SharedInstance().CreatePHPAllClass(true);
+            NWDDataManager.SharedInstance().CreatePHPAllClass(true, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS, false, 9003)]
         public static void CreatePHPWitoutIncrement()
         {
-            NWDDataManager.SharedInstance().CreatePHPAllClass(false);
+            NWDDataManager.SharedInstance().CreatePHPAllClass(false, true);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES_SFTP, false, 9002)]
+        public static void CreatePHP_SFTP()
+        {
+            NWDDataManager.SharedInstance().CreatePHPAllClass(true, false);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS_SFTP, false, 9003)]
+        public static void CreatePHPWitoutIncrement_SFTP()
+        {
+            NWDDataManager.SharedInstance().CreatePHPAllClass(false, false);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9020)]

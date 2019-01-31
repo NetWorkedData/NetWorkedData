@@ -93,7 +93,7 @@ namespace NetWorkedData
         public virtual string ServerBase()
         {
             string tFolderWebService = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/Environment/" + Environment.Environment + "/" + ServerFile();
+            return Environment.ServerHTTPS.TrimEnd('/') + "/" + tFolderWebService + "/" + Environment.Environment + "/" + ServerFile();
         }
         //-------------------------------------------------------------------------------------------------------------
         IEnumerator ExecuteAsync()

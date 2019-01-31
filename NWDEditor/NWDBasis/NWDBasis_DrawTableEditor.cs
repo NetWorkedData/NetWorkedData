@@ -2282,11 +2282,15 @@ namespace NetWorkedData
 
             if (tCreateAllPHPForOnlyThisClass == true)
             {
-                CreateAllPHPForOnlyThisClass();
+                //CreateAllPHPForOnlyThisClass();
+                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+                NWDAppConfiguration.SharedInstance().PreprodEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
+                NWDAppConfiguration.SharedInstance().ProdEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
             }
             if (tCreateAllPHPForOnlyThisClassDEV == true)
             {
-                CreateDevPHPForOnlyThisClass();
+                //CreateDevPHPForOnlyThisClass();
+                NWDAppConfiguration.SharedInstance().DevEnvironment.CreatePHP(new List<Type> { typeof(K) }, false, false);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

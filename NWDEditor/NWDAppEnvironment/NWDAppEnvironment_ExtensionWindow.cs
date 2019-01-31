@@ -19,23 +19,14 @@ namespace NetWorkedData
 	public partial class NWDAppEnvironment
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Name for the menu.
-		/// </summary>
-		/// <returns>The name.</returns>
 		public static string MenuName ()
 		{
 			return NWDConstants.K_APP_ENVIRONMENT_MENU_NAME;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draw the interface in editor.
-		/// </summary>
 		public void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
-		{
-            // TODO use NWDConstants for these strings
-            // TODO use GUI without layout
-
+        {
+            BTBBenchmark.Start();
             float tMinWidht = 270.0F;
             float tScrollMarge = 20.0f;
             int tColum = 1;
@@ -76,6 +67,7 @@ namespace NetWorkedData
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
             EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
+            LogMode = EditorGUILayout.ToggleLeft("LogMode", LogMode);
 
             EditorGUILayout.TextField("SFTP for " + Environment, EditorStyles.boldLabel);
             SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
@@ -96,12 +88,8 @@ namespace NetWorkedData
             MailAuthentication = EditorGUILayout.TextField("Mail Authentication", MailAuthentication);
             MailEnableStarttlsAuto = EditorGUILayout.TextField("Mail Enable Starttls Auto", MailEnableStarttlsAuto);
             MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
-
-
             EditorGUILayout.EndVertical();
-
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
 			EditorGUILayout.TextField ("Social Params for "+ Environment, EditorStyles.boldLabel);
 			FacebookAppID = EditorGUILayout.TextField ("FacebookAppID", FacebookAppID);
 			FacebookAppSecret = EditorGUILayout.TextField ("FacebookAppSecret", FacebookAppSecret);
@@ -134,15 +122,10 @@ namespace NetWorkedData
             }
             CartridgeColor = EditorGUILayout.ColorField("Cartridge Color",CartridgeColor);
 			EditorGUILayout.EndVertical();
-
             if (tColum > 1)
             {
                 EditorGUILayout.EndHorizontal();
             }
-
-
-
-
             // DATABASE PARAMS
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Databases", MessageType.None);
@@ -177,10 +160,6 @@ namespace NetWorkedData
             /*NWDAppConfiguration.SharedInstance().AccountHashSaltB =*/
             EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
             EditorGUILayout.TextField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
-
-
-
-
             // WEBSERVICES PARAMS
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Webservices", MessageType.None);
@@ -190,7 +169,6 @@ namespace NetWorkedData
                 EditorGUILayout.BeginHorizontal();
             }
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
 
             Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
             tWSList.Add(0, true);
@@ -211,7 +189,6 @@ namespace NetWorkedData
                     tWSListUsableString.Add(tWS.Key.ToString());
                 }
             }
-
             NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
@@ -221,9 +198,7 @@ namespace NetWorkedData
 
             int tIndexWS = tWSListUsable.IndexOf(NWDAppConfiguration.SharedInstance().WebBuild);
             tIndexWS = EditorGUILayout.Popup("WebService active", tIndexWS, tWSListUsableString.ToArray());
-
             NWDAppConfiguration.SharedInstance().WebBuild = tWSListUsable[tIndexWS];
-
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
             foreach (KeyValuePair<int, bool> tWS in tWSList)
@@ -246,8 +221,6 @@ namespace NetWorkedData
             {
                 EditorGUILayout.EndHorizontal();
             }
-
-
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Tags", MessageType.None);
 
@@ -279,7 +252,8 @@ namespace NetWorkedData
                 EditorGUILayout.EndHorizontal();
             }
 			FormatVerification ();
-		}
+            BTBBenchmark.Finish();
+        }
 		//-------------------------------------------------------------------------------------------------------------
 	}
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

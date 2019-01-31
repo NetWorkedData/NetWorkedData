@@ -159,7 +159,31 @@ namespace NetWorkedData
 
 			NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-			foreach (Type tType in mTypeList)
+
+            NWDError.CreateGenericError("RESCUE", "01", "{APP} : Forgotten password", "Hello,\r\n" +
+                                        "You forgot your password for the App {APP}'s account and ask to reset it." +
+                                        "If you didn't ask the reset, ignore it.\r\n" +
+                                        "Else, just click on this link to reset your password and receipt a new password by email: \r\n" +
+                                        "\r\n" +
+                                        "reset my password: {URL}\r\n" +
+                                        "\r\n" +
+                                        "Best regards,\r\n" +
+                                        "The {APP}'s team.", "OK");
+
+            NWDError.CreateGenericError("RESCUE", "02", "{APP} : Password rescue", "Hello,\r\n" +
+                                        "Your password was resetted!\r\n" +
+                                        "Best regards,\r\n" +
+                                        "The {APP}'s team.", "OK");
+
+            NWDError.CreateGenericError("RESCUE", "03", "{APP} : Password Resetted", "Hello,\r\n" +
+                                        "Your password for the App {APP}'s account was resetted to : \r\n" +
+                                        "\r\n" +
+                                        "{PASSWORD}\r\n" +
+                                        "\r\n" +
+                                        "Best regards,\r\n" +
+                                        "The {APP}'s team.", "OK");
+
+            foreach (Type tType in mTypeList)
             {
                 EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
                 tOperation++;
@@ -177,7 +201,7 @@ namespace NetWorkedData
             EditorUtility.ClearProgressBar();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreatePHPAllClass(bool sIncrement = true)
+        public void CreatePHPAllClass(bool sIncrement = true, bool sWriteOnDisk = true)
         {
             //BTBBenchmark.Start("Step one");
             //int tPHPBuild = BTBConfigManager.SharedInstance().GetInt(NWDConstants.K_NWD_WS_BUILD, 0);
@@ -192,11 +216,11 @@ namespace NetWorkedData
             //TODO memorize in Table by webbuild the new order
 
             //TODO reccord the new Configuration;
-            string tProgressBarTitle = "NetWorkedData Create all php files";
-            float tCountClass = mTypeList.Count + 1;
-            float tOperation = 1;
-            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create environment php files", tOperation / tCountClass);
-            tOperation++;
+            //string tProgressBarTitle = "NetWorkedData Create all php files";
+            //float tCountClass = mTypeList.Count + 1;
+            //float tOperation = 1;
+            //EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create environment php files", tOperation / tCountClass);
+            //tOperation++;
 
             if (sIncrement == true)
             {
@@ -213,48 +237,50 @@ namespace NetWorkedData
                     AssetDatabase.DeleteAsset(tOwnerServerFolderPath);
                 }
             }
-
-            bool tCreated = CreateAllEnvironmentPHP();
+            foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
+            {
+                tEnvironement.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
+            }
             //BTBBenchmark.Finish("Step one");
 
             //BTBBenchmark.Start("Step two");
-            if (tCreated)
-            {
-                foreach (Type tType in mTypeList)
-                {
-                    EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
-                    tOperation++;
-                    // TODO : Change to remove invoke!
-                    //var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            //if (tCreated)
+            //{
+            //    foreach (Type tType in mTypeList)
+            //    {
+            //        EditorUtility.DisplayProgressBar(tProgressBarTitle, "Create " + tType.Name + " files", tOperation / tCountClass);
+            //        tOperation++;
+            //        // TODO : Change to remove invoke!
+            //        //var tMethodInfo = tType.GetMethod("CreateAllPHP", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
-                    MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CreateAllPHP);
-                    if (tMethodInfo != null)
-                    {
-                        tMethodInfo.Invoke(null, new object[] { "", true, true });
-                    }
-                }
-            }
+            //        MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_CreateAllPHP);
+            //        if (tMethodInfo != null)
+            //        {
+            //            tMethodInfo.Invoke(null, new object[] { "", true, true });
+            //        }
+            //    }
+            //}
             //BTBBenchmark.Finish("Step two");
-            EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
-            EditorUtility.ClearProgressBar();
+            //EditorUtility.DisplayProgressBar(tProgressBarTitle, "Finish", 1.0F);
+            //EditorUtility.ClearProgressBar();
 
             // TODO reccord the new Configuration;
             NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool CreateAllEnvironmentPHP()
-        {
-            bool rReturn = false;
-            if (CopyEnginePHP())
-            {
-                foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
-                {
-                    tEnvironement.CreatePHP();
-                }
-                rReturn = true;
-            }
-            return rReturn;
-        }
+        //public bool CreateAllEnvironmentPHP(bool sWriteOnDisk = true)
+        //{
+        //    bool rReturn = false;
+        //    //if (CopyEnginePHP())
+        //    //{
+        //        foreach (NWDAppEnvironment tEnvironement in NWDAppConfiguration.SharedInstance().AllEnvironements())
+        //        {
+        //            tEnvironement.CreatePHP(NWDDataManager.SharedInstance().mTypeList, true, sWriteOnDisk);
+        //        }
+        //        rReturn = true;
+        //    //}
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void ExportWebSites()
         {
@@ -284,33 +310,33 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public bool CopyEnginePHP()
-        {
-            bool rReturn = false;
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
+        //public bool CopyEnginePHP()
+        //{
+        //    bool rReturn = false;
+        //    string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
 
-            string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer/Editor";
-            string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
-            //Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
+        //    string tFolderScript = NWDFindPackage.SharedInstance().ScriptFolderFromAssets + "/NWDServer/Editor";
+        //    string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
+        //    //Debug.Log ("tWebServiceFolder = " + tWebServiceFolder);
 
-            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
-            {
-                Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " MUST BE CREATE !!!");
-                AssetDatabase.CreateFolder(tOwnerFolderServer, tWebServiceFolder);
-                AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder);
-            }
-            if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == true)
-            {
-                NWDToolbox.CopyFolderFiles(tFolderScript, tOwnerFolderServer + "/" + tWebServiceFolder);
-                rReturn = true;
-            }
-            else
-            {
-                Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " NOT CREATED !!!");
-            }
-            // TODO Copy the Special file too 
-            return rReturn;
-        }
+        //    if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == false)
+        //    {
+        //        Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " MUST BE CREATE !!!");
+        //        AssetDatabase.CreateFolder(tOwnerFolderServer, tWebServiceFolder);
+        //        AssetDatabase.ImportAsset(tOwnerFolderServer + "/" + tWebServiceFolder);
+        //    }
+        //    if (AssetDatabase.IsValidFolder(tOwnerFolderServer + "/" + tWebServiceFolder) == true)
+        //    {
+        //        NWDToolbox.CopyFolderFiles(tFolderScript, tOwnerFolderServer + "/" + tWebServiceFolder);
+        //        rReturn = true;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning(tOwnerFolderServer + "/" + tWebServiceFolder + " NOT CREATED !!!");
+        //    }
+        //    // TODO Copy the Special file too 
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

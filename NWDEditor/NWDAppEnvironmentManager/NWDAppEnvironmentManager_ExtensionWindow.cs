@@ -40,7 +40,8 @@ namespace NetWorkedData
 		/// <summary>
 		/// Draws in editor.
 		/// </summary>
-		public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
+        [NWDAliasMethod(NWDConstants.M_DrawInEditor)]
+        public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw warning if salt for class is false
 			if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass () == false) {
@@ -90,7 +91,8 @@ namespace NetWorkedData
 			GUILayout.EndScrollView ();
 
 			GUILayout.Space (8.0f);
-			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) {
+			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) 
+            {
 				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
 			}
 			GUILayout.Space (8.0f);

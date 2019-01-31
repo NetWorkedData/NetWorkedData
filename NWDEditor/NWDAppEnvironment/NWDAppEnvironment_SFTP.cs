@@ -1,10 +1,11 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,8 +22,6 @@ using Renci.SshNet.Sftp;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
@@ -43,7 +42,6 @@ namespace NetWorkedData
                 SftpConnexion.Connect();
                 if (SftpConnexion.IsConnected)
                 {
-
                     SftpConnexion.BufferSize = 4 * 1024; // bypass Payload error large files
                 }
             }
@@ -55,12 +53,12 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SendFileWS(string sAlternate, string sClassName)
-        {
-            SendFiles(sAlternate,
-             "Environment/" + Environment + "/Engine/Database/" + sClassName + "/",
-             new string[] { "constants.php", "management.php", "synchronization.php" });
-        }
+        //public void SendFileWS(string sAlternate, string sClassName)
+        //{
+        //    SendFiles(sAlternate,
+        //    Environment + "/" + NWD.K_ENG + "/" + NWD.K_DB + "/" + sClassName + "/",
+        //    new string[] { NWD.K_CONSTANTS_FILE, NWD.K_MANAGEMENT_FILE, NWD.K_WS_SYNCHRONISATION });
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
@@ -83,8 +81,8 @@ namespace NetWorkedData
             ConnectSFTP();
             // prepare the destination
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string tDestinationFolder = tWebServiceFolder + "/";
-            string tDestination = SFTPFolder + tDestinationFolder + ".htaccess";
+            string tDestinationFolder = tWebServiceFolder + "/" + Environment + "/";
+            string tDestination = SFTPFolder + tDestinationFolder + NWD.K_HTACCESS;
             // delete existing file 
             if (SftpConnexion.Exists(tDestination))
             {
@@ -93,19 +91,19 @@ namespace NetWorkedData
             // rewrite one of new htaccess or nothing
             if (sMaintenance)
             {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule ([a-zA-Z0-9\\_]+)\\/(.*) ./maintenance.php");
+                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule ([a-zA-Z0-9\\_]+)\\/(.*) ./" + NWD.K_MAINTENANCE_PHP + "");
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
             else if (sObsolete)
             {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule ([a-zA-Z0-9\\_]+)\\/(.*) ./obsolete.php");
+                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule ([a-zA-Z0-9\\_]+)\\/(.*) ./" + NWD.K_OBSOLETE_PHP + "");
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
             //SFTPHost will close
             DeconnectSFTP();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles)
+        public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles, bool sAutoDeconnect = true)
         {
             ConnectSFTP();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
@@ -142,37 +140,33 @@ namespace NetWorkedData
                 byte[] tBytes = Encoding.UTF8.GetBytes(tText);
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
-            DeconnectSFTP();
+            if (sAutoDeconnect == true)
+            {
+                DeconnectSFTP();
+            }
         }
 
 
         //-------------------------------------------------------------------------------------------------------------
-        public void SendFile(string sAlternate, string sFolder, string sWSFile)
+        public void SendFile(string sAlternate, string sFolder, string sWSFile, bool sAutoDeconnect = true)
         {
-            SendFiles(sAlternate, sFolder, new string[] { sWSFile });
+            SendFiles(sAlternate, sFolder, new string[] { sWSFile }, sAutoDeconnect);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false)
+        public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false, bool sAutoDeconnect = true)
         {
             //BTBBenchmark.Start();
             ConnectSFTP();
-            // create web services folder
-            string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
-            string tDestinationFolder = tWebServiceFolder;
-            if (!SftpConnexion.Exists(SFTPFolder + tWebServiceFolder))
-            {
-                SftpConnexion.CreateDirectory(SFTPFolder + tWebServiceFolder);
-            }
             // create web services folders and files
             foreach (string tFolder in sFolders)
             {
                 if (string.IsNullOrEmpty(tFolder) == false)
                 {
-                    //Debug.Log("WRITE FOLDER : " + SFTPFolder + tWebServiceFolder + "/" + tFolder);
+                    Debug.Log("WRITE FOLDER : " + SFTPFolder + tFolder);
                     if (sFolderRecurssive == true)
                     {
                         string[] tFolders = tFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
-                        string tAssfolder = tWebServiceFolder + "/";
+                        string tAssfolder = string.Empty;
                         foreach (string tT in tFolders)
                         {
                             tAssfolder = tAssfolder + tT;
@@ -186,25 +180,28 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        if (!SftpConnexion.Exists(SFTPFolder + tWebServiceFolder + "/" + tFolder))
+                        if (!SftpConnexion.Exists(SFTPFolder + tFolder))
                         {
-                            SftpConnexion.CreateDirectory(SFTPFolder + tWebServiceFolder + "/" + tFolder);
+                            SftpConnexion.CreateDirectory(SFTPFolder + tFolder);
                         }
                     }
                 }
             }
             foreach (KeyValuePair<string, string> tFileAndData in sFilesAndDatas)
             {
-                //Debug.Log("SFTP Write file :" + SFTPFolder + tWebServiceFolder +"/"+ tFileAndData.Key);
+                Debug.Log("SFTP Write file :" + SFTPFolder  + tFileAndData.Key);
                 //SftpConnexion.WriteAllText(SFTPFolder + tWebServiceFolder + "/" + tFileAndData.Key, tFileAndData.Value, Encoding.UTF8); =>>> bug dans lexecution du php ensuite!?
-                if (SftpConnexion.Exists(SFTPFolder + tWebServiceFolder + "/" + tFileAndData.Key))
+                if (SftpConnexion.Exists(SFTPFolder + tFileAndData.Key))
                 {
-                    SftpConnexion.DeleteFile(SFTPFolder + tWebServiceFolder + "/" + tFileAndData.Key);
+                    SftpConnexion.DeleteFile(SFTPFolder  + tFileAndData.Key);
                 }
                 byte[] tBytes = Encoding.UTF8.GetBytes(tFileAndData.Value);
-                SftpConnexion.WriteAllBytes(SFTPFolder + tWebServiceFolder + "/" + tFileAndData.Key, tBytes);
+                SftpConnexion.WriteAllBytes(SFTPFolder + tFileAndData.Key, tBytes);
             }
-            DeconnectSFTP();
+            if (sAutoDeconnect == true)
+            {
+                DeconnectSFTP();
+            }
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------

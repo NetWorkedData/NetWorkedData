@@ -99,8 +99,8 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
 		{
-			return "account.php";
-		}
+            return NWD.K_AUTHENTIFICATION_PHP;
+        }
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()
 		{
@@ -236,16 +236,16 @@ namespace NetWorkedData
 			//Debug.Log ("NWDOperationWebAccount DataDownloadedCompute start");
             if (sData.isSignIn)
             {
-				foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
-                {
-					var tMethodInfo = tType.GetMethod ("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-					if (tMethodInfo != null)
-                    {
-                        //TODO ???
-                        // reset all datas ?
-                        // Sync force?
-					}
-				}
+				//foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
+    //            {
+				//	var tMethodInfo = tType.GetMethod ("ResetTable", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+				//	if (tMethodInfo != null)
+    //                {
+    //                    //TODO ???
+    //                    // reset all datas ?
+    //                    // Sync force?
+				//	}
+				//}
 			}
 
             NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList);

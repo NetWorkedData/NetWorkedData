@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using BasicToolBox;
 
 using UnityEngine;
+using System.Text;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -340,7 +341,7 @@ namespace NetWorkedData
             foreach (FileInfo tFile in tInfo)
             {
                 //Debug.Log ("find file = " + tFile.Name + " with extension = " + tFile.Extension);
-                string tNewPath = sToFolder + "/" + tFile.Name.Replace("dot_htaccess.txt", ".htaccess");
+                string tNewPath = sToFolder + "/" + tFile.Name.Replace(NWD.K_DOT_HTACCESS, NWD.K_HTACCESS);
                 if (File.Exists(tNewPath))
                 {
                     File.Delete(tNewPath);
@@ -421,6 +422,39 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
+        public static string CSharpFormat(string sString)
+        {
+            StringBuilder rReturn = new StringBuilder();
+            int tIndentCount = 0;
+            string[] tLines = sString.Split(new string[] { "\n", "\r" }, StringSplitOptions.None);
+            foreach (string tLine in tLines)
+            {
+                if (tLine.Contains("{"))
+                {
+                    tIndentCount++;
+                }
+                if (tLine.Contains("}"))
+                {
+                    tIndentCount--;
+                }
+                for (int i = 0; i < tIndentCount; i++)
+                {
+                    rReturn.Append("\t");
+                }
+                //rReturn.Append(tLine.Replace("\t",""));
+                rReturn.Append(tLine);
+                rReturn.Append(NWD.K_ReturnLine);
+                if (tLine.Contains("{"))
+                {
+                    tIndentCount++;
+                }
+                if (tLine.Contains("}"))
+                {
+                    tIndentCount--;
+                }
+            }
+            return rReturn.ToString().TrimEnd(new char[] { '\n', '\r' });
+        }
         //-------------------------------------------------------------------------------------------------------------
         public static string FindOwnerServerFolder()
         {
@@ -458,7 +492,7 @@ namespace NetWorkedData
             bool tFindClassesFolder = false;
             if (Type.GetType("NetWorkedData." + sFindClassName) != null)
             {
-            // TODO : Change to remove invoke!
+                // TODO : Change to remove invoke!
                 tFindClassesFolder = true;
                 Type tFindClassesType = Type.GetType("NetWorkedData." + sFindClassName);
                 var tMethodInfo = tFindClassesType.GetMethod("PathOfPackage", BindingFlags.Public | BindingFlags.Static);

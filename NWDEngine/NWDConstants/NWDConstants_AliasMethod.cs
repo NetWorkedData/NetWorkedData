@@ -72,7 +72,8 @@ namespace NetWorkedData
         public const string M_ImportAllLocalizations = "M_ImportAllLocalizations";
         public const string M_RestaureObjectInEdition = "M_RestaureObjectInEdition";
         public const string M_CreateAllError = "M_CreateAllError";
-        public const string M_CreateAllPHP = "M_CreateAllPHP";
+        //public const string M_CreateAllPHP = "M_CreateAllPHP";
+        public const string M_BasisCreatePHP = "M_BasisCreatePHP";
         public const string M_NodeCardAnalyze = "M_NodeCardAnalyze";
         public const string M_AddOnNodeDraw = "M_AddOnNodeDraw";
         public const string M_AddOnNodePropertyDraw = "M_AddOnNodePropertyDraw";

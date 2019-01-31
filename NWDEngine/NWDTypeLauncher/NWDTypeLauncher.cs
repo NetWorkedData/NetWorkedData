@@ -91,6 +91,10 @@ namespace NetWorkedData
 #endif
         public static void RunLauncher()
         {
+#if UNITY_EDITOR
+            // to cleat error ProgressBar 
+            EditorUtility.ClearProgressBar();
+#endif
             // FORCE TO ENGLISH FORMAT!
             Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
             // this class deamon is launch at start ... Read all classes, install all classes deamon and load all datas

@@ -25,7 +25,7 @@ namespace NetWorkedData
 		#region properties
 		//-------------------------------------------------------------------------------------------------------------
 		public bool Selected = false;
-		public string Environment = NWDConstants.K_PRODUCTION_NAME;
+        public string Environment = NWDConstants.K_PRODUCTION_NAME;
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDAppEnvironmentPlayerStatut PlayerStatut = NWDAppEnvironmentPlayerStatut.Temporary;
 		public string PlayerAccountReference = string.Empty;
@@ -61,12 +61,13 @@ namespace NetWorkedData
         public string ServerPassword = string.Empty;
         public string ServerBase = "myDatabase";
         public string AdminKey = string.Empty;
+        public bool LogMode = true;
 #endif
         public int SaltFrequency = 300;
         public string AddressPing = "8.8.8.8";
 		public string ServerHTTPS = "https://www.my-web-site.com/";
         public bool AllwaysSecureData = false;
-		public string FacebookAppID = string.Empty;
+        public string FacebookAppID = string.Empty;
 		public string FacebookAppSecret = string.Empty;
 		public string GoogleAppKey = string.Empty;
 		public string UnityAppKey = string.Empty;

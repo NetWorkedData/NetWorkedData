@@ -89,7 +89,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
 		{
-			return "webservices.php";
+			return NWD.K_WS_FILE;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()

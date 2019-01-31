@@ -70,7 +70,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public override string ServerFile ()
 		{
-			return "management.php";
+			return NWD.K_MANAGEMENT_FILE;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()

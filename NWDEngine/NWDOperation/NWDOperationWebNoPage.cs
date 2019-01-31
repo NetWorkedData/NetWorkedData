@@ -84,7 +84,7 @@ namespace NetWorkedData
 		public override string ServerFile ()
         {
             //Debug.Log("NWDOperationWebNoPage ServerFile()");
-			return "noPage.php";
+			return NWD.K_NO_PAGE_PHP;
 		}
 		//-------------------------------------------------------------------------------------------------------------
 		public override void DataUploadPrepare ()

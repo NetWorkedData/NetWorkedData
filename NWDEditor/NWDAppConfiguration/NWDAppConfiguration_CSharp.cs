@@ -27,7 +27,7 @@ namespace NetWorkedData
         /// <param name="sEnvironment">S environment.</param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
-            //*Function debug*/Debug.LogWarning("NWDAppConfiguration GenerateCSharpFile()");
+            BTBBenchmark.Start();
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
@@ -193,6 +193,7 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(this.ProdEnvironment.CartridgeColor.a) + "F);\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
+            "\t\t\tthis.ProdEnvironment.LogMode = " + this.ProdEnvironment.LogMode.ToString().ToLower() + ";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPHost = \"" + this.ProdEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPPort = " + this.ProdEnvironment.SFTPPort.ToString() + ";\n" +
             "\t\t\tthis.ProdEnvironment.SFTPFolder = \"" + this.ProdEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
@@ -253,6 +254,7 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(this.PreprodEnvironment.CartridgeColor.a) + "F);\n" +
             "\t\t\t#if UNITY_EDITOR\n" +
+            "\t\t\tthis.PreprodEnvironment.LogMode = " + this.PreprodEnvironment.LogMode.ToString().ToLower() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPHost = \"" + this.PreprodEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPPort = " + this.PreprodEnvironment.SFTPPort.ToString() + ";\n" +
             "\t\t\tthis.PreprodEnvironment.SFTPFolder = \"" + this.PreprodEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
@@ -312,6 +314,7 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(this.DevEnvironment.CartridgeColor.a) + "F);\n" +
             "#if UNITY_EDITOR\n" +
+            "\t\t\tthis.DevEnvironment.LogMode = " + this.DevEnvironment.LogMode.ToString().ToLower() + ";\n" +
             "\t\t\tthis.DevEnvironment.SFTPHost = \"" + this.DevEnvironment.SFTPHost.Replace("\"", "\\\"") + "\";\n" +
             "\t\t\tthis.DevEnvironment.SFTPPort = " + this.DevEnvironment.SFTPPort.ToString() + ";\n" +
             "\t\t\tthis.DevEnvironment.SFTPFolder = \"" + this.DevEnvironment.SFTPFolder.Replace("\"", "\\\"") + "\";\n" +
@@ -511,10 +514,13 @@ namespace NetWorkedData
             string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();
             //tFolderPath = "Assets";
             string tPath = tOwnerConfigurationFolderPath + "/NWDConfigurations.cs";
+
+            tConstantsFile = NWDToolbox.CSharpFormat(tConstantsFile);
             File.WriteAllText(tPath, tConstantsFile);
             // force to import this file by Unity3D
             AssetDatabase.ImportAsset(tPath);
             AssetDatabase.Refresh();
+            BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

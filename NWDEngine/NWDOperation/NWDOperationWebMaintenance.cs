@@ -84,7 +84,7 @@ namespace NetWorkedData
 		public override string ServerFile ()
         {
             //Debug.Log("NWDOperationWebMaintenance ServerFile()");
-			return "maintenance.php";
+			return NWD.K_MAINTENANCE_PHP;
         }
         //-------------------------------------------------------------------------------------------------------------
         public override string ServerBase()

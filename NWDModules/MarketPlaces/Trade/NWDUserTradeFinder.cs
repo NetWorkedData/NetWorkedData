@@ -256,7 +256,7 @@ namespace NetWorkedData
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once($PATH_BASE.'/Environment/'.$ENV.'/Engine/Database/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/synchronization.php');\n" +
+                "include_once($PATH_BASE.'/'.$ENV.'/"+NWD.K_DB+"/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/"+ NWD.K_WS_SYNCHRONISATION+"');\n" +
                 "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQAssemblyOrder() + " FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
