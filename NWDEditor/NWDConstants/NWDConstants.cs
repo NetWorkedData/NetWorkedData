@@ -133,12 +133,12 @@ namespace NetWorkedData
         public const string K_MENU_ALL_CLASSES = K_MENU_BASE + "Tools/All Data's Classes (herited from NWDBasis<K>)";
 
         public const string K_MENU_CREATE_PHP = "Tools/Server auto generate";
-        public const string K_MENU_CREATE_PHP_FILES = K_MENU_BASE + K_MENU_CREATE_PHP + "/Disk/Create PHP Files";
-        public const string K_MENU_CREATE_PHP_FILES_SFTP = K_MENU_BASE + K_MENU_CREATE_PHP + "/SFTP/Create PHP Files and send by SFTP";
-        public const string K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS = K_MENU_BASE + K_MENU_CREATE_PHP + "/Disk/Create PHP Files (no increment WS)";
-        public const string K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS_SFTP = K_MENU_BASE + K_MENU_CREATE_PHP + "/SFTP/Create PHP Files (no increment WS) and send by SFTP";
-        public const string K_MENU_CREATE_PHP_ERRORS = K_MENU_BASE + K_MENU_CREATE_PHP + "/Create Generic Errors";
-        public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = K_MENU_BASE + K_MENU_CREATE_PHP + "/Export website(s)";
+        public const string K_MENU_CREATE_PHP_ERRORS = K_MENU_BASE + K_MENU_CREATE_PHP + "/Generate errors";
+        public const string K_MENU_CREATE_PHP_FILES = K_MENU_BASE + K_MENU_CREATE_PHP + "/Disk/Increment WebService and generate files";
+        public const string K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS = K_MENU_BASE + K_MENU_CREATE_PHP + "/Disk/Generate Files without increment WebService";
+        public const string K_MENU_CREATE_PHP_EXPORT_WEB_SITE = K_MENU_BASE + K_MENU_CREATE_PHP + "/Disk/Export files in folder uploadable";
+        public const string K_MENU_CREATE_PHP_FILES_SFTP = K_MENU_BASE + K_MENU_CREATE_PHP + "/SFTP/Increment WebService, generate files and upload";
+        public const string K_MENU_CREATE_PHP_FILES_NO_INCREMENT_WS_SFTP = K_MENU_BASE + K_MENU_CREATE_PHP + "/SFTP/Generate files and upload without increment WebService";
 
         public const string K_MENU_CREATE_CSHARP = "Creation of  files of workflow";
         public const string K_MENU_CREATE_CSHARP_FILES = K_MENU_BASE + K_MENU_CREATE_CSHARP + "/Create CSharp Files Workflow";

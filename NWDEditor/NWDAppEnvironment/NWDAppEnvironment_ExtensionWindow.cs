@@ -6,11 +6,11 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
 using System;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -26,7 +26,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
 		public void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
         {
-            BTBBenchmark.Start();
+            //BTBBenchmark.Start();
             float tMinWidht = 270.0F;
             float tScrollMarge = 20.0f;
             int tColum = 1;
@@ -61,13 +61,13 @@ namespace NetWorkedData
             EditorGUILayout.TextField("Server Params for " + Environment, EditorStyles.boldLabel);
             ServerHTTPS = EditorGUILayout.TextField("Server (https://…)", ServerHTTPS);
             AllwaysSecureData = EditorGUILayout.ToggleLeft("Allways Secure Data", AllwaysSecureData);
+            LogMode = EditorGUILayout.ToggleLeft("LogMode", LogMode);
             ServerHost = EditorGUILayout.TextField("MySQL Host", ServerHost);
             ServerUser = EditorGUILayout.TextField("MySQL user", ServerUser);
             ServerPassword = EditorGUILayout.TextField("MySQL password", ServerPassword);
             ServerBase = EditorGUILayout.TextField("MySQL base", ServerBase);
             WebTimeOut = EditorGUILayout.IntField("TimeOut request", WebTimeOut);
             EditorWebTimeOut = EditorGUILayout.IntField("Editor TimeOut request", EditorWebTimeOut);
-            LogMode = EditorGUILayout.ToggleLeft("LogMode", LogMode);
 
             EditorGUILayout.TextField("SFTP for " + Environment, EditorStyles.boldLabel);
             SFTPHost = EditorGUILayout.TextField("SFTP Host", SFTPHost);
@@ -252,7 +252,7 @@ namespace NetWorkedData
                 EditorGUILayout.EndHorizontal();
             }
 			FormatVerification ();
-            BTBBenchmark.Finish();
+            //BTBBenchmark.Finish();
         }
 		//-------------------------------------------------------------------------------------------------------------
 	}

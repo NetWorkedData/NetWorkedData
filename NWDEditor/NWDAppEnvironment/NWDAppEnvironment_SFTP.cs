@@ -162,7 +162,7 @@ namespace NetWorkedData
             {
                 if (string.IsNullOrEmpty(tFolder) == false)
                 {
-                    Debug.Log("WRITE FOLDER : " + SFTPFolder + tFolder);
+                    //Debug.Log("WRITE FOLDER : " + SFTPFolder + tFolder);
                     if (sFolderRecurssive == true)
                     {
                         string[] tFolders = tFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
@@ -189,7 +189,7 @@ namespace NetWorkedData
             }
             foreach (KeyValuePair<string, string> tFileAndData in sFilesAndDatas)
             {
-                Debug.Log("SFTP Write file :" + SFTPFolder  + tFileAndData.Key);
+                //Debug.Log("SFTP Write file :" + SFTPFolder  + tFileAndData.Key);
                 //SftpConnexion.WriteAllText(SFTPFolder + tWebServiceFolder + "/" + tFileAndData.Key, tFileAndData.Value, Encoding.UTF8); =>>> bug dans lexecution du php ensuite!?
                 if (SftpConnexion.Exists(SFTPFolder + tFileAndData.Key))
                 {

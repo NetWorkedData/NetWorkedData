@@ -256,7 +256,7 @@ namespace NetWorkedData
             bool tPull = false;
             bool tPullForce = false;
             bool tSyncClean = false;
-            bool tPublish = false;
+            //bool tPublish = false;
             //bool tResethToken = false;
             //bool tFlushWebQueue = false;
 
@@ -345,28 +345,28 @@ namespace NetWorkedData
             }
             GUILayout.EndHorizontal();
 
-            GUILayout.BeginHorizontal();
-            EditorGUI.BeginDisabledGroup(true);
-            if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
-            {
-                tPublish = true;
-                tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
-                //AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
-            }
-            EditorGUI.EndDisabledGroup();
-            if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
-            {
-                tPublish = true;
-                tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
-                //AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
-            }
-            if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
-            {
-                tPublish = true;
-                tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
-                //AllSynchronization (NWDAppConfiguration.SharedInstance().ProdEnvironment);
-            }
-            GUILayout.EndHorizontal();
+            //GUILayout.BeginHorizontal();
+            //EditorGUI.BeginDisabledGroup(true);
+            //if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
+            //{
+            //    tPublish = true;
+            //    tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
+            //    //AllSynchronization (NWDAppConfiguration.SharedInstance().DevEnvironment);
+            //}
+            //EditorGUI.EndDisabledGroup();
+            //if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
+            //{
+            //    tPublish = true;
+            //    tEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
+            //    //AllSynchronization (NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            //}
+            //if (GUILayout.Button("Prepare to Publish", EditorStyles.miniButton))
+            //{
+            //    tPublish = true;
+            //    tEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
+            //    //AllSynchronization (NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            //}
+            //GUILayout.EndHorizontal();
 
 
             GUILayout.BeginHorizontal();
@@ -734,7 +734,7 @@ namespace NetWorkedData
                 {
                     EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
                 }
-                CreateTable(tEnvironment);
+                AllOperationWebSpecial(tEnvironment, NWDOperationSpecial.Upgrade);
             }
             if (tSync == true)
             {
@@ -776,18 +776,18 @@ namespace NetWorkedData
                 }
                 AllSynchronizationClean(tEnvironment);
             }
-            if (tPublish == true)
-            {
-                if (Application.isPlaying == true)
-                {
-                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                }
-                AllPrepareToPublish(tEnvironment);
-            }
+            //if (tPublish == true)
+            //{
+            //    if (Application.isPlaying == true)
+            //    {
+            //        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+            //    }
+            //    AllPrepareToPublish(tEnvironment);
+            //}
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void CreateTable(NWDAppEnvironment sEnvironment)
+        public void AllOperationWebSpecial(NWDAppEnvironment sEnvironment, NWDOperationSpecial sOperation = NWDOperationSpecial.None)
         {
             bool tOk = false;
             if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
@@ -807,7 +807,9 @@ namespace NetWorkedData
             if (tOk == true)
             {
                 StartProcess(sEnvironment);
-                NWDOperationWebManagement.AddOperation("Create table on server", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, true);
+
+                NWDOperationWebSynchronisation.AddOperation("Special operation table on server" + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, NWDDataManager.SharedInstance().mTypeSynchronizedList, false, true, sOperation);
+                //NWDOperationWebManagement.AddOperation("Create table on server", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, true);
             }
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -931,53 +933,53 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void AllPrepareToPublish(NWDAppEnvironment sEnvironment)
-        {
-            bool tOk = false;
-            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
-            {
-                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
-                    NWDConstants.K_SYNC_ALERT_MESSAGE,
-                    NWDConstants.K_SYNC_ALERT_OK,
-                    NWDConstants.K_SYNC_ALERT_CANCEL))
-                {
-                    tOk = true;
-                }
-            }
-            else
-            {
-                tOk = true;
-            }
-            if (tOk == true)
-            {
-                if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
-                {
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-                    {
-                        // TODO : Change to remove invoke!
-                        //var tMethodInfo = tType.GetMethod("PrepareToProdPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PrepareToProdPublish);
-                        //if (tMethodInfo != null)
-                        //{
-                        //    tMethodInfo.Invoke(null, null);
-                        //}
-                    }
-                }
-                else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
-                {
-                    foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
-                    {
-                        // TODO : Change to remove invoke!             
-                        NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PrepareToPreprodPublish);
-                        //var tMethodInfo = tType.GetMethod("PrepareToPreprodPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        //if (tMethodInfo != null)
-                        //{
-                        //    tMethodInfo.Invoke(null, null);
-                        //}
-                    }
-                }
-            }
-        }
+        //public void AllPrepareToPublish(NWDAppEnvironment sEnvironment)
+        //{
+        //    bool tOk = false;
+        //    if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+        //    {
+        //        if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+        //            NWDConstants.K_SYNC_ALERT_MESSAGE,
+        //            NWDConstants.K_SYNC_ALERT_OK,
+        //            NWDConstants.K_SYNC_ALERT_CANCEL))
+        //        {
+        //            tOk = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        tOk = true;
+        //    }
+        //    if (tOk == true)
+        //    {
+        //        if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+        //        {
+        //            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+        //            {
+        //                // TODO : Change to remove invoke!
+        //                //var tMethodInfo = tType.GetMethod("PrepareToProdPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        //                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PrepareToProdPublish);
+        //                //if (tMethodInfo != null)
+        //                //{
+        //                //    tMethodInfo.Invoke(null, null);
+        //                //}
+        //            }
+        //        }
+        //        else if (sEnvironment == NWDAppConfiguration.SharedInstance().PreprodEnvironment)
+        //        {
+        //            foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
+        //            {
+        //                // TODO : Change to remove invoke!             
+        //                NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_PrepareToPreprodPublish);
+        //                //var tMethodInfo = tType.GetMethod("PrepareToPreprodPublish", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+        //                //if (tMethodInfo != null)
+        //                //{
+        //                //    tMethodInfo.Invoke(null, null);
+        //                //}
+        //            }
+        //        }
+        //    }
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void Pull(List<Type> sTypeList, NWDAppEnvironment sEnvironment)
         {

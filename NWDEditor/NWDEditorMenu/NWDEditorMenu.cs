@@ -195,6 +195,13 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().CreatePHPAllClass(false, true);
         }
         //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9020)]
+        public static void CreateWebsitesPHP()
+        {
+            //          NWDFindPackage.SharedInstance ();
+            NWDDataManager.SharedInstance().ExportWebSites();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_CREATE_PHP_FILES_SFTP, false, 9002)]
         public static void CreatePHP_SFTP()
         {
@@ -205,13 +212,6 @@ namespace NetWorkedData
         public static void CreatePHPWitoutIncrement_SFTP()
         {
             NWDDataManager.SharedInstance().CreatePHPAllClass(false, false);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_CREATE_PHP_EXPORT_WEB_SITE, false, 9020)]
-        public static void CreateWebsitesPHP()
-        {
-            //			NWDFindPackage.SharedInstance ();
-            NWDDataManager.SharedInstance().ExportWebSites();
         }
         //-------------------------------------------------------------------------------------------------------------
         //		[MenuItem (NWDConstants.K_MENU_CREATE_CSHARP_FILES, false, 9022)]
@@ -264,6 +264,7 @@ namespace NetWorkedData
             string tPathOriginal = "Assets/" + NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
             string tPathFinal = "Assets/" + NWDDataManager.SharedInstance().DatabaseNameEditor.Replace(".prp", ".prp-save");
             FileUtil.ReplaceFile(tPathOriginal, tPathFinal);
+            EditorUtility.DisplayDialog("Database", "Database was saved in hard asset at \""+tPathFinal+"\"!", "Ok");
         }
         //-------------------------------------------------------------------------------------------------------------
         // DEV 
@@ -271,7 +272,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
         public static void DevCreateTablesServer()
         {
-            EnvironementSync().CreateTable(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            EnvironementSync().AllOperationWebSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_SYNCHRONIZE_DATAS, false, 9102)]
@@ -303,7 +304,7 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9104)]
         public static void PreprodCreateTablesServer()
         {
-            EnvironementSync().CreateTable(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            EnvironementSync().AllOperationWebSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_SYNCHRONIZE_DATAS, false, 9105)]
@@ -341,7 +342,7 @@ namespace NetWorkedData
             //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					    NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().CreateTable(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            EnvironementSync().AllOperationWebSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
             //				}
         }
         //-------------------------------------------------------------------------------------------------------------

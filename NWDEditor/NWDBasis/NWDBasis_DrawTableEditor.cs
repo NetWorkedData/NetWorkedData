@@ -1425,22 +1425,22 @@ namespace NetWorkedData
                 //GUILayout.EndHorizontal();
 
 
-                GUILayout.BeginHorizontal(GUILayout.Width(120));
-                EditorGUI.BeginDisabledGroup(true);
-                if (GUILayout.Button("Protect in dev", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    ProtectInDev();
-                }
-                if (GUILayout.Button("Prepare to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    PrepareToPreprodPublish();
-                }
-                if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
-                {
-                    PrepareToProdPublish();
-                }
-                EditorGUI.EndDisabledGroup();
-                GUILayout.EndHorizontal();
+                //GUILayout.BeginHorizontal(GUILayout.Width(120));
+                //EditorGUI.BeginDisabledGroup(true);
+                //if (GUILayout.Button("Protect in dev", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    ProtectInDev();
+                //}
+                //if (GUILayout.Button("Prepare to preprod", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    PrepareToPreprodPublish();
+                //}
+                //if (GUILayout.Button("Prepare to publish", EditorStyles.miniButton, GUILayout.Width(twPPD)))
+                //{
+                //    PrepareToProdPublish();
+                //}
+                //EditorGUI.EndDisabledGroup();
+                //GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
@@ -2294,67 +2294,67 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_PrepareToPreprodPublish)]
-        public static void PrepareToPreprodPublish()
-        {
-            foreach (K tOb in Datas().EditorTableDatas)
-                {
-                if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
-                    {
-                    tOb.UpdateData();
-                    }
-                }
-                RepaintTableEditor();
-        }
+        //[NWDAliasMethod(NWDConstants.M_PrepareToPreprodPublish)]
+        //public static void PrepareToPreprodPublish()
+        //{
+        //    foreach (K tOb in Datas().EditorTableDatas)
+        //        {
+        //        if (tOb.PreprodSync <= tOb.DevSync && tOb.PreprodSync>=0)
+        //            {
+        //            tOb.UpdateData();
+        //            }
+        //        }
+        //        RepaintTableEditor();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_PrepareToProdPublish)]
-        public static void PrepareToProdPublish()
-        {
-            foreach (NWDTypeClass tData in Datas().EditorTableDatas)
-            {
-                K tObject = tData as K;
-                if (tObject.PreprodSync == 0)
-                {
-                    tObject.ProdSync = 0;
-                    tObject.UpdateData();
-                }
-                else if (tObject.PreprodSync > 0)
-                {
-                    tObject.ProdSync = 1;
-                    tObject.UpdateData();
-                }
-                else if (tObject.PreprodSync < 0)
-                {
-                    tObject.ProdSync = -1;
-                    tObject.UpdateData();
-                }
-            }
-            RepaintTableEditor();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static void ProtectInDev()
-        {
-            foreach (NWDTypeClass tData in Datas().EditorTableDatas)
-            {
-                K tObject = tData as K;
-                if (tObject.PreprodSync == 0)
-                {
-                    tObject.ProdSync = 0;
-                    tObject.UpdateData();
-                }
-                else if (tObject.PreprodSync > 0)
-                {
-                    tObject.ProdSync = 1;
-                    tObject.UpdateData();
-                }
-                else if (tObject.PreprodSync < 0)
-                {
-                    tObject.ProdSync = -1;
-                    tObject.UpdateData();
-                }
-            }
-            RepaintTableEditor();
-        }
+        //[NWDAliasMethod(NWDConstants.M_PrepareToProdPublish)]
+        //public static void PrepareToProdPublish()
+        //{
+        //    foreach (NWDTypeClass tData in Datas().EditorTableDatas)
+        //    {
+        //        K tObject = tData as K;
+        //        if (tObject.PreprodSync == 0)
+        //        {
+        //            tObject.ProdSync = 0;
+        //            tObject.UpdateData();
+        //        }
+        //        else if (tObject.PreprodSync > 0)
+        //        {
+        //            tObject.ProdSync = 1;
+        //            tObject.UpdateData();
+        //        }
+        //        else if (tObject.PreprodSync < 0)
+        //        {
+        //            tObject.ProdSync = -1;
+        //            tObject.UpdateData();
+        //        }
+        //    }
+        //    RepaintTableEditor();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public static void ProtectInDev()
+        //{
+        //    foreach (NWDTypeClass tData in Datas().EditorTableDatas)
+        //    {
+        //        K tObject = tData as K;
+        //        if (tObject.PreprodSync == 0)
+        //        {
+        //            tObject.ProdSync = 0;
+        //            tObject.UpdateData();
+        //        }
+        //        else if (tObject.PreprodSync > 0)
+        //        {
+        //            tObject.ProdSync = 1;
+        //            tObject.UpdateData();
+        //        }
+        //        else if (tObject.PreprodSync < 0)
+        //        {
+        //            tObject.ProdSync = -1;
+        //            tObject.UpdateData();
+        //        }
+        //    }
+        //    RepaintTableEditor();
+        //}
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

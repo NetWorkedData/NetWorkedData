@@ -195,7 +195,9 @@ namespace NetWorkedData
 
                 if (Request.isNetworkError || Request.isHttpError)
                 {
-                    Debug.Log(Request.error);
+#if UNITY_EDITOR
+                    Debug.Log(Request.error + "\n" + Request.downloadHandler.text +"\n");
+#endif
                     RequestError();
                 }
                 else
@@ -737,13 +739,13 @@ namespace NetWorkedData
                          "-------------------\n" +
                          "<b>Headers :</b> \n" +
                          "-------------------\n" +
-                         tDebugRequestHeader +
+                         tDebugRequestHeader + "\n" +
                          "-------------------\n" +
                          "<b>Datas :</b> \n" +
                          "-------------------\n" +
-                         Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) +
+                         Json.Serialize(Data).Replace("/r", string.Empty).Replace("/n", string.Empty) + "\n" +
                          "-------------------\n" +
-                         Encoding.UTF8.GetString(sData) +
+                         Encoding.UTF8.GetString(sData) + "\n" +
                          "-------------------\n" +
                          ""
             );
@@ -763,7 +765,7 @@ namespace NetWorkedData
                          "-------------------\n" +
                          "<b>Headers :</b> \n" +
                          "-------------------\n" +
-                         tDebugResponseHeader +
+                         tDebugResponseHeader + "\n" +
                          "-------------------\n" +
                          "<b>Datas : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +
@@ -793,11 +795,11 @@ namespace NetWorkedData
                          "-------------------\n" +
                          "<b>Headers UPLOAD :</b> \n" +
                          "-------------------\n" +
-                         tDebugRequestHeader +
+                         tDebugRequestHeader + "\n" +
                          "-------------------\n" +
                          "<b>Headers DOWNLOAD :</b> \n" +
                          "-------------------\n" +
-                         tDebugResponseHeader +
+                         tDebugResponseHeader + "\n" +
                          "-------------------\n" +
                          "<b>Datas DOWNLOAD : (" + ResultInfos.OctetDownload + ")</b> \n" +
                          "-------------------\n" +

@@ -30,28 +30,58 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
-        public NWDReferenceType<NWDAccount> Account { get; set; }
-        public NWDReferenceType<NWDGameSave> GameSave { get; set; }
-        public NWDReferenceType<NWDTradePlace> TradePlace { get; set; }
+        public NWDReferenceType<NWDAccount> Account
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDGameSave> GameSave
+        {
+            get; set;
+        }
+        public NWDReferenceType<NWDTradePlace> TradePlace
+        {
+            get; set;
+        }
         [NWDAlias("ForRelationshipOnly")]
-        public bool ForRelationshipOnly { get; set; }
+        public bool ForRelationshipOnly
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Filters", true, true, true)]
-        public NWDReferencesListType<NWDItem> FilterItems { get; set; }
-        public NWDReferencesListType<NWDWorld> FilterWorlds { get; set; }
-        public NWDReferencesListType<NWDCategory> FilterCategories { get; set; }
-        public NWDReferencesListType<NWDFamily> FilterFamilies { get; set; }
-        public NWDReferencesListType<NWDKeyword> FilterKeywords { get; set; }
+        public NWDReferencesListType<NWDItem> FilterItems
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDWorld> FilterWorlds
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDCategory> FilterCategories
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDFamily> FilterFamilies
+        {
+            get; set;
+        }
+        public NWDReferencesListType<NWDKeyword> FilterKeywords
+        {
+            get; set;
+        }
         [NWDGroupEnd]
 
         [NWDGroupSeparator]
 
         [NWDGroupStart("Results", true, true, true)]
         [NWDAlias("TradeRequestsList")]
-        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList { get; set; }
+        public NWDReferencesListType<NWDUserTradeRequest> TradeRequestsList
+        {
+            get; set;
+        }
         //[NWDGroupEnd]
         //-------------------------------------------------------------------------------------------------------------
         public delegate void tradeFinderBlock(bool result, NWDOperationResult infos);
@@ -114,9 +144,9 @@ namespace NetWorkedData
         {
             // No NWD Finder Object found, we create one
             NWDUserTradeFinder tFinder = NewData();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             tFinder.InternalKey = NWDAccountNickname.GetNickname() + " - " + sTradePlace.InternalKey;
-            #endif
+#endif
             tFinder.Tag = NWDBasisTag.TagUserCreated;
             tFinder.TradePlace.SetObject(sTradePlace);
             tFinder.SaveData();
@@ -207,7 +237,7 @@ namespace NetWorkedData
             // do something when object will be remove from trash
         }
         //-------------------------------------------------------------------------------------------------------------
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         //-------------------------------------------------------------------------------------------------------------
         //Addons for Edition
         //-------------------------------------------------------------------------------------------------------------
@@ -256,7 +286,7 @@ namespace NetWorkedData
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once($PATH_BASE.'/'.$ENV.'/"+NWD.K_DB+"/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/"+ NWD.K_WS_SYNCHRONISATION+"');\n" +
+                "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQAssemblyOrder() + " FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
@@ -340,7 +370,7 @@ namespace NetWorkedData
             return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-        #endif
+#endif
         //-------------------------------------------------------------------------------------------------------------
         #endregion
         //-------------------------------------------------------------------------------------------------------------

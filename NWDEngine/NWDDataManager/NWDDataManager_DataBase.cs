@@ -506,12 +506,12 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-#if UNITY_EDITOR
-        public void CreateAllTablesServer(NWDAppEnvironment sEnvironment)
-        {
-            NWDOperationWebManagement.AddOperation("Create table on server", null, null, null, null, sEnvironment, true);
-        }
-#endif
+//#if UNITY_EDITOR
+//        public void CreateAllTablesServer(NWDAppEnvironment sEnvironment)
+//        {
+//            NWDOperationWebManagement.AddOperation("Create table on server", null, null, null, null, sEnvironment, true);
+//        }
+//#endif
         //-------------------------------------------------------------------------------------------------------------
         public void CreateTable(Type sType, bool sAccountConnected)
         {
