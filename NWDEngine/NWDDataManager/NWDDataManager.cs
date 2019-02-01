@@ -169,10 +169,10 @@ namespace NetWorkedData
             bool rReturn = true;
             foreach (Type tType in mTypeList) {
 
-                if (NWDDatas.FindTypeInfos(tType).SaltOk != "ok")
+                if (NWDDatas.FindTypeInfos(tType).SaltValid == false)
                 {
                     Debug.LogWarning(" Erreur in salt for " + NWDDatas.FindTypeInfos(tType).ClassName);
-                    NWDDatas.FindTypeInfos(tType).SaltRegenerate();
+                    //NWDDatas.FindTypeInfos(tType).SaltRegenerate();
                     rReturn = false;
                     //break;
                 }

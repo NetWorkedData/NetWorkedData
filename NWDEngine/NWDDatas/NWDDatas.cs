@@ -26,7 +26,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public class NWDDatas
+    public partial class NWDDatas
     {
         //-------------------------------------------------------------------------------------------------------------
         static NWDDatas()
@@ -62,9 +62,13 @@ namespace NetWorkedData
         public bool kAssetDependent;
         public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
-        public string SaltA = string.Empty;
-        public string SaltB = string.Empty;
-        public string SaltOk = string.Empty;
+        //public string SaltA = string.Empty;
+        //public string SaltB = string.Empty;
+        //public string SaltOk = string.Empty;
+
+        public string SaltStart = string.Empty;
+        public string SaltEnd = string.Empty;
+        public bool SaltValid = false;
 
         //public List<object> ObjectsList = new List<object>();
         //public List<string> ObjectsByReferenceList = new List<string>();
@@ -225,39 +229,50 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void PrefSave()
-        {
-            NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, SaltA);
-            NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, SaltB);
-            NWDAppConfiguration.SharedInstance().SetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
-        }
+        //public void PrefSave()
+        //{
+        //    NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, SaltA);
+        //    NWDAppConfiguration.SharedInstance().SetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, SaltB);
+        //    NWDAppConfiguration.SharedInstance().SetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey, "ok");
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public void PrefLoad()
         {
-            SaltA = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
-            SaltB = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
-            SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey);
+            if (string.IsNullOrEmpty(SaltStart) || string.IsNullOrEmpty(SaltEnd))
+                {
+                //Debug.Log("Generate Salt for " + ClassNamePHP);
+                SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                SaltValid = false;
+            }
+            //SaltA = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltAKey, NWDConstants.kPrefSaltValidKey);
+            //SaltB = NWDAppConfiguration.SharedInstance().GetSalt(ClassPrefBaseKey, NWDConstants.kPrefSaltBKey, NWDConstants.kPrefSaltValidKey);
+            //SaltOk = NWDAppConfiguration.SharedInstance().GetSaltValid(ClassPrefBaseKey, NWDConstants.kPrefSaltValidKey);
+
+            //SaltStart = SaltA;
+            //SaltEnd = SaltB;
+            //SaltValid = true;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void SaltRegenerate()
-        {
-            PrefLoad();
-            PrefSave();
-        }
+        //public void SaltRegenerate()
+        //{
+        //    PrefLoad();
+        //    PrefSave();
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        public bool TestSaltValid()
-        {
-            bool rReturn = false;
-            if (SaltOk == "ok")
-            {
-                rReturn = true;
-            }
-            else
-            {
-                //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
-            }
-            return rReturn;
-        }
+        //public bool TestSaltValid()
+        //{
+        //    bool rReturn = false;
+        //    if (SaltOk == "ok")
+        //    {
+        //        rReturn = true;
+        //    }
+        //    else
+        //    {
+        //        //Debug.Log ("!!! error in salt memorize : " + ClassNamePHP ());
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public static NWDDatas FindTypeInfos(Type sType)
         {

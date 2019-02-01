@@ -144,6 +144,9 @@ namespace NetWorkedData
                     }
                 }
                 AllTypes = tTypeList.ToArray();
+
+                NWDAppConfiguration.SharedInstance().RestaureTypesConfigurations();
+
                 // Notify NWD is launched
                 IsLaunched = true;
                 //Debug.Log("#LAUNCHER# NWDDataManager.SharedInstance().mTypeAccountDependantList count = " + NWDDataManager.SharedInstance().mTypeAccountDependantList.Count());

@@ -107,8 +107,8 @@ namespace NetWorkedData
                 tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
             }
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
-            tFile.AppendLine("$SQL_" + tClassName + "_SaltA = '" + Datas().SaltA + "';");
-            tFile.AppendLine("$SQL_" + tClassName + "_SaltB = '" + Datas().SaltB + "';");
+            tFile.AppendLine("$SQL_" + tClassName + "_SaltA = '" + Datas().SaltStart + "';");
+            tFile.AppendLine("$SQL_" + tClassName + "_SaltB = '" + Datas().SaltEnd + "';");
             tFile.AppendLine("$SQL_" + tClassName + "_WebService = " + tWebBuildUsed + ";");
             tFile.AppendLine("}");
             tFile.AppendLine("//Run this function to install globals of theses datas!");

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using BasicToolBox;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,6 +32,18 @@ namespace NetWorkedData
             DateTime tTime = DateTime.UtcNow;
             string tDateTimeString = NWDToolbox.DateTimeYYYYMMdd(tTime);
             string tYearString = NWDToolbox.DateTimeYYYY(tTime);
+
+            StringBuilder rReturn = new StringBuilder(string.Empty);
+            rReturn.AppendLine("//  NWDAppConfiguration");
+            rReturn.AppendLine(NWD.K_CommentAutogenerate + tDateTimeString);
+            rReturn.AppendLine(NWD.K_CommentCopyright + tYearString);
+            rReturn.AppendLine(NWD.K_CommentCreator);
+            rReturn.AppendLine(NWD.K_CommentSeparator);
+
+
+
+
+
             string tConstantsFile = string.Empty;
             tConstantsFile += string.Empty +
             "//NWD Autogenerate File at " + tDateTimeString + "\n" +
@@ -62,15 +75,15 @@ namespace NetWorkedData
             "\t\t\tPreloadDatas = " + PreloadDatas.ToString().ToLower() + ";\n" +
             "\t\t\t//Debug.Log(\"NWDAppConfiguration Restaure Config\");\n" +
             "\t\t\t//Salts regenerate (Calgon© is back :-p )\n";
-            foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary.OrderBy(x => x.Key))
-            {
-                tConstantsFile += "\t\t\tIntegritySaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
-            }
-            tConstantsFile += "//Salts Validity\n";
-            foreach (KeyValuePair<string, string> tEntry in GenerateSaltDictionary.OrderBy(x => x.Key))
-            {
-                tConstantsFile += "\t\t\tGenerateSaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
-            }
+            //foreach (KeyValuePair<string, string> tEntry in IntegritySaltDictionary.OrderBy(x => x.Key))
+            //{
+            //    tConstantsFile += "\t\t\tIntegritySaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
+            //}
+            //tConstantsFile += "//Salts Validity\n";
+            //foreach (KeyValuePair<string, string> tEntry in GenerateSaltDictionary.OrderBy(x => x.Key))
+            //{
+            //    tConstantsFile += "\t\t\tGenerateSaltDictionary[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";\n";
+            //}
             tConstantsFile += "\t\t\t//Language regenerate (MultiPass?!)\n";
             tConstantsFile += "\t\t\tProjetcLanguage = \"" + ProjetcLanguage + "\";\n";
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
@@ -356,8 +369,37 @@ namespace NetWorkedData
             "\t\t\tRestaureStepSix();\n" +
             "\t\t\tRestaureStepSeven();\n" +
             "\t\t\tRestaureStepHeight();\n" +
-            "\t\t\treturn true;\n" +
+            "return true;\n" +
+            "}\n" +
+            "public override bool RestaureTypesConfigurations()\n" +
+            "{" +
+            "";
+
+
+
+
+
+            foreach (Type tType in NWDTypeLauncher.AllTypes)
+            {
+                NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
+                if (tDatas != null)
+                {
+                    tConstantsFile += tDatas.CreationCSHARPCallLoader() + "\n";
+                }
+            }
+            tConstantsFile += "\t\t\treturn true;\n" +
             "\t\t}\n" +
+
+
+
+
+
+
+
+
+
+
+
             "\t//-------------------------------------------------------------------------------------------------------------\n";
             tConstantsFile += "\t\t public void RestaureStepTwo() \n" +
             "\t\t{\n";
@@ -511,6 +553,20 @@ namespace NetWorkedData
             }
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
+            foreach (Type tType in NWDTypeLauncher.AllTypes)
+            {
+                NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
+                if (tDatas != null)
+                {
+                    tConstantsFile += tDatas.CreationCSHARP();
+                    tConstantsFile += "\n";
+                    tConstantsFile += "//-------------------------------------------------------------------------------------------------------------\n";
+                }
+            }
+
+
+
+
             tConstantsFile += "\t}\n" +
             "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
             "}\n" +

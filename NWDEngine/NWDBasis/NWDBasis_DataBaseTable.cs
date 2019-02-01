@@ -188,10 +188,10 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().ReInitializeTable(ClassType(), AccountDependent());
         }
         //-------------------------------------------------------------------------------------------------------------
-        protected static string GenerateNewSalt()
-        {
-            return NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-        }
+        //protected static string GenerateNewSalt()
+        //{
+        //    return NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+        //}
         //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------

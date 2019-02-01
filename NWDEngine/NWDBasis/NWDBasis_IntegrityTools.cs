@@ -205,15 +205,10 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-#if UNITY_EDITOR
-            //return HashSum(Datas().SaltA + DynamiqueDataAssembly() + Datas().SaltB);
-            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
-#else
-            return HashSum(Datas().SaltA + DataAssembly() + Datas().SaltB);
-#endif
+            return HashSum(Datas().SaltStart + DataAssembly() + Datas().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
-#endregion
+        #endregion
     }
 }
 //=====================================================================================================================

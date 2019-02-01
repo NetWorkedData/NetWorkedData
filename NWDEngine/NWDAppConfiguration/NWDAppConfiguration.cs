@@ -22,13 +22,20 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDApp
     {
+        //-------------------------------------------------------------------------------------------------------------
         public virtual bool RestaureConfigurations()
         {
             return false;
         }
+        //-------------------------------------------------------------------------------------------------------------
+        public virtual bool RestaureTypesConfigurations()
+        {
+            return false;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        public partial class NWDAppConfiguration : NWDApp
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAppConfiguration : NWDApp
     {
         #region properties
         //-------------------------------------------------------------------------------------------------------------
@@ -48,8 +55,8 @@ namespace NetWorkedData
         {
             set; get;
         }
-        public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
-        public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
+        //public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
+        //public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
         public string DatabasePrefix = "NWD000000000";
         public string EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
@@ -159,60 +166,60 @@ namespace NetWorkedData
 
         #region instance method
         //-------------------------------------------------------------------------------------------------------------
-        public void SetSalt(string sKeyFirst, string sKeySecond, string sValue)
-        {
-            string sKey = sKeyFirst + sKeySecond;
-            if (IntegritySaltDictionary.ContainsKey(sKey))
-            {
-                IntegritySaltDictionary[sKey] = sValue;
-            }
-            else
-            {
-                IntegritySaltDictionary.Add(sKey, sValue);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetSalt(string sKeyFirst, string sKeySecond, string sKeyValid)
-        {
-            string sKey = sKeyFirst + sKeySecond;
-            string rReturn = string.Empty;
-            if (IntegritySaltDictionary.ContainsKey(sKey))
-            {
-                rReturn = IntegritySaltDictionary[sKey];
-            }
-            if (string.IsNullOrEmpty(rReturn))
-            {
-                Debug.Log("Generate Salt for " + sKey);
-                rReturn = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
-                IntegritySaltDictionary.Add(sKey, rReturn);
-                SetSaltValid(sKeyFirst, sKeyValid, string.Empty);
-            }
-            return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public void SetSaltValid(string sKeyFirst, string sKeyValid, string sValue)
-        {
-            string sKey = sKeyFirst + sKeyValid;
-            if (GenerateSaltDictionary.ContainsKey(sKey))
-            {
-                GenerateSaltDictionary[sKey] = sValue;
-            }
-            else
-            {
-                GenerateSaltDictionary.Add(sKey, sValue);
-            }
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string GetSaltValid(string sKeyFirst, string sKeyValid)
-        {
-            string sKey = sKeyFirst + sKeyValid;
-            string rReturn = string.Empty;
-            if (GenerateSaltDictionary.ContainsKey(sKey))
-            {
-                rReturn = GenerateSaltDictionary[sKey];
-            }
-            return rReturn;
-        }
+        //public void SetSalt(string sKeyFirst, string sKeySecond, string sValue)
+        //{
+        //    string sKey = sKeyFirst + sKeySecond;
+        //    if (IntegritySaltDictionary.ContainsKey(sKey))
+        //    {
+        //        IntegritySaltDictionary[sKey] = sValue;
+        //    }
+        //    else
+        //    {
+        //        IntegritySaltDictionary.Add(sKey, sValue);
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string GetSalt(string sKeyFirst, string sKeySecond, string sKeyValid)
+        //{
+        //    string sKey = sKeyFirst + sKeySecond;
+        //    string rReturn = string.Empty;
+        //    if (IntegritySaltDictionary.ContainsKey(sKey))
+        //    {
+        //        rReturn = IntegritySaltDictionary[sKey];
+        //    }
+        //    if (string.IsNullOrEmpty(rReturn))
+        //    {
+        //        Debug.Log("Generate Salt for " + sKey);
+        //        rReturn = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+        //        IntegritySaltDictionary.Add(sKey, rReturn);
+        //        SetSaltValid(sKeyFirst, sKeyValid, string.Empty);
+        //    }
+        //    return rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void SetSaltValid(string sKeyFirst, string sKeyValid, string sValue)
+        //{
+        //    string sKey = sKeyFirst + sKeyValid;
+        //    if (GenerateSaltDictionary.ContainsKey(sKey))
+        //    {
+        //        GenerateSaltDictionary[sKey] = sValue;
+        //    }
+        //    else
+        //    {
+        //        GenerateSaltDictionary.Add(sKey, sValue);
+        //    }
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string GetSaltValid(string sKeyFirst, string sKeyValid)
+        //{
+        //    string sKey = sKeyFirst + sKeyValid;
+        //    string rReturn = string.Empty;
+        //    if (GenerateSaltDictionary.ContainsKey(sKey))
+        //    {
+        //        rReturn = GenerateSaltDictionary[sKey];
+        //    }
+        //    return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public string GetAccountPass()
         {

@@ -66,6 +66,8 @@ namespace NetWorkedData
         public const string K_PreprodEnvironment = "K_PreprodEnvironment";
         public const string K_ProdEnvironment = "K_ProdEnvironment";
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_LOADER = "Loader";
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [InitializeOnLoad]

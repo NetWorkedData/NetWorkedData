@@ -119,7 +119,7 @@ namespace NetWorkedData
         {
             string rReturn = string.Empty;
             //const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_()[]{}%,?;.:!&";
-            const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -_()[]{},;:!";
+            const string tChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
             int tCharLenght = tChars.Length;
             while (rReturn.Length < sLength)
             {
