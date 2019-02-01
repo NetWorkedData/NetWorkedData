@@ -35,6 +35,8 @@ namespace NetWorkedData
         Upgrade = 2,
         Optimize = 3,
         Clean = 4,
+
+        Pull = 5,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public class NWDOperationWebSynchronisation : NWDOperationWebUnity
@@ -121,7 +123,7 @@ namespace NetWorkedData
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, TypeList);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, TypeList, Special);
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

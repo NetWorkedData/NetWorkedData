@@ -30,6 +30,7 @@ namespace NetWorkedData
 			return NWDConstants.K_APP_CONFIGURATION_MENU_NAME;
 		}
 		//-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_DrawInEditor)]
         public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
 		{
 			// Draw interface for language chooser

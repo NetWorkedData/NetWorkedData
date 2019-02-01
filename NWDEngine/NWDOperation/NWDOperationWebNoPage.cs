@@ -99,7 +99,7 @@ namespace NetWorkedData
 		{
             //Debug.Log("NWDOperationWebNoPage DataDownloadedCompute()");
             // I put null for pull typeList to analyze all NWDClass
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null, NWDOperationSpecial.None);
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

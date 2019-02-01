@@ -90,16 +90,16 @@ namespace NetWorkedData
 		public override void DataUploadPrepare ()
         {
             //Debug.Log("NWDOperationWebBlank DataUploadPrepare()");
-            Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, NWDOperationSpecial.None);
-            tData.Add ("action", Action);
-			Data = tData;
+   //         Dictionary<string, object> tData = NWDDataManager.SharedInstance().SynchronizationPushClassesDatas (ResultInfos, Environment, ForceSync, TypeList, NWDOperationSpecial.None);
+   //         tData.Add ("action", Action);
+			//Data = tData;
 		}
 		//-------------------------------------------------------------------------------------------------------------
         public override void DataDownloadedCompute (NWDOperationResult sData)
 		{
             //Debug.Log("NWDOperationWebBlank DataDownloadedCompute()");
             // I put null for pull typeList to analyze all NWDClass
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null);
+            //NWDDataManager.SharedInstance().SynchronizationPullClassesDatas (ResultInfos, Environment, sData, null, NWDOperationSpecial.None);
 		}
         //-------------------------------------------------------------------------------------------------------------
     }

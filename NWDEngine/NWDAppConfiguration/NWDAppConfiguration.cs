@@ -33,9 +33,21 @@ namespace NetWorkedData
         #region properties
         //-------------------------------------------------------------------------------------------------------------
         public NWDDataLocalizationManager DataLocalizationManager = new NWDDataLocalizationManager();
-        public NWDAppEnvironment DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, true);
-        public NWDAppEnvironment PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
-        public NWDAppEnvironment ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
+        [NWDAlias(NWD.K_DevEnvironment)]
+        public NWDAppEnvironment DevEnvironment
+        {
+            set; get;
+        }
+        [NWDAlias(NWD.K_PreprodEnvironment)]
+        public NWDAppEnvironment PreprodEnvironment
+        {
+            set; get;
+        }
+        [NWDAlias(NWD.K_ProdEnvironment)]
+        public NWDAppEnvironment ProdEnvironment
+        {
+            set; get;
+        }
         public Dictionary<string, string> IntegritySaltDictionary = new Dictionary<string, string>();
         public Dictionary<string, string> GenerateSaltDictionary = new Dictionary<string, string>();
         public string WebFolder = "NWDFolder";
@@ -87,6 +99,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
             public void Install()
             {
+            DevEnvironment = new NWDAppEnvironment(NWDConstants.K_DEVELOPMENT_NAME, false);
+            PreprodEnvironment = new NWDAppEnvironment(NWDConstants.K_PREPRODUCTION_NAME, false);
+            ProdEnvironment = new NWDAppEnvironment(NWDConstants.K_PRODUCTION_NAME, false);
             EditorPass = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(24, 36));
             EditorPassA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
             EditorPassB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));

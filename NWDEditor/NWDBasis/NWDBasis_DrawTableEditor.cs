@@ -1473,18 +1473,12 @@ namespace NetWorkedData
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
                 {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
+
                     SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
                 }
                 if (GUILayout.Button("Force Sync table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
                 {
-                    if (Application.isPlaying == true && AccountDependent() == false)
-                    {
-                        EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
-                    }
+
                     SynchronizationFromWebServiceForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
                 }
                 EditorGUI.BeginDisabledGroup(tDisableProd);

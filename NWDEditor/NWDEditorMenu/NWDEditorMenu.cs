@@ -272,19 +272,20 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_DEV_CREATE_TABLES, false, 9101)]
         public static void DevCreateTablesServer()
         {
-            EnvironementSync().AllOperationWebSpecial(NWDAppConfiguration.SharedInstance().DevEnvironment, NWDOperationSpecial.Upgrade);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment, true, true, NWDOperationSpecial.Upgrade);
+            //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_SYNCHRONIZE_DATAS, false, 9102)]
         public static void DevSynchronizeAllData()
         {
-            EnvironementSync().AllSynchronization(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_FORCE_SYNCHRONIZE, false, 9103)]
         public static void DevForceSynchronizeAllData()
         {
-            EnvironementSync().AllSynchronizationForce(NWDAppConfiguration.SharedInstance().DevEnvironment);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().DevEnvironment, true, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_DEV_RESET_CONNEXION, false, 9140)]
@@ -304,19 +305,21 @@ namespace NetWorkedData
         [MenuItem(NWDConstants.K_MENU_PREPROD_CREATE_TABLES, false, 9104)]
         public static void PreprodCreateTablesServer()
         {
-            EnvironementSync().AllOperationWebSpecial(NWDAppConfiguration.SharedInstance().PreprodEnvironment, NWDOperationSpecial.Upgrade);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment, true, true, NWDOperationSpecial.Upgrade); 
+                       //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
+
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_SYNCHRONIZE_DATAS, false, 9105)]
         public static void PreprodSynchronizeAllData()
         {
-            EnvironementSync().AllSynchronization(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_FORCE_SYNCHRONIZE, false, 9106)]
         public static void PreprodForceSynchronizeAllData()
         {
-            EnvironementSync().AllSynchronizationForce(NWDAppConfiguration.SharedInstance().PreprodEnvironment);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().PreprodEnvironment, true, true);
         }
         //-------------------------------------------------------------------------------------------------------------
         [MenuItem(NWDConstants.K_MENU_PREPROD_RESET_CONNEXION, false, 9142)]
@@ -342,7 +345,9 @@ namespace NetWorkedData
             //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					    NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().AllOperationWebSpecial(NWDAppConfiguration.SharedInstance().ProdEnvironment, NWDOperationSpecial.Upgrade);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment, true, true, NWDOperationSpecial.Upgrade);
+            //OperationSynchroAllTable(sEnvironment, true, true, sOperation);
+
             //				}
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -353,7 +358,7 @@ namespace NetWorkedData
             //					    NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					    NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().AllSynchronization(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment);
             //				}
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -364,7 +369,7 @@ namespace NetWorkedData
             //					NWDConstants.K_SYNC_ALERT_MESSAGE,
             //					NWDConstants.K_SYNC_ALERT_OK,
             //				NWDConstants.K_SYNC_ALERT_CANCEL)) {
-            EnvironementSync().AllSynchronizationForce(NWDAppConfiguration.SharedInstance().ProdEnvironment);
+            EnvironementSync().OperationSynchroAllClasses(NWDAppConfiguration.SharedInstance().ProdEnvironment, true, true);
             //				}
         }
         //-------------------------------------------------------------------------------------------------------------

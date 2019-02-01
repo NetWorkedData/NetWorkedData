@@ -62,6 +62,10 @@ namespace NetWorkedData
         public const string K_STATIC_FLASH_PHP = "FlashMyApp.php";
         public const string K_STATIC_FLASH_CSS = "FlashMyApp.css";
         //-------------------------------------------------------------------------------------------------------------
+        public const string K_DevEnvironment = "K_DevEnvironment";
+        public const string K_PreprodEnvironment = "K_PreprodEnvironment";
+        public const string K_ProdEnvironment = "K_ProdEnvironment";
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [InitializeOnLoad]

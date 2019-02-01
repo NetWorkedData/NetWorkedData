@@ -39,7 +39,7 @@ namespace NetWorkedData
         InGame = 0, // player state (Prod)
         Dev = 1,    // dev state
         Preprod = 2, // preprod state
-        //Prod = 3, NEVER COPY ACCOUNT IN PROD !!!!
+        Prod = 3, //NEVER COPY ACCOUNT IN PROD !!!!
         None = 9,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

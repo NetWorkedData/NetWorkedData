@@ -248,7 +248,7 @@ namespace NetWorkedData
 				//}
 			}
 
-            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList);
+            NWDDataManager.SharedInstance().SynchronizationPullClassesDatas(ResultInfos, Environment, sData, NWDDataManager.SharedInstance().mTypeAccountDependantList,  NWDOperationSpecial.None);
 			//Debug.Log ("NWDOperationWebAccount DataDownloadedCompute finish");
 		}
         //-------------------------------------------------------------------------------------------------------------
