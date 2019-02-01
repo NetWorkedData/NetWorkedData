@@ -39,7 +39,8 @@ namespace NetWorkedData
         {
             bool rReturn = false;
             //Debug.Log("Datas().ClassType = " + Datas().ClassType.Name);
-            int tLasBuild = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[Datas().ClassType];
+            //int tLasBuild = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[Datas().ClassType];
+            int tLasBuild = Datas().LastWebBuild;
             if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tLasBuild))
             {
                 if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tLasBuild))

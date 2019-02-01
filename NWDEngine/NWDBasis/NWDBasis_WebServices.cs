@@ -62,11 +62,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual int WebServiceVersionToUse()
         {
-            int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
-            {
-                tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
-            }
+            //int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
+            //if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
+            //{
+            //    tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
+            //}
+            int tWebBuildUsed = Datas().LastWebBuild;
             return tWebBuildUsed;
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -515,42 +515,43 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepHeight() \n" +
             "\t\t{\n";
-            Dictionary<string, int> tResult = new Dictionary<string, int>();
-            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
-            {
-                if (WSList.ContainsKey(tKeyValue.Key) == true)
-                {
-                    if (WSList[tKeyValue.Key] == true)
-                    {
-                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
-                        {
-                            if (tResult.ContainsKey(tSubKeyValue.Key))
-                            {
-                                if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
-                                {
-                                    tResult[tSubKeyValue.Key] = tKeyValue.Key;
-                                }
-                            }
-                            else
-                            {
-                                tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
-                            }
-                        }
-                    }
-                }
-            }
-            List<string> tTypeNameValidList = new List<string>();
-            foreach (Type tType in NWDTypeLauncher.AllTypes)
-            {
-                tTypeNameValidList.Add(tType.Name);
-            }
-            foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
-            {
-                if (tTypeNameValidList.Contains(tKeyValue.Key) == true)
-                {
-                    tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
-                }
-            }
+            //Dictionary<string, int> tResult = new Dictionary<string, int>();
+            //foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
+            //{
+            //    if (WSList.ContainsKey(tKeyValue.Key) == true)
+            //    {
+            //        if (WSList[tKeyValue.Key] == true)
+            //        {
+            //            foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
+            //            {
+            //                if (tResult.ContainsKey(tSubKeyValue.Key))
+            //                {
+            //                    if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
+            //                    {
+            //                        tResult[tSubKeyValue.Key] = tKeyValue.Key;
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //List<string> tTypeNameValidList = new List<string>();
+            //foreach (Type tType in NWDTypeLauncher.AllTypes)
+            //{
+            //    tTypeNameValidList.Add(tType.Name);
+            //}
+            //foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
+            //{
+            //    if (tTypeNameValidList.Contains(tKeyValue.Key) == true)
+            //    {
+            //        //tConstantsFile += "\t\t\t kLastWebBuildClass.Add (typeof(" + tKeyValue.Key + ")," + tKeyValue.Value + ");\n";
+
+            //    }
+            //}
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n";
             foreach (Type tType in NWDTypeLauncher.AllTypes)
