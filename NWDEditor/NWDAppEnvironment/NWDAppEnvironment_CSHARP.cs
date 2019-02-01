@@ -29,7 +29,6 @@ namespace NetWorkedData
             string tPropertyName = "null";
             if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
             {
-                tGlobalProtect = true;
                 tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_DevEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
@@ -45,7 +44,6 @@ namespace NetWorkedData
             }
             if (NWDAppConfiguration.SharedInstance().PreprodEnvironment == this)
             {
-                tGlobalProtect = true;
                 tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_PreprodEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
@@ -61,7 +59,6 @@ namespace NetWorkedData
             }
             if (NWDAppConfiguration.SharedInstance().ProdEnvironment == this)
             {
-                tGlobalProtect = false;
                 tPropertyName = NWDAlias.FindAliasName(typeof(NWDAppConfiguration), NWD.K_ProdEnvironment);
                 rReturn.AppendLine("//" + tPropertyName);
                 if (sSelectedEnvironment == this)
@@ -74,10 +71,6 @@ namespace NetWorkedData
                     rReturn.AppendLine(tPropertyName + ".Selected = false;");
                     rReturn.AppendLine(tPropertyName + ".AccountsForTests = \"\";");
                 }
-            }
-            if (tGlobalProtect == true)
-            {
-                rReturn.AppendLine("#if UNITY_EDITOR");
             }
             rReturn.AppendLine(tPropertyName + ".Environment = \"" + Environment.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".DataSHAPassword = \"" + DataSHAPassword.Replace("\"", "\\\"") + "\";");
@@ -109,10 +102,7 @@ namespace NetWorkedData
                                                                 NWDToolbox.FloatToString(CartridgeColor.g) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.b) + "F," +
                                                                 NWDToolbox.FloatToString(CartridgeColor.a) + "F);");
-            if (tGlobalProtect == false)
-            {
-                rReturn.AppendLine("#if UNITY_EDITOR");
-            }
+            rReturn.AppendLine("#if UNITY_EDITOR");
             rReturn.AppendLine(tPropertyName + ".LogMode = " + LogMode.ToString().ToLower() + ";");
             rReturn.AppendLine(tPropertyName + ".SFTPHost = \"" + SFTPHost.Replace("\"", "\\\"") + "\";");
             rReturn.AppendLine(tPropertyName + ".SFTPPort = " + SFTPPort.ToString() + ";");
