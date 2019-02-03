@@ -204,7 +204,7 @@ namespace NetWorkedData
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
                 NWDDatas tDatasToTest = NWDDatas.FindTypeInfos(typeof(NWDParameter));
-                if (tDatasToTest.SQL_Order.ContainsKey(tWS.Key) == false)
+                if (tDatasToTest.WebModelSQLOrder.ContainsKey(tWS.Key) == false)
                 {
                     bool tV = EditorGUILayout.Toggle("(WebService " + tWS.Key.ToString() + " unused)", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;

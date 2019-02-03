@@ -85,18 +85,18 @@ namespace NetWorkedData
                 tWebBuilt = NWDAppConfiguration.SharedInstance().WebBuild;
             }
 
-            if (Datas().WS_Model.ContainsKey(tWebBuilt))
+            if (Datas().WebServiceWebModel.ContainsKey(tWebBuilt))
             {
-                tWebModel = Datas().WS_Model[tWebBuilt];
+                tWebModel = Datas().WebServiceWebModel[tWebBuilt];
             }
             else
             {
                 // tWebBuilt is unknow ... no webmodel !?
             }
-            if (Datas().PropertiesOrderArrayBBB.ContainsKey(tWebModel))
+            if (Datas().WebModelPropertiesOrder.ContainsKey(tWebModel))
             {
                 tRecalculate = false;
-                rReturnList = Datas().PropertiesOrderArrayBBB[tWebModel];
+                rReturnList = Datas().WebModelPropertiesOrder[tWebModel];
             }
 #if UNITY_EDITOR
             if (sWebBuilt == -1)
@@ -149,9 +149,9 @@ namespace NetWorkedData
             }
 #if UNITY_EDITOR
             // reinit this table of value if not init  
-            if (Datas().PropertiesOrderArrayBBB.Count == 0)
+            if (Datas().WebModelPropertiesOrder.Count == 0)
             {
-                Datas().PropertiesOrderArrayBBB.Add(0, rReturnList);
+                Datas().WebModelPropertiesOrder.Add(0, rReturnList);
             }
 #endif
             return rReturnList;
@@ -170,13 +170,13 @@ namespace NetWorkedData
         //            int tWebModel = sWebBuilt;
         //            if (tWebModel == -1)
         //            {
-        //                tWebModel = Datas().WS_Model[NWDAppConfiguration.SharedInstance().WebBuild];
+        //                tWebModel = Datas().WebServiceWebModel[NWDAppConfiguration.SharedInstance().WebBuild];
         //            }
         //            else
         //            {
-        //                if (Datas().WS_Model.ContainsKey(sWebBuilt))
+        //                if (Datas().WebServiceWebModel.ContainsKey(sWebBuilt))
         //                {
-        //                    tWebModel = Datas().WS_Model[sWebBuilt];
+        //                    tWebModel = Datas().WebServiceWebModel[sWebBuilt];
         //                }
         //            }
         //            if (Datas().CSV_OrderArray.ContainsKey(tWebModel))
@@ -988,7 +988,7 @@ namespace NetWorkedData
             int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
             int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
             Datas().WebModelDegradationList.Clear();
-            Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(Datas().PropertiesOrderArrayBBB);
+            Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(Datas().WebModelPropertiesOrder);
             tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
 
             if (tModel_Properties.Count > 0)
@@ -1038,13 +1038,13 @@ namespace NetWorkedData
             bool rReturn = false;
             int tLasBuild = Datas().LastWebBuild;
             int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (Datas().SQL_Order.ContainsKey(tLasBuild))
+            if (Datas().WebModelSQLOrder.ContainsKey(tLasBuild))
             {
-                if (SLQSelect() != Datas().SQL_Order[tLasBuild])
+                if (SLQSelect() != Datas().WebModelSQLOrder[tLasBuild])
                 {
                     Debug.LogWarning("THE MODEL " + Datas().ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
                     Debug.LogWarning("new : " + SLQSelect());
-                    Debug.LogWarning("old : " + Datas().SQL_Order[tLasBuild]);
+                    Debug.LogWarning("old : " + Datas().WebModelSQLOrder[tLasBuild]);
                     rReturn = true;
                 }
             }
@@ -1063,61 +1063,61 @@ namespace NetWorkedData
             if (Datas().WebModelChanged)
             {
                 Datas().LastWebBuild = tWebBuild;
-                if (Datas().PropertiesOrderArrayBBB.ContainsKey(tWebBuild) == false)
+                if (Datas().WebModelPropertiesOrder.ContainsKey(tWebBuild) == false)
                 {
-                    Datas().PropertiesOrderArrayBBB.Add(tWebBuild, PropertiesOrderArray(tWebBuild));
+                    Datas().WebModelPropertiesOrder.Add(tWebBuild, PropertiesOrderArray(tWebBuild));
                 }
-                if (Datas().SQL_Order.ContainsKey(tWebBuild) == false)
+                if (Datas().WebModelSQLOrder.ContainsKey(tWebBuild) == false)
                 {
-                    Datas().SQL_Order.Add(tWebBuild, SLQSelect(tWebBuild));
+                    Datas().WebModelSQLOrder.Add(tWebBuild, SLQSelect(tWebBuild));
                 }
             }
             else
             {
                 //Debug.Log(ClassID() + " doesn't be updated for webservice " + tWebBuild.ToString() + " ... Keep cool");
             }
-            if (Datas().WS_Model.ContainsKey(tWebBuild))
+            if (Datas().WebServiceWebModel.ContainsKey(tWebBuild))
             {
-                Datas().WS_Model.Remove(tWebBuild);
+                Datas().WebServiceWebModel.Remove(tWebBuild);
             }
 
-            Datas().WS_Model.Add(tWebBuild, Datas().LastWebBuild);
-            Dictionary<int, int> tNextWS_Model = new Dictionary<int, int>();
-            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WS_Model)
+            Datas().WebServiceWebModel.Add(tWebBuild, Datas().LastWebBuild);
+            Dictionary<int, int> tNextWebServiceWebModel = new Dictionary<int, int>();
+            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WebServiceWebModel)
             {
                 if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tWS_WebModel.Key))
                 {
-                    tNextWS_Model.Add(tWS_WebModel.Key, tWS_WebModel.Value);
+                    tNextWebServiceWebModel.Add(tWS_WebModel.Key, tWS_WebModel.Value);
                 }
             }
-            Datas().WS_Model = tNextWS_Model;
+            Datas().WebServiceWebModel = tNextWebServiceWebModel;
 
 
             Dictionary<int, List<string>> tNewPropertiesOrder = new Dictionary<int, List<string>>();
-            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WS_Model)
+            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WebServiceWebModel)
             {
-                if (Datas().PropertiesOrderArrayBBB.ContainsKey(tWS_WebModel.Value))
+                if (Datas().WebModelPropertiesOrder.ContainsKey(tWS_WebModel.Value))
                 {
                     if (tNewPropertiesOrder.ContainsKey(tWS_WebModel.Value) == false)
                     {
-                        tNewPropertiesOrder.Add(tWS_WebModel.Value, Datas().PropertiesOrderArrayBBB[tWS_WebModel.Value]);
+                        tNewPropertiesOrder.Add(tWS_WebModel.Value, Datas().WebModelPropertiesOrder[tWS_WebModel.Value]);
                     }
                 }
             }
-            Datas().PropertiesOrderArrayBBB = tNewPropertiesOrder;
+            Datas().WebModelPropertiesOrder = tNewPropertiesOrder;
 
-            Dictionary<int, string> tNewSQL_Order = new Dictionary<int, string>();
-            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WS_Model)
+            Dictionary<int, string> tNewWebModelSQLOrder = new Dictionary<int, string>();
+            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WebServiceWebModel)
             {
-                if (Datas().SQL_Order.ContainsKey(tWS_WebModel.Value))
+                if (Datas().WebModelSQLOrder.ContainsKey(tWS_WebModel.Value))
                 {
-                    if (tNewSQL_Order.ContainsKey(tWS_WebModel.Value) == false)
+                    if (tNewWebModelSQLOrder.ContainsKey(tWS_WebModel.Value) == false)
                     {
-                        tNewSQL_Order.Add(tWS_WebModel.Value, Datas().SQL_Order[tWS_WebModel.Value]);
+                        tNewWebModelSQLOrder.Add(tWS_WebModel.Value, Datas().WebModelSQLOrder[tWS_WebModel.Value]);
                     }
                 }
             }
-            Datas().SQL_Order = tNewSQL_Order;
+            Datas().WebModelSQLOrder = tNewWebModelSQLOrder;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

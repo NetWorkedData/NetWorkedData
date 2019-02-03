@@ -62,26 +62,20 @@ namespace NetWorkedData
         public bool kAssetDependent;
         public PropertyInfo[] kAssetDependentProperties;
         //-------------------------------------------------------------------------------------------------------------
-        //public string SaltA = string.Empty;
-        //public string SaltB = string.Empty;
-        //public string SaltOk = string.Empty;
-
+        public int LastWebBuild = 0;
+        //-------------------------------------------------------------------------------------------------------------
+        public bool WebModelChanged = false;
+        public bool WebModelDegraded = false;
+        public List<string> WebModelDegradationList = new List<string>();
+        public Dictionary<int, int> WebServiceWebModel = new Dictionary<int, int>();
+        public Dictionary<int, List<string>> WebModelPropertiesOrder = new Dictionary<int, List<string>>();
+        public Dictionary<int, string> WebModelSQLOrder = new Dictionary<int, string>();
+        //-------------------------------------------------------------------------------------------------------------
         public string SaltStart = string.Empty;
         public string SaltEnd = string.Empty;
         public bool SaltValid = false;
-
-        //public List<object> ObjectsList = new List<object>();
-        //public List<string> ObjectsByReferenceList = new List<string>();
-        //public List<string> ObjectsByKeyList = new List<string>();
-
-
-
-
         //-------------------------------------------------------------------------------------------------------------
         public bool mSettingsShowing = false;
-        //-------------------------------------------------------------------------------------------------------------
-        //public Object kObjectInEdition;
-        //public Object[] kObjectsArrayInEdition;
         //-------------------------------------------------------------------------------------------------------------
         private Texture2D Texture = null;
         public Texture2D TextureOfClass()

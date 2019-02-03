@@ -1673,9 +1673,9 @@ namespace NetWorkedData
                     int tWebModel = 0;
                     if (tKeyValue.Value == true)
                     {
-                        if (Datas().WS_Model.ContainsKey(tKeyValue.Key))
+                        if (Datas().WebServiceWebModel.ContainsKey(tKeyValue.Key))
                         {
-                            tWebModel = Datas().WS_Model[tKeyValue.Key];
+                            tWebModel = Datas().WebServiceWebModel[tKeyValue.Key];
                         if (tWebServicesInt.Contains(tWebModel) == false)
                         {
                             tWebServicesInt.Add(tWebModel);
