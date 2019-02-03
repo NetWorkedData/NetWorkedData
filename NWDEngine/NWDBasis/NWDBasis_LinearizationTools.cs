@@ -65,7 +65,7 @@ namespace NetWorkedData
             {
                 tAssembly.Append(sDataArray[i]);
             }
-            string tCalculateIntegrity = HashSum(Datas().SaltStart + tAssembly.ToString() + Datas().SaltEnd);
+            string tCalculateIntegrity = HashSum(BasisHelper().SaltStart + tAssembly.ToString() + BasisHelper().SaltEnd);
             if (tActualIntegrity != tCalculateIntegrity)
             {
                 rReturn = false;
@@ -85,18 +85,18 @@ namespace NetWorkedData
                 tWebBuilt = NWDAppConfiguration.SharedInstance().WebBuild;
             }
 
-            if (Datas().WebServiceWebModel.ContainsKey(tWebBuilt))
+            if (BasisHelper().WebServiceWebModel.ContainsKey(tWebBuilt))
             {
-                tWebModel = Datas().WebServiceWebModel[tWebBuilt];
+                tWebModel = BasisHelper().WebServiceWebModel[tWebBuilt];
             }
             else
             {
                 // tWebBuilt is unknow ... no webmodel !?
             }
-            if (Datas().WebModelPropertiesOrder.ContainsKey(tWebModel))
+            if (BasisHelper().WebModelPropertiesOrder.ContainsKey(tWebModel))
             {
                 tRecalculate = false;
-                rReturnList = Datas().WebModelPropertiesOrder[tWebModel];
+                rReturnList = BasisHelper().WebModelPropertiesOrder[tWebModel];
             }
 #if UNITY_EDITOR
             if (sWebBuilt == -1)
@@ -149,9 +149,9 @@ namespace NetWorkedData
             }
 #if UNITY_EDITOR
             // reinit this table of value if not init  
-            if (Datas().WebModelPropertiesOrder.Count == 0)
+            if (BasisHelper().WebModelPropertiesOrder.Count == 0)
             {
-                Datas().WebModelPropertiesOrder.Add(0, rReturnList);
+                BasisHelper().WebModelPropertiesOrder.Add(0, rReturnList);
             }
 #endif
             return rReturnList;
@@ -339,7 +339,7 @@ namespace NetWorkedData
 
             rReturnObject.FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
 
-            Datas().AddData(rReturnObject);
+            BasisHelper().AddData(rReturnObject);
 
             // Verif if Systeme can use the thread (option in Environment)
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
@@ -423,7 +423,7 @@ namespace NetWorkedData
 
             FillDataFromWeb(sEnvironment, sDataArray); // good value are inside
 
-            Datas().UpdateData(this);
+            BasisHelper().UpdateData(this);
             //Data waiting for queue to finish the process
             if (NWDAppEnvironment.SelectedEnvironment().ThreadPoolForce == false)
             {
@@ -984,11 +984,11 @@ namespace NetWorkedData
         public static bool ModelDegraded()
         {
             bool rReturn = false;
-            int tLasBuild = Datas().LastWebBuild;
+            int tLasBuild = BasisHelper().LastWebBuild;
             int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
             int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
-            Datas().WebModelDegradationList.Clear();
-            Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(Datas().WebModelPropertiesOrder);
+            BasisHelper().WebModelDegradationList.Clear();
+            Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(BasisHelper().WebModelPropertiesOrder);
             tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
 
             if (tModel_Properties.Count > 0)
@@ -1018,8 +1018,8 @@ namespace NetWorkedData
                     {
                         foreach (string tR in tResultRemove)
                         {
-                            Datas().WebModelDegradationList.Add(tR);
-                            Debug.Log ("... il reste "+ tR +  " en trop dans le modele "+ tKey + " de " + Datas().ClassNamePHP);
+                            BasisHelper().WebModelDegradationList.Add(tR);
+                            Debug.Log ("... il reste "+ tR +  " en trop dans le modele "+ tKey + " de " + BasisHelper().ClassNamePHP);
                         }
                         // the properties is not increment beetween two versions !!!!!
                         rReturn = true;
@@ -1036,21 +1036,21 @@ namespace NetWorkedData
         public static bool ModelChanged()
         {
             bool rReturn = false;
-            int tLasBuild = Datas().LastWebBuild;
+            int tLasBuild = BasisHelper().LastWebBuild;
             int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (Datas().WebModelSQLOrder.ContainsKey(tLasBuild))
+            if (BasisHelper().WebModelSQLOrder.ContainsKey(tLasBuild))
             {
-                if (SLQSelect() != Datas().WebModelSQLOrder[tLasBuild])
+                if (SLQSelect() != BasisHelper().WebModelSQLOrder[tLasBuild])
                 {
-                    Debug.LogWarning("THE MODEL " + Datas().ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
+                    Debug.LogWarning("THE MODEL " + BasisHelper().ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
                     Debug.LogWarning("new : " + SLQSelect());
-                    Debug.LogWarning("old : " + Datas().WebModelSQLOrder[tLasBuild]);
+                    Debug.LogWarning("old : " + BasisHelper().WebModelSQLOrder[tLasBuild]);
                     rReturn = true;
                 }
             }
             else
             {
-                Debug.LogWarning("THE MODEL" + Datas().ClassNamePHP + " CHANGED FOR UNKNOW WEBSERVICE(" + tLasBuild + "?/ " + tActualWebBuild + ")!");
+                Debug.LogWarning("THE MODEL" + BasisHelper().ClassNamePHP + " CHANGED FOR UNKNOW WEBSERVICE(" + tLasBuild + "?/ " + tActualWebBuild + ")!");
                 rReturn = true;
             }
             return rReturn;
@@ -1060,64 +1060,64 @@ namespace NetWorkedData
         public static void PrepareOrders()
         {
             int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            if (Datas().WebModelChanged)
+            if (BasisHelper().WebModelChanged)
             {
-                Datas().LastWebBuild = tWebBuild;
-                if (Datas().WebModelPropertiesOrder.ContainsKey(tWebBuild) == false)
+                BasisHelper().LastWebBuild = tWebBuild;
+                if (BasisHelper().WebModelPropertiesOrder.ContainsKey(tWebBuild) == false)
                 {
-                    Datas().WebModelPropertiesOrder.Add(tWebBuild, PropertiesOrderArray(tWebBuild));
+                    BasisHelper().WebModelPropertiesOrder.Add(tWebBuild, PropertiesOrderArray(tWebBuild));
                 }
-                if (Datas().WebModelSQLOrder.ContainsKey(tWebBuild) == false)
+                if (BasisHelper().WebModelSQLOrder.ContainsKey(tWebBuild) == false)
                 {
-                    Datas().WebModelSQLOrder.Add(tWebBuild, SLQSelect(tWebBuild));
+                    BasisHelper().WebModelSQLOrder.Add(tWebBuild, SLQSelect(tWebBuild));
                 }
             }
             else
             {
                 //Debug.Log(ClassID() + " doesn't be updated for webservice " + tWebBuild.ToString() + " ... Keep cool");
             }
-            if (Datas().WebServiceWebModel.ContainsKey(tWebBuild))
+            if (BasisHelper().WebServiceWebModel.ContainsKey(tWebBuild))
             {
-                Datas().WebServiceWebModel.Remove(tWebBuild);
+                BasisHelper().WebServiceWebModel.Remove(tWebBuild);
             }
 
-            Datas().WebServiceWebModel.Add(tWebBuild, Datas().LastWebBuild);
+            BasisHelper().WebServiceWebModel.Add(tWebBuild, BasisHelper().LastWebBuild);
             Dictionary<int, int> tNextWebServiceWebModel = new Dictionary<int, int>();
-            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WebServiceWebModel)
+            foreach (KeyValuePair<int, int> tWS_WebModel in BasisHelper().WebServiceWebModel)
             {
                 if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tWS_WebModel.Key))
                 {
                     tNextWebServiceWebModel.Add(tWS_WebModel.Key, tWS_WebModel.Value);
                 }
             }
-            Datas().WebServiceWebModel = tNextWebServiceWebModel;
+            BasisHelper().WebServiceWebModel = tNextWebServiceWebModel;
 
 
             Dictionary<int, List<string>> tNewPropertiesOrder = new Dictionary<int, List<string>>();
-            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WebServiceWebModel)
+            foreach (KeyValuePair<int, int> tWS_WebModel in BasisHelper().WebServiceWebModel)
             {
-                if (Datas().WebModelPropertiesOrder.ContainsKey(tWS_WebModel.Value))
+                if (BasisHelper().WebModelPropertiesOrder.ContainsKey(tWS_WebModel.Value))
                 {
                     if (tNewPropertiesOrder.ContainsKey(tWS_WebModel.Value) == false)
                     {
-                        tNewPropertiesOrder.Add(tWS_WebModel.Value, Datas().WebModelPropertiesOrder[tWS_WebModel.Value]);
+                        tNewPropertiesOrder.Add(tWS_WebModel.Value, BasisHelper().WebModelPropertiesOrder[tWS_WebModel.Value]);
                     }
                 }
             }
-            Datas().WebModelPropertiesOrder = tNewPropertiesOrder;
+            BasisHelper().WebModelPropertiesOrder = tNewPropertiesOrder;
 
             Dictionary<int, string> tNewWebModelSQLOrder = new Dictionary<int, string>();
-            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WebServiceWebModel)
+            foreach (KeyValuePair<int, int> tWS_WebModel in BasisHelper().WebServiceWebModel)
             {
-                if (Datas().WebModelSQLOrder.ContainsKey(tWS_WebModel.Value))
+                if (BasisHelper().WebModelSQLOrder.ContainsKey(tWS_WebModel.Value))
                 {
                     if (tNewWebModelSQLOrder.ContainsKey(tWS_WebModel.Value) == false)
                     {
-                        tNewWebModelSQLOrder.Add(tWS_WebModel.Value, Datas().WebModelSQLOrder[tWS_WebModel.Value]);
+                        tNewWebModelSQLOrder.Add(tWS_WebModel.Value, BasisHelper().WebModelSQLOrder[tWS_WebModel.Value]);
                     }
                 }
             }
-            Datas().WebModelSQLOrder = tNewWebModelSQLOrder;
+            BasisHelper().WebModelSQLOrder = tNewWebModelSQLOrder;
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

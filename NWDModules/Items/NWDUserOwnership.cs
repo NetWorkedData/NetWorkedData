@@ -613,7 +613,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
-                    NWDDatas.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }
@@ -622,7 +622,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
-                    NWDDatas.FindTypeInfos(tType).m_SearchGameSave = GameSave.GetReference();
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchGameSave = GameSave.GetReference();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }

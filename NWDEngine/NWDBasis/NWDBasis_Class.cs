@@ -76,7 +76,7 @@ namespace NetWorkedData
             }
             //BTBBenchmark.Finish("ClassDeclare step 1");
             //BTBBenchmark.Start("ClassDeclare step 2");
-            NWDDatas.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
+            NWDBasisHelper.Declare(typeof(K), tServerSynchronize, tClassTrigramme, tMenuName, tDescription);
             //BTBBenchmark.Finish("ClassDeclare step 2");
             //BTBBenchmark.Start("ClassDeclare step 3");
             AccountDependentAnalyze();
@@ -158,18 +158,18 @@ namespace NetWorkedData
             //{
             //    tMethodInfo.Invoke(null, null);
             //}
-            Datas().ClassLoaded = true;
+            BasisHelper().ClassLoaded = true;
             //BTBBenchmark.Finish("ClassDeclare step 5");
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        [NWDAliasMethod(NWDConstants.M_Datas)]
-        public static NWDDatas Datas()
+        [NWDAliasMethod(NWDConstants.GetBasisHelper)]
+        public static NWDBasisHelper BasisHelper()
         {
-            NWDDatas rDatas = NWDDatas.FindTypeInfos(typeof(K));
+            NWDBasisHelper rDatas = NWDBasisHelper.FindTypeInfos(typeof(K));
             if (rDatas == null)
             {
-                Debug.LogWarning("ERROR NWDDatas.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
+                Debug.LogWarning("ERROR NWDDatasHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
             }
             return rDatas;
         }
@@ -644,9 +644,9 @@ namespace NetWorkedData
             Dictionary<PropertyInfo, MethodInfo> tAccountMethodList = new Dictionary<PropertyInfo, MethodInfo>();
             Type tType = ClassType();
 
-            Datas().ClassGameSaveDependent = false;
-            Datas().ClassGameDependentProperties = null;
-            Datas().GameSaveMethod = null;
+            BasisHelper().ClassGameSaveDependent = false;
+            BasisHelper().ClassGameDependentProperties = null;
+            BasisHelper().GameSaveMethod = null;
             // TODO : check 
             // exception for NWDAccount table
             if (tType == typeof(NWDAccount) || tType == typeof(NWDRequestToken))
@@ -675,10 +675,10 @@ namespace NetWorkedData
                             }
                             if (tSubType == typeof(NWDGameSave))
                             {
-                                Datas().ClassGameSaveDependent = true;
-                                Datas().ClassGameDependentProperties = tProp;
+                                BasisHelper().ClassGameSaveDependent = true;
+                                BasisHelper().ClassGameDependentProperties = tProp;
                                 MethodInfo tGameSaveMethod = tSubType.GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
-                                Datas().GameSaveMethod = tGameSaveMethod;
+                                BasisHelper().GameSaveMethod = tGameSaveMethod;
                             }
                         }
                         else if (
@@ -718,41 +718,41 @@ namespace NetWorkedData
                 }
             }
 
-            Datas().kAccountDependent = rAccountConnected;
+            BasisHelper().kAccountDependent = rAccountConnected;
             // reccord class' object is account dependent properties
-            Datas().kAccountDependentProperties = tPropertyList.ToArray();
+            BasisHelper().kAccountDependentProperties = tPropertyList.ToArray();
 
             // reccord class' object is account connected properties
-            Datas().kAccountConnectedProperties = tPropertyListConnected.ToArray();
-            Datas().AccountMethodDico = tAccountMethodList;
+            BasisHelper().kAccountConnectedProperties = tPropertyListConnected.ToArray();
+            BasisHelper().AccountMethodDico = tAccountMethodList;
 
             // reccord if class' object is locked for editor
 
 #if UNITY_EDITOR
             rLockedObject = false;
 #endif
-            Datas().kLockedObject = rLockedObject;
+            BasisHelper().kLockedObject = rLockedObject;
 
             // reccord if class' object is asset dependent
-            Datas().kAssetDependent = rAssetConnected;
-            Datas().kAssetDependentProperties = tAssetPropertyList.ToArray();
+            BasisHelper().kAssetDependent = rAssetConnected;
+            BasisHelper().kAssetDependentProperties = tAssetPropertyList.ToArray();
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static PropertyInfo[] PropertiesAccountDependent()
         {
-            return Datas().kAccountDependentProperties;
+            return BasisHelper().kAccountDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static PropertyInfo[] PropertiesAccountConnected()
         {
-            return Datas().kAccountConnectedProperties;
+            return BasisHelper().kAccountConnectedProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountConnected()
         {
             bool rReturn = false;
-            if (Datas().kAccountConnectedProperties.Length > 0)
+            if (BasisHelper().kAccountConnectedProperties.Length > 0)
             {
                 rReturn = true;
             }
@@ -761,27 +761,27 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static bool AccountDependent()
         {
-            return Datas().kAccountDependent;
+            return BasisHelper().kAccountDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool GameSaveDependent()
         {
-            return Datas().ClassGameSaveDependent;
+            return BasisHelper().ClassGameSaveDependent;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool IsClassLockedObject()
         {
-            return Datas().kLockedObject;
+            return BasisHelper().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static bool AssetDependent()
         {
-            return Datas().kAssetDependent;
+            return BasisHelper().kAssetDependent;
         }
         //----------------------------------------------
         public static PropertyInfo[] PropertiesAssetDependent()
         {
-            return Datas().kAssetDependentProperties;
+            return BasisHelper().kAssetDependentProperties;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion
@@ -790,7 +790,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public bool IsLockedObject() // return true during the player game
         {
-            return Datas().kLockedObject;
+            return BasisHelper().kLockedObject;
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

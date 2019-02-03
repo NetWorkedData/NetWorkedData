@@ -38,13 +38,13 @@ namespace NetWorkedData
             K tObject = null;
             if (sReference != null)
             {
-                if (Datas().DatasByReference.ContainsKey(sReference))
+                if (BasisHelper().DatasByReference.ContainsKey(sReference))
                 {
-                    tObject = Datas().DatasByReference[sReference] as K;
+                    tObject = BasisHelper().DatasByReference[sReference] as K;
                 }
                 if (tObject != null)
                 {
-                    if (Datas().EditorTableDatas.Contains(tObject))
+                    if (BasisHelper().EditorTableDatas.Contains(tObject))
                     {
                         SetObjectInEdition(tObject);
                     }
@@ -56,19 +56,19 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             //Debug.Log("NWDBasis<K> SortEditorTableDatas()");
-            Datas().EditorTableDatas.Sort((x, y) => string.Compare(x.DatasMenu(), y.DatasMenu(), StringComparison.Ordinal));
+            BasisHelper().EditorTableDatas.Sort((x, y) => string.Compare(x.DatasMenu(), y.DatasMenu(), StringComparison.Ordinal));
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void IntegritySelection()
         {
-            foreach (K tObject in Datas().EditorTableDatas)
+            foreach (K tObject in BasisHelper().EditorTableDatas)
             {
                 if (tObject.TestIntegrity() == false || tObject.XX > 0)
                 {
-                    if (Datas().EditorTableDatasSelected.ContainsKey(tObject))
+                    if (BasisHelper().EditorTableDatasSelected.ContainsKey(tObject))
                     {
-                        Datas().EditorTableDatasSelected[tObject] = false;
+                        BasisHelper().EditorTableDatasSelected[tObject] = false;
                     }
                 }
             }
@@ -77,13 +77,13 @@ namespace NetWorkedData
         public static void SelectAllObjectInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
-                Datas().EditorTableDatasSelected[tObject]= true;
+                BasisHelper().EditorTableDatasSelected[tObject]= true;
             }
             IntegritySelection();
         }
@@ -91,13 +91,13 @@ namespace NetWorkedData
         public static void DeselectAllObjectInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
-                Datas().EditorTableDatasSelected[tObject] = false;
+                BasisHelper().EditorTableDatasSelected[tObject] = false;
             }
             IntegritySelection();
         }
@@ -105,13 +105,13 @@ namespace NetWorkedData
         public static void InverseSelectionOfAllObjectInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
-                Datas().EditorTableDatasSelected[tObject] = !Datas().EditorTableDatasSelected[tObject];
+                BasisHelper().EditorTableDatasSelected[tObject] = !BasisHelper().EditorTableDatasSelected[tObject];
             }
             IntegritySelection();
         }
@@ -119,14 +119,14 @@ namespace NetWorkedData
         public static void SelectAllObjectEnableInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
                 K tObjectK = tObject as K;
-                Datas().EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
+                BasisHelper().EditorTableDatasSelected[tObjectK] = tObjectK.IsEnable();
             }
             IntegritySelection();
         }
@@ -134,14 +134,14 @@ namespace NetWorkedData
         public static void SelectAllObjectDisableInTableList()
         {
             List<NWDTypeClass> tListToUse = new List<NWDTypeClass>();
-            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+            foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
             {
                 tListToUse.Add(tKeyValue.Key);
             }
             foreach (NWDTypeClass tObject in tListToUse)
             {
                 K tObjectK = tObject as K;
-                Datas().EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
+                BasisHelper().EditorTableDatasSelected[tObjectK] = !tObjectK.IsEnable();
             }
             IntegritySelection();
         }
@@ -314,42 +314,42 @@ namespace NetWorkedData
             //Debug.Log("FilterTableEditor()");
 
 
-            Datas().EditorTableDatas = new List<NWDTypeClass>();
-            Datas().EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
+            BasisHelper().EditorTableDatas = new List<NWDTypeClass>();
+            BasisHelper().EditorTableDatasSelected = new Dictionary<NWDTypeClass, bool>();
 
-            foreach (K tObject in Datas().Datas)
+            foreach (K tObject in BasisHelper().Datas)
             {
                 bool tOccurence = true;
 
-                if (tObject.TestIntegrity() == false && Datas().m_ShowIntegrityError == false)
+                if (tObject.TestIntegrity() == false && BasisHelper().m_ShowIntegrityError == false)
                 {
                     tOccurence = false;
                 }
-                if (tObject.IsEnable() == true && Datas().m_ShowEnable == false)
+                if (tObject.IsEnable() == true && BasisHelper().m_ShowEnable == false)
                 {
                     tOccurence = false;
                 }
-                if (tObject.IsEnable() == false && Datas().m_ShowDisable == false)
+                if (tObject.IsEnable() == false && BasisHelper().m_ShowDisable == false)
                 {
                     tOccurence = false;
                 }
-                if (tObject.XX > 0 && Datas().m_ShowTrashed == false)
+                if (tObject.XX > 0 && BasisHelper().m_ShowTrashed == false)
                 {
                     tOccurence = false;
                 }
 
-                if (Datas().ClassType!= typeof(NWDAccount))
+                if (BasisHelper().ClassType!= typeof(NWDAccount))
                     {
-                    if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
+                    if (string.IsNullOrEmpty(BasisHelper().m_SearchAccount) == false)
                     {
-                        if (Datas().m_SearchAccount == "-=-") // empty
+                        if (BasisHelper().m_SearchAccount == "-=-") // empty
                         {
                             if (tObject.VisibleByAccountByEqual(string.Empty) == false)
                             {
                                 tOccurence = false;
                             }
                         }
-                        else if (Datas().m_SearchAccount == "-+-") // not empty
+                        else if (BasisHelper().m_SearchAccount == "-+-") // not empty
                         {
                             if (tObject.VisibleByAccountByEqual(string.Empty) == true)
                             {
@@ -358,7 +358,7 @@ namespace NetWorkedData
                         }
                         else
                         {
-                            if (tObject.VisibleByAccount(Datas().m_SearchAccount) == false)
+                            if (tObject.VisibleByAccount(BasisHelper().m_SearchAccount) == false)
                             {
                                 tOccurence = false;
                             }
@@ -367,31 +367,31 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(Datas().m_SearchAccount) == false)
+                    if (string.IsNullOrEmpty(BasisHelper().m_SearchAccount) == false)
                     {
-                        if (Datas().m_SearchAccount == "-=-") // empty
+                        if (BasisHelper().m_SearchAccount == "-=-") // empty
                         {
                         }
-                        else if (Datas().m_SearchAccount == "-+-") // not empty
+                        else if (BasisHelper().m_SearchAccount == "-+-") // not empty
                         {
                         }
-                        else if (tObject.Reference != Datas().m_SearchAccount)
+                        else if (tObject.Reference != BasisHelper().m_SearchAccount)
                             {
                                 tOccurence = false;
                         }
                     }
                 }
 
-                if (string.IsNullOrEmpty(Datas().m_SearchGameSave) == false)
+                if (string.IsNullOrEmpty(BasisHelper().m_SearchGameSave) == false)
                 {
-                    if (Datas().m_SearchGameSave == "-=-")
+                    if (BasisHelper().m_SearchGameSave == "-=-")
                     {
                         if (tObject.VisibleByGameSave(string.Empty) == false)
                         {
                             tOccurence = false;
                         }
                     }
-                    else if (Datas().m_SearchGameSave == "-+-")
+                    else if (BasisHelper().m_SearchGameSave == "-+-")
                     {
                         if (tObject.VisibleByGameSave(string.Empty) == true)
                         {
@@ -400,50 +400,50 @@ namespace NetWorkedData
                     }
                     else
                     {
-                        if (tObject.VisibleByGameSave(Datas().m_SearchGameSave) == false)
+                        if (tObject.VisibleByGameSave(BasisHelper().m_SearchGameSave) == false)
                         {
                             tOccurence = false;
                         }
                     }
                 }
 
-                if (string.IsNullOrEmpty(Datas().m_SearchReference) == false)
+                if (string.IsNullOrEmpty(BasisHelper().m_SearchReference) == false)
                 {
-                    if (tObject.Reference.Contains(Datas().m_SearchReference) == false)
+                    if (tObject.Reference.Contains(BasisHelper().m_SearchReference) == false)
                     {
                         tOccurence = false;
                     }
                 }
-                if (string.IsNullOrEmpty(Datas().m_SearchInternalName) == false)
+                if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalName) == false)
                 {
-                    if (tObject.InternalKey.Contains(Datas().m_SearchInternalName) == false)
+                    if (tObject.InternalKey.Contains(BasisHelper().m_SearchInternalName) == false)
                     {
                         tOccurence = false;
                     }
                 }
-                if (string.IsNullOrEmpty(Datas().m_SearchInternalDescription) == false)
+                if (string.IsNullOrEmpty(BasisHelper().m_SearchInternalDescription) == false)
                 {
-                    if (tObject.InternalDescription.Contains(Datas().m_SearchInternalDescription) == false)
+                    if (tObject.InternalDescription.Contains(BasisHelper().m_SearchInternalDescription) == false)
                     {
                         tOccurence = false;
                     }
                 }
-                if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                 {
-                    if (tObject.Tag != Datas().m_SearchTag /*&& tObject.Tag != NWDBasisTag.NoTag*/)
+                    if (tObject.Tag != BasisHelper().m_SearchTag /*&& tObject.Tag != NWDBasisTag.NoTag*/)
                     {
                         tOccurence = false;
                     }
                 }
                 if (tOccurence == true)
                 {
-                    if (Datas().EditorTableDatas.Contains(tObject) == false)
+                    if (BasisHelper().EditorTableDatas.Contains(tObject) == false)
                     {
-                        Datas().EditorTableDatas.Add(tObject);
+                        BasisHelper().EditorTableDatas.Add(tObject);
                     }
-                    if (Datas().EditorTableDatasSelected.ContainsKey(tObject) == false)
+                    if (BasisHelper().EditorTableDatasSelected.ContainsKey(tObject) == false)
                     {
-                        Datas().EditorTableDatasSelected.Add(tObject, false);
+                        BasisHelper().EditorTableDatasSelected.Add(tObject, false);
                     }
                 }
             }
@@ -533,28 +533,28 @@ namespace NetWorkedData
             //			kObjectsInTableList
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            Datas().m_ItemPerPage = int.Parse(Datas().m_ItemPerPageOptions[Datas().m_ItemPerPageSelection]);
-            float tNumberOfPage = Datas().EditorTableDatas.Count / Datas().m_ItemPerPage;
+            BasisHelper().m_ItemPerPage = int.Parse(BasisHelper().m_ItemPerPageOptions[BasisHelper().m_ItemPerPageSelection]);
+            float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
             int tPagesExpected = (int)Math.Floor(tNumberOfPage);
             if (tPagesExpected != 0)
             {
-                if (Datas().EditorTableDatas.Count % (tPagesExpected * Datas().m_ItemPerPage) != 0)
+                if (BasisHelper().EditorTableDatas.Count % (tPagesExpected * BasisHelper().m_ItemPerPage) != 0)
                 {
                     tPagesExpected++;
                 }
             }
-            if (Datas().m_PageSelected > tPagesExpected - 1)
+            if (BasisHelper().m_PageSelected > tPagesExpected - 1)
             {
-                Datas().m_PageSelected = tPagesExpected - 1;
+                BasisHelper().m_PageSelected = tPagesExpected - 1;
             }
-            Datas().m_MaxPage = tPagesExpected + 1;
+            BasisHelper().m_MaxPage = tPagesExpected + 1;
             string[] tListOfPagesName = new string[tPagesExpected];
             for (int p = 0; p < tPagesExpected; p++)
             {
                 int tP = p + 1;
                 tListOfPagesName[p] = string.Empty + tP.ToString();
             }
-            int t_PageSelected = Datas().m_PageSelected;
+            int t_PageSelected = BasisHelper().m_PageSelected;
             if (tPagesExpected == 0 || tPagesExpected == 1)
             {
                 // no choose
@@ -563,17 +563,17 @@ namespace NetWorkedData
             else if (tPagesExpected < tToogleToListPageLimit)
             {
                 //m_PageSelected = GUILayout.Toolbar (m_PageSelected, tListOfPagesName, GUILayout.ExpandWidth (true));
-                t_PageSelected = GUILayout.Toolbar(Datas().m_PageSelected, tListOfPagesName, GUILayout.Width(tPagesExpected * tTabWidth));
+                t_PageSelected = GUILayout.Toolbar(BasisHelper().m_PageSelected, tListOfPagesName, GUILayout.Width(tPagesExpected * tTabWidth));
             }
             else
             {
-                t_PageSelected = EditorGUILayout.Popup(Datas().m_PageSelected, tListOfPagesName, EditorStyles.popup, GUILayout.Width(tPopupWidth));
+                t_PageSelected = EditorGUILayout.Popup(BasisHelper().m_PageSelected, tListOfPagesName, EditorStyles.popup, GUILayout.Width(tPopupWidth));
             }
-            if (Datas().m_PageSelected != t_PageSelected)
+            if (BasisHelper().m_PageSelected != t_PageSelected)
             {
                 NWDDataManager.SharedInstance().DataQueueExecute();
             }
-            Datas().m_PageSelected = t_PageSelected;
+            BasisHelper().m_PageSelected = t_PageSelected;
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
@@ -606,7 +606,7 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
-            if (Datas().WebModelChanged == true)
+            if (BasisHelper().WebModelChanged == true)
             {
                 string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 GUIContent tCC = new GUIContent(tTEXTWARNING);
@@ -618,7 +618,7 @@ namespace NetWorkedData
                 tWarningBoxStyle.richText = true;
                 GUILayout.Label(tCC, tWarningBoxStyle);
             }
-            if (Datas().WebModelDegraded == true)
+            if (BasisHelper().WebModelDegraded == true)
             {
                 string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
                 GUIContent tCC = new GUIContent(tTEXTWARNING);
@@ -642,13 +642,13 @@ namespace NetWorkedData
             GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
             //m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
-            //NWDDatas tDatas = Datas();
+            //NWDDatasHelper tDatas = Datas();
 
-            Datas().m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, Datas().m_SearchReference, GUILayout.Width(tSearchWidth));
+            BasisHelper().m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, BasisHelper().m_SearchReference, GUILayout.Width(tSearchWidth));
 
 
-            Datas().m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, Datas().m_SearchInternalName, GUILayout.Width(tSearchWidth));
-            Datas().m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, Datas().m_SearchInternalDescription, GUILayout.Width(tSearchWidth));
+            BasisHelper().m_SearchInternalName = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_NAME, BasisHelper().m_SearchInternalName, GUILayout.Width(tSearchWidth));
+            BasisHelper().m_SearchInternalDescription = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_DESCRIPTION, BasisHelper().m_SearchInternalDescription, GUILayout.Width(tSearchWidth));
 
             // |||||||||||||||||||||||||||||||||||||||||||
             GUILayout.EndVertical();
@@ -671,7 +671,7 @@ namespace NetWorkedData
             tReferenceList.Add("-+-");
             tInternalNameList.Add(NWDConstants.kFieldNotEmpty);
 
-            foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.Datas().EditorDatasMenu.OrderBy(i => i.Value))
+            foreach (KeyValuePair<string, string> tKeyValue in NWDAccount.BasisHelper().EditorDatasMenu.OrderBy(i => i.Value))
             {
                 tReferenceList.Add(tKeyValue.Key);
                 tInternalNameList.Add(tKeyValue.Value);
@@ -681,16 +681,16 @@ namespace NetWorkedData
             {
                 tContentFuturList.Add(new GUIContent(tS));
             }
-            int tIndexAccount = tReferenceList.IndexOf(Datas().m_SearchAccount);
+            int tIndexAccount = tReferenceList.IndexOf(BasisHelper().m_SearchAccount);
             int tNewIndexAccount = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_ACCOUNT), tIndexAccount, tContentFuturList.ToArray(),
                                                                         GUILayout.Width(tSearchWidth));
             if (tNewIndexAccount >= 0 && tNewIndexAccount < tReferenceList.Count())
             {
-                Datas().m_SearchAccount = tReferenceList[tNewIndexAccount];
+                BasisHelper().m_SearchAccount = tReferenceList[tNewIndexAccount];
             }
             else
             {
-                Datas().m_SearchAccount = string.Empty;
+                BasisHelper().m_SearchAccount = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
 
@@ -710,7 +710,7 @@ namespace NetWorkedData
             tReferenceSaveList.Add("-+-");
             tInternalNameSaveList.Add(NWDConstants.kFieldNotEmpty);
 
-            foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.Datas().EditorDatasMenu.OrderBy(i => i.Value))
+            foreach (KeyValuePair<string, string> tKeyValue in NWDGameSave.BasisHelper().EditorDatasMenu.OrderBy(i => i.Value))
             {
                 tReferenceSaveList.Add(tKeyValue.Key);
                 tInternalNameSaveList.Add(tKeyValue.Value);
@@ -720,16 +720,16 @@ namespace NetWorkedData
             {
                 tContentFuturSaveList.Add(new GUIContent(tS));
             }
-            int tIndexSave = tReferenceSaveList.IndexOf(Datas().m_SearchGameSave);
+            int tIndexSave = tReferenceSaveList.IndexOf(BasisHelper().m_SearchGameSave);
             int tNewIndexSave = EditorGUILayout.Popup(new GUIContent(NWDConstants.K_APP_TABLE_SEARCH_GAMESAVE), tIndexSave, tContentFuturSaveList.ToArray(),
                                                                         GUILayout.Width(tSearchWidth));
             if (tNewIndexSave >= 0 && tNewIndexSave < tReferenceSaveList.Count())
             {
-                Datas().m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
+                BasisHelper().m_SearchGameSave = tReferenceSaveList[tNewIndexSave];
             }
             else
             {
-                Datas().m_SearchGameSave = string.Empty;
+                BasisHelper().m_SearchGameSave = string.Empty;
             }
             EditorGUI.EndDisabledGroup();
 
@@ -743,8 +743,8 @@ namespace NetWorkedData
                 tTagStringList.Add(tTag.Value);
             }
 
-            Datas().m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
-                                                                (int)Datas().m_SearchTag, tTagStringList.ToArray(),
+            BasisHelper().m_SearchTag = (NWDBasisTag)EditorGUILayout.IntPopup(NWDConstants.K_APP_TABLE_SEARCH_TAG,
+                                                                (int)BasisHelper().m_SearchTag, tTagStringList.ToArray(),
                                                                 tTagIntList.ToArray(),
                                                                         GUILayout.Width(tSearchWidth));
 
@@ -770,12 +770,12 @@ namespace NetWorkedData
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
                 //m_SearchReference = "";
-                Datas().m_SearchReference = string.Empty;
-                Datas().m_SearchInternalName = string.Empty;
-                Datas().m_SearchInternalDescription = string.Empty;
-                Datas().m_SearchTag = NWDBasisTag.NoTag;
-                Datas().m_SearchAccount = string.Empty;
-                Datas().m_SearchGameSave = string.Empty;
+                BasisHelper().m_SearchReference = string.Empty;
+                BasisHelper().m_SearchInternalName = string.Empty;
+                BasisHelper().m_SearchInternalDescription = string.Empty;
+                BasisHelper().m_SearchTag = NWDBasisTag.NoTag;
+                BasisHelper().m_SearchAccount = string.Empty;
+                BasisHelper().m_SearchGameSave = string.Empty;
                 FilterTableEditor();
                 RestaureDataInEditionByReference(tReference);
             }
@@ -796,8 +796,8 @@ namespace NetWorkedData
                 string tReference = GetReferenceOfDataInEdition();
                 GUI.FocusControl(null);
                 SetObjectInEdition(null);
-                Datas().m_SearchInternalName = string.Empty;
-                Datas().m_SearchInternalDescription = string.Empty;
+                BasisHelper().m_SearchInternalName = string.Empty;
+                BasisHelper().m_SearchInternalDescription = string.Empty;
                 //ReloadAllObjects ();
                 //LoadTableEditor ();
                 LoadFromDatabase();
@@ -810,30 +810,30 @@ namespace NetWorkedData
             GUILayout.BeginVertical(GUILayout.Width(120));
             GUILayout.Label(NWDConstants.K_APP_TABLE_FILTER_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
-            bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, Datas().m_ShowEnable, GUILayout.Width(120));
-            if (Datas().m_ShowEnable != t_ShowEnable)
+            bool t_ShowEnable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_ENABLE_DATAS, BasisHelper().m_ShowEnable, GUILayout.Width(120));
+            if (BasisHelper().m_ShowEnable != t_ShowEnable)
             {
-                Datas().m_ShowEnable = t_ShowEnable;
+                BasisHelper().m_ShowEnable = t_ShowEnable;
                 FilterTableEditor();
             }
-            bool t_ShowDisable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, Datas().m_ShowDisable, GUILayout.Width(120));
-            if (Datas().m_ShowDisable != t_ShowDisable)
+            bool t_ShowDisable = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_DISABLE_DATAS, BasisHelper().m_ShowDisable, GUILayout.Width(120));
+            if (BasisHelper().m_ShowDisable != t_ShowDisable)
             {
-                Datas().m_ShowDisable = t_ShowDisable;
+                BasisHelper().m_ShowDisable = t_ShowDisable;
                 FilterTableEditor();
             }
-            EditorGUI.BeginDisabledGroup(!Datas().m_ShowDisable);
-            bool t_ShowTrashed = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, Datas().m_ShowTrashed, GUILayout.Width(120));
-            if (Datas().m_ShowTrashed != t_ShowTrashed)
+            EditorGUI.BeginDisabledGroup(!BasisHelper().m_ShowDisable);
+            bool t_ShowTrashed = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_TRASHED_DATAS, BasisHelper().m_ShowTrashed, GUILayout.Width(120));
+            if (BasisHelper().m_ShowTrashed != t_ShowTrashed)
             {
-                Datas().m_ShowTrashed = t_ShowTrashed;
+                BasisHelper().m_ShowTrashed = t_ShowTrashed;
                 FilterTableEditor();
             }
             EditorGUI.EndDisabledGroup();
-            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, Datas().m_ShowIntegrityError, GUILayout.Width(120));
-            if (Datas().m_ShowIntegrityError != t_ShowIntegrityError)
+            bool t_ShowIntegrityError = EditorGUILayout.ToggleLeft(NWDConstants.K_APP_TABLE_SHOW_INTEGRITY_ERROR_DATAS, BasisHelper().m_ShowIntegrityError, GUILayout.Width(120));
+            if (BasisHelper().m_ShowIntegrityError != t_ShowIntegrityError)
             {
-                Datas().m_ShowIntegrityError = t_ShowIntegrityError;
+                BasisHelper().m_ShowIntegrityError = t_ShowIntegrityError;
                 FilterTableEditor();
             }
 
@@ -843,13 +843,13 @@ namespace NetWorkedData
             GUILayout.BeginVertical(GUILayout.Width(120));
             GUILayout.Label(NWDConstants.K_APP_TABLE_PAGINATION, tCenterLabel);
             //          GUILayout.BeginHorizontal ();
-            int t_ItemPerPageSelection = EditorGUILayout.Popup(Datas().m_ItemPerPageSelection, Datas().m_ItemPerPageOptions, EditorStyles.popup);
-            if (t_ItemPerPageSelection != Datas().m_ItemPerPageSelection)
+            int t_ItemPerPageSelection = EditorGUILayout.Popup(BasisHelper().m_ItemPerPageSelection, BasisHelper().m_ItemPerPageOptions, EditorStyles.popup);
+            if (t_ItemPerPageSelection != BasisHelper().m_ItemPerPageSelection)
             {
-                Datas().m_PageSelected = 0;
+                BasisHelper().m_PageSelected = 0;
             }
-            Datas().m_ItemPerPageSelection = t_ItemPerPageSelection;
-            int tRealReference = Datas().Datas.Count;
+            BasisHelper().m_ItemPerPageSelection = t_ItemPerPageSelection;
+            int tRealReference = BasisHelper().Datas.Count;
             if (tRealReference == 0)
             {
                 GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT);
@@ -863,7 +863,7 @@ namespace NetWorkedData
                 GUILayout.Label(tRealReference + NWDConstants.K_APP_TABLE_X_OBJECTS);
             }
 
-            int tResultReference = Datas().EditorTableDatas.Count;
+            int tResultReference = BasisHelper().EditorTableDatas.Count;
             if (tResultReference == 0)
             {
                 GUILayout.Label(NWDConstants.K_APP_TABLE_NO_OBJECT_FILTERED);
@@ -898,7 +898,7 @@ namespace NetWorkedData
             GUILayout.BeginVertical(GUILayout.Width(120));
             // |||||||||||||||||||||||||||||||||||||||||||
 
-            Texture2D tTextureOfClass = Datas().TextureOfClass();
+            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
             if (tTextureOfClass != null)
             {
                 GUILayout.Label(tTextureOfClass, tRightLabel, GUILayout.MaxHeight(64.0F));
@@ -935,7 +935,7 @@ namespace NetWorkedData
 
                 DrawHeaderInEditor();
 
-                Datas().m_ScrollPositionList = EditorGUILayout.BeginScrollView(Datas().m_ScrollPositionList, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+                BasisHelper().m_ScrollPositionList = EditorGUILayout.BeginScrollView(BasisHelper().m_ScrollPositionList, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
                 // ===========================================
 
                 //m_ItemList.Count
@@ -960,12 +960,12 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (Datas().DatasByReference.ContainsKey(tSelected.Reference))
+                        if (BasisHelper().DatasByReference.ContainsKey(tSelected.Reference))
                         {
                             if (tSelected.XX == 0 && tSelected.TestIntegrity())
                             {
                                 //int tIndex = Datas().ObjectsByReferenceList.IndexOf(tSelected.Reference);
-                                Datas().EditorTableDatasSelected[tSelected] = !Datas().EditorTableDatasSelected[tSelected];
+                                BasisHelper().EditorTableDatasSelected[tSelected] = !BasisHelper().EditorTableDatasSelected[tSelected];
                                 Event.current.Use();
                             }
                         }
@@ -979,16 +979,16 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (Datas().EditorTableDatas.Contains(tSelected))
+                        if (BasisHelper().EditorTableDatas.Contains(tSelected))
                         {
-                            int tIndexSelected = Datas().EditorTableDatas.IndexOf(tSelected);
-                            if (tIndexSelected < Datas().EditorTableDatas.Count - 1)
+                            int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
+                            if (tIndexSelected < BasisHelper().EditorTableDatas.Count - 1)
                             {
-                                K tNextSelected = Datas().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
+                                K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected + 1) as K;
                                 SetObjectInEdition(tNextSelected);
-                                float tNumberPage = (tIndexSelected + 1) / Datas().m_ItemPerPage;
+                                float tNumberPage = (tIndexSelected + 1) / BasisHelper().m_ItemPerPage;
                                 int tPageExpected = (int)Math.Floor(tNumberPage);
-                                Datas().m_PageSelected = tPageExpected;
+                                BasisHelper().m_PageSelected = tPageExpected;
                                 Event.current.Use();
                                 sEditorWindow.Focus();
                             }
@@ -1007,15 +1007,15 @@ namespace NetWorkedData
                     NWDBasis<K> tSelected = NWDDataInspector.ObjectInEdition() as NWDBasis<K>;
                     if (tSelected != null)
                     {
-                        if (Datas().EditorTableDatas.Contains(tSelected))
+                        if (BasisHelper().EditorTableDatas.Contains(tSelected))
                         {
-                            int tIndexSelected = Datas().EditorTableDatas.IndexOf(tSelected);
+                            int tIndexSelected = BasisHelper().EditorTableDatas.IndexOf(tSelected);
                             if (tIndexSelected > 0)
                             {
-                                K tNextSelected = Datas().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
-                                float tNumberPage = (tIndexSelected - 1) / Datas().m_ItemPerPage;
+                                K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSelected - 1) as K;
+                                float tNumberPage = (tIndexSelected - 1) / BasisHelper().m_ItemPerPage;
                                 int tPageExpected = (int)Math.Floor(tNumberPage);
-                                Datas().m_PageSelected = tPageExpected;
+                                BasisHelper().m_PageSelected = tPageExpected;
                                 SetObjectInEdition(tNextSelected);
                                 Event.current.Use();
                                 sEditorWindow.Focus();
@@ -1027,21 +1027,21 @@ namespace NetWorkedData
                     }
                 }
 
-                float tNumberOfPage = Datas().EditorTableDatas.Count / Datas().m_ItemPerPage;
+                float tNumberOfPage = BasisHelper().EditorTableDatas.Count / BasisHelper().m_ItemPerPage;
                 int tPagesExpected = (int)Math.Floor(tNumberOfPage);
 
                 // TODO: add instruction in tab view
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.RightArrow)
                 {
                     //Debug.LogVerbose ("KeyDown RightArrow", DebugResult.Success);
-                    if (Datas().m_PageSelected < tPagesExpected)
+                    if (BasisHelper().m_PageSelected < tPagesExpected)
                     {
-                        Datas().m_PageSelected++;
+                        BasisHelper().m_PageSelected++;
                         // TODO : reselect first object
-                        int tIndexSel = Datas().m_ItemPerPage * Datas().m_PageSelected;
-                        if (tIndexSel < Datas().EditorTableDatas.Count)
+                        int tIndexSel = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected;
+                        if (tIndexSel < BasisHelper().EditorTableDatas.Count)
                         {
-                            K tNextSelected = Datas().EditorTableDatas.ElementAt(tIndexSel) as K;
+                            K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(tIndexSel) as K;
                             SetObjectInEdition(tNextSelected);
                             Event.current.Use();
                             sEditorWindow.Focus();
@@ -1057,11 +1057,11 @@ namespace NetWorkedData
                 if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.LeftArrow)
                 {
                     //Debug.LogVerbose ("KeyDown LeftArrow", DebugResult.Success);
-                    if (Datas().m_PageSelected > 0)
+                    if (BasisHelper().m_PageSelected > 0)
                     {
-                        Datas().m_PageSelected--;
+                        BasisHelper().m_PageSelected--;
                         // TODO : reselect first object
-                        K tNextSelected = Datas().EditorTableDatas.ElementAt(Datas().m_ItemPerPage * Datas().m_PageSelected)as K;
+                        K tNextSelected = BasisHelper().EditorTableDatas.ElementAt(BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected)as K;
                         SetObjectInEdition(tNextSelected);
                         Event.current.Use();
                         sEditorWindow.Focus();
@@ -1072,21 +1072,21 @@ namespace NetWorkedData
                 }
 
 
-                if (Datas().m_PageSelected < 0)
+                if (BasisHelper().m_PageSelected < 0)
                 {
-                    Datas().m_PageSelected = 0;
+                    BasisHelper().m_PageSelected = 0;
                 }
-                if (Datas().m_PageSelected > tPagesExpected)
+                if (BasisHelper().m_PageSelected > tPagesExpected)
                 {
-                    Datas().m_PageSelected = tPagesExpected;
+                    BasisHelper().m_PageSelected = tPagesExpected;
                 }
 
-                for (int i = 0; i < Datas().m_ItemPerPage; i++)
+                for (int i = 0; i < BasisHelper().m_ItemPerPage; i++)
                 {
-                    int tItemIndexInPage = Datas().m_ItemPerPage * Datas().m_PageSelected + i;
-                    if (tItemIndexInPage < Datas().EditorTableDatas.Count)
+                    int tItemIndexInPage = BasisHelper().m_ItemPerPage * BasisHelper().m_PageSelected + i;
+                    if (tItemIndexInPage < BasisHelper().EditorTableDatas.Count)
                     {
-                        K tObject = Datas().EditorTableDatas.ElementAt(tItemIndexInPage) as K;
+                        K tObject = BasisHelper().EditorTableDatas.ElementAt(tItemIndexInPage) as K;
                         tObject.DrawRowInEditor(tMousePosition, sEditorWindow, tSelectAndClick);
                     }
                 }
@@ -1142,8 +1142,8 @@ namespace NetWorkedData
             if (mRowActions == true )
             {
                 //GUILayout.Label ("Management", EditorStyles.boldLabel);
-                int tActualItems = Datas().EditorTableDatas.Count;
-                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                int tActualItems = BasisHelper().EditorTableDatas.Count;
+                foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                 {
                     if (tKeyValue.Value == true)
                     {
@@ -1217,7 +1217,7 @@ namespace NetWorkedData
 
                 if (GUILayout.Button(NWDConstants.K_APP_TABLE_REACTIVE, EditorStyles.miniButton))
                 {
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -1229,7 +1229,7 @@ namespace NetWorkedData
 
                 if (GUILayout.Button(NWDConstants.K_APP_TABLE_DISACTIVE, EditorStyles.miniButton))
                 {
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -1244,7 +1244,7 @@ namespace NetWorkedData
                     NWDBasis<K> tNextObjectSelected = null;
                     int tNewData = 0;
                     List<K> tListToUse = new List<K>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -1256,9 +1256,9 @@ namespace NetWorkedData
                     {
                         tNewData++;
                         K tNextObject = tObject.DuplicateData();
-                        if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                        if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                         {
-                            tNextObject.Tag = Datas().m_SearchTag;
+                            tNextObject.Tag = BasisHelper().m_SearchTag;
                             tNextObject.UpdateData();
                         }
                         tNextObjectSelected = tNextObject;
@@ -1269,12 +1269,12 @@ namespace NetWorkedData
                     }
                     SetObjectInEdition(tNextObjectSelected);
                     //ReorderListOfManagementByName ();
-                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                 }
 
                 if (GUILayout.Button(NWDConstants.K_APP_TABLE_UPDATE, EditorStyles.miniButton))
                 {
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -1679,12 +1679,12 @@ namespace NetWorkedData
                     //				NWDBasis<K> tNewObject = NWDBasis<K>.NewInstance ();
                     //				AddObjectInListOfEdition (tNewObject);
                     K tNewObject = NWDBasis<K>.NewData();
-                    if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                    if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                     {
-                        tNewObject.Tag = Datas().m_SearchTag;
+                        tNewObject.Tag = BasisHelper().m_SearchTag;
                         tNewObject.UpdateData();
                     }
-                    Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                    BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                     SetObjectInEdition(tNewObject);
                     //				sEditorWindow.Repaint ();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(ClassType());
@@ -2101,7 +2101,7 @@ namespace NetWorkedData
                 {
 
                     List<object> tListToDelete = new List<object>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {
@@ -2145,7 +2145,7 @@ namespace NetWorkedData
                 {
 
                     List<object> tListToTrash = new List<object>();
-                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in Datas().EditorTableDatasSelected)
+                    foreach (KeyValuePair<NWDTypeClass, bool> tKeyValue in BasisHelper().EditorTableDatasSelected)
                     {
                         if (tKeyValue.Value == true)
                         {

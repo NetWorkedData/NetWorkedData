@@ -288,8 +288,8 @@ namespace NetWorkedData
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
+                "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +
@@ -307,16 +307,16 @@ namespace NetWorkedData
                 "while($tRowExpired = $tResultExpired->fetch_row())\n" +
                 "{\n" +
                 "myLog('tReferences need be cancelled : '. $tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$tRowExpired = Integrity" + NWDUserBarterRequest.Datas().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
+                "$tRowExpired = Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Replace ($tRowExpired," + tIndex_tBarterStatus + ", " + ((int)NWDTradeStatus.Cancel).ToString() + ");\n" +
                 "$tRowExpired = implode('" + NWDConstants.kStandardSeparator + "',$tRowExpired);\n" +
-                "UpdateData" + NWDUserBarterRequest.Datas().ClassNamePHP + " ($tRowExpired, $TIME_SYNC, $uuid, false);\n" +
+                "UpdateData" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + " ($tRowExpired, $TIME_SYNC, $uuid, false);\n" +
                 "}\n" +
                 //"mysqli_free_result($tResultExpired);\n" +
                 "}\n" +
 
 
                 "// start Addon \n" +
-                "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
+                "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
                 // WHERE REQUEST
                 "WHERE `AC`= \\'1\\' " +
                 "AND `Account` != \\''.$SQL_CON->real_escape_string($uuid).'\\' " +
@@ -353,12 +353,12 @@ namespace NetWorkedData
                 "if (is_array($tReferences))\n" +
                 "{\n" +
                 "$tReferencesList = implode('" + NWDConstants.kFieldSeparatorA + "',$tReferences);\n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReferences ($tReferences);\n" +
+                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReferences ($tReferences);\n" +
                 "}\n" +
                 "}\n" +
                 "myLog('tReferencesList : '. $tReferencesList, __FILE__, __FUNCTION__, __LINE__);\n" +
-                "$sCsvList = Integrity" + NWDUserBarterFinder.Datas().ClassNamePHP + "Replace ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);\n" +
+                "$sCsvList = Integrity" + NWDUserBarterFinder.BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + tIndex_BarterRequestsList.ToString() + ", $tReferencesList);\n" +
                 "// finish Addon \n";
 
             return sScript;
@@ -372,7 +372,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

@@ -68,7 +68,7 @@ namespace NetWorkedData
             //    tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
             //}
 
-            int tWebBuildUsed = Datas().LastWebBuild;
+            int tWebBuildUsed = BasisHelper().LastWebBuild;
             return tWebBuildUsed;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -85,15 +85,15 @@ namespace NetWorkedData
             // use the accountReference with prefbase key associated with environement and key time 
             if (AccountDependent())
             {
-                return sEnvironment.PlayerAccountReference + Datas().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+                return sEnvironment.PlayerAccountReference + BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
             }
 
-            return Datas().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
+            return BasisHelper().ClassPrefBaseKey + sEnvironment.Environment + SynchronizeKeyLastTimestamp;
         }
         //-------------------------------------------------------------------------------------------------------------
         public static void SynchronizationUpadteTimestamp()
         {
-            Debug.Log(Datas().ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
+            Debug.Log(BasisHelper().ClassNamePHP + " must be reset the timestamp of last sync to the build tiemstamp");
             SynchronizationResetTimestamp(NWDAppEnvironment.SelectedEnvironment());
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -261,7 +261,7 @@ namespace NetWorkedData
             Dictionary<string, object> rSend = new Dictionary<string, object>();
             // create dictionnary for this tablename and insert in the respond
             Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
-            rSend.Add(Datas().ClassTableName, rSendDatas);
+            rSend.Add(BasisHelper().ClassTableName, rSendDatas);
             // create List with all object to synchron on the server
             // create List 
             //List<object> tDatas = new List<object>();
@@ -305,7 +305,7 @@ namespace NetWorkedData
             Dictionary<string, object> rSend = new Dictionary<string, object>();
             // create dictionnary for this tablename and insert in the respond
             Dictionary<string, object> rSendDatas = new Dictionary<string, object>();
-            rSend.Add(Datas().ClassTableName, rSendDatas);
+            rSend.Add(BasisHelper().ClassTableName, rSendDatas);
             // create List with all object to synchron on the server
             // create List 
             List<object> tDatas = new List<object>();
@@ -319,7 +319,7 @@ namespace NetWorkedData
             {
                 tLastSynchronization = 0; // ok you force, then, upload and then download ALL datas since 1970 (0)
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.DM >= tLastSynchronization);
-                foreach (K tO in Datas().Datas)
+                foreach (K tO in BasisHelper().Datas)
                 {
                     bool tAddEnv = true;
                     if (sEnvironment == NWDAppConfiguration.SharedInstance().DevEnvironment && tO.DevSync < 0)
@@ -348,7 +348,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.DevSync == 0);
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    foreach (K tO in Datas().Datas)
+                    foreach (K tO in BasisHelper().Datas)
                     {
                         if (tO.DevSync == 0 || tO.DevSync == 1 || tO.AddonSyncForce())
                         {
@@ -362,7 +362,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.PreprodSync == 0);
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    foreach (K tO in Datas().Datas)
+                    foreach (K tO in BasisHelper().Datas)
                     {
                         if (tO.PreprodSync == 0 || tO.PreprodSync == 1 || tO.AddonSyncForce())
                         {
@@ -376,7 +376,7 @@ namespace NetWorkedData
                 //tResults = tSQLiteConnection.Table<K>().Where(x => x.ProdSync == 0);
                 if (sSpecial == NWDOperationSpecial.None)
                 {
-                    foreach (K tO in Datas().Datas)
+                    foreach (K tO in BasisHelper().Datas)
                     {
                         if (tO.ProdSync == 0 || tO.ProdSync == 1 || tO.AddonSyncForce())
                         {
@@ -469,7 +469,7 @@ namespace NetWorkedData
                     SynchronizationSetNewTimestamp(sEnvironment, tTimestampServer);
                 }
                 // now i need get only datas for this class tablename
-                string tTableName = Datas().ClassTableName;
+                string tTableName = BasisHelper().ClassTableName;
                 // Ok I need to compute all datas for this Class tablename
                 if (sData.param.ContainsKey(tTableName))
                 {
@@ -737,7 +737,7 @@ namespace NetWorkedData
                 // reset last sync to zero
                 SynchronizationSetNewTimestamp(sEnvironment, 0); // set to 0 ... only for data AccountDependent, so that's not affect the not connected data (game's data)
                                                                  // delete all datas for this user
-                foreach (NWDBasis<K> tObject in Datas().Datas)
+                foreach (NWDBasis<K> tObject in BasisHelper().Datas)
                 {
                     if (tObject.IsReacheableByAccount(NWDAccount.GetCurrentAccountReference()))
                     {

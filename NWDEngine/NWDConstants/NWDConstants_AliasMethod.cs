@@ -62,7 +62,7 @@ namespace NetWorkedData
         public const string M_SynchronizationPushData= "M_SynchronizationPushData";
         public const string M_CheckoutPushData= "M_CheckoutPushData";
         public const string M_DeleteUser= "M_DeleteUser";
-        public const string M_Datas= "M_Datas";
+        public const string GetBasisHelper= "M_Datas";
         public const string M_UpdateMe= "M_UpdateMe";
         public const string M_NewObject= "M_NewObject";
         public const string M_ClassDeclare = "M_ClassDeclare";

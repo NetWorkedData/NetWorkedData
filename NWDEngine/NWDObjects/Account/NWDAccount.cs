@@ -187,7 +187,7 @@ namespace NetWorkedData
             {
                 case NWDAccountEnvironment.Dev:
                     {
-                        foreach (NWDAccount tObject in NWDAccount.Datas().Datas)
+                        foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
                         {
                             if (tObject.UseInEnvironment == NWDAccountEnvironment.Dev)
                             {
@@ -198,7 +198,7 @@ namespace NetWorkedData
                     break;
                 case NWDAccountEnvironment.Preprod:
                     {
-                        foreach (NWDAccount tObject in NWDAccount.Datas().Datas)
+                        foreach (NWDAccount tObject in NWDAccount.BasisHelper().Datas)
                         {
                             if (tObject.UseInEnvironment == NWDAccountEnvironment.Preprod)
                             {
@@ -305,9 +305,9 @@ namespace NetWorkedData
         {
             NWDAccount rAccount = null;
             string tAccountReference = GetCurrentAccountReference();
-            if (Datas().DatasByReference.ContainsKey(tAccountReference))
+            if (BasisHelper().DatasByReference.ContainsKey(tAccountReference))
             {
-                rAccount = Datas().DatasByReference[tAccountReference] as NWDAccount;
+                rAccount = BasisHelper().DatasByReference[tAccountReference] as NWDAccount;
             }
             return rAccount;
         }
@@ -355,7 +355,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
-                    NWDDatas.FindTypeInfos(tType).m_SearchAccount = Reference;
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Reference;
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }

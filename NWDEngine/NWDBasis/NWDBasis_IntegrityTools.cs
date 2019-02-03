@@ -62,7 +62,7 @@ namespace NetWorkedData
         public static void RecalculateAllIntegrities()
         {
             //loop
-            foreach (NWDBasis<K> tObject in Datas().Datas)
+            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
             {
                 // update integrity value
                 tObject.UpdateIntegrity();
@@ -207,7 +207,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            return HashSum(Datas().SaltStart + IntegrityAssembly() + Datas().SaltEnd);
+            return HashSum(BasisHelper().SaltStart + IntegrityAssembly() + BasisHelper().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

@@ -111,15 +111,15 @@ namespace NetWorkedData
         public bool IsReacheableByGameSave(NWDGameSave sGameSave)
         {
             bool rReturn = false;
-            if (Datas().GameSaveMethod != null)
+            if (BasisHelper().GameSaveMethod != null)
             {
                 string tGameIndex = "";
                 if (sGameSave != null)
                 {
                     tGameIndex = sGameSave.Reference;
                 }
-                var tValue = Datas().ClassGameDependentProperties.GetValue(this, null);
-                string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
+                var tValue = BasisHelper().ClassGameDependentProperties.GetValue(this, null);
+                string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
                 if (tSaveIndex == tGameIndex)
                 {
                     rReturn = true;
@@ -135,12 +135,12 @@ namespace NetWorkedData
         public bool VisibleByGameSave(string sGameSaveReference)
         {
             bool rReturn = false;
-            if (Datas().GameSaveMethod != null)
+            if (BasisHelper().GameSaveMethod != null)
             {
-                var tValue = Datas().ClassGameDependentProperties.GetValue(this, null);
+                var tValue = BasisHelper().ClassGameDependentProperties.GetValue(this, null);
                 if (tValue != null)
                 {
-                    string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
+                    string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
                     if (tSaveIndex == sGameSaveReference)
                     {
                         rReturn = true;
@@ -159,7 +159,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (AccountDependent())
             {
-                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
                 {
                     var tValue = tInfos.Key.GetValue(this, null);
                     if (tValue != null)
@@ -186,7 +186,7 @@ namespace NetWorkedData
             bool rReturn = false;
             if (AccountDependent())
             {
-                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
                 {
                     var tValue = tInfos.Key.GetValue(this, null);
                     if (tValue != null)
@@ -218,7 +218,7 @@ namespace NetWorkedData
                 {
                     sAccountReference = NWDAccount.GetCurrentAccountReference();
                 }
-                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
                 {
                     var tValue = tInfos.Key.GetValue(this, null);
                     if (tValue != null)

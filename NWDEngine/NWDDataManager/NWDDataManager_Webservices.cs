@@ -24,126 +24,6 @@ using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//	#if UNITY_EDITOR
-	//	public class BTBOperationControllerMenuTest
-	//	{
-	//		static string KEmail = "";
-	//		static string KPassword = "";
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/test", false, 00)]
-	//		public static void Test ()
-	//		{
-	//			NWDOperationWebUnity.AddOperation ("test");
-	////			SharedInstance.AddWebRequestAllSynchronization ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/reset", false, 20)]
-	//		public static void AccountReset ()
-	//		{
-	//			NWDAppConfiguration.SharedInstance().SelectedEnvironment ().ResetSession ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/session test", false, 20)]
-	//		public static void SessionReset ()
-	//		{
-	//			SharedInstance.AddWebRequestSessionWithBlock(delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Progress");
-	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Finish");
-	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Error");
-	//			}, delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos) {
-	//				Debug.Log("####### Cancel");
-	//			},false,NWDAppConfiguration.SharedInstance().SelectedEnvironment ()
-	//			);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/sign-up", false, 22)]
-	//		public static void AccountSignUp ()
-	//		{
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			KPassword = "1234";
-	//			Debug.Log ("Refrence : " + NWDAppConfiguration.SharedInstance().SelectedEnvironment ().PlayerAccountReference + " Email : " + KEmail + " Password : " + KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/sign-out", false, 23)]
-	//		public static void AccountSignOut ()
-	//		{
-	//			SharedInstance.AddWebRequestSignOut ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/sign-in", false, 24)]
-	//		public static void AccountSignIn ()
-	//		{
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/modifiy", false, 25)]
-	//		public static void AccountModify ()
-	//		{
-	//			string tOldPassword = KPassword + "";
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/delete", false, 26)]
-	//		public static void AccountDelete ()
-	//		{
-	//			SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
-	//		}
-	//
-	//
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/FLUSH QUEUE", false, 999)]
-	//		public static void FlushQueue ()
-	//		{
-	//			SharedInstance.WebRequestFlush ();
-	//		}
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/INFOS QUEUE", false, 999)]
-	//		public static void InfosQueue ()
-	//		{
-	//			SharedInstance.WebRequestInfos ();
-	//		}
-	//
-	//
-	//
-	//		//-------------------------------------------------------------------------------------------------------------
-	//		[MenuItem ("NWDWEB/AccountSequence A", false, 100)]
-	//		public static void AccountSequence ()
-	//		{
-	//			NWDAppConfiguration.SharedInstance().SelectedEnvironment ().ResetSession ();
-	//
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			SharedInstance.AddWebRequestSignUp (KEmail, KPassword, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignOut ();
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//
-	//			KEmail = NWDToolbox.RandomStringUnix (8) + "@idemobi.com";
-	//			string tOldPassword = KPassword + "";
-	//			KPassword = NWDToolbox.RandomString (18);
-	//			SharedInstance.AddWebRequestSignModify (KEmail, tOldPassword, KPassword, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignOut ();
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignDelete (KPassword, KPassword);
-	//
-	//			SharedInstance.AddWebRequestSignIn (KEmail, KPassword);
-	//		}
-	//	}
-	//
-	//	#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public enum NWDNetworkState
     {
@@ -158,12 +38,6 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		public BTBOperationController WebOperationQueue = new BTBOperationController ();
-		//-------------------------------------------------------------------------------------------------------------
-		//public NWDOperationWebSynchronisation AddWebRequestAllSynchronizationClean (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
-		//{
-		//	//Debug.Log ("AddWebRequestAllSynchronization");
-		//	return AddWebRequestAllSynchronizationWithBlock (null, null, null, null, sPriority, sEnvironment);
-		//}
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestAllSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
@@ -212,8 +86,6 @@ namespace NetWorkedData
 			//Debug.Log ("AddWebRequestSynchronizationForce");
 			return AddWebRequestSynchronizationForceWithBlock (sTypeList, null, null, null, null, sPriority, sEnvironment);
 		}
-		//		public List<Type> mTypeAccountDependantList = new List<Type> ();
-		//		public List<Type> mTypeNotAccountDependantList = new List<Type> ();
 		//-------------------------------------------------------------------------------------------------------------
 		public NWDOperationWebSynchronisation AddWebRequestNotAccountDependantSynchronization (bool sPriority = false, NWDAppEnvironment sEnvironment = null)
 		{
@@ -883,116 +755,8 @@ namespace NetWorkedData
 					tMethodInfo.Invoke (null, new object[]{ sEnvironment });
 				}
 			}
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		//		public bool SynchronizationClassesDatas (NWDAppEnvironment sEnvironment, bool sForceAll, List<Type> sTypeList, bool sBackground = true, bool sLoader = false)
-		//		{
-		//
-		//			Debug.Log ("######### SynchronizationClassesDatas start " + Time.time.ToString ());
-		//			bool rReturn = false;
-		//			if (SynchronizeInProgress == false) {
-		//				SynchronizeInProgress = true;
-		//				rReturn = true;
-		//				// I write all data
-		//				UpdateQueueExecute ();
-		//
-		//				#if UNITY_EDITOR
-		//				// Deselect all object
-		//				Selection.activeObject = null;
-		//				#endif
-		//
-		//				BTBUnityWebServiceDataRequest request = NWDWebRequestor.ShareInstance ().RequestDataRequestorWebService (sEnvironment, SynchronizationPushClassesDatas (sEnvironment, sForceAll, sTypeList));
-		//				request.successBlockDelegate = delegate(Dictionary<string, object> data) {
-		//					// test if error
-		//					NWDWebRequestorResult tResult = NWDWebRequestor.RespondAnalyzeIsValid (sEnvironment, data);
-		//					if (tResult == NWDWebRequestorResult.Success) {
-		//						SynchronizationPullClassesDatas (sEnvironment, data, sTypeList);
-		//					} else if (tResult == NWDWebRequestorResult.NewUser) {
-		//						// I must resend my request
-		//						SynchronizationClassesDatas (sEnvironment, sForceAll, sTypeList, sBackground, sLoader);
-		//					} else if (tResult == NWDWebRequestorResult.Error) {
-		//
-		//					}
-		//					SynchronizeInProgress = false;
-		//					if (SynchronizeRepeat == true) {
-		//						bool tForceAll = SynchronizeRepeatInForce;
-		//						SynchronizeRepeat = false;
-		//						SynchronizeRepeatInForce = false;
-		//						SynchronizeAllData (sEnvironment, tForceAll);
-		//					}
-		//
-		//					Debug.Log ("######### SynchronizationClassesDatas finish success " + Time.time.ToString ());
-		//				};
-		//				request.errorBlockDelegate = delegate(Error error) {
-		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
-		//					SynchronizeInProgress = false;
-		//					if (SynchronizeRepeat == true) {
-		//						bool tForceAll = SynchronizeRepeatInForce;
-		//						SynchronizeRepeat = false;
-		//						SynchronizeRepeatInForce = false;
-		//						SynchronizeAllData (sEnvironment, tForceAll);
-		//					}
-		//
-		//					Debug.Log ("######### SynchronizationClassesDatas finish error " + Time.time.ToString ());
-		//				};
-		//
-		//				Debug.Log ("Synchronization send");
-		//				request.send ();
-		//			} else {
-		//				SynchronizeRepeat = true;
-		//				if (sForceAll == true) {
-		//					SynchronizeRepeatInForce = sForceAll;
-		//				}
-		//
-		//				Debug.Log ("Synchronization all ready in progress ... prepare to repeat but in force if one ask it ?");
-		//			}
-		//			return rReturn;
-		//		}
-
-		//		public bool SynchronizationAllClassDatas (NWDAppEnvironment sEnvironment, bool sForceAll, bool sBackground = true, bool sLoader = false)
-		//		{
-		//			return SynchronizationClassesDatas (sEnvironment, sForceAll, mTypeSynchronizedList, sBackground, sLoader);
-		//		}
-		//
-		//		public bool SynchronizeAllData (NWDAppEnvironment sEnvironment, bool sForceAll)
-		//		{
-		//			//Debug.Log ("SynchronizeAllData");
-		//			return SynchronizationAllClassDatas (sEnvironment, sForceAll);
-		//		}
-
-		//		public bool FirstSynchronisation (NWDAppEnvironment sEnvironment)
-		//		{
-		//			bool rReturn = false;
-		//			if (SynchronizeInProgress == false) {
-		//				rReturn = true;
-		//				SynchronizeInProgress = true;
-		//				Dictionary<string,object> tDico = new Dictionary<string,object> ();
-		//				tDico.Add ("test", "test");
-		//				BTBUnityWebServiceDataRequest request = NWDWebRequestor.ShareInstance ().RequestDataRequestorWebService (sEnvironment, tDico);
-		//				request.successBlockDelegate = delegate(Dictionary<string, object> data) {
-		//					SynchronizeInProgress = false;
-		//					NWDWebRequestorResult tResult = NWDWebRequestor.RespondAnalyzeIsValid (sEnvironment, data);
-		//					if (tResult == NWDWebRequestorResult.Success) {
-		//					} else if (tResult == NWDWebRequestorResult.NewUser) {
-		//					} else if (tResult == NWDWebRequestorResult.Error) {
-		//					}
-		//				};
-		//				request.errorBlockDelegate = delegate(Error error) {
-		//					SynchronizeInProgress = false;
-		//					Debug.Log ("Error: " + error.code + " // " + error.localizedDescription);
-		//				};
-		//
-		//				Debug.Log ("webservice send");
-		//				request.send ();
-		//			} else {
-		//				//SynchronizeRepeat = true;
-		//				// Not necessairy to repeat, the first connection is in pogress by another task :-)
-		//
-		//				Debug.Log ("webservice all ready in progress");
-		//			}
-		//			return rReturn;
-		//		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+        }
+        //-------------------------------------------------------------------------------------------------------------
+    }
 }
 //=====================================================================================================================

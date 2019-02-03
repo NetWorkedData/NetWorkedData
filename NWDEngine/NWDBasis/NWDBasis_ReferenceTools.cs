@@ -40,7 +40,7 @@ namespace NetWorkedData
         public static void ChangeReferenceForAnotherInAllObjects(string sOldReference, string sNewReference)
         {
             //Debug.LogVerbose ("I WILL CHANGE "+sOldReference+" FOR "+sNewReference+" in objects of class " + ClassName ());
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeReferenceForAnother(sOldReference, sNewReference);
             }
@@ -49,7 +49,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_TryToChangeUserForAllObjects)]
         public static void TryToChangeUserForAllObjects(string sOldUser, string sNewUser)
         {
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ChangeUser(sOldUser, sNewUser);
             }
@@ -94,7 +94,7 @@ namespace NetWorkedData
             int tTime = NWDToolbox.Timestamp() - 1492711200; // je compte depuis le 20 avril 2017 à 20h00
             while (tValid == false)
             {
-                rReturn = Datas().ClassTrigramme + BTBConstants.K_MINUS + sUUID + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
+                rReturn = BasisHelper().ClassTrigramme + BTBConstants.K_MINUS + sUUID + tTime.ToString() + BTBConstants.K_MINUS + UnityEngine.Random.Range(100, 999).ToString();
                 tValid = TestReference(rReturn);
             }
             return rReturn;
@@ -134,7 +134,7 @@ namespace NetWorkedData
             //{
             //    rValid = true;
             //}
-            bool rValid = !Datas().DatasByReference.ContainsKey(sReference);
+            bool rValid = !BasisHelper().DatasByReference.ContainsKey(sReference);
             return rValid;
         }
         //-------------------------------------------------------------------------------------------------------------

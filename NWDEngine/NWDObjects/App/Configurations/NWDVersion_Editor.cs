@@ -50,7 +50,7 @@ namespace NetWorkedData
             int tVersionInt = 0;
             int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
             NWDVersion tMaxVersionObject = null;
-            foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
+            foreach (NWDVersion tVersionObject in NWDVersion.BasisHelper().Datas)
             {
                 if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                 {

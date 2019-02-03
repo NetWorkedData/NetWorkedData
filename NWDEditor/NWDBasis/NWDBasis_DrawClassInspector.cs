@@ -24,7 +24,7 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_DrawTypeInInspector)]
         public static void DrawTypeInInspector ()
 		{
-            if (Datas().SaltValid == false)
+            if (BasisHelper().SaltValid == false)
 			{
 				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
 			}
@@ -39,7 +39,7 @@ namespace NetWorkedData
 
 			EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_DESCRIPTION, EditorStyles.boldLabel);
 //			EditorGUI.indentLevel++;
-            EditorGUILayout.HelpBox (Datas().ClassDescription, MessageType.Info);
+            EditorGUILayout.HelpBox (BasisHelper().ClassDescription, MessageType.Info);
 //			EditorGUI.indentLevel--;
 			if (NWDAppConfiguration.SharedInstance().DevEnvironment.Selected == true) {
 				EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_DEV, EditorStyles.boldLabel);
@@ -92,10 +92,10 @@ namespace NetWorkedData
 			GUIStyle tStyle = EditorStyles.foldout;
 			FontStyle tPreviousStyle = tStyle.fontStyle;
 			tStyle.fontStyle = FontStyle.Bold;
-            Datas().mSettingsShowing = EditorGUILayout.Foldout (Datas().mSettingsShowing, NWDConstants.K_APP_BASIS_CLASS_WARNING_ZONE, tStyle);
+            BasisHelper().mSettingsShowing = EditorGUILayout.Foldout (BasisHelper().mSettingsShowing, NWDConstants.K_APP_BASIS_CLASS_WARNING_ZONE, tStyle);
 			tStyle.fontStyle = tPreviousStyle;
 
-            if (Datas().mSettingsShowing == true) 
+            if (BasisHelper().mSettingsShowing == true) 
 			{
 				EditorGUILayout.HelpBox (NWDConstants.K_APP_BASIS_CLASS_WARNING_HELPBOX, MessageType.Warning);
 
@@ -108,19 +108,19 @@ namespace NetWorkedData
 				}
 				// -------------------------------------------
 				GUILayout.BeginHorizontal ();
-                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, Datas().SaltStart);
+                EditorGUILayout.LabelField(NWDConstants.K_APP_BASIS_CLASS_FIRST_SALT, BasisHelper().SaltStart);
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton)) {
 					GUI.FocusControl (null);
-                    Datas().SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                    BasisHelper().SaltStart = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
 					RecalculateAllIntegrities ();
 				}
 				GUILayout.EndHorizontal ();
 				// -------------------------------------------
 				GUILayout.BeginHorizontal ();
-                EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_SECOND_SALT, Datas().SaltEnd);
+                EditorGUILayout.LabelField (NWDConstants.K_APP_BASIS_CLASS_SECOND_SALT, BasisHelper().SaltEnd);
 				if (GUILayout.Button (NWDConstants.K_APP_BASIS_CLASS_REGENERATE, EditorStyles.miniButton)) {
 					GUI.FocusControl (null);
-                    Datas().SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
+                    BasisHelper().SaltEnd = NWDToolbox.RandomString(UnityEngine.Random.Range(12, 24));
 					RecalculateAllIntegrities ();
 				}
 				GUILayout.EndHorizontal ();

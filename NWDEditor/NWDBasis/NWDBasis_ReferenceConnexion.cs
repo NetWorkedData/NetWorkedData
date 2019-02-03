@@ -150,7 +150,7 @@ namespace NetWorkedData
                                                      sPosition.height - tPopupdStyle.fixedHeight - tBoldLabelStyle.fixedHeight - NWDConstants.kFieldMarge - tBorder - tHelpBoxHeight);
 
                     EditorGUI.DrawRect(tRectToDrawProperties, NWDConstants.kIdentityColor);
-                    GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + Datas().ClassNamePHP, tBoldLabelStyle);
+                    GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + BasisHelper().ClassNamePHP, tBoldLabelStyle);
                     tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                     GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);
                     tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -303,7 +303,7 @@ namespace NetWorkedData
                 tReferenceList.Add(NWDConstants.kFieldSeparatorA);
                 tInternalNameList.Add(NWDConstants.kFieldNone);
 
-                foreach (KeyValuePair<string, string> tKeyValue in NWDDatas.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i => i.Value))
+                foreach (KeyValuePair<string, string> tKeyValue in NWDBasisHelper.FindTypeInfos(typeof(K)).EditorDatasMenu.OrderBy(i => i.Value))
                 {
                     tReferenceList.Add(tKeyValue.Key);
                     tInternalNameList.Add(tKeyValue.Value);
@@ -383,7 +383,7 @@ namespace NetWorkedData
 
                             EditorGUI.HelpBox(tRectToHelpBox, string.Empty, MessageType.None);
                             //EditorGUI.DrawRect (tRectToDrawProperties, kIdentityColor);
-                            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + Datas().ClassNamePHP, tBoldLabelStyle);
+                            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "Net Worked Data : " + BasisHelper().ClassNamePHP, tBoldLabelStyle);
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), "<" + tObject.Reference + ">", tBoldLabelStyle);
                             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;

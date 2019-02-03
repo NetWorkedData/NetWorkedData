@@ -452,14 +452,14 @@ namespace NetWorkedData
         {
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                NWDDatas tData = NWDDatas.FindTypeInfos(tType);
+                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
 
                 // TODO : Change to remove invoke!
                 //var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_Datas);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
                 if (tMethodInfo != null)
                 {
-                    NWDDatas tDatas = (NWDDatas)tMethodInfo.Invoke(null, null);
+                    NWDBasisHelper tDatas = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
                     if (tDatas != null)
                     {
                         foreach (NWDTypeClass tObject in tDatas.Datas)

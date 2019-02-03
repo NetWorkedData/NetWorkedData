@@ -240,7 +240,7 @@ namespace NetWorkedData
             {
                 if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
                 {
-                    string tClassName = NWDDatas.FindTypeInfos(tClass).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(tClass).ClassNamePHP;
                     tList.Add(tClassName);
                 }
             }
@@ -475,7 +475,7 @@ namespace NetWorkedData
                     if (tClass.IsSubclassOf(typeof(NWDTypeClass)))
                     {
 
-                    string tClassName = NWDDatas.FindTypeInfos(tClass).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(tClass).ClassNamePHP;
                             tList.Add(tClassName);
                     }
                 }
@@ -644,7 +644,7 @@ namespace NetWorkedData
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(sClass).ClassNamePHP;
                 // remove if exists
                 sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
                 sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
@@ -659,7 +659,7 @@ namespace NetWorkedData
             string sPublisherClassesShared = "," + PublisherClassesShared + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(sClass).ClassNamePHP;
                  // remove if exists
                 sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
             }
@@ -674,7 +674,7 @@ namespace NetWorkedData
             {
                 if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
                 {
-                    string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(sClass).ClassNamePHP;
                         // remove if exists
                         sPublisherClassesShared = sPublisherClassesShared.Replace("," + tClassName + ",", ",");
                         sPublisherClassesShared = sPublisherClassesShared.Trim(new char[] { ',' });
@@ -690,7 +690,7 @@ namespace NetWorkedData
             string sReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                    string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(sClass).ClassNamePHP;
                     // remove if exists
                     sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
                     sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
@@ -705,7 +705,7 @@ namespace NetWorkedData
             string sReaderClassesAccepted = "," + ReaderClassesAccepted + ",";
             if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
             {
-                string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(sClass).ClassNamePHP;
                     // remove if exists
                     sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
                     sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
@@ -722,7 +722,7 @@ namespace NetWorkedData
                 if (sClass.IsSubclassOf(typeof(NWDTypeClass)))
                 {
 
-                    string tClassName = NWDDatas.FindTypeInfos(sClass).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(sClass).ClassNamePHP;
                         sReaderClassesAccepted = sReaderClassesAccepted.Replace("," + tClassName + ",", ",");
                         sReaderClassesAccepted = sReaderClassesAccepted.Trim(new char[] { ',' });
                         sReaderClassesAccepted = sReaderClassesAccepted + "," + tClassName;
@@ -1065,8 +1065,8 @@ namespace NetWorkedData
         public static K[] GetAllObjectsForRelationship(NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization ==true && 
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP)== false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP)== false)
+                (sRelationship.PublisherClassesShared.Contains(BasisHelper().ClassNamePHP)== false ||
+                 sRelationship.ReaderClassesAccepted.Contains(BasisHelper().ClassNamePHP)== false)
                )
             {
                 return new K[0];
@@ -1139,8 +1139,8 @@ namespace NetWorkedData
         public static K GetObjectByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+                (sRelationship.PublisherClassesShared.Contains(BasisHelper().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(BasisHelper().ClassNamePHP) == false)
                )
             {
                 return null;
@@ -1153,8 +1153,8 @@ namespace NetWorkedData
         public static K[] GetAllObjectsByInternalKeyForRelationship(string sInternalKey, NWDRelationship sRelationship, bool sLimitByRelationAuthorization = false)
         {
             if (sLimitByRelationAuthorization == true &&
-                (sRelationship.PublisherClassesShared.Contains(Datas().ClassNamePHP) == false ||
-                 sRelationship.ReaderClassesAccepted.Contains(Datas().ClassNamePHP) == false)
+                (sRelationship.PublisherClassesShared.Contains(BasisHelper().ClassNamePHP) == false ||
+                 sRelationship.ReaderClassesAccepted.Contains(BasisHelper().ClassNamePHP) == false)
                )
             {
                 return new K[0];

@@ -30,7 +30,7 @@ namespace NetWorkedData
         {
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tObject.ReOrderLocalizationsValues(tLanguageArray);
             }
@@ -81,7 +81,7 @@ namespace NetWorkedData
             string tPath = EditorUtility.SaveFilePanel(
                 "Export Localization CSV",
                 string.Empty,
-                Datas().ClassNamePHP + ".csv",
+                BasisHelper().ClassNamePHP + ".csv",
                 "csv");
             if (tPath != null)
             {
@@ -105,7 +105,7 @@ namespace NetWorkedData
             string tRows = string.Empty;
             string tLanguage = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString;
             string[] tLanguageArray = tLanguage.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (NWDBasis<K> tObject in NWDBasis<K>.Datas().Datas)
+            foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
             {
                 tRows += tObject.ExportCSV(tLanguageArray);
             }
@@ -149,7 +149,7 @@ namespace NetWorkedData
                                 }
                             }
                         }
-                        tRows += "\"" + Datas().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
+                        tRows += "\"" + BasisHelper().ClassTrigramme + "\";\"" + Reference + "\";\"" + InternalKey + "\";\"" + InternalDescription + "\";\"" + tPropertieName + "\";";
                         foreach (string tLang in sLanguageArray)
                         {
                             if (tResultSplitDico.ContainsKey(tLang) == true)
@@ -218,7 +218,7 @@ namespace NetWorkedData
             }
             //if (tDico.ContainsKey ("Reference") && tDico.ContainsKey ("PropertyName") && tDico.ContainsKey ("Type")) 
             {
-                if (tDico["Type"] == Datas().ClassTrigramme)
+                if (tDico["Type"] == BasisHelper().ClassTrigramme)
                 {
                     //Debug.Log ("tDico [\"Reference\"] = " + tDico ["Reference"]);
                     NWDBasis<K> tObject = NWDBasis<K>.GetDataByReference(tDico["Reference"]);

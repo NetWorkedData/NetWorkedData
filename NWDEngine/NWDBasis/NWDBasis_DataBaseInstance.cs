@@ -550,7 +550,7 @@ namespace NetWorkedData
             //return rReturn;
 
             bool rReturn = true;
-            if (WebServiceVersion > Datas().LastWebBuild || WebServiceVersion > NWDAppConfiguration.SharedInstance().WebBuild)
+            if (WebServiceVersion > BasisHelper().LastWebBuild || WebServiceVersion > NWDAppConfiguration.SharedInstance().WebBuild)
             {
                 rReturn = false;
             }

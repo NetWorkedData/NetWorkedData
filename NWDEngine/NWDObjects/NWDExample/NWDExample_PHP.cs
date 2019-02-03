@@ -57,7 +57,7 @@ namespace NetWorkedData
         {
             //"function Special" + tClassName + " ($sTimeStamp, $sAccountReferences)\n" 
             //"\t{\n" 
-            return "// write your php script string here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script string here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
             //"\t}\n"
         }
         //-------------------------------------------------------------------------------------------------------------

@@ -26,10 +26,10 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDDatas
+    public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDDatas()
+        static NWDBasisHelper()
         {
             //Debug.Log("NWDDatas Static Class Constructor()");
             NWDTypeLauncher.Launcher();
@@ -152,11 +152,11 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDatas()
+        public NWDBasisHelper()
         {
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<Type, NWDDatas> TypesDictionary = new Dictionary<Type, NWDDatas>();
+        public static Dictionary<Type, NWDBasisHelper> TypesDictionary = new Dictionary<Type, NWDBasisHelper>();
 
         //-------------------------------------------------------------------------------------------------------------
         public static void Declare(Type sType, bool sClassSynchronize, string sTrigrammeName, string sMenuName, string sDescription)
@@ -168,14 +168,14 @@ namespace NetWorkedData
 
                 //BTBBenchmark.Start("Declare() step A");
                 // find infos object if exists or create 
-                NWDDatas tTypeInfos = null;
+                NWDBasisHelper tTypeInfos = null;
                 if (TypesDictionary.ContainsKey(sType))
                 {
                     tTypeInfos = TypesDictionary[sType];
                 }
                 else
                 {
-                    tTypeInfos = new NWDDatas();
+                    tTypeInfos = new NWDBasisHelper();
                     TypesDictionary.Add(sType, tTypeInfos);
                 }
                 // insert basic infos
@@ -268,9 +268,9 @@ namespace NetWorkedData
         //    return rReturn;
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public static NWDDatas FindTypeInfos(Type sType)
+        public static NWDBasisHelper FindTypeInfos(Type sType)
         {
-            NWDDatas tTypeInfos = null;
+            NWDBasisHelper tTypeInfos = null;
             if (sType.IsSubclassOf(typeof(NWDTypeClass)))
             {
                 if (TypesDictionary.ContainsKey(sType))
@@ -284,7 +284,7 @@ namespace NetWorkedData
         public static string Informations(Type sType)
         {
             string rReturn = string.Empty;
-            NWDDatas tTypeInfos = FindTypeInfos(sType);
+            NWDBasisHelper tTypeInfos = FindTypeInfos(sType);
             if (tTypeInfos == null)
             {
                 rReturn = "unknow";
@@ -1232,7 +1232,7 @@ namespace NetWorkedData
 #if UNITY_EDITOR
         public static Dictionary<string, string> EditorDatasMenu()
         {
-            return Datas().EditorDatasMenu;
+            return BasisHelper().EditorDatasMenu;
         }
 #endif
         //-------------------------------------------------------------------------------------------------------------
@@ -1268,9 +1268,9 @@ namespace NetWorkedData
         public static K GetDataByReference(string sReference)
         {
             K rReturn = null;
-            if (Datas().DatasByReference.ContainsKey(sReference))
+            if (BasisHelper().DatasByReference.ContainsKey(sReference))
             {
-                rReturn = Datas().DatasByReference[sReference] as K;
+                rReturn = BasisHelper().DatasByReference[sReference] as K;
             }
             return rReturn;
         }
@@ -1289,11 +1289,11 @@ namespace NetWorkedData
                 {
                     sAccountReference = NWDAccount.GetCurrentAccountReference();
                 }
-                if (Datas().DatasByReference != null)
+                if (BasisHelper().DatasByReference != null)
                 {
-                    if (Datas().DatasByReference.ContainsKey(sReference))
+                    if (BasisHelper().DatasByReference.ContainsKey(sReference))
                     {
-                        K tObject = Datas().DatasByReference[sReference] as K;
+                        K tObject = BasisHelper().DatasByReference[sReference] as K;
                         if (tObject.IsReacheableByAccount(sAccountReference))
                         {
                             rReturn = tObject;
@@ -1314,7 +1314,7 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             //Debug.Log("Datas() Datas count = " + Datas().Datas.Count);
-            K[] rReturn = FilterDatas(Datas().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
+            K[] rReturn = FilterDatas(BasisHelper().Datas, sAccountReference, sGameSave, sTrashed, sEnable, sIntegrity);
             //BTBBenchmark.Finish();
             return rReturn;
         }
@@ -1331,7 +1331,7 @@ namespace NetWorkedData
             //Debug.Log("chercher les data ");
             if (sDatasArray != null)
             {
-                if (Datas().kAccountDependent)
+                if (BasisHelper().kAccountDependent)
                 {
                     // autofill sAccountReference if necessary
                     if (string.IsNullOrEmpty(sAccountReference))
@@ -1340,7 +1340,7 @@ namespace NetWorkedData
                     }
                     //Debug.Log("chercher les data pour " + sAccountReference + " ");
                 }
-                if (Datas().ClassGameSaveDependent)
+                if (BasisHelper().ClassGameSaveDependent)
                 {
                     if (sGameSave == null)
                     {
@@ -1415,18 +1415,18 @@ namespace NetWorkedData
                     }
                     if (tInsert == true)
                     {
-                        if (Datas().kAccountDependent)
+                        if (BasisHelper().kAccountDependent)
                         {
                             // test game save if necessary
-                            if (Datas().GameSaveMethod != null && sGameSave != null)
+                            if (BasisHelper().GameSaveMethod != null && sGameSave != null)
                             {
                                 string tGameIndex = sGameSave.Reference;
-                                var tValue = Datas().ClassGameDependentProperties.GetValue(tDatas, null);
+                                var tValue = BasisHelper().ClassGameDependentProperties.GetValue(tDatas, null);
                                 if (tValue == null)
                                 {
                                     tValue = string.Empty;
                                 }
-                                string tSaveIndex = Datas().GameSaveMethod.Invoke(tValue, null) as string;
+                                string tSaveIndex = BasisHelper().GameSaveMethod.Invoke(tValue, null) as string;
                                 if (tSaveIndex != tGameIndex)
                                 {
                                     tInsert = false;
@@ -1435,7 +1435,7 @@ namespace NetWorkedData
                             if (tInsert == true)
                             {
                                 tInsert = false; // research by default false and true when found first solution
-                                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in Datas().AccountMethodDico)
+                                foreach (KeyValuePair<PropertyInfo, MethodInfo> tInfos in BasisHelper().AccountMethodDico)
                                 {
                                     var tValue = tInfos.Key.GetValue(tDatas, null);
                                     string tAccountValue = tInfos.Value.Invoke(tValue, null) as string;
@@ -1499,11 +1499,11 @@ namespace NetWorkedData
         {
             List<NWDTypeClass> tTestList = new List<NWDTypeClass>();
             sInternalKey = NWDToolbox.TextProtect(sInternalKey);
-            if (Datas().DatasByInternalKey.ContainsKey(sInternalKey) == true)
+            if (BasisHelper().DatasByInternalKey.ContainsKey(sInternalKey) == true)
             {
-                tTestList.AddRange(Datas().DatasByInternalKey[sInternalKey]);
+                tTestList.AddRange(BasisHelper().DatasByInternalKey[sInternalKey]);
             }
-            if (Datas().kAccountDependent)
+            if (BasisHelper().kAccountDependent)
             {
                 // autofill sAccountReference if necessary
                 if (string.IsNullOrEmpty(sAccountReference))
@@ -1512,7 +1512,7 @@ namespace NetWorkedData
                 }
                 //Debug.Log("chercher les data pour " + sAccountReference + " ");
             }
-            if (Datas().ClassGameSaveDependent)
+            if (BasisHelper().ClassGameSaveDependent)
             {
                 if (sGameSave == null)
                 {
@@ -1551,8 +1551,8 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_LoadFromDatabase)]
         public static void LoadFromDatabase()
         {
-            NWDDatas tTypeInfos = NWDDatas.FindTypeInfos(ClassType());
-            tTypeInfos = Datas();
+            NWDBasisHelper tTypeInfos = NWDBasisHelper.FindTypeInfos(ClassType());
+            tTypeInfos = BasisHelper();
             // Reset the Handler of datas index
             tTypeInfos.ResetDatas();
 

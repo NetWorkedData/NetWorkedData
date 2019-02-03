@@ -203,7 +203,7 @@ namespace NetWorkedData
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
-                NWDDatas tDatasToTest = NWDDatas.FindTypeInfos(typeof(NWDParameter));
+                NWDBasisHelper tDatasToTest = NWDBasisHelper.FindTypeInfos(typeof(NWDParameter));
                 if (tDatasToTest.WebModelSQLOrder.ContainsKey(tWS.Key) == false)
                 {
                     bool tV = EditorGUILayout.Toggle("(WebService " + tWS.Key.ToString() + " unused)", tWS.Value);

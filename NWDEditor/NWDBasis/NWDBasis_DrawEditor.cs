@@ -27,9 +27,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static void SelectedFirstObjectInTable(EditorWindow sEditorWindow)
         {
-            if (Datas().EditorTableDatas.Count > 0)
+            if (BasisHelper().EditorTableDatas.Count > 0)
             {
-                K sObject = Datas().EditorTableDatas.ElementAt(0) as K;
+                K sObject = BasisHelper().EditorTableDatas.ElementAt(0) as K;
                 //int tNextObjectIndex = Datas().ObjectsByReferenceList.IndexOf(tNextReference);
                 SetObjectInEdition(sObject);
                 sEditorWindow.Focus();
@@ -57,7 +57,7 @@ namespace NetWorkedData
             NWDBasis<K> rObject = null;
             if (!string.IsNullOrEmpty(sClassPHP) && !string.IsNullOrEmpty(sReference))
             {
-                if (sClassPHP == Datas().ClassNamePHP)
+                if (sClassPHP == BasisHelper().ClassNamePHP)
                 {
                     K tObj = NWDBasis<K>.GetDataByReference(sReference);
                     rObject = tObj;
@@ -79,7 +79,7 @@ namespace NetWorkedData
             else
             {
 
-                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDDatas.FindTypeInfos(tObject.GetType()).ClassNamePHP);
+                EditorPrefs.SetString(K_EDITOR_LAST_TYPE_KEY, NWDBasisHelper.FindTypeInfos(tObject.GetType()).ClassNamePHP);
                 EditorPrefs.SetString(K_EDITOR_LAST_REFERENCE_KEY, tObject.Reference);
             }
             //Debug.Log("NWDBasis<K> SaveObjectInEdition() NWD_LastTypeEdited : " + EditorPrefs.GetString(K_EDITOR_LAST_TYPE_KEY));
@@ -326,7 +326,7 @@ namespace NetWorkedData
                         }
                         if (tActualGroupReference != null)
                         {
-                            tDraw = tActualGroupReference.IsDrawable(Datas().ClassName);
+                            tDraw = tActualGroupReference.IsDrawable(BasisHelper().ClassName);
                         }
                         else
                         {
@@ -348,7 +348,7 @@ namespace NetWorkedData
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
-                            tActualDraw = tReference.GetDrawable(Datas().ClassName);
+                            tActualDraw = tReference.GetDrawable(BasisHelper().ClassName);
                             if (tReducible == true)
                             {
                                 if (tBold == true)
@@ -374,8 +374,8 @@ namespace NetWorkedData
                                     }
                                 }
                             }
-                            tReference.SetDrawable(Datas().ClassName, tActualDraw);
-                            tDraw = tReference.IsDrawable(Datas().ClassName);
+                            tReference.SetDrawable(BasisHelper().ClassName, tActualDraw);
+                            tDraw = tReference.IsDrawable(BasisHelper().ClassName);
                         }
                         tReference.Parent = tActualGroupReference;
                         tActualGroupReference = tReference;
@@ -601,7 +601,7 @@ namespace NetWorkedData
                 {
                     tScrollBarMarge = 20.0f;
                 }
-                Datas().ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, Datas().ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, tHeightContent));
+                BasisHelper().ObjectEditorScrollPosition = GUI.BeginScrollView(sInRect, BasisHelper().ObjectEditorScrollPosition, new Rect(0, 0, sInRect.width - tScrollBarMarge, tHeightContent));
 
                 tWidth = sInRect.width - tScrollBarMarge - NWDConstants.kFieldMarge * 2;
                 tX = NWDConstants.kFieldMarge;
@@ -681,7 +681,7 @@ namespace NetWorkedData
                         }
                         if (tActualGroupReference != null)
                         {
-                            tDraw = tActualGroupReference.IsDrawable(Datas().ClassName);
+                            tDraw = tActualGroupReference.IsDrawable(BasisHelper().ClassName);
                         }
                         else
                         {
@@ -709,7 +709,7 @@ namespace NetWorkedData
                             bool tBold = tReference.mBoldHeader;
                             bool tReducible = tReference.mReducible;
                             bool tActualDraw = tReference.mOpen;
-                            tActualDraw = tReference.GetDrawable(Datas().ClassName);
+                            tActualDraw = tReference.GetDrawable(BasisHelper().ClassName);
                             if (tReducible == true)
                             {
                                 if (tBold == true)
@@ -739,8 +739,8 @@ namespace NetWorkedData
                                     }
                                 }
                             }
-                            tReference.SetDrawable(Datas().ClassName, tActualDraw);
-                            tDraw = tReference.IsDrawable(Datas().ClassName);
+                            tReference.SetDrawable(BasisHelper().ClassName, tActualDraw);
+                            tDraw = tReference.IsDrawable(BasisHelper().ClassName);
                             EditorGUI.indentLevel++;
                         }
                         tReference.Parent = tActualGroupReference;
@@ -1236,7 +1236,7 @@ namespace NetWorkedData
             //            GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
             string tTitle = InternalKey;
 
-            if (Datas().WebModelChanged == true)
+            if (BasisHelper().WebModelChanged == true)
             {
                 string tTEXTWARNING = "<b><color=red>"+NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 GUIContent tCC = new GUIContent(tTEXTWARNING);
@@ -1251,7 +1251,7 @@ namespace NetWorkedData
                 tY += tWarningBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
 
-            if (Datas().WebModelDegraded == true)
+            if (BasisHelper().WebModelDegraded == true)
             {
                 string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
                 GUIContent tCC = new GUIContent(tTEXTWARNING);
@@ -1272,7 +1272,7 @@ namespace NetWorkedData
 
             if (string.IsNullOrEmpty(tTitle))
             {
-                tTitle = "Unamed " + Datas().ClassNamePHP + string.Empty;
+                tTitle = "Unamed " + BasisHelper().ClassNamePHP + string.Empty;
                 //                tTitle = ClassNamePHP () + "'s Object";
             }
             if (InError == true)
@@ -1305,7 +1305,7 @@ namespace NetWorkedData
             }
             tY += tTitleLabelStyle.fixedHeight + NWDConstants.kFieldMarge * 2;
 
-            Texture2D tTextureOfClass = Datas().TextureOfClass();
+            Texture2D tTextureOfClass = BasisHelper().TextureOfClass();
             if (tTextureOfClass != null)
             {
                 GUI.DrawTexture(new Rect(tX + tWidth / 2.0F - 16, tY, 32, 32), tTextureOfClass);
@@ -1463,7 +1463,7 @@ namespace NetWorkedData
             //            GUI.Label (new Rect (tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_INFORMATIONS, tBoldLabelStyle);
 
 
-            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), Datas().ClassNamePHP + "'s Object", tBoldLabelStyle);
+            GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), BasisHelper().ClassNamePHP + "'s Object", tBoldLabelStyle);
             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             //GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE + Reference, tMiniLabelStyle);
@@ -1472,14 +1472,14 @@ namespace NetWorkedData
             GUI.Label(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_DM + NWDToolbox.TimeStampToDateTime(DM).ToString("yyyy/MM/dd HH:mm:ss"), tMiniLabelStyle);
             tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
 
-            Datas().kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), Datas().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, tFoldoutStyle);
+            BasisHelper().kSyncAndMoreInformations = EditorGUI.Foldout(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), BasisHelper().kSyncAndMoreInformations, NWDConstants.K_APP_BASIS_INFORMATIONS, tFoldoutStyle);
             tY += tFoldoutStyle.fixedHeight + NWDConstants.kFieldMarge;
 
             tY += NWDConstants.kFieldMarge;
 
             //tX = NWDConstants.kFieldMarge;
 
-            if (Datas().kSyncAndMoreInformations)
+            if (BasisHelper().kSyncAndMoreInformations)
             {
 
                 EditorGUI.EndDisabledGroup();
@@ -1673,9 +1673,9 @@ namespace NetWorkedData
                     int tWebModel = 0;
                     if (tKeyValue.Value == true)
                     {
-                        if (Datas().WebServiceWebModel.ContainsKey(tKeyValue.Key))
+                        if (BasisHelper().WebServiceWebModel.ContainsKey(tKeyValue.Key))
                         {
-                            tWebModel = Datas().WebServiceWebModel[tKeyValue.Key];
+                            tWebModel = BasisHelper().WebServiceWebModel[tKeyValue.Key];
                         if (tWebServicesInt.Contains(tWebModel) == false)
                         {
                             tWebServicesInt.Add(tWebModel);
@@ -1972,13 +1972,13 @@ namespace NetWorkedData
                 NWDBasis<K> tNexObject = DuplicateData(true, NWDWritingMode.ByEditorDefault);
                 //AddObjectInListOfEdition(tNexObject);
                 //NWDDataManager.SharedInstance().AddObjectToUpdateQueue(tNexObject);
-                if (Datas().m_SearchTag != NWDBasisTag.NoTag)
+                if (BasisHelper().m_SearchTag != NWDBasisTag.NoTag)
                 {
-                    tNexObject.Tag = Datas().m_SearchTag;
+                    tNexObject.Tag = BasisHelper().m_SearchTag;
                     tNexObject.UpdateData();
                 }
                 SetObjectInEdition(tNexObject);
-                Datas().m_PageSelected = Datas().m_MaxPage * 3;
+                BasisHelper().m_PageSelected = BasisHelper().m_MaxPage * 3;
                 NWDDataManager.SharedInstance().DataQueueExecute();
                 NWDDataManager.SharedInstance().RepaintWindowsInManager(this.GetType());
             }

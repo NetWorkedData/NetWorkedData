@@ -27,9 +27,9 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis<K> NodeCardAnalyze() Ananlyze type " + ClassNamePHP());
             // insert informations
-            sCard.ClassTexture = Datas().TextureOfClass();
+            sCard.ClassTexture = BasisHelper().TextureOfClass();
             sCard.ReferenceString = Reference;
-            sCard.TypeString = Datas().ClassNamePHP;
+            sCard.TypeString = BasisHelper().ClassNamePHP;
             sCard.InternalKeyString = InternalKey;
             sCard.Width = AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth());
             sCard.ParentDocument.SetWidth(AddOnNodeDrawWidth(sCard.ParentDocument.GetWidth()));

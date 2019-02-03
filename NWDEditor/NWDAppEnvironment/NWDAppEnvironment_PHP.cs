@@ -121,7 +121,7 @@ namespace NetWorkedData
             {
                 tFolders.Clear();
                 tFilesAndDatas.Clear();
-                NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
+                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 tFolders.Add(DBFolder(sWriteOnDisk) + tDatas.ClassNamePHP);
                 EditorUtility.DisplayProgressBar(tTitle, "Create " + tType.Name + " files", tOperation++ / tCountClass);
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.M_BasisCreatePHP);
@@ -350,7 +350,7 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tManagementFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_MANAGEMENT_FILE + "');");
             }
             tManagementFile.AppendLine(NWD.K_CommentSeparator);
@@ -362,7 +362,7 @@ namespace NetWorkedData
             }
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
             {
-                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tManagementFile.AppendLine("Create" + tClassName + "Table ();");
             }
             tManagementFile.AppendLine("}");
@@ -428,7 +428,7 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
             {
-                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tWebServices.AppendLine("if (isset($dico['" + tClassName + "']))\n{");
                 tWebServices.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                 tWebServices.AppendLine("Synchronize" + tClassName + " ($dico, $uuid, $admin);");
@@ -441,7 +441,7 @@ namespace NetWorkedData
                 tWebServices.AppendLine("if ($admin == true)\n{");
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
                 {
-                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                     tWebServices.AppendLine("if (isset($dico['" + tClassName + "']))\n{");
                     tWebServices.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                     tWebServices.AppendLine("Synchronize" + tClassName + " ($dico, $uuid, $admin);");
@@ -480,7 +480,7 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList)
             {
-                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tWebServicesAnnexe.AppendLine("if (isset($dico['" + tClassName + "']))\n{");
                 tWebServicesAnnexe.AppendLine("include_once ( $PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                 tWebServicesAnnexe.AppendLine("Synchronize" + tClassName + " ($dico, $uuid, $admin);");
@@ -492,7 +492,7 @@ namespace NetWorkedData
                 tWebServicesAnnexe.AppendLine("if ($admin == true)\n{");
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeUnSynchronizedList)
                 {
-                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                     tWebServicesAnnexe.AppendLine("if (isset($dico['" + tClassName + "']))\n{");
                     tWebServicesAnnexe.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                     tWebServicesAnnexe.AppendLine("Synchronize" + tClassName + " ($dico, $uuid, $admin);");
@@ -566,7 +566,7 @@ namespace NetWorkedData
                 }
                 if (tCanBeAddoned == true)
                 {
-                    string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                    string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                     tWebServicesAddon.AppendLine("if (isset($REF_NEEDED['" + tClassName + "']))\n{");
                     tWebServicesAddon.AppendLine("include_once ( $PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                     tWebServicesAddon.AppendLine("GetDatas" + tClassName + "ByReferences(array_keys($REF_NEEDED['" + tClassName + "']));");
@@ -615,7 +615,7 @@ namespace NetWorkedData
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
                 //              foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
-                string tClassName = NWDDatas.FindTypeInfos(tType).ClassNamePHP;
+                string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tAccountServices.AppendLine("$dico['" + tClassName + "']['sync'] = true;");
                 tAccountServices.AppendLine("include_once ( $PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");
                 tAccountServices.AppendLine("Synchronize" + tClassName + " ($dico, $uuid, false);");

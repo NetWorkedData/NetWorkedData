@@ -130,7 +130,7 @@ namespace NetWorkedData
         public static NWDGameSave CurrentForAccount(string sAccountReference)
         {
             NWDGameSave rParty = null;
-            foreach (NWDGameSave tParty in Datas().Datas)
+            foreach (NWDGameSave tParty in BasisHelper().Datas)
             {
                 if (tParty.Account.GetReference() == sAccountReference)
                 {
@@ -146,7 +146,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void SetCurrent()
         {
-            foreach (NWDGameSave tParty in Datas().Datas)
+            foreach (NWDGameSave tParty in BasisHelper().Datas)
             {
                 if (tParty.Account.GetReference() == NWDAccount.GetCurrentAccountReference() && tParty.IsEnable() && tParty.IsTrashed() == false && tParty.TestIntegrity() == true)
                 {
@@ -209,7 +209,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
-                    NWDDatas.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchAccount = Account.GetReference();
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }
@@ -218,7 +218,7 @@ namespace NetWorkedData
             {
                 foreach (Type tType in NWDDataManager.SharedInstance().mTypeLoadedList)
                 {
-                    NWDDatas.FindTypeInfos(tType).m_SearchGameSave = Reference;
+                    NWDBasisHelper.FindTypeInfos(tType).m_SearchGameSave = Reference;
                     NWDDataManager.SharedInstance().RepaintWindowsInManager(tType);
                 }
             }

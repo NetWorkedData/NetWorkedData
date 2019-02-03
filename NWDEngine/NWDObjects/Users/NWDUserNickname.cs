@@ -328,7 +328,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

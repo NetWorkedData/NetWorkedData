@@ -459,12 +459,12 @@ namespace NetWorkedData
 
             string sScript = "" +
                 "// start Addon \n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterProposition.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerHash = '';\n" +
                 "$tServerPropositions = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterHash + "`, `" + t_THIS_Propositions + "` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` " +
+                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterHash + "`, `" + t_THIS_Propositions + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
                 "WHERE " +
                 "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';" +
                 "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
@@ -493,7 +493,7 @@ namespace NetWorkedData
                 ")\n" +
                     "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -505,7 +505,7 @@ namespace NetWorkedData
                            "$sReplaces[" + t_THIS_Index_BarterStatus + "]=" + ((int)NWDTradeStatus.Waiting).ToString() + ";\n" +
                         "$sReplaces[" + t_THIS_Index_Propositions + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-                        "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO NONE 
@@ -524,14 +524,14 @@ namespace NetWorkedData
                         "$sReplaces[" + t_THIS_Index_Propositions + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_PropositionsCounter + "]='0';\n" +
                         "$sReplaces[" + t_THIS_Index_WinnerProposition + "]='';\n" +
-                        "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO CANCEL 
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -554,7 +554,7 @@ namespace NetWorkedData
                                     "{\n" +
                                         // START CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I need to put all propositions in Expired\n" +
-                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` SET " +
+                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -573,7 +573,7 @@ namespace NetWorkedData
                                             "}\n" +
                                         "else" +
                                             "{\n" +
-                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "`" +
+                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
                                                 "WHERE " +
                                                 "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
                                                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
@@ -590,16 +590,16 @@ namespace NetWorkedData
                                                         "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
                                                             "{\n" +
                                                                 "myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "Integrity" + NWDUserBarterProposition.Datas().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
+                                                                "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
                                                             "}\n" +
                                                     "}\n" +
                                             "}\n" +
                                         // FINISH CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I can integrate data to expired!\n" +
-                                        "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
@@ -609,7 +609,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Deal).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryDeal = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                        "$tQueryDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -634,7 +634,7 @@ namespace NetWorkedData
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                     "// I need to put all propositions in Expired\n" +
-                                        "$tQueryAccepted = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` SET " +
+                                        "$tQueryAccepted = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -658,7 +658,7 @@ namespace NetWorkedData
                                                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                                                 "if ($tNumberOfRow == 1)\n" +
                                                     "{\n" +
-                                                        "$tQueryAcceptedDeal = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                                                        "$tQueryAcceptedDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
                                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -677,7 +677,7 @@ namespace NetWorkedData
                                                     "}\n" +
                                                 "else\n" +
                                                     "{\n" +
-                                                        "$tQueryExpiredDeal = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                                                        "$tQueryExpiredDeal = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
                                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -697,7 +697,7 @@ namespace NetWorkedData
                                             "}\n" +
                                         // START CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I need to put all propositions in Expired\n" +
-                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "` SET " +
+                                        "$tQueryExpired = 'UPDATE `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "` SET " +
                                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -716,7 +716,7 @@ namespace NetWorkedData
                                             "}\n" +
                                         "else" +
                                             "{\n" +
-                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.Datas().ClassNamePHP + "`" +
+                                                "$tQueryExpired = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "`" +
                                                 "WHERE " +
                                                 "`" + tBarterRequest + "` = \\''.$SQL_CON->real_escape_string($tReference).'\\' " +
                                                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Expired).ToString() + "\\' " +
@@ -733,16 +733,16 @@ namespace NetWorkedData
                                                         "while ($tRowExpired = $tResultExpired->fetch_row())\n" +
                                                             "{\n" +
                                                                 "myLog('cancel proposition too : ref = '.$tRowExpired[0], __FILE__, __FUNCTION__, __LINE__);\n" +
-                                                                "Integrity" + NWDUserBarterProposition.Datas().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
+                                                                "Integrity" + NWDUserBarterProposition.BasisHelper().ClassNamePHP + "Reevalue ($tRowExpired[0]);\n" +
                                                             "}\n" +
                                                     "}\n" +
                                             "}\n" +
                                         // FINISH CANCEL PUT PROPOSITION TO EXPIRED
                                         "// I can integrate data to expired!\n" +
-                                        "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "//stop the function!\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
@@ -758,7 +758,7 @@ namespace NetWorkedData
                 "else\n" +
                       "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
                 "// finish Addon \n";
@@ -773,7 +773,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

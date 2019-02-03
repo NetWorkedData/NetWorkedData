@@ -126,7 +126,7 @@ namespace NetWorkedData
         public static string DGPRExtract()
         {
             Debug.Log("NWDBasis<K> DGPRExtract()");
-            string rExtract = "{\"" + Datas().ClassNamePHP + "\"" + " : [\n\r";
+            string rExtract = "{\"" + BasisHelper().ClassNamePHP + "\"" + " : [\n\r";
             List<string> tList = new List<string>();
             foreach (K tObject in FindDatas())
             {

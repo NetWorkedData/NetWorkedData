@@ -61,7 +61,7 @@ namespace NetWorkedData
         public static void CleanTable()
         {
             List<object> tObjectsListToDelete = new List<object>();
-            foreach (NWDBasis<K> tObject in Datas().Datas)
+            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
             {
                 //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
                 if (tObject.XX > 0)
@@ -99,7 +99,7 @@ namespace NetWorkedData
         {
             List<object> tObjectsListToDelete = new List<object>();
             // clean object not mine!
-            foreach (NWDBasis<K> tObject in Datas().Datas)
+            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
             {
                 //if (tObject.XX > 0 && tObject.DevSync > 0 && tObject.PreprodSync > 0 && tObject.ProdSync > 0)
                 if (tObject.IsReacheableByAccount() == false)
@@ -133,7 +133,7 @@ namespace NetWorkedData
         {
             NWDDataManager.SharedInstance().MigrateTable(ClassType(), AccountDependent());
             //List<object> tObjectsListToDelete = new List<object>();
-            foreach (NWDBasis<K> tObject in Datas().Datas)
+            foreach (NWDBasis<K> tObject in BasisHelper().Datas)
             {
                 tObject.UpdateData();
             }

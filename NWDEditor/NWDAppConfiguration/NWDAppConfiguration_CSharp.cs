@@ -119,7 +119,7 @@ namespace NetWorkedData
             rReturn.AppendLine("{");
             foreach (Type tType in NWDTypeLauncher.AllTypes)
             {
-                NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
+                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
                     rReturn.Append(tDatas.CreationCSHARPCallLoader());
@@ -130,7 +130,7 @@ namespace NetWorkedData
             rReturn.AppendLine("//-------------------------------------------------------------------------------------------------------------");
             foreach (Type tType in NWDTypeLauncher.AllTypes)
             {
-                NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
+                NWDBasisHelper tDatas = NWDBasisHelper.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
                     rReturn.AppendLine(tDatas.CreationCSHARP());

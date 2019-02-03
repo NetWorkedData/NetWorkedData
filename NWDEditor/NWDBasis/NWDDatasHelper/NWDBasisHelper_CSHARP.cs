@@ -18,7 +18,7 @@ using System.Text;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDDatas
+    public partial class NWDBasisHelper
     {
         //-------------------------------------------------------------------------------------------------------------
         public string CreationCSHARPCallLoader()
@@ -40,8 +40,8 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine("public void " + ClassNamePHP + NWD.K_LOADER + "()");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("NWDDatas tDatas = null;");
-            rReturn.AppendLine("tDatas = NWDDatas.FindTypeInfos(typeof(" + ClassNamePHP + "));");
+            rReturn.AppendLine("NWDDatasHelper tDatas = null;");
+            rReturn.AppendLine("tDatas = NWDDatasHelper.FindTypeInfos(typeof(" + ClassNamePHP + "));");
             rReturn.AppendLine("if (tDatas!=null)");
             rReturn.AppendLine("{");
             rReturn.AppendLine("tDatas.SaltStart = \"" + SaltStart.Replace("}", "").Replace("{", "") + "\";");

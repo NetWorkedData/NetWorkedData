@@ -26,8 +26,8 @@ namespace NetWorkedData
         public static void CreateAllError()
         {
             // Create error in local data base
-            string tClassName = Datas().ClassTableName;
-            string tTrigramme = Datas().ClassTrigramme;
+            string tClassName = BasisHelper().ClassTableName;
+            string tTrigramme = BasisHelper().ClassTrigramme;
             NWDError.CreateGenericError(tClassName, tTrigramme + "x01", "Error in " + tClassName, "error in request creation in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(tClassName, tTrigramme + "x02", "Error in " + tClassName, "error in request creation add primary key in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
             NWDError.CreateGenericError(tClassName, tTrigramme + "x03", "Error in " + tClassName, "error in request creation add autoincrement modify in " + tClassName + "", "OK", NWDErrorType.LogVerbose, NWDBasisTag.TagServerCreated);
@@ -54,9 +54,9 @@ namespace NetWorkedData
         {
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
 
-            string tClassName = Datas().ClassNamePHP;
-            string tTrigramme = Datas().ClassTrigramme;
-            int tWebBuildUsed = Datas().LastWebBuild;
+            string tClassName = BasisHelper().ClassNamePHP;
+            string tTrigramme = BasisHelper().ClassTrigramme;
+            int tWebBuildUsed = BasisHelper().LastWebBuild;
 
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
@@ -74,8 +74,8 @@ namespace NetWorkedData
                 tFile.AppendLine("myLog('DEBUG TRACE', __FILE__, __FUNCTION__, __LINE__);");
             }
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
-            tFile.AppendLine("$SQL_" + tClassName + "_SaltA = '" + Datas().SaltStart + "';");
-            tFile.AppendLine("$SQL_" + tClassName + "_SaltB = '" + Datas().SaltEnd + "';");
+            tFile.AppendLine("$SQL_" + tClassName + "_SaltA = '" + BasisHelper().SaltStart + "';");
+            tFile.AppendLine("$SQL_" + tClassName + "_SaltB = '" + BasisHelper().SaltEnd + "';");
             tFile.AppendLine("$SQL_" + tClassName + "_WebService = " + tWebBuildUsed + ";");
             tFile.AppendLine("}");
             tFile.AppendLine("//Run this function to install globals of theses datas!");
@@ -112,8 +112,8 @@ namespace NetWorkedData
         public static Dictionary<string, string> CreatePHPManagement(NWDAppEnvironment sEnvironment)
         {
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
-            string tClassName = Datas().ClassNamePHP;
-            string tTrigramme = Datas().ClassTrigramme;
+            string tClassName = BasisHelper().ClassNamePHP;
+            string tTrigramme = BasisHelper().ClassTrigramme;
             Type tType = ClassType();
             TableMapping tTableMapping = new TableMapping(tType);
             string tTableName = tTableMapping.TableName;
@@ -333,9 +333,9 @@ namespace NetWorkedData
         public static Dictionary<string, string> CreatePHPSynchronisation(NWDAppEnvironment sEnvironment)
         {
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
-            string tClassName = Datas().ClassNamePHP;
-            string tTableName = Datas().ClassNamePHP;
-            string tTrigramme = Datas().ClassTrigramme;
+            string tClassName = BasisHelper().ClassNamePHP;
+            string tTableName = BasisHelper().ClassNamePHP;
+            string tTrigramme = BasisHelper().ClassTrigramme;
             Type tType = ClassType();
             StringBuilder tFile = new StringBuilder(string.Empty);
             //========= SYNCHRONIZATION FUNCTIONS FILE
@@ -1146,7 +1146,7 @@ namespace NetWorkedData
         public static Dictionary<string, string> CreatePHP(NWDAppEnvironment sEnvironment, bool sPrepareOrder = true)
         {
             Dictionary<string, string> rReturn = new Dictionary<string, string>();
-            Datas().PrefLoad();
+            BasisHelper().PrefLoad();
             if (sPrepareOrder == true)
             {
                 PrepareOrders();

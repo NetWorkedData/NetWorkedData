@@ -348,11 +348,11 @@ namespace NetWorkedData
 
             string sScript = "" +
                 "// debut find \n" +
-                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
+                "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
                 // get the actual state
                 "$tServerStatut = " + ((int)NWDTradeStatus.None).ToString() + ";\n" +
                 "$tServerHash = '';\n" +
-                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterRequestHash + "` FROM `'.$ENV.'_" + Datas().ClassNamePHP + "` " +
+                "$tQueryStatus = 'SELECT `" + t_THIS_BarterStatus + "`, `" + t_THIS_BarterRequestHash + "` FROM `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` " +
                 "WHERE " +
                 "`Reference` = \\''.$SQL_CON->real_escape_string($tReference).'\\';';" +
                 "$tResultStatus = $SQL_CON->query($tQueryStatus);\n" +
@@ -380,7 +380,7 @@ namespace NetWorkedData
                 " || $sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancelled).ToString() + ")\n" +
                     "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
 
@@ -396,7 +396,7 @@ namespace NetWorkedData
                         "$sReplaces[" + t_THIS_Index_ItemsSend + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_BarterRequestHash + "]='';\n" +
                         "$sReplaces[" + t_THIS_Index_BarterRequest + "]='';\n" +
-                        "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
+                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replaces ($sCsvList, $sReplaces);\n" +
                         "myLog('PUT TO NONE FROM EXPIRED OR ACCEPTED', __FILE__, __FUNCTION__, __LINE__);\n" +
                     "}\n" +
 
@@ -404,7 +404,7 @@ namespace NetWorkedData
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Active).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.None).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` SET " +
+                        "$tQueryTrade = 'UPDATE `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` SET " +
                         " `DM` = \\''.$TIME_SYNC.'\\'," +
                         " `DS` = \\''.$TIME_SYNC.'\\'," +
                         " `'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\'," +
@@ -434,24 +434,24 @@ namespace NetWorkedData
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
                                         "// I need update the proposition too !\n" +
-                                        "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\');\n" +
+                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Waiting).ToString() + "\');\n" +
                                         "myLog('I need update the proposition waiting', __FILE__, __FUNCTION__, __LINE__);\n" +
-                                        "Integrity" + NWDUserBarterRequest.Datas().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
+                                        "Integrity" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "Reevalue ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
                                     "}\n" +
                                 "else\n" +
                                     "{\n" +
-                                        "$sCsvList = Integrity" + Datas().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
+                                        "$sCsvList = Integrity" + BasisHelper().ClassNamePHP + "Replace ($sCsvList, " + t_THIS_Index_BarterStatus + ", \'" + ((int)NWDTradeStatus.Expired).ToString() + "\');\n" +
                                         "myLog('I need update the proposition refused ... too late!', __FILE__, __FUNCTION__, __LINE__);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
+                        "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n" +
                     "}\n" +
 
                 // change the statut from CSV TO CANCEL 
                 "else if ($sCsvList[" + t_THIS_Index_BarterStatus + "] == " + ((int)NWDTradeStatus.Cancel).ToString() + " && " +
                 "$tServerStatut == " + ((int)NWDTradeStatus.Waiting).ToString() + ")\n" +
                     "{\n" +
-                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + Datas().ClassNamePHP + "` SET " +
+                        "$tQueryCancelable = 'UPDATE `'.$ENV.'_" + BasisHelper().ClassNamePHP + "` SET " +
                         "`DM` = \\''.$TIME_SYNC.'\\', " +
                         "`DS` = \\''.$TIME_SYNC.'\\', " +
                         "`'.$ENV.'Sync` = \\''.$TIME_SYNC.'\\', " +
@@ -472,10 +472,10 @@ namespace NetWorkedData
                                 "$tNumberOfRow = $SQL_CON->affected_rows;\n" +
                                 "if ($tNumberOfRow == 1)\n" +
                                     "{\n" +
-                                        "Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
+                                        "Integrity" + BasisHelper().ClassNamePHP + "Reevalue ($tReference);\n" +
                                     "}\n" +
                             "}\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "myLog('Break!', __FILE__, __FUNCTION__, __LINE__);\n" +
                         "return;\n" +
                     "}\n" +
@@ -491,7 +491,7 @@ namespace NetWorkedData
                 "else\n" +
                     "{\n" +
                         //"Integrity" + Datas().ClassNamePHP + "Reevalue ($tReference);\n" +
-                        "GetDatas" + Datas().ClassNamePHP + "ByReference ($tReference);\n" +
+                        "GetDatas" + BasisHelper().ClassNamePHP + "ByReference ($tReference);\n" +
                         "return;\n" +
                     "}\n" +
                 "myLog('FINSIH ADD ON ... UPDATE FROM CSV', __FILE__, __FUNCTION__, __LINE__);\n" +
@@ -506,12 +506,12 @@ namespace NetWorkedData
             int t_THIS_Index_BarterRequest = CSV_IndexOf(t_THIS_BarterRequest);
 
             return "// write your php script here to update after sync on server\n " +
-                "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n";
+                "GetDatas" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n";
         }
         //-------------------------------------------------------------------------------------------------------------
         public static string AddonPhpSpecialCalculate(NWDAppEnvironment AppEnvironment)
         {
-            return "// write your php script here to special operation, example : \n$REP['" + Datas().ClassName + " Special'] ='success!!!';\n";
+            return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif

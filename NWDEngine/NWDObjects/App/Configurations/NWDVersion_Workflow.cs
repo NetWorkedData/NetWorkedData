@@ -241,9 +241,9 @@ namespace NetWorkedData
             string tVersionString = "0.00.00";
             int tVersionInt = 0;
             int.TryParse(tVersionString.Replace(".", string.Empty), out tVersionInt);
-            if (NWDVersion.Datas() != null)
+            if (NWDVersion.BasisHelper() != null)
             {
-                foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
+                foreach (NWDVersion tVersionObject in NWDVersion.BasisHelper().Datas)
                 {
                     if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                     {
@@ -276,7 +276,7 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDVersion GetActualVersionForEnvironemt()");
             NWDVersion tVersion = null;
-            foreach (NWDVersion tVersionObject in NWDVersion.Datas().Datas)
+            foreach (NWDVersion tVersionObject in NWDVersion.BasisHelper().Datas)
             {
                 if (tVersionObject.TestIntegrity() == true && tVersionObject.AC == true && tVersionObject.Buildable == true)
                 {

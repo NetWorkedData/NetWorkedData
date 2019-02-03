@@ -121,7 +121,7 @@ namespace NetWorkedData
             }
             else
             {
-                Debug.LogWarning("ClassType() is null for " + Datas().ClassNamePHP);
+                Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
             }
             //BTBBenchmark.Finish();
             return rReturnObject as K;
@@ -136,14 +136,14 @@ namespace NetWorkedData
                 tAtt.Value = NWDAccount.GetCurrentAccountReference();
                 tPropInfo.SetValue(this, tAtt, null);
             }
-            if (Datas().ClassGameSaveDependent == true)
+            if (BasisHelper().ClassGameSaveDependent == true)
             {
                 NWDReferenceType<NWDGameSave> tAtt = new NWDReferenceType<NWDGameSave>();
                 if (NWDGameSave.Current() != null)
                 {
                     tAtt.SetReference(NWDGameSave.Current().Reference);
                 }
-                PropertyInfo tPropInfo = Datas().ClassGameDependentProperties;
+                PropertyInfo tPropInfo = BasisHelper().ClassGameDependentProperties;
                 tPropInfo.SetValue(this, tAtt, null);
             }
         }
@@ -191,7 +191,7 @@ namespace NetWorkedData
                     int tCounter = 1;
                     string tCopy = tOriginalKey + " (COPY " + tCounter + ")";
                     // search available internal key
-                    while (Datas().DatasByInternalKey.ContainsKey(tCopy) == true)
+                    while (BasisHelper().DatasByInternalKey.ContainsKey(tCopy) == true)
                     {
                         tCounter++;
                         tCopy = tOriginalKey + " (COPY " + tCounter + ")";
@@ -207,7 +207,7 @@ namespace NetWorkedData
                 }
                 else
                 {
-                    Debug.LogWarning("ClassType() is null for " + Datas().ClassNamePHP);
+                    Debug.LogWarning("ClassType() is null for " + BasisHelper().ClassNamePHP);
                 }
             }
             //BTBBenchmark.Finish();
@@ -414,7 +414,7 @@ namespace NetWorkedData
                         Debug.LogWarning("Object can't bypass the preview writing mode. Waiting this object will free.");
                         break;
                 }
-                if (Datas().DatasByReference.ContainsKey(this.Reference) == false)
+                if (BasisHelper().DatasByReference.ContainsKey(this.Reference) == false)
                 {
                     bool tDoInsert = true;
                     switch (sWritingMode)
@@ -441,7 +441,7 @@ namespace NetWorkedData
                         rReturn = true;
                         this.AddonInsertMe();
                         InsertDataOperation(sAutoDate);
-                        Datas().AddData(this);
+                        BasisHelper().AddData(this);
                         //AddObjectInListOfEdition(this);
                         WritingLockAdd();
                         WritingPending = NWDWritingPending.InsertInMemory;
@@ -656,7 +656,7 @@ namespace NetWorkedData
             this.AddonIndexMe();
                                    //UpdateObjectInListOfEdition(this);
 
-            Datas().UpdateData(this);
+            BasisHelper().UpdateData(this);
 
             bool tDoUpdate = true;
             switch (sWritingMode)
@@ -933,7 +933,7 @@ namespace NetWorkedData
                 this.AddonDeleteMe(); // call override method
                 this.AddonDesindexMe(); // call override method
                 DeleteDataOperation();
-                Datas().RemoveData(this);
+                BasisHelper().RemoveData(this);
                 //RemoveObjectInListOfEdition(this);
                 WritingLockAdd();
                 WritingPending = NWDWritingPending.DeleteInMemory;
@@ -1018,7 +1018,7 @@ namespace NetWorkedData
             WebserviceVersionCheckMe();
 #endif
             AddonIndexMe();
-            Datas().AddData(this);
+            BasisHelper().AddData(this);
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
