@@ -4,23 +4,12 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
 using BasicToolBox;
-
 using UnityEngine;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 //=====================================================================================================================
 namespace NetWorkedData
 {

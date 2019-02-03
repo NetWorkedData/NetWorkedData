@@ -22,25 +22,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public int LastWebBuild = 0;
         //-------------------------------------------------------------------------------------------------------------
-        // WebModel used by WebServiceBuild
-
         public bool WebModelChanged = false;
         public bool WebModelDegraded = false;
         public List<string> WebModelDegradationList = new List<string>();
-
-        public Dictionary<int, int> WS_Model = new Dictionary<int, int>(); // => use webmodel for webservicesbuild
-        // Properties order by WebModel
-        public Dictionary<int, List<string>> PropertiesOrderArrayBBB = new Dictionary<int, List<string>>(); // => PropertiesOrderArray !!!
-
-        public Dictionary<int, string> SQL_Order = new Dictionary<int, string>();  // => K . SLQSelect();   : to select Datas  =  CSV_OrderArray, with rewrite float, double, etc.
-
-
-        //public Dictionary<int, List<string>> IntegrityOrderArray = new Dictionary<int, List<string>>(); // => IntegrityOrderArray !!!
-        //public Dictionary<int, string[]> CSV_OrderArray = new Dictionary<int, string[]>(); // =>CSVAssemblyOrderArray 
-        //public Dictionary<int, string[]> SQL_OrderArray = new Dictionary<int, string[]>(); // =>SLQAssemblyOrderArray   : to update(/insert) datas  = CSV_OrderArray - "Reference" TODO : remove?
-        //public Dictionary<int, List<string>> SLQ_IntegrityOrder = new Dictionary<int, List<string>>();
-        //public Dictionary<int, List<string>> SLQ_IntegrityServerOrder = new Dictionary<int, List<string>>();
-        //public Dictionary<int, List<string>> AssemblyPropertiesList = new Dictionary<int, List<string>>();
+        public Dictionary<int, int> WS_Model = new Dictionary<int, int>();
+        public Dictionary<int, List<string>> PropertiesOrderArrayBBB = new Dictionary<int, List<string>>();
+        public Dictionary<int, string> SQL_Order = new Dictionary<int, string>();
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
         public string CreationCSHARPCallLoader()
@@ -94,42 +81,7 @@ namespace NetWorkedData
                     }
                 }
             }
-            //rReturn.AppendLine("tDatas.AssemblyPropertiesList.Clear();");
-            //foreach (KeyValuePair<int, List<string>> tKeyValue in AssemblyPropertiesList.OrderBy(x => x.Key))
-            //{
-            //    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
-            //    {
-            //        if (tApp.WSList[tKeyValue.Key] == true)
-            //        {
-            //            rReturn.AppendLine("tDatas.AssemblyPropertiesList.Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
-            //        }
-            //    }
-            //}
-
-            //rReturn.AppendLine("tDatas.CSV_OrderArray.Clear();");
-            //foreach (KeyValuePair<int, string[]> tKeyValue in CSV_OrderArray.OrderBy(x => x.Key))
-            //{
-            //    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
-            //    {
-            //        if (tApp.WSList[tKeyValue.Key] == true)
-            //        {
-            //            rReturn.AppendLine("tDatas.CSV_OrderArray.Add(" + tKeyValue.Key + ", new string[]{\"" + string.Join("\", \"", tKeyValue.Value) + "\"});");
-            //        }
-            //    }
-            //}
             rReturn.AppendLine("#if UNITY_EDITOR");
-            //rReturn.AppendLine("tDatas.SQL_OrderArray.Clear();");
-            //foreach (KeyValuePair<int, string[]> tKeyValue in SQL_OrderArray.OrderBy(x => x.Key))
-            //{
-            //    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
-            //    {
-            //        if (tApp.WSList[tKeyValue.Key] == true)
-            //        {
-            //            rReturn.AppendLine("tDatas.SQL_OrderArray.Add(" + tKeyValue.Key + ", new string[]{\"" + string.Join("\", \"", tKeyValue.Value) + "\"});");
-            //        }
-            //    }
-            //}
-
             rReturn.AppendLine("tDatas.SQL_Order.Clear();");
             foreach (KeyValuePair<int, string> tKeyValue in SQL_Order.OrderBy(x => x.Key))
             {
@@ -141,35 +93,9 @@ namespace NetWorkedData
                     }
                 }
             }
-
-            //rReturn.AppendLine("tDatas.SLQ_IntegrityOrder.Clear();");
-            //foreach (KeyValuePair<int, List<string>> tKeyValue in SLQ_IntegrityOrder.OrderBy(x => x.Key))
-            //{
-            //    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
-            //    {
-            //        if (tApp.WSList[tKeyValue.Key] == true)
-            //        {
-            //            rReturn.AppendLine("tDatas.SLQ_IntegrityOrder.Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
-            //        }
-            //    }
-            //}
-
-            //rReturn.AppendLine("tDatas.SLQ_IntegrityServerOrder.Clear();");
-            //foreach (KeyValuePair<int, List<string>> tKeyValue in SLQ_IntegrityServerOrder.OrderBy(x => x.Key))
-            //{
-            //    if (tApp.WSList.ContainsKey(tKeyValue.Key) == true)
-            //    {
-            //        if (tApp.WSList[tKeyValue.Key] == true)
-            //        {
-            //            rReturn.AppendLine("tDatas.SLQ_IntegrityServerOrder.Add(" + tKeyValue.Key + ", new List<string>(){\"" + string.Join("\", \"", tKeyValue.Value.ToArray()) + "\"});");
-            //        }
-            //    }
-            //}
-
             rReturn.AppendLine("tDatas.WebModelChanged = "+ ClassNamePHP +".ModelChanged();");
             rReturn.AppendLine("tDatas.WebModelDegraded = "+ ClassNamePHP +".ModelDegraded();");
             rReturn.AppendLine("#endif");
-
             rReturn.AppendLine("}");
             rReturn.AppendLine("}");
             BTBBenchmark.Finish();

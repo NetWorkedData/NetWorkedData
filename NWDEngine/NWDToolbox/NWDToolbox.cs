@@ -182,15 +182,31 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Clean the salt use in webservice (remove not alphanumeric char)
-        /// </summary>
-        /// <returns>The cleaner.</returns>
-        /// <param name="sString">S string.</param>
+        public static string URLCleaner(string sString)
+        {
+            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
+            Regex rgx = new Regex("[^a-zA-Z0-9-_\\:\\/\\.]");
+            return rgx.Replace(sString, string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string EmailCleaner(string sString)
+        {
+            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
+            Regex rgx = new Regex("[^a-zA-Z0-9-_@\\.]");
+            return rgx.Replace(sString, string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string UnixCleaner(string sString)
+        {
+            //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
+            Regex rgx = new Regex("[^a-zA-Z0-9-_]");
+            return rgx.Replace(sString, string.Empty);
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static string SaltCleaner(string sString)
         {
             //Regex rgx = new Regex ("[^a-zA-Z0-9 -\\_\\(\\)\\[\\]\\{\\}\\%\\,\\?\\;\\.\\:\\!\\&]");
-            Regex rgx = new Regex("[^a-zA-Z0-9 -_\\(\\)\\[\\]\\{\\}\\,\\;\\:\\!]");
+            Regex rgx = new Regex("[^a-zA-Z0-9 -_\\(\\)\\[\\]\\,\\;\\:\\!\\.]");
             return rgx.Replace(sString, string.Empty);
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -508,6 +524,7 @@ namespace NetWorkedData
                 AssetDatabase.ImportAsset(tEngineRootFolder);
             }
 
+            // TODO : rewrite with builderstring and NWD, NWDConstants
             if (tFindClassesFolder == false)
             {
                 string tFindClassesClass = string.Empty +

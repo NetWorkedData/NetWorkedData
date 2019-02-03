@@ -15,28 +15,28 @@ using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDAppEnvironment
-	{
-		//-------------------------------------------------------------------------------------------------------------
-		public static string MenuName ()
-		{
-			return NWDConstants.K_APP_ENVIRONMENT_MENU_NAME;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public partial class NWDAppEnvironment
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        public static string MenuName()
+        {
+            return NWDConstants.K_APP_ENVIRONMENT_MENU_NAME;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
         {
             //BTBBenchmark.Start();
             float tMinWidht = 270.0F;
             float tScrollMarge = 20.0f;
             int tColum = 1;
-            if (sEditorWindow.position.width-tScrollMarge >= tMinWidht*2)
+            if (sEditorWindow.position.width - tScrollMarge >= tMinWidht * 2)
             {
                 tColum = 2;
             }
 
 
-			EditorGUILayout.HelpBox ("Project configuration " + Environment + " for connection with server", MessageType.None);
+            EditorGUILayout.HelpBox("Project configuration " + Environment + " for connection with server", MessageType.None);
             if (tColum > 1)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -44,18 +44,18 @@ namespace NetWorkedData
 
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
 
-			EditorGUILayout.TextField ("AppName for server action "+ Environment, EditorStyles.boldLabel);
-			AppName = EditorGUILayout.TextField ("AppName", AppName);
-			PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
+            EditorGUILayout.TextField("AppName for server action " + Environment, EditorStyles.boldLabel);
+            AppName = EditorGUILayout.TextField("AppName", AppName);
+            PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
             AppProtocol = EditorGUILayout.TextField("URL Scheme to use (xxx://)", AppProtocol);
-			EditorGUILayout.TextField ("Security of Datas"+ Environment, EditorStyles.boldLabel);
-			DataSHAPassword = EditorGUILayout.TextField ("SHA Password", DataSHAPassword);
-			DataSHAVector = EditorGUILayout.TextField ("SHA Vector", DataSHAVector);
-			EditorGUILayout.TextField ("Hash of Datas"+ Environment, EditorStyles.boldLabel);
-			SaltStart = EditorGUILayout.TextField ("Salt start", SaltStart);
-            SaltEnd = EditorGUILayout.TextField ("Salt end", SaltEnd);
-            SaltServer = EditorGUILayout.TextField("Salt server", SaltServer);
-            SaltFrequency = EditorGUILayout.IntField ("Salt Frequency", SaltFrequency);
+            EditorGUILayout.TextField("Security of Datas" + Environment, EditorStyles.boldLabel);
+            DataSHAPassword = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Password", DataSHAPassword));
+            DataSHAVector = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("SHA Vector", DataSHAVector));
+            EditorGUILayout.TextField("Hash of Datas" + Environment, EditorStyles.boldLabel);
+            SaltStart = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt start", SaltStart));
+            SaltEnd = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt end", SaltEnd));
+            SaltServer = NWDToolbox.SaltCleaner(EditorGUILayout.TextField("Salt server", SaltServer));
+            SaltFrequency = EditorGUILayout.IntField("Salt Frequency", SaltFrequency);
             EditorGUILayout.TextField("Network Ping tester " + Environment, EditorStyles.boldLabel);
             AddressPing = EditorGUILayout.TextField("Address Ping (8.8.8.8)", AddressPing);
             EditorGUILayout.TextField("Server Params for " + Environment, EditorStyles.boldLabel);
@@ -90,22 +90,22 @@ namespace NetWorkedData
             MailOpenSSLVerifyMode = EditorGUILayout.TextField("Mail Open SSL Verify Mode", MailOpenSSLVerifyMode);
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-			EditorGUILayout.TextField ("Social Params for "+ Environment, EditorStyles.boldLabel);
-			FacebookAppID = EditorGUILayout.TextField ("FacebookAppID", FacebookAppID);
-			FacebookAppSecret = EditorGUILayout.TextField ("FacebookAppSecret", FacebookAppSecret);
-			GoogleAppKey = EditorGUILayout.TextField ("GoogleAppKey", GoogleAppKey);
-			UnityAppKey = EditorGUILayout.TextField ("UnityAppKey", UnityAppKey);
-			TwitterAppKey = EditorGUILayout.TextField ("TwitterAppKey", TwitterAppKey);
-			EditorGUILayout.TextField ("Email to send forgotten code "+ Environment, EditorStyles.boldLabel);
-			RescueEmail = EditorGUILayout.TextField ("RescueEmail", RescueEmail);
-			EditorGUILayout.TextField ("Admin Key for "+ Environment, EditorStyles.boldLabel);
-			AdminKey = EditorGUILayout.TextField ("AdminKey", AdminKey);
-			EditorGUILayout.TextField ("Token Historic limit for "+ Environment, EditorStyles.boldLabel);
-            TokenHistoric = EditorGUILayout.IntSlider ("Token number", TokenHistoric, 1, 10);
+            EditorGUILayout.TextField("Social Params for " + Environment, EditorStyles.boldLabel);
+            FacebookAppID = EditorGUILayout.TextField("FacebookAppID", FacebookAppID);
+            FacebookAppSecret = EditorGUILayout.TextField("FacebookAppSecret", FacebookAppSecret);
+            GoogleAppKey = EditorGUILayout.TextField("GoogleAppKey", GoogleAppKey);
+            UnityAppKey = EditorGUILayout.TextField("UnityAppKey", UnityAppKey);
+            TwitterAppKey = EditorGUILayout.TextField("TwitterAppKey", TwitterAppKey);
+            EditorGUILayout.TextField("Email to send forgotten code " + Environment, EditorStyles.boldLabel);
+            RescueEmail = EditorGUILayout.TextField("RescueEmail", RescueEmail);
+            EditorGUILayout.TextField("Admin Key for " + Environment, EditorStyles.boldLabel);
+            AdminKey = EditorGUILayout.TextField("AdminKey", AdminKey);
+            EditorGUILayout.TextField("Token Historic limit for " + Environment, EditorStyles.boldLabel);
+            TokenHistoric = EditorGUILayout.IntSlider("Token number", TokenHistoric, 1, 10);
             EditorGUILayout.TextField("Options for game in " + Environment, EditorStyles.boldLabel);
             SpeedOfGameTime = EditorGUILayout.FloatField("Speed Of GameTime", SpeedOfGameTime);
-			EditorGUILayout.TextField ("Version for "+ Environment, EditorStyles.boldLabel);
-            EditorGUILayout.LabelField ("version", NWDVersion.GetMaxVersionStringForEnvironemt (this), EditorStyles.boldLabel);
+            EditorGUILayout.TextField("Version for " + Environment, EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("version", NWDVersion.GetMaxVersionStringForEnvironemt(this), EditorStyles.boldLabel);
             EditorGUILayout.TextField("SQL Thread Activation " + Environment, EditorStyles.boldLabel);
             ThreadPoolForce = EditorGUILayout.Toggle("SQL Thread", ThreadPoolForce);
             WritingModeLocal = (NWDWritingMode)EditorGUILayout.EnumPopup("Writing Local", (NWDWritingModeConfig)WritingModeLocal);
@@ -120,8 +120,8 @@ namespace NetWorkedData
             {
                 BuildTimestamp = 0;
             }
-            CartridgeColor = EditorGUILayout.ColorField("Cartridge Color",CartridgeColor);
-			EditorGUILayout.EndVertical();
+            CartridgeColor = EditorGUILayout.ColorField("Cartridge Color", CartridgeColor);
+            EditorGUILayout.EndVertical();
             if (tColum > 1)
             {
                 EditorGUILayout.EndHorizontal();
@@ -138,14 +138,14 @@ namespace NetWorkedData
             EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
             if (GUILayout.Button("Editor Database File"))
             {
-               EditorUtility.RevealInFinder(tDatabasePathEditor);
+                EditorUtility.RevealInFinder(tDatabasePathEditor);
             }
-            /*NWDAppConfiguration.SharedInstance().EditorPass =*/ EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPass);
-            /*NWDAppConfiguration.SharedInstance().EditorPassA =*/
-            EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPassA);
-            /*NWDAppConfiguration.SharedInstance().EditorPassB =*/
-            EditorGUILayout.TextField("Editor Hash Salt", NWDAppConfiguration.SharedInstance().EditorPassB);
-            EditorGUILayout.TextField("Editor pass ", NWDAppConfiguration.SharedInstance().GetEditorPass());
+            EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
+            EditorGUILayout.LabelField("EditorPassA", NWDAppConfiguration.SharedInstance().EditorPassA);
+            EditorGUILayout.LabelField("EditorPassAB", NWDAppConfiguration.SharedInstance().EditorPassB);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.TextField("Editor Pass Result", NWDAppConfiguration.SharedInstance().GetEditorPass());
+            EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.LabelField("Databases Accountconfig for all environements (by device)", EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
@@ -153,13 +153,12 @@ namespace NetWorkedData
             {
                 EditorUtility.RevealInFinder(tDatabasePathAccount);
             }
-            /*NWDAppConfiguration.SharedInstance().AccountHashSalt =*/
-            EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
-            /*NWDAppConfiguration.SharedInstance().AccountHashSaltA =*/
-            EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
-            /*NWDAppConfiguration.SharedInstance().AccountHashSaltB =*/
-            EditorGUILayout.TextField("Account Hash Salt", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
-            EditorGUILayout.TextField("Account pass ", NWDAppConfiguration.SharedInstance().GetAccountPass());
+            EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
+            EditorGUILayout.LabelField("AccountHashSaltA", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
+            EditorGUILayout.LabelField("AccountHashSaltB", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass());
+            EditorGUI.EndDisabledGroup();
             // WEBSERVICES PARAMS
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Webservices", MessageType.None);
@@ -205,7 +204,7 @@ namespace NetWorkedData
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
                 NWDDatas tDatasToTest = NWDDatas.FindTypeInfos(typeof(NWDParameter));
-                if (tDatasToTest.SQL_Order.ContainsKey(tWS.Key)==false)
+                if (tDatasToTest.SQL_Order.ContainsKey(tWS.Key) == false)
                 {
                     bool tV = EditorGUILayout.Toggle("(WebService " + tWS.Key.ToString() + " unused)", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
@@ -237,7 +236,7 @@ namespace NetWorkedData
             Dictionary<int, string> tTagList = new Dictionary<int, string>(NWDAppConfiguration.SharedInstance().TagList);
             for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
             {
-                if (NWDAppConfiguration.SharedInstance().TagList.ContainsKey(tI) == false )
+                if (NWDAppConfiguration.SharedInstance().TagList.ContainsKey(tI) == false)
                 {
                     NWDAppConfiguration.SharedInstance().TagList.Add(tI, "tag " + tI.ToString());
                 }
@@ -252,12 +251,12 @@ namespace NetWorkedData
             {
                 EditorGUILayout.EndHorizontal();
             }
-			FormatVerification ();
+            FormatVerification();
             //BTBBenchmark.Finish();
         }
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

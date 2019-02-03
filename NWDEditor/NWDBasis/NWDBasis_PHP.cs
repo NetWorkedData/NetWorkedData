@@ -864,6 +864,10 @@ namespace NetWorkedData
             string tSpecialAdd = string.Empty;
             foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
+                if (tProp.GetCustomAttributes(typeof(NWDNeedAccountAvatarAttribute), true).Length > 0)
+                {
+                    tSpecialAdd += NWDNeedAccountAvatarAttribute.PHPstring(tProp.Name);
+                }
                 if (tProp.GetCustomAttributes(typeof(NWDNeedUserAvatarAttribute), true).Length > 0)
                 {
                     tSpecialAdd += NWDNeedUserAvatarAttribute.PHPstring(tProp.Name);
@@ -871,6 +875,10 @@ namespace NetWorkedData
                 if (tProp.GetCustomAttributes(typeof(NWDNeedAccountNicknameAttribute), true).Length > 0)
                 {
                     tSpecialAdd += NWDNeedAccountNicknameAttribute.PHPstring(tProp.Name);
+                }
+                if (tProp.GetCustomAttributes(typeof(NWDNeedUserNicknameAttribute), true).Length > 0)
+                {
+                    tSpecialAdd += NWDNeedUserNicknameAttribute.PHPstring(tProp.Name);
                 }
                 if (tProp.GetCustomAttributes(typeof(NWDNeedReferenceAttribute), true).Length > 0)
                 {

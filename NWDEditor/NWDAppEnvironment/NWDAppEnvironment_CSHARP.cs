@@ -25,7 +25,6 @@ namespace NetWorkedData
         {
             BTBBenchmark.Start();
             StringBuilder rReturn = new StringBuilder(string.Empty);
-            bool tGlobalProtect = false;
             string tPropertyName = "null";
             if (NWDAppConfiguration.SharedInstance().DevEnvironment == this)
             {
@@ -73,10 +72,10 @@ namespace NetWorkedData
                 }
             }
             rReturn.AppendLine(tPropertyName + ".Environment = \"" + Environment.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + ".DataSHAPassword = \"" + DataSHAPassword.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + ".DataSHAVector = \"" + DataSHAVector.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + ".SaltStart = \"" + SaltStart.Replace("\"", "\\\"") + "\";");
-            rReturn.AppendLine(tPropertyName + ".SaltEnd = \"" + SaltEnd.Replace("\"", "\\\"") + "\";");
+            rReturn.AppendLine(tPropertyName + ".DataSHAPassword = \"" + NWDToolbox.SaltCleaner(DataSHAPassword) + "\";");
+            rReturn.AppendLine(tPropertyName + ".DataSHAVector = \"" + NWDToolbox.SaltCleaner(DataSHAVector) + "\";");
+            rReturn.AppendLine(tPropertyName + ".SaltStart = \"" + NWDToolbox.SaltCleaner(SaltStart) + "\";");
+            rReturn.AppendLine(tPropertyName + ".SaltEnd = \"" + NWDToolbox.SaltCleaner(SaltEnd) + "\";");
             rReturn.AppendLine(tPropertyName + ".WebTimeOut = " + WebTimeOut.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".EditorWebTimeOut = " + EditorWebTimeOut.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".SaltFrequency = " + SaltFrequency.ToString() + ";");
@@ -120,7 +119,7 @@ namespace NetWorkedData
             rReturn.AppendLine(tPropertyName + ".MailHost =  \"" + MailHost + " \";");
             rReturn.AppendLine(tPropertyName + ".MailPort = " + MailPort.ToString() + ";");
             rReturn.AppendLine(tPropertyName + ".MailUserName =  \"" + MailUserName + " \";");
-            rReturn.AppendLine(tPropertyName + ".MailPassword =  \"" + MailPassword + " \";");
+            rReturn.AppendLine(tPropertyName + ".MailPassword =  \"" + MailPassword.Replace("\"", "\\\"") + " \";");
             rReturn.AppendLine(tPropertyName + ".MailDomain =  \"" + MailDomain + " \";");
             rReturn.AppendLine(tPropertyName + ".MailAuthentication =  \"" + MailAuthentication + " \";");
             rReturn.AppendLine(tPropertyName + ".MailEnableStarttlsAuto =  \"" + MailEnableStarttlsAuto + " \";");
