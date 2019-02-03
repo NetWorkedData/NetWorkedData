@@ -204,7 +204,8 @@ namespace NetWorkedData
             foreach (KeyValuePair<int, bool> tWS in tWSList)
             {
                 EditorGUI.BeginDisabledGroup(tWS.Key == 0);
-                if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tWS.Key)==false)
+                NWDDatas tDatasToTest = NWDDatas.FindTypeInfos(typeof(NWDParameter));
+                if (tDatasToTest.SQL_Order.ContainsKey(tWS.Key)==false)
                 {
                     bool tV = EditorGUILayout.Toggle("(WebService " + tWS.Key.ToString() + " unused)", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;

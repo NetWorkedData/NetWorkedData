@@ -631,6 +631,10 @@ namespace NetWorkedData
             }
             tPropertiesList.AddRange(tPropertieListAddon);
 
+            List<string> tPropertyListInWebModel = new List<string>();
+            tPropertyListInWebModel.AddRange(PropertiesOrderArray(WebServiceVersion));
+
+
             foreach (var tProp in tPropertiesList)
             {
                 if (tProp.Name != "ID"
@@ -659,6 +663,15 @@ namespace NetWorkedData
 
                    )
                 {
+
+
+                    if (tPropertyListInWebModel.Contains(tProp.Name))
+                    {
+
+                    }
+                    else
+                    {
+                    }
 
                     foreach (NWDGroupEndAttribute tReference in tProp.GetCustomAttributes(typeof(NWDGroupEndAttribute), true))
                     {
@@ -803,6 +816,18 @@ namespace NetWorkedData
                         //
                         //                        } 
                         bool tDisabled = false;
+
+                        if (tPropertyListInWebModel.Contains(tProp.Name))
+                        {
+                            tDisabled = false;
+                        }
+                        else
+                        {
+                            tDisabled = true;
+                            tEntitled = "!!!" + tEntitled + "";
+                        }
+
+
                         if (tProp.GetCustomAttributes(typeof(NWDNotEditableAttribute), true).Length > 0)
                         {
                             tDisabled = true;
@@ -1211,7 +1236,7 @@ namespace NetWorkedData
             //            GUI.Label (new Rect (tX, tY, tWidth, tTitleLabelStyle.fixedHeight), ClassNamePHP () + "'s Object", tTitleLabelStyle);
             string tTitle = InternalKey;
 
-            if (ModelChanged() == true)
+            if (Datas().WebModelChanged == true)
             {
                 string tTEXTWARNING = "<b><color=red>"+NWDConstants.K_APP_BASIS_WARNING_MODEL + "</color></b>";
                 GUIContent tCC = new GUIContent(tTEXTWARNING);
@@ -1225,7 +1250,27 @@ namespace NetWorkedData
                 GUI.Label(new Rect(tX, tY, tWidth, tWarningBoxStyle.fixedHeight), tCC, tWarningBoxStyle);
                 tY += tWarningBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
             }
-                if (string.IsNullOrEmpty(tTitle))
+
+            if (Datas().WebModelDegraded == true)
+            {
+                string tTEXTWARNING = "<b><color=red>" + NWDConstants.K_APP_BASIS_WARNING_MODEL_DEGRADED + "</color></b>";
+                GUIContent tCC = new GUIContent(tTEXTWARNING);
+                GUIStyle tWarningBoxStyle = new GUIStyle(EditorStyles.boldLabel);
+                tWarningBoxStyle.normal.background = new Texture2D(1, 1);
+                tWarningBoxStyle.normal.background.SetPixel(0, 0, Color.yellow);
+                tWarningBoxStyle.normal.background.Apply();
+                tWarningBoxStyle.alignment = TextAnchor.MiddleCenter;
+                tWarningBoxStyle.richText = true;
+                tWarningBoxStyle.fixedHeight = tWarningBoxStyle.CalcHeight(tCC, tWidth);
+                GUI.Label(new Rect(tX, tY, tWidth, tWarningBoxStyle.fixedHeight), tCC, tWarningBoxStyle);
+                tY += tWarningBoxStyle.fixedHeight + NWDConstants.kFieldMarge;
+            }
+
+
+
+
+
+            if (string.IsNullOrEmpty(tTitle))
             {
                 tTitle = "Unamed " + Datas().ClassNamePHP + string.Empty;
                 //                tTitle = ClassNamePHP () + "'s Object";
@@ -1472,9 +1517,9 @@ namespace NetWorkedData
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "integrity val", Integrity, tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity seq", DataAssembly(), tMiniLabelStyle);
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity seq", IntegrityAssembly(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity Csv", DataAssembly(true), tMiniLabelStyle);
+                EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity Csv", CSVAssembly(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
                 EditorGUI.TextField(new Rect(tX, tY, tWidth, tMiniLabelStyle.fixedHeight), "dyn integrity req", IntegrityValue(), tMiniLabelStyle);
                 tY += tMiniLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -1615,27 +1660,45 @@ namespace NetWorkedData
                 int tWebBuilt = tApp.WebBuild;
                 List<int> tWebServicesInt = new List<int>();
                 List<string> tWebServicesString = new List<string>();
+                tWebServicesInt.Add(0);
 
 
-                int tWebServiceVersionOldValue = 0;
+
+
+
+
                 foreach (KeyValuePair<int, bool> tKeyValue in tApp.WSList)
                 //for (int tW = 0; tW <= tWebBuilt; tW++)
                 {
+                    int tWebModel = 0;
                     if (tKeyValue.Value == true)
                     {
-                        if (tKeyValue.Key <= WebServiceVersion)
+                        if (Datas().WS_Model.ContainsKey(tKeyValue.Key))
                         {
-                            if (tKeyValue.Key >= tWebServiceVersionOldValue)
-                            {
-                                tWebServiceVersionOldValue = tKeyValue.Key;
+                            tWebModel = Datas().WS_Model[tKeyValue.Key];
+                        if (tWebServicesInt.Contains(tWebModel) == false)
+                        {
+                            tWebServicesInt.Add(tWebModel);
                             }
                         }
-                        tWebServicesInt.Add(tKeyValue.Key);
-                        tWebServicesString.Add("WebService " + tKeyValue.Key.ToString());
                     }
                 }
-                int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(tWebServiceVersionOldValue);
-                //kjbjgh g hj jgh jgh jghjg hjgh 
+                tWebServicesInt.Sort();
+
+                foreach (int tWebMOdel in tWebServicesInt)
+                {
+                    tWebServicesString.Add("WebService " + tWebMOdel.ToString("0000"));
+                }
+
+                int tWebServiceVersionOldIndex = tWebServicesInt.IndexOf(WebServiceVersion);
+                if (tWebServiceVersionOldIndex < 0)
+                {
+                    if (tWebServicesInt.Count > 0)
+                    {
+                        tWebServiceVersionOldIndex = 0;
+                    }
+                }
+
                 int tWebServiceVersionIndex = EditorGUI.Popup(new Rect(tX, tY, tWidth, tTextFieldStyle.fixedHeight),
                                                                  "Web service " + WebServiceVersion + "(/" + tWebBuilt.ToString() + ")",
                                                                  tWebServiceVersionOldIndex, tWebServicesString.ToArray());
@@ -1647,6 +1710,8 @@ namespace NetWorkedData
                 }
                 if (WebServiceVersion != tWebServiceVersionNew)
                 {
+
+                    Debug.Log(" set from " + WebServiceVersion + " To " + tWebServiceVersionNew);
                     WebServiceVersion = tWebServiceVersionNew;
                     DM = NWDToolbox.Timestamp();
                     UpdateIntegrity();

@@ -45,7 +45,7 @@ namespace NetWorkedData
             //Debug.Log("NWDVersion Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override int WebServiceVersionToUse()
+        public override int WebModelToUse()
         {
             return 0;
         }

@@ -490,6 +490,7 @@ namespace NetWorkedData
         };
         //-------------------------------------------------------------------------------------------------------------
         public const string K_APP_BASIS_WARNING_MODEL = "!!! WARNING !!! MODEL WAS CHANGED BUT NOT REGENERATED !!! WARNING !!! ";
+        public const string K_APP_BASIS_WARNING_MODEL_DEGRADED = "!!! WARNING !!! MODEL WAS DEGRADED !!! WARNING !!! ";
         //-------------------------------------------------------------------------------------------------------------
         // Styles and dimensions for GUI
         static public GUIStyle StyleButton;

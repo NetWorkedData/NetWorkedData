@@ -336,15 +336,15 @@ namespace NetWorkedData
             string t_THIS_BarterPlace = FindAliasName("BarterPlace");
             string t_THIS_BarterRequest = FindAliasName("BarterRequest");
             string t_THIS_BarterStatus = FindAliasName("BarterStatus");
-            int t_THIS_Index_BarterRequestHash = CSVAssemblyIndexOf(t_THIS_BarterRequestHash);
-            int t_THIS_Index_BarterPlace = CSVAssemblyIndexOf(t_THIS_BarterPlace);
-            int t_THIS_Index_BarterRequest = CSVAssemblyIndexOf(t_THIS_BarterRequest);
-            int t_THIS_Index_BarterStatus = CSVAssemblyIndexOf(t_THIS_BarterStatus);
+            int t_THIS_Index_BarterRequestHash = CSV_IndexOf(t_THIS_BarterRequestHash);
+            int t_THIS_Index_BarterPlace = CSV_IndexOf(t_THIS_BarterPlace);
+            int t_THIS_Index_BarterRequest = CSV_IndexOf(t_THIS_BarterRequest);
+            int t_THIS_Index_BarterStatus = CSV_IndexOf(t_THIS_BarterStatus);
 
             string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
             string t_THIS_ItemsSend = FindAliasName("ItemsSend");
-            int t_THIS_Index_ItemsProposed = CSVAssemblyIndexOf(t_THIS_ItemsProposed);
-            int t_THIS_Index_ItemsSend = CSVAssemblyIndexOf(t_THIS_ItemsSend);
+            int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsSend = CSV_IndexOf(t_THIS_ItemsSend);
 
             string sScript = "" +
                 "// debut find \n" +
@@ -503,7 +503,7 @@ namespace NetWorkedData
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             string t_THIS_BarterRequest = FindAliasName("BarterRequest");
-            int t_THIS_Index_BarterRequest = CSVAssemblyIndexOf(t_THIS_BarterRequest);
+            int t_THIS_Index_BarterRequest = CSV_IndexOf(t_THIS_BarterRequest);
 
             return "// write your php script here to update after sync on server\n " +
                 "GetDatas" + NWDUserBarterRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_BarterRequest + "]);\n";

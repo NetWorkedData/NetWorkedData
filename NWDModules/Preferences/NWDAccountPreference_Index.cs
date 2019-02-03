@@ -26,17 +26,19 @@ namespace NetWorkedData
     public partial class NWDAccountPreference : NWDBasis<NWDAccountPreference>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Create an Index
-        // must ADD InsertInIndex(); in : 
-        // AddonLoadedMe()
-        // AddonUpdatedMeFromWeb()
-        // AddonUpdatedMe()
-        // AddonDuplicateMe()
-        // must ADD RemoveFromIndex(); in : 
-        // AddonDeleteMe()
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDAccountPreference>> kIndex = new Dictionary<string, List<NWDAccountPreference>>();
         private List<NWDAccountPreference> kIndexList;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonIndexMe()
+        {
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDesindexMe()
+        {
+            RemoveFromIndex();
+        }
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {

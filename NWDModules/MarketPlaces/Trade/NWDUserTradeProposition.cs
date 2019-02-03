@@ -317,14 +317,14 @@ namespace NetWorkedData
             string t_THIS_TradePlace = FindAliasName("TradePlace");
             string t_THIS_TradeRequest = FindAliasName("TradeRequest");
             string t_THIS_TradeStatus = FindAliasName("TradeStatus");
-            int t_THIS_Index_tTradeRequestHash = CSVAssemblyIndexOf(t_THIS_TradeRequestHash);
-            int t_THIS_Index_TradePlace = CSVAssemblyIndexOf(t_THIS_TradePlace);
-            int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
-            int t_THIS_Index_TradeStatus = CSVAssemblyIndexOf(t_THIS_TradeStatus);
+            int t_THIS_Index_tTradeRequestHash = CSV_IndexOf(t_THIS_TradeRequestHash);
+            int t_THIS_Index_TradePlace = CSV_IndexOf(t_THIS_TradePlace);
+            int t_THIS_Index_TradeRequest = CSV_IndexOf(t_THIS_TradeRequest);
+            int t_THIS_Index_TradeStatus = CSV_IndexOf(t_THIS_TradeStatus);
             string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
-            int t_THIS_Index_ItemsProposed = CSVAssemblyIndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
             string t_THIS_ItemsAsked = FindAliasName("ItemsAsked");
-            int t_THIS_Index_ItemsAsked = CSVAssemblyIndexOf(t_THIS_ItemsAsked);
+            int t_THIS_Index_ItemsAsked = CSV_IndexOf(t_THIS_ItemsAsked);
             string sScript = "" +
                 "// start Addon \n" +
                 "include_once ( $PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
@@ -444,7 +444,7 @@ namespace NetWorkedData
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             string t_THIS_TradeRequest = FindAliasName("TradeRequest");
-            int t_THIS_Index_TradeRequest = CSVAssemblyIndexOf(t_THIS_TradeRequest);
+            int t_THIS_Index_TradeRequest = CSV_IndexOf(t_THIS_TradeRequest);
 
             return "// write your php script here to update after sync on server\n " +
                 "GetDatas" + NWDUserTradeRequest.Datas().ClassNamePHP + "ByReference ($sCsvList[" + t_THIS_Index_TradeRequest + "]);\n";

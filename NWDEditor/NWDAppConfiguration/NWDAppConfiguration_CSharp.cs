@@ -64,6 +64,7 @@ namespace NetWorkedData
             "\t\t{\n" +
             "\t\t\tWebFolder = \"" + WebFolder + "\";\n" +
             "\t\t\tWebBuild = " + WebBuild + ";\n" +
+            "\t\t\tWebBuildMax = " + WebBuildMax + ";\n" +
             "\t\t\tDatabasePrefix = \"" + DatabasePrefix + "\";\n" +
             "\t\t\tEditorPass = \"" + EditorPass + "\";\n" +
             "\t\t\tEditorPassA = \"" + EditorPassA + "\";\n" +
@@ -384,7 +385,7 @@ namespace NetWorkedData
                 NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
                 if (tDatas != null)
                 {
-                    tConstantsFile += tDatas.CreationCSHARPCallLoader() + "\n";
+                    tConstantsFile += tDatas.CreationCSHARPCallLoader();
                 }
             }
             tConstantsFile += "\t\t\treturn true;\n" +
@@ -439,20 +440,20 @@ namespace NetWorkedData
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepFour() \n" +
             "\t\t{\n";
-            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
-            {
-                if (WSList.ContainsKey(tKeyValue.Key) == true)
-                {
-                    if (WSList[tKeyValue.Key] == true)
-                    {
-                        tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
-                        foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
-                        {
-                            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value.Replace("\"", "\\\"") + "\");\n";
-                        }
-                    }
-                }
-            }
+            //foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
+            //{
+            //    if (WSList.ContainsKey(tKeyValue.Key) == true)
+            //    {
+            //        if (WSList[tKeyValue.Key] == true)
+            //        {
+            //            tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder.Add (" + tKeyValue.Key + ",new Dictionary<string, string>());\n";
+            //            foreach (KeyValuePair<string, string> tSubValue in tKeyValue.Value.OrderBy(x => x.Key))
+            //            {
+            //                tConstantsFile += "\t\t\t kWebBuildkSLQAssemblyOrder[" + tKeyValue.Key + "].Add(\"" + tSubValue.Key + "\", \"" + tSubValue.Value.Replace("\"", "\\\"") + "\");\n";
+            //            }
+            //        }
+            //    }
+            //}
             tConstantsFile += "\t\t}\n" +
             "\t//-------------------------------------------------------------------------------------------------------------\n" +
             "\t\t public void RestaureStepFive() \n" +
@@ -569,8 +570,16 @@ namespace NetWorkedData
 
 
             tConstantsFile += "\t}\n" +
-            "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n" +
-            "}\n" +
+            "//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+            //foreach (Type tType in NWDTypeLauncher.AllTypes)
+            //{
+            //    NWDDatas tDatas = NWDDatas.FindTypeInfos(tType);
+            //    if (tDatas != null)
+            //    {
+            //        tConstantsFile += tDatas.CreationIntegrityCSHARP();
+            //    }
+            //}
+            tConstantsFile += "}\n" +
             "//=====================================================================================================================\n";
             // force to import this file by Unity3D
             string tOwnerConfigurationFolderPath = NWDToolbox.FindOwnerConfigurationFolder();

@@ -473,7 +473,11 @@ namespace NetWorkedData
             //NWDVersionType tMaxVersion = new NWDVersionType();
             //tMaxVersion.SetString("99.99.99");
             //this.MaxVersion = tMaxVersion;
-            this.WebServiceVersion = WebServiceVersionToUse();
+
+            int tWebModelToUse = WebModelToUse();
+            Debug.Log(" set from " + this.WebServiceVersion + " To " + tWebModelToUse);
+            WebServiceVersion = tWebModelToUse;
+
             this.DS = 0;
             if (AccountDependent() == true)
             {
@@ -713,10 +717,12 @@ namespace NetWorkedData
             // Update WebServiceVersion
             if (sWebServiceUpgrade == true)
             {
-                int tWS = WebServiceVersionToUse();
+                int tWS = WebModelToUse();
                 if (this.WebServiceVersion != tWS)
                 {
-                    this.AddonVersionMe(); // call override method
+                    //this.AddonVersionMe(); // call override method
+
+                    Debug.Log(" set from " + WebServiceVersion + " To " + tWS);
                     this.WebServiceVersion = tWS;
                 }
             }
@@ -1006,6 +1012,11 @@ namespace NetWorkedData
             FromDatabase = true;
             WritingPending = NWDWritingPending.InDatabase;
             AddonLoadedMe();
+#if UNITY_EDITOR
+            // no auto update data
+#else
+            WebserviceVersionCheckMe();
+#endif
             AddonIndexMe();
             Datas().AddData(this);
             //BTBBenchmark.Finish();
@@ -1041,7 +1052,7 @@ namespace NetWorkedData
         //    //BTBBenchmark.Finish();
         //}
         //-------------------------------------------------------------------------------------------------------------
-        #endregion Load Data
+#endregion Load Data
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

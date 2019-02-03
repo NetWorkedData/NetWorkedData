@@ -164,11 +164,11 @@ namespace NetWorkedData
         /// <summary>
         /// Addon method when updated me from Web.
         /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-        }
+        //public override void AddonUpdatedMeFromWeb()
+        //{
+        //    // do something when object finish to be updated from CSV from WebService response
+        //    // TODO verif if method is call in good place in good timing
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just before dupplicate.
@@ -227,16 +227,6 @@ namespace NetWorkedData
         {
             // do something when object will be web service upgrade
             // TODO verif if method is call in good place in good timing
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-             InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-             RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

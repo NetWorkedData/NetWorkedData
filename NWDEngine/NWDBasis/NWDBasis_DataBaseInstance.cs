@@ -212,7 +212,10 @@ namespace NetWorkedData
             InternalKey = string.Empty;
             InternalDescription = string.Empty;
             Preview = string.Empty;
-            WebServiceVersion = WebServiceVersionToUse();
+
+            int tWebModelToUse = WebModelToUse();
+            Debug.Log(" set from " + this.WebServiceVersion + " To " + tWebModelToUse);
+            WebServiceVersion = tWebModelToUse;
             //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
             Type tType = ClassType();
             foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -517,17 +520,16 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WebserviceVersionCheckMe()
         {
-            //Debug.Log("NWDBasis WebserviceVersionCheckMe()");
+            Debug.Log("NWDBasis WebserviceVersionCheckMe()");
             // Find the good webservice version
-            int tWebBuildUsed = WebServiceVersionToUse();
+            int tWebBuildUsed = WebModelToUse();
             // test the web service version
             if (WebServiceVersion < tWebBuildUsed && WebServiceVersion != 0)
             {
                 //Debug.Log("NWDBasis WebserviceVersionCheckMe() Update version");
                 this.AddonWebversionUpgradeMe(WebServiceVersion, tWebBuildUsed);
                 // use to update NWDBasis when push to server.
-                this.AddonVersionMe(); // Modify the special webservice override ( for example version)
-
+                //this.AddonVersionMe(); // Modify the special webservice override ( for example version)
                 this.UpdateData(false, NWDWritingMode.ByDefaultLocal, true);
                 //NWDDataManager.SharedInstance().UpdateObject(this, AccountDependent());
             }
@@ -536,12 +538,19 @@ namespace NetWorkedData
         public bool WebserviceVersionIsValid()
         {
             // Find the good webservice version
+            //bool rReturn = true;
+            ////int tWebBuildUsed = WebServiceVersionToUse();
+            //NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+            //int tWebBuiltMax = tApp.WebBuild;
+            //// test the web service version
+            //if (WebServiceVersion > tWebBuiltMax)
+            //{
+            //    rReturn = false;
+            //}
+            //return rReturn;
+
             bool rReturn = true;
-            //int tWebBuildUsed = WebServiceVersionToUse();
-            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-            int tWebBuiltMax = tApp.WebBuild;
-            // test the web service version
-            if (WebServiceVersion > tWebBuiltMax)
+            if (WebServiceVersion > Datas().LastWebBuild || WebServiceVersion > NWDAppConfiguration.SharedInstance().WebBuild)
             {
                 rReturn = false;
             }

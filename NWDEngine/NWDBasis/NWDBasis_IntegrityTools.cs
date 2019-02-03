@@ -173,7 +173,9 @@ namespace NetWorkedData
         {
             //Debug.Log("NWDBasis<K> UpdateIntegrity()");
             NotNullChecker();
-            ServerLog = DataAssembly();
+#if UNITY_EDITOR
+            ServerLog = IntegrityAssembly();
+#endif
             Integrity = IntegrityValue();
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -205,7 +207,7 @@ namespace NetWorkedData
         /// <returns>The value.</returns>
         public string IntegrityValue()
         {
-            return HashSum(Datas().SaltStart + DataAssembly() + Datas().SaltEnd);
+            return HashSum(Datas().SaltStart + IntegrityAssembly() + Datas().SaltEnd);
         }
         //-------------------------------------------------------------------------------------------------------------
         #endregion

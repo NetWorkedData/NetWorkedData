@@ -444,18 +444,18 @@ namespace NetWorkedData
             string t_THIS_BarterStatus = FindAliasName("BarterStatus");
             string t_THIS_BarterHash = FindAliasName("BarterHash");
 
-            int t_THIS_Index_WinnerProposition = CSVAssemblyIndexOf(t_THIS_WinnerProposition);
-            int t_THIS_Index_Propositions = CSVAssemblyIndexOf(t_THIS_Propositions);
-            int t_THIS_Index_PropositionsCounter = CSVAssemblyIndexOf(t_THIS_PropositionsCounter);
-            int t_THIS_Index_BarterStatus = CSVAssemblyIndexOf(t_THIS_BarterStatus);
-            int t_THIS_Index_BarterHash = CSVAssemblyIndexOf(t_THIS_BarterHash);
+            int t_THIS_Index_WinnerProposition = CSV_IndexOf(t_THIS_WinnerProposition);
+            int t_THIS_Index_Propositions = CSV_IndexOf(t_THIS_Propositions);
+            int t_THIS_Index_PropositionsCounter = CSV_IndexOf(t_THIS_PropositionsCounter);
+            int t_THIS_Index_BarterStatus = CSV_IndexOf(t_THIS_BarterStatus);
+            int t_THIS_Index_BarterHash = CSV_IndexOf(t_THIS_BarterHash);
 
             string t_THIS_ItemsProposed = FindAliasName("ItemsProposed");
-            int t_THIS_Index_ItemsProposed = CSVAssemblyIndexOf(t_THIS_ItemsProposed);
+            int t_THIS_Index_ItemsProposed = CSV_IndexOf(t_THIS_ItemsProposed);
             string t_THIS_ItemsSuggested = FindAliasName("ItemsSuggested");
-            int t_THIS_Index_ItemsSuggested = CSVAssemblyIndexOf(t_THIS_ItemsSuggested);
+            int t_THIS_Index_ItemsSuggested = CSV_IndexOf(t_THIS_ItemsSuggested);
             string t_THIS_ItemsReceived = FindAliasName("ItemsReceived");
-            int t_THIS_Index_ItemsReceived = CSVAssemblyIndexOf(t_THIS_ItemsReceived);
+            int t_THIS_Index_ItemsReceived = CSV_IndexOf(t_THIS_ItemsReceived);
 
             string sScript = "" +
                 "// start Addon \n" +

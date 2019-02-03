@@ -56,40 +56,7 @@ namespace NetWorkedData
 
             string tClassName = Datas().ClassNamePHP;
             string tTrigramme = Datas().ClassTrigramme;
-
-            Dictionary<string, int> tResult = new Dictionary<string, int>();
-            foreach (KeyValuePair<int, Dictionary<string, string>> tKeyValue in NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.OrderBy(x => x.Key))
-            {
-                if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tKeyValue.Key) == true)
-                {
-                    if (NWDAppConfiguration.SharedInstance().WSList[tKeyValue.Key] == true)
-                    {
-                        foreach (KeyValuePair<string, string> tSubKeyValue in tKeyValue.Value.OrderBy(x => x.Key))
-                        {
-                            if (tResult.ContainsKey(tSubKeyValue.Key))
-                            {
-                                if (tResult[tSubKeyValue.Key] < tKeyValue.Key)
-                                {
-                                    tResult[tSubKeyValue.Key] = tKeyValue.Key;
-                                }
-                            }
-                            else
-                            {
-                                tResult.Add(tSubKeyValue.Key, tKeyValue.Key);
-                            }
-                        }
-                    }
-                }
-            }
-            int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
-            //NWDAppConfiguration.SharedInstance().kLastWebBuildClass = new Dictionary<Type, int>();
-            foreach (KeyValuePair<string, int> tKeyValue in tResult.OrderBy(x => x.Key))
-            {
-                if (tKeyValue.Key == Datas().ClassNamePHP)
-                {
-                    tWebBuildUsed = tKeyValue.Value;
-                }
-            }
+            int tWebBuildUsed = Datas().LastWebBuild;
 
             StringBuilder tFile = new StringBuilder(string.Empty);
             tFile.AppendLine("<?php");
@@ -624,7 +591,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $ENV, $NWD_SLT_SRV;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;");
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -666,7 +633,7 @@ namespace NetWorkedData
             tFile.AppendLine("{");
             tFile.AppendLine("global $SQL_CON, $ENV, $NWD_SLT_SRV;");
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB;");
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE `Reference` = \\''.$SQL_CON->real_escape_string($sReference).'\\';';");
             tFile.AppendLine("$tResult = $SQL_CON->query($tQuery);");
             tFile.AppendLine("if (!$tResult)");
             tFile.AppendLine("{");
@@ -877,7 +844,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference = \\''.$SQL_CON->real_escape_string($sReference).'\\'';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';");
@@ -929,7 +896,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.AppendLine("$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
+            tFile.AppendLine("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE Reference IN ( \\''.implode('\\', \\'', $sReferences).'\\')';");
             tFile.AppendLine("if ($admin == false)");
             tFile.AppendLine("{");
             tFile.AppendLine("$tQuery = $tQuery.' AND `WebServiceVersion` <= '.$WSBUILD.';';");
@@ -963,7 +930,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $REP;");
             tFile.AppendLine("global $admin;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.Append("$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
+            tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
             //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
             tFile.Append("(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')");
             // if need Account reference
@@ -1007,7 +974,7 @@ namespace NetWorkedData
             tFile.AppendLine("global $SQL_" + tClassName + "_SaltA, $SQL_" + tClassName + "_SaltB, $SQL_" + tClassName + "_WebService;");
             tFile.AppendLine("global $REP;");
             //"$tPage = $sPage*$sLimit;" );
-            tFile.Append("$tQuery = 'SELECT " + SLQAssemblyOrder() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
+            tFile.Append("$tQuery = 'SELECT " + SLQSelect() + " FROM `'.$ENV.'_" + tTableName + "` WHERE ");
             //"(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\' OR `DS` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')";
             tFile.Append("(`'.$ENV.'Sync` >= \\''.$SQL_CON->real_escape_string($sTimeStamp).'\\')");
             // if need Account reference

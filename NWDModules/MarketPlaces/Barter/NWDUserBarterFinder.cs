@@ -273,7 +273,7 @@ namespace NetWorkedData
             string tBarterPlaceRequest = NWDUserBarterRequest.FindAliasName("BarterPlace");
             string tForRelationshipOnly = NWDUserBarterRequest.FindAliasName("ForRelationshipOnly");
             string tRelationshipAccountReferences = NWDUserBarterRequest.FindAliasName("RelationshipAccountReferences");
-            int tIndex_tBarterStatus = NWDUserBarterRequest.CSVAssemblyIndexOf(tBarterStatus);
+            int tIndex_tBarterStatus = NWDUserBarterRequest.CSV_IndexOf(tBarterStatus);
 
             string t_THIS_BarterRequestsList = FindAliasName("BarterRequestsList");
             string t_THIS_BarterPlace = FindAliasName("BarterPlace");
@@ -281,15 +281,15 @@ namespace NetWorkedData
             string t_THIS_MaxPropositions = FindAliasName("MaxPropositions");
             string t_THIS_PropositionsCounter = FindAliasName("PropositionsCounter");
 
-            int tIndex_BarterRequestsList = CSVAssemblyIndexOf(t_THIS_BarterRequestsList);
-            int tIndex_BarterPlace = CSVAssemblyIndexOf(t_THIS_BarterPlace);
-            int tIndex_THIS_ForRelationshipOnly = CSVAssemblyIndexOf(t_THIS_ForRelationshipOnly);
+            int tIndex_BarterRequestsList = CSV_IndexOf(t_THIS_BarterRequestsList);
+            int tIndex_BarterPlace = CSV_IndexOf(t_THIS_BarterPlace);
+            int tIndex_THIS_ForRelationshipOnly = CSV_IndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// start Addon \n" +
                 "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserBarterRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQAssemblyOrder() + " FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
+                "$tQueryExpired = 'SELECT " + NWDUserBarterRequest.SLQSelect() + " FROM `'.$ENV.'_" + NWDUserBarterRequest.Datas().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tBarterStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +

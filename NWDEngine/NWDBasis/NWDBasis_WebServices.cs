@@ -60,13 +60,14 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual int WebServiceVersionToUse()
+        public virtual int WebModelToUse()
         {
             //int tWebBuildUsed = NWDAppConfiguration.SharedInstance().WebBuild;
             //if (NWDAppConfiguration.SharedInstance().kLastWebBuildClass.ContainsKey(ClassType()))
             //{
             //    tWebBuildUsed = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[ClassType()];
             //}
+
             int tWebBuildUsed = Datas().LastWebBuild;
             return tWebBuildUsed;
         }
@@ -222,8 +223,8 @@ namespace NetWorkedData
             if (tIntegrityTest == false)
             {
 #if UNITY_EDITOR
-                Datas().CSVAssemblyOrderArrayPrepare();
-                Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + Datas().ClassTableName + " \n" + string.Join("|", Datas().CSVAssemblyOrderArray) + "\n" + sData + "\n");
+                //Datas().CSVAssemblyOrderArrayPrepare();
+                //Debug.Log("SynchronizationTryToUse INTEGRITY IS FALSE " + Datas().ClassTableName + " \n" + string.Join("|", CSVAssemblyOrderArray()) + "\n" + sData + "\n");
                 //EditorUtility.DisplayDialog("SynchronizationTryToUse()", "INTEGRITY IS FALSE", "OK");
 #endif
             }
@@ -405,14 +406,14 @@ namespace NetWorkedData
                             if (tItem.IsReacheableByAccount())
                             {
                                 sInfos.RowPushCounter++;
-                                tDatas.Add(tItem.DataAssembly(true));
+                                tDatas.Add(tItem.CSVAssembly());
                             }
                         }
                         else
                         {
                             // Fake playing mode
                             sInfos.RowPushCounter++;
-                            tDatas.Add(tItem.DataAssembly(true));
+                            tDatas.Add(tItem.CSVAssembly());
                         }
 #else
                         // not in editor : playing mode only

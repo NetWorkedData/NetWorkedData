@@ -213,12 +213,12 @@ namespace NetWorkedData
                 //BTBBenchmark.Start("Declare() step E");
                 // Prepare engine informlations
                 tTypeInfos.ClassPrefBaseKey = sType.Name + "_";
-                tTypeInfos.PropertiesArrayPrepare();
-                tTypeInfos.PropertiesOrderArrayPrepare();
-                tTypeInfos.SLQAssemblyOrderArrayPrepare();
-                tTypeInfos.SLQAssemblyOrderPrepare();
-                tTypeInfos.SLQIntegrityOrderPrepare();
-                tTypeInfos.DataAssemblyPropertiesListPrepare();
+                //tTypeInfos.PropertiesArrayPrepare();
+                //tTypeInfos.PropertiesOrderArrayPrepare();
+                //tTypeInfos.SLQAssemblyOrderArrayPrepare();
+                //tTypeInfos.SLQAssemblyOrderPrepare();
+                //tTypeInfos.SLQIntegrityOrderPrepare();
+                //tTypeInfos.DataAssemblyPropertiesListPrepare();
 
                 //BTBBenchmark.Finish("Declare() step E");
                 //BTBBenchmark.Start("Declare() step F");
@@ -319,166 +319,166 @@ namespace NetWorkedData
         //	}
         //}
         //-------------------------------------------------------------------------------------------------------------
-        public PropertyInfo[] PropertiesArray;
-        //-------------------------------------------------------------------------------------------------------------
-        public void PropertiesArrayPrepare()
-        {
-            PropertiesArray = ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public List<string> PropertiesOrderArray;
-        //-------------------------------------------------------------------------------------------------------------
-        public void PropertiesOrderArrayPrepare()
-        {
-            List<string> rReturn = new List<string>();
-            foreach (var tProp in PropertiesArray)
-            {
-                rReturn.Add(tProp.Name);
-            }
-            rReturn.Sort();
-            PropertiesOrderArray = rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string[] CSVAssemblyOrderArray;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// CSV assembly order array.
-        /// </summary>
-        /// <returns>The assembly order array.</returns>
-        public void CSVAssemblyOrderArrayPrepare()
-        {
-            List<string> rReturn = new List<string>();
-            rReturn.AddRange(PropertiesOrderArray);
-            rReturn.Remove("Integrity");
-            rReturn.Remove("Reference");
-            rReturn.Remove("ID");
-            rReturn.Remove("DM");
-            rReturn.Remove("DS");
-            rReturn.Remove("ServerHash");
-            rReturn.Remove("ServerLog");
-            rReturn.Remove("DevSync");
-            rReturn.Remove("PreprodSync");
-            rReturn.Remove("ProdSync");
-            // add the good order for this element
-            rReturn.Insert(0, "Reference");
-            rReturn.Insert(1, "DM");
-            rReturn.Insert(2, "DS");
-            rReturn.Insert(3, "DevSync");
-            rReturn.Insert(4, "PreprodSync");
-            rReturn.Insert(5, "ProdSync");
-            rReturn.Add("Integrity");
-            CSVAssemblyOrderArray = rReturn.ToArray<string>();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string[] SLQAssemblyOrderArray;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// SLQs the assembly order array.
-        /// </summary>
-        /// <returns>The assembly order array.</returns>
-        public void SLQAssemblyOrderArrayPrepare()
-        {
-            List<string> rReturn = new List<string>();
-            rReturn.AddRange(PropertiesOrderArray);
-            rReturn.Remove("Integrity");
-            rReturn.Remove("Reference");
-            rReturn.Remove("ID");
-            rReturn.Remove("DM");
-            rReturn.Remove("DS");
-            rReturn.Remove("ServerHash");
-            rReturn.Remove("ServerLog");
-            rReturn.Remove("DevSync");
-            rReturn.Remove("PreprodSync");
-            rReturn.Remove("ProdSync");
-            // add the good order for this element
-            rReturn.Insert(0, "DM");
-            rReturn.Insert(1, "DS");
-            rReturn.Insert(2, "DevSync");
-            rReturn.Insert(3, "PreprodSync");
-            rReturn.Insert(4, "ProdSync");
-            rReturn.Add("Integrity");
-            SLQAssemblyOrderArray = rReturn.ToArray<string>();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public string SLQAssemblyOrder;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// SLQs the assembly order.
-        /// </summary>
-        /// <returns>The assembly order.</returns>
-        public void SLQAssemblyOrderPrepare()
-        {
-            List<string> rReturn = new List<string>();
-            rReturn.AddRange(PropertiesOrderArray);
-            rReturn.Remove("Integrity");
-            rReturn.Remove("Reference");
-            rReturn.Remove("ID");
-            rReturn.Remove("DM");
-            rReturn.Remove("DS");
-            rReturn.Remove("ServerHash");
-            rReturn.Remove("ServerLog");
-            rReturn.Remove("DevSync");
-            rReturn.Remove("PreprodSync");
-            rReturn.Remove("ProdSync");
-            // add the good order for this element
-            rReturn.Insert(0, "Reference");
-            rReturn.Insert(1, "DM");
-            rReturn.Insert(2, "DS");
-            rReturn.Insert(3, "DevSync");
-            rReturn.Insert(4, "PreprodSync");
-            rReturn.Insert(5, "ProdSync");
-            rReturn.Add("Integrity");
-            SLQAssemblyOrder = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public List<string> SLQIntegrityOrder;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// SLQs the assembly order.
-        /// </summary>
-        /// <returns>The assembly order.</returns>
-        public void SLQIntegrityOrderPrepare()
-        {
-            List<string> rReturn = new List<string>();
-            rReturn.AddRange(PropertiesOrderArray);
-            rReturn.Remove("Integrity");
-            rReturn.Remove("Reference");
-            rReturn.Remove("ID");
-            rReturn.Remove("DM");
-            rReturn.Remove("DS");
-            rReturn.Remove("ServerHash");
-            rReturn.Remove("ServerLog");
-            rReturn.Remove("DevSync");
-            rReturn.Remove("PreprodSync");
-            rReturn.Remove("ProdSync");
-            // add the good order for this element
-            rReturn.Insert(0, "Reference");
-            rReturn.Insert(1, "DM");
-            SLQIntegrityOrder = rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public List<string> DataAssemblyPropertiesList;
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// SLQs the assembly order.
-        /// </summary>
-        /// <returns>The assembly order.</returns>
-        public void DataAssemblyPropertiesListPrepare()
-        {
-            List<string> rReturn = new List<string>();
-            rReturn.AddRange(PropertiesOrderArray);
-            rReturn.Remove("Integrity"); // not include in integrity
-            rReturn.Remove("Reference");
-            rReturn.Remove("ID");
-            rReturn.Remove("DM");
-            rReturn.Remove("DS");// not include in integrity
-            rReturn.Remove("ServerHash");// not include in integrity
-            rReturn.Remove("ServerLog");// not include in integrity
-            rReturn.Remove("DevSync");// not include in integrity
-            rReturn.Remove("PreprodSync");// not include in integrity
-            rReturn.Remove("ProdSync");// not include in integrity
-            DataAssemblyPropertiesList = rReturn;
-        }
+        //public PropertyInfo[] PropertiesArray;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void PropertiesArrayPrepare()
+        //{
+        //    PropertiesArray = ClassType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public List<string> PropertiesOrderArray;
+        ////-------------------------------------------------------------------------------------------------------------
+        //public void PropertiesOrderArrayPrepare()
+        //{
+        //    List<string> rReturn = new List<string>();
+        //    foreach (var tProp in PropertiesArray)
+        //    {
+        //        rReturn.Add(tProp.Name);
+        //    }
+        //    rReturn.Sort();
+        //    PropertiesOrderArray = rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string[] CSVAssemblyOrderArray;
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// CSV assembly order array.
+        ///// </summary>
+        ///// <returns>The assembly order array.</returns>
+        //public void CSVAssemblyOrderArrayPrepare()
+        //{
+        //    List<string> rReturn = new List<string>();
+        //    rReturn.AddRange(PropertiesOrderArray);
+        //    rReturn.Remove("Integrity");
+        //    rReturn.Remove("Reference");
+        //    rReturn.Remove("ID");
+        //    rReturn.Remove("DM");
+        //    rReturn.Remove("DS");
+        //    rReturn.Remove("ServerHash");
+        //    rReturn.Remove("ServerLog");
+        //    rReturn.Remove("DevSync");
+        //    rReturn.Remove("PreprodSync");
+        //    rReturn.Remove("ProdSync");
+        //    // add the good order for this element
+        //    rReturn.Insert(0, "Reference");
+        //    rReturn.Insert(1, "DM");
+        //    rReturn.Insert(2, "DS");
+        //    rReturn.Insert(3, "DevSync");
+        //    rReturn.Insert(4, "PreprodSync");
+        //    rReturn.Insert(5, "ProdSync");
+        //    rReturn.Add("Integrity");
+        //    CSVAssemblyOrderArray = rReturn.ToArray<string>();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string[] SLQAssemblyOrderArray;
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// SLQs the assembly order array.
+        ///// </summary>
+        ///// <returns>The assembly order array.</returns>
+        //public void SLQAssemblyOrderArrayPrepare()
+        //{
+        //    List<string> rReturn = new List<string>();
+        //    rReturn.AddRange(PropertiesOrderArray);
+        //    rReturn.Remove("Integrity");
+        //    rReturn.Remove("Reference");
+        //    rReturn.Remove("ID");
+        //    rReturn.Remove("DM");
+        //    rReturn.Remove("DS");
+        //    rReturn.Remove("ServerHash");
+        //    rReturn.Remove("ServerLog");
+        //    rReturn.Remove("DevSync");
+        //    rReturn.Remove("PreprodSync");
+        //    rReturn.Remove("ProdSync");
+        //    // add the good order for this element
+        //    rReturn.Insert(0, "DM");
+        //    rReturn.Insert(1, "DS");
+        //    rReturn.Insert(2, "DevSync");
+        //    rReturn.Insert(3, "PreprodSync");
+        //    rReturn.Insert(4, "ProdSync");
+        //    rReturn.Add("Integrity");
+        //    SLQAssemblyOrderArray = rReturn.ToArray<string>();
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public string SLQAssemblyOrder;
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// SLQs the assembly order.
+        ///// </summary>
+        ///// <returns>The assembly order.</returns>
+        //public void SLQAssemblyOrderPrepare()
+        //{
+        //    List<string> rReturn = new List<string>();
+        //    rReturn.AddRange(PropertiesOrderArray);
+        //    rReturn.Remove("Integrity");
+        //    rReturn.Remove("Reference");
+        //    rReturn.Remove("ID");
+        //    rReturn.Remove("DM");
+        //    rReturn.Remove("DS");
+        //    rReturn.Remove("ServerHash");
+        //    rReturn.Remove("ServerLog");
+        //    rReturn.Remove("DevSync");
+        //    rReturn.Remove("PreprodSync");
+        //    rReturn.Remove("ProdSync");
+        //    // add the good order for this element
+        //    rReturn.Insert(0, "Reference");
+        //    rReturn.Insert(1, "DM");
+        //    rReturn.Insert(2, "DS");
+        //    rReturn.Insert(3, "DevSync");
+        //    rReturn.Insert(4, "PreprodSync");
+        //    rReturn.Insert(5, "ProdSync");
+        //    rReturn.Add("Integrity");
+        //    SLQAssemblyOrder = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public List<string> SLQIntegrityOrder;
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// SLQs the assembly order.
+        ///// </summary>
+        ///// <returns>The assembly order.</returns>
+        //public void SLQIntegrityOrderPrepare()
+        //{
+        //    List<string> rReturn = new List<string>();
+        //    rReturn.AddRange(PropertiesOrderArray);
+        //    rReturn.Remove("Integrity");
+        //    rReturn.Remove("Reference");
+        //    rReturn.Remove("ID");
+        //    rReturn.Remove("DM");
+        //    rReturn.Remove("DS");
+        //    rReturn.Remove("ServerHash");
+        //    rReturn.Remove("ServerLog");
+        //    rReturn.Remove("DevSync");
+        //    rReturn.Remove("PreprodSync");
+        //    rReturn.Remove("ProdSync");
+        //    // add the good order for this element
+        //    rReturn.Insert(0, "Reference");
+        //    rReturn.Insert(1, "DM");
+        //    SLQIntegrityOrder = rReturn;
+        //}
+        ////-------------------------------------------------------------------------------------------------------------
+        //public List<string> DataAssemblyPropertiesList;
+        ////-------------------------------------------------------------------------------------------------------------
+        ///// <summary>
+        ///// SLQs the assembly order.
+        ///// </summary>
+        ///// <returns>The assembly order.</returns>
+        //public void DataAssemblyPropertiesListPrepare()
+        //{
+        //    List<string> rReturn = new List<string>();
+        //    rReturn.AddRange(PropertiesOrderArray);
+        //    rReturn.Remove("Integrity"); // not include in integrity
+        //    rReturn.Remove("Reference");
+        //    rReturn.Remove("ID");
+        //    rReturn.Remove("DM");
+        //    rReturn.Remove("DS");// not include in integrity
+        //    rReturn.Remove("ServerHash");// not include in integrity
+        //    rReturn.Remove("ServerLog");// not include in integrity
+        //    rReturn.Remove("DevSync");// not include in integrity
+        //    rReturn.Remove("PreprodSync");// not include in integrity
+        //    rReturn.Remove("ProdSync");// not include in integrity
+        //    DataAssemblyPropertiesList = rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
 
         //-------------------------------------------------------------------------------------------------------------
@@ -1622,6 +1622,10 @@ namespace NetWorkedData
         {
             return IsReacheableByAccount();
         }
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+#endif
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -533,10 +533,10 @@ namespace NetWorkedData
             // not insert in index because integrity is not reevaluate!
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object will be updated
-        }
+        //public override void AddonUpdatedMeFromWeb()
+        //{
+        //    // do something when object will be updated
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonUpdatedMe()
         {
@@ -573,16 +573,6 @@ namespace NetWorkedData
         /// </summary>
         public override void AddonDeleteMe()
         {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonIndexMe()
-        {
-            InsertInIndex();
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDesindexMe()
-        {
-            RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR

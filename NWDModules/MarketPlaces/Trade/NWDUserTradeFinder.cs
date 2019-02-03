@@ -273,21 +273,21 @@ namespace NetWorkedData
             string tTradePlaceRequest = NWDUserTradeRequest.FindAliasName("TradePlace");
             string tForRelationshipOnly = NWDUserTradeRequest.FindAliasName("ForRelationshipOnly");
             string tRelationshipAccountReferences = NWDUserTradeRequest.FindAliasName("RelationshipAccountReferences");
-            int tIndex_tTradeStatus = NWDUserTradeRequest.CSVAssemblyIndexOf(tTradeStatus);
+            int tIndex_tTradeStatus = NWDUserTradeRequest.CSV_IndexOf(tTradeStatus);
 
             string t_THIS_TradeRequestsList = FindAliasName("TradeRequestsList");
             string t_THIS_TradePlace = FindAliasName("TradePlace");
             string t_THIS_ForRelationshipOnly = FindAliasName("ForRelationshipOnly");
 
-            int tIndex_TradeRequestsList = CSVAssemblyIndexOf(t_THIS_TradeRequestsList);
-            int tIndex_TradePlace = CSVAssemblyIndexOf(t_THIS_TradePlace);
-            int tIndex_THIS_ForRelationshipOnly = CSVAssemblyIndexOf(t_THIS_ForRelationshipOnly);
+            int tIndex_TradeRequestsList = CSV_IndexOf(t_THIS_TradeRequestsList);
+            int tIndex_TradePlace = CSV_IndexOf(t_THIS_TradePlace);
+            int tIndex_THIS_ForRelationshipOnly = CSV_IndexOf(t_THIS_ForRelationshipOnly);
 
             int tDelayOfRefresh = 5; // minutes before stop to get the datas!
             string sScript = "" +
                 "// start Addon \n" +
                 "include_once($PATH_BASE.'/'.$ENV.'/" + NWD.K_DB + "/" + NWDUserTradeRequest.Datas().ClassNamePHP + "/" + NWD.K_WS_SYNCHRONISATION + "');\n" +
-                "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQAssemblyOrder() + " FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
+                "$tQueryExpired = 'SELECT " + NWDUserTradeRequest.SLQSelect() + " FROM `'.$ENV.'_" + NWDUserTradeRequest.Datas().ClassNamePHP + "` " +
                 "WHERE `AC`= \\'1\\' " +
                 "AND `" + tTradeStatus + "` = \\'" + ((int)NWDTradeStatus.Waiting).ToString() + "\\' " +
                 "AND `" + tLimitDayTime + "` < '.$TIME_SYNC.' " +

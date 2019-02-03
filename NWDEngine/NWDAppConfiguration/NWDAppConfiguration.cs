@@ -66,6 +66,7 @@ namespace NetWorkedData
         public string AccountHashSaltA = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
         public string AccountHashSaltB = NWDToolbox.RandomStringCypher(UnityEngine.Random.Range(12, 18));
         public int WebBuild = 0;
+        public int WebBuildMax = 0;
         public bool RowDataIntegrity = true;
         public Dictionary<int, bool> WSList = new Dictionary<int, bool>();
         public Dictionary<int, string> TagList = new Dictionary<int, string>();

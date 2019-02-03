@@ -224,8 +224,9 @@ namespace NetWorkedData
 
             if (sIncrement == true)
             {
-                NWDAppConfiguration.SharedInstance().WebBuild++;
-                NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuild, true);
+                NWDAppConfiguration.SharedInstance().WebBuildMax++;
+                NWDAppConfiguration.SharedInstance().WebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
+                NWDAppConfiguration.SharedInstance().WSList.Add(NWDAppConfiguration.SharedInstance().WebBuildMax, true);
             }
             else
             {

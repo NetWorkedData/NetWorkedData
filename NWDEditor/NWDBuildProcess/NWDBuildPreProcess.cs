@@ -31,8 +31,11 @@ namespace NetWorkedData
             //Debug.Log("NWDBuildPreProcess OnPreprocessBuild for target " + target + " at path " + path);
             //Force all datas to be write in database
             NWDDataManager.SharedInstance().DataQueueExecute();
+
+            NWDAppConfiguration.SharedInstance().WebBuild = NWDAppConfiguration.SharedInstance().WebBuildMax;
+
             //Get all infos
-			string tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
+            string tName = NWDAppConfiguration.SharedInstance().DevEnvironment.AppName;
 			string tHisto = NWDAppConfiguration.SharedInstance().DevEnvironment.PreProdTimeFormat;
             DateTime tDateTime = DateTime.Now;
             int tTimeStamp = NWDToolbox.Timestamp();

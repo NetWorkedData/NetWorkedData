@@ -290,7 +290,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDStatKey) };
+            return new List<Type> { typeof(NWDPreferenceKey), typeof(NWDAccountPreference), typeof(NWDUserPreference) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -341,11 +341,11 @@ namespace NetWorkedData
         /// <summary>
         /// Addon method when updated me from Web.
         /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-        }
+        //public override void AddonUpdatedMeFromWeb()
+        //{
+        //    // do something when object finish to be updated from CSV from WebService response
+        //    // TODO verif if method is call in good place in good timing
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just before dupplicate.

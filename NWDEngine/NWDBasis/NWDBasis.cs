@@ -60,7 +60,7 @@ namespace NetWorkedData
             return Reference;
         }
         [NWDNotEditable]
-        public NWDVersionType MinVersion
+        public NWDVersionType MinVersion // TODO REMOVE 
         {
             get; set;
         }
@@ -72,9 +72,9 @@ namespace NetWorkedData
         [Indexed("GetIndex", 0)]
         //[Indexed("EditorIndex", 0)]
         [NWDNotEditable]
-        public int WebServiceVersion
+        public int WebServiceVersion // TODO RENAME TO WebModel
         {
-            get; set;
+            get;set;
         }
         [Indexed("InternalIndex", 0)]
         //[Indexed("EditorIndex", 0)]

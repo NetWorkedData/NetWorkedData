@@ -707,12 +707,12 @@ namespace NetWorkedData
         /// <summary>
         /// Addon method when updated me from Web.
         /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-            //NWDCraftBook.UpdateCraftBookInHashDictionary(this);
-        }
+        //public override void AddonUpdatedMeFromWeb()
+        //{
+        //    // do something when object finish to be updated from CSV from WebService response
+        //    // TODO verif if method is call in good place in good timing
+        //    //NWDCraftBook.UpdateCraftBookInHashDictionary(this);
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just before dupplicate.

@@ -21,7 +21,20 @@ namespace NetWorkedData
             Debug.Log("NWDBasis<K> DGPRLinearization()");
             string rReturn = string.Empty;
             Type tType = ClassType();
-            List<string> tPropertiesList = DataAssemblyPropertiesList();
+            List<string> tPropertiesList = PropertiesOrderArray();
+
+            tPropertiesList.Remove("Integrity");
+            tPropertiesList.Remove("Reference");
+            tPropertiesList.Remove("ID");
+            tPropertiesList.Remove("DM");
+            tPropertiesList.Remove("DS");
+            tPropertiesList.Remove("ServerHash");
+            tPropertiesList.Remove("ServerLog");
+            tPropertiesList.Remove("DevSync");
+            tPropertiesList.Remove("PreprodSync");
+            tPropertiesList.Remove("ProdSync");
+            tPropertiesList.Remove("ProdSync");
+            tPropertiesList.Remove("InError");
 
             // todo get the good version of assembly 
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();

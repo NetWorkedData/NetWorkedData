@@ -73,17 +73,17 @@ namespace NetWorkedData
 
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Addon method when updated me. Can be ovverride in herited Class.
-        /// </summary>
-        public virtual void AddonVersionMe()
-        {
+        ///// <summary>
+        ///// Addon method when updated me. Can be ovverride in herited Class.
+        ///// </summary>
+        //public virtual void AddonVersionMe()
+        //{
 
-        }
+        //}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Addon method when updated me from Web. Can be ovverride in herited Class.
-		/// </summary>
+		///// <summary>
+		///// Addon method when updated me from Web. Can be ovverride in herited Class.
+		///// </summary>
 		public virtual void AddonUpdatedMeFromWeb ()
 		{
 

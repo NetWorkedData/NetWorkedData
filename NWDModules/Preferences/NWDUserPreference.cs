@@ -145,7 +145,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserPreference) };
+            return new List<Type> { typeof(NWDPreferenceKey), typeof(NWDAccountPreference), typeof(NWDUserPreference) };
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -155,7 +155,6 @@ namespace NetWorkedData
         {
             // do something when object was loaded
             // TODO verif if method is call in good place in good timing
-            InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -198,12 +197,12 @@ namespace NetWorkedData
         /// <summary>
         /// Addon method when updated me from Web.
         /// </summary>
-        public override void AddonUpdatedMeFromWeb()
-        {
-            // do something when object finish to be updated from CSV from WebService response
-            // TODO verif if method is call in good place in good timing
-            InsertInIndex();
-        }
+        //public override void AddonUpdatedMeFromWeb()
+        //{
+        //    // do something when object finish to be updated from CSV from WebService response
+        //    // TODO verif if method is call in good place in good timing
+        //    InsertInIndex();
+        //}
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// Addon method just before dupplicate.
@@ -212,7 +211,6 @@ namespace NetWorkedData
         {
             // do something when object will be dupplicate
             // TODO verif if method is call in good place in good timing
-            InsertInIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -257,7 +255,6 @@ namespace NetWorkedData
         public override void AddonDeleteMe()
         {
             // do something when object will be delete from local base
-            RemoveFromIndex();
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonWebversionUpgradeMe(int sOldWebversion, int sNewWebVersion)

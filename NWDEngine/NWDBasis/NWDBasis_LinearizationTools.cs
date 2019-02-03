@@ -30,79 +30,11 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-
-        #region Class Methods
-
-#if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public static bool ModelChanged()
-        {
-            bool rReturn = false;
-            //Debug.Log("Datas().ClassType = " + Datas().ClassType.Name);
-            //int tLasBuild = NWDAppConfiguration.SharedInstance().kLastWebBuildClass[Datas().ClassType];
-            int tLasBuild = Datas().LastWebBuild;
-            if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tLasBuild))
-            {
-                if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder.ContainsKey(tLasBuild))
-                {
-                    if (NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild].ContainsKey(Datas().ClassTableName))
-                    {
-                        string tToTest = NWDAppConfiguration.SharedInstance().kWebBuildkSLQAssemblyOrder[tLasBuild][Datas().ClassTableName];
-                        if (SLQAssemblyOrder() != tToTest)
-                        {
-                            Debug.LogWarning("THE MODELS CHANGED FROM THE PREVIEW DATAS WEBSERVICE!");
-                            rReturn = true;
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("THE MODELS CHANGED FOR UNKNOW CLASS!");
-                        rReturn = true;
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("THE MODELS CHANGED FOR UNKNOW WEBSERVICE!");
-                    rReturn = true;
-                }
-            }
-            return rReturn;
-        }
-#endif
-        //-------------------------------------------------------------------------------------------------------------
-        //public static string FindAliasName(string sAlias)
-        //{
-        // SEE NWDALIAS DIRECTLY METHOD
-        //    string rReturn = string.Empty;
-        //    Type tType = ClassType();
-        //    foreach (PropertyInfo tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-        //    {
-        //        foreach (NWDAlias tReference in tProp.GetCustomAttributes(typeof(NWDAlias), true))
-        //        {
-        //            if (tReference.Alias == sAlias)
-        //            {
-        //                rReturn = tProp.Name;
-        //            }
-        //        }
-        //    }
-        //    return rReturn;
-        //}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Gets the reference value from CSV.
-        /// </summary>
-        /// <returns>The reference value from CSV.</returns>
-        /// <param name="sDataArray">data array.</param>
         public static string GetReferenceValueFromCSV(string[] sDataArray)
         {
             return sDataArray[0];
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Gets the DM value from CSV. DM for Date Modification.
-        /// </summary>
-        /// <returns>The DM value from CSV.</returns>
-        /// <param name="sDataArray">data array.</param>
         public static int GetDMValueFromCSV(string[] sDataArray)
         {
             int rReturn = 0;
@@ -110,350 +42,279 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Gets the integrity value from CSV.
-        /// </summary>
-        /// <returns>The integrity value from CSV.</returns>
-        /// <param name="sDataArray">data array.</param>
         public static string GetIntegrityValueFromCSV(string[] sDataArray)
         {
             return sDataArray[sDataArray.Count() - 1];
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Tests the integrity value from CSV.
-        /// </summary>
-        /// <returns><c>true</c>, if integrity value from CSV was tested, <c>false</c> otherwise.</returns>
-        /// <param name="sDataArray">data array.</param>
+        public static int GetWebModelValueFromCSV(string[] sDataArray)
+        {
+            int rReturn = -1;
+            int.TryParse(sDataArray[sDataArray.Count() - 2], out rReturn);
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public static bool TestIntegrityValueFromCSV(string[] sDataArray)
         {
             bool rReturn = true;
             string tActualIntegrity = GetIntegrityValueFromCSV(sDataArray);
-            string tAssembly = sDataArray[0] + sDataArray[1];
+            StringBuilder tAssembly = new StringBuilder();
+            tAssembly.Append(sDataArray[0] + sDataArray[1]);
             int tMax = sDataArray.Count() - 1;
             for (int i = 6; i < tMax; i++)
             {
-                tAssembly += sDataArray[i];
+                tAssembly.Append(sDataArray[i]);
             }
-            string tCalculateIntegrity = HashSum(Datas().SaltStart + tAssembly + Datas().SaltEnd);
+            string tCalculateIntegrity = HashSum(Datas().SaltStart + tAssembly.ToString() + Datas().SaltEnd);
             if (tActualIntegrity != tCalculateIntegrity)
             {
                 rReturn = false;
             }
             return rReturn;
         }
-
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, List<string>> kPropertiesOrderArray = new Dictionary<string, List<string>>();
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Propertieses the order array.
-        /// </summary>
-        /// <returns>The order array.</returns>
-        public static List<string> PropertiesOrderArray()
+        public static List<string> PropertiesOrderArray(int sWebBuilt = -1)
         {
-            if (kPropertiesOrderArray.ContainsKey(ClassID()) == false)
+            bool tRecalculate = true;
+            List<string> rReturnList = null;
+            int tWebBuilt = sWebBuilt;
+            int tWebModel = sWebBuilt;
+
+            if (tWebBuilt == -1)
             {
-                List<string> rReturn = new List<string>();
+                tWebBuilt = NWDAppConfiguration.SharedInstance().WebBuild;
+            }
+
+            if (Datas().WS_Model.ContainsKey(tWebBuilt))
+            {
+                tWebModel = Datas().WS_Model[tWebBuilt];
+            }
+            else
+            {
+                // tWebBuilt is unknow ... no webmodel !?
+            }
+            if (Datas().PropertiesOrderArrayBBB.ContainsKey(tWebModel))
+            {
+                tRecalculate = false;
+                rReturnList = Datas().PropertiesOrderArrayBBB[tWebModel];
+            }
+#if UNITY_EDITOR
+            if (sWebBuilt == -1)
+            {
+                tRecalculate = true;
+            }
+#endif
+            if (tRecalculate == true)
+            {
+                rReturnList = new List<string>();
                 Type tType = ClassType();
                 foreach (var tProp in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
                 {
-                    rReturn.Add(tProp.Name);
+                    rReturnList.Add(tProp.Name);
                 }
-                rReturn.Sort();
-                kPropertiesOrderArray[ClassID()] = rReturn;
-            }
-            return kPropertiesOrderArray[ClassID()];
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string[]> kCSVAssemblyOrderArray = new Dictionary<string, string[]>();
+                //rReturnList.Sort();
+                rReturnList.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.OrdinalIgnoreCase));
 
-        //-------------------------------------------------------------------------------------------------------------
-        public static int CSVAssemblyIndexOf(string sPropertyName)
-        {
-            return Array.IndexOf(CSVAssemblyOrderArray(), sPropertyName);
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// CSV assembly order array.
-        /// </summary>
-        /// <returns>The assembly order array.</returns>
-        public static string[] CSVAssemblyOrderArray()
-        {
-#if UNITY_EDITOR
-            // never use the cache
-#else
-            if (kCSVAssemblyOrderArray.ContainsKey(ClassID()) == false)
-#endif
-            {
-                List<string> rReturn = new List<string>();
-                rReturn.AddRange(PropertiesOrderArray());
-                rReturn.Remove("Integrity");
-                rReturn.Remove("Reference");
-                rReturn.Remove("ID");
-                rReturn.Remove("DM");
-                rReturn.Remove("DS");
-                rReturn.Remove("ServerHash");
-                rReturn.Remove("ServerLog");
-                rReturn.Remove("DevSync");
-                rReturn.Remove("PreprodSync");
-                rReturn.Remove("ProdSync");
-                rReturn.Remove("InError");// not include in integrity
+                // Reorder to prevent remove correctly
+                rReturnList.Remove("Integrity");
+                rReturnList.Remove("Reference");
+                rReturnList.Remove("ID");
+                rReturnList.Remove("DM");
+                rReturnList.Remove("DS");
+                rReturnList.Remove("ServerHash");
+                rReturnList.Remove("ServerLog");
+                rReturnList.Remove("DevSync");
+                rReturnList.Remove("PreprodSync");
+                rReturnList.Remove("ProdSync");
+                rReturnList.Remove("InError");
+                rReturnList.Remove("WebServiceVersion");
+
+                // not include in integrity
                 //rReturn.Remove("WebServiceVersion");
                 // add the good order for this element
-                rReturn.Insert(0, "Reference");
-                rReturn.Insert(1, "DM");
-                rReturn.Insert(2, "DS");
-                rReturn.Insert(3, "DevSync");
-                rReturn.Insert(4, "PreprodSync");
-                rReturn.Insert(5, "ProdSync");
-                //rReturn.Add("WebServiceVersion");
-                rReturn.Add("Integrity");
-                kCSVAssemblyOrderArray[ClassID()] = rReturn.ToArray<string>();
+                rReturnList.Insert(0, "Reference");
+                rReturnList.Insert(1, "DM");
+                rReturnList.Insert(2, "DS");
+                rReturnList.Insert(3, "DevSync");
+                rReturnList.Insert(4, "PreprodSync");
+                rReturnList.Insert(5, "ProdSync");
+                //rReturnList.Insert(6, "ServerHash");
+                //rReturnList.Insert(7, "ServerLog");
+                //rReturnList.Insert(8, "InError");
+                //rReturnList.Insert(9, "ID");
+
+                //rReturnList.Add("ID");
+                rReturnList.Add("WebServiceVersion");
+                rReturnList.Add("Integrity");
             }
-            return kCSVAssemblyOrderArray[ClassID()];
+#if UNITY_EDITOR
+            // reinit this table of value if not init  
+            if (Datas().PropertiesOrderArrayBBB.Count == 0)
+            {
+                Datas().PropertiesOrderArrayBBB.Add(0, rReturnList);
+            }
+#endif
+            return rReturnList;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string[]> kSLQAssemblyOrderArray = new Dictionary<string, string[]>();
-
-
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// SLQs the assembly order array.
-        /// </summary>
-        /// <returns>The assembly order array.</returns>
-        public static string[] SLQAssemblyOrderArray() //  for insert of $sCsvList
+        public static int CSV_IndexOf(string sPropertyName, int sWebBuilt = -1)
         {
-#if UNITY_EDITOR
-            // never use the cache
-#else
-            if (kSLQAssemblyOrderArray.ContainsKey(ClassID()) == false)
-#endif
-            {
-                List<string> rReturn = new List<string>();
-                rReturn.AddRange(PropertiesOrderArray());
-                rReturn.Remove("Integrity");
-                rReturn.Remove("Reference");
-                rReturn.Remove("ID");
-                rReturn.Remove("DM");
-                rReturn.Remove("DS");
-                rReturn.Remove("ServerHash");
-                rReturn.Remove("ServerLog");
-                rReturn.Remove("DevSync");
-                rReturn.Remove("PreprodSync");
-                rReturn.Remove("ProdSync");
-                rReturn.Remove("InError");// not include in integrity
-                //rReturn.Remove("WebServiceVersion");
-                // add the good order for this element
-                rReturn.Insert(0, "DM");
-                rReturn.Insert(1, "DS");
-                rReturn.Insert(2, "DevSync");
-                rReturn.Insert(3, "PreprodSync");
-                rReturn.Insert(4, "ProdSync");
-                //rReturn.Add("WebServiceVersion");
-                rReturn.Add("Integrity");
-                kSLQAssemblyOrderArray[ClassID()] = rReturn.ToArray<string>();
-            }
-            return kSLQAssemblyOrderArray[ClassID()];
+            //return Array.IndexOf(CSVAssemblyOrderArray(sWebBuilt), sPropertyName);
+            return PropertiesOrderArray(sWebBuilt).IndexOf(sPropertyName);
         }
         //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, string> kSLQAssemblyOrder = new Dictionary<string, string>();
-
-
+        //        public static string[] CSVAssemblyOrderArray(int sWebBuilt = -1)
+        //        {
+        //            bool tRecalculate = true;
+        //            string[] rReturn = null;
+        //            int tWebModel = sWebBuilt;
+        //            if (tWebModel == -1)
+        //            {
+        //                tWebModel = Datas().WS_Model[NWDAppConfiguration.SharedInstance().WebBuild];
+        //            }
+        //            else
+        //            {
+        //                if (Datas().WS_Model.ContainsKey(sWebBuilt))
+        //                {
+        //                    tWebModel = Datas().WS_Model[sWebBuilt];
+        //                }
+        //            }
+        //            if (Datas().CSV_OrderArray.ContainsKey(tWebModel))
+        //            {
+        //                tRecalculate = false;
+        //                rReturn = Datas().CSV_OrderArray[tWebModel];
+        //            }
+        //#if UNITY_EDITOR
+        //            if (sWebBuilt == -1)
+        //            {
+        //                tRecalculate = true;
+        //            }
+        //            //#endif
+        //            if (tRecalculate == true)
+        //            {
+        //                List<string> rReturnList = new List<string>();
+        //                rReturnList.AddRange(PropertiesOrderArray(sWebBuilt));
+        //                rReturnList.Remove("ID");
+        //                rReturnList.Remove("ServerHash");
+        //                rReturnList.Remove("ServerLog");
+        //                rReturnList.Remove("InError");
+        //                rReturn = rReturnList.ToArray();
+        //            }
+        //            //#if UNITY_EDITOR
+        //            // reinit this table of value if not init  
+        //            if (Datas().CSV_OrderArray.Count == 0)
+        //            {
+        //                Datas().CSV_OrderArray.Add(0, rReturn);
+        //            }
+        //#endif
+        //return rReturn;
+        //}
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// SLQs the assembly order.
-        /// </summary>
-        /// <returns>The assembly order.</returns>
-        public static string SLQAssemblyOrder()
+        public static string[] SLQAssemblyOrderArray(int sWebBuilt = -1) //  for insert of $sCsvList
         {
-#if UNITY_EDITOR
-            // never use the cache
-#else
-            if (kSLQAssemblyOrder.ContainsKey(ClassID()) == false)
-#endif
+            string[] rReturn = null;
+            List<string> rReturnList = new List<string>();
+            rReturnList.AddRange(PropertiesOrderArray(sWebBuilt));
+            rReturnList.Remove("Reference");
+            rReturn = rReturnList.ToArray();
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static string SLQSelect(int sWebBuilt = -1)
+        {
+            string rReturnString = string.Empty;
+            List<string> tList = new List<string>();
+            tList.AddRange(PropertiesOrderArray(sWebBuilt));
+            rReturnString = "***";
+            foreach (string tPropertyName in tList)
             {
-                List<string> rReturn = new List<string>();
-                rReturn.AddRange(PropertiesOrderArray());
-                rReturn.Remove("Integrity");
-                rReturn.Remove("Reference");
-                rReturn.Remove("ID");
-                rReturn.Remove("DM");
-                rReturn.Remove("DS");
-                rReturn.Remove("ServerHash");
-                rReturn.Remove("ServerLog");
-                rReturn.Remove("DevSync");
-                rReturn.Remove("PreprodSync");
-                rReturn.Remove("ProdSync");
-                rReturn.Remove("InError");// not include in integrity
-                //rReturn.Remove("WebServiceVersion");
-                // add the good order for this element
-                rReturn.Insert(0, "Reference");
-                rReturn.Insert(1, "DM");
-                rReturn.Insert(2, "DS");
-                rReturn.Insert(3, "DevSync");
-                rReturn.Insert(4, "PreprodSync");
-                rReturn.Insert(5, "ProdSync");
-                //rReturn.Add("WebServiceVersion");
-                rReturn.Add("Integrity");
-
-                // must prevent error in float, double, date, etc...
-                //kSLQAssemblyOrder[ClassID()] = "`" + string.Join("`, `", rReturn.ToArray()) + "`";
-
-                string SLQAssemblyOrderToSelect = "***";
-                foreach (string tPropertyName in rReturn)
+                PropertyInfo tPropertyInfo = ClassType().GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
+                Type tTypeOfThis = tPropertyInfo.PropertyType;
+                if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
                 {
-                    PropertyInfo tPropertyInfo = ClassType().GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
-                    Type tTypeOfThis = tPropertyInfo.PropertyType;
-                    if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
-                    {
-                        SLQAssemblyOrderToSelect += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
-                    }
-                    else if (tTypeOfThis == typeof(float))
-                    {
-                        SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
-                    }
-                    else if (tTypeOfThis == typeof(double))
-                    {
-                        SLQAssemblyOrderToSelect += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.DoubleSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
-                    }
-                    else
-                    {
-                        SLQAssemblyOrderToSelect += ", `" + tPropertyName + "`";
-                    }
+                    rReturnString += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
                 }
-                SLQAssemblyOrderToSelect = SLQAssemblyOrderToSelect.Replace("***, ", "");
-                kSLQAssemblyOrder[ClassID()] = SLQAssemblyOrderToSelect;
+                else if (tTypeOfThis == typeof(float))
+                {
+                    rReturnString += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
+                }
+                else if (tTypeOfThis == typeof(double))
+                {
+                    rReturnString += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.DoubleSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
+                }
+                else
+                {
+                    rReturnString += ", `" + tPropertyName + "`";
+                }
             }
-            return kSLQAssemblyOrder[ClassID()];
+            rReturnString = rReturnString.Replace("***, ", "");
+            return rReturnString;
         }
-
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, List<string>> kSLQIntegrityOrder = new Dictionary<string, List<string>>();
 
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order.
         /// </summary>
         /// <returns>The assembly order.</returns>
-        public static List<string> SLQIntegrityOrder()
+        public static List<string> SLQIntegrityOrder(int sWebBuilt = -1)
         {
-#if UNITY_EDITOR
-            // never use the cache
-#else
-            if (kSLQIntegrityOrder.ContainsKey(ClassID()) == false)
-#endif
-            {
-                List<string> rReturn = new List<string>();
-                rReturn.AddRange(PropertiesOrderArray());
-                rReturn.Remove("Integrity");
-                rReturn.Remove("Reference");
-                rReturn.Remove("ID");
-                rReturn.Remove("DM");
-                rReturn.Remove("DS");
-                rReturn.Remove("ServerHash");
-                rReturn.Remove("ServerLog");
-                rReturn.Remove("DevSync");
-                rReturn.Remove("PreprodSync");
-                rReturn.Remove("ProdSync");
-                rReturn.Remove("InError");// not include in integrity
-                //rReturn.Remove("WebServiceVersion");
-                rReturn.Sort((tA, tB) => string.Compare(tA, tB, StringComparison.OrdinalIgnoreCase));
-                // add the good order for this element
-                rReturn.Insert(0, "Reference");
-                rReturn.Insert(1, "DM");
-                //rReturn.Add("WebServiceVersion");
-                kSLQIntegrityOrder[ClassID()] = rReturn;
-            }
-            return kSLQIntegrityOrder[ClassID()];
+            List<string> rReturn = new List<string>();
+            rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
+            rReturn.Remove("Integrity");
+            rReturn.Remove("DS");
+            rReturn.Remove("DevSync");
+            rReturn.Remove("PreprodSync");
+            rReturn.Remove("ProdSync");
+            return rReturn;
         }
 
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, List<string>> kSLQIntegrityServerOrder = new Dictionary<string, List<string>>();
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order.
         /// </summary>
         /// <returns>The assembly order.</returns>
-        public static List<string> SLQIntegrityServerOrder()
+        public static List<string> SLQIntegrityServerOrder(int sWebBuilt = -1)
         {
-            if (kSLQIntegrityServerOrder.ContainsKey(ClassID()) == false)
-            {
-                List<string> rReturn = new List<string>();
-                rReturn.AddRange(PropertiesOrderArray());
-                rReturn.Remove("Integrity");
-                rReturn.Remove("Reference");
-                rReturn.Remove("ID");
-                rReturn.Remove("DS");
-                rReturn.Remove("ServerHash");
-                rReturn.Remove("ServerLog");
-                rReturn.Remove("DevSync");
-                rReturn.Remove("PreprodSync");
-                rReturn.Remove("ProdSync");
-                rReturn.Remove("InError");// not include in integrity
-                //rReturn.Remove("WebServiceVersion");
-
-                // I remove this to be able to trash and untrash object without break server integrity (perhaps bad solution ?)
-                rReturn.Remove("DM");
-                rReturn.Remove("AC");
-                rReturn.Remove("DC");
-                rReturn.Remove("DD");
-                // add the good order for this element
-                rReturn.Sort((tA, tB) => string.Compare(tB, tA, StringComparison.OrdinalIgnoreCase));
-                // add the good order for this element
-                rReturn.Insert(2, "Reference");
-                // add another order for these element (perhaps bad solution ?)
-                rReturn.Add("AC");
-                //rReturn.Add("DD");
-                rReturn.Add("DC");
-                //rReturn.Add("DM");
-                kSLQIntegrityServerOrder[ClassID()] = rReturn;
-            }
-            return kSLQIntegrityServerOrder[ClassID()];
+            List<string> rReturn = new List<string>();
+            rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
+            rReturn.Remove("Integrity");
+            rReturn.Remove("DS");
+            rReturn.Remove("DevSync");
+            rReturn.Remove("PreprodSync");
+            rReturn.Remove("ProdSync");
+            rReturn.Remove("DM");
+            rReturn.Remove("DD");
+            return rReturn;
         }
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        public static Dictionary<string, List<string>> kDataAssemblyPropertiesList = new Dictionary<string, List<string>>();
-
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// SLQs the assembly order.
         /// </summary>
         /// <returns>The assembly order.</returns>
-        public static List<string> DataAssemblyPropertiesList()
-        {
-#if UNITY_EDITOR
-            // never use the cache
-#else
-            if (kDataAssemblyPropertiesList.ContainsKey(ClassID()) == false)
+        //public static List<string> DataAssemblyPropertiesList(int sWebBuilt = -1)
+        //{
+        //        List<string> rReturn = new List<string>();
+        //        rReturn.AddRange(PropertiesOrderArray(sWebBuilt));
+        //        rReturn.Remove("Integrity"); // not include in integrity
+        //        rReturn.Remove("Reference");
+        //        rReturn.Remove("ID");
+        //        rReturn.Remove("DM");
+        //        rReturn.Remove("DS");// not include in integrity
+        //        rReturn.Remove("ServerHash");// not include in integrity
+        //        rReturn.Remove("ServerLog");// not include in integrity
+        //        rReturn.Remove("DevSync");// not include in integrity
+        //        rReturn.Remove("PreprodSync");// not include in integrity
+        //        rReturn.Remove("ProdSync");// not include in integrity
+        //        rReturn.Remove("ProdSync");// not include in integrity
 
-#endif
-            {
-                List<string> rReturn = new List<string>();
-                rReturn.AddRange(PropertiesOrderArray());
-                rReturn.Remove("Integrity"); // not include in integrity
-                rReturn.Remove("Reference");
-                rReturn.Remove("ID");
-                rReturn.Remove("DM");
-                rReturn.Remove("DS");// not include in integrity
-                rReturn.Remove("ServerHash");// not include in integrity
-                rReturn.Remove("ServerLog");// not include in integrity
-                rReturn.Remove("DevSync");// not include in integrity
-                rReturn.Remove("PreprodSync");// not include in integrity
-                rReturn.Remove("ProdSync");// not include in integrity
-                rReturn.Remove("ProdSync");// not include in integrity
-
-                // to prevent integrity error in check InError
-                rReturn.Remove("InError");// not include in integrity
-                //rReturn.Remove("WebServiceVersion");
-                //rReturn.Add("WebServiceVersion");
-                kDataAssemblyPropertiesList[ClassID()] = rReturn;
-            }
-            return kDataAssemblyPropertiesList[ClassID()];
-        }
-
-
+        //        // to prevent integrity error in check InError
+        //        rReturn.Remove("InError");// not include in integrity
+        //        //rReturn.Remove("WebServiceVersion");
+        //        //rReturn.Add("WebServiceVersion");
+        //    return rReturn;
+        //}
 
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -552,13 +413,6 @@ namespace NetWorkedData
             return rReturnObject;
         }
         //-------------------------------------------------------------------------------------------------------------
-
-        #endregion
-
-        //-------------------------------------------------------------------------------------------------------------
-
-        #region Instance Methods
-
         public void UpdateDataFromWeb(NWDAppEnvironment sEnvironment,
                                       string[] sDataArray,
                                       NWDWritingMode sWritingMode = NWDWritingMode.ByDefaultLocal)
@@ -641,12 +495,17 @@ namespace NetWorkedData
         /// <param name="sDataArray">data array.</param>
         public void FillDataFromWeb(NWDAppEnvironment sEnvironment, string[] sDataArray)
         {
+            // TODO Determine WebService Model
+            // TODO USe the good model to Update
+            int tModel = GetWebModelValueFromCSV(sDataArray);
+
+
             // FORCE TO ENGLISH FORMAT!
             //Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
 
             //Debug.Log("UpdateWithCSV ref " + Reference);
             // get key order assembly of cvs
-            string[] tKey = CSVAssemblyOrderArray();
+            string[] tKey = PropertiesOrderArray(tModel).ToArray();
             // get values 
             string[] tValue = sDataArray;
             // Short circuit the sync date
@@ -855,76 +714,44 @@ namespace NetWorkedData
         /// </summary>
         /// <returns>The assembly.</returns>
         /// <param name="sAsssemblyAsCVS">If set to <c>true</c> asssembly as CSV.</param>
-        public string DataAssembly(bool sAsssemblyAsCSV = false)
+
+
+        public string CSVAssembly()
         {
-            // FORCE TO ENGLISH FORMAT!
-            //Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+            string[] tValues = Assembly();
+            return string.Join(NWDConstants.kStandardSeparator, tValues);
+        }
 
-            // TODO: use the StringBuilder 
-            StringBuilder rReturngBuilder = new StringBuilder();
-            if (sAsssemblyAsCSV == true)
-            {
-                rReturngBuilder.Append(Reference);
-                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-                rReturngBuilder.Append(DM);
-                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-                rReturngBuilder.Append(DS);
-                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-                rReturngBuilder.Append(DevSync);
-                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-                rReturngBuilder.Append(PreprodSync);
-                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-                rReturngBuilder.Append(ProdSync);
-                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-            }
-            else
-            {
-                rReturngBuilder.Append(Reference);
-                rReturngBuilder.Append(DM);
-            }
-            //string rReturn = string.Empty;
+        public string IntegrityAssembly()
+        {
+            string[] tValues = Assembly();
+            tValues[2] = "";
+            tValues[3] = "";
+            tValues[4] = "";
+            tValues[5] = "";
+            tValues[tValues.Length - 1] = "";
+            return string.Join("", tValues);
+        }
+
+        public string[] Assembly(/*int sWebBuilt = -1*/)
+        {
+            List<string> rReturnList = new List<string>();
             Type tType = ClassType();
-            List<string> tPropertiesList = DataAssemblyPropertiesList();
-
-            // todo get the good version of assembly 
-            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-            int tLastWebService = -1;
-            foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
-            {
-                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
-                {
-                    if (tKeyValue.Value.ContainsKey(ClassID()))
-                    {
-                        tPropertiesList = tKeyValue.Value[ClassID()];
-                    }
-                }
-            }
-
-            //Debug.Log("DATA ASSEMBLY  initial count =  " + tPropertiesList.Count.ToString());
+            List<string> tPropertiesList = PropertiesOrderArray(-1);
             foreach (string tPropertieName in tPropertiesList)
             {
                 PropertyInfo tProp = tType.GetProperty(tPropertieName);
                 if (tProp != null)
                 {
                     Type tTypeOfThis = tProp.PropertyType;
-
-                    // Actif to debug the integrity
-                    //rReturn += "|-" + tPropertieName + ":";
-                    // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
-
                     string tValueString = string.Empty;
-
                     object tValue = tProp.GetValue(this, null);
                     if (tValue == null)
                     {
                         tValue = string.Empty;
                     }
-
-                    //tValueString = tValue.ToString();
-
                     if (tTypeOfThis.IsEnum)
                     {
-                        //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
                         int tInt = (int)tValue;
                         tValueString = tInt.ToString();
                     }
@@ -934,31 +761,18 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
                     {
-                        //tValueString = tValue.ToString();
                         tValueString = NWDToolbox.LongToString(((BTBDataTypeInt)tValue).Value);
                     }
                     else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
                     {
-                        //tValueString = tValue.ToString();
                         tValueString = NWDToolbox.DoubleToString(((BTBDataTypeFloat)tValue).Value);
                     }
-                    // Do for Standard type
                     else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
                     {
                         tValueString = tValue.ToString();
                     }
                     else if (tTypeOfThis == typeof(bool))
                     {
-                        //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
-                        //tValueString = tValue.ToString();
-                        //if (tValueString.ToLower() == "false")
-                        //{
-                        //    tValueString = "0";
-                        //}
-                        //else
-                        //{
-                        //    tValueString = "1";
-                        //}
                         tValueString = NWDToolbox.BoolToIntString((bool)tValue);
                     }
                     else if (tTypeOfThis == typeof(int))
@@ -967,177 +781,345 @@ namespace NetWorkedData
                     }
                     else if (tTypeOfThis == typeof(long))
                     {
-                        //long tFloat = (long)tValue;
-                        //tValueString = tFloat.ToString(NWDConstants.FormatCountry);
-                        //Debug.Log("tValueString long" + tFloat + "=> " + tValueString);
                         tValueString = NWDToolbox.LongToString((long)tValue);
                     }
                     else if (tTypeOfThis == typeof(float))
                     {
-                        //float tFloat = (float)tValue;
-                        //tValueString = tFloat.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
-                        ////Debug.Log("tValueString float" + tFloat+ "=> " + tValueString);
                         tValueString = NWDToolbox.FloatToString((float)tValue);
                     }
                     else if (tTypeOfThis == typeof(double))
                     {
-                        //double tDouble = (double)tValue;
-                        //tValueString = tDouble.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
-                        //Debug.Log("tValueString double" + tDouble + "=> " + tValueString);
                         tValueString = NWDToolbox.DoubleToString((double)tValue);
                     }
                     else
                     {
                         tValueString = tValue.ToString();
                     }
-                    // type of assembly
-                    if (sAsssemblyAsCSV == true)
-                    {
-                        //rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
-                        rReturngBuilder.Append(NWDToolbox.TextCSVProtect(tValueString));
-                        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
-                    }
-                    else
-                    {
-                        //rReturn += NWDToolbox.TextCSVProtect(tValueString);
-                        rReturngBuilder.Append(NWDToolbox.TextCSVProtect(tValueString));
-                    }
+                    tValueString = NWDToolbox.TextCSVProtect(tValueString);
+                    rReturnList.Add(tValueString);
                 }
             }
-            if (sAsssemblyAsCSV == true)
+            return rReturnList.ToArray();
+        }
+
+
+
+
+        //public virtual string DataAssembly(bool sAsssemblyAsCSV = false)
+        //{
+        //    // FORCE TO ENGLISH FORMAT!
+        //    //Thread.CurrentThread.CurrentCulture = NWDConstants.FormatCountry;
+
+        //    // TODO: use the StringBuilder 
+        //    StringBuilder rReturngBuilder = new StringBuilder();
+        //    if (sAsssemblyAsCSV == true)
+        //    {
+        //        rReturngBuilder.Append(Reference);
+        //        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //        rReturngBuilder.Append(DM);
+        //        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //        rReturngBuilder.Append(DS);
+        //        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //        rReturngBuilder.Append(DevSync);
+        //        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //        rReturngBuilder.Append(PreprodSync);
+        //        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //        rReturngBuilder.Append(ProdSync);
+        //        rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //    }
+        //    else
+        //    {
+        //        rReturngBuilder.Append(Reference);
+        //        rReturngBuilder.Append(DM);
+        //    }
+        //    //string rReturn = string.Empty;
+        //    Type tType = ClassType();
+        //    List<string> tPropertiesList = DataAssemblyPropertiesList();
+
+        //    // todo get the good version of assembly 
+        //    NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
+        //    int tLastWebService = -1;
+        //    foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
+        //    {
+        //        if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+        //        {
+        //            if (tKeyValue.Value.ContainsKey(ClassID()))
+        //            {
+        //                tPropertiesList = tKeyValue.Value[ClassID()];
+        //            }
+        //        }
+        //    }
+
+        //    //Debug.Log("DATA ASSEMBLY  initial count =  " + tPropertiesList.Count.ToString());
+        //    foreach (string tPropertieName in tPropertiesList)
+        //    {
+        //        PropertyInfo tProp = tType.GetProperty(tPropertieName);
+        //        if (tProp != null)
+        //        {
+        //            Type tTypeOfThis = tProp.PropertyType;
+
+        //            // Actif to debug the integrity
+        //            //rReturn += "|-" + tPropertieName + ":";
+        //            // Debug.Log("this prop "+tProp.Name+" is type : " + tTypeOfThis.Name );
+
+        //            string tValueString = string.Empty;
+
+        //            object tValue = tProp.GetValue(this, null);
+        //            if (tValue == null)
+        //            {
+        //                tValue = string.Empty;
+        //            }
+
+        //            //tValueString = tValue.ToString();
+
+        //            if (tTypeOfThis.IsEnum)
+        //            {
+        //                //Debug.Log("this prop  " + tTypeOfThis.Name + " is an enum");
+        //                int tInt = (int)tValue;
+        //                tValueString = tInt.ToString();
+        //            }
+        //            else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataType)))
+        //            {
+        //                tValueString = tValue.ToString();
+        //            }
+        //            else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeInt)))
+        //            {
+        //                //tValueString = tValue.ToString();
+        //                tValueString = NWDToolbox.LongToString(((BTBDataTypeInt)tValue).Value);
+        //            }
+        //            else if (tTypeOfThis.IsSubclassOf(typeof(BTBDataTypeFloat)))
+        //            {
+        //                //tValueString = tValue.ToString();
+        //                tValueString = NWDToolbox.DoubleToString(((BTBDataTypeFloat)tValue).Value);
+        //            }
+        //            // Do for Standard type
+        //            else if (tTypeOfThis == typeof(String) || tTypeOfThis == typeof(string))
+        //            {
+        //                tValueString = tValue.ToString();
+        //            }
+        //            else if (tTypeOfThis == typeof(bool))
+        //            {
+        //                //Debug.Log ("REFERENCE " + Reference + " AC + " + AC + " : " + tValueString);
+        //                //tValueString = tValue.ToString();
+        //                //if (tValueString.ToLower() == "false")
+        //                //{
+        //                //    tValueString = "0";
+        //                //}
+        //                //else
+        //                //{
+        //                //    tValueString = "1";
+        //                //}
+        //                tValueString = NWDToolbox.BoolToIntString((bool)tValue);
+        //            }
+        //            else if (tTypeOfThis == typeof(int))
+        //            {
+        //                tValueString = NWDToolbox.IntToString((int)tValue);
+        //            }
+        //            else if (tTypeOfThis == typeof(long))
+        //            {
+        //                //long tFloat = (long)tValue;
+        //                //tValueString = tFloat.ToString(NWDConstants.FormatCountry);
+        //                //Debug.Log("tValueString long" + tFloat + "=> " + tValueString);
+        //                tValueString = NWDToolbox.LongToString((long)tValue);
+        //            }
+        //            else if (tTypeOfThis == typeof(float))
+        //            {
+        //                //float tFloat = (float)tValue;
+        //                //tValueString = tFloat.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+        //                ////Debug.Log("tValueString float" + tFloat+ "=> " + tValueString);
+        //                tValueString = NWDToolbox.FloatToString((float)tValue);
+        //            }
+        //            else if (tTypeOfThis == typeof(double))
+        //            {
+        //                //double tDouble = (double)tValue;
+        //                //tValueString = tDouble.ToString(NWDConstants.FloatFormat, NWDConstants.FormatCountry);
+        //                //Debug.Log("tValueString double" + tDouble + "=> " + tValueString);
+        //                tValueString = NWDToolbox.DoubleToString((double)tValue);
+        //            }
+        //            else
+        //            {
+        //                tValueString = tValue.ToString();
+        //            }
+        //            // type of assembly
+        //            if (sAsssemblyAsCSV == true)
+        //            {
+        //                //rReturn += NWDToolbox.TextCSVProtect(tValueString) + NWDConstants.kStandardSeparator;
+        //                rReturngBuilder.Append(NWDToolbox.TextCSVProtect(tValueString));
+        //                rReturngBuilder.Append(NWDConstants.kStandardSeparator);
+        //            }
+        //            else
+        //            {
+        //                //rReturn += NWDToolbox.TextCSVProtect(tValueString);
+        //                rReturngBuilder.Append(NWDToolbox.TextCSVProtect(tValueString));
+        //            }
+        //        }
+        //    }
+        //    if (sAsssemblyAsCSV == true)
+        //    {
+        //        //rReturn = Reference + NWDConstants.kStandardSeparator +
+        //        //DM + NWDConstants.kStandardSeparator +
+        //        //DS + NWDConstants.kStandardSeparator +
+        //        //DevSync + NWDConstants.kStandardSeparator +
+        //        //PreprodSync + NWDConstants.kStandardSeparator +
+        //        //ProdSync + NWDConstants.kStandardSeparator +
+        //        //// Todo Add WebServiceVersion ?
+        //        ////WebServiceVersion + NWDConstants.kStandardSeparator +
+        //        //rReturn + Integrity;
+        //        //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
+        //        rReturngBuilder.Append(Integrity);
+        //    }
+        //    else
+        //    {
+        //        //rReturn = Reference +
+        //        //DM +
+        //        //rReturn;
+        //    }
+        //    //return rReturn;
+        //    return rReturngBuilder.ToString();
+        //}
+        //-------------------------------------------------------------------------------------------------------------
+#if UNITY_EDITOR
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : DEPLACER VERS NWDDATAS
+        public static bool ModelDegraded()
+        {
+            bool rReturn = false;
+            int tLasBuild = Datas().LastWebBuild;
+            int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+            int tActualWebBuildMax = NWDAppConfiguration.SharedInstance().WebBuildMax + 1;
+            Datas().WebModelDegradationList.Clear();
+            Dictionary<int, List<string>> tModel_Properties = new Dictionary<int, List<string>>(Datas().PropertiesOrderArrayBBB);
+            tModel_Properties.Add(tActualWebBuildMax, PropertiesOrderArray(-1));
+
+            if (tModel_Properties.Count > 0)
             {
-                //rReturn = Reference + NWDConstants.kStandardSeparator +
-                //DM + NWDConstants.kStandardSeparator +
-                //DS + NWDConstants.kStandardSeparator +
-                //DevSync + NWDConstants.kStandardSeparator +
-                //PreprodSync + NWDConstants.kStandardSeparator +
-                //ProdSync + NWDConstants.kStandardSeparator +
-                //// Todo Add WebServiceVersion ?
-                ////WebServiceVersion + NWDConstants.kStandardSeparator +
-                //rReturn + Integrity;
-                //Debug.Log("DATA ASSEMBLY  CSV count =  " + (tPropertiesList.Count+7).ToString());
-                rReturngBuilder.Append(Integrity);
+                List<int> tKeyList = new List<int>();
+                foreach (KeyValuePair<int, List<string>> tModel_Prop in tModel_Properties)
+                {
+                    tKeyList.Add(tModel_Prop.Key);
+                }
+                tKeyList.Sort();
+                List<string> tProp = tModel_Properties[tKeyList[0]];
+                //int tCounter = tProp.Count;
+                foreach (int tKey in tKeyList)
+                {
+                    List<string> tPropList = tModel_Properties[tKey];
+                    //if (tCounter < tPropList.Count)
+                    //{
+                    //    // the number of properties is reduce beetween two version !!!!!
+                    //    rReturn = true;
+                    //}
+                    List<string> tResultRemove = new List<string>(tProp);
+                    foreach (string tR in tPropList)
+                    {
+                        tResultRemove.Remove(tR);
+                    }
+                    if (tResultRemove.Count > 0)
+                    {
+                        foreach (string tR in tResultRemove)
+                        {
+                            Datas().WebModelDegradationList.Add(tR);
+                            Debug.Log ("... il reste "+ tR +  " en trop dans le modele "+ tKey + " de " + Datas().ClassNamePHP);
+                        }
+                        // the properties is not increment beetween two versions !!!!!
+                        rReturn = true;
+                        break;
+                    }
+                    tProp = tPropList;
+                    //tCounter = tProp.Count;
+                }
+            }
+            return rReturn;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        // TODO : DEPLACER VERS NWDDATAS
+        public static bool ModelChanged()
+        {
+            bool rReturn = false;
+            int tLasBuild = Datas().LastWebBuild;
+            int tActualWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
+            if (Datas().SQL_Order.ContainsKey(tLasBuild))
+            {
+                if (SLQSelect() != Datas().SQL_Order[tLasBuild])
+                {
+                    Debug.LogWarning("THE MODEL " + Datas().ClassNamePHP + " CHANGED FROM THE PREVIEW DATAS WEBSERVICE (" + tLasBuild + " / " + tActualWebBuild + ")!");
+                    Debug.LogWarning("new : " + SLQSelect());
+                    Debug.LogWarning("old : " + Datas().SQL_Order[tLasBuild]);
+                    rReturn = true;
+                }
             }
             else
             {
-                //rReturn = Reference +
-                //DM +
-                //rReturn;
+                Debug.LogWarning("THE MODEL" + Datas().ClassNamePHP + " CHANGED FOR UNKNOW WEBSERVICE(" + tLasBuild + "?/ " + tActualWebBuild + ")!");
+                rReturn = true;
             }
-            //return rReturn;
-            return rReturngBuilder.ToString();
+            return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-
-        #endregion
-
-
-        // TODO : Create WebService memorize
-
-        //public static Dictionary<int, Dictionary<string, string[]>> kWebBuildkCSVAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
-
-        //public static Dictionary<int, Dictionary<string, string[]>> kWebBuildkSLQAssemblyOrderArray = new Dictionary<int, Dictionary<string, string[]>>();
-
-        //public static Dictionary<int, Dictionary<string, string>> kWebBuildkSLQAssemblyOrder = new Dictionary<int, Dictionary<string, string>>();
-
-        //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityOrder = new Dictionary<int, Dictionary<string, List<string>>>();
-
-        //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkSLQIntegrityServerOrder = new Dictionary<int, Dictionary<string, List<string>>>();
-
-        //public static Dictionary<int, Dictionary<string, List<string>>> kWebBuildkDataAssemblyPropertiesList = new Dictionary<int, Dictionary<string, List<string>>>();
-
-#if UNITY_EDITOR
+        // TODO : DEPLACER VERS NWDDATAS
         public static void PrepareOrders()
         {
-            NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
             int tWebBuild = NWDAppConfiguration.SharedInstance().WebBuild;
-            //Debug.Log("PrepareOrders for webservice : "+tWebBuild.ToString());
-
-            // TODO test old version is diffeerent from new version of data
-            string tLastRegister = string.Empty;
-            int tLast = 0;
-            foreach (KeyValuePair<int, Dictionary<string, string>> tPair in tApp.kWebBuildkSLQAssemblyOrder)
+            if (Datas().WebModelChanged)
             {
-                if (tLast < tPair.Key)
+                Datas().LastWebBuild = tWebBuild;
+                if (Datas().PropertiesOrderArrayBBB.ContainsKey(tWebBuild) == false)
                 {
-                    tLast = tPair.Key;
-                    if (tPair.Value.ContainsKey(ClassID()))
-                    {
-                        tLastRegister = tPair.Value[ClassID()];
-                    }
+                    Datas().PropertiesOrderArrayBBB.Add(tWebBuild, PropertiesOrderArray(tWebBuild));
                 }
-            }
-            string tActualRegister = SLQAssemblyOrder();
-
-            //Debug.Log(ClassID() + " tActualRegister = "+ tActualRegister);
-            //Debug.Log(ClassID() + " tLastRegister = " + tLastRegister);
-            if (tActualRegister != tLastRegister)
-            {
-                //Debug.Log(ClassID() + " must be updated for webservice " + tWebBuild.ToString());
-                if (tApp.kWebBuildkCSVAssemblyOrderArray.ContainsKey(tWebBuild) == false)
+                if (Datas().SQL_Order.ContainsKey(tWebBuild) == false)
                 {
-                    tApp.kWebBuildkCSVAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
-                }
-                if (tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) == false)
-                {
-                    tApp.kWebBuildkCSVAssemblyOrderArray[tWebBuild].Add(ClassID(), CSVAssemblyOrderArray());
-                }
-
-                if (tApp.kWebBuildkSLQAssemblyOrderArray.ContainsKey(tWebBuild) == false)
-                {
-                    tApp.kWebBuildkSLQAssemblyOrderArray.Add(tWebBuild, new Dictionary<string, string[]>());
-                }
-                if (tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].ContainsKey(ClassID()) == false)
-                {
-                    tApp.kWebBuildkSLQAssemblyOrderArray[tWebBuild].Add(ClassID(), SLQAssemblyOrderArray());
-                }
-
-
-                if (tApp.kWebBuildkSLQAssemblyOrder.ContainsKey(tWebBuild) == false)
-                {
-                    tApp.kWebBuildkSLQAssemblyOrder.Add(tWebBuild, new Dictionary<string, string>());
-                }
-                if (tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].ContainsKey(ClassID()) == false)
-                {
-                    tApp.kWebBuildkSLQAssemblyOrder[tWebBuild].Add(ClassID(), SLQAssemblyOrder());
-                }
-
-
-                if (tApp.kWebBuildkSLQIntegrityOrder.ContainsKey(tWebBuild) == false)
-                {
-                    tApp.kWebBuildkSLQIntegrityOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
-                }
-                if (tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].ContainsKey(ClassID()) == false)
-                {
-                    tApp.kWebBuildkSLQIntegrityOrder[tWebBuild].Add(ClassID(), SLQIntegrityOrder());
-                }
-
-
-
-                if (tApp.kWebBuildkSLQIntegrityServerOrder.ContainsKey(tWebBuild) == false)
-                {
-                    tApp.kWebBuildkSLQIntegrityServerOrder.Add(tWebBuild, new Dictionary<string, List<string>>());
-                }
-                if (tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].ContainsKey(ClassID()) == false)
-                {
-                    tApp.kWebBuildkSLQIntegrityServerOrder[tWebBuild].Add(ClassID(), SLQIntegrityServerOrder());
-                }
-
-
-                if (tApp.kWebBuildkDataAssemblyPropertiesList.ContainsKey(tWebBuild) == false)
-                {
-                    tApp.kWebBuildkDataAssemblyPropertiesList.Add(tWebBuild, new Dictionary<string, List<string>>());
-                }
-                if (tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].ContainsKey(ClassID()) == false)
-                {
-                    tApp.kWebBuildkDataAssemblyPropertiesList[tWebBuild].Add(ClassID(), DataAssemblyPropertiesList());
+                    Datas().SQL_Order.Add(tWebBuild, SLQSelect(tWebBuild));
                 }
             }
             else
             {
                 //Debug.Log(ClassID() + " doesn't be updated for webservice " + tWebBuild.ToString() + " ... Keep cool");
             }
+            if (Datas().WS_Model.ContainsKey(tWebBuild))
+            {
+                Datas().WS_Model.Remove(tWebBuild);
+            }
+
+            Datas().WS_Model.Add(tWebBuild, Datas().LastWebBuild);
+            Dictionary<int, int> tNextWS_Model = new Dictionary<int, int>();
+            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WS_Model)
+            {
+                if (NWDAppConfiguration.SharedInstance().WSList.ContainsKey(tWS_WebModel.Key))
+                {
+                    tNextWS_Model.Add(tWS_WebModel.Key, tWS_WebModel.Value);
+                }
+            }
+            Datas().WS_Model = tNextWS_Model;
+
+
+            Dictionary<int, List<string>> tNewPropertiesOrder = new Dictionary<int, List<string>>();
+            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WS_Model)
+            {
+                if (Datas().PropertiesOrderArrayBBB.ContainsKey(tWS_WebModel.Value))
+                {
+                    if (tNewPropertiesOrder.ContainsKey(tWS_WebModel.Value) == false)
+                    {
+                        tNewPropertiesOrder.Add(tWS_WebModel.Value, Datas().PropertiesOrderArrayBBB[tWS_WebModel.Value]);
+                    }
+                }
+            }
+            Datas().PropertiesOrderArrayBBB = tNewPropertiesOrder;
+
+            Dictionary<int, string> tNewSQL_Order = new Dictionary<int, string>();
+            foreach (KeyValuePair<int, int> tWS_WebModel in Datas().WS_Model)
+            {
+                if (Datas().SQL_Order.ContainsKey(tWS_WebModel.Value))
+                {
+                    if (tNewSQL_Order.ContainsKey(tWS_WebModel.Value) == false)
+                    {
+                        tNewSQL_Order.Add(tWS_WebModel.Value, Datas().SQL_Order[tWS_WebModel.Value]);
+                    }
+                }
+            }
+            Datas().SQL_Order = tNewSQL_Order;
         }
+        //-------------------------------------------------------------------------------------------------------------
 #endif
         //-------------------------------------------------------------------------------------------------------------
     }

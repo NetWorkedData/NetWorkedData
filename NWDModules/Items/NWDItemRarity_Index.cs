@@ -26,7 +26,15 @@ namespace NetWorkedData
     public partial class NWDItemRarity : NWDBasis<NWDItemRarity>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Create And Index
+        public override void AddonIndexMe()
+        {
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDesindexMe()
+        {
+            RemoveFromIndex();
+        }
         //-------------------------------------------------------------------------------------------------------------
         static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
         static Dictionary<string, List<NWDItemRarity>> kIndex = new Dictionary<string, List<NWDItemRarity>>();
