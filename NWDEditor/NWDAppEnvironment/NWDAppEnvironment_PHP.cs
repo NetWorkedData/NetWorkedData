@@ -64,7 +64,7 @@ namespace NetWorkedData
                 EditorUtility.DisplayProgressBar(tTitle, "Account services file generate", tOperation++ / tCountClass);
                 CreatePHPAccountServicesFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Account file generate", tOperation++ / tCountClass);
-                CreatePHPAccountFile(tFilesAndDatas, sWriteOnDisk);
+                CreatePHPAuthentificationFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Blank file generate", tOperation++ / tCountClass);
                 CreatePHPBlankFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Index file generate", tOperation++ / tCountClass);
@@ -635,7 +635,7 @@ namespace NetWorkedData
             //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
-        private void CreatePHPAccountFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
+        private void CreatePHPAuthentificationFile(Dictionary<string, string> sFilesAndDatas, bool sWriteOnDisk = true)
         {
             //BTBBenchmark.Start();
             StringBuilder tFile = new StringBuilder(string.Empty);
@@ -652,10 +652,10 @@ namespace NetWorkedData
             tFile.AppendLine("$PATH_BASE = dirname(__DIR__);");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_CONSTANTS_FILE + "');");
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + ".php');");
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_INSIDE_FILE + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_START_PHP + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_WS_INSIDE_FILE + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_ACCOUNT_PHP + "');");
-            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_WS_ACCOUNT_ADDON + "');");
+            tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_WS_ACCOUNT_ADDON + "');");
             tFile.AppendLine("include_once ($PATH_BASE.'/" + Environment + "/" + NWD.K_ENG + "/" + NWD.K_STATIC_FINISH_PHP + "');");
             tFile.AppendLine(NWD.K_CommentSeparator);
             tFile.AppendLine("?>");
