@@ -78,7 +78,16 @@ namespace NetWorkedData
         public static string K_APP_CHOOSER_ENVIRONMENT = "Select Environment used in Player Mode (Game panel)";
         public static string K_APP_CHOOSER_ENVIRONMENT_TITLE = "NWD Chooser";
         public static string K_APP_SYNC_ENVIRONMENT = "Synchronize your datas in the good environment";
+
         public static string K_APP_SYNC_ENVIRONMENT_TITLE = "NWD Sync";
+        public static string K_APP_CONFIGURATION_TITLE = "NWD App";
+        public static string K_LOCALIZATION_CONFIGURATION_TITLE = "NWD Localization";
+        public static string K_EDITOR_CONFIGURATION_TITLE = "NWD Editor";
+
+        public static string K_ENVIRONMENTS_CONFIGURATION_TITLE = "NWD Environments";
+
+
+
         public static string K_APP_SYNC_INSPECTOR_TITLE = "NWD Data"; public static string kAlertSaltShortError = "ALERT SALT ARE NOT MEMORIZE : RECCORD CONFIGURATIONS AND RECOMPILE!";
         public static string K_APP_CLASS_SALT_REGENERATE = "Generate salts";
         public static float kFieldMarge = 5.0f;
@@ -622,6 +631,7 @@ namespace NetWorkedData
 
 
         static public GUIStyle kLabelStyle;
+        static public GUIStyle kLabelTitleStyle;
         static public GUIStyle kLabelRightStyle;
         static public GUIStyle kBoldLabelStyle;
         static public GUIStyle kPopupdStyle;
@@ -672,6 +682,18 @@ namespace NetWorkedData
 
                 kLabelStyle = new GUIStyle(EditorStyles.label);
                 kLabelStyle.fixedHeight = kLabelStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
+                kLabelTitleStyle = new GUIStyle(EditorStyles.label);
+                kLabelTitleStyle.fontSize = 14;
+                kLabelTitleStyle.fontStyle = FontStyle.Bold;
+                kLabelTitleStyle.padding = new RectOffset(2, 2, 10, 2);
+                kLabelTitleStyle.margin = new RectOffset(-10, -10, 1, 1);
+                kLabelTitleStyle.normal.background = new Texture2D(1, 1);
+                Color tGrayLabelTitleStyle = new Color(0, 0, 0, 0.2F);
+                kLabelTitleStyle.normal.background.SetPixel(0, 0, tGrayLabelTitleStyle);
+                kLabelTitleStyle.normal.background.Apply();
+                kLabelTitleStyle.fixedHeight = kLabelTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
 
                 kLabelRightStyle = new GUIStyle(EditorStyles.label);
                 kLabelRightStyle.alignment = TextAnchor.MiddleRight;

@@ -5,67 +5,87 @@
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BasicToolBox;
+using System.Reflection;
+using System.IO;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++	
+	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	/// <summary>
-	/// NWD app environment manager.
+	/// NWD app environment manager window.
 	/// </summary>
-	public partial class NWDAppConfigurationManager
+	public class NWDAppConfigurationManager : EditorWindow
     {
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// The scroll position.
-		/// </summary>
-		static Vector2 ScrollPosition;
-		/// <summary>
-		/// The tab selected.
-		/// </summary>
-		static int TabSelected = 0;
-		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Menu name.
-		/// </summary>
-		/// <returns>The name.</returns>
-		public static string MenuName ()
+        //-------------------------------------------------------------------------------------------------------------
+        GUIContent IconAndTitle;
+        static Vector2 ScrollPosition;
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAppConfigurationManager()
 		{
-			return NWDConstants.K_APP_CONFIGURATION_MENU_NAME;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draws in editor.
-		/// </summary>
-        [NWDAliasMethod(NWDConstants.M_DrawInEditor)]
-        public static void DrawInEditor (EditorWindow sEditorWindow, bool sAutoSelect=false)
+		public void OnEnable ()
         {
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = NWDConstants.K_APP_CONFIGURATION_TITLE;
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppConfigurationManager t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals("NWDAppConfigurationManager"))
+                        {
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static NWDAppConfigurationManager SharedInstance()
+        {
+            NWDEditorMenu.AppConfigurationManagerWindowShow();
+            return NWDEditorMenu.kNWDAppConfigurationManagerWindow;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OnGUI()
+        {
+            NWDConstants.LoadStyles();
+
+
             float tMinWidht = 270.0F;
             float tScrollMarge = 20.0f;
             int tColum = 1;
             // Draw warning if salt for class is false
-            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass () == false) {
-				EditorGUILayout.HelpBox (NWDConstants.kAlertSaltShortError, MessageType.Error);
+            if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
+            {
+                EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
                 if (GUILayout.Button(NWDConstants.K_APP_CLASS_SALT_REGENERATE))
                 {
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
-			}
-			// Draw helpbox
-			//EditorGUILayout.HelpBox (NWDConstants.K_APP_CONFIGURATION_HELPBOX, MessageType.None);
-			// List environment
-			//update the veriosn of Bundle
-			//NWDVersion.UpdateVersionBundle ();
-			// Draw interface for environment selected inn scrollview
-			ScrollPosition = GUILayout.BeginScrollView (ScrollPosition, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth (true), GUILayout.ExpandHeight (true));
+            }
+            // Draw helpbox
+            //EditorGUILayout.HelpBox (NWDConstants.K_APP_CONFIGURATION_HELPBOX, MessageType.None);
+            // List environment
+            //update the veriosn of Bundle
+            //NWDVersion.UpdateVersionBundle ();
+            // Draw interface for environment selected inn scrollview
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
+            GUILayout.Label("WebServices", NWDConstants.kLabelTitleStyle);
 
-            // WEBSERVICES PARAMS
-            EditorGUILayout.Space();
-            EditorGUILayout.HelpBox("WebServices", MessageType.None);
             EditorGUILayout.LabelField("Webservices config for all environements", EditorStyles.boldLabel);
             if (tColum > 1)
             {
@@ -127,11 +147,8 @@ namespace NetWorkedData
                 EditorGUILayout.EndHorizontal();
             }
 
+            GUILayout.Label("Databases", NWDConstants.kLabelTitleStyle);
 
-
-
-            EditorGUILayout.Space();
-            EditorGUILayout.HelpBox("Databases", MessageType.None);
             NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
             NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
 
@@ -166,16 +183,16 @@ namespace NetWorkedData
             EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass());
             EditorGUI.EndDisabledGroup();
 
-            GUILayout.EndScrollView ();
-			GUILayout.Space (8.0f);
-			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) 
+            GUILayout.EndScrollView();
+            GUILayout.Space(8.0f);
+            if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
-				NWDAppConfiguration.SharedInstance().GenerateCSharpFile (NWDAppConfiguration.SharedInstance().SelectedEnvironment ());
-			}
-			GUILayout.Space (8.0f);
-		}
-		//-------------------------------------------------------------------------------------------------------------
-	}
+                NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
+            }
+            GUILayout.Space(8.0f);
+        }
+            //-------------------------------------------------------------------------------------------------------------
+        }
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

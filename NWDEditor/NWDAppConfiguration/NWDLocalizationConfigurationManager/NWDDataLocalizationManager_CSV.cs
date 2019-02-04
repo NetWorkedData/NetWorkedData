@@ -4,17 +4,18 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
+
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	public partial class NWDDataLocalizationManager
 	{
@@ -24,7 +25,7 @@ namespace NetWorkedData
         /// </summary>
         public void ReOrderAllLocalizations ()
 		{
-			string tProgressBarTitle = "NetWorkedData Reorder localization";
+            string tProgressBarTitle = "NetWorkedData Reorder localization";
 			float tCountClass = NWDDataManager.SharedInstance().mTypeList.Count + 1;
 			float tOperation = 1;
 			EditorUtility.DisplayProgressBar(tProgressBarTitle, "Prepare operation", tOperation/tCountClass);

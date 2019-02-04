@@ -30,15 +30,8 @@ namespace NetWorkedData
             return NWDEditorMenu.kNWDAppEnvironmentChooser;
         }
         //-------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Draw window on GUI event.
-		/// </summary>
-		public void OnGUI ()
+        public void OnEnable()
         {
-            NWDConstants.LoadStyles();
-            // set the size (min/max)
-            this.minSize = new Vector2 (300, 150);
-			this.maxSize = new Vector2 (300, 4096);
             // set title of window
             if (IconAndTitle == null)
             {
@@ -62,8 +55,19 @@ namespace NetWorkedData
                 }
                 titleContent = IconAndTitle;
             }
+        }
+            //-------------------------------------------------------------------------------------------------------------
+            /// <summary>
+            /// Draw window on GUI event.
+            /// </summary>
+            public void OnGUI ()
+        {
+            NWDConstants.LoadStyles();
+            // set the size (min/max)
+            this.minSize = new Vector2 (300, 150);
+			this.maxSize = new Vector2 (300, 4096);
 			// show helpbox
-			EditorGUILayout.HelpBox (NWDConstants.K_APP_CHOOSER_ENVIRONMENT, MessageType.None);
+			//EditorGUILayout.HelpBox (NWDConstants.K_APP_CHOOSER_ENVIRONMENT, MessageType.None);
 
 			// prepare tab to select
 			int tTabSelected = -1;

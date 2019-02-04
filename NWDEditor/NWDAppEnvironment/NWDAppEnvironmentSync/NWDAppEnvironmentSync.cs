@@ -51,6 +51,29 @@ namespace NetWorkedData
             DevIcon = NWDConstants.kImageEmpty;
             PreprodIcon = NWDConstants.kImageEmpty;
             ProdIcon = NWDConstants.kImageEmpty;
+
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE;
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentSync t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        //Debug.Log("TextureOfClass GUID " + tGUID);
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        //Debug.Log("tPathFilename = " + tPathFilename);
+                        if (tPathFilename.Equals("NWDAppEnvironmentSync"))
+                        {
+                            //Debug.Log("TextureOfClass " + tPath);
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
             // SUCCESS BLOCK
             SuccessBlock = delegate (BTBOperation bOperation, float bProgress, BTBOperationResult bInfos)
             {
@@ -197,6 +220,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnGUI()
         {
+            NWDConstants.LoadStyles();
             // use these bools to fix the bug of error on redraw
             NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment; // default value replace after in script
             bool tSync = false;
@@ -216,30 +240,8 @@ namespace NetWorkedData
             this.minSize = new Vector2(300, 500);
             this.maxSize = new Vector2(300, 4096);
             // set title of window
-            if (IconAndTitle == null)
-            {
-                IconAndTitle = new GUIContent();
-                IconAndTitle.text = NWDConstants.K_APP_SYNC_ENVIRONMENT_TITLE;
-                if (IconAndTitle.image == null)
-                {
-                    string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentSync t:texture");
-                    foreach (string tGUID in sGUIDs)
-                    {
-                        //Debug.Log("TextureOfClass GUID " + tGUID);
-                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
-                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        //Debug.Log("tPathFilename = " + tPathFilename);
-                        if (tPathFilename.Equals("NWDAppEnvironmentSync"))
-                        {
-                            //Debug.Log("TextureOfClass " + tPath);
-                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
-                        }
-                    }
-                }
-                titleContent = IconAndTitle;
-            }
             // show helpbox
-            EditorGUILayout.HelpBox(NWDConstants.K_APP_SYNC_ENVIRONMENT, MessageType.None);
+            //EditorGUILayout.HelpBox(NWDConstants.K_APP_SYNC_ENVIRONMENT, MessageType.None);
 
 
 

@@ -52,14 +52,14 @@ namespace NetWorkedData
         /// <summary>
         /// TheNWD editor NWDPackage preferences window.
         /// </summary>
-        static NWDEditorConfigurationManagerWindow kNWDEditorConfigurationManagerWindow;
+        public static NWDEditorConfigurationManager kNWDEditorConfigurationManagerWindow;
         [MenuItem(NWDConstants.K_MENU_EDITOR_PREFERENCES, false, 20)]
         public static void EditorPreferenceShow()
         {
 
             if (kNWDEditorConfigurationManagerWindow == null)
             {
-                kNWDEditorConfigurationManagerWindow = EditorWindow.GetWindow(typeof(NWDEditorConfigurationManagerWindow)) as NWDEditorConfigurationManagerWindow;
+                kNWDEditorConfigurationManagerWindow = EditorWindow.GetWindow(typeof(NWDEditorConfigurationManager)) as NWDEditorConfigurationManager;
             }
             kNWDEditorConfigurationManagerWindow.ShowUtility();
             kNWDEditorConfigurationManagerWindow.Focus();
@@ -109,7 +109,7 @@ namespace NetWorkedData
 
 
         //-------------------------------------------------------------------------------------------------------------
-        static NWDAppConfigurationManagerWindow kNWDAppConfigurationManagerWindow;
+        public static NWDAppConfigurationManager kNWDAppConfigurationManagerWindow;
         [MenuItem(NWDConstants.K_MENU_APP_EDIT, false, 60)]
         /// <summary>
         /// Menus the method.
@@ -118,25 +118,25 @@ namespace NetWorkedData
         {
             if (kNWDAppConfigurationManagerWindow == null)
             {
-                kNWDAppConfigurationManagerWindow = EditorWindow.GetWindow(typeof(NWDAppConfigurationManagerWindow)) as NWDAppConfigurationManagerWindow;
+                kNWDAppConfigurationManagerWindow = EditorWindow.GetWindow(typeof(NWDAppConfigurationManager)) as NWDAppConfigurationManager;
             }
             kNWDAppConfigurationManagerWindow.ShowUtility();
             kNWDAppConfigurationManagerWindow.Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
-        static NWDAppEnvironmentManagerWindow kNWDAppEnvironmentManagerWindow;
+        public static NWDAppEnvironmentConfigurationManager kAppConfigurationManager;
         [MenuItem(NWDConstants.K_MENU_ENVIRONMENT_EDIT, false, 60)]
         /// <summary>
         /// Menus the method.
         /// </summary>
         public static void AppEnvironmentManagerWindowShow()
         {
-            if (kNWDAppEnvironmentManagerWindow == null)
+            if (kAppConfigurationManager == null)
             {
-                kNWDAppEnvironmentManagerWindow = EditorWindow.GetWindow(typeof(NWDAppEnvironmentManagerWindow)) as NWDAppEnvironmentManagerWindow;
+                kAppConfigurationManager = EditorWindow.GetWindow(typeof(NWDAppEnvironmentConfigurationManager)) as NWDAppEnvironmentConfigurationManager;
             }
-            kNWDAppEnvironmentManagerWindow.ShowUtility();
-            kNWDAppEnvironmentManagerWindow.Focus();
+            kAppConfigurationManager.ShowUtility();
+            kAppConfigurationManager.Focus();
         }
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
@@ -238,10 +238,11 @@ namespace NetWorkedData
         //    tWindow.Focus();
         //}
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDLocalizationConfigurationManager kNWDDataLocalizationManager;
         [MenuItem(NWDConstants.K_MENU_LOCALIZATION_CONFIG, false, 9054)]
-        public static void LocalizationConfigDouble()
+        public static void DataLocalizationManager()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDDataLocalizationManagerWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLocalizationConfigurationManager));
             tWindow.Show();
             tWindow.Focus();
         }

@@ -24,7 +24,7 @@ namespace NetWorkedData
             return NWDConstants.K_APP_ENVIRONMENT_MENU_NAME;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public void DrawInEditor(EditorWindow sEditorWindow, bool sAutoSelect = false)
+        public void DrawInEditor(EditorWindow sEditorWindow)
         {
             //BTBBenchmark.Start();
             float tMinWidht = 270.0F;
@@ -34,7 +34,7 @@ namespace NetWorkedData
             {
                 tColum = 2;
             }
-            EditorGUILayout.HelpBox("Project configuration " + Environment + " for connection with server", MessageType.None);
+            GUILayout.Label("Configuration for " + Environment + " environment", NWDConstants.kLabelTitleStyle);
             if (tColum > 1)
             {
                 EditorGUILayout.BeginHorizontal();

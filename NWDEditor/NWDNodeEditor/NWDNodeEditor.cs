@@ -25,7 +25,18 @@ namespace NetWorkedData
     /// NWD Node Editor. This editor can edit data as nodal card.
     /// </summary>
     public class NWDNodeEditor : EditorWindow
-	{
+    {
+        //-------------------------------------------------------------------------------------------------------------
+        GUIContent IconAndTitle;
+        //-------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// The m scroll position.
+        /// </summary>
+        public static Vector2 mScrollPosition = Vector2.zero;
+        /// <summary>
+        /// The m last mouse position.
+        /// </summary>
+        Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
         /// <summary>
         /// The document of deck.
@@ -175,19 +186,12 @@ namespace NetWorkedData
 		/// </summary>
 		public void OnEnable ()
 		{
-            titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
+
+
+            //titleContent = new GUIContent (NWDConstants.K_EDITOR_NODE_WINDOW_TITLE);
             Document.LoadClasses();
             Repaint();
 		}
-        //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// The m scroll position.
-        /// </summary>
-        public static Vector2 mScrollPosition = Vector2.zero;
-        /// <summary>
-        /// The m last mouse position.
-        /// </summary>
-        Vector2 mLastMousePosition = new Vector2(-1.0F, -1.0F);
         //-------------------------------------------------------------------------------------------------------------
 		/// <summary>
 		/// Raises the OnGUI event. Create the interface to enter a new class.
@@ -197,6 +201,26 @@ namespace NetWorkedData
             // Debug.Log("NWDNodeEditor OnGUI");
             //NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
+
+            if (IconAndTitle == null)
+            {
+                IconAndTitle = new GUIContent();
+                IconAndTitle.text = NWDConstants.K_EDITOR_NODE_WINDOW_TITLE;
+                if (IconAndTitle.image == null)
+                {
+                    string[] sGUIDs = AssetDatabase.FindAssets("NWDNodeEditor t:texture");
+                    foreach (string tGUID in sGUIDs)
+                    {
+                        string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
+                        string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
+                        if (tPathFilename.Equals("NWDNodeEditor"))
+                        {
+                            IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
+                        }
+                    }
+                }
+                titleContent = IconAndTitle;
+            }
 
             Rect tScrollViewRect = new Rect(0, 0, position.width, position.height);
             //EditorGUI.DrawRect(tScrollViewRect, new Color (0.5F,0.5F,0.5F,1.0F));
