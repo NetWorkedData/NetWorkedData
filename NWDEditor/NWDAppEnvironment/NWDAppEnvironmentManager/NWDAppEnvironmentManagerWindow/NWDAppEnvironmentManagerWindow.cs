@@ -35,10 +35,10 @@ namespace NetWorkedData
 
             this.minSize = new Vector2(300, 600);
             this.maxSize = new Vector2(600, 4096);
-			mTitleKey = "Environments";
+			mTitleKey = "Environments configurations";
 			//IconOfWindow = FromGizmos("NWDIcons_03");
             IconOfWindow = NWDFindPackage.EditorTexture("NWDIcons_03");
-			mDescriptionKey = "Environments Edition";
+			mDescriptionKey = "Environments configurations";
 			mTabTypeList = new Type[] {
 				typeof(NWDAppEnvironmentManager),
 			};
