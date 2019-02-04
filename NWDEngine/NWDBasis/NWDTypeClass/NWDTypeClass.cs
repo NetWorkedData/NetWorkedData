@@ -24,15 +24,15 @@ namespace NetWorkedData
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string ReferenceUsedValue()
+        public virtual string ReferenceValue()
         {
             return string.Empty;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public virtual string ClassNameUsedValue()
-        {
-            return string.Empty;
-        }
+        //public virtual string ClassNameUsedValue()
+        //{
+        //    return string.Empty;
+        //}
         //-------------------------------------------------------------------------------------------------------------
         public virtual bool DataIntegrityState()
         {
@@ -69,7 +69,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public string DatasMenu()
         {
-            string rReturn = InternalKeyValue() + " <" + ReferenceUsedValue() + ">";
+            string rReturn = InternalKeyValue() + " <" + ReferenceValue() + ">";
             rReturn = rReturn.Replace("/", " ");
             return rReturn;
         }

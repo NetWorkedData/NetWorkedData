@@ -466,17 +466,17 @@ namespace NetWorkedData
                 this.DC = NWDToolbox.Timestamp();
                 this.DM = NWDToolbox.Timestamp();
             }
-            NWDVersionType tVersion = new NWDVersionType();
-            tVersion.SetValue("0.00.00");
-            this.MinVersion = tVersion;
+            //NWDVersionType tVersion = new NWDVersionType();
+            //tVersion.SetValue("0.00.00");
+            //this.MinVersion = tVersion;
 
             //NWDVersionType tMaxVersion = new NWDVersionType();
             //tMaxVersion.SetString("99.99.99");
             //this.MaxVersion = tMaxVersion;
 
             int tWebModelToUse = WebModelToUse();
-            Debug.Log(" set from " + this.WebServiceVersion + " To " + tWebModelToUse);
-            WebServiceVersion = tWebModelToUse;
+            Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
+            WebModel = tWebModelToUse;
 
             this.DS = 0;
             if (AccountDependent() == true)
@@ -718,12 +718,12 @@ namespace NetWorkedData
             if (sWebServiceUpgrade == true)
             {
                 int tWS = WebModelToUse();
-                if (this.WebServiceVersion != tWS)
+                if (this.WebModel != tWS)
                 {
                     //this.AddonVersionMe(); // call override method
 
-                    Debug.Log(" set from " + WebServiceVersion + " To " + tWS);
-                    this.WebServiceVersion = tWS;
+                    Debug.Log(" set from " + WebModel + " To " + tWS);
+                    this.WebModel = tWS;
                 }
             }
             this.UpdateIntegrity();

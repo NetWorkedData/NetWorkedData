@@ -41,7 +41,7 @@ namespace NetWorkedData
             int tLastWebService = -1;
             foreach (KeyValuePair<int, Dictionary<string, List<string>>> tKeyValue in tApp.kWebBuildkDataAssemblyPropertiesList)
             {
-                if (tKeyValue.Key <= WebServiceVersion && tKeyValue.Key > tLastWebService)
+                if (tKeyValue.Key <= WebModel && tKeyValue.Key > tLastWebService)
                 {
                     if (tKeyValue.Value.ContainsKey(ClassID()))
                     {

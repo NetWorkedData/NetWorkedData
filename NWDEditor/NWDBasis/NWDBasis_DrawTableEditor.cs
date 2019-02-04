@@ -28,7 +28,7 @@ namespace NetWorkedData
             NWDTypeClass tObject = NWDDataInspector.ObjectInEdition() as NWDTypeClass;
             if (tObject != null)
             {
-                rReturn = string.Copy(tObject.ReferenceUsedValue());
+                rReturn = string.Copy(tObject.ReferenceValue());
             }
             return rReturn;
         }

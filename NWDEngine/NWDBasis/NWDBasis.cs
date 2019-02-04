@@ -55,15 +55,15 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public override string ReferenceUsedValue()
+        public override string ReferenceValue()
         {
             return Reference;
         }
-        [NWDNotEditable]
-        public NWDVersionType MinVersion // TODO REMOVE 
-        {
-            get; set;
-        }
+        //[NWDNotEditable]
+        //public NWDVersionType MinVersion // TODO REMOVE 
+        //{
+        //    get; set;
+        //}
         //[NWDNotEditable]
         //public NWDVersionType MaxVersion
         //{
@@ -72,7 +72,7 @@ namespace NetWorkedData
         [Indexed("GetIndex", 0)]
         //[Indexed("EditorIndex", 0)]
         [NWDNotEditable]
-        public int WebServiceVersion // TODO RENAME TO WebModel
+        public int WebModel // TODO RENAME TO WebModel
         {
             get;set;
         }

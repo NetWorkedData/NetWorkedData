@@ -613,7 +613,7 @@ namespace NetWorkedData
             //Debug.Log("NWDDatas AddData()");
             //BTBBenchmark.Start();
             // get reference
-            string tReference = sData.ReferenceUsedValue();
+            string tReference = sData.ReferenceValue();
             // Anyway I check if Data is allready in datalist
             if (DatasByReference.ContainsKey(tReference) == false)
             {
@@ -679,9 +679,9 @@ namespace NetWorkedData
             {
                 EditorTableDatasSelected.Add(sData, false);
             }
-            if (EditorDatasMenu.ContainsKey(sData.ReferenceUsedValue()) == false)
+            if (EditorDatasMenu.ContainsKey(sData.ReferenceValue()) == false)
             {
-                EditorDatasMenu.Add(sData.ReferenceUsedValue(), sData.DatasMenu());
+                EditorDatasMenu.Add(sData.ReferenceValue(), sData.DatasMenu());
             }
             /*NEW*/
 
@@ -720,7 +720,7 @@ namespace NetWorkedData
             //Debug.Log("NWDDatas RemoveData()");
             //BTBBenchmark.Start();
             // get reference
-            string tReference = sData.ReferenceUsedValue();
+            string tReference = sData.ReferenceValue();
             // Anyway I check if Data is allready in datalist
             if (DatasByReference.ContainsKey(tReference) == true)
             {
@@ -802,7 +802,7 @@ namespace NetWorkedData
         public void UpdateData(NWDTypeClass sData)
         {
             //Debug.Log("NWDDatas UpdateData()");
-            string tReference = sData.ReferenceUsedValue();
+            string tReference = sData.ReferenceValue();
             string tInternalKey = sData.InternalKeyValue();
             string tOldInternalKey = "";
             if (DatasByReverseInternalKey.ContainsKey(sData))
@@ -879,7 +879,7 @@ namespace NetWorkedData
             }
             if (EditorDatasMenu.ContainsKey(tReference) == true)
             {
-                EditorDatasMenu[sData.ReferenceUsedValue()] = sData.DatasMenu();
+                EditorDatasMenu[sData.ReferenceValue()] = sData.DatasMenu();
             }
             /*NEW*/
 #endif

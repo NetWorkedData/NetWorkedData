@@ -34,16 +34,12 @@ namespace NetWorkedData
             {
                 tColum = 2;
             }
-
-
             EditorGUILayout.HelpBox("Project configuration " + Environment + " for connection with server", MessageType.None);
             if (tColum > 1)
             {
                 EditorGUILayout.BeginHorizontal();
             }
-
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
             EditorGUILayout.TextField("AppName for server action " + Environment, EditorStyles.boldLabel);
             AppName = EditorGUILayout.TextField("AppName", AppName);
             PreProdTimeFormat = EditorGUILayout.TextField("PreProdTimeFormat", PreProdTimeFormat);
@@ -129,6 +125,9 @@ namespace NetWorkedData
             // DATABASE PARAMS
             EditorGUILayout.Space();
             EditorGUILayout.HelpBox("Databases", MessageType.None);
+            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
+            NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
+
             string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
 
             //string tDatabasePathAccount = NWDDataManager.SharedInstance().DatabasePathAccount + "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
@@ -161,7 +160,7 @@ namespace NetWorkedData
             EditorGUI.EndDisabledGroup();
             // WEBSERVICES PARAMS
             EditorGUILayout.Space();
-            EditorGUILayout.HelpBox("Webservices", MessageType.None);
+            EditorGUILayout.HelpBox("WebServices", MessageType.None);
             EditorGUILayout.LabelField("Webservices config for all environements", EditorStyles.boldLabel);
             if (tColum > 1)
             {
@@ -185,19 +184,20 @@ namespace NetWorkedData
                 if (tWS.Value == true)
                 {
                     tWSListUsable.Add(tWS.Key);
-                    tWSListUsableString.Add(tWS.Key.ToString());
+                    tWSListUsableString.Add(NWDAppConfiguration.SharedInstance().WebFolder+"_" + tWS.Key.ToString("0000"));
                 }
             }
             NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
-            NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
-            NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
-
-            //EditorGUILayout.LabelField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
-            //NWDAppConfiguration.SharedInstance().WebBuild = EditorGUILayout.IntField("WebService active", NWDAppConfiguration.SharedInstance().WebBuild);
-
             int tIndexWS = tWSListUsable.IndexOf(NWDAppConfiguration.SharedInstance().WebBuild);
             tIndexWS = EditorGUILayout.Popup("WebService active", tIndexWS, tWSListUsableString.ToArray());
-            NWDAppConfiguration.SharedInstance().WebBuild = tWSListUsable[tIndexWS];
+            if (tIndexWS>=0)
+            {
+                NWDAppConfiguration.SharedInstance().WebBuild = tWSListUsable[tIndexWS];
+            }
+            else
+            {
+                NWDAppConfiguration.SharedInstance().WebBuild = 0;
+            }
             EditorGUILayout.EndVertical();
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
             foreach (KeyValuePair<int, bool> tWS in tWSList)
@@ -206,12 +206,12 @@ namespace NetWorkedData
                 NWDBasisHelper tDatasToTest = NWDBasisHelper.FindTypeInfos(typeof(NWDParameter));
                 if (tDatasToTest.WebModelSQLOrder.ContainsKey(tWS.Key) == false)
                 {
-                    bool tV = EditorGUILayout.Toggle("(WebService " + tWS.Key.ToString() + " unused)", tWS.Value);
+                    bool tV = EditorGUILayout.Toggle("("+NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " unused)", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
                 }
                 else
                 {
-                    bool tV = EditorGUILayout.Toggle("WebService " + tWS.Key.ToString() + " in config", tWS.Value);
+                    bool tV = EditorGUILayout.Toggle(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " in config", tWS.Value);
                     NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
                 }
                 EditorGUI.EndDisabledGroup();

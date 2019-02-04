@@ -116,7 +116,6 @@ namespace NetWorkedData
                 }
                 tAssfolder = tAssfolder + "/";
             }
-            //SftpConnexion.CreateDirectory(SFTPFolder +tWebServiceFolder);
             string tOwnerFolderServer = NWDToolbox.FindOwnerServerFolder();
             string tServerRootFolder = tOwnerFolderServer + "/" + tWebServiceFolder + sAlternate + "/";
             string tUploadFile = (Application.dataPath + "..." + tServerRootFolder).Replace("Assets...Assets", "Assets");
@@ -124,15 +123,11 @@ namespace NetWorkedData
             {
                 string tUploadFilePath = tUploadFile + sFolder + sWSFile;
                 string tDestination = SFTPFolder + tDestinationFolder + sWSFile;
-                //Debug.Log("SFTP Upload file at \n" + tUploadFilePath + "\nto \n" + tDestination);
                 if (SftpConnexion.Exists(tDestination))
                 {
                     SftpConnexion.DeleteFile(tDestination);
                 }
-                //FileStream tFileStream = new FileStream(tUploadFilePath, FileMode.Open, FileAccess.Read, FileShare.None);
-                //SftpConnexion.UploadFile(tFileStream, tDestination, true, null);
                 string tText = File.ReadAllText(tUploadFilePath);
-                //Debug.Log("tText = " + tText);
                 byte[] tBytes = Encoding.UTF8.GetBytes(tText);
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
@@ -154,12 +149,10 @@ namespace NetWorkedData
         {
             //BTBBenchmark.Start();
             ConnectSFTP();
-            // create web services folders and files
             foreach (string tFolder in sFolders)
             {
                 if (string.IsNullOrEmpty(tFolder) == false)
                 {
-                    //Debug.Log("WRITE FOLDER : " + SFTPFolder + tFolder);
                     if (sFolderRecurssive == true)
                     {
                         string[] tFolders = tFolder.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
@@ -167,7 +160,6 @@ namespace NetWorkedData
                         foreach (string tT in tFolders)
                         {
                             tAssfolder = tAssfolder + tT;
-                            // Debug.Log(SFTPFolder + "" + tAssfolder);
                             if (!SftpConnexion.Exists(SFTPFolder + tAssfolder))
                             {
                                 SftpConnexion.CreateDirectory(SFTPFolder + tAssfolder);
@@ -186,8 +178,6 @@ namespace NetWorkedData
             }
             foreach (KeyValuePair<string, string> tFileAndData in sFilesAndDatas)
             {
-                //Debug.Log("SFTP Write file :" + SFTPFolder  + tFileAndData.Key);
-                //SftpConnexion.WriteAllText(SFTPFolder + tWebServiceFolder + "/" + tFileAndData.Key, tFileAndData.Value, Encoding.UTF8); =>>> bug dans lexecution du php ensuite!?
                 if (SftpConnexion.Exists(SFTPFolder + tFileAndData.Key))
                 {
                     SftpConnexion.DeleteFile(SFTPFolder  + tFileAndData.Key);

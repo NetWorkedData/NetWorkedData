@@ -214,8 +214,8 @@ namespace NetWorkedData
             Preview = string.Empty;
 
             int tWebModelToUse = WebModelToUse();
-            Debug.Log(" set from " + this.WebServiceVersion + " To " + tWebModelToUse);
-            WebServiceVersion = tWebModelToUse;
+            Debug.Log(" set from " + this.WebModel + " To " + tWebModelToUse);
+            WebModel = tWebModelToUse;
             //Debug.Log("NWDBasis <K> InstanceInit() inserted = " + NWDInserted.ToString());
             Type tType = ClassType();
             foreach (var tPropertyInfo in tType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
@@ -524,10 +524,10 @@ namespace NetWorkedData
             // Find the good webservice version
             int tWebBuildUsed = WebModelToUse();
             // test the web service version
-            if (WebServiceVersion < tWebBuildUsed && WebServiceVersion != 0)
+            if (WebModel < tWebBuildUsed && WebModel != 0)
             {
                 //Debug.Log("NWDBasis WebserviceVersionCheckMe() Update version");
-                this.AddonWebversionUpgradeMe(WebServiceVersion, tWebBuildUsed);
+                this.AddonWebversionUpgradeMe(WebModel, tWebBuildUsed);
                 // use to update NWDBasis when push to server.
                 //this.AddonVersionMe(); // Modify the special webservice override ( for example version)
                 this.UpdateData(false, NWDWritingMode.ByDefaultLocal, true);
@@ -550,7 +550,7 @@ namespace NetWorkedData
             //return rReturn;
 
             bool rReturn = true;
-            if (WebServiceVersion > BasisHelper().LastWebBuild || WebServiceVersion > NWDAppConfiguration.SharedInstance().WebBuild)
+            if (WebModel > BasisHelper().LastWebBuild || WebModel > NWDAppConfiguration.SharedInstance().WebBuild)
             {
                 rReturn = false;
             }

@@ -33,9 +33,7 @@ namespace NetWorkedData
         public string CreationCSHARP()
         {
             BTBBenchmark.Start();
-
             NWDAppConfiguration tApp = NWDAppConfiguration.SharedInstance();
-
             // Write data ...
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine("public void " + ClassNamePHP + NWD.K_LOADER + "()");
@@ -48,7 +46,6 @@ namespace NetWorkedData
             rReturn.AppendLine("tDatas.SaltEnd = \"" + SaltEnd.Replace("}", "").Replace("{", "") + "\";");
             rReturn.AppendLine("tDatas.SaltValid = true;"); // salt was reccord because loaded :-p
             rReturn.AppendLine("tDatas.LastWebBuild = " + LastWebBuild + ";");
-
             rReturn.AppendLine("tDatas.WebModelPropertiesOrder.Clear();");
             foreach (KeyValuePair<int, List<string>> tKeyValue in WebModelPropertiesOrder.OrderBy(x => x.Key))
             {
@@ -60,7 +57,6 @@ namespace NetWorkedData
                     }
                 }
             }
-
             rReturn.AppendLine("tDatas.WebServiceWebModel.Clear();");
             foreach (KeyValuePair<int, int> tKeyValue in WebServiceWebModel.OrderBy(x => x.Key))
             {

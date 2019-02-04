@@ -127,7 +127,7 @@ namespace NetWorkedData
                 rReturnList.Remove("PreprodSync");
                 rReturnList.Remove("ProdSync");
                 rReturnList.Remove("InError");
-                rReturnList.Remove("WebServiceVersion");
+                rReturnList.Remove("WebModel");
 
                 // not include in integrity
                 //rReturn.Remove("WebServiceVersion");
@@ -144,7 +144,7 @@ namespace NetWorkedData
                 //rReturnList.Insert(9, "ID");
 
                 //rReturnList.Add("ID");
-                rReturnList.Add("WebServiceVersion");
+                rReturnList.Add("WebModel");
                 rReturnList.Add("Integrity");
             }
 #if UNITY_EDITOR
@@ -229,22 +229,25 @@ namespace NetWorkedData
             foreach (string tPropertyName in tList)
             {
                 PropertyInfo tPropertyInfo = ClassType().GetProperty(tPropertyName, BindingFlags.Public | BindingFlags.Instance);
-                Type tTypeOfThis = tPropertyInfo.PropertyType;
-                if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
+                if (tPropertyInfo != null)
                 {
-                    rReturnString += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
-                }
-                else if (tTypeOfThis == typeof(float))
-                {
-                    rReturnString += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
-                }
-                else if (tTypeOfThis == typeof(double))
-                {
-                    rReturnString += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.DoubleSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
-                }
-                else
-                {
-                    rReturnString += ", `" + tPropertyName + "`";
+                    Type tTypeOfThis = tPropertyInfo.PropertyType;
+                    if (tTypeOfThis == typeof(int) || tTypeOfThis == typeof(long))
+                    {
+                        rReturnString += ", REPLACE(`" + tPropertyName + "`,\",\",\"\") as `" + tPropertyName + "`";
+                    }
+                    else if (tTypeOfThis == typeof(float))
+                    {
+                        rReturnString += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.FloatSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
+                    }
+                    else if (tTypeOfThis == typeof(double))
+                    {
+                        rReturnString += ", REPLACE(FORMAT(`" + tPropertyName + "`," + NWDConstants.DoubleSQLFormat + "),\",\",\"\") as `" + tPropertyName + "`";
+                    }
+                    else
+                    {
+                        rReturnString += ", `" + tPropertyName + "`";
+                    }
                 }
             }
             rReturnString = rReturnString.Replace("***, ", "");
@@ -311,8 +314,8 @@ namespace NetWorkedData
 
         //        // to prevent integrity error in check InError
         //        rReturn.Remove("InError");// not include in integrity
-        //        //rReturn.Remove("WebServiceVersion");
-        //        //rReturn.Add("WebServiceVersion");
+        //        //rReturn.Remove("WebModel");
+        //        //rReturn.Add("WebModel");
         //    return rReturn;
         //}
 
