@@ -90,7 +90,7 @@ namespace NetWorkedData
             }
             else if (sObsolete)
             {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_OBSOLETE_PHP + "");
+                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_OBSOLETE_PHP + "");
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
             //SFTPHost will close
