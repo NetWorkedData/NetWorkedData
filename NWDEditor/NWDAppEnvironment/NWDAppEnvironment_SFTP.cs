@@ -6,6 +6,7 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,8 +14,6 @@ using UnityEngine;
 using BasicToolBox;
 using System.IO;
 using System.Text;
-
-#if UNITY_EDITOR
 using UnityEditor;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -25,7 +24,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDAppEnvironment
     {
-        // SFTP
         //-------------------------------------------------------------------------------------------------------------
         SftpClient SftpConnexion;
         public string SFTPHost = string.Empty;
@@ -36,6 +34,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void ConnectSFTP()
         {
+            //BTBBenchmark.Start();
             if (SftpConnexion == null)
             {
                 SftpConnexion = new SftpClient(SFTPHost, SFTPPort, SFTPUser, SFTPPassword);
@@ -45,38 +44,33 @@ namespace NetWorkedData
                     SftpConnexion.BufferSize = 4 * 1024; // bypass Payload error large files
                 }
             }
+            //BTBBenchmark.Finish();
         }
-
-        //-------------------------------------------------------------------------------------------------------------
-        public void SendWS()
-        {
-
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        //public void SendFileWS(string sAlternate, string sClassName)
-        //{
-        //    SendFiles(sAlternate,
-        //    Environment + "/" + NWD.K_ENG + "/" + NWD.K_DB + "/" + sClassName + "/",
-        //    new string[] { NWD.K_CONSTANTS_FILE, NWD.K_MANAGEMENT_FILE, NWD.K_WS_SYNCHRONISATION });
-        //}
         //-------------------------------------------------------------------------------------------------------------
         public void SetMaintenance(bool sMaintenance)
         {
+            //BTBBenchmark.Start();
             SetHTACCESS(sMaintenance, false);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetObsolete(bool sObsolete)
         {
+            //BTBBenchmark.Start();
             SetHTACCESS(false, sObsolete);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetActivate()
         {
+            //BTBBenchmark.Start();
             SetHTACCESS(false, false);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SetHTACCESS(bool sMaintenance, bool sObsolete)
         {
+            //BTBBenchmark.Start();
             // connect SFTP
             ConnectSFTP();
             // prepare the destination
@@ -101,10 +95,12 @@ namespace NetWorkedData
             }
             //SFTPHost will close
             DeconnectSFTP();
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFiles(string sAlternate, string sFolder, string[] sWSFiles, bool sAutoDeconnect = true)
         {
+            //BTBBenchmark.Start();
             ConnectSFTP();
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             string tDestinationFolder = tWebServiceFolder + "/" + sFolder;
@@ -144,13 +140,14 @@ namespace NetWorkedData
             {
                 DeconnectSFTP();
             }
+            //BTBBenchmark.Finish();
         }
-
-
         //-------------------------------------------------------------------------------------------------------------
         public void SendFile(string sAlternate, string sFolder, string sWSFile, bool sAutoDeconnect = true)
         {
+            //BTBBenchmark.Start();
             SendFiles(sAlternate, sFolder, new string[] { sWSFile }, sAutoDeconnect);
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         public void SendFolderAndFiles(List<string> sFolders, Dictionary<string, string> sFilesAndDatas, bool sFolderRecurssive = false, bool sAutoDeconnect = true)
@@ -207,12 +204,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void DeconnectSFTP()
         {
+            //BTBBenchmark.Start();
             if (SftpConnexion == null)
             {
                 SftpConnexion.Disconnect();
                 SftpConnexion.Dispose();
             }
             SftpConnexion = null;
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

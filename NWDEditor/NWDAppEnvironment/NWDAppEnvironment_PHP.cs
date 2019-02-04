@@ -48,7 +48,6 @@ namespace NetWorkedData
                 EditorUtility.DisplayProgressBar(tTitle, "Connect SFTP", tOperation++ / tCountClass);
                 ConnectSFTP();
             }
-
             EditorUtility.DisplayProgressBar(tTitle, "Management file generate", tOperation++ / tCountClass);
             CreatePHPManagementFile(tFilesAndDatas, sWriteOnDisk);
             EditorUtility.DisplayProgressBar(tTitle, "Webservices file generate", tOperation++ / tCountClass);
@@ -57,8 +56,7 @@ namespace NetWorkedData
             CreatePHPWebservicesInsideFile(tFilesAndDatas, sWriteOnDisk);
             EditorUtility.DisplayProgressBar(tTitle, "Webservices addon file generate", tOperation++ / tCountClass);
             CreatePHPWebservicesAddonFile(tFilesAndDatas, sWriteOnDisk);
-
-            //if (sCreateAll == true)
+            if (sCreateAll == true)
             {
                 EditorUtility.DisplayProgressBar(tTitle, "Error generate", tOperation++ / tCountClass);
                 CreatePHPErrorGenerate();
@@ -78,31 +76,31 @@ namespace NetWorkedData
                 CreatePHPDotHTAccessFile(tFilesAndDatas, sWriteOnDisk);
                 EditorUtility.DisplayProgressBar(tTitle, "Maintenance file generate", tOperation++ / tCountClass);
                 CreatePHPMaintenanceFile(tFilesAndDatas, sWriteOnDisk);
-                EditorUtility.DisplayProgressBar(tTitle, "obsolete file generate", tOperation++ / tCountClass);
+                EditorUtility.DisplayProgressBar(tTitle, "Obsolete file generate", tOperation++ / tCountClass);
                 CreatePHPObsoleteFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static account file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticAccountFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Error file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticErrorFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Finish file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFinishFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Functions file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticFunctionsFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Relationship file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRelationshipFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Request file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRequestFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static RequestToken file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRequestTokenFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Rescue file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRescueFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Respond file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticRespondFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Start file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticStartFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Values file generate", tOperation++ / tCountClass);
                 CreatePHP_StaticValuesFile(tFilesAndDatas, sWriteOnDisk);
-
+                EditorUtility.DisplayProgressBar(tTitle, "Static Flash file generate", tOperation++ / tCountClass);
                 CreatePHPFlashMyAppFile(tFilesAndDatas, sWriteOnDisk);
             }
             if (sWriteOnDisk == true)
@@ -172,6 +170,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private string EnvFolder(bool sWriteOnDisk = true)
         {
+            //BTBBenchmark.Start();
             string rReturn = string.Empty;
             string tWebServiceFolder = NWDAppConfiguration.SharedInstance().WebServiceFolder();
             if (sWriteOnDisk == true)
@@ -183,18 +182,23 @@ namespace NetWorkedData
             {
                 rReturn = tWebServiceFolder + "/" + Environment + "/";
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private string EngFolder(bool sWriteOnDisk = true)
         {
+            //BTBBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_ENG + "/";
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
         private string DBFolder(bool sWriteOnDisk = true)
         {
+            //BTBBenchmark.Start();
             string rReturn = EnvFolder(sWriteOnDisk) + NWD.K_DB + "/";
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -614,7 +618,7 @@ namespace NetWorkedData
             // I need include ALL tables management files to manage ALL tables
             foreach (Type tType in NWDDataManager.SharedInstance().mTypeAccountDependantList)
             {
-                //              foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
+                //foreach (Type tType in NWDDataManager.SharedInstance().mTypeSynchronizedList) {
                 string tClassName = NWDBasisHelper.FindTypeInfos(tType).ClassNamePHP;
                 tAccountServices.AppendLine("$dico['" + tClassName + "']['sync'] = true;");
                 tAccountServices.AppendLine("include_once ( $PATH_BASE.'/" + Environment + "/" + NWD.K_DB + "/" + tClassName + "/" + NWD.K_WS_SYNCHRONISATION + "');");

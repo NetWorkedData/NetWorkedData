@@ -40,8 +40,8 @@ namespace NetWorkedData
             StringBuilder rReturn = new StringBuilder(string.Empty);
             rReturn.AppendLine("public void " + ClassNamePHP + NWD.K_LOADER + "()");
             rReturn.AppendLine("{");
-            rReturn.AppendLine("NWDDatasHelper tDatas = null;");
-            rReturn.AppendLine("tDatas = NWDDatasHelper.FindTypeInfos(typeof(" + ClassNamePHP + "));");
+            rReturn.AppendLine("NWDBasisHelper tDatas = null;");
+            rReturn.AppendLine("tDatas = NWDBasisHelper.FindTypeInfos(typeof(" + ClassNamePHP + "));");
             rReturn.AppendLine("if (tDatas!=null)");
             rReturn.AppendLine("{");
             rReturn.AppendLine("tDatas.SaltStart = \"" + SaltStart.Replace("}", "").Replace("{", "") + "\";");

@@ -169,7 +169,7 @@ namespace NetWorkedData
             NWDBasisHelper rDatas = NWDBasisHelper.FindTypeInfos(typeof(K));
             if (rDatas == null)
             {
-                Debug.LogWarning("ERROR NWDDatasHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
+                Debug.LogWarning("ERROR NWDBasisHelper.FindTypeInfos(typeof(K)) NOT RETURN FOR " + typeof(K).Name);
             }
             return rDatas;
         }

@@ -4,10 +4,10 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -89,7 +89,6 @@ namespace NetWorkedData
 				break;
 			}
 			GUILayout.EndScrollView ();
-
 			GUILayout.Space (8.0f);
 			if (GUILayout.Button (NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON)) 
             {

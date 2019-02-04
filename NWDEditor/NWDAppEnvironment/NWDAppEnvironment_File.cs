@@ -6,6 +6,7 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,8 +14,6 @@ using UnityEngine;
 using BasicToolBox;
 using System.IO;
 using System.Text;
-
-#if UNITY_EDITOR
 using UnityEditor;
 using Renci.SshNet;
 using Renci.SshNet.Common;

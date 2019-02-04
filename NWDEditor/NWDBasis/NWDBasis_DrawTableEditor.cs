@@ -642,7 +642,7 @@ namespace NetWorkedData
             GUILayout.Label(NWDConstants.K_APP_TABLE_SEARCH_ZONE, EditorStyles.boldLabel);
             // |||||||||||||||||||||||||||||||||||||||||||
             //m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, m_SearchReference, GUILayout.Width(300));
-            //NWDDatasHelper tDatas = Datas();
+            //NWDBasisHelper tDatas = Datas();
 
             BasisHelper().m_SearchReference = EditorGUILayout.TextField(NWDConstants.K_APP_TABLE_SEARCH_REFERENCE, BasisHelper().m_SearchReference, GUILayout.Width(tSearchWidth));
 

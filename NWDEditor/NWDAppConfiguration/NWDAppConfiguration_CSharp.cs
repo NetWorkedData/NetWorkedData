@@ -6,6 +6,7 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,7 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BasicToolBox;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
