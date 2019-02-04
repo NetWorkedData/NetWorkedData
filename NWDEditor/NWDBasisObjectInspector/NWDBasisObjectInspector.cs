@@ -1,13 +1,15 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
 using System;
@@ -30,14 +32,9 @@ namespace NetWorkedData
 		public override void OnInspectorGUI ()
 		{
 			NWDBasisObjectInspector tTarget = (NWDBasisObjectInspector)target;
-			if (tTarget.mObjectInEdition == null)
+			if (tTarget.mObjectInEdition != null)
 			{
-			} 
-			else 
-			{
-                // TODO : Change to remove invoke!
                 Type tType = tTarget.mObjectInEdition.GetType ();
-				//var tMethodInfo = tType.GetMethod ("DrawObjectEditor", BindingFlags.Public | BindingFlags.Instance);
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicInstance(tType, NWDConstants.M_DrawObjectEditor);
                 if (tMethodInfo != null) 
 				{

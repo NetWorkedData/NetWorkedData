@@ -21,11 +21,6 @@ namespace NetWorkedData
     public partial class NWDBasis<K> : NWDTypeClass where K : NWDBasis<K>, new()
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Change the asset path in all object of this class.
-        /// </summary>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
         [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
         public static void ChangeAssetPath(string sOldPath, string sNewPath)
         {
@@ -39,11 +34,6 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Change the asset path in this object.
-        /// </summary>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
         public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
             //Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);

@@ -1,9 +1,12 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +16,6 @@ using BasicToolBox;
 using UnityEngine;
 using SQLite4Unity3d;
 using System.IO;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -256,7 +258,7 @@ namespace NetWorkedData
         /// </summary>
         public void OnGUI()
         {
-            NWDEditorConstants.LoadStyles();
+            NWDConstants.LoadStyles();
             // prepare the style
             //GUIStyle tHelpBoxStyle = new GUIStyle(EditorStyles.helpBox);
             GUIStyle tToolbarStyle = new GUIStyle(GUI.skin.button);
@@ -341,15 +343,6 @@ namespace NetWorkedData
                 mTabSelected = tTabSelected;
                 GUILayout.Space(5.0f);
                 NWDAliasMethod.InvokeClassMethod(tType, NWDConstants.M_DrawInEditor, null, new object[] { this, tAutoselect });
-                // TODO : Change to remove invoke!
-                //var tMethodInfo = tType.GetMethod (NWDSelector.NWDBasis_DRAW_IN_EDITOR_SELECTOR, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                //var tMethodInfo = tType.GetMethod(NWDBasisInvoke.DrawInEditor, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                //if (tMethodInfo != null)
-                //{
-                //    //Debug.Log ("I AM FINDING THE DRAWING METHOD");
-                //    tMethodInfo.Invoke(null, new object[] { this, tAutoselect });
-                //    //tMethodInfo.Invoke(null,null);
-                //}
             }
 
         }

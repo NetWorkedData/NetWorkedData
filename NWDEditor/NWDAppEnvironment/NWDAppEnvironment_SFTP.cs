@@ -8,16 +8,11 @@
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
 using System.IO;
 using System.Text;
-using UnityEditor;
 using Renci.SshNet;
-using Renci.SshNet.Common;
-using Renci.SshNet.Sftp;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -180,7 +175,7 @@ namespace NetWorkedData
             {
                 if (SftpConnexion.Exists(SFTPFolder + tFileAndData.Key))
                 {
-                    SftpConnexion.DeleteFile(SFTPFolder  + tFileAndData.Key);
+                    SftpConnexion.DeleteFile(SFTPFolder + tFileAndData.Key);
                 }
                 byte[] tBytes = Encoding.UTF8.GetBytes(tFileAndData.Value);
                 SftpConnexion.WriteAllBytes(SFTPFolder + tFileAndData.Key, tBytes);

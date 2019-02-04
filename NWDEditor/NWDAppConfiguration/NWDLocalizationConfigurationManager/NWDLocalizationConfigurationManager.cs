@@ -1,31 +1,25 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
-using System.Reflection;
 using System.IO;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public class NWDLocalizationConfigurationManager : EditorWindow
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDLocalizationConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         static Vector2 ScrollPosition;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDLocalizationConfigurationManager()
-        {
-        }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
@@ -59,14 +53,8 @@ namespace NetWorkedData
         public void OnGUI()
         {
             NWDConstants.LoadStyles();
-
-
-            // Draw interface for language chooser
             Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
-            //GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, EditorStyles.helpBox);
-
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, NWDConstants.kLabelTitleStyle);
-
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             GUILayout.BeginHorizontal();
             List<string> tResult = new List<string>();
@@ -101,7 +89,6 @@ namespace NetWorkedData
             }
             tResult.Sort();
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_BUNDLENAMEE_AREA, NWDConstants.kLabelTitleStyle);
-
             foreach (string tLang in tResult)
             {
                 if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tLang) == false)
@@ -110,7 +97,6 @@ namespace NetWorkedData
                 }
                 NWDAppConfiguration.SharedInstance().BundleName[tLang] = EditorGUILayout.TextField(tLang, NWDAppConfiguration.SharedInstance().BundleName[tLang]);
             }
-
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA, NWDConstants.kLabelTitleStyle);
             int tIndex = tResult.IndexOf(NWDAppConfiguration.SharedInstance().ProjetcLanguage);
             if (tIndex < 0)
@@ -119,14 +105,12 @@ namespace NetWorkedData
             }
             int tSelect = EditorGUILayout.Popup(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_CHOOSE, tIndex, tResult.ToArray());
             NWDAppConfiguration.SharedInstance().ProjetcLanguage = tResult[tSelect];
-
             string tNewLanguages = NWDDataLocalizationManager.kBaseDev + ";" + string.Join(";", tResult.ToArray());
             if (NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString != tNewLanguages)
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString = tNewLanguages;
                 NWDDataInspector.ActiveRepaint();
             }
-
             GUILayout.Label("Special localizations operations", NWDConstants.kLabelTitleStyle);
             if (GUILayout.Button("Reoder all localizations"))
             {
@@ -140,7 +124,6 @@ namespace NetWorkedData
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
             }
-
             GUILayout.EndScrollView();
             GUILayout.Space(8.0f);
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
@@ -149,9 +132,9 @@ namespace NetWorkedData
             }
             GUILayout.Space(8.0f);
         }
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //-------------------------------------------------------------------------------------------------------------
+    }
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
 #endif

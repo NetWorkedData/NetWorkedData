@@ -1,16 +1,16 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
-using System.Reflection;
 using System.IO;
 using UnityEditor;
 //=====================================================================================================================
@@ -47,11 +47,9 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            //NWDConstants.LoadImages();
             DevIcon = NWDConstants.kImageEmpty;
             PreprodIcon = NWDConstants.kImageEmpty;
             ProdIcon = NWDConstants.kImageEmpty;
-
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -227,28 +225,17 @@ namespace NetWorkedData
             bool tSyncForce = false;
             bool tPull = false;
             bool tPullForce = false;
-
             bool tOperationClean = false;
             bool tOperationSpecial = false;
             bool tOperationUpgrade = false;
             bool tOperationOptimize = false;
-
             NWDAppEnvironment tDevEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             NWDAppEnvironment tPreprodEnvironment = NWDAppConfiguration.SharedInstance().PreprodEnvironment;
             NWDAppEnvironment tProdEnvironment = NWDAppConfiguration.SharedInstance().ProdEnvironment;
-
             this.minSize = new Vector2(300, 500);
             this.maxSize = new Vector2(300, 4096);
-            // set title of window
-            // show helpbox
-            //EditorGUILayout.HelpBox(NWDConstants.K_APP_SYNC_ENVIRONMENT, MessageType.None);
-
-
-
             var tStyleCenter = new GUIStyle(EditorStyles.label);
             tStyleCenter.alignment = TextAnchor.MiddleCenter;
-
-
             var tStyleBoldCenter = new GUIStyle(EditorStyles.boldLabel);
             tStyleBoldCenter.alignment = TextAnchor.MiddleCenter;
 
@@ -265,14 +252,11 @@ namespace NetWorkedData
             {
                 GUILayout.Label(tObjectInQueue + " Objects in waiting to update", tStyleBoldCenter);
             }
-
-
             GUILayout.BeginHorizontal();
             GUILayout.Label("Dev Database", tStyleBoldCenter);
             GUILayout.Label("Preprod Database", tStyleBoldCenter);
             GUILayout.Label("Prod Database", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Sync all", EditorStyles.miniButton))
             {
@@ -290,7 +274,6 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Force Sync all", EditorStyles.miniButton))
             {
@@ -308,7 +291,6 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Pull all", EditorStyles.miniButton))
             {
@@ -326,7 +308,6 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Force Pull all", EditorStyles.miniButton))
             {
@@ -344,16 +325,13 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             GUILayout.Label("Dev Database", tStyleBoldCenter);
             GUILayout.Label("Preprod Database", tStyleBoldCenter);
             GUILayout.Label("Prod Database", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-
             Color tOldColor = GUI.backgroundColor;
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Clean all", EditorStyles.miniButton))
             {
@@ -371,7 +349,6 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Special all", EditorStyles.miniButton))
             {
@@ -389,7 +366,6 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Upgrade all", EditorStyles.miniButton))
             {
@@ -407,7 +383,6 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Optimize all", EditorStyles.miniButton))
             {
@@ -425,36 +400,29 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-
             GUI.backgroundColor = tOldColor;
-
             GUILayout.BeginHorizontal();
             GUILayout.Label("Dev Database", tStyleBoldCenter);
             GUILayout.Label("Preprod Database", tStyleBoldCenter);
             GUILayout.Label("Prod Database", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-
             //GUILayout.BeginHorizontal();
             //GUILayout.Label(DevProgress, tStyleBoldCenter);
             //GUILayout.Label(PreprodProgress, tStyleBoldCenter);
             //GUILayout.Label(ProdProgress, tStyleBoldCenter);
             //GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             GUILayout.Label(DevIcon, tStyleCenter, GUILayout.Height(20));
             GUILayout.Label(PreprodIcon, tStyleCenter, GUILayout.Height(20));
             GUILayout.Label(ProdIcon, tStyleCenter, GUILayout.Height(20));
             GUILayout.EndHorizontal();
-
             double tDurationNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
             double tPrepareNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.PrepareDateTime)) / 1000.0F;
             double tUploadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.WebDateTime)) / 1000.0F;
             double tDowloadNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.UploadedDateTime)) / 1000.0F;
             double tComputeNetMilliseconds = (NWDToolbox.TimestampMilliseconds(LastInfos.FinishDateTime) - NWDToolbox.TimestampMilliseconds(LastInfos.DownloadedDateTime)) / 1000.0F;
             EditorGUILayout.LabelField("Webservice version", NWDAppConfiguration.SharedInstance().WebBuild.ToString());
-
             // add separator please
-
             if (LastInfos.RowPushCounter == 0)
             {
                 EditorGUILayout.LabelField("Rows pushed", LastInfos.RowPushCounter.ToString() + " no row (no class)");
@@ -474,7 +442,6 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField("Rows pushed", LastInfos.RowPushCounter.ToString() + " rows (" + LastInfos.ClassPushCounter.ToString() + " classes)");
                 }
             }
-
             EditorGUILayout.LabelField("Data Prepare", tPrepareNetMilliseconds.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Network Upload", tUploadNetMilliseconds.ToString("#0.000") + " s");
             float tKoUpload = (float)LastInfos.OctetUpload / 1024.0F;
@@ -485,7 +452,6 @@ namespace NetWorkedData
             float tKoDownload = (float)LastInfos.OctetDownload / 1024.0F;
             float tMoDownload = tKoDownload / 1024.0F;
             EditorGUILayout.LabelField("Octect receipt", LastInfos.OctetDownload.ToString() + " o = " + tKoDownload.ToString("0.0") + "Ko = " + tMoDownload.ToString("0.0") + "Mo");
-           
             //RowPullCounter
             if (LastInfos.RowPullCounter == 0)
             {
@@ -506,7 +472,6 @@ namespace NetWorkedData
                     EditorGUILayout.LabelField("Rows pulled", LastInfos.RowPullCounter.ToString() + " rows (" + LastInfos.ClassPullCounter.ToString() + " classes)");
                 }
             }
-
             //RowUpdatedCounter
             if (LastInfos.RowUpdatedCounter == 0)
             {
@@ -520,7 +485,6 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField("Rows updated", LastInfos.RowUpdatedCounter.ToString() + " rows");
             }
-
             //RowUpdatedCounter
             if (LastInfos.RowAddedCounter == 0)
             {
@@ -534,10 +498,8 @@ namespace NetWorkedData
             {
                 EditorGUILayout.LabelField("Rows added", LastInfos.RowAddedCounter.ToString() + " rows");
             }
-
             EditorGUILayout.LabelField("DataBase compute", tComputeNetMilliseconds.ToString("#0.000") + " s");
             EditorGUILayout.LabelField("Sync duration", tDurationNetMilliseconds.ToString("#0.000") + " s", EditorStyles.boldLabel);
-
             if (DevSessionExpired == true || PreprodSessionExpired == true || ProdSessionExpired == true)
             {
                 GUILayout.BeginHorizontal();
@@ -561,7 +523,6 @@ namespace NetWorkedData
                 EditorGUI.EndDisabledGroup();
                 GUILayout.EndHorizontal();
             }
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Flush web queue", EditorStyles.miniButton))
             {
@@ -576,15 +537,12 @@ namespace NetWorkedData
                 Flush(NWDAppConfiguration.SharedInstance().ProdEnvironment);
             }
             GUILayout.EndHorizontal();
-
             GUILayout.Space(20.0F);
-
             GUILayout.BeginHorizontal();
             GUILayout.Label("Dev WS", tStyleBoldCenter);
             GUILayout.Label("Preprod WS", tStyleBoldCenter);
             GUILayout.Label("Prod WS", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
             if (GUILayout.Button("maintenance", EditorStyles.miniButton))
@@ -600,7 +558,6 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.SetMaintenance(true);
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("obsolete", EditorStyles.miniButton))
             {
@@ -615,7 +572,6 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.SetObsolete(true);
             }
             GUILayout.EndHorizontal();
-
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("activate", EditorStyles.miniButton))
             {
@@ -630,9 +586,7 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().ProdEnvironment.SetActivate();
             }
             GUILayout.EndHorizontal();
-
             GUILayout.Space(20.0F);
-
             GUILayout.Label("Local database", tStyleBoldCenter);
 
             if (GUILayout.Button("Clean all local tables", EditorStyles.miniButton))
@@ -655,12 +609,7 @@ namespace NetWorkedData
                     NWDDataManager.SharedInstance().PurgeAllTablesLocal();
                 }
             }
-
             GUILayout.Label("TESTS ANTI-HACK");
-            //if (GUILayout.Button("ReInject last request result", EditorStyles.miniButton))
-            //{
-
-            //}
             if (GUILayout.Button("Use false token", EditorStyles.miniButton))
             {
                 NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDToolbox.RandomStringUnix(16);

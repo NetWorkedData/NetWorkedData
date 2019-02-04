@@ -34,7 +34,6 @@ namespace NetWorkedData
                     NWDDataManager tShareInstance = NWDDataManager.SharedInstance();
                     tShareInstance.ReloadAllObjects();
                     tShareInstance.RestaureObjectInEdition();
-
                 }
             }
         }

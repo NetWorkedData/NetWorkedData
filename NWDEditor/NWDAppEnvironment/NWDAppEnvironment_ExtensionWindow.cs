@@ -7,7 +7,6 @@
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
-using System.Collections.Generic;
 using UnityEngine;
 using BasicToolBox;
 using System;
@@ -72,7 +71,6 @@ namespace NetWorkedData
             SFTPUser = EditorGUILayout.TextField("SFTP User ", SFTPUser);
             SFTPPassword = EditorGUILayout.TextField("SFTP Password ", SFTPPassword);
 
-
             EditorGUILayout.TextField("Mail Params for " + Environment, EditorStyles.boldLabel);
             MailHost = EditorGUILayout.TextField("Mail Host", MailHost);
             MailPort = EditorGUILayout.IntField("Mail Port", MailPort);
@@ -122,135 +120,7 @@ namespace NetWorkedData
             {
                 EditorGUILayout.EndHorizontal();
             }
-            // DATABASE PARAMS
             EditorGUILayout.Space();
-            //EditorGUILayout.HelpBox("Databases", MessageType.None);
-            //NWDAppConfiguration.SharedInstance().RowDataIntegrity = EditorGUILayout.Toggle("Active Row Integrity", NWDAppConfiguration.SharedInstance().RowDataIntegrity);
-            //NWDAppConfiguration.SharedInstance().PreloadDatas = EditorGUILayout.Toggle("Preload Datas", NWDAppConfiguration.SharedInstance().PreloadDatas);
-
-            //string tDatabasePathEditor = NWDDataManager.SharedInstance().DatabasePathEditor + "/" + NWDDataManager.SharedInstance().DatabaseNameEditor;
-
-            ////string tDatabasePathAccount = NWDDataManager.SharedInstance().DatabasePathAccount + "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
-            //string tDatabasePathAccount = "/" + NWDDataManager.SharedInstance().DatabaseNameAccount;
-
-            //EditorGUILayout.LabelField("Databases Editor config for all environements", EditorStyles.boldLabel);
-            //EditorGUILayout.LabelField("Editor path ", tDatabasePathEditor);
-            //if (GUILayout.Button("Editor Database File"))
-            //{
-            //    EditorUtility.RevealInFinder(tDatabasePathEditor);
-            //}
-            //EditorGUILayout.LabelField("EditorPass", NWDAppConfiguration.SharedInstance().EditorPass);
-            //EditorGUILayout.LabelField("EditorPassA", NWDAppConfiguration.SharedInstance().EditorPassA);
-            //EditorGUILayout.LabelField("EditorPassAB", NWDAppConfiguration.SharedInstance().EditorPassB);
-            //EditorGUI.BeginDisabledGroup(true);
-            //EditorGUILayout.TextField("Editor Pass Result", NWDAppConfiguration.SharedInstance().GetEditorPass());
-            //EditorGUI.EndDisabledGroup();
-
-            //EditorGUILayout.LabelField("Databases Accountconfig for all environements (by device)", EditorStyles.boldLabel);
-            //EditorGUILayout.LabelField("Account path ", tDatabasePathAccount);
-            //if (GUILayout.Button("Account Database File"))
-            //{
-            //    EditorUtility.RevealInFinder(tDatabasePathAccount);
-            //}
-            //EditorGUILayout.LabelField("AccountHashSalt", NWDAppConfiguration.SharedInstance().AccountHashSalt);
-            //EditorGUILayout.LabelField("AccountHashSaltA", NWDAppConfiguration.SharedInstance().AccountHashSaltA);
-            //EditorGUILayout.LabelField("AccountHashSaltB", NWDAppConfiguration.SharedInstance().AccountHashSaltB);
-            //EditorGUI.BeginDisabledGroup(true);
-            //EditorGUILayout.TextField("Account Pass Result", NWDAppConfiguration.SharedInstance().GetAccountPass());
-            //EditorGUI.EndDisabledGroup();
-            //// WEBSERVICES PARAMS
-            //EditorGUILayout.Space();
-            //EditorGUILayout.HelpBox("WebServices", MessageType.None);
-            //EditorGUILayout.LabelField("Webservices config for all environements", EditorStyles.boldLabel);
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.BeginHorizontal();
-            //}
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
-            //Dictionary<int, bool> tWSList = new Dictionary<int, bool>();
-            //tWSList.Add(0, true);
-            //foreach (KeyValuePair<int, bool> tWS in NWDAppConfiguration.SharedInstance().WSList)
-            //{
-            //    if (tWSList.ContainsKey(tWS.Key) == false)
-            //    {
-            //        tWSList.Add(tWS.Key, tWS.Value);
-            //    }
-            //}
-            //List<int> tWSListUsable = new List<int>();
-            //List<string> tWSListUsableString = new List<string>();
-            //foreach (KeyValuePair<int, bool> tWS in tWSList)
-            //{
-            //    if (tWS.Value == true)
-            //    {
-            //        tWSListUsable.Add(tWS.Key);
-            //        tWSListUsableString.Add(NWDAppConfiguration.SharedInstance().WebFolder+"_" + tWS.Key.ToString("0000"));
-            //    }
-            //}
-            //NWDAppConfiguration.SharedInstance().WebFolder = EditorGUILayout.TextField("WebService Folder", NWDAppConfiguration.SharedInstance().WebFolder);
-            //int tIndexWS = tWSListUsable.IndexOf(NWDAppConfiguration.SharedInstance().WebBuild);
-            //tIndexWS = EditorGUILayout.Popup("WebService active", tIndexWS, tWSListUsableString.ToArray());
-            //if (tIndexWS>=0)
-            //{
-            //    NWDAppConfiguration.SharedInstance().WebBuild = tWSListUsable[tIndexWS];
-            //}
-            //else
-            //{
-            //    NWDAppConfiguration.SharedInstance().WebBuild = 0;
-            //}
-            //EditorGUILayout.EndVertical();
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-            //foreach (KeyValuePair<int, bool> tWS in tWSList)
-            //{
-            //    EditorGUI.BeginDisabledGroup(tWS.Key == 0);
-            //    NWDBasisHelper tDatasToTest = NWDBasisHelper.FindTypeInfos(typeof(NWDParameter));
-            //    if (tDatasToTest.WebModelSQLOrder.ContainsKey(tWS.Key) == false)
-            //    {
-            //        bool tV = EditorGUILayout.Toggle("("+NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " unused)", tWS.Value);
-            //        NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
-            //    }
-            //    else
-            //    {
-            //        bool tV = EditorGUILayout.Toggle(NWDAppConfiguration.SharedInstance().WebFolder + "_" + tWS.Key.ToString("0000") + " in config", tWS.Value);
-            //        NWDAppConfiguration.SharedInstance().WSList[tWS.Key] = tV;
-            //    }
-            //    EditorGUI.EndDisabledGroup();
-            //}
-            //EditorGUILayout.EndVertical();
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.EndHorizontal();
-            //}
-            //EditorGUILayout.Space();
-            //EditorGUILayout.HelpBox("Tags", MessageType.None);
-
-            //EditorGUILayout.LabelField("Tag managment (all environements)", EditorStyles.boldLabel);
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.BeginHorizontal();
-            //}
-            //EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
-            //NWDAppConfiguration.SharedInstance().TagList[-1] = "No Tag";
-
-            //Dictionary<int, string> tTagList = new Dictionary<int, string>(NWDAppConfiguration.SharedInstance().TagList);
-            //for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
-            //{
-            //    if (NWDAppConfiguration.SharedInstance().TagList.ContainsKey(tI) == false)
-            //    {
-            //        NWDAppConfiguration.SharedInstance().TagList.Add(tI, "tag " + tI.ToString());
-            //    }
-            //    EditorGUI.BeginDisabledGroup(tI < 0 || tI > NWDAppConfiguration.SharedInstance().TagNumberUser);
-            //    string tV = EditorGUILayout.TextField("tag " + tI.ToString(), NWDAppConfiguration.SharedInstance().TagList[tI]);
-            //    tTagList[tI] = tV.Replace("\"", "`");
-            //    EditorGUI.EndDisabledGroup();
-            //}
-            //NWDAppConfiguration.SharedInstance().TagList = tTagList;
-            //EditorGUILayout.EndVertical();
-            //if (tColum > 1)
-            //{
-            //    EditorGUILayout.EndHorizontal();
-            //}
             FormatVerification();
             //BTBBenchmark.Finish();
         }

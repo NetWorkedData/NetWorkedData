@@ -6,13 +6,13 @@
 // Read License-en or Licence-fr
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using BasicToolBox;
 using System.Globalization;
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 //=====================================================================================================================
@@ -70,8 +70,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [InitializeOnLoad]
-    [ExecuteInEditMode]
     public partial class NWDConstants
     {
         //-------------------------------------------------------------------------------------------------------------

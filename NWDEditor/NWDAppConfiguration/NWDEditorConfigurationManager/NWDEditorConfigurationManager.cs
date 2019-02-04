@@ -1,34 +1,25 @@
 ﻿//=====================================================================================================================
 //
-// ideMobi copyright 2018 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
+//
+// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 #if UNITY_EDITOR
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BasicToolBox;
-using System.Reflection;
 using System.IO;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// NWD app environment manager window.
-    /// </summary>
     public class NWDEditorConfigurationManager : EditorWindow
     {
         //-------------------------------------------------------------------------------------------------------------
         GUIContent IconAndTitle;
         static Vector2 ScrollPosition;
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDEditorConfigurationManager()
-        {
-        }
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
@@ -63,10 +54,7 @@ namespace NetWorkedData
         {
             NWDConstants.LoadStyles();
             float tMinWidht = 270.0F;
-            float tScrollMarge = 20.0f;
             int tColum = 1;
-
-            // Draw warning if salt for class is false
             if (NWDDataManager.SharedInstance().TestSaltMemorizationForAllClass() == false)
             {
                 EditorGUILayout.HelpBox(NWDConstants.kAlertSaltShortError, MessageType.Error);
@@ -75,23 +63,14 @@ namespace NetWorkedData
                     NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
                 }
             }
-            // Draw helpbox
-            //EditorGUILayout.HelpBox (NWDConstants.K_APP_CONFIGURATION_HELPBOX, MessageType.None);
-            // List environment
-            //update the veriosn of Bundle
-            //NWDVersion.UpdateVersionBundle ();
-            // Draw interface for environment selected inn scrollview
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
-
             GUILayout.Label("Datas Tags", NWDConstants.kLabelTitleStyle);
             if (tColum > 1)
             {
                 EditorGUILayout.BeginHorizontal();
             }
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(tMinWidht));
-
             NWDAppConfiguration.SharedInstance().TagList[-1] = "No Tag";
-
             Dictionary<int, string> tTagList = new Dictionary<int, string>(NWDAppConfiguration.SharedInstance().TagList);
             for (int tI = -1; tI <= NWDAppConfiguration.SharedInstance().TagNumber; tI++)
             {
@@ -110,9 +89,6 @@ namespace NetWorkedData
             {
                 EditorGUILayout.EndHorizontal();
             }
-
-
-
             GUILayout.EndScrollView();
             GUILayout.Space(8.0f);
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))

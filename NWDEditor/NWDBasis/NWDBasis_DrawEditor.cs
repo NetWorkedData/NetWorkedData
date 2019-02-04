@@ -342,7 +342,6 @@ namespace NetWorkedData
                     if (tDraw)
                     {
                         {
-
                             if (tProp.GetCustomAttributes(typeof(NWDIntSliderAttribute), true).Length > 0)
                             {
                                 tY += tTextFieldStyle.fixedHeight + NWDConstants.kFieldMarge;
@@ -452,7 +451,6 @@ namespace NetWorkedData
         /// <returns><c>true</c>, if object inspector was updated, <c>false</c> otherwise.</returns>
         public Rect DrawObjectInspector(Rect sInRect, bool sWithScrollview, bool sEditionEnable)
         {
-
             //NWDConstants.LoadImages();
             NWDConstants.LoadStyles();
 
@@ -500,7 +498,6 @@ namespace NetWorkedData
             tBoldFoldoutStyle.fontStyle = FontStyle.Bold;
             tBoldFoldoutStyle.fixedHeight = tBoldFoldoutStyle.CalcHeight(new GUIContent(BTBConstants.K_A), tWidth);
 
-
             bool rNeedBeUpdate = false;
             EditorGUI.BeginChangeCheck();
 
@@ -524,7 +521,6 @@ namespace NetWorkedData
             Type tType = ClassType();
 
             EditorGUI.BeginDisabledGroup(sEditionEnable == false);
-
 
             PropertyInfo[] tPropertiesArray = tType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             List<PropertyInfo> tPropertiesList = new List<PropertyInfo>();

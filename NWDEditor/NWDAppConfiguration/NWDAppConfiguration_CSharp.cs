@@ -9,7 +9,6 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -69,7 +68,7 @@ namespace NetWorkedData
             rReturn.AppendLine("ProjetcLanguage = \"" + ProjetcLanguage + "\";");
             foreach (KeyValuePair<string, string> tEntry in BundleName.OrderBy(x => x.Key))
             {
-                rReturn.AppendLine("BundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";" );
+                rReturn.AppendLine("BundleName[\"" + tEntry.Key + "\"]=\"" + tEntry.Value.Replace("\"", "\\\"") + "\";");
             }
             rReturn.AppendLine("WSList = new Dictionary<int, bool>();");
             foreach (KeyValuePair<int, bool> tWS in WSList.OrderBy(x => x.Key))
