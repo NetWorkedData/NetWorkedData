@@ -6,18 +6,7 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -26,17 +15,19 @@ namespace NetWorkedData
     public partial class NWDAccountStatKeyValue : NWDBasis<NWDAccountStatKeyValue>
     {
         //-------------------------------------------------------------------------------------------------------------
-        // Create an Index
-        // must ADD InsertInIndex(); in : 
-        // AddonLoadedMe()
-        // AddonUpdatedMeFromWeb()
-        // AddonUpdatedMe()
-        // AddonDuplicateMe()
-        // must ADD RemoveFromIndex(); in : 
-        // AddonDeleteMe()
         static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDAccountStatKeyValue>> kIndex = new Dictionary<string, List<NWDAccountStatKeyValue>>();
         private List<NWDAccountStatKeyValue> kIndexList;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonIndexMe()
+        {
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDesindexMe()
+        {
+            RemoveFromIndex();
+        }
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {

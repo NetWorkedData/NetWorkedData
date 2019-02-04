@@ -509,6 +509,44 @@ namespace NetWorkedData
             NWDDataManager.SharedInstance().DataQueueExecute();
         }
         //-------------------------------------------------------------------------------------------------------------
+        static bool kBlock = false;
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_BLOCK_RECOMPILE, false, 9998)]
+        public static void BlockRecompile()
+        {
+            if (kBlock == false)
+            {
+                kBlock = true;
+                EditorApplication.LockReloadAssemblies();
+                //AssetDatabase.StartAssetEditing();
+            }
+            else
+            {
+                kBlock = false;
+                //AssetDatabase.StopAssetEditing();
+                //AssetDatabase.Refresh();
+                EditorApplication.UnlockReloadAssemblies();
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_BLOCK_RECOMPILE, true)]
+        public static bool TestBlockRecompile()
+        {
+            return !kBlock;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_UNBLOCK_RECOMPILE, false, 9999)]
+        public static void UnblockRecompile()
+        {
+            BlockRecompile();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_UNBLOCK_RECOMPILE, true)]
+        public static bool TestUnblockRecompile()
+        {
+            return kBlock;
+        }
+        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

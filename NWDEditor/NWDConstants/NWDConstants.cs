@@ -199,6 +199,11 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
         public const string K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/INTEGRATE ALL DATAS";
 
+
+        public const string K_MENU_LOCAL_BLOCK_RECOMPILE = K_MENU_BASE + "/BLOCK RECOMPILE";
+
+        public const string K_MENU_LOCAL_UNBLOCK_RECOMPILE = K_MENU_BASE + "/UNBLOCK RECOMPILE";
+
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 
         public const string K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE = "Version bundle";

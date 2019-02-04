@@ -75,20 +75,6 @@ namespace NetWorkedData
             get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserLevelScore()
-        {
-            //Debug.Log("NWDLevelScore Constructor");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserLevelScore(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
-        {
-            //Debug.Log("NWDLevelScore Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization()
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
