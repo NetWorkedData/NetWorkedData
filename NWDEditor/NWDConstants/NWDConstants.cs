@@ -199,6 +199,7 @@ namespace NetWorkedData
         public const string K_MENU_LOCAL_CREATE_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database on local";
         public const string K_MENU_LOCAL_CREATE_DATAS_AND_PASS = K_MENU_BASE + K_MENU_LOCAL + "/Recreate Database and passwords on local";
         public const string K_MENU_LOCAL_INTEGRITY_TO_TRASHED = K_MENU_BASE + K_MENU_LOCAL + "/PUT INTEGRITY ERROR TO TRASH";
+        public const string K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS = K_MENU_BASE + K_MENU_LOCAL + "/INTEGRATE ALL DATAS";
 
         public const string K_MENU_BASIS_WINDOWS_MANAGEMENT = " management";
 
@@ -634,6 +635,7 @@ namespace NetWorkedData
         static public GUIStyle kLabelTitleStyle;
         static public GUIStyle kLabelRightStyle;
         static public GUIStyle kBoldLabelStyle;
+        static public GUIStyle kInspectorFullWidthMargins;
         static public GUIStyle kPopupdStyle;
         static public GUIStyle kTextFieldStyle;
         static public GUIStyle kTextAreaStyle;
@@ -686,7 +688,7 @@ namespace NetWorkedData
                 kLabelTitleStyle = new GUIStyle(EditorStyles.label);
                 kLabelTitleStyle.fontSize = 14;
                 kLabelTitleStyle.fontStyle = FontStyle.Bold;
-                kLabelTitleStyle.padding = new RectOffset(2, 2, 10, 2);
+                kLabelTitleStyle.padding = new RectOffset(6, 2, 16, 2);
                 kLabelTitleStyle.margin = new RectOffset(-10, -10, 1, 1);
                 kLabelTitleStyle.normal.background = new Texture2D(1, 1);
                 Color tGrayLabelTitleStyle = new Color(0, 0, 0, 0.2F);
@@ -694,6 +696,9 @@ namespace NetWorkedData
                 kLabelTitleStyle.normal.background.Apply();
                 kLabelTitleStyle.fixedHeight = kLabelTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
+                kInspectorFullWidthMargins = new GUIStyle(EditorStyles.inspectorFullWidthMargins);
+                kInspectorFullWidthMargins.padding = new RectOffset(0, 0, 0, 0);
+                kInspectorFullWidthMargins.margin = new RectOffset(0, 0, 0, 0);
 
                 kLabelRightStyle = new GUIStyle(EditorStyles.label);
                 kLabelRightStyle.alignment = TextAnchor.MiddleRight;

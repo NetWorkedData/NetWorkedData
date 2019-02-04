@@ -67,7 +67,7 @@ namespace NetWorkedData
 
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, NWDConstants.kLabelTitleStyle);
 
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
             GUILayout.BeginHorizontal();
             List<string> tResult = new List<string>();
             float tToggleWidth = 140.0f;

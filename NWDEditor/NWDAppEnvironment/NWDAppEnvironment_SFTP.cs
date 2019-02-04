@@ -85,12 +85,12 @@ namespace NetWorkedData
             // rewrite one of new htaccess or nothing
             if (sMaintenance)
             {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule ([a-zA-Z0-9\\_]+)\\/(.*) ./" + NWD.K_MAINTENANCE_PHP + "");
+                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_MAINTENANCE_PHP + "");
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
             else if (sObsolete)
             {
-                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\n#RewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule ([a-zA-Z0-9\\_]+)\\/(.*) ./" + NWD.K_OBSOLETE_PHP + "");
+                byte[] tBytes = Encoding.UTF8.GetBytes("RewriteEngine on\nRewriteCond %{HTTP:ADMINHASH} ^$\nRewriteRule . " + NWD.K_OBSOLETE_PHP + "");
                 SftpConnexion.WriteAllBytes(tDestination, tBytes);
             }
             //SFTPHost will close

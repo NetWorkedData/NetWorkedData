@@ -473,10 +473,11 @@ namespace NetWorkedData
                                     {
                                         #if UNITY_EDITOR
                                         ResultInfos.errorDesc.ShowNativeAlert();
-                                        #else
+#else
                                         ResultInfos.errorDesc.PostNotificationError();
-                                        #endif
+#endif
                                     }
+                                    FailInvoke(Request.downloadProgress, ResultInfos);
                                 }
                             }
                             else
@@ -486,10 +487,11 @@ namespace NetWorkedData
                                 {
                                     #if UNITY_EDITOR
                                     ResultInfos.errorDesc.ShowNativeAlert();
-                                    #else
+#else
                                     ResultInfos.errorDesc.PostNotificationError();
-                                    #endif
+#endif
                                 }
+                                FailInvoke(Request.downloadProgress, ResultInfos);
                             }
                         }
                     }

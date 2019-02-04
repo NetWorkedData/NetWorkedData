@@ -7,7 +7,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using System.IO;
-using BasicToolBox;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -19,37 +18,23 @@ namespace NetWorkedData
 	[InitializeOnLoad]
 	public class NWDAssetWatcher : UnityEditor.AssetModificationProcessor
 	{
-        /// <summary>
-        /// The asset's extensions watched list.
-        /// </summary>
-		static List<string> kExtensionsWatchedList = new List<string> () {
-			".prefab", 
-			".tga", 
-			".mat", 
-			".jpg", 
-			".png", 
-			".jpeg", 
-			".mp3", 
-			".jpeg", 
-			".shader", 
-//			".txt",
-//			".json",
-			"", // for folder change
+        //-------------------------------------------------------------------------------------------------------------
+        static List<string> kExtensionsWatchedList = new List<string>() {
+            ".prefab",
+            ".tga",
+            ".mat",
+            ".jpg",
+            ".png",
+            ".jpeg",
+            ".mp3",
+            ".jpeg",
+            "", // for folder change
 		};
 		//-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Initializes the <see cref="T:NetWorkedData.NWDAssetWatcher"/> class.
-        /// </summary>
 		static NWDAssetWatcher ()
 		{
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On will move asset.
-        /// </summary>
-        /// <returns>asset will move .</returns>
-        /// <param name="sOldPath">old path.</param>
-        /// <param name="sNewPath">new path.</param>
 		public static AssetMoveResult OnWillMoveAsset (string sOldPath, string sNewPath)
 		{
             AssetMoveResult rReturn = AssetMoveResult.DidNotMove;
@@ -65,12 +50,6 @@ namespace NetWorkedData
 			return rReturn;
 		}
 		//-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// On will delete asset.
-        /// </summary>
-        /// <returns>The will delete asset.</returns>
-        /// <param name="sOldPath">S old path.</param>
-        /// <param name="e">E.</param>
 		public static AssetDeleteResult OnWillDeleteAsset (string sOldPath, RemoveAssetOptions sUnused)
         {
             AssetDeleteResult rReturn = AssetDeleteResult.DidNotDelete;

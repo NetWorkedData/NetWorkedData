@@ -1607,6 +1607,12 @@ namespace NetWorkedData
             TrashData();
         }
         //-------------------------------------------------------------------------------------------------------------
+        public override void UpdateIntegrityAction()
+        {
+            //UpdateIntegrity();
+            UpdateData();
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override bool EnableState()
         {
             return AC;

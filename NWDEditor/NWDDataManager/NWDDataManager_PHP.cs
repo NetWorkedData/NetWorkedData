@@ -153,8 +153,8 @@ namespace NetWorkedData
             NWDError.CreateGenericError("token", "RQT98", "Security error", "Security error one...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
             NWDError.CreateGenericError("token", "RQT99", "Security error", "Security error two...", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
-            NWDError.CreateGenericError("maintenance", "MAINTENANCE", "MAINTENANCE", "MAINTENANCE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
-            NWDError.CreateGenericError("obsolete", "OBSOLETE", "OBSOLETE", "OBSOLETE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("webrequest", "MAINTENANCE", "MAINTENANCE", "MAINTENANCE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
+            NWDError.CreateGenericError("webrequest", "OBSOLETE", "OBSOLETE", "OBSOLETE", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);
 
 
 			NWDError.CreateGenericError("Server", "SERVER", "Server ", "server error", "OK", NWDErrorType.Alert, NWDBasisTag.TagInternal);

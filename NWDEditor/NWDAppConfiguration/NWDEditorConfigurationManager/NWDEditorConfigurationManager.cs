@@ -81,7 +81,7 @@ namespace NetWorkedData
             //update the veriosn of Bundle
             //NWDVersion.UpdateVersionBundle ();
             // Draw interface for environment selected inn scrollview
-            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, EditorStyles.inspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
 
             GUILayout.Label("Datas Tags", NWDConstants.kLabelTitleStyle);
             if (tColum > 1)

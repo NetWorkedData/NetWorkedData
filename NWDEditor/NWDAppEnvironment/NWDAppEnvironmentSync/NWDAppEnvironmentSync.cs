@@ -710,7 +710,8 @@ namespace NetWorkedData
             }
             if (tOperationUpgrade == true)
             {
-                OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Upgrade);
+                OperationManagement(tEnvironment, true);
+               // OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Upgrade);
             }
             if (tOperationOptimize == true)
             {
@@ -759,6 +760,34 @@ namespace NetWorkedData
                 }
                 StartProcess(sEnvironment);
                 NWDOperationWebSynchronisation.AddOperation("App Environnement Sync " + sOperation.ToString(), SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sTypeList, sForceSync, sPriority, sOperation);
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public void OperationManagement(NWDAppEnvironment sEnvironment, bool sForceSync = true)
+        {
+            bool tOk = false;
+            if (sEnvironment == NWDAppConfiguration.SharedInstance().ProdEnvironment)
+            {
+                if (EditorUtility.DisplayDialog(NWDConstants.K_SYNC_ALERT_TITLE,
+                        NWDConstants.K_SYNC_ALERT_MESSAGE,
+                        NWDConstants.K_SYNC_ALERT_OK,
+                        NWDConstants.K_SYNC_ALERT_CANCEL))
+                {
+                    tOk = true;
+                }
+            }
+            else
+            {
+                tOk = true;
+            }
+            if (tOk == true)
+            {
+                if (Application.isPlaying == true)
+                {
+                    EditorUtility.DisplayDialog(NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_TITLE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_MESSAGE, NWDConstants.K_EDITOR_PLAYER_MODE_SYNC_ALERT_OK);
+                }
+                StartProcess(sEnvironment);
+                NWDOperationWebManagement.AddOperation("App Table management Sync ", SuccessBlock, FailBlock, CancelBlock, ProgressBlock, sEnvironment, sForceSync);
             }
         }
         //-------------------------------------------------------------------------------------------------------------

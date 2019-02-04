@@ -520,7 +520,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void WebserviceVersionCheckMe()
         {
-            Debug.Log("NWDBasis WebserviceVersionCheckMe()");
+            //Debug.Log("NWDBasis WebserviceVersionCheckMe()");
             // Find the good webservice version
             int tWebBuildUsed = WebModelToUse();
             // test the web service version

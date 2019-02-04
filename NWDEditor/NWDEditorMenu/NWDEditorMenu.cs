@@ -468,15 +468,40 @@ namespace NetWorkedData
                 MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
                 if (tMethodInfo != null)
                 {
-                    NWDBasisHelper tDatas = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
-                    if (tDatas != null)
+                    NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                    if (tBasisHelper != null)
                     {
-                        foreach (NWDTypeClass tObject in tDatas.Datas)
+                        foreach (NWDTypeClass tObject in tBasisHelper.Datas)
                         {
                             if (tObject.DataIntegrityState() == false)
                             {
                                 tObject.TrashAction();
                             }
+                        }
+                    }
+                }
+            }
+            NWDDataManager.SharedInstance().DataQueueExecute();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        [MenuItem(NWDConstants.K_MENU_LOCAL_REINTEGRITATE_ALL_DATAS, false, 9355)]
+        public static void ReinterigrityAllDatas()
+        {
+            foreach (Type tType in NWDDataManager.SharedInstance().mTypeList)
+            {
+                NWDBasisHelper tData = NWDBasisHelper.FindTypeInfos(tType);
+
+                // TODO : Change to remove invoke!
+                //var tMethodInfo = tType.GetMethod("Datas", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                MethodInfo tMethodInfo = NWDAliasMethod.GetMethodPublicStaticFlattenHierarchy(tType, NWDConstants.GetBasisHelper);
+                if (tMethodInfo != null)
+                {
+                    NWDBasisHelper tBasisHelper = (NWDBasisHelper)tMethodInfo.Invoke(null, null);
+                    if (tBasisHelper != null)
+                    {
+                        foreach (NWDTypeClass tObject in tBasisHelper.Datas)
+                        {
+                            tObject.UpdateIntegrityAction();
                         }
                     }
                 }
