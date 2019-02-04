@@ -90,12 +90,16 @@ namespace NetWorkedData
                 EditorGUILayout.EndHorizontal();
             }
             GUILayout.EndScrollView();
-            GUILayout.Space(8.0f);
+
+            NWDConstants.GUILayoutLine();
+            NWDConstants.GUIRedButtonBegin();
+            GUILayout.Space(NWDConstants.kFieldMarge);
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            GUILayout.Space(8.0f);
+            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDConstants.GUIRedButtonEnd();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

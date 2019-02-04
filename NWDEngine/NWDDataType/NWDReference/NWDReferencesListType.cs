@@ -454,10 +454,9 @@ namespace NetWorkedData
 
                 GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, NWDConstants.kRedLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_LIST_ERROR, NWDConstants.kRedLabelStyle);
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
-//				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
-//				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-				Color tOldColor = GUI.backgroundColor;
-				GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
+                //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
+                NWDConstants.GUIRedButtonBegin();
                 if (GUI.Button (new Rect (tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle)) {
 					foreach (string tDeleteReference in tValueListERROR) {
 						tValueList.Remove (tDeleteReference);
@@ -466,8 +465,8 @@ namespace NetWorkedData
 					tNextValue = string.Join (NWDConstants.kFieldSeparatorA, tNextValueArray);
 					tNextValue = tNextValue.Trim (NWDConstants.kFieldSeparatorA.ToCharArray () [0]);
 					tTemporary.Value = tNextValue;
-				}
-				GUI.backgroundColor = tOldColor;
+                }
+                NWDConstants.GUIRedButtonEnd();
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
 			}
 

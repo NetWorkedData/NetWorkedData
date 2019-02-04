@@ -787,8 +787,7 @@ namespace NetWorkedData
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kRedLabelStyle.fixedHeight;
                 //				GUI.Label (new Rect (tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace (NWDAssetType.kAssetDelimiter, ""),tLabelAssetStyle);
                 //				tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-                Color tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                NWDConstants.GUIRedButtonBegin();
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, NWDConstants.kDeleteButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, NWDConstants.kDeleteButtonStyle))
                 {
                     Dictionary<string, int> tDicoClean = GetReferenceAndQuantity();
@@ -798,7 +797,7 @@ namespace NetWorkedData
                     }
                     tTemporary.SetReferenceAndQuantity(tDicoClean);
                 }
-                GUI.backgroundColor = tOldColor;
+                NWDConstants.GUIRedButtonEnd();
                 tY = tY + NWDConstants.kFieldMarge + NWDConstants.kMiniButtonStyle.fixedHeight;
             }
             return tTemporary;

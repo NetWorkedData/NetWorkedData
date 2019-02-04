@@ -1762,9 +1762,7 @@ namespace NetWorkedData
 
             GUI.Label(new Rect(tX, tY, tWidth, tBoldLabelStyle.fixedHeight), NWDConstants.K_APP_BASIS_WARNING_ZONE, tBoldLabelStyle);
             tY += tBoldLabelStyle.fixedHeight + NWDConstants.kFieldMarge;
-
-            Color tOldColor = GUI.backgroundColor;
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            NWDConstants.GUIRedButtonBegin();
 
             if (GUI.Button(new Rect(tX, tY, tButtonWidth, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_PUT_IN_TRASH, tMiniButtonStyle))
             {
@@ -1805,7 +1803,7 @@ namespace NetWorkedData
                 }
             }
             tY += tMiniButtonStyle.fixedHeight + NWDConstants.kFieldMarge;
-            GUI.backgroundColor = tOldColor;
+            NWDConstants.GUIRedButtonEnd();
         }
         //-------------------------------------------------------------------------------------------------------------
         public virtual float AddonEditor(Rect sInRect)

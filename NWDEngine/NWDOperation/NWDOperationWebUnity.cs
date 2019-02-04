@@ -4,24 +4,17 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using BasicToolBox;
+using BTBMiniJSON;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
-using BasicToolBox;
-using BTBMiniJSON;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -711,8 +704,6 @@ namespace NetWorkedData
             string tSaltA = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 1);
             string tSaltB = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, 0);
             string tSaltC = NWDToolbox.GenerateSALTOutlined(Environment.SaltFrequency, -1);
-
-            ;
             //Debug.Log("Hash "+ sHash + " for token " + sToken + ": ? " + 
             //BTBSecurityTools.GenerateSha(tSaltA + sVector+ sToken) + " or " +
             //BTBSecurityTools.GenerateSha(tSaltB + sVector+ sToken) + " or " +
@@ -729,12 +720,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderUploaded(byte[] sData)
         {
+#if UNITY_EDITOR
             string tDebugRequestHeader = string.Empty;
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
                 tDebugRequestHeader += tEntry.Key + " = '" + tEntry.Value + "' , \n";
             }
-            
             NWDDebug.Log("NWDOperationWebUnity UPLOADED \n" +
                          "-------------------\n" +
                          "<b>Request URl :</b> " + Request.url + "\n" +
@@ -751,10 +742,12 @@ namespace NetWorkedData
                          "-------------------\n" +
                          ""
             );
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderDownloaded(string sData)
         {
+#if UNITY_EDITOR
             string tDebugResponseHeader = string.Empty;
             foreach (KeyValuePair<string, string> tEntry in Request.GetResponseHeaders())
             {
@@ -775,10 +768,12 @@ namespace NetWorkedData
                          "-------------------\n" +
                          ""
             );
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
         private void DebugShowHeaderTotal(string sData)
         {
+#if UNITY_EDITOR
             string tDebugRequestHeader = string.Empty;
             foreach (KeyValuePair<string, object> tEntry in HeaderParams)
             {
@@ -809,6 +804,7 @@ namespace NetWorkedData
                          "-------------------\n" +
                          ""
             );
+#endif
         }
         //-------------------------------------------------------------------------------------------------------------
     }

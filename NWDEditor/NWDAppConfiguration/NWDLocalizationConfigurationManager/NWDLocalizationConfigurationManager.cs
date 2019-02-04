@@ -54,8 +54,9 @@ namespace NetWorkedData
         {
             NWDConstants.LoadStyles();
             Dictionary<string, string> tLanguageDico = NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguageDico;
-            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, NWDConstants.kLabelTitleStyle);
             ScrollPosition = GUILayout.BeginScrollView(ScrollPosition, NWDConstants.kInspectorFullWidthMargins, GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
+            GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_LANGUAGE_AREA, NWDConstants.kLabelTitleStyle);
+            GUILayout.Label("Select the languages of multi-localizable field in editor.", EditorStyles.helpBox);
             GUILayout.BeginHorizontal();
             List<string> tResult = new List<string>();
             float tToggleWidth = 140.0f;
@@ -89,6 +90,7 @@ namespace NetWorkedData
             }
             tResult.Sort();
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_BUNDLENAMEE_AREA, NWDConstants.kLabelTitleStyle);
+            GUILayout.Label("Experimental : localizate the bundle IOS and MacOS app name.", EditorStyles.helpBox);
             foreach (string tLang in tResult)
             {
                 if (NWDAppConfiguration.SharedInstance().BundleName.ContainsKey(tLang) == false)
@@ -98,6 +100,7 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().BundleName[tLang] = EditorGUILayout.TextField(tLang, NWDAppConfiguration.SharedInstance().BundleName[tLang]);
             }
             GUILayout.Label(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_AREA, NWDConstants.kLabelTitleStyle);
+            GUILayout.Label("Select the default language of the app.", EditorStyles.helpBox);
             int tIndex = tResult.IndexOf(NWDAppConfiguration.SharedInstance().ProjetcLanguage);
             if (tIndex < 0)
             {
@@ -112,25 +115,37 @@ namespace NetWorkedData
                 NWDDataInspector.ActiveRepaint();
             }
             GUILayout.Label("Special localizations operations", NWDConstants.kLabelTitleStyle);
-            if (GUILayout.Button("Reoder all localizations"))
+
+            GUILayout.Label("Reorder all localizations for all datas (to see the same order in all datas).", EditorStyles.helpBox);
+            if (GUILayout.Button("Reorder all localizations"))
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ReOrderAllLocalizations();
             }
+
+
+            GUILayout.Label("Export all localizations in CSV's file to send to translate.", EditorStyles.helpBox);
             if (GUILayout.Button("Export localizations in CSV's file"))
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ExportToCSV();
             }
+
+
+            GUILayout.Label("Import all localizations translated from CSV's file.", EditorStyles.helpBox);
             if (GUILayout.Button("Import localizations from CSV's file"))
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ImportFromCSV();
             }
             GUILayout.EndScrollView();
-            GUILayout.Space(8.0f);
+
+            NWDConstants.GUILayoutLine();
+            NWDConstants.GUIRedButtonBegin();
+            GUILayout.Space(NWDConstants.kFieldMarge);
             if (GUILayout.Button(NWDConstants.K_APP_CONFIGURATION_SAVE_BUTTON))
             {
                 NWDAppConfiguration.SharedInstance().GenerateCSharpFile(NWDAppConfiguration.SharedInstance().SelectedEnvironment());
             }
-            GUILayout.Space(8.0f);
+            GUILayout.Space(NWDConstants.kFieldMarge);
+            NWDConstants.GUIRedButtonEnd();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

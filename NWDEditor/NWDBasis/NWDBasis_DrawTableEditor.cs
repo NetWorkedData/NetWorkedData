@@ -1114,7 +1114,6 @@ namespace NetWorkedData
             bool tCleanLocalTable = false; //prevent GUIlayout error
             bool tCleanLocalTableWithAccount = false; //prevent GUIlayout error
 
-            Color tOldColor = GUI.backgroundColor;
             bool tDisableProd = false;
             if (NWDDataManager.SharedInstance().mTypeUnSynchronizedList.Contains(ClassType()))
             {
@@ -1300,8 +1299,7 @@ namespace NetWorkedData
 
 
                 EditorGUI.BeginDisabledGroup(tSelectionCount == 0);
-
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                NWDConstants.GUIRedButtonBegin();
                 // DELETE SELECTION
                 GUILayout.Label(NWDConstants.K_APP_TABLE_DELETE_WARNING, tCenterLabel);
                 if (GUILayout.Button(NWDConstants.K_APP_TABLE_DELETE_BUTTON, EditorStyles.miniButton))
@@ -1314,7 +1312,7 @@ namespace NetWorkedData
                     tTrashSelection = true;
                 }
                 EditorGUI.EndDisabledGroup();
-                GUI.backgroundColor = tOldColor;
+                NWDConstants.GUIRedButtonEnd();
 
                 //GUILayout.Space(10.0F);
 
@@ -1339,7 +1337,6 @@ namespace NetWorkedData
                 //{
                 //    tCreateAllPHPForOnlyThisClass = true;
                 //}
-                GUI.backgroundColor = tOldColor;
 
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
@@ -1825,8 +1822,7 @@ namespace NetWorkedData
                 }
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
-
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                NWDConstants.GUIRedButtonBegin();
                 GUILayout.BeginVertical(GUILayout.Width(120));
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.Label(NWDConstants.K_APP_TABLE_RESET_WARNING, tCenterLabel);
@@ -1850,8 +1846,7 @@ namespace NetWorkedData
                 }
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();
-
-                GUI.backgroundColor = tOldColor;
+                NWDConstants.GUIRedButtonEnd();
                 GUILayout.BeginVertical(GUILayout.Width(120));
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.Space(120);
@@ -1887,9 +1882,7 @@ namespace NetWorkedData
                 //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().PreprodEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 //GUILayout.Label(NWDToolbox.TimeStampToDateTime(SynchronizationGetLastTimestamp(NWDAppConfiguration.SharedInstance().ProdEnvironment)).ToString("yyyy/MM/dd HH:mm:ss"));
                 //GUILayout.EndHorizontal();
-
-                tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                NWDConstants.GUIRedButtonBegin();
                 // FORCE SYNCHRO And Clean
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("Clean table", EditorStyles.miniButton, GUILayout.Width(twPPD)))
@@ -2013,7 +2006,7 @@ namespace NetWorkedData
                 {
                     tCleanLocalTableWithAccount = true;
                 }
-                GUI.backgroundColor = tOldColor;
+                NWDConstants.GUIRedButtonEnd();
 
                 // |||||||||||||||||||||||||||||||||||||||||||
                 GUILayout.EndVertical();

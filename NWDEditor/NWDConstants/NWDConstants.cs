@@ -628,9 +628,9 @@ namespace NetWorkedData
         static public Color KTAB_BAR_HIGHLIGHT_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
 
 
-
         static public GUIStyle kLabelStyle;
         static public GUIStyle kLabelTitleStyle;
+        static public GUIStyle kLabelSubTitleStyle;
         static public GUIStyle kLabelRightStyle;
         static public GUIStyle kBoldLabelStyle;
         static public GUIStyle kInspectorFullWidthMargins;
@@ -643,6 +643,7 @@ namespace NetWorkedData
         static public GUIStyle kMiniButtonStyle;
         static public GUIStyle kDeleteButtonStyle;
         static public GUIStyle kSeparatorStyle;
+        static public GUIStyle kLineStyle;
         //-------------------------------------------------------------------------------------------------------------
         static NWDConstants()
         {
@@ -657,7 +658,20 @@ namespace NetWorkedData
             //Debug.Log ("STATIC STEConstants LoadStyles()");
             if (StyleLoaded == false)
             {
+
                 StyleLoaded = true;
+
+                kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
+                kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
+                kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
+                kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
+
+                if (EditorGUIUtility.isProSkin)
+                {
+                    kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
+                    kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+                }
+
 
                 GUIBackgroundColor = GUI.backgroundColor;
                 GUIContentColor = GUI.contentColor;
@@ -686,13 +700,24 @@ namespace NetWorkedData
                 kLabelTitleStyle = new GUIStyle(EditorStyles.label);
                 kLabelTitleStyle.fontSize = 14;
                 kLabelTitleStyle.fontStyle = FontStyle.Bold;
-                kLabelTitleStyle.padding = new RectOffset(6, 2, 16, 2);
-                kLabelTitleStyle.margin = new RectOffset(-10, -10, 1, 1);
                 kLabelTitleStyle.normal.background = new Texture2D(1, 1);
                 Color tGrayLabelTitleStyle = new Color(0, 0, 0, 0.2F);
                 kLabelTitleStyle.normal.background.SetPixel(0, 0, tGrayLabelTitleStyle);
                 kLabelTitleStyle.normal.background.Apply();
+                kLabelTitleStyle.padding = new RectOffset(6, 2, 16, 2);
+                kLabelTitleStyle.margin = new RectOffset(0, 0, 1, 1);
                 kLabelTitleStyle.fixedHeight = kLabelTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+
+                kLabelSubTitleStyle = new GUIStyle(EditorStyles.label);
+                kLabelSubTitleStyle.fontSize = 12;
+                kLabelSubTitleStyle.fontStyle = FontStyle.Bold;
+                kLabelSubTitleStyle.normal.background = new Texture2D(1, 1);
+                Color tGrayLabelSubTitleStyle = new Color(0, 0, 0, 0.1F);
+                kLabelSubTitleStyle.normal.background.SetPixel(0, 0, tGrayLabelSubTitleStyle);
+                kLabelSubTitleStyle.normal.background.Apply();
+                kLabelSubTitleStyle.padding = new RectOffset(6, 2, 8, 2);
+                kLabelSubTitleStyle.margin = new RectOffset(0, 0, 1, 1);
+                kLabelSubTitleStyle.fixedHeight = kLabelSubTitleStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kInspectorFullWidthMargins = new GUIStyle(EditorStyles.inspectorFullWidthMargins);
                 kInspectorFullWidthMargins.padding = new RectOffset(0, 0, 0, 0);
@@ -736,25 +761,55 @@ namespace NetWorkedData
                 kDeleteButtonStyle.fixedHeight = kDeleteButtonStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
 
                 kSeparatorStyle = new GUIStyle(EditorStyles.label);
-                kSeparatorStyle.alignment = TextAnchor.MiddleCenter;
-                kSeparatorStyle.fixedHeight = kSeparatorStyle.CalcHeight(new GUIContent(BTBConstants.K_A), 100.0F);
+                kSeparatorStyle.fontSize = 0;
+                kSeparatorStyle.normal.background = new Texture2D(1, 1);
+                Color tGraykSeparatorStyle = new Color(0, 0, 0, 0.5F);
+                kSeparatorStyle.normal.background.SetPixel(0, 0, tGraykSeparatorStyle);
+                kSeparatorStyle.normal.background.Apply();
+                kSeparatorStyle.padding = new RectOffset(2, 2, 2, 2);
+                kSeparatorStyle.margin = new RectOffset(0, 0, 1, 1);
+                kSeparatorStyle.fixedHeight = 1.0f;
+
+                kLineStyle = new GUIStyle(EditorStyles.label);
+                kLineStyle.fontSize = 0;
+                kLineStyle.normal.background = new Texture2D(1, 1);
+                Color tGraykLineStyle = new Color(0, 0, 0, 0.5F);
+                kLineStyle.normal.background.SetPixel(0, 0, tGraykLineStyle);
+                kLineStyle.normal.background.Apply();
+                kLineStyle.padding = new RectOffset(0, 0, 0, 0);
+                kLineStyle.margin = new RectOffset(0, 0, 0, 0);
+                kLineStyle.fixedHeight = 1.0f;
             }
-
-            kNodeLineColor = new Color(1.0F, 1.0F, 1.0F, 0.40F);
-            kNodeOverLineColor = new Color(1.0F, 1.0F, 1.0F, 0.70F);
-            kIdentityColor = new Color(0.7f, 0.7f, 0.7f, 0.4f);
-            kPropertyColor = new Color(0.8f, 0.8f, 0.8f, 0.3f);
-
-            K_GREEN_BUTTON_COLOR = new Color(0.7F, 0.9F, 0.7F, 1.0F); // invert color from white to fusion over button
-            K_BLUE_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.9F, 1.0F); // invert color from white to fusion over button
-            K_ORANGE_BUTTON_COLOR = new Color(0.9F, 0.8F, 0.7F, 1.0F); // invert color from white to fusion over button
-            K_GRAY_BUTTON_COLOR = new Color(0.9F, 0.9F, 0.9F, 1.0F); // invert color from white to fusion over button
-            K_DARKGRAY_BUTTON_COLOR = new Color(0.7F, 0.7F, 0.7F, 1.0F); // invert color from white to fusion over button
-
-            if (EditorGUIUtility.isProSkin)
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void GUILayoutSeparator()
+        {
+            GUILayout.Label(string.Empty, kSeparatorStyle);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void GUILayoutLine()
+        {
+            GUILayout.Label(string.Empty, kLineStyle);
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        static Color kOldColor;
+        static bool kOldColorInit;
+        //-------------------------------------------------------------------------------------------------------------
+        public static void GUIRedButtonBegin()
+        {
+            if (kOldColorInit == false)
             {
-                kIdentityColor = new Color(0.3f, 0.3f, 0.3f, 0.4f);
-                kPropertyColor = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+                kOldColor = GUI.backgroundColor;
+                kOldColorInit = true;
+            }
+            GUI.backgroundColor = K_RED_BUTTON_COLOR;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static void GUIRedButtonEnd()
+        {
+            if (kOldColorInit == true)
+            {
+                GUI.backgroundColor = kOldColor;
             }
         }
         //-------------------------------------------------------------------------------------------------------------

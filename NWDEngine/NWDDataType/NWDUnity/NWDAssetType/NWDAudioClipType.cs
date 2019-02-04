@@ -199,13 +199,12 @@ namespace NetWorkedData
                 tY = tY + NWDConstants.kFieldMarge + tLabelStyle.fixedHeight;
                 GUI.Label(new Rect(tX + EditorGUIUtility.labelWidth, tY, tWidth, tLabelAssetStyle.fixedHeight), Value.Replace(NWDAssetType.kAssetDelimiter, ""), tLabelAssetStyle);
                 tY = tY + NWDConstants.kFieldMarge + tLabelAssetStyle.fixedHeight;
-                Color tOldColor = GUI.backgroundColor;
-                GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+                NWDConstants.GUIRedButtonBegin();
                 if (GUI.Button(new Rect(tX + EditorGUIUtility.labelWidth, tY, 60.0F, tMiniButtonStyle.fixedHeight), NWDConstants.K_APP_BASIS_REFERENCE_CLEAN, tMiniButtonStyle))
                 {
                     tTemporary.Value = string.Empty;
                 }
-                GUI.backgroundColor = tOldColor;
+                NWDConstants.GUIRedButtonEnd();
                 tY = tY + NWDConstants.kFieldMarge + tMiniButtonStyle.fixedHeight;
             }
             return tTemporary;

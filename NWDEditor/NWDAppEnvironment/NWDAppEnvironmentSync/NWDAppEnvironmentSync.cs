@@ -330,8 +330,7 @@ namespace NetWorkedData
             GUILayout.Label("Preprod Database", tStyleBoldCenter);
             GUILayout.Label("Prod Database", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-            Color tOldColor = GUI.backgroundColor;
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            NWDConstants.GUIRedButtonBegin();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Clean all", EditorStyles.miniButton))
             {
@@ -400,7 +399,7 @@ namespace NetWorkedData
                 tEnvironment = tProdEnvironment;
             }
             GUILayout.EndHorizontal();
-            GUI.backgroundColor = tOldColor;
+            NWDConstants.GUIRedButtonEnd();
             GUILayout.BeginHorizontal();
             GUILayout.Label("Dev Database", tStyleBoldCenter);
             GUILayout.Label("Preprod Database", tStyleBoldCenter);
@@ -544,7 +543,7 @@ namespace NetWorkedData
             GUILayout.Label("Prod WS", tStyleBoldCenter);
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUI.backgroundColor = NWDConstants.K_RED_BUTTON_COLOR;
+            NWDConstants.GUIRedButtonBegin();
             if (GUILayout.Button("maintenance", EditorStyles.miniButton))
             {
                 NWDAppConfiguration.SharedInstance().DevEnvironment.SetMaintenance(true);
@@ -622,7 +621,7 @@ namespace NetWorkedData
             {
                 NWDAppEnvironment.SelectedEnvironment().RequesToken = NWDAppEnvironment.SelectedEnvironment().LastPreviewRequesToken;
             }
-            GUI.backgroundColor = tOldColor;
+            NWDConstants.GUIRedButtonEnd();
 
             // Show version selected
             EditorGUILayout.LabelField(NWDConstants.K_ENVIRONMENT_CHOOSER_VERSION_BUNDLE, PlayerSettings.bundleVersion, EditorStyles.label);

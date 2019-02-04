@@ -721,8 +721,7 @@ namespace NetWorkedData
                 if (this.WebModel != tWS)
                 {
                     //this.AddonVersionMe(); // call override method
-
-                    Debug.Log(" set from " + WebModel + " To " + tWS);
+ //Debug.Log(" set from " + WebModel + " To " + tWS);
                     this.WebModel = tWS;
                 }
             }
