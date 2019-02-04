@@ -13,7 +13,7 @@ using UnityEditor;
 namespace NetWorkedData
 {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	public partial class NWDDataLocalizationManager
+	public partial class NWDDataLocalization
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		/// <summary>
@@ -89,7 +89,7 @@ namespace NetWorkedData
             int tSelect = EditorGUILayout.Popup(NWDConstants.K_APP_CONFIGURATION_DEV_LOCALALIZATION_CHOOSE,tIndex, tResult.ToArray());
             NWDAppConfiguration.SharedInstance().ProjetcLanguage = tResult[tSelect];
 
-			string tNewLanguages = NWDDataLocalizationManager.kBaseDev + ";" + string.Join (";", tResult.ToArray ());
+			string tNewLanguages = NWDDataLocalization.kBaseDev + ";" + string.Join (";", tResult.ToArray ());
 			if (NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString != tNewLanguages) {
 				NWDAppConfiguration.SharedInstance().DataLocalizationManager.LanguagesString = tNewLanguages;
 				NWDDataInspector.ActiveRepaint ();

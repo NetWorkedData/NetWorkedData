@@ -13,7 +13,7 @@ using UnityEngine;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDDataLocalizationManager
+    public partial class NWDEditorLocalization
     {
         //-------------------------------------------------------------------------------------------------------------
         public const string kBaseDev = "BASE";
@@ -217,7 +217,7 @@ namespace NetWorkedData
             return tReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDDataLocalizationManager()
+        public NWDEditorLocalization()
         {
             // LanguageDico.Add ("Base Dev", kBaseDev);
             LanguageDico.Add("English (U.S.)", "en");
