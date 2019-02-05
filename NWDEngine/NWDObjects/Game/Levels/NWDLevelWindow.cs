@@ -4,31 +4,36 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-#if UNITY_EDITOR
-using BasicToolBox;
-using UnityEditor;
+
+using System;
+
 using UnityEngine;
+
+using SQLite4Unity3d;
+
+#if UNITY_EDITOR
+using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCharacter : NWDBasis<NWDCharacter>
+    [NWDTypeWindowParamAttribute("Levels",
+        "Level Edition, You can add, change",
+                                 "NWDLevelsWindow",
+        new Type[] {
+            typeof(NWDLevel),
+            typeof(NWDUserLevelScore),
+			/* Add NWDBasis here*/
+		}
+    )]
+    public class NWDLevelWindow : NWDBasisWindow<NWDLevelWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Levels", false, 201)]
+        public static void MenuMethod()
         {
-            return 350.0f;
-            //return sDocumentWidth;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight(float sCardWidth)
-        {
-            return 200f;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
-        {
-            DrawPreviewTexture2D(new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLevelWindow));
+            tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------
     }

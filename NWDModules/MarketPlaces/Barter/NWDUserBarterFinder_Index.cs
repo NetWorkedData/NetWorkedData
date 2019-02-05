@@ -5,26 +5,22 @@
 //
 //=====================================================================================================================
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
-using SQLite4Unity3d;
+using SQLite.Attribute;
+using System;
+using System.Collections.Generic;
 using BasicToolBox;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserQuestAdvancement : NWDBasis<NWDUserQuestAdvancement>
+    public partial class NWDUserBarterFinder : NWDBasis<NWDUserBarterFinder>
     {
         //-------------------------------------------------------------------------------------------------------------
         static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
-        static Dictionary<string, List<NWDUserQuestAdvancement>> kIndex = new Dictionary<string, List<NWDUserQuestAdvancement>>();
-        private List<NWDUserQuestAdvancement> kIndexList;
+        static Dictionary<string, List<NWDUserBarterFinder>> kIndex = new Dictionary<string, List<NWDUserBarterFinder>>();
+        private List<NWDUserBarterFinder> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
@@ -38,12 +34,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
-            if (QuestReference.GetReference() != null
+            if (BarterPlace.GetReference() != null
                 && IsEnable() == true
                 && IsTrashed() == false
                 && TestIntegrity() == true)
             {
-                string tKey = QuestReference.GetReference();
+                string tKey = BarterPlace.GetReference();
                 if (kIndexList != null)
                 {
                     // I have allready index
@@ -66,7 +62,7 @@ namespace NetWorkedData
                     {
                         kIndexList.Remove(this);
                         kIndexList = null;
-                        kIndexList = new List<NWDUserQuestAdvancement>();
+                        kIndexList = new List<NWDUserBarterFinder>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -83,7 +79,7 @@ namespace NetWorkedData
                     else
                     {
                         // index must be create
-                        kIndexList = new List<NWDUserQuestAdvancement>();
+                        kIndexList = new List<NWDUserBarterFinder>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -107,9 +103,9 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserQuestAdvancement> FindByIndex(NWDQuest sSomething)
+        static public List<NWDUserBarterFinder> FindByIndex(NWDBarterPlace sSomething)
         {
-            List<NWDUserQuestAdvancement> rReturn = null;
+            List<NWDUserBarterFinder> rReturn = null;
             if (sSomething != null)
             {
                 string tKey = sSomething.Reference;
@@ -121,9 +117,9 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserQuestAdvancement> FindByIndex(string sSomething)
+        static public List<NWDUserBarterFinder> FindByIndex(string sSomething)
         {
-            List<NWDUserQuestAdvancement> rReturn = null;
+            List<NWDUserBarterFinder> rReturn = null;
             if (sSomething != null)
             {
                 string tKey = sSomething;
@@ -135,10 +131,10 @@ namespace NetWorkedData
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDUserQuestAdvancement FindFirstByIndex(string sSomething)
+        static public NWDUserBarterFinder FindFirstByIndex(string sSomething)
         {
-            NWDUserQuestAdvancement rObject = null;
-            List<NWDUserQuestAdvancement> rReturn = null;
+            NWDUserBarterFinder rObject = null;
+            List<NWDUserBarterFinder> rReturn = null;
             if (sSomething != null)
             {
                 string tKey = sSomething;
@@ -156,6 +152,7 @@ namespace NetWorkedData
             }
             return rObject;
         }
+        //-------------------------------------------------------------------------------------------------------------
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

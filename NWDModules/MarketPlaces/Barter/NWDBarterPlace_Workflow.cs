@@ -4,35 +4,53 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-#if UNITY_EDITOR
-using BasicToolBox;
-using UnityEditor;
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
 using UnityEngine;
+
+using SQLite4Unity3d;
+
+using BasicToolBox;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDCharacter : NWDBasis<NWDCharacter>
+    public partial class NWDBarterPlace : NWDBasis<NWDBarterPlace>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawWidth(float sDocumentWidth)
+        public NWDBarterPlace()
         {
-            return 350.0f;
-            //return sDocumentWidth;
+            //Debug.Log("NWDBarterPlace Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override float AddOnNodeDrawHeight(float sCardWidth)
+        public NWDBarterPlace(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            return 200f;
+            //Debug.Log("NWDBarterPlace Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        public override void Initialization()
         {
-            DrawPreviewTexture2D(new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
+            RefreshDelay = 60 * 3;
+            CancelDelay = 60 * 5;
+            MaxRequestPerUser = 3;
+            MaxPropositionsPerUser = 20;
+            MaxPropositionsPerRequest = 10;
+            WaitingLifeTime = 60 * 60 * 1;
+            RequestLifeTime = 60 * 60 * 24;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif

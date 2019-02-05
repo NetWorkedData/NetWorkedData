@@ -4,35 +4,30 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
-using SQLite4Unity3d;
-
 #if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Levels",
-        "Level Edition, You can add, change",
-                                 "NWDLevelsWindow",
-        new Type[] {
-            typeof(NWDLevel),
-            typeof(NWDUserLevelScore),
-			/* Add NWDBasis here*/
-		}
+    [NWDTypeWindowParamAttribute("Game Action",
+        "You can create action usable by notification in your scene. Addon Scheme Action if you connect the Scheme message on app launching.",
+         new Type[] {
+         typeof(NWDAction),
+         typeof(NWDSchemeAction),
+        }
     )]
-    public class NWDLevelsWindow : NWDBasisWindow<NWDLevelsWindow>
+    public class NWDActionWindow : NWDBasisWindow<NWDActionWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Levels", false, 201)]
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Actions and SchemeActions", false, 227)]
         public static void MenuMethod()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDLevelsWindow));
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDActionWindow));
             tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------

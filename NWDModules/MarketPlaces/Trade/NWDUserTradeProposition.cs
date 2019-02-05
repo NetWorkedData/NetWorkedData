@@ -368,6 +368,7 @@ namespace NetWorkedData
             return sScript;
         }
         //-------------------------------------------------------------------------------------------------------------
+        [NWDAliasMethod(NWDConstants.M_AddonPhpPostCalculate)]
         public static string AddonPhpPostCalculate(NWDAppEnvironment AppEnvironment)
         {
             string t_THIS_TradeRequest = FindAliasName("TradeRequest");

@@ -11,18 +11,9 @@ using System;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("YLC")]
-    [NWDClassDescriptionAttribute("yoghurt lyrics")]
-    [NWDClassMenuNameAttribute("yoghurt lyrics")]
-    public partial class NWDYoghurtLyric : NWDBasis<NWDYoghurtLyric>
+    [Serializable]
+    public class NWDYoghurtLyricConnection : NWDConnection<NWDYoghurtLyric>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDAudioClipType Prefab
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

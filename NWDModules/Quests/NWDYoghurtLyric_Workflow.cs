@@ -1,39 +1,31 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2019
+// ideMobi copyright 2017 
 // All rights reserved by ideMobi
-//
-// Read License-en or Licence-fr
 //
 //=====================================================================================================================
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using BasicToolBox;
+
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("BDL")]
-    [NWDClassDescriptionAttribute("Asset Bundle Unity Managament")]
-    [NWDClassMenuNameAttribute("Asset Bundle")]
-    public partial class NWDAssetBundle : NWDBasis<NWDAssetBundle>
+    public partial class NWDYoghurtLyric : NWDBasis<NWDYoghurtLyric>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Bundle Unity3D loader")]
-        public string BundleName
+        public NWDYoghurtLyric()
         {
-            set; get;
+            //Debug.Log("NWDYoghurtLyric Constructor");
         }
-        public NWDPrefabType PrefabBundle
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDYoghurtLyric(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            set; get;
+            //Debug.Log("NWDYoghurtLyric Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        {
         }
         //-------------------------------------------------------------------------------------------------------------
     }

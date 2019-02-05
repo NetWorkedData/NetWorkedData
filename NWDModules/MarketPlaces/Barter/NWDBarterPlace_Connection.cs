@@ -14,33 +14,21 @@ using System.Reflection;
 
 using UnityEngine;
 
+using SQLite4Unity3d;
+
 using BasicToolBox;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("ANN")]
-    [NWDClassDescriptionAttribute("Account Nickname")]
-    [NWDClassMenuNameAttribute("Account Nickname")]
-    public partial class NWDAccountNickname : NWDBasis<NWDAccountNickname>
+	[Serializable]
+    public class NWDBarterPlaceConnection : NWDConnection<NWDBarterPlace>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        [NWDHeader("Player Informations")]
-        public NWDReferenceType<NWDAccount> Account
-        {
-            get; set;
-        }
-        public string Nickname
-        {
-            get; set;
-        }
-        public string UniqueNickname
-        {
-            get; set;
-        }
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }

@@ -1,41 +1,38 @@
-﻿//=====================================================================================================================
+//=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2019
 // All rights reserved by ideMobi
 //
+// Read License-en or Licence-fr
+//
 //=====================================================================================================================
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
+using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Game Action",
-        "You can create action usable by notification in your scene. Addon Scheme Action if you connect the Scheme message on app launching.",
-                                 "NWDGameActionWindow",
-         new Type[] {
-            typeof(NWDAction),
-            typeof(NWDSchemeAction),
-            /* Add NWDBasis here*/
-        }
-    )]
-    public class NWDGameActionWindow : NWDBasisWindow<NWDGameActionWindow>
+    public partial class NWDAssetBundle : NWDBasis<NWDAssetBundle>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Actions and SchemeActions", false, 227)]
-        //-------------------------------------------------------------------------------------------------------------
-        public static void MenuMethod()
+        public NWDAssetBundle()
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDGameActionWindow));
-            tWindow.Show();
+            //Debug.Log("NWDAssetBundle Constructor");
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDAssetBundle(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        {
+            //Debug.Log("NWDAssetBundle Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
-#endif

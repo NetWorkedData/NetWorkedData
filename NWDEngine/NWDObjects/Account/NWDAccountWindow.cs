@@ -19,7 +19,6 @@ namespace NetWorkedData
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDTypeWindowParamAttribute("Account",
                                  "Account",
-                                 "NWDAccountWindow",
         new Type[] {
         typeof(NWDAccount),
         typeof(NWDAccountInfos),
@@ -28,7 +27,6 @@ namespace NetWorkedData
         typeof(NWDAccountPreference),
         typeof(NWDAccountConsent),
         typeof(NWDRelationship),
-			/* Add NWDBasis here*/
 		}
     )]
     public class NWDAccountWindow : NWDBasisWindow<NWDAccountWindow>
