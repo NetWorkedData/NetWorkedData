@@ -36,7 +36,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-        public NWDReferenceType<NWDTip> Tip
+        public NWDReferenceType<NWDTipKey> Tip
         {
             get; set;
         }

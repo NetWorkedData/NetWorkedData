@@ -6,54 +6,67 @@
 //=====================================================================================================================
 
 using System;
+using System.Collections.Generic;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public enum NWDPreferencesDomain : int
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public enum NWDAchievementFlag : int
     {
-        AccountPreference = 0,
-        UserPreference = 1,
-        LocalPreference = 2,
+        stepOne = 1 << 0,
+        stepTwo = 1 << 1,
+        stepThree = 1 << 2,
+        stepFour = 1 << 3,
+        stepFive = 1 << 4,
+        stepSix = 1 << 5,
+        stepSeven = 1 << 6,
+        stepHeight = 1 << 7,
+        stepNine = 1 << 8,
+        stepTen = 1 << 9,
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("PRK")]
-    [NWDClassDescriptionAttribute("Preference Key")]
-    [NWDClassMenuNameAttribute("Preference Key")]
-    public partial class NWDPreferenceKey : NWDBasis<NWDPreferenceKey>
+    [NWDClassTrigrammeAttribute("WWX")]
+    [NWDClassDescriptionAttribute("Achievement")]
+    [NWDClassMenuNameAttribute("Achievement")]
+    public partial class NWDAchievementKey : NWDBasis<NWDAchievementKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStart("Information")]
-        public NWDLocalizableStringType Title
+        public NWDReferenceType<NWDItem> DescriptionItem
         {
             get; set;
         }
-        public NWDLocalizableTextType Description
+        public NWDGameDomain Domain
         {
             get; set;
         }
-        [NWDGroupEnd]
-        [NWDGroupSeparator]
-        [NWDGroupStart("Domain")]
-        public NWDPreferencesDomain Domain
+        public bool PermanentAcquisition
         {
             get; set;
         }
-        [NWDGroupEnd]
-        [NWDGroupSeparator]
-        [NWDGroupStart("Default value")]
-        public NWDMultiType Default
+        public int Style
         {
             get; set;
         }
-        [NWDGroupEnd]
-        [NWDGroupSeparator]
-        [NWDGroupStart("Notify change for account or user preference")]
-        public bool NotifyChange
+        public float Total
         {
-            get; set; 
+            get; set;
+        }
+        public float ProportionalValue
+        {
+            get; set;
+        }
+        public NWDReferencesConditionalType<NWDItem> ItemToActive
+        {
+            get; set;
+        }
+
+        [NWDFlagsEnum]
+        public NWDAchievementFlag MatchRequired
+        {
+            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

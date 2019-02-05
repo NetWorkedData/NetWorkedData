@@ -40,7 +40,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDUserTip), typeof(NWDTip) };
+            return new List<Type> { typeof(NWDUserTip), typeof(NWDTipKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

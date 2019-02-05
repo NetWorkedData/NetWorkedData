@@ -101,7 +101,7 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDAccountAchievement> FindByIndex(NWDAchievement sSomething)
+        static public List<NWDAccountAchievement> FindByIndex(NWDAchievementKey sSomething)
         {
             List<NWDAccountAchievement> rReturn = null;
             if (sSomething != null)

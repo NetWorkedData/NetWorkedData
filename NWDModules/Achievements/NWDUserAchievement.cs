@@ -23,7 +23,7 @@ namespace NetWorkedData
         {
             get; set;
         }
-		public NWDReferenceType<NWDAchievement> Achievement {get; set;}
+		public NWDReferenceType<NWDAchievementKey> Achievement {get; set;}
 		public bool Achieved {get; set;}
         //-------------------------------------------------------------------------------------------------------------
     }

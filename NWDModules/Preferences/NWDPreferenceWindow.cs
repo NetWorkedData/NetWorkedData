@@ -1,28 +1,43 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("WWA")]
-    [NWDClassDescriptionAttribute("Account Achievement")]
-    [NWDClassMenuNameAttribute("Account Achievement")]
-    public partial class NWDAccountAchievement : NWDBasis<NWDAccountAchievement>
+    [NWDTypeWindowParamAttribute("Preferences",
+        "Preferences",
+        new Type[] {
+        typeof(NWDPreferenceKey),
+        typeof(NWDAccountPreference),
+        typeof(NWDUserPreference),
+		}
+    )]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDPreferenceWindow : NWDBasisWindow<NWDPreferenceWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDReferenceType<NWDAccount> Account {get; set;}
-		public NWDReferenceType<NWDAchievementKey> Achievement {get; set;}
-		public bool Achieved {get; set;}
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Preferences", false, 271)]
+        public static void MenuMethod()
+        {
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDPreferenceWindow));
+            tWindow.Show();
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

@@ -1,4 +1,4 @@
-//=====================================================================================================================
+﻿//=====================================================================================================================
 //
 // ideMobi copyright 2017 
 // All rights reserved by ideMobi
@@ -7,18 +7,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserAchievement : NWDBasis<NWDUserAchievement>
+    public partial class NWDAccountStatistic : NWDBasis<NWDAccountStatistic>
     {
         //-------------------------------------------------------------------------------------------------------------
-        static NWDWritingMode kWritingMode = NWDWritingMode.ByDefaultLocal;
-        static Dictionary<string, List<NWDUserAchievement>> kIndex = new Dictionary<string, List<NWDUserAchievement>>();
-        private List<NWDUserAchievement> kIndexList;
+        static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
+        static Dictionary<string, List<NWDAccountStatistic>> kIndex = new Dictionary<string, List<NWDAccountStatistic>>();
+        private List<NWDAccountStatistic> kIndexList;
         //-------------------------------------------------------------------------------------------------------------
         public override void AddonIndexMe()
         {
@@ -32,12 +31,14 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         private void InsertInIndex()
         {
-            if (Achievement.GetReference() != null
+            //Debug.Log("InsertInIndex reference =" + Reference);
+            //BTBBenchmark.Start();
+            if (StatKey.GetReference() != null
                 && IsEnable() == true
                 && IsTrashed() == false
                 && TestIntegrity() == true)
             {
-                string tKey = Achievement.GetReference();
+                string tKey = StatKey.GetReference();
                 if (kIndexList != null)
                 {
                     // I have allready index
@@ -60,7 +61,7 @@ namespace NetWorkedData
                     {
                         kIndexList.Remove(this);
                         kIndexList = null;
-                        kIndexList = new List<NWDUserAchievement>();
+                        kIndexList = new List<NWDAccountStatistic>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -77,7 +78,7 @@ namespace NetWorkedData
                     else
                     {
                         // index must be create
-                        kIndexList = new List<NWDUserAchievement>();
+                        kIndexList = new List<NWDAccountStatistic>();
                         kIndex.Add(tKey, kIndexList);
                         kIndexList.Add(this);
                     }
@@ -87,6 +88,7 @@ namespace NetWorkedData
             {
                 RemoveFromIndex();
             }
+            //BTBBenchmark.Finish();
         }
         //-------------------------------------------------------------------------------------------------------------
         private void RemoveFromIndex()
@@ -101,41 +103,46 @@ namespace NetWorkedData
             }
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserAchievement> FindByIndex(NWDAchievementKey sSomething)
+        static public List<NWDAccountStatistic> FindByIndex(NWDAccountStatistic sDataKey)
         {
-            List<NWDUserAchievement> rReturn = null;
-            if (sSomething != null)
+            //BTBBenchmark.Start();
+            List<NWDAccountStatistic> rReturn = null;
+            if (sDataKey != null)
             {
-                string tKey = sSomething.Reference;
+                string tKey = sDataKey.Reference;
                 if (kIndex.ContainsKey(tKey))
                 {
                     rReturn = kIndex[tKey];
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public List<NWDUserAchievement> FindByIndex(string sSomething)
+        static public List<NWDAccountStatistic> FindByIndex(string sDataKeyReference)
         {
-            List<NWDUserAchievement> rReturn = null;
-            if (sSomething != null)
+            //BTBBenchmark.Start();
+            List<NWDAccountStatistic> rReturn = null;
+            if (sDataKeyReference != null)
             {
-                string tKey = sSomething;
+                string tKey = sDataKeyReference;
                 if (kIndex.ContainsKey(tKey))
                 {
                     rReturn = kIndex[tKey];
                 }
             }
+            //BTBBenchmark.Finish();
             return rReturn;
         }
         //-------------------------------------------------------------------------------------------------------------
-        static public NWDUserAchievement FindFirstByIndex(string sSomething)
+        static public NWDAccountStatistic FindFirstByIndex(string sDataKeyReference)
         {
-            NWDUserAchievement rObject = null;
-            List<NWDUserAchievement> rReturn = null;
-            if (sSomething != null)
+            //BTBBenchmark.Start();
+            NWDAccountStatistic rObject = null;
+            List<NWDAccountStatistic> rReturn = null;
+            if (sDataKeyReference != null)
             {
-                string tKey = sSomething;
+                string tKey = sDataKeyReference;
                 if (kIndex.ContainsKey(tKey))
                 {
                     rReturn = kIndex[tKey];
@@ -148,9 +155,32 @@ namespace NetWorkedData
                     rObject = rReturn[0];
                 }
             }
+            //BTBBenchmark.Finish();
             return rObject;
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static NWDAccountStatistic UserStatForKey(string sDataReference)
+        {
+            //BTBBenchmark.Start();
+            NWDAccountStatistic rReturn = FindFirstByIndex(sDataReference);
+            NWDStatisticKey tKey = NWDStatisticKey.GetDataByReference(sDataReference);
+            if (rReturn == null && tKey!=null)
+            {
+                rReturn = NewData(kWritingMode);
+                rReturn.StatKey.SetReference(sDataReference);
+                rReturn.Tag = NWDBasisTag.TagUserCreated;
+                // init the stat with default value
+                rReturn.Total = tKey.InitTotal;
+                rReturn.Counter = tKey.InitCounter;
+                rReturn.Last = tKey.InitLast;
+                rReturn.Average = tKey.InitAverage;
+                rReturn.Max = tKey.InitMax;
+                // update in writing mode (default is poolThread for stats)
+                rReturn.UpdateData(true, kWritingMode);
+            }
+            //BTBBenchmark.Finish();
+            return rReturn;
+        }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

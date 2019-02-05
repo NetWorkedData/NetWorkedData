@@ -11,7 +11,11 @@ using System.Collections.Generic;
 //=====================================================================================================================
 namespace NetWorkedData
 {
-
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    [Serializable]
+    public class NWDRecipientGroupConnection : NWDConnection<NWDRecipientGroup>
+    {
+    }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("RCP")]

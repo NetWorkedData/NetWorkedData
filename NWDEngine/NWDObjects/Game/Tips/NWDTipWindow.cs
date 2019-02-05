@@ -16,7 +16,7 @@ namespace NetWorkedData
 	[NWDTypeWindowParamAttribute("Tips",
 		"Tips & Tricks window description",
 		new Type[] {
-		typeof(NWDTip),
+		typeof(NWDTipKey),
 		typeof(NWDUserTip),
 		})]
 	public class NWDTipWindow : NWDBasisWindow <NWDTipWindow>

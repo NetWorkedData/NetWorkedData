@@ -14,7 +14,7 @@ namespace NetWorkedData
 	[NWDTypeWindowParamAttribute("Achievement",
 		"Achievements",
         new Type[] {
-        typeof(NWDAchievement),
+        typeof(NWDAchievementKey),
         typeof(NWDAccountAchievement),
 		typeof(NWDUserAchievement),
 		}

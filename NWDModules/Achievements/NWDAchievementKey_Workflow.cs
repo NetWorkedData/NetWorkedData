@@ -6,35 +6,23 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-
-using UnityEngine;
-
-using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDAccountAchievement : NWDBasis<NWDAccountAchievement>
+    public partial class NWDAchievementKey : NWDBasis<NWDAchievementKey>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountAchievement()
+        public NWDAchievementKey()
         {
-            //Debug.Log("SOBUserAchievement Constructor");
+            //Debug.Log("SOBAchievement Constructor");
         }
         //-------------------------------------------------------------------------------------------------------------
-        public NWDAccountAchievement(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDAchievementKey(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            //Debug.Log("SOBUserAchievement Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            //Debug.Log("SOBAchievement Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
@@ -43,7 +31,7 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public static List<Type> OverrideClasseInThisSync()
         {
-            return new List<Type> { typeof(NWDAccountAchievement), typeof(NWDUserAchievement),  typeof(NWDAchievementKey) };
+            return new List<Type> { typeof(NWDAccountAchievement), typeof(NWDUserAchievement), typeof(NWDAchievementKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

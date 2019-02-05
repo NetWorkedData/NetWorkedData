@@ -6,32 +6,61 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections.Generic;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserAchievement : NWDBasis<NWDUserAchievement>
+    [NWDClassServerSynchronizeAttribute(true)]
+    [NWDClassTrigrammeAttribute("STV")]
+    [NWDClassDescriptionAttribute("UserStat")]
+    [NWDClassMenuNameAttribute("UserStat")]
+    public partial class NWDUserStatistic : NWDBasis<NWDUserStatistic>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserAchievement()
+        [NWDGroupStart("Connections")]
+        public NWDReferenceType<NWDAccount> Account
         {
-            //Debug.Log("SOBUserAchievement Constructor");
+            get; set;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public NWDUserAchievement(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public NWDReferenceType<NWDGameSave> GameSave
         {
-            //Debug.Log("SOBUserAchievement Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
+            get; set;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
+        public NWDReferenceType<NWDStatisticKey> StatKey
         {
+            get; set;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<Type> OverrideClasseInThisSync()
+        [NWDGroupEnd()]
+        [NWDGroupSeparator()]
+        [NWDGroupStart("Values")]
+        public double Total
         {
-            return new List<Type> { typeof(NWDAccountAchievement), typeof(NWDUserAchievement), typeof(NWDAchievementKey) };
+            get; set;
+        }
+        public double Counter
+        {
+            get; set;
+        }
+        public double Average
+        {
+            get; set;
+        }
+        public double AverageWithParent
+        {
+            get; set;
+        }
+        public double Last
+        {
+            get; set;
+        }
+        public double Max
+        {
+            get; set;
+        }
+        public double Min
+        {
+            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

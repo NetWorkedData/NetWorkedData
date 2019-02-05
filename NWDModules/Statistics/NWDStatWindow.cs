@@ -1,40 +1,46 @@
 //=====================================================================================================================
 //
-// ideMobi copyright 2017 
+// ideMobi copyright 2018 
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public partial class NWDUserAchievement : NWDBasis<NWDUserAchievement>
+    [NWDTypeWindowParamAttribute("Statistics",
+        "Statistics",
+        "NWDStatisticsWindows", // Statistiques_ICON
+        new Type[] {
+        typeof(NWDStatisticKey),
+        typeof(NWDAccountStatistic),
+        typeof(NWDUserStatistic),
+		/* Add NWDBasis here*/
+		}
+                                )]
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public class NWDStatWindow : NWDBasisWindow<NWDStatWindow>
     {
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserAchievement()
-        {
-            //Debug.Log("SOBUserAchievement Constructor");
-        }
+        [MenuItem(NWDConstants.K_MENU_BASE + "Game/Statistics", false, 270)]
         //-------------------------------------------------------------------------------------------------------------
-        public NWDUserAchievement(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
+        public static void MenuMethod()
         {
-            //Debug.Log("SOBUserAchievement Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
-        {
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDAccountAchievement), typeof(NWDUserAchievement), typeof(NWDAchievementKey) };
+            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDStatWindow));
+            tWindow.Show();
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif
