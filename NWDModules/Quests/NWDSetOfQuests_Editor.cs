@@ -4,51 +4,44 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 
 using System;
 using UnityEngine;
+using UnityEditor;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("SOQ")]
-    [NWDClassDescriptionAttribute("Set of Quests Class")]
-    [NWDClassMenuNameAttribute("Set of Quests")]
     public partial class NWDSetOfQuests : NWDBasis<NWDSetOfQuests>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
         {
-            get; set;
+            return 250.0f;
+            //return sDocumentWidth;
         }
-        public NWDReferencesListType<NWDCategory> Categories
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawHeight(float sCardWidth)
         {
-            get; set;
+            return 130.0f;
         }
-        public NWDReferencesListType<NWDFamily> Families
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
         {
-            get; set;
+            GUIStyle tStyle = new GUIStyle(EditorStyles.wordWrappedLabel);
+            string tText = InternalDescription ;
+            GUI.Label(sRect, tText, tStyle);
         }
-        public NWDReferencesListType<NWDKeyword> Keywords
+        //-------------------------------------------------------------------------------------------------------------
+        public override Color AddOnNodeColor()
         {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
-        [NWDGroupStartAttribute("Character and all quests", true, true, true)]
-        public NWDReferenceType<NWDCharacter> CharacterReference
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDQuest> QuestsList
-        {
-            get; set;
+            return Color.white;
         }
         //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================
+#endif

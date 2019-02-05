@@ -4,39 +4,30 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-using System;
-
-using UnityEngine;
-
-using SQLite4Unity3d;
-
 #if UNITY_EDITOR
+using BasicToolBox;
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDTypeWindowParamAttribute("Quest",
-        "Quest window description",
-            new Type[] {
-            typeof(NWDSetOfQuests),
-            typeof(NWDQuest),
-            typeof(NWDDialog),
-            typeof(NWDCharacter),
-            typeof(NWDAction),
-            typeof(NWDUserQuestAdvancement),
-            typeof(NWDYoghurtLyric),
-		}
-    )]
-    public class NWDQuestWindow : NWDBasisWindow<NWDQuestWindow>
+    public partial class NWDCharacter : NWDBasis<NWDCharacter>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [MenuItem(NWDConstants.K_MENU_BASE + "Quests", false, 535)]
-        public static void MenuMethod()
+        public override float AddOnNodeDrawWidth(float sDocumentWidth)
         {
-            EditorWindow tWindow = EditorWindow.GetWindow(typeof(NWDQuestWindow));
-            tWindow.Show();
+            return 350.0f;
+            //return sDocumentWidth;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override float AddOnNodeDrawHeight(float sCardWidth)
+        {
+            return 200f;
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddOnNodeDraw(Rect sRect, bool sPropertysGroup)
+        {
+            DrawPreviewTexture2D(new Rect(sRect.x + NWDConstants.kFieldMarge, sRect.y + NWDConstants.kFieldMarge, NWDConstants.kPrefabSize, NWDConstants.kPrefabSize));
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -6,46 +6,26 @@
 //=====================================================================================================================
 
 using System;
-using UnityEngine;
 
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    [NWDClassServerSynchronizeAttribute(true)]
-    [NWDClassTrigrammeAttribute("SOQ")]
-    [NWDClassDescriptionAttribute("Set of Quests Class")]
-    [NWDClassMenuNameAttribute("Set of Quests")]
     public partial class NWDSetOfQuests : NWDBasis<NWDSetOfQuests>
     {
         //-------------------------------------------------------------------------------------------------------------
-        [NWDGroupStartAttribute("Classification", true, true, true)]
-        public NWDReferencesListType<NWDWorld> Worlds
+        public NWDSetOfQuests()
         {
-            get; set;
+            //Debug.Log("NWDSetOfQuests Constructor");
         }
-        public NWDReferencesListType<NWDCategory> Categories
+        //-------------------------------------------------------------------------------------------------------------
+        public NWDSetOfQuests(bool sInsertInNetWorkedData) : base(sInsertInNetWorkedData)
         {
-            get; set;
+            //Debug.Log("NWDSetOfQuests Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString()+"");
         }
-        public NWDReferencesListType<NWDFamily> Families
+        //-------------------------------------------------------------------------------------------------------------
+        public override void Initialization()
         {
-            get; set;
-        }
-        public NWDReferencesListType<NWDKeyword> Keywords
-        {
-            get; set;
-        }
-        [NWDGroupEndAttribute]
-        [NWDGroupSeparator]
-        [NWDGroupStartAttribute("Character and all quests", true, true, true)]
-        public NWDReferenceType<NWDCharacter> CharacterReference
-        {
-            get; set;
-        }
-        public NWDReferencesListType<NWDQuest> QuestsList
-        {
-            get; set;
         }
         //-------------------------------------------------------------------------------------------------------------
     }

@@ -229,8 +229,6 @@ namespace NetWorkedData
                 "}\n" +
                 //"mysqli_free_result($tResultExpired);\n" +
                 "}\n" +
-
-
                 "// start Addon \n" +
                 "$tQueryBarter = 'SELECT `Reference` FROM `'.$ENV.'_" + NWDUserBarterRequest.BasisHelper().ClassNamePHP + "` " +
                 // WHERE REQUEST
