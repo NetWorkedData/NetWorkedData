@@ -6,14 +6,6 @@
 //=====================================================================================================================
 #if UNITY_EDITOR
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using UnityEditor;
-using SQLite4Unity3d;
-using BasicToolBox;
 //=====================================================================================================================
 namespace NetWorkedData
 {
@@ -24,7 +16,6 @@ namespace NetWorkedData
         [NWDAliasMethod(NWDConstants.M_ChangeAssetPath)]
         public static void ChangeAssetPath(string sOldPath, string sNewPath)
         {
-            //Debug.Log (ClassName () +" ChangeAssetPath " + sOldPath + " to " + sNewPath);
             if (AssetDependent() == true)
             {
                 foreach (NWDBasis<K> tObject in NWDBasis<K>.BasisHelper().Datas)
@@ -36,7 +27,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public virtual void ChangeAssetPathMe(string sOldPath, string sNewPath)
         {
-            //Debug.Log (ClassName () +" ChangeAssetPathMe " + sOldPath + " to " + sNewPath);
             if (TestIntegrity() == true)
             {
                 bool tUpdate = false;

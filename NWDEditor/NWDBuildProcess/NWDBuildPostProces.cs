@@ -4,7 +4,7 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,8 +12,6 @@ using System.Reflection;
 using System.IO;
 using UnityEngine;
 using SQLite4Unity3d;
-
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;

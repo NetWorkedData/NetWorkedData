@@ -4,26 +4,19 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 #if UNITY_EDITOR
+using System;
 using UnityEditor;
-
 //=====================================================================================================================
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	[NWDTypeWindowParamAttribute("Achievement",
 		"Achievements",
-        "NWDAchievementWindow", // SOBAchievementWindow_ICON
-                                 new Type[] {typeof(NWDAchievement),
+        new Type[] {
+        typeof(NWDAchievement),
         typeof(NWDAccountAchievement),
 		typeof(NWDUserAchievement),
-		/* Add NWDBasis here*/
 		}
 	)]
 	public class NWDAchievementWindow : NWDBasisWindow <NWDAchievementWindow>

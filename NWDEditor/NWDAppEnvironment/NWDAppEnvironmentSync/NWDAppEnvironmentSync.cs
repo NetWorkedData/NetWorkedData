@@ -59,13 +59,10 @@ namespace NetWorkedData
                     string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentSync t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
-                        //Debug.Log("TextureOfClass GUID " + tGUID);
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        //Debug.Log("tPathFilename = " + tPathFilename);
                         if (tPathFilename.Equals("NWDAppEnvironmentSync"))
                         {
-                            //Debug.Log("TextureOfClass " + tPath);
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
                     }
@@ -79,7 +76,6 @@ namespace NetWorkedData
                 LastInfos = (NWDOperationResult)bInfos;
                 NWDError tError = LastInfos.errorDesc;
                 string tErrorCode = LastInfos.errorCode;
-                //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = NWDConstants.kImageGreen;
@@ -107,7 +103,6 @@ namespace NetWorkedData
                 LastInfos = (NWDOperationResult)bInfos;
                 NWDError tError = LastInfos.errorDesc;
                 string tErrorCode = LastInfos.errorCode;
-                //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = NWDConstants.kImageRed;
@@ -167,7 +162,6 @@ namespace NetWorkedData
                 LastInfos = (NWDOperationResult)bInfos;
                 NWDError tError = LastInfos.errorDesc;
                 string tErrorCode = LastInfos.errorCode;
-                //ReceiptOctects = tInfos.OctetDownload;
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = NWDConstants.kImageForbidden;
@@ -191,12 +185,6 @@ namespace NetWorkedData
                 LastInfos = (NWDOperationResult)bInfos;
                 NWDError tError = LastInfos.errorDesc;
                 string tErrorCode = LastInfos.errorCode;
-                //ReceiptOctects = tInfos.OctetDownload;
-
-                //if (bProgress >= 1.0f)
-                //{
-                //    MiddleTime = DateTime.Now;
-                //}
                 if (bOperation.QueueName == NWDAppConfiguration.SharedInstance().DevEnvironment.Environment)
                 {
                     DevIcon = NWDConstants.kImageWaiting;
@@ -220,7 +208,7 @@ namespace NetWorkedData
         {
             NWDConstants.LoadStyles();
             // use these bools to fix the bug of error on redraw
-            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment; // default value replace after in script
+            NWDAppEnvironment tEnvironment = NWDAppConfiguration.SharedInstance().DevEnvironment;
             bool tSync = false;
             bool tSyncForce = false;
             bool tPull = false;
@@ -405,11 +393,6 @@ namespace NetWorkedData
             GUILayout.Label("Preprod Database", tStyleBoldCenter);
             GUILayout.Label("Prod Database", tStyleBoldCenter);
             GUILayout.EndHorizontal();
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Label(DevProgress, tStyleBoldCenter);
-            //GUILayout.Label(PreprodProgress, tStyleBoldCenter);
-            //GUILayout.Label(ProdProgress, tStyleBoldCenter);
-            //GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Label(DevIcon, tStyleCenter, GUILayout.Height(20));
             GUILayout.Label(PreprodIcon, tStyleCenter, GUILayout.Height(20));
@@ -659,7 +642,6 @@ namespace NetWorkedData
             if (tOperationUpgrade == true)
             {
                 OperationManagement(tEnvironment, true);
-               // OperationSynchroAllClasses(tEnvironment, false, true, NWDOperationSpecial.Upgrade);
             }
             if (tOperationOptimize == true)
             {

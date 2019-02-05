@@ -21,10 +21,6 @@ namespace NetWorkedData
     public partial class NWDAppConfiguration
     {
         //-------------------------------------------------------------------------------------------------------------
-        /// <summary>
-        /// Generates the C sharp file for all environments' restauration.
-        /// </summary>
-        /// <param name="sEnvironment">S environment.</param>
         public void GenerateCSharpFile(NWDAppEnvironment sEnvironment)
         {
             BTBBenchmark.Start();

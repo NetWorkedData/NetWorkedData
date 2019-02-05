@@ -56,6 +56,11 @@ namespace NetWorkedData
             //Debug.Log("NWDStatKey Constructor with sInsertInNetWorkedData : " + sInsertInNetWorkedData.ToString() + "");
         }
         //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserStatKeyValue), typeof(NWDAccountStatKeyValue), typeof(NWDStatKey) };
+        }
+        //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
             NoCounterFormat.AddBaseString("#x#");

@@ -42,7 +42,12 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization() // INIT YOUR INSTANCE WITH THIS METHOD
         {
-            
+
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public static List<Type> OverrideClasseInThisSync()
+        {
+            return new List<Type> { typeof(NWDUserStatKeyValue), typeof(NWDAccountStatKeyValue), typeof(NWDStatKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
         public double AddEnterForParent(float sValue, NWDStatKey sStatKey)
@@ -321,11 +326,6 @@ namespace NetWorkedData
                 rReturn = tStaKey.PluralCounterFormat.GetLocalString().Replace("#x#", tCounterFormatted);
             }
             return rReturn;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public static List<Type> OverrideClasseInThisSync()
-        {
-            return new List<Type> { typeof(NWDAccountStatKeyValue), typeof(NWDStatKey) };
         }
         //-------------------------------------------------------------------------------------------------------------
     }

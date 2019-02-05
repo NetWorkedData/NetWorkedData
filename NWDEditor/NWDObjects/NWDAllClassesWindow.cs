@@ -4,11 +4,11 @@
 // All rights reserved by ideMobi
 //
 //=====================================================================================================================
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 //=====================================================================================================================
 namespace NetWorkedData
@@ -24,7 +24,6 @@ namespace NetWorkedData
 	{
 		//-------------------------------------------------------------------------------------------------------------
 		[MenuItem (NWDConstants.K_MENU_ALL_CLASSES, false, 100)]
-		//-------------------------------------------------------------------------------------------------------------
 		public static void MenuMethod ()
 		{
 			EditorWindow tWindow = GetWindow (typeof(NWDAllClassesWindow));

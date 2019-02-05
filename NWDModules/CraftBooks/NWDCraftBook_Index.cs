@@ -6,18 +6,8 @@
 //=====================================================================================================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-using SQLite4Unity3d;
 using BasicToolBox;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 //=====================================================================================================================
 namespace NetWorkedData
@@ -29,6 +19,16 @@ namespace NetWorkedData
         //static NWDWritingMode kWritingMode = NWDWritingMode.PoolThread;
         static Dictionary<string, List<NWDCraftBook>> kIndex = new Dictionary<string, List<NWDCraftBook>>();
         private List<NWDCraftBook> kIndexList;
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonIndexMe()
+        {
+            InsertInIndex();
+        }
+        //-------------------------------------------------------------------------------------------------------------
+        public override void AddonDesindexMe()
+        {
+            RemoveFromIndex();
+        }
         //-------------------------------------------------------------------------------------------------------------
         static string IndexKey(bool sOrderIsImportant, NWDReferenceType<NWDRecipientGroup> sRecipientGroup, NWDReferencesArrayType<NWDItemGroup> sItemGroupIngredient)
         {

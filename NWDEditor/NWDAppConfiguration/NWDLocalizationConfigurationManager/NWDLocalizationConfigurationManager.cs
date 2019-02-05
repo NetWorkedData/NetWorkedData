@@ -122,13 +122,11 @@ namespace NetWorkedData
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ReOrderAllLocalizations();
             }
 
-
             GUILayout.Label("Export all localizations in CSV's file to send to translate.", EditorStyles.helpBox);
             if (GUILayout.Button("Export localizations in CSV's file"))
             {
                 NWDAppConfiguration.SharedInstance().DataLocalizationManager.ExportToCSV();
             }
-
 
             GUILayout.Label("Import all localizations translated from CSV's file.", EditorStyles.helpBox);
             if (GUILayout.Button("Import localizations from CSV's file"))

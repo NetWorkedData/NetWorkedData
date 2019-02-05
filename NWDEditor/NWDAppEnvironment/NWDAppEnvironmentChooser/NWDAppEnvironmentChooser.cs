@@ -27,7 +27,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public void OnEnable()
         {
-            // set title of window
             if (IconAndTitle == null)
             {
                 IconAndTitle = new GUIContent();
@@ -37,13 +36,10 @@ namespace NetWorkedData
                     string[] sGUIDs = AssetDatabase.FindAssets("NWDAppEnvironmentChooser t:texture");
                     foreach (string tGUID in sGUIDs)
                     {
-                        //Debug.Log("TextureOfClass GUID " + tGUID);
                         string tPathString = AssetDatabase.GUIDToAssetPath(tGUID);
                         string tPathFilename = Path.GetFileNameWithoutExtension(tPathString);
-                        //Debug.Log("tPathFilename = " + tPathFilename);
                         if (tPathFilename.Equals("NWDAppEnvironmentChooser"))
                         {
-                            //Debug.Log("TextureOfClass " + tPath);
                             IconAndTitle.image = AssetDatabase.LoadAssetAtPath(tPathString, typeof(Texture2D)) as Texture2D;
                         }
                     }
@@ -76,7 +72,6 @@ namespace NetWorkedData
                 NWDConstants.K_APP_CONFIGURATION_PROD
             };
             int tTabSelect = GUILayout.Toolbar(tTabSelected, tTabList);
-            // check tab select changed
             if (tTabSelect != tTabSelected)
             {
                 GUI.FocusControl(null);
