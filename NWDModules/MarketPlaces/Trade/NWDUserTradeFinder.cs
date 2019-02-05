@@ -15,18 +15,12 @@ using BasicToolBox;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// 
-    /// </summary>
 	[NWDClassServerSynchronize(true)]
     [NWDClassTrigramme("UTRF")]
     [NWDClassDescription("User Trade Finder descriptions Class")]
     [NWDClassMenuName("User Trade Finder")]
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public partial class NWDUserTradeFinder : NWDBasis<NWDUserTradeFinder>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Trade Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
@@ -87,10 +81,6 @@ namespace NetWorkedData
         public delegate void tradeFinderBlock(bool result, NWDOperationResult infos);
         public tradeFinderBlock tradeFinderBlockDelegate;
         //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
-        //-------------------------------------------------------------------------------------------------------------
         public NWDUserTradeFinder()
         {
 
@@ -100,10 +90,6 @@ namespace NetWorkedData
         {
 
         }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
@@ -153,9 +139,6 @@ namespace NetWorkedData
 
             return tFinder;
         }
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public void SyncTradeFinder()
         {
@@ -195,74 +178,7 @@ namespace NetWorkedData
             NWDUserTradeRequest.PurgeTable();
         }
         //-------------------------------------------------------------------------------------------------------------
-        #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        //Addons for Edition
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonEdited(bool sNeedBeUpdate)
-        {
-            if (sNeedBeUpdate == true)
-            {
-                // do something
-            }
-            return sNeedBeUpdate;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditor(Rect sInRect)
-        {
-            // Draw the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
-        {
-            // Height calculate for the interface addon for editor
-            float tYadd = 0.0f;
-            return tYadd;
-        }
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment AppEnvironment)
@@ -370,13 +286,8 @@ namespace NetWorkedData
             return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
         }
         //-------------------------------------------------------------------------------------------------------------
-#endif
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
     }
+#endif
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

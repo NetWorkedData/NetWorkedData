@@ -35,8 +35,6 @@ namespace NetWorkedData
 	public partial class NWDUserTradeRequest : NWDBasis<NWDUserTradeRequest>
 	{
 		//-------------------------------------------------------------------------------------------------------------
-		#region Properties
-		//-------------------------------------------------------------------------------------------------------------
 		[NWDGroupStart("Trade Detail", true, true, true)]
 		[Indexed("AccountIndex", 0)]
 		public NWDReferenceType<NWDAccount> Account
@@ -130,10 +128,6 @@ namespace NetWorkedData
 		public delegate void tradeRequestBlock(bool result, NWDTradeStatus status, NWDOperationResult infos);
 		public tradeRequestBlock tradeRequestBlockDelegate;
 		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Constructors
-		//-------------------------------------------------------------------------------------------------------------
 		public NWDUserTradeRequest()
 		{
 
@@ -143,10 +137,6 @@ namespace NetWorkedData
 		{
 
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Class methods
 		//-------------------------------------------------------------------------------------------------------------
 		public override void Initialization()
 		{
@@ -186,10 +176,6 @@ namespace NetWorkedData
 
 			return tUserTradesRequest.ToArray();
 		}
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#region Instance methods
 		//-------------------------------------------------------------------------------------------------------------
 		public void SyncTradeRequest()
 		{
@@ -320,80 +306,7 @@ namespace NetWorkedData
 			SaveData();
 		}
 		//-------------------------------------------------------------------------------------------------------------
-		#region NetWorkedData addons methods
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonInsertMe()
-		{
-			// do something when object will be inserted
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdateMe()
-		{
-			// do something when object will be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUpdatedMe()
-		{
-			// do something when object finish to be updated
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDuplicateMe()
-		{
-			// do something when object will be dupplicate
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonEnableMe()
-		{
-			// do something when object will be enabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonDisableMe()
-		{
-			// do something when object will be disabled
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonTrashMe()
-		{
-			// do something when object will be put in trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override void AddonUnTrashMe()
-		{
-			// do something when object will be remove from trash
-		}
-		//-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-		//-------------------------------------------------------------------------------------------------------------
-		//Addons for Edition
-		//-------------------------------------------------------------------------------------------------------------
-		public override bool AddonEdited(bool sNeedBeUpdate)
-		{
-			if (sNeedBeUpdate == true)
-			{
-				// do something
-			}
-			return sNeedBeUpdate;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditor(Rect sInRect)
-		{
-			// Draw the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public override float AddonEditorHeight()
-		{
-			// Height calculate for the interface addon for editor
-			float tYadd = 0.0f;
-			return tYadd;
-		}
-		//-------------------------------------------------------------------------------------------------------------
-		public static string AddonPhpFunctions(NWDAppEnvironment sAppEnvironment)
-		{
-			string sScript = "";
-			return sScript;
-		}
         //-------------------------------------------------------------------------------------------------------------
         [NWDAliasMethod(NWDConstants.M_AddonPhpPreCalculate)]
         public static string AddonPhpPreCalculate(NWDAppEnvironment sAppEnvironment)
@@ -534,14 +447,9 @@ namespace NetWorkedData
 		{
 			return "// write your php script here to special operation, example : \n$REP['" + BasisHelper().ClassName + " Special'] ='success!!!';\n";
 		}
-		//-------------------------------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------------
+    }
 #endif
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-		#endregion
-		//-------------------------------------------------------------------------------------------------------------
-	}
-	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
 //=====================================================================================================================

@@ -21,30 +21,6 @@ using UnityEditor;
 namespace NetWorkedData
 {
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /// <summary>
-    /// <para>Connection is used in MonBehaviour script to connect an object by its reference from popmenu list.</para>
-    /// <para>The GameObject can use the object referenced by binding in game. </para>
-    /// <example>
-    /// Example :
-    /// <code>
-    /// public class MyScriptInGame : MonoBehaviour<br/>
-    ///     {
-    ///         NWDConnectionAttribut (true, true, true, true)] // optional
-    ///         public NWDExampleConnection MyNetWorkedData;
-    ///         public void UseData()
-    ///             {
-    ///                 NWDExample tObject = MyNetWorkedData.GetObject();
-    ///                 // Use tObject
-    ///             }
-    ///     }
-    /// </code>
-    /// </example>
-    /// </summary>
-    [Serializable]
-    public class NWDUserBarterPropositionConnection : NWDConnection<NWDUserBarterProposition>
-    {
-    }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [NWDClassServerSynchronizeAttribute(true)]
     [NWDClassTrigrammeAttribute("UBPR")]
     [NWDClassDescriptionAttribute("User Barter Proposition descriptions Class")]
@@ -52,8 +28,6 @@ namespace NetWorkedData
     [NWDForceSecureDataAttribute]
     public partial class NWDUserBarterProposition : NWDBasis<NWDUserBarterProposition>
     {
-        //-------------------------------------------------------------------------------------------------------------
-        #region Properties
         //-------------------------------------------------------------------------------------------------------------
         [NWDGroupStart("Barter Detail", true, true, true)]
         [Indexed("AccountIndex", 0)]
@@ -109,9 +83,6 @@ namespace NetWorkedData
         //-------------------------------------------------------------------------------------------------------------
         public delegate void barterProposalBlock(bool result, NWDOperationResult infos);
         public barterProposalBlock barterProposalBlockDelegate;
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Constructors
         //-------------------------------------------------------------------------------------------------------------
         public NWDUserBarterProposition()
         {
@@ -122,10 +93,6 @@ namespace NetWorkedData
         {
 
         }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Class methods
         //-------------------------------------------------------------------------------------------------------------
         public override void Initialization()
         {
@@ -150,10 +117,6 @@ namespace NetWorkedData
 
             return tProposition;
         }
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #region Instance methods
         //-------------------------------------------------------------------------------------------------------------
         public void SyncBarterProposal()
         {
@@ -210,14 +173,6 @@ namespace NetWorkedData
                 {
                     NWDUserOwnership.AddItemToOwnership(pair.Key, pair.Value);
                 }
-
-                // Remove NWDItem to NWDUserOwnership
-                //Dictionary<NWDItem, int> tAsked = ItemsAsked.GetObjectAndQuantity();
-                //foreach (KeyValuePair<NWDItem, int> pair in tAsked)
-                //{
-                //    NWDUserOwnership.RemoveItemToOwnership(pair.Key, pair.Value);
-                //}
-
                 // Set Barter Proposition to None, so we can reused an old slot for a new transaction
                 Clean();
 
@@ -225,60 +180,8 @@ namespace NetWorkedData
                 NWDDataManager.SharedInstance().AddWebRequestSynchronization(new List<Type>() { typeof(NWDUserOwnership) });
             }
         }
-        #region NetWorkedData addons methods
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonInsertMe()
-        {
-            // do something when object will be inserted
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdateMe()
-        {
-            // do something when object will be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUpdatedMe()
-        {
-            // do something when object finish to be updated
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDuplicateMe()
-        {
-            // do something when object will be dupplicate
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonEnableMe()
-        {
-            // do something when object will be enabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonDisableMe()
-        {
-            // do something when object will be disabled
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonTrashMe()
-        {
-            // do something when object will be put in trash
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override void AddonUnTrashMe()
-        {
-            // do something when object will be remove from trash
-        }
         //-------------------------------------------------------------------------------------------------------------
 #if UNITY_EDITOR
-        //-------------------------------------------------------------------------------------------------------------
-        //Addons for Edition
-        //-------------------------------------------------------------------------------------------------------------
-        public override bool AddonEdited(bool sNeedBeUpdate)
-        {
-            if (sNeedBeUpdate == true)
-            {
-                // do something
-            }
-            return sNeedBeUpdate;
-        }
         //-------------------------------------------------------------------------------------------------------------
         public override float AddonEditor(Rect sInRect)
         {
@@ -308,13 +211,6 @@ namespace NetWorkedData
                     BarterRequestHash = tRequest.BarterHash;
                 }
             }
-            return tYadd;
-        }
-        //-------------------------------------------------------------------------------------------------------------
-        public override float AddonEditorHeight()
-        {
-            // Height calculate for the interface addon for editor
-            float tYadd = 20.0f;
             return tYadd;
         }
         //-------------------------------------------------------------------------------------------------------------
@@ -515,11 +411,6 @@ namespace NetWorkedData
         }
         //-------------------------------------------------------------------------------------------------------------
 #endif
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
-        #endregion
-        //-------------------------------------------------------------------------------------------------------------
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
